@@ -1,0 +1,302 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the Global Interpreter Lock (GIL) in CPython?",
+        "choices": [
+            "A lock that prevents multiple native threads from executing Python bytecodes simultaneously",
+            "A mechanism to optimize memory allocation",
+            "A lock for file I/O operations",
+            "A garbage collection algorithm"
+        ],
+        "correctAnswer": "A lock that prevents multiple native threads from executing Python bytecodes simultaneously"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "How does Python manage memory for objects?",
+        "choices": [
+            "Using reference counting and a cyclic garbage collector",
+            "Using a mark-and-sweep garbage collector only",
+            "Using manual memory management",
+            "Using a stack-based allocator"
+        ],
+        "correctAnswer": "Using reference counting and a cyclic garbage collector"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the purpose of the __slots__ attribute in a Python class?",
+        "choices": [
+            "To define a fixed set of attributes to reduce memory usage",
+            "To enable multiple inheritance",
+            "To mark a class as abstract",
+            "To optimize method calls"
+        ],
+        "correctAnswer": "To define a fixed set of attributes to reduce memory usage"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What is the role of the PyObject structure in CPython?",
+        "choices": [
+            "It is the base structure for all Python objects",
+            "It handles file operations",
+            "It manages the GIL",
+            "It stores bytecode instructions"
+        ],
+        "correctAnswer": "It is the base structure for all Python objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "How does Python store integers in CPython?",
+        "choices": [
+            "As fixed-size 32-bit integers",
+            "As variable-length objects for arbitrary precision",
+            "As 64-bit floating-point numbers",
+            "As strings internally"
+        ],
+        "correctAnswer": "As variable-length objects for arbitrary precision"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is the purpose of the ob_refcnt field in a PyObject?",
+        "choices": [
+            "To track the reference count for garbage collection",
+            "To store the object's type",
+            "To manage thread synchronization",
+            "To cache method calls"
+        ],
+        "correctAnswer": "To track the reference count for garbage collection"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What happens when a Python object's reference count reaches zero?",
+        "choices": [
+            "It is immediately deallocated",
+            "It is moved to a secondary memory pool",
+            "It is marked for garbage collection later",
+            "It becomes immutable"
+        ],
+        "correctAnswer": "It is immediately deallocated"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the purpose of the interned string mechanism in Python?",
+        "choices": [
+            "To reuse immutable string objects for memory efficiency",
+            "To encrypt string data",
+            "To compress strings during storage",
+            "To enable string slicing"
+        ],
+        "correctAnswer": "To reuse immutable string objects for memory efficiency"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is a Python bytecode?",
+        "choices": [
+            "Low-level instructions executed by the Python virtual machine",
+            "Source code written in C",
+            "A compressed form of Python scripts",
+            "A format for serializing objects"
+        ],
+        "correctAnswer": "Low-level instructions executed by the Python virtual machine"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "How does Python's list resizing strategy work?",
+        "choices": [
+            "It doubles the capacity when full, with some over-allocation",
+            "It increases by a fixed size of 10 elements",
+            "It uses a linked list internally",
+            "It never resizes"
+        ],
+        "correctAnswer": "It doubles the capacity when full, with some over-allocation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "What is the role of the __dict__ attribute in Python objects?",
+        "choices": [
+            "It stores an object's attributes as a dictionary",
+            "It defines the object's methods",
+            "It manages memory allocation",
+            "It caches function calls"
+        ],
+        "correctAnswer": "It stores an object's attributes as a dictionary"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "Why does Python use a cyclic garbage collector?",
+        "choices": [
+            "To handle reference cycles that reference counting cannot resolve",
+            "To optimize string interning",
+            "To manage thread locks",
+            "To compress memory usage"
+        ],
+        "correctAnswer": "To handle reference cycles that reference counting cannot resolve"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "What is the difference between PyPy and CPython?",
+        "choices": [
+            "PyPy uses JIT compilation, while CPython is an interpreter",
+            "PyPy is written in C, while CPython is written in Python",
+            "PyPy is slower for numerical computations",
+            "PyPy does not support the GIL"
+        ],
+        "correctAnswer": "PyPy uses JIT compilation, while CPython is an interpreter"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the purpose of the __mro__ attribute in a Python class?",
+        "choices": [
+            "To define the method resolution order for multiple inheritance",
+            "To store the class's memory layout",
+            "To manage object serialization",
+            "To cache method results"
+        ],
+        "correctAnswer": "To define the method resolution order for multiple inheritance"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "How does Python implement dictionary key hashing?",
+        "choices": [
+            "Using a hash function to map keys to indices in a hash table",
+            "Using a binary search tree",
+            "Using a linked list for key storage",
+            "Using a fixed-size array"
+        ],
+        "correctAnswer": "Using a hash function to map keys to indices in a hash table"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is the small integer cache in CPython?",
+        "choices": [
+            "A cache of integers from -5 to 256 for performance",
+            "A cache for floating-point numbers",
+            "A cache for large integers",
+            "A cache for string objects"
+        ],
+        "correctAnswer": "A cache of integers from -5 to 256 for performance"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "What is the purpose of the PyTypeObject structure?",
+        "choices": [
+            "To define the behavior and properties of a type in CPython",
+            "To manage memory allocation",
+            "To store bytecode",
+            "To handle file I/O"
+        ],
+        "correctAnswer": "To define the behavior and properties of a type in CPython"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "How does Python handle function calls internally?",
+        "choices": [
+            "Using a stack-based virtual machine",
+            "Using direct C function calls",
+            "Using a queue-based scheduler",
+            "Using inline assembly"
+        ],
+        "correctAnswer": "Using a stack-based virtual machine"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What is the purpose of the __new__ method in Python?",
+        "choices": [
+            "To create a new instance of a class",
+            "To initialize an object's attributes",
+            "To delete an object",
+            "To copy an object"
+        ],
+        "correctAnswer": "To create a new instance of a class"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What happens during Python's import process?",
+        "choices": [
+            "The module is compiled to bytecode and executed",
+            "The module is linked to a C library",
+            "The module is copied to memory",
+            "The module is serialized"
+        ],
+        "correctAnswer": "The module is compiled to bytecode and executed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What is the role of the PyFrameObject in CPython?",
+        "choices": [
+            "It represents the execution frame for a function call",
+            "It stores the object's attributes",
+            "It manages the GIL",
+            "It handles file operations"
+        ],
+        "correctAnswer": "It represents the execution frame for a function call"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "Why are Python strings immutable?",
+        "choices": [
+            "To enable string interning and optimize memory",
+            "To prevent string slicing",
+            "To simplify garbage collection",
+            "To enforce type safety"
+        ],
+        "correctAnswer": "To enable string interning and optimize memory"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the purpose of the __init__ method in Python?",
+        "choices": [
+            "To initialize an object's attributes after creation",
+            "To create a new instance of a class",
+            "To define a class's method resolution order",
+            "To manage memory allocation"
+        ],
+        "correctAnswer": "To initialize an object's attributes after creation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "How does Python handle exceptions internally?",
+        "choices": [
+            "Using a stack of exception handlers in the frame object",
+            "Using a global exception table",
+            "Using a separate thread for exceptions",
+            "Using a file-based log"
+        ],
+        "correctAnswer": "Using a stack of exception handlers in the frame object"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is the purpose of the PyEval_EvalFrameEx function in CPython?",
+        "choices": [
+            "To execute a frame's bytecode",
+            "To allocate memory for objects",
+            "To manage the GIL",
+            "To parse Python source code"
+        ],
+        "correctAnswer": "To execute a frame's bytecode"
+    }
+]

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Internals Quiz</title>
+    <title>Technical Quiz Platform</title>
     <!-- SurveyJS CSS -->
     <link href="https://unpkg.com/survey-core@1.11.5/defaultV2.min.css" rel="stylesheet">
     <!-- Bootstrap CSS for styling -->
@@ -13,8 +13,31 @@
     <script src="https://unpkg.com/survey-core@1.11.5/survey.core.min.js"></script>
     <script src="https://unpkg.com/survey-jquery-ui@1.11.5/survey-jquery-ui.min.js"></script>
     
-    <!-- Custom CSS for delayed choices -->
+    <!-- Custom CSS -->
     <style>
+        .quiz-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        
+        .quiz-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .difficulty-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+        
         .choice-controls {
             padding: 10px 0;
         }
@@ -54,77 +77,106 @@
             font-weight: 600;
             color: #333;
         }
+        
+        .platform-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: #6c757d;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="bg-light">
-    <div class="container mt-5">
-        <div id="surveyContainer"></div>
+    <!-- Back to Home Button (hidden initially) -->
+    <button id="backBtn" class="back-btn" style="display: none;" onclick="showHomePage()">
+        ← Back to Home
+    </button>
+    
+    <!-- Home Page -->
+    <div id="homePage">
+        <div class="platform-header text-center">
+            <div class="container">
+                <h1 class="display-4 mb-3">🎓 Technical Quiz Platform</h1>
+                <p class="lead">Test your knowledge across different programming languages and technologies</p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row" id="quizGrid">
+                <!-- Quiz cards will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quiz Page -->
+    <div id="quizPage" style="display: none;">
+        <div class="container mt-4">
+            <div id="surveyContainer"></div>
+        </div>
     </div>
 
     <script>
-        // SurveyJS configuration for Python Internals Quiz (base configuration)
-        const baseSurveyJson = {
-            title: "Python Internals Quiz",
-            description: "Test your knowledge of Python internals to prepare for your interview!",
-            showProgressBar: "bottom",
-            showTimerPanel: "top",
-            maxTimeToFinish: 120, // Default 2 minutes for 10 questions (will be updated dynamically)
-            maxTimeToFinishPage: 30, // 30 seconds per question
-            firstPageIsStarted: true,
-            completedHtml: "<h4>You got <b>{correctAnswers}</b> out of <b>{questionCount}</b> correct answers.</h4>",
-            completedHtmlOnCondition: [
-                { expression: "{correctAnswers} == 0", html: "<h4>Unfortunately, none of your answers are correct. Please review Python internals and try again!</h4>" },
-                { expression: "{correctAnswers} == {questionCount}", html: "<h4>Perfect score! You're ready for your Python internals interview!</h4>" }
-            ],
-            pages: [
-                {
-                    name: "startPage",
-                    elements: [
-                        {
-                            type: "html",
-                            html: "<h4>Welcome to the Python Internals Quiz!</h4><p>Test your knowledge of Python's internal workings. Choose how many questions you want to answer and enter your name below to begin.</p>"
-                        },
-                        {
-                            type: "text",
-                            name: "username",
-                            title: "Your Name",
-                            isRequired: true,
-                            placeHolder: "Enter your name"
-                        },
-                        {
-                            type: "dropdown",
-                            name: "questionCount",
-                            title: "Number of Questions",
-                            isRequired: true,
-                            choices: [
-                                { value: 5, text: "5 Questions (Quick)" },
-                                { value: 10, text: "10 Questions (Medium)" },
-                                { value: 15, text: "15 Questions (Extended)" },
-                                { value: 25, text: "25 Questions (Full Quiz)" }
-                            ],
-                            defaultValue: 10
-                        }
-                    ]
-                }
-            ]
-        };
-
-        // Store questions and survey state
-        let allQuestions = [];
+        // Global state
+        let availableSurveys = [];
         let currentSurvey = null;
+        let currentSurveyConfig = null;
+        let allQuestions = [];
         let questionsLoaded = false;
 
-        // Function to load questions from JSON file
-        async function loadQuestions() {
+        // Load available surveys from surveys.json
+        async function loadAvailableSurveys() {
             try {
-                console.log('Attempting to load questions from JSON...');
-                const response = await fetch('./questions.json');
+                console.log('Loading available surveys...');
+                const response = await fetch('./surveys.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                availableSurveys = await response.json();
+                console.log(`Loaded ${availableSurveys.length} surveys:`, availableSurveys);
+                return availableSurveys;
+            } catch (error) {
+                console.error('Error loading surveys:', error);
+                document.getElementById('quizGrid').innerHTML = `
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <h4>Error Loading Surveys</h4>
+                            <p>Failed to load available surveys. Please check that the surveys.json file is available.</p>
+                            <p>Error: ${error.message}</p>
+                        </div>
+                    </div>
+                `;
+                return [];
+            }
+        }
+
+        // Load questions for a specific survey
+        async function loadQuestionsForSurvey(surveyConfig) {
+            try {
+                console.log(`Loading questions for ${surveyConfig.title}...`);
+                const response = await fetch(`./${surveyConfig.questionsFile}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const questions = await response.json();
-                console.log('Raw questions loaded:', questions.length);
-                console.log('First question sample:', questions[0]);
+                console.log(`Loaded ${questions.length} questions for ${surveyConfig.title}`);
                 
                 // Convert questions to page format
                 allQuestions = questions.map(question => ({
@@ -132,24 +184,111 @@
                 }));
                 
                 questionsLoaded = true;
-                console.log(`Loaded ${allQuestions.length} questions successfully`);
-                console.log('First converted question page:', allQuestions[0]);
                 return allQuestions;
             } catch (error) {
                 console.error('Error loading questions:', error);
-                // Fallback: show error message
-                document.getElementById('surveyContainer').innerHTML = `
-                    <div class="alert alert-danger">
-                        <h4>Error Loading Questions</h4>
-                        <p>Failed to load quiz questions. Please check that the questions.json file is available.</p>
-                        <p>Error: ${error.message}</p>
-                    </div>
-                `;
-                return [];
+                throw error;
             }
         }
 
-        // Initialize SurveyJS with modern API
+        // Display survey cards on home page
+        function displaySurveyCards() {
+            const grid = document.getElementById('quizGrid');
+            
+            if (availableSurveys.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No surveys available at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = availableSurveys.map(survey => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card quiz-card h-100 position-relative" onclick="startSurvey('${survey.id}')" style="border-color: ${survey.color}20;">
+                        <span class="difficulty-badge badge bg-secondary">${survey.difficulty}</span>
+                        <div class="card-body text-center">
+                            <div class="quiz-icon" style="color: ${survey.color};">
+                                ${survey.icon}
+                            </div>
+                            <h5 class="card-title" style="color: ${survey.color};">
+                                ${survey.title}
+                            </h5>
+                            <p class="card-text text-muted">
+                                ${survey.description}
+                            </p>
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> ${survey.estimatedTime}<br>
+                                    <i class="bi bi-folder"></i> ${survey.category}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Start a specific survey
+        async function startSurvey(surveyId) {
+            try {
+                // Find the survey configuration
+                currentSurveyConfig = availableSurveys.find(s => s.id === surveyId);
+                if (!currentSurveyConfig) {
+                    throw new Error(`Survey with id '${surveyId}' not found`);
+                }
+                
+                console.log(`Starting survey: ${currentSurveyConfig.title}`);
+                
+                // Show loading message
+                document.getElementById('surveyContainer').innerHTML = `
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-3">Loading ${currentSurveyConfig.title}...</p>
+                    </div>
+                `;
+                
+                // Switch to quiz page
+                document.getElementById('homePage').style.display = 'none';
+                document.getElementById('quizPage').style.display = 'block';
+                document.getElementById('backBtn').style.display = 'block';
+                
+                // Load questions and initialize survey
+                await loadQuestionsForSurvey(currentSurveyConfig);
+                await initializeSurvey();
+                
+            } catch (error) {
+                console.error('Error starting survey:', error);
+                document.getElementById('surveyContainer').innerHTML = `
+                    <div class="alert alert-danger">
+                        <h4>Error Loading Quiz</h4>
+                        <p>Failed to load the ${currentSurveyConfig?.title || 'selected'} quiz.</p>
+                        <p>Error: ${error.message}</p>
+                        <button class="btn btn-primary" onclick="showHomePage()">Back to Home</button>
+                    </div>
+                `;
+            }
+        }
+
+        // Show home page
+        function showHomePage() {
+            document.getElementById('homePage').style.display = 'block';
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'none';
+            
+            // Reset survey state
+            currentSurvey = null;
+            currentSurveyConfig = null;
+            allQuestions = [];
+            questionsLoaded = false;
+            
+            // Clear survey container
+            document.getElementById('surveyContainer').innerHTML = '';
+        }
+
         // Function to shuffle array (Fisher-Yates shuffle)
         function shuffleArray(array) {
             const shuffled = [...array];
@@ -160,27 +299,72 @@
             return shuffled;
         }
 
+        // Create base survey configuration for the selected survey
+        function createBaseSurveyConfig() {
+            return {
+                title: currentSurveyConfig.title,
+                description: currentSurveyConfig.description,
+                showProgressBar: "bottom",
+                showTimerPanel: "top",
+                maxTimeToFinish: 120, // Will be updated dynamically
+                maxTimeToFinishPage: 30,
+                firstPageIsStarted: true,
+                completedHtml: "<h4>You got <b>{correctAnswers}</b> out of <b>{questionCount}</b> correct answers.</h4>",
+                completedHtmlOnCondition: [
+                    { expression: "{correctAnswers} == 0", html: "<h4>Unfortunately, none of your answers are correct. Please review and try again!</h4>" },
+                    { expression: "{correctAnswers} == {questionCount}", html: "<h4>Perfect score! You're ready for your interview!</h4>" }
+                ],
+                pages: [
+                    {
+                        name: "startPage",
+                        elements: [
+                            {
+                                type: "html",
+                                html: `<h4>Welcome to the ${currentSurveyConfig.title}!</h4><p>${currentSurveyConfig.description}</p><p>Choose how many questions you want to answer and enter your name below to begin.</p>`
+                            },
+                            {
+                                type: "text",
+                                name: "username",
+                                title: "Your Name",
+                                isRequired: true,
+                                placeHolder: "Enter your name"
+                            },
+                            {
+                                type: "dropdown",
+                                name: "questionCount",
+                                title: "Number of Questions",
+                                isRequired: true,
+                                choices: [
+                                    { value: 5, text: "5 Questions (Quick)" },
+                                    { value: 10, text: "10 Questions (Medium)" },
+                                    { value: 15, text: "15 Questions (Extended)" },
+                                    { value: Math.min(25, allQuestions.length), text: `${Math.min(25, allQuestions.length)} Questions (Full Quiz)` }
+                                ],
+                                defaultValue: 10
+                            }
+                        ]
+                    }
+                ]
+            };
+        }
+
         // Function to initialize survey
         async function initializeSurvey() {
             console.log('Initializing survey...');
-            if (!questionsLoaded) {
-                console.log('Questions not loaded yet, loading now...');
-                await loadQuestions();
-            }
             
-            console.log(`Questions available: ${allQuestions.length}`);
             if (allQuestions.length === 0) {
                 console.error('No questions available to create survey');
                 return;
             }
 
-            // Clone the base survey configuration
-            const surveyConfig = JSON.parse(JSON.stringify(baseSurveyJson));
+            // Create the base survey configuration
+            const surveyConfig = createBaseSurveyConfig();
             console.log('Base survey config:', surveyConfig);
             
             // Add all questions to the config initially (will be filtered later)
             const shuffledQuestions = shuffleArray([...allQuestions]);
-            const allQuestionPages = shuffledQuestions.slice(0, 25); // Include all questions initially
+            const maxQuestions = Math.min(25, allQuestions.length);
+            const allQuestionPages = shuffledQuestions.slice(0, maxQuestions);
             
             // Add all questions to the survey config
             allQuestionPages.forEach((questionPage, index) => {
@@ -219,7 +403,7 @@
                     
                     // Remove excess question pages
                     const questionPages = sender.pages.filter(page => page.name.startsWith("question"));
-                    const pagesToRemove = questionPages.slice(questionCount); // Remove excess pages
+                    const pagesToRemove = questionPages.slice(questionCount);
                     
                     console.log(`Removing ${pagesToRemove.length} excess pages`);
                     pagesToRemove.forEach(page => sender.removePage(page));
@@ -246,10 +430,8 @@
             });
             
             // Render survey
-            $(function() {
-                $("#surveyContainer").Survey({
-                    model: survey
-                });
+            $("#surveyContainer").Survey({
+                model: survey
             });
         }
         
@@ -261,12 +443,10 @@
             // Check if already processed to prevent duplicates
             const questionElement = document.querySelector(`[data-name="${question.name}"]`);
             if (!questionElement) {
-                // DOM not ready yet, try again after delay
                 setTimeout(() => setupDelayedChoices(page), 300);
                 return;
             }
             
-            // Check if controls already exist
             const existingControls = questionElement.querySelector('.choice-controls');
             if (existingControls) {
                 console.log('Choice controls already exist for:', question.name);
@@ -282,16 +462,13 @@
             const questionElement = document.querySelector(`[data-name="${question.name}"]`);
             if (!questionElement) return;
             
-            // Prevent duplicate processing
             if (questionElement.querySelector('.choice-controls')) {
                 console.log('Controls already exist for question:', question.name);
                 return;
             }
             
-            // Try multiple selectors for choices container (different SurveyJS versions)
+            // Find choices container
             let choicesContainer = null;
-            
-            // Method 1: Try standard SurveyJS selectors
             const possibleSelectors = [
                 '.sv-selectbase__items-container',
                 '.sd-selectbase__items-container',
@@ -306,11 +483,9 @@
                 if (choicesContainer) break;
             }
             
-            // Method 2: Find all radio inputs and hide their containers
             if (!choicesContainer) {
                 const radioItems = questionElement.querySelectorAll('input[type="radio"]');
                 if (radioItems.length > 0) {
-                    // Find the common parent that contains all radio options
                     let commonParent = radioItems[0].parentNode;
                     while (commonParent && commonParent !== questionElement) {
                         const childRadios = commonParent.querySelectorAll('input[type="radio"]');
@@ -323,20 +498,6 @@
                 }
             }
             
-            // Method 3: Find elements with choice-related classes
-            if (!choicesContainer) {
-                const choiceElements = questionElement.querySelectorAll('[class*="choice"], [class*="item"], [class*="option"]');
-                if (choiceElements.length > 0) {
-                    // Create a wrapper to hide all choice elements
-                    const wrapper = document.createElement('div');
-                    wrapper.className = 'choices-wrapper';
-                    choiceElements[0].parentNode.insertBefore(wrapper, choiceElements[0]);
-                    choiceElements.forEach(element => wrapper.appendChild(element));
-                    choicesContainer = wrapper;
-                }
-            }
-            
-            // Method 4: Hide all labels that contain radio inputs
             if (!choicesContainer) {
                 const labels = questionElement.querySelectorAll('label');
                 const radioLabels = Array.from(labels).filter(label => 
@@ -345,7 +506,6 @@
                 );
                 
                 if (radioLabels.length > 0) {
-                    // Create wrapper for all radio labels
                     const wrapper = document.createElement('div');
                     wrapper.className = 'radio-labels-wrapper';
                     radioLabels[0].parentNode.insertBefore(wrapper, radioLabels[0]);
@@ -373,7 +533,7 @@
             countdownDisplay.className = 'countdown-display';
             countdownDisplay.textContent = 'or wait 10 seconds for auto-reveal';
             
-            // Create container for the question enhancement
+            // Create enhancement container
             const enhancementContainer = document.createElement('div');
             enhancementContainer.className = 'question-enhancement';
             enhancementContainer.innerHTML = `
@@ -382,7 +542,7 @@
                 </div>
             `;
             
-            // Insert enhancement and controls after the question title
+            // Insert controls
             const titleElement = questionElement.querySelector('.sv-string-viewer, .sd-string-viewer, .sv-title, .sd-title, h5, h4, h3');
             if (titleElement && titleElement.parentNode) {
                 const controlsContainer = document.createElement('div');
@@ -393,7 +553,6 @@
                 titleElement.parentNode.insertBefore(enhancementContainer, titleElement.nextSibling);
                 titleElement.parentNode.insertBefore(controlsContainer, enhancementContainer.nextSibling);
             } else {
-                // Fallback: insert at the beginning of the question element
                 questionElement.insertBefore(enhancementContainer, questionElement.firstChild);
                 questionElement.insertBefore(controlsContainer, enhancementContainer.nextSibling);
             }
@@ -401,7 +560,6 @@
             let timeLeft = 10;
             let countdownInterval;
             
-            // Function to show choices
             function showChoices() {
                 choicesContainer.style.display = 'block';
                 showChoicesBtn.style.display = 'none';
@@ -410,17 +568,13 @@
                 if (countdownInterval) {
                     clearInterval(countdownInterval);
                 }
-                
-                // Remove the enhancement message
                 if (enhancementContainer) {
                     enhancementContainer.style.display = 'none';
                 }
             }
             
-            // Button click handler
             showChoicesBtn.addEventListener('click', showChoices);
             
-            // Countdown timer
             countdownInterval = setInterval(() => {
                 timeLeft--;
                 countdownDisplay.textContent = `or wait ${timeLeft} seconds for auto-reveal`;
@@ -430,11 +584,8 @@
                 }
             }, 1000);
         }
-
-        // Initialize the survey with default 10 questions
-        const survey = initializeSurvey(10);
         
-        // Function to show detailed results with failed questions
+        // Function to show detailed results
         function showDetailedResults(survey) {
             const data = survey.data;
             const pages = survey.pages.slice(1); // Exclude start page
@@ -442,7 +593,6 @@
             let totalQuestions = pages.length;
             let failedQuestions = [];
             
-            // Analyze each question
             pages.forEach((page, index) => {
                 const question = page.elements[0];
                 const questionName = question.name;
@@ -462,10 +612,12 @@
                 }
             });
             
-            // Generate detailed results HTML
             let resultsHtml = `
                 <div class="results-container">
-                    <h3>Quiz Results for ${data.username}</h3>
+                    <div class="text-center mb-4">
+                        <h2>${currentSurveyConfig.icon} ${currentSurveyConfig.title}</h2>
+                        <h3>Quiz Results for ${data.username}</h3>
+                    </div>
                     <div class="score-summary">
                         <h4>Score: ${correctCount}/${totalQuestions} (${Math.round((correctCount/totalQuestions)*100)}%)</h4>
                     </div>
@@ -495,7 +647,8 @@
             
             resultsHtml += `
                     <div class="action-buttons">
-                        <button onclick="restartQuiz()" class="btn btn-primary">Take Quiz Again</button>
+                        <button onclick="startSurvey('${currentSurveyConfig.id}')" class="btn btn-primary me-2">Retake Quiz</button>
+                        <button onclick="showHomePage()" class="btn btn-secondary">Back to Home</button>
                     </div>
                 </div>
                 
@@ -540,18 +693,13 @@
                 </style>
             `;
             
-            // Replace the survey container with results
             document.getElementById('surveyContainer').innerHTML = resultsHtml;
         }
-        
-        // Function to restart the quiz
-        function restartQuiz() {
-            location.reload();
-        }
-        
-        // Initialize the survey when the page loads
+
+        // Initialize the platform when the page loads
         $(document).ready(async function() {
-            await initializeSurvey();
+            await loadAvailableSurveys();
+            displaySurveyCards();
         });
     </script>
 </body>
