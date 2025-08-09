@@ -20,9 +20,10 @@
 
 ## Deployment
 ```
+git config --global --add safe.directory /tmp/quiz
 cd /tmp/
 git pull
-cp -r quiz/ /var/www/indiatruck/
+cp -r quiz/ /var/www/tiretruck/
 chown -R  www-data:www-data quiz/
 chmod 755 quiz/
 ```
