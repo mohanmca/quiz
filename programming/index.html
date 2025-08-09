@@ -136,6 +136,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
             position: relative;
+            cursor: pointer;
         }
 
         .source-code-question .code-choice:hover {
@@ -144,31 +145,116 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        .source-code-question .code-choice::before {
-            content: '';
+        /* Make code choices selectable by fixing radio button interaction */
+        .code-choice {
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .code-choice:hover {
+            border-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Ensure radio buttons are accessible but hidden visually */
+        input[type="radio"] {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--success-green));
+            opacity: 0;
+            z-index: -1;
+        }
+
+        /* Style for selected code choice */
+        input[type="radio"]:checked + .sd-item__decorator + .sd-item__control-label .code-choice,
+        input[type="radio"]:checked ~ .code-choice,
+        .sd-selectbase__item--checked .code-choice {
+            border-color: #28a745;
+            background: #1a2f1a;
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Make sure the parent label allows clicking */
+        .sd-selectbase__label,
+        .sv-selectbase__label {
+            cursor: pointer;
+            display: block;
+            width: 100%;
+        }
+
+        pre {
+            background-color: #1e1e1e !important;
+            border: 1px solid #333 !important;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d4d4d4 !important;
+            white-space: pre-wrap;
+            scrollbar-width: thin;
+            scrollbar-color: #666 #333;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre;
+            color: #d4d4d4 !important;
+            background: transparent !important;
         }
 
         .source-code-question .na-choice {
             padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border: 2px dashed #ced4da;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            border: 2px solid #5a6c7d;
             border-radius: 12px;
             text-align: center;
-            color: #6c757d;
+            color: #ecf0f1;
             font-style: italic;
             font-weight: 500;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .source-code-question .na-choice:hover {
-            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            background: linear-gradient(135deg, #34495e, #2c3e50);
             border-color: var(--primary-blue);
+        }
+
+        /* NA choice styling */
+        .na-choice {
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            border: 2px solid #5a6c7d;
+            border-radius: 12px;
+            text-align: center;
+            color: #ecf0f1;
+            font-style: italic;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .na-choice:hover {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border-color: #007bff;
+        }
+
+        /* Selected NA choice */
+        input[type="radio"]:checked + .sd-item__decorator + .sd-item__control-label .na-choice,
+        input[type="radio"]:checked ~ .na-choice,
+        .sd-selectbase__item--checked .na-choice {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #1e3a1e, #2d5a2d);
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
         }
 
         /* Pattern badge styling */
@@ -263,6 +349,12 @@
         }
         
         /* Enhanced Python syntax highlighting */
+        .python-keyword { color: #569cd6; font-weight: bold; }
+        .python-string { color: #ce9178; }
+        .python-comment { color: #6a9955; font-style: italic; }
+        .python-number { color: #b5cea8; }
+        
+        /* Legacy syntax highlighting for backward compatibility */
         pre code .keyword { color: #569cd6; font-weight: bold; }
         pre code .string { color: #ce9178; }
         pre code .comment { color: #6a9955; font-style: italic; }
@@ -407,6 +499,65 @@
             }, 2000);
         }
 
+        // New function to copy code from data attribute (safely encoded)
+        function copyCodeFromElement(button) {
+            const codeChoice = button.closest('.code-choice');
+            const encodedCode = codeChoice.getAttribute('data-raw-code');
+            const code = encodedCode ? decodeURIComponent(encodedCode) : '';
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(code).then(() => {
+                    // Success feedback
+                    showCopyFeedback(button, true);
+                }).catch(err => {
+                    // Error feedback
+                    console.error('Failed to copy code: ', err);
+                    showCopyFeedback(button, false);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopyFeedback(button, true);
+                } catch (err) {
+                    console.error('Failed to copy code: ', err);
+                    showCopyFeedback(button, false);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // Function to handle radio button selection when clicking on enhanced choices
+        function selectParentRadio(element) {
+            // Find the parent label that contains the radio input
+            const label = element.closest('label');
+            if (label) {
+                // Find the radio input within this label
+                const radioInput = label.querySelector('input[type="radio"]');
+                if (radioInput) {
+                    radioInput.checked = true;
+                    // Trigger change event to update SurveyJS
+                    radioInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    console.log('Radio selected:', radioInput.value);
+                } else {
+                    // If radio is not in the label, look for it by matching the 'for' attribute
+                    const forAttr = label.getAttribute('for');
+                    if (forAttr) {
+                        const radioInput = document.getElementById(forAttr);
+                        if (radioInput && radioInput.type === 'radio') {
+                            radioInput.checked = true;
+                            radioInput.dispatchEvent(new Event('change', { bubbles: true }));
+                            console.log('Radio selected via for attribute:', radioInput.value);
+                        }
+                    }
+                }
+            }
+        }
+
         // Enhanced function to process questions without pre-converting to HTML
         function processQuestionsForSurvey(questions) {
             return questions.map(question => {
@@ -437,75 +588,142 @@
 
         // Function to enhance code display after SurveyJS renders
         function enhanceCodeDisplay() {
-            // Find all choice labels that contain code blocks
-            const choiceLabels = document.querySelectorAll('.sv-selectbase__label, .sd-selectbase__label');
+            console.log('Enhancing code display...');
             
-            choiceLabels.forEach(label => {
+            // Find all choice labels that contain code blocks - try multiple selectors
+            const choiceLabels = document.querySelectorAll('.sv-selectbase__label, .sd-selectbase__label, .sv-string-viewer, .sd-item__control-label');
+            console.log(`Found ${choiceLabels.length} choice elements to check`);
+            
+            choiceLabels.forEach((label, index) => {
                 const textContent = label.textContent || label.innerText;
+                console.log(`Checking element ${index}: ${textContent.substring(0, 50)}...`);
                 
                 if (textContent.includes('```python') && textContent.includes('```')) {
-                    // Extract code content
-                    const codeMatch = textContent.match(/```python\n([\s\S]*?)\n```/);
+                    console.log('Found code block, processing...');
+                    
+                    // Extract code content between triple backticks
+                    const codeMatch = textContent.match(/```python\n?([\s\S]*?)\n?```/);
                     if (codeMatch) {
-                        const codeContent = codeMatch[1];
+                        const codeContent = codeMatch[1].trim();
+                        console.log('Extracted code:', codeContent.substring(0, 50));
                         
-                        // Create enhanced HTML structure
+                        // Create enhanced HTML structure using plain text with proper escaping
+                        const escapedCode = codeContent
+                            .replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;');
+                        
                         const codeHTML = `
-                            <div class="code-choice" data-code="${encodeURIComponent(codeContent)}">
-                                <button class="copy-btn" onclick="copyCodeToClipboard(this)" title="Copy code">
+                            <div class="code-choice" data-raw-code="${encodeURIComponent(codeContent)}" onclick="selectParentRadio(this)">
+                                <button class="copy-btn" onclick="event.stopPropagation(); copyCodeFromElement(this)" title="Copy code">
                                     <i class="fas fa-copy"></i> Copy
                                 </button>
-                                <pre><code class="language-python">${highlightPythonCode(codeContent)}</code></pre>
+                                <pre><code class="language-python">${escapedCode}</code></pre>
                             </div>
                         `;
                         
-                        // Replace the label content
+                        // Replace the content and fix styling
                         label.innerHTML = codeHTML;
+                        
+                        // Style the parent label
                         label.style.padding = '0';
                         label.style.background = 'none';
                         label.style.border = 'none';
+                        label.style.display = 'block';
+                        label.style.cursor = 'pointer';
+                        
+                        console.log('Code block processed successfully');
                     }
-                } else if (textContent.startsWith('NA')) {
+                } else if (textContent.trim().startsWith('NA')) {
+                    console.log('Found NA choice, processing...');
                     // Style NA choices
-                    label.innerHTML = `<div class="na-choice">${textContent} - Not the correct answer</div>`;
+                    const naHTML = `<div class="na-choice" onclick="selectParentRadio(this)">${textContent.trim()} - Not the correct answer</div>`;
+                    label.innerHTML = naHTML;
                     label.style.padding = '0';
                     label.style.background = 'none';
                     label.style.border = 'none';
+                    label.style.cursor = 'pointer';
                 }
             });
+            
+            console.log('Code display enhancement complete');
         }
 
-        // Simple Python syntax highlighter
+        // Simple Python syntax highlighter - clean and safe approach
         function highlightPythonCode(code) {
-            return code
-                .replace(/\b(def|class|if|elif|else|for|while|try|except|finally|with|import|from|return|yield|break|continue|pass|lambda|and|or|not|in|is|True|False|None)\b/g, '<span style="color: #569cd6; font-weight: bold;">$1</span>')
-                .replace(/(#.*$)/gm, '<span style="color: #6a9955; font-style: italic;">$1</span>')
-                .replace(/(['"])((?:\\.|(?!\1)[^\\])*?)\1/g, '<span style="color: #ce9178;">$1$2$1</span>')
-                .replace(/\b(\d+)\b/g, '<span style="color: #b5cea8;">$1</span>');
+            // Escape HTML characters first
+            const escaped = code
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            
+            // Apply simple keyword highlighting
+            return escaped
+                .replace(/\b(def|class|if|elif|else|for|while|try|except|finally|with|import|from|return|yield|break|continue|pass|lambda|and|or|not|in|is|True|False|None)\b/g, '<span class="python-keyword">$1</span>')
+                .replace(/(#.*$)/gm, '<span class="python-comment">$1</span>')
+                .replace(/(['"].*?['"])/g, '<span class="python-string">$1</span>')
+                .replace(/\b(\d+)\b/g, '<span class="python-number">$1</span>');
         }
 
         // Load available surveys from surveys.json
         async function loadAvailableSurveys() {
             try {
                 console.log('Loading available surveys...');
+                console.log('Current location:', window.location.href);
+                console.log('Attempting to fetch: ./surveys.json');
+                
                 const response = await fetch('./surveys.json');
+                console.log('Fetch response status:', response.status);
+                console.log('Fetch response ok:', response.ok);
+                
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
                 }
-                availableSurveys = await response.json();
-                console.log(`Loaded ${availableSurveys.length} surveys:`, availableSurveys);
+                
+                const textContent = await response.text();
+                console.log('Raw response length:', textContent.length);
+                console.log('First 200 chars:', textContent.substring(0, 200));
+                
+                availableSurveys = JSON.parse(textContent);
+                console.log(`Successfully loaded ${availableSurveys.length} surveys:`, availableSurveys);
                 return availableSurveys;
             } catch (error) {
                 console.error('Error loading surveys:', error);
-                document.getElementById('quizGrid').innerHTML = `
-                    <div class="col-12">
-                        <div class="alert alert-danger">
-                            <h4>Error Loading Surveys</h4>
-                            <p>Failed to load available surveys. Please check that the surveys.json file is available.</p>
-                            <p>Error: ${error.message}</p>
+                console.error('Error details:', {
+                    name: error.name,
+                    message: error.message,
+                    stack: error.stack
+                });
+                
+                // Check if it's a CORS issue
+                if (error.message.includes('CORS') || error.name === 'TypeError') {
+                    document.getElementById('quizGrid').innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-warning">
+                                <h4>Local File Access Issue</h4>
+                                <p>The quiz platform needs to be served from a web server to work properly.</p>
+                                <p><strong>Solution:</strong> Please open this in one of these ways:</p>
+                                <ul>
+                                    <li>Run <code>python3 -m http.server 8000</code> in the programming folder, then visit <a href="http://localhost:8000" target="_blank">http://localhost:8000</a></li>
+                                    <li>Use any other local web server (Live Server extension in VS Code, etc.)</li>
+                                </ul>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                            </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    document.getElementById('quizGrid').innerHTML = `
+                        <div class="col-12">
+                            <div class="alert alert-danger">
+                                <h4>Error Loading Surveys</h4>
+                                <p>Failed to load available surveys. Please check that the surveys.json file is available.</p>
+                                <p><strong>Error:</strong> ${error.message}</p>
+                                <p><strong>Current location:</strong> ${window.location.href}</p>
+                                <p><strong>Trying to load:</strong> ./surveys.json</p>
+                            </div>
+                        </div>
+                    `;
+                }
                 return [];
             }
         }
@@ -677,7 +895,7 @@
                                 type: "text",
                                 name: "username",
                                 title: "Your Name",
-                                isRequired: true,
+                                isRequired: false,
                                 placeHolder: "Enter your name"
                             },
                             {
@@ -768,9 +986,9 @@
                 
                 // Enhanced code display on any page change
                 console.log(`Page changed to: ${sender.currentPage.name}`);
-                setTimeout(() => {
-                    enhanceCodeDisplay();
-                }, 300);
+                setTimeout(() => enhanceCodeDisplay(), 300);
+                setTimeout(() => enhanceCodeDisplay(), 600);
+                setTimeout(() => enhanceCodeDisplay(), 1200);
             });
             
             // Handle page changes for delayed choice display and source-code detection
@@ -787,14 +1005,14 @@
                             if (pageElement) {
                                 pageElement.classList.add('source-code-question');
                                 console.log(`Added source-code styling to question: ${question.name}`);
-                                
-                                // Enhance code display after a short delay
-                                setTimeout(() => {
-                                    enhanceCodeDisplay();
-                                }, 200);
                             }
                         }, 100);
                     }
+                    
+                    // Always try to enhance code display with multiple attempts
+                    setTimeout(() => enhanceCodeDisplay(), 200);
+                    setTimeout(() => enhanceCodeDisplay(), 500);
+                    setTimeout(() => enhanceCodeDisplay(), 1000);
                     
                     setupDelayedChoices(options.page);
                 }
