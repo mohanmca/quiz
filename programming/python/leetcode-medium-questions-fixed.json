@@ -1,0 +1,62 @@
+[
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q1",
+        "title": "**Stack Pattern - Valid Parentheses with Multiple Types**\n\nGiven a string containing '(', ')', '{', '}', '[' and ']', determine if the input string is valid. Opening brackets must be closed by the same type of brackets and in the correct order.\n\n**Example:** `s = \"([{}])\"` → `True`\n\n**What is the optimal Python solution?**",
+        "choices": [
+            "```python\ndef isValid(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    \n    for char in s:\n        if char in mapping:\n            if not stack or stack.pop() != mapping[char]:\n                return False\n        else:\n            stack.append(char)\n    \n    return not stack\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\ndef isValid(s):\n    stack = []\n    mapping = {')': '(', '}': '{', ']': '['}\n    \n    for char in s:\n        if char in mapping:\n            if not stack or stack.pop() != mapping[char]:\n                return False\n        else:\n            stack.append(char)\n    \n    return not stack\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q2",
+        "title": "**Sliding Window Pattern - Longest Substring Without Repeating Characters**\n\nGiven a string `s`, find the length of the longest substring without repeating characters.\n\n**Example:** `s = \"abcabcbb\"` → `3` (\"abc\")\n\n**What is the optimal Python solution using sliding window?**",
+        "choices": [
+            "```python\ndef lengthOfLongestSubstring(s):\n    char_set = set()\n    left = 0\n    max_length = 0\n    \n    for right in range(len(s)):\n        while s[right] in char_set:\n            char_set.remove(s[left])\n            left += 1\n        \n        char_set.add(s[right])\n        max_length = max(max_length, right - left + 1)\n    \n    return max_length\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\ndef lengthOfLongestSubstring(s):\n    char_set = set()\n    left = 0\n    max_length = 0\n    \n    for right in range(len(s)):\n        while s[right] in char_set:\n            char_set.remove(s[left])\n            left += 1\n        \n        char_set.add(s[right])\n        max_length = max(max_length, right - left + 1)\n    \n    return max_length\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q3",
+        "title": "**Heap Pattern - Top K Frequent Elements**\n\nGiven an integer array `nums` and an integer `k`, return the `k` most frequent elements.\n\n**Example:** `nums = [1,1,1,2,2,3], k = 2` → `[1,2]`\n\n**What is the optimal Python solution using heap?**",
+        "choices": [
+            "```python\nimport heapq\nfrom collections import Counter\n\ndef topKFrequent(nums, k):\n    count = Counter(nums)\n    return heapq.nlargest(k, count.keys(), key=count.get)\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\nimport heapq\nfrom collections import Counter\n\ndef topKFrequent(nums, k):\n    count = Counter(nums)\n    return heapq.nlargest(k, count.keys(), key=count.get)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q4",
+        "title": "**Tree Pattern - Binary Tree Level Order Traversal**\n\nGiven the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level).\n\n**Example:** `[3,9,20,null,null,15,7]` → `[[3],[9,20],[15,7]]`\n\n**What is the optimal Python solution?**",
+        "choices": [
+            "```python\nfrom collections import deque\n\ndef levelOrder(root):\n    if not root:\n        return []\n    \n    result = []\n    queue = deque([root])\n    \n    while queue:\n        level_size = len(queue)\n        current_level = []\n        \n        for _ in range(level_size):\n            node = queue.popleft()\n            current_level.append(node.val)\n            \n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        \n        result.append(current_level)\n    \n    return result\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\nfrom collections import deque\n\ndef levelOrder(root):\n    if not root:\n        return []\n    \n    result = []\n    queue = deque([root])\n    \n    while queue:\n        level_size = len(queue)\n        current_level = []\n        \n        for _ in range(level_size):\n            node = queue.popleft()\n            current_level.append(node.val)\n            \n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        \n        result.append(current_level)\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q5",
+        "title": "**DAG Pattern - Course Schedule**\n\nThere are `numCourses` courses labeled from 0 to `numCourses - 1`. Given prerequisites array where `prerequisites[i] = [ai, bi]` indicates you must take course `bi` first to take course `ai`. Return `true` if you can finish all courses.\n\n**Example:** `numCourses = 2, prerequisites = [[1,0]]` → `true`\n\n**What is the optimal Python solution using topological sort?**",
+        "choices": [
+            "```python\nfrom collections import defaultdict, deque\n\ndef canFinish(numCourses, prerequisites):\n    graph = defaultdict(list)\n    indegree = [0] * numCourses\n    \n    for course, prereq in prerequisites:\n        graph[prereq].append(course)\n        indegree[course] += 1\n    \n    queue = deque([i for i in range(numCourses) if indegree[i] == 0])\n    completed = 0\n    \n    while queue:\n        current = queue.popleft()\n        completed += 1\n        \n        for neighbor in graph[current]:\n            indegree[neighbor] -= 1\n            if indegree[neighbor] == 0:\n                queue.append(neighbor)\n    \n    return completed == numCourses\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\nfrom collections import defaultdict, deque\n\ndef canFinish(numCourses, prerequisites):\n    graph = defaultdict(list)\n    indegree = [0] * numCourses\n    \n    for course, prereq in prerequisites:\n        graph[prereq].append(course)\n        indegree[course] += 1\n    \n    queue = deque([i for i in range(numCourses) if indegree[i] == 0])\n    completed = 0\n    \n    while queue:\n        current = queue.popleft()\n        completed += 1\n        \n        for neighbor in graph[current]:\n            indegree[neighbor] -= 1\n            if indegree[neighbor] == 0:\n                queue.append(neighbor)\n    \n    return completed == numCourses\n```"
+    }
+]
