@@ -1,0 +1,302 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "Which Python data structure is best for implementing a queue with O(1) enqueue and dequeue operations?",
+        "choices": [
+            "collections.deque",
+            "list",
+            "tuple",
+            "set"
+        ],
+        "correctAnswer": "collections.deque"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "What is the time complexity of checking if an element exists in a Python set?",
+        "choices": [
+            "O(1) average case",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(1) average case"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "Which data structure would you use to implement a LRU (Least Recently Used) cache efficiently?",
+        "choices": [
+            "OrderedDict + custom logic",
+            "Regular dictionary only",
+            "List of tuples",
+            "Set with timestamps"
+        ],
+        "correctAnswer": "OrderedDict + custom logic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What is the time complexity of list.insert(0, item) in Python?",
+        "choices": [
+            "O(n)",
+            "O(1)",
+            "O(log n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(n)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "Which Python module provides a min-heap implementation?",
+        "choices": [
+            "heapq",
+            "collections",
+            "bisect",
+            "itertools"
+        ],
+        "correctAnswer": "heapq"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What does collections.Counter() return when you call most_common(1) on it?",
+        "choices": [
+            "A list of tuples with (element, count)",
+            "Just the most common element",
+            "A dictionary",
+            "A set"
+        ],
+        "correctAnswer": "A list of tuples with (element, count)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "Which approach is most efficient for finding all anagrams in a list of strings?",
+        "choices": [
+            "Group by sorted string as key in a dictionary",
+            "Compare each string with every other string",
+            "Use nested loops with character counting",
+            "Sort all strings and compare adjacent ones"
+        ],
+        "correctAnswer": "Group by sorted string as key in a dictionary"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the space complexity of using a set to track visited nodes in a graph traversal?",
+        "choices": [
+            "O(V) where V is the number of vertices",
+            "O(E) where E is the number of edges",
+            "O(V + E)",
+            "O(1)"
+        ],
+        "correctAnswer": "O(V) where V is the number of vertices"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "Which Python feature is most useful for implementing a sliding window technique?",
+        "choices": [
+            "collections.deque with maxlen parameter",
+            "Regular list with append/pop",
+            "Two pointers on a list",
+            "Dictionary with ordered keys"
+        ],
+        "correctAnswer": "collections.deque with maxlen parameter"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is the time complexity of dict.get() operation in Python?",
+        "choices": [
+            "O(1) average case",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(1) average case"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "Which data structure is best for implementing a stack in Python?",
+        "choices": [
+            "list (using append/pop)",
+            "collections.deque",
+            "tuple",
+            "set"
+        ],
+        "correctAnswer": "list (using append/pop)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What does bisect.bisect_left() return when the target element is not found?",
+        "choices": [
+            "The insertion point to maintain sorted order",
+            "-1",
+            "None",
+            "Raises an exception"
+        ],
+        "correctAnswer": "The insertion point to maintain sorted order"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "Which approach is most efficient for implementing a Trie (prefix tree) in Python?",
+        "choices": [
+            "Nested dictionaries with character keys",
+            "List of lists",
+            "String concatenation",
+            "Set of all prefixes"
+        ],
+        "correctAnswer": "Nested dictionaries with character keys"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the advantage of using frozenset over set for dictionary keys?",
+        "choices": [
+            "frozenset is immutable and can be used as a dictionary key",
+            "frozenset is faster for lookups",
+            "frozenset uses less memory",
+            "frozenset supports more operations"
+        ],
+        "correctAnswer": "frozenset is immutable and can be used as a dictionary key"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "Which pattern is most efficient for checking if a substring exists in a string?",
+        "choices": [
+            "Using 'in' operator",
+            "Manual character by character comparison",
+            "Converting to list and checking",
+            "Using regular expressions for simple substring"
+        ],
+        "correctAnswer": "Using 'in' operator"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is the time complexity of list.sort() in Python?",
+        "choices": [
+            "O(n log n)",
+            "O(n²)",
+            "O(n)",
+            "O(log n)"
+        ],
+        "correctAnswer": "O(n log n)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "Which data structure is best for implementing a priority queue in Python?",
+        "choices": [
+            "heapq with a list",
+            "sorted list",
+            "regular list",
+            "collections.deque"
+        ],
+        "correctAnswer": "heapq with a list"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "What is the most efficient way to remove duplicates from a list while preserving order?",
+        "choices": [
+            "Use dict.fromkeys(list) or ordered set pattern",
+            "Convert to set and back to list",
+            "Use nested loops to check duplicates",
+            "Sort first, then remove adjacent duplicates"
+        ],
+        "correctAnswer": "Use dict.fromkeys(list) or ordered set pattern"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "Which approach is best for implementing a graph adjacency list in Python?",
+        "choices": [
+            "Dictionary with lists as values: {node: [neighbors]}",
+            "List of lists",
+            "Set of tuples",
+            "Two-dimensional array"
+        ],
+        "correctAnswer": "Dictionary with lists as values: {node: [neighbors]}"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What is the space complexity of the two-pointer technique for array problems?",
+        "choices": [
+            "O(1)",
+            "O(n)",
+            "O(log n)",
+            "O(n²)"
+        ],
+        "correctAnswer": "O(1)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "Which collections module class automatically provides default values for missing keys?",
+        "choices": [
+            "defaultdict",
+            "OrderedDict",
+            "Counter",
+            "namedtuple"
+        ],
+        "correctAnswer": "defaultdict"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What is the time complexity of finding the maximum element in a max-heap?",
+        "choices": [
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(1)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "Which technique is most efficient for finding the intersection of two sorted arrays?",
+        "choices": [
+            "Two pointers approach",
+            "Convert to sets and find intersection",
+            "Nested loops",
+            "Binary search for each element"
+        ],
+        "correctAnswer": "Two pointers approach"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What is the most memory-efficient way to generate a large sequence of numbers in Python?",
+        "choices": [
+            "Use generators or range() objects",
+            "Create a large list with all numbers",
+            "Use tuple with all numbers",
+            "Use set with all numbers"
+        ],
+        "correctAnswer": "Use generators or range() objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "Which data structure pattern is best for implementing a monotonic stack?",
+        "choices": [
+            "List with custom logic to maintain monotonic property",
+            "heapq for automatic ordering",
+            "collections.deque",
+            "Regular dictionary"
+        ],
+        "correctAnswer": "List with custom logic to maintain monotonic property"
+    }
+]

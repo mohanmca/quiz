@@ -1,0 +1,302 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the primary difference between 'is' and '==' operators in Python?",
+        "choices": [
+            "'is' compares object identity (memory location), '==' compares object values",
+            "'is' compares values, '==' compares types",
+            "They are functionally identical",
+            "'is' is faster than '==' in all cases"
+        ],
+        "correctAnswer": "'is' compares object identity (memory location), '==' compares object values"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "Why do small integers (-5 to 256) often have the same identity in Python?",
+        "choices": [
+            "Python caches small integers for memory efficiency",
+            "Small integers are stored differently",
+            "It's a bug in Python",
+            "Small integers are immutable"
+        ],
+        "correctAnswer": "Python caches small integers for memory efficiency"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What happens to the reference count when you assign a = b in Python?",
+        "choices": [
+            "The reference count of the object that 'b' points to increases by 1",
+            "The reference count of 'a' increases by 1",
+            "Both objects' reference counts increase",
+            "Reference counts don't change"
+        ],
+        "correctAnswer": "The reference count of the object that 'b' points to increases by 1"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "Which of the following types are mutable in Python?",
+        "choices": [
+            "list, dict, set, bytearray",
+            "str, tuple, int, float",
+            "tuple, frozenset, bytes",
+            "All basic types are mutable"
+        ],
+        "correctAnswer": "list, dict, set, bytearray"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is interning in Python strings?",
+        "choices": [
+            "Caching identical strings to reuse the same object in memory",
+            "Converting strings to internal encoding",
+            "Storing strings in a special format",
+            "Compressing string data"
+        ],
+        "correctAnswer": "Caching identical strings to reuse the same object in memory"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is the difference between shallow copy and deep copy?",
+        "choices": [
+            "Shallow copy creates new object but references same nested objects, deep copy recursively copies all nested objects",
+            "Shallow copy is faster, deep copy is more memory efficient",
+            "They are the same for immutable objects",
+            "Shallow copy only works with lists"
+        ],
+        "correctAnswer": "Shallow copy creates new object but references same nested objects, deep copy recursively copies all nested objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is the purpose of weak references in Python?",
+        "choices": [
+            "To reference an object without increasing its reference count",
+            "To create faster references",
+            "To reference immutable objects only",
+            "To handle circular references automatically"
+        ],
+        "correctAnswer": "To reference an object without increasing its reference count"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "How does Python's garbage collector handle circular references?",
+        "choices": [
+            "Uses a cyclic garbage collector that detects and breaks reference cycles",
+            "Circular references are not collected automatically",
+            "Uses mark-and-sweep on all objects",
+            "Relies only on reference counting"
+        ],
+        "correctAnswer": "Uses a cyclic garbage collector that detects and breaks reference cycles"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is the difference between type() and isinstance()?",
+        "choices": [
+            "type() returns exact type, isinstance() considers inheritance hierarchy",
+            "isinstance() is deprecated",
+            "type() is faster than isinstance()",
+            "They are functionally identical"
+        ],
+        "correctAnswer": "type() returns exact type, isinstance() considers inheritance hierarchy"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What does sys.getrefcount() return?",
+        "choices": [
+            "The reference count of an object (plus 1 for the temporary reference)",
+            "The memory size of an object",
+            "The object's unique identifier",
+            "The object's type information"
+        ],
+        "correctAnswer": "The reference count of an object (plus 1 for the temporary reference)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "What is object interning and when does Python do it automatically?",
+        "choices": [
+            "Reusing objects for small integers, some strings, and True/False/None",
+            "Converting objects to binary format",
+            "Storing objects in external files",
+            "Compressing large objects"
+        ],
+        "correctAnswer": "Reusing objects for small integers, some strings, and True/False/None"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What happens when you modify a tuple element that contains a mutable object?",
+        "choices": [
+            "The mutable object itself can be modified, but the tuple structure remains the same",
+            "Python raises an error immediately",
+            "The entire tuple becomes mutable",
+            "A new tuple is created automatically"
+        ],
+        "correctAnswer": "The mutable object itself can be modified, but the tuple structure remains the same"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "What is the memory layout difference between lists and tuples?",
+        "choices": [
+            "Tuples store elements in a fixed-size array, lists use dynamic arrays with extra capacity",
+            "Lists are more memory efficient than tuples",
+            "They use identical memory layouts",
+            "Tuples use linked lists internally"
+        ],
+        "correctAnswer": "Tuples store elements in a fixed-size array, lists use dynamic arrays with extra capacity"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "How does Python optimize memory for boolean values?",
+        "choices": [
+            "There are only two boolean objects (True and False) reused everywhere",
+            "Booleans are stored as single bits",
+            "Each boolean creates a new object",
+            "Booleans are stored as strings internally"
+        ],
+        "correctAnswer": "There are only two boolean objects (True and False) reused everywhere"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "What is the purpose of __slots__ in terms of memory optimization?",
+        "choices": [
+            "Prevents the creation of __dict__ and reduces memory overhead per instance",
+            "Increases the speed of method calls",
+            "Enables multiple inheritance",
+            "Provides type safety"
+        ],
+        "correctAnswer": "Prevents the creation of __dict__ and reduces memory overhead per instance"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is the difference between id() and hash() functions?",
+        "choices": [
+            "id() returns object's memory address, hash() returns a value for dictionary/set usage",
+            "hash() returns memory address, id() returns hash value",
+            "They return the same value",
+            "id() is deprecated in favor of hash()"
+        ],
+        "correctAnswer": "id() returns object's memory address, hash() returns a value for dictionary/set usage"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "How does Python handle memory allocation for large numbers?",
+        "choices": [
+            "Uses arbitrary precision arithmetic with dynamic allocation",
+            "Limits numbers to 64-bit integers",
+            "Stores large numbers as strings",
+            "Uses external libraries for large numbers"
+        ],
+        "correctAnswer": "Uses arbitrary precision arithmetic with dynamic allocation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "What is the purpose of the gc module in Python?",
+        "choices": [
+            "Provides interface to the garbage collector for debugging and tuning",
+            "Handles graphics and colors",
+            "Manages global configuration",
+            "Provides garbage collection for C extensions only"
+        ],
+        "correctAnswer": "Provides interface to the garbage collector for debugging and tuning"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What happens to memory when a function with local variables completes?",
+        "choices": [
+            "Local variables' reference counts decrease, and objects may be garbage collected if no other references exist",
+            "All local variables remain in memory",
+            "Memory is immediately freed regardless of references",
+            "Local variables are moved to global scope"
+        ],
+        "correctAnswer": "Local variables' reference counts decrease, and objects may be garbage collected if no other references exist"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "How does Python's memory allocator work for small objects?",
+        "choices": [
+            "Uses pymalloc, a specialized allocator for objects smaller than 512 bytes",
+            "Uses the system malloc for all objects",
+            "Stores small objects on the stack",
+            "Uses a single large buffer for all objects"
+        ],
+        "correctAnswer": "Uses pymalloc, a specialized allocator for objects smaller than 512 bytes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What is the memory impact of creating many small objects vs. fewer large objects?",
+        "choices": [
+            "Many small objects have higher overhead due to object headers and memory fragmentation",
+            "Small objects are always more memory efficient",
+            "Large objects always use more memory",
+            "There is no significant difference"
+        ],
+        "correctAnswer": "Many small objects have higher overhead due to object headers and memory fragmentation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "How does list.append() manage memory when the list grows?",
+        "choices": [
+            "Allocates extra space beyond current needs to amortize future growth costs",
+            "Allocates exactly the memory needed",
+            "Doubles the memory allocation each time",
+            "Uses linked list nodes for growth"
+        ],
+        "correctAnswer": "Allocates extra space beyond current needs to amortize future growth costs"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the difference between 'del obj' and 'obj = None' in terms of memory management?",
+        "choices": [
+            "'del' removes the name binding, 'obj = None' changes the reference to None object",
+            "They have identical effects",
+            "'del' frees memory immediately, 'obj = None' doesn't",
+            "'obj = None' is faster than 'del'"
+        ],
+        "correctAnswer": "'del' removes the name binding, 'obj = None' changes the reference to None object"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "How does Python handle memory for string concatenation with '+' operator?",
+        "choices": [
+            "Creates new string objects each time, which can be inefficient for many concatenations",
+            "Modifies strings in place",
+            "Uses a special buffer for concatenation",
+            "Automatically optimizes all concatenations"
+        ],
+        "correctAnswer": "Creates new string objects each time, which can be inefficient for many concatenations"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is the most memory-efficient way to read a large file in Python?",
+        "choices": [
+            "Use iteration over the file object or read in chunks",
+            "Read the entire file into memory at once",
+            "Use readlines() to get all lines",
+            "Convert the file to a list first"
+        ],
+        "correctAnswer": "Use iteration over the file object or read in chunks"
+    }
+]
