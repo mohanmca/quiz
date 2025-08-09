@@ -90,6 +90,26 @@
             color: #333;
         }
         
+        /* Quiz title styling in questions */
+        .quiz-title-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Enhanced question title formatting */
+        .sv-string-viewer,
+        .sd-string-viewer {
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        
         .platform-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -790,7 +810,8 @@
                             <div class="mt-3">
                                 <small class="text-muted">
                                     <i class="bi bi-clock"></i> ${survey.estimatedTime}<br>
-                                    <i class="bi bi-folder"></i> ${survey.category}
+                                    <i class="bi bi-folder"></i> ${survey.category}<br>
+                                    <i class="fas fa-stopwatch"></i> ${Math.floor((survey.timePerQuestion || 60) / 60)}:${String((survey.timePerQuestion || 60) % 60).padStart(2, '0')} per question
                                 </small>
                             </div>
                         </div>
@@ -870,13 +891,16 @@
 
         // Create base survey configuration for the selected survey
         function createBaseSurveyConfig() {
+            const timePerQuestion = currentSurveyConfig.timePerQuestion || 60; // Default 1 minute per question
+            const maxTimeToFinish = currentSurveyConfig.maxTimeToFinish || 1800; // Default 30 minutes
+            
             return {
                 title: currentSurveyConfig.title,
                 description: currentSurveyConfig.description,
                 showProgressBar: "bottom",
                 showTimerPanel: "top",
-                maxTimeToFinish: 120, // Will be updated dynamically
-                maxTimeToFinishPage: 30,
+                maxTimeToFinish: maxTimeToFinish,
+                maxTimeToFinishPage: timePerQuestion,
                 firstPageIsStarted: true,
                 completedHtml: "<h4>You got <b>{correctAnswers}</b> out of <b>{questionCount}</b> correct answers.</h4>",
                 completedHtmlOnCondition: [
@@ -937,6 +961,15 @@
             
             // Add all questions to the survey config
             allQuestionPages.forEach((questionPage, index) => {
+                // Add quiz title to each question
+                const question = questionPage.elements[0];
+                const originalTitle = question.title;
+                const quizTitle = currentSurveyConfig.title;
+                const quizIcon = currentSurveyConfig.icon;
+                
+                // Prepend quiz info to question title
+                question.title = `${quizIcon} ${quizTitle} - Question ${index + 1}\n\n${originalTitle}`;
+                
                 surveyConfig.pages.push({
                     name: `question${index + 1}`,
                     elements: questionPage.elements
@@ -977,10 +1010,13 @@
                     console.log(`Removing ${pagesToRemove.length} excess pages`);
                     pagesToRemove.forEach(page => sender.removePage(page));
                     
-                    // Update timer based on question count
-                    sender.maxTimeToFinish = questionCount * 12; // 12 seconds per question
+                    // Update timer based on question count and survey configuration
+                    const timePerQuestion = currentSurveyConfig.timePerQuestion || 60;
+                    sender.maxTimeToFinish = questionCount * timePerQuestion;
+                    sender.maxTimeToFinishPage = timePerQuestion;
                     
                     console.log(`Survey filtered to ${questionCount} questions, ${sender.maxTimeToFinish} seconds total`);
+                    console.log(`Time per question: ${timePerQuestion} seconds`);
                     console.log(`Total pages now: ${sender.pages.length}`);
                 }
                 

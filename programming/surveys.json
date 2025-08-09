@@ -8,7 +8,9 @@
         "estimatedTime": "25-40 minutes",
         "questionsFile": "python/leetcode-medium-questions.json",
         "icon": "💻",
-        "color": "#f39c12"
+        "color": "#f39c12",
+        "timePerQuestion": 180,
+        "maxTimeToFinish": 3600
     },
     {
         "id": "python-internals",
@@ -19,7 +21,9 @@
         "estimatedTime": "15-30 minutes",
         "questionsFile": "python/questions.json",
         "icon": "🐍",
-        "color": "#3776ab"
+        "color": "#3776ab",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 1800
     },
     {
         "id": "python-data-structures",
@@ -30,7 +34,9 @@
         "estimatedTime": "20-35 minutes",
         "questionsFile": "python/data-structures-questions.json",
         "icon": "📊",
-        "color": "#ff6b35"
+        "color": "#ff6b35",
+        "timePerQuestion": 120,
+        "maxTimeToFinish": 2400
     },
     {
         "id": "python-dunder-methods",
@@ -41,7 +47,9 @@
         "estimatedTime": "15-25 minutes",
         "questionsFile": "python/dunder-methods-questions.json",
         "icon": "🪄",
-        "color": "#8e44ad"
+        "color": "#8e44ad",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 1500
     },
     {
         "id": "python-type-internals",
@@ -52,7 +60,9 @@
         "estimatedTime": "20-30 minutes",
         "questionsFile": "python/type-internals-questions.json",
         "icon": "🧠",
-        "color": "#e74c3c"
+        "color": "#e74c3c",
+        "timePerQuestion": 75,
+        "maxTimeToFinish": 1800
     },
     {
         "id": "jvm-internals",
@@ -63,7 +73,9 @@
         "estimatedTime": "15-30 minutes",
         "questionsFile": "jvm/questions.json",
         "icon": "☕",
-        "color": "#ed8b00"
+        "color": "#ed8b00",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 1800
     },
     {
         "id": "golang-internals",
@@ -74,6 +86,8 @@
         "estimatedTime": "15-30 minutes",
         "questionsFile": "golang/questions.json",
         "icon": "🔷",
-        "color": "#00add8"
+        "color": "#00add8",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 1800
     }
 ]
