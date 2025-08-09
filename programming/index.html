@@ -8,10 +8,22 @@
     <link href="https://unpkg.com/survey-core@1.11.5/defaultV2.min.css" rel="stylesheet">
     <!-- Bootstrap CSS for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Prism.js for enhanced code highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-vsc-dark-plus.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- SurveyJS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://unpkg.com/survey-core@1.11.5/survey.core.min.js"></script>
     <script src="https://unpkg.com/survey-jquery-ui@1.11.5/survey-jquery-ui.min.js"></script>
+    
+    <!-- Marked.js for markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+    <!-- Prism.js for enhanced code highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
     
     <!-- Custom CSS -->
     <style>
@@ -102,6 +114,161 @@
             background: #5a6268;
             transform: translateY(-2px);
         }
+        
+        /* Enhanced code formatting styles for source-code questions */
+        :root {
+            --code-bg: #1e1e1e;
+            --code-border: #333;
+            --primary-blue: #007bff;
+            --success-green: #28a745;
+            --warning-orange: #fd7e14;
+            --danger-red: #dc3545;
+        }
+
+        /* Source code question styling */
+        .source-code-question .code-choice {
+            background: var(--code-bg);
+            border: 2px solid var(--code-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .source-code-question .code-choice:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .source-code-question .code-choice::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--success-green));
+        }
+
+        .source-code-question .na-choice {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 2px dashed #ced4da;
+            border-radius: 12px;
+            text-align: center;
+            color: #6c757d;
+            font-style: italic;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .source-code-question .na-choice:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            border-color: var(--primary-blue);
+        }
+
+        /* Pattern badge styling */
+        .pattern-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Copy button styling */
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,123,255,0.8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .code-choice:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0,123,255,1);
+            transform: scale(1.05);
+        }
+
+        .copy-success {
+            background: var(--success-green) !important;
+        }
+
+        .copy-error {
+            background: var(--danger-red) !important;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 16px;
+            margin: 12px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d4d4d4;
+            white-space: pre-wrap;
+            scrollbar-width: thin;
+            scrollbar-color: #666 #333;
+        }
+
+        pre::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        pre::-webkit-scrollbar-track {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 4px;
+        }
+
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+        
+        code {
+            font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre;
+        }
+        
+        .language-python {
+            color: #d4d4d4;
+        }
+        
+        /* Enhanced Python syntax highlighting */
+        pre code .keyword { color: #569cd6; font-weight: bold; }
+        pre code .string { color: #ce9178; }
+        pre code .comment { color: #6a9955; font-style: italic; }
+        pre code .number { color: #b5cea8; }
+        pre code .function { color: #dcdcaa; }
+        pre code .operator { color: #d4d4d4; }
     </style>
 </head>
 <body class="bg-light">
@@ -141,6 +308,182 @@
         let allQuestions = [];
         let questionsLoaded = false;
 
+        // Configure marked.js for enhanced markdown processing
+        if (typeof marked !== 'undefined') {
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (typeof Prism !== 'undefined' && Prism.languages[lang]) {
+                        return Prism.highlight(code, Prism.languages[lang], lang);
+                    } else {
+                        return code;
+                    }
+                },
+                langPrefix: 'language-',
+                breaks: true,
+                gfm: true,
+                smartypants: true
+            });
+        }
+
+        // Enhanced function to render markdown choice with copy functionality
+        function renderMarkdownChoice(choiceText, index) {
+            if (choiceText.startsWith('```python') && choiceText.endsWith('```')) {
+                // This is a code block, render it with enhanced styling
+                const codeContent = choiceText.replace(/^```python\\n/, '').replace(/\\n```$/, '');
+                const unescapedCode = codeContent.replace(/\\n/g, '\n').replace(/\\t/g, '    ');
+                
+                let highlightedCode = unescapedCode;
+                if (typeof Prism !== 'undefined' && Prism.languages.python) {
+                    highlightedCode = Prism.highlight(unescapedCode, Prism.languages.python, 'python');
+                }
+                
+                return `
+                    <div class="code-choice" data-code="${encodeURIComponent(unescapedCode)}">
+                        <button class="copy-btn" onclick="copyCodeToClipboard(this)" title="Copy code">
+                            <i class="fas fa-copy"></i> Copy
+                        </button>
+                        <pre><code class="language-python">${highlightedCode}</code></pre>
+                    </div>
+                `;
+            } else if (choiceText.startsWith('NA')) {
+                // This is a NA choice, style it differently
+                return `<div class="na-choice">${choiceText} - Not the correct answer</div>`;
+            } else {
+                // Regular text, parse as markdown if available
+                if (typeof marked !== 'undefined') {
+                    return marked.parse(choiceText);
+                } else {
+                    return choiceText;
+                }
+            }
+        }
+
+        // Function to copy code to clipboard
+        function copyCodeToClipboard(button) {
+            const codeChoice = button.closest('.code-choice');
+            const encodedCode = codeChoice.getAttribute('data-code');
+            const code = decodeURIComponent(encodedCode);
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(code).then(() => {
+                    // Success feedback
+                    showCopyFeedback(button, true);
+                }).catch(err => {
+                    // Error feedback
+                    console.error('Failed to copy code: ', err);
+                    showCopyFeedback(button, false);
+                });
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopyFeedback(button, true);
+                } catch (err) {
+                    console.error('Failed to copy code: ', err);
+                    showCopyFeedback(button, false);
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // Function to show copy feedback
+        function showCopyFeedback(button, success) {
+            const originalText = button.innerHTML;
+            if (success) {
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                button.classList.add('copy-success');
+            } else {
+                button.innerHTML = '<i class="fas fa-times"></i> Error';
+                button.classList.add('copy-error');
+            }
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copy-success', 'copy-error');
+            }, 2000);
+        }
+
+        // Enhanced function to process questions without pre-converting to HTML
+        function processQuestionsForSurvey(questions) {
+            return questions.map(question => {
+                // Keep original choices for SurveyJS, we'll process them after rendering
+                // Just unescape basic characters for display
+                if (question.title) {
+                    question.title = question.title.replace(/\\n/g, '\n');
+                }
+                
+                // Process choices to unescape newlines but keep as text for SurveyJS
+                if (question.choices) {
+                    question.choices = question.choices.map(choice => {
+                        if (typeof choice === 'string') {
+                            return choice.replace(/\\n/g, '\n').replace(/\\t/g, '    ');
+                        }
+                        return choice;
+                    });
+                }
+                
+                // Process correct answer
+                if (question.correctAnswer) {
+                    question.correctAnswer = question.correctAnswer.replace(/\\n/g, '\n').replace(/\\t/g, '    ');
+                }
+                
+                return question;
+            });
+        }
+
+        // Function to enhance code display after SurveyJS renders
+        function enhanceCodeDisplay() {
+            // Find all choice labels that contain code blocks
+            const choiceLabels = document.querySelectorAll('.sv-selectbase__label, .sd-selectbase__label');
+            
+            choiceLabels.forEach(label => {
+                const textContent = label.textContent || label.innerText;
+                
+                if (textContent.includes('```python') && textContent.includes('```')) {
+                    // Extract code content
+                    const codeMatch = textContent.match(/```python\n([\s\S]*?)\n```/);
+                    if (codeMatch) {
+                        const codeContent = codeMatch[1];
+                        
+                        // Create enhanced HTML structure
+                        const codeHTML = `
+                            <div class="code-choice" data-code="${encodeURIComponent(codeContent)}">
+                                <button class="copy-btn" onclick="copyCodeToClipboard(this)" title="Copy code">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <pre><code class="language-python">${highlightPythonCode(codeContent)}</code></pre>
+                            </div>
+                        `;
+                        
+                        // Replace the label content
+                        label.innerHTML = codeHTML;
+                        label.style.padding = '0';
+                        label.style.background = 'none';
+                        label.style.border = 'none';
+                    }
+                } else if (textContent.startsWith('NA')) {
+                    // Style NA choices
+                    label.innerHTML = `<div class="na-choice">${textContent} - Not the correct answer</div>`;
+                    label.style.padding = '0';
+                    label.style.background = 'none';
+                    label.style.border = 'none';
+                }
+            });
+        }
+
+        // Simple Python syntax highlighter
+        function highlightPythonCode(code) {
+            return code
+                .replace(/\b(def|class|if|elif|else|for|while|try|except|finally|with|import|from|return|yield|break|continue|pass|lambda|and|or|not|in|is|True|False|None)\b/g, '<span style="color: #569cd6; font-weight: bold;">$1</span>')
+                .replace(/(#.*$)/gm, '<span style="color: #6a9955; font-style: italic;">$1</span>')
+                .replace(/(['"])((?:\\.|(?!\1)[^\\])*?)\1/g, '<span style="color: #ce9178;">$1$2$1</span>')
+                .replace(/\b(\d+)\b/g, '<span style="color: #b5cea8;">$1</span>');
+        }
+
         // Load available surveys from surveys.json
         async function loadAvailableSurveys() {
             try {
@@ -178,8 +521,16 @@
                 const questions = await response.json();
                 console.log(`Loaded ${questions.length} questions for ${surveyConfig.title}`);
                 
+                // Check if this is a source-code quiz and process accordingly
+                let processedQuestions = questions;
+                if (surveyConfig.id === 'leetcode-medium-python' || 
+                    questions.some(q => q.questionType === 'source-code')) {
+                    console.log('Processing questions for source-code survey...');
+                    processedQuestions = processQuestionsForSurvey(questions);
+                }
+                
                 // Convert questions to page format
-                allQuestions = questions.map(question => ({
+                allQuestions = processedQuestions.map(question => ({
                     elements: [question]
                 }));
                 
@@ -414,12 +765,37 @@
                     console.log(`Survey filtered to ${questionCount} questions, ${sender.maxTimeToFinish} seconds total`);
                     console.log(`Total pages now: ${sender.pages.length}`);
                 }
+                
+                // Enhanced code display on any page change
+                console.log(`Page changed to: ${sender.currentPage.name}`);
+                setTimeout(() => {
+                    enhanceCodeDisplay();
+                }, 300);
             });
             
-            // Handle page changes for delayed choice display
+            // Handle page changes for delayed choice display and source-code detection
             survey.onAfterRenderPage.add(function(sender, options) {
                 if (options.page.name !== "startPage") {
                     console.log(`Rendering page: ${options.page.name}`);
+                    
+                    // Check if this is a source-code question
+                    const question = options.page.elements[0];
+                    if (question && question.questionType === 'source-code') {
+                        // Add source-code class to the page
+                        setTimeout(() => {
+                            const pageElement = document.querySelector(`[data-name="${question.name}"]`);
+                            if (pageElement) {
+                                pageElement.classList.add('source-code-question');
+                                console.log(`Added source-code styling to question: ${question.name}`);
+                                
+                                // Enhance code display after a short delay
+                                setTimeout(() => {
+                                    enhanceCodeDisplay();
+                                }, 200);
+                            }
+                        }, 100);
+                    }
+                    
                     setupDelayedChoices(options.page);
                 }
             });
@@ -433,6 +809,18 @@
             $("#surveyContainer").Survey({
                 model: survey
             });
+            
+            // Fix code formatting by converting escaped newlines to actual newlines
+            setTimeout(() => {
+                const codeElements = document.querySelectorAll('pre code');
+                codeElements.forEach(code => {
+                    if (code.innerHTML.includes('\\n')) {
+                        code.innerHTML = code.innerHTML
+                            .replace(/\\n/g, '\n')
+                            .replace(/\\t/g, '    '); // Convert tabs to 4 spaces
+                    }
+                });
+            }, 500);
         }
         
         // Function to setup delayed choice display
@@ -536,9 +924,18 @@
             // Create enhancement container
             const enhancementContainer = document.createElement('div');
             enhancementContainer.className = 'question-enhancement';
+            
+            // Check if this is a source-code question for enhanced messaging
+            const currentQuestionElement = document.querySelector(`[data-name="${question.name}"]`);
+            const isSourceCode = currentQuestionElement && currentQuestionElement.classList.contains('source-code-question');
+            
+            const enhancementMessage = isSourceCode 
+                ? '<strong><i class="fas fa-brain"></i> Think First:</strong> Consider the algorithmic pattern and try to code the solution before looking at the choices!'
+                : '<strong>💭 Think First:</strong> Consider your answer before looking at the choices!';
+            
             enhancementContainer.innerHTML = `
                 <div class="alert alert-info" style="margin: 15px 0; padding: 10px; background-color: #e3f2fd; border: 1px solid #bbdefb; border-radius: 4px;">
-                    <strong>💭 Think First:</strong> Consider your answer before looking at the choices!
+                    ${enhancementMessage}
                 </div>
             `;
             
@@ -701,6 +1098,9 @@
             await loadAvailableSurveys();
             displaySurveyCards();
         });
+
+        // Make copyCodeToClipboard globally available
+        window.copyCodeToClipboard = copyCodeToClipboard;
     </script>
 </body>
 </html>
