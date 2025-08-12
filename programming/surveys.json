@@ -19,7 +19,7 @@
         "category": "Programming Languages",
         "difficulty": "Advanced",
         "estimatedTime": "15-30 minutes",
-        "questionsFile": "python/questions.json",
+        "questionsFile": "python/python-internals-questions.json",
         "icon": "🐍",
         "color": "#3776ab",
         "timePerQuestion": 90,
@@ -102,5 +102,18 @@
         "color": "#9b59b6",
         "timePerQuestion": 150,
         "maxTimeToFinish": 3000
+    },
+    {
+        "id": "aws-k8s-secrets",
+        "title": "AWS EKS & Kubernetes Secrets Management",
+        "description": "Master AWS EKS secrets management including External Secrets Operator, IRSA, Secret Store CSI Driver, and security best practices",
+        "category": "Cloud Infrastructure",
+        "difficulty": "Advanced",
+        "estimatedTime": "35-50 minutes",
+        "questionsFile": "aws/k8s-secrets-questions.json",
+        "icon": "🔐",
+        "color": "#ff9900",
+        "timePerQuestion": 120,
+        "maxTimeToFinish": 4200
     }
 ]
