@@ -1035,7 +1035,7 @@
             
             // Handle start page completion and question addition
             survey.onValueChanged.add(function(sender, options) {
-                if (options.name === "questionCount" && sender.currentPage.name === "startPage") {
+                if (options.name === "questionCount" && sender.currentPage && sender.currentPage.name === "startPage") {
                     const questionCount = options.value;
                     console.log(`Question count selected: ${questionCount}`);
                 }
