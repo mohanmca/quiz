@@ -789,6 +789,17 @@
                     questions.some(q => q.questionType === 'source-code')) {
                     console.log('Processing questions for source-code survey...');
                     processedQuestions = processQuestionsForSurvey(questions);
+                } else {
+                    // Convert standard quiz questions to SurveyJS format
+                    console.log('Converting standard quiz questions to SurveyJS format...');
+                    processedQuestions = questions.map((q, index) => ({
+                        type: "radiogroup",
+                        name: `question${q.id || index + 1}`,
+                        title: q.question || q.title,
+                        choices: q.options || q.choices,
+                        correctAnswer: q.correctAnswer,
+                        explanation: q.explanation
+                    }));
                 }
                 
                 // Convert questions to page format
