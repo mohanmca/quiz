@@ -1,0 +1,722 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What are the two main components required for S3 cross-account access?",
+        "choices": [
+            "Bucket policy and IAM policy",
+            "Access Control Lists (ACLs) and Resource-based policies",
+            "IAM roles and Security Groups",
+            "VPC endpoints and NAT Gateways"
+        ],
+        "correctAnswer": "Bucket policy and IAM policy"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "Which AWS service evaluation logic determines the final access decision?",
+        "choices": [
+            "Union of all applicable policies (allow if any policy allows)",
+            "Intersection of all policies (allow only if all policies allow)",
+            "The most restrictive policy takes precedence",
+            "The first policy found takes precedence"
+        ],
+        "correctAnswer": "Union of all applicable policies (allow if any policy allows)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the purpose of the 'Principal' element in an S3 bucket policy?",
+        "choices": [
+            "To specify which AWS accounts, users, or roles can access the bucket",
+            "To define the actions that can be performed",
+            "To specify the resources being accessed",
+            "To set conditions for access"
+        ],
+        "correctAnswer": "To specify which AWS accounts, users, or roles can access the bucket"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "Which S3 action is required for listing objects in a bucket?",
+        "choices": [
+            "s3:ListBucket",
+            "s3:GetObject",
+            "s3:ListObjects",
+            "s3:GetBucketLocation"
+        ],
+        "correctAnswer": "s3:ListBucket"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is the difference between s3:ListBucket and s3:GetObject permissions?",
+        "choices": [
+            "ListBucket shows what objects exist, GetObject reads object content",
+            "They provide the same functionality",
+            "ListBucket is for folders, GetObject is for files",
+            "ListBucket requires admin access, GetObject doesn't"
+        ],
+        "correctAnswer": "ListBucket shows what objects exist, GetObject reads object content"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "In S3 cross-account access, what does the condition 's3:ExistingObjectTag' check?",
+        "choices": [
+            "Whether an object has specific tags before allowing access",
+            "Whether the bucket exists",
+            "Whether the user has existing permissions",
+            "Whether the object was previously accessed"
+        ],
+        "correctAnswer": "Whether an object has specific tags before allowing access"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is the maximum size of an S3 bucket policy document?",
+        "choices": [
+            "20 KB",
+            "10 KB",
+            "50 KB",
+            "100 KB"
+        ],
+        "correctAnswer": "20 KB"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "Which IAM policy element is used to grant temporary cross-account access?",
+        "choices": [
+            "sts:AssumeRole",
+            "iam:PassRole",
+            "sts:GetSessionToken",
+            "iam:CreateRole"
+        ],
+        "correctAnswer": "sts:AssumeRole"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is required in the trust policy of a cross-account IAM role?",
+        "choices": [
+            "The AWS account ID or ARN that can assume the role",
+            "The S3 bucket name",
+            "The VPC ID where the role will be used",
+            "The region where the role will be active"
+        ],
+        "correctAnswer": "The AWS account ID or ARN that can assume the role"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "For SQS cross-account access, which policy type is attached to the queue?",
+        "choices": [
+            "Resource-based policy (Queue policy)",
+            "Identity-based policy",
+            "Session policy",
+            "Permissions boundary"
+        ],
+        "correctAnswer": "Resource-based policy (Queue policy)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "Which SQS action allows sending messages to a queue from another account?",
+        "choices": [
+            "sqs:SendMessage",
+            "sqs:PutMessage",
+            "sqs:WriteMessage",
+            "sqs:AddMessage"
+        ],
+        "correctAnswer": "sqs:SendMessage"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What SQS action is required for receiving messages from a cross-account queue?",
+        "choices": [
+            "sqs:ReceiveMessage",
+            "sqs:GetMessage",
+            "sqs:ReadMessage",
+            "sqs:PullMessage"
+        ],
+        "correctAnswer": "sqs:ReceiveMessage"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "Which condition key can restrict SQS access based on the source IP address?",
+        "choices": [
+            "aws:SourceIp",
+            "sqs:SourceIp",
+            "aws:RequestedRegion",
+            "sqs:ClientIP"
+        ],
+        "correctAnswer": "aws:SourceIp"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the purpose of 'sqs:DeleteMessage' permission?",
+        "choices": [
+            "To remove messages from the queue after processing",
+            "To delete the entire queue",
+            "To clear all messages from the queue",
+            "To mark messages as read"
+        ],
+        "correctAnswer": "To remove messages from the queue after processing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "In AWS policy language, what does the 'StringEquals' condition operator do?",
+        "choices": [
+            "Performs exact string matching (case-sensitive)",
+            "Performs case-insensitive string matching",
+            "Checks if a string contains a substring",
+            "Performs pattern matching with wildcards"
+        ],
+        "correctAnswer": "Performs exact string matching (case-sensitive)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is the purpose of the 'aws:userid' condition key?",
+        "choices": [
+            "To match against the unique identifier of the AWS principal",
+            "To check the user's display name",
+            "To verify the user's email address",
+            "To validate the user's login time"
+        ],
+        "correctAnswer": "To match against the unique identifier of the AWS principal"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "Which S3 condition key restricts access based on the encryption method used?",
+        "choices": [
+            "s3:x-amz-server-side-encryption",
+            "s3:EncryptionType",
+            "s3:SecureTransport",
+            "s3:SSLRequired"
+        ],
+        "correctAnswer": "s3:x-amz-server-side-encryption"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "What does the 'aws:SecureTransport' condition key enforce?",
+        "choices": [
+            "That requests must use HTTPS/SSL",
+            "That data must be encrypted at rest",
+            "That MFA is required",
+            "That requests come from a VPC"
+        ],
+        "correctAnswer": "That requests must use HTTPS/SSL"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "In S3 bucket policies, what does the 'Resource' element specify?",
+        "choices": [
+            "The S3 bucket and object ARNs that the policy applies to",
+            "The AWS account that owns the resources",
+            "The region where the resources are located",
+            "The encryption keys used for the resources"
+        ],
+        "correctAnswer": "The S3 bucket and object ARNs that the policy applies to"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What is the correct ARN format for an S3 object?",
+        "choices": [
+            "arn:aws:s3:::bucket-name/object-key",
+            "arn:aws:s3::bucket-name:object-key",
+            "arn:aws:s3:region:account:bucket/object",
+            "arn:aws:s3:::bucket-name:object-key"
+        ],
+        "correctAnswer": "arn:aws:s3:::bucket-name/object-key"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "Which SQS condition key can limit access to specific queue attributes?",
+        "choices": [
+            "sqs:QueueArn",
+            "sqs:AttributeName",
+            "sqs:QueueName",
+            "sqs:MessageAttribute"
+        ],
+        "correctAnswer": "sqs:QueueArn"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What is the effect of setting 'Effect': 'Deny' in a policy statement?",
+        "choices": [
+            "Explicitly denies access regardless of other allow statements",
+            "Allows access only if other conditions are met",
+            "Has no effect on the final access decision",
+            "Only applies to the current AWS account"
+        ],
+        "correctAnswer": "Explicitly denies access regardless of other allow statements"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "Which AWS service helps analyze effective permissions across accounts?",
+        "choices": [
+            "AWS IAM Access Analyzer",
+            "AWS Config",
+            "AWS CloudTrail",
+            "AWS Security Hub"
+        ],
+        "correctAnswer": "AWS IAM Access Analyzer"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What is the purpose of External ID in cross-account role assumption?",
+        "choices": [
+            "To prevent the confused deputy problem by adding an additional authentication factor",
+            "To identify the external AWS account",
+            "To specify the role session name",
+            "To set the maximum session duration"
+        ],
+        "correctAnswer": "To prevent the confused deputy problem by adding an additional authentication factor"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "In S3, what permission is needed to get the bucket's location?",
+        "choices": [
+            "s3:GetBucketLocation",
+            "s3:ListBucket",
+            "s3:GetBucketRegion",
+            "s3:DescribeBucket"
+        ],
+        "correctAnswer": "s3:GetBucketLocation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "Which condition operator allows checking if a value exists in a list?",
+        "choices": [
+            "ForAnyValue:StringEquals",
+            "StringLike",
+            "StringEquals",
+            "ArrayContains"
+        ],
+        "correctAnswer": "ForAnyValue:StringEquals"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "What does the 'aws:RequestedRegion' condition key restrict?",
+        "choices": [
+            "The AWS region where the API call is made",
+            "The region where the user is located",
+            "The region where resources must be created",
+            "The home region of the AWS account"
+        ],
+        "correctAnswer": "The AWS region where the API call is made"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "For SQS dead letter queues, which permission allows configuring the redrive policy?",
+        "choices": [
+            "sqs:SetQueueAttributes",
+            "sqs:ConfigureRedrive",
+            "sqs:SetDeadLetterQueue",
+            "sqs:ManageQueue"
+        ],
+        "correctAnswer": "sqs:SetQueueAttributes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "What is the maximum number of access control list (ACL) grants for an S3 object?",
+        "choices": [
+            "100",
+            "50",
+            "200",
+            "No limit"
+        ],
+        "correctAnswer": "100"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "Which S3 condition key restricts uploads based on object metadata?",
+        "choices": [
+            "s3:x-amz-metadata-directive",
+            "s3:ObjectMetadata",
+            "s3:MetadataKey",
+            "s3:x-amz-meta-*"
+        ],
+        "correctAnswer": "s3:x-amz-meta-*"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What happens when both an explicit Allow and Deny exist for the same action?",
+        "choices": [
+            "Deny always takes precedence",
+            "Allow takes precedence",
+            "The most recent policy wins",
+            "Access is granted based on the account owner"
+        ],
+        "correctAnswer": "Deny always takes precedence"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "Which SQS permission is required to get queue attributes like message count?",
+        "choices": [
+            "sqs:GetQueueAttributes",
+            "sqs:DescribeQueue",
+            "sqs:ListQueueStats",
+            "sqs:ViewQueueMetrics"
+        ],
+        "correctAnswer": "sqs:GetQueueAttributes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "What is the purpose of the 'aws:MultiFactorAuthPresent' condition?",
+        "choices": [
+            "To require multi-factor authentication for access",
+            "To check if the user has multiple AWS accounts",
+            "To verify multiple authentication methods",
+            "To ensure the request comes from multiple sources"
+        ],
+        "correctAnswer": "To require multi-factor authentication for access"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "Which S3 action allows uploading objects using multipart upload?",
+        "choices": [
+            "s3:PutObject",
+            "s3:MultipartUpload",
+            "s3:UploadPart",
+            "s3:CreateMultipartUpload"
+        ],
+        "correctAnswer": "s3:PutObject"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "What is the correct way to specify all objects in an S3 bucket in a policy?",
+        "choices": [
+            "arn:aws:s3:::bucket-name/*",
+            "arn:aws:s3:::bucket-name/**",
+            "arn:aws:s3:::bucket-name/all",
+            "arn:aws:s3:::bucket-name"
+        ],
+        "correctAnswer": "arn:aws:s3:::bucket-name/*"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "Which condition key restricts SQS access based on message attributes?",
+        "choices": [
+            "sqs:MessageAttribute",
+            "sqs:MessageProperty",
+            "sqs:AttributeValue",
+            "sqs:MessageTag"
+        ],
+        "correctAnswer": "sqs:MessageAttribute"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "What is the difference between resource-based and identity-based policies?",
+        "choices": [
+            "Resource-based policies are attached to resources, identity-based to users/roles",
+            "They are the same type of policy",
+            "Resource-based policies are more restrictive",
+            "Identity-based policies only work within the same account"
+        ],
+        "correctAnswer": "Resource-based policies are attached to resources, identity-based to users/roles"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "Which AWS service provides real-time monitoring of API calls for security analysis?",
+        "choices": [
+            "AWS CloudTrail",
+            "AWS Config",
+            "AWS GuardDuty",
+            "AWS Security Hub"
+        ],
+        "correctAnswer": "AWS CloudTrail"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "What is the purpose of the 'aws:TokenIssueTime' condition key?",
+        "choices": [
+            "To restrict access based on when temporary credentials were issued",
+            "To check the current time",
+            "To validate token expiration",
+            "To set session duration"
+        ],
+        "correctAnswer": "To restrict access based on when temporary credentials were issued"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "For S3 cross-account replication, which permission is required on the source bucket?",
+        "choices": [
+            "s3:GetObjectVersionForReplication",
+            "s3:ReplicateObject",
+            "s3:CopyObject",
+            "s3:SyncBucket"
+        ],
+        "correctAnswer": "s3:GetObjectVersionForReplication"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q41",
+        "title": "Which SQS condition can restrict access based on the queue URL?",
+        "choices": [
+            "sqs:QueueArn",
+            "sqs:QueueUrl",
+            "sqs:QueuePath",
+            "sqs:QueueEndpoint"
+        ],
+        "correctAnswer": "sqs:QueueArn"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q42",
+        "title": "What is the maximum duration for temporary credentials obtained via AssumeRole?",
+        "choices": [
+            "12 hours",
+            "1 hour",
+            "24 hours",
+            "8 hours"
+        ],
+        "correctAnswer": "12 hours"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q43",
+        "title": "Which S3 condition key restricts access based on the object's storage class?",
+        "choices": [
+            "s3:x-amz-storage-class",
+            "s3:StorageClass",
+            "s3:ObjectClass",
+            "s3:TierType"
+        ],
+        "correctAnswer": "s3:x-amz-storage-class"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q44",
+        "title": "What does the 'NotPrincipal' element do in a policy statement?",
+        "choices": [
+            "Specifies principals that are explicitly excluded from the policy",
+            "Defines secondary principals",
+            "Indicates anonymous access",
+            "Sets up principal delegation"
+        ],
+        "correctAnswer": "Specifies principals that are explicitly excluded from the policy"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q45",
+        "title": "For SQS FIFO queues, which additional permission might be needed for message deduplication?",
+        "choices": [
+            "sqs:SendMessage (same as standard queues)",
+            "sqs:SendFifoMessage",
+            "sqs:DeduplicateMessage",
+            "sqs:OrderMessage"
+        ],
+        "correctAnswer": "sqs:SendMessage (same as standard queues)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q46",
+        "title": "What is the purpose of the 'DateGreaterThan' condition operator?",
+        "choices": [
+            "To restrict access based on date/time comparisons",
+            "To validate data formats",
+            "To check object creation dates",
+            "To compare version numbers"
+        ],
+        "correctAnswer": "To restrict access based on date/time comparisons"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q47",
+        "title": "Which AWS CLI command can simulate policy evaluation?",
+        "choices": [
+            "aws iam simulate-principal-policy",
+            "aws iam test-policy",
+            "aws iam validate-policy",
+            "aws iam check-permissions"
+        ],
+        "correctAnswer": "aws iam simulate-principal-policy"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q48",
+        "title": "What is the effect of using wildcard (*) in the Principal element?",
+        "choices": [
+            "Allows access from any AWS account or user",
+            "Allows access only from the current account",
+            "Creates an error in the policy",
+            "Allows access from any IP address"
+        ],
+        "correctAnswer": "Allows access from any AWS account or user"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q49",
+        "title": "For S3 server access logging, which permission is required on the target bucket?",
+        "choices": [
+            "s3:PutObject for the S3 log delivery group",
+            "s3:LogDelivery",
+            "s3:WriteAccessLog",
+            "s3:PutBucketLogging"
+        ],
+        "correctAnswer": "s3:PutObject for the S3 log delivery group"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q50",
+        "title": "Which condition key restricts access based on the time of day?",
+        "choices": [
+            "aws:CurrentTime",
+            "aws:TimeOfDay",
+            "aws:RequestTime",
+            "aws:AccessTime"
+        ],
+        "correctAnswer": "aws:CurrentTime"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q51",
+        "title": "What is required for cross-account S3 bucket replication setup?",
+        "choices": [
+            "IAM role with replication permissions and trust relationship with S3",
+            "VPC peering between accounts",
+            "Shared KMS keys only",
+            "Direct network connection between accounts"
+        ],
+        "correctAnswer": "IAM role with replication permissions and trust relationship with S3"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q52",
+        "title": "Which SQS action allows purging all messages from a queue?",
+        "choices": [
+            "sqs:PurgeQueue",
+            "sqs:ClearQueue",
+            "sqs:DeleteAllMessages",
+            "sqs:EmptyQueue"
+        ],
+        "correctAnswer": "sqs:PurgeQueue"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q53",
+        "title": "What is the purpose of the 'aws:SourceAccount' condition key?",
+        "choices": [
+            "To restrict access to requests from specific AWS accounts",
+            "To identify the account making the request",
+            "To validate account ownership",
+            "To enable cross-account billing"
+        ],
+        "correctAnswer": "To restrict access to requests from specific AWS accounts"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q54",
+        "title": "For S3 cross-region replication, which condition must be met?",
+        "choices": [
+            "Source bucket must have versioning enabled",
+            "Both buckets must be in the same region",
+            "Objects must be encrypted",
+            "Both buckets must have public access"
+        ],
+        "correctAnswer": "Source bucket must have versioning enabled"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q55",
+        "title": "Which policy variable contains the AWS account ID of the principal making the request?",
+        "choices": [
+            "${aws:PrincipalAccount}",
+            "${aws:AccountId}",
+            "${aws:SourceAccount}",
+            "${aws:RequestAccount}"
+        ],
+        "correctAnswer": "${aws:PrincipalAccount}"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q56",
+        "title": "What is the maximum number of inline policies that can be attached to an IAM role?",
+        "choices": [
+            "10",
+            "5",
+            "20",
+            "No limit"
+        ],
+        "correctAnswer": "10"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q57",
+        "title": "For SQS message encryption, which condition key enforces encryption in transit?",
+        "choices": [
+            "aws:SecureTransport",
+            "sqs:Encrypted",
+            "sqs:SSLRequired",
+            "aws:EncryptionRequired"
+        ],
+        "correctAnswer": "aws:SecureTransport"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q58",
+        "title": "What happens when a policy has no explicit Allow or Deny statement?",
+        "choices": [
+            "Access is denied by default",
+            "Access is allowed by default",
+            "The policy is invalid",
+            "Access depends on account settings"
+        ],
+        "correctAnswer": "Access is denied by default"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q59",
+        "title": "Which S3 permission allows setting object ACLs during upload?",
+        "choices": [
+            "s3:PutObjectAcl",
+            "s3:SetObjectPermissions",
+            "s3:WriteObjectAcl",
+            "s3:ManageObjectAccess"
+        ],
+        "correctAnswer": "s3:PutObjectAcl"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q60",
+        "title": "For cross-account SQS access with KMS encryption, what additional permission is needed?",
+        "choices": [
+            "kms:Decrypt and kms:GenerateDataKey on the KMS key",
+            "sqs:DecryptMessage",
+            "kms:FullAccess",
+            "sqs:ManageEncryption"
+        ],
+        "correctAnswer": "kms:Decrypt and kms:GenerateDataKey on the KMS key"
+    }
+]

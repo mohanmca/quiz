@@ -128,5 +128,44 @@
         "color": "#f7931a",
         "timePerQuestion": 120,
         "maxTimeToFinish": 6000
+    },
+    {
+        "id": "airflow-programming",
+        "title": "Apache Airflow Programming & Concepts",
+        "description": "Master Apache Airflow workflow orchestration including DAGs, operators, executors, scheduling, task management, and production best practices",
+        "category": "Data Engineering",
+        "difficulty": "Intermediate",
+        "estimatedTime": "35-50 minutes",
+        "questionsFile": "python/airflow-questions.json",
+        "icon": "🌊",
+        "color": "#017cee",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 4500
+    },
+    {
+        "id": "aws-policy-permissions",
+        "title": "AWS IAM Policies & Cross-Account Permissions",
+        "description": "Master AWS IAM policies, S3 cross-account access, SQS cross-account operations, permission evaluation, and security best practices",
+        "category": "Cloud Security",
+        "difficulty": "Advanced",
+        "estimatedTime": "45-65 minutes",
+        "questionsFile": "aws/aws-policy-permissions-questions.json",
+        "icon": "🔐",
+        "color": "#ff9900",
+        "timePerQuestion": 100,
+        "maxTimeToFinish": 6000
+    },
+    {
+        "id": "terraform-terragrunt",
+        "title": "Terraform HCL & Terragrunt Principles",
+        "description": "Master Terraform HCL syntax, infrastructure as code principles, Terragrunt best practices, state management, and production deployment strategies",
+        "category": "Infrastructure as Code",
+        "difficulty": "Intermediate",
+        "estimatedTime": "40-60 minutes",
+        "questionsFile": "infrastructure/terraform-terragrunt-questions.json",
+        "icon": "🏗️",
+        "color": "#623ce4",
+        "timePerQuestion": 95,
+        "maxTimeToFinish": 4750
     }
 ]

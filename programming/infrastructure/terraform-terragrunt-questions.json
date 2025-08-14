@@ -1,0 +1,602 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the primary purpose of Terraform's HCL (HashiCorp Configuration Language)?",
+        "choices": [
+            "To provide a declarative configuration language for infrastructure as code",
+            "To write imperative scripts for cloud deployment",
+            "To manage application code deployment",
+            "To configure monitoring and alerting"
+        ],
+        "correctAnswer": "To provide a declarative configuration language for infrastructure as code"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "What is the purpose of the terraform.tfstate file?",
+        "choices": [
+            "To track the current state of infrastructure and map resources to configuration",
+            "To store Terraform configuration backups",
+            "To log all Terraform operations",
+            "To cache provider plugins"
+        ],
+        "correctAnswer": "To track the current state of infrastructure and map resources to configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the difference between 'terraform plan' and 'terraform apply'?",
+        "choices": [
+            "Plan shows what changes will be made, apply executes the changes",
+            "Plan validates syntax, apply runs the configuration",
+            "Plan is for dry runs, apply is for production",
+            "There is no functional difference"
+        ],
+        "correctAnswer": "Plan shows what changes will be made, apply executes the changes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What is the purpose of Terraform providers?",
+        "choices": [
+            "To interface with APIs of cloud platforms and services",
+            "To provide authentication credentials",
+            "To store configuration templates",
+            "To manage Terraform state files"
+        ],
+        "correctAnswer": "To interface with APIs of cloud platforms and services"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is a Terraform resource block used for?",
+        "choices": [
+            "To define and configure infrastructure components",
+            "To import existing infrastructure",
+            "To set global variables",
+            "To configure provider settings"
+        ],
+        "correctAnswer": "To define and configure infrastructure components"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is the purpose of Terraform data sources?",
+        "choices": [
+            "To fetch information about existing infrastructure not managed by Terraform",
+            "To create new infrastructure resources",
+            "To store configuration data",
+            "To manage state file backups"
+        ],
+        "correctAnswer": "To fetch information about existing infrastructure not managed by Terraform"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is Terragrunt primarily designed to solve?",
+        "choices": [
+            "DRY (Don't Repeat Yourself) principle violations and remote state management in Terraform",
+            "Terraform syntax validation",
+            "Cloud provider authentication",
+            "Infrastructure monitoring"
+        ],
+        "correctAnswer": "DRY (Don't Repeat Yourself) principle violations and remote state management in Terraform"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the purpose of variables in Terraform?",
+        "choices": [
+            "To parameterize configurations and make them reusable",
+            "To store state information",
+            "To define resource dependencies",
+            "To configure provider authentication"
+        ],
+        "correctAnswer": "To parameterize configurations and make them reusable"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is the difference between local values and variables in Terraform?",
+        "choices": [
+            "Local values are computed within the module, variables are inputs from outside",
+            "Local values are global, variables are module-scoped",
+            "Local values are mutable, variables are immutable",
+            "There is no difference"
+        ],
+        "correctAnswer": "Local values are computed within the module, variables are inputs from outside"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is the purpose of Terraform outputs?",
+        "choices": [
+            "To expose values from a module for use by other modules or the root configuration",
+            "To log execution results",
+            "To validate resource creation",
+            "To store state file metadata"
+        ],
+        "correctAnswer": "To expose values from a module for use by other modules or the root configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "What is the recommended approach for managing Terraform state in production?",
+        "choices": [
+            "Use remote state backends with state locking and encryption",
+            "Store state files in version control",
+            "Keep state files locally on each developer's machine",
+            "Use shared network drives"
+        ],
+        "correctAnswer": "Use remote state backends with state locking and encryption"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What is the purpose of the 'depends_on' meta-argument in Terraform?",
+        "choices": [
+            "To explicitly define dependencies between resources",
+            "To set resource creation order",
+            "To configure conditional resource creation",
+            "To define variable dependencies"
+        ],
+        "correctAnswer": "To explicitly define dependencies between resources"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "What is a Terraform module?",
+        "choices": [
+            "A reusable collection of Terraform configurations that can be called multiple times",
+            "A plugin for extending Terraform functionality",
+            "A state file backup mechanism",
+            "A provider configuration template"
+        ],
+        "correctAnswer": "A reusable collection of Terraform configurations that can be called multiple times"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the purpose of terraform init?",
+        "choices": [
+            "To initialize a working directory and download required providers and modules",
+            "To create initial configuration files",
+            "To validate configuration syntax",
+            "To apply the initial infrastructure"
+        ],
+        "correctAnswer": "To initialize a working directory and download required providers and modules"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "What is the function of the 'count' meta-argument?",
+        "choices": [
+            "To create multiple instances of a resource or module",
+            "To count existing resources",
+            "To set retry limits",
+            "To configure parallel execution"
+        ],
+        "correctAnswer": "To create multiple instances of a resource or module"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is the difference between 'count' and 'for_each' in Terraform?",
+        "choices": [
+            "count uses integer indices, for_each uses keys from a map or set",
+            "count is for resources, for_each is for modules",
+            "count is deprecated, for_each is the new standard",
+            "There is no functional difference"
+        ],
+        "correctAnswer": "count uses integer indices, for_each uses keys from a map or set"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "What is the purpose of Terragrunt's terragrunt.hcl file?",
+        "choices": [
+            "To configure Terragrunt-specific settings and reduce code duplication",
+            "To store Terraform state",
+            "To define provider configurations",
+            "To log execution history"
+        ],
+        "correctAnswer": "To configure Terragrunt-specific settings and reduce code duplication"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "What is the lifecycle meta-argument used for in Terraform?",
+        "choices": [
+            "To control resource creation, update, and deletion behavior",
+            "To define resource expiration times",
+            "To set automatic scaling policies",
+            "To configure monitoring settings"
+        ],
+        "correctAnswer": "To control resource creation, update, and deletion behavior"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What does 'create_before_destroy = true' accomplish?",
+        "choices": [
+            "Creates a new resource before destroying the old one to avoid downtime",
+            "Validates resources before creation",
+            "Creates backup copies of resources",
+            "Enables resource versioning"
+        ],
+        "correctAnswer": "Creates a new resource before destroying the old one to avoid downtime"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What is the purpose of Terraform workspaces?",
+        "choices": [
+            "To manage multiple environments (dev, staging, prod) with the same configuration",
+            "To organize configuration files",
+            "To manage provider versions",
+            "To store state file backups"
+        ],
+        "correctAnswer": "To manage multiple environments (dev, staging, prod) with the same configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What is the function of the 'provisioner' block in Terraform?",
+        "choices": [
+            "To execute scripts or commands on local or remote machines during resource creation",
+            "To provide authentication credentials",
+            "To configure resource networking",
+            "To set up monitoring"
+        ],
+        "correctAnswer": "To execute scripts or commands on local or remote machines during resource creation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What is the recommended practice regarding provisioners in Terraform?",
+        "choices": [
+            "Use them sparingly as a last resort, prefer cloud-init or configuration management tools",
+            "Use them for all resource configuration",
+            "Use them only for production deployments",
+            "Use them only for network configuration"
+        ],
+        "correctAnswer": "Use them sparingly as a last resort, prefer cloud-init or configuration management tools"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the purpose of terraform validate?",
+        "choices": [
+            "To check the syntax and internal consistency of Terraform configuration",
+            "To apply configuration changes",
+            "To validate state file integrity",
+            "To check provider authentication"
+        ],
+        "correctAnswer": "To check the syntax and internal consistency of Terraform configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What is Terragrunt's 'include' block used for?",
+        "choices": [
+            "To inherit configuration from parent terragrunt.hcl files",
+            "To include additional Terraform files",
+            "To include external modules",
+            "To include provider configurations"
+        ],
+        "correctAnswer": "To inherit configuration from parent terragrunt.hcl files"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is the purpose of terraform import?",
+        "choices": [
+            "To bring existing infrastructure under Terraform management",
+            "To import configuration files",
+            "To import state files",
+            "To import provider plugins"
+        ],
+        "correctAnswer": "To bring existing infrastructure under Terraform management"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "What is the difference between required_providers and provider blocks?",
+        "choices": [
+            "required_providers specifies versions and sources, provider configures the provider",
+            "They serve the same purpose",
+            "required_providers is deprecated",
+            "provider is for authentication only"
+        ],
+        "correctAnswer": "required_providers specifies versions and sources, provider configures the provider"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "What is the purpose of the sensitive argument in variable declarations?",
+        "choices": [
+            "To prevent sensitive values from being displayed in logs and console output",
+            "To encrypt variable values",
+            "To require authentication for variable access",
+            "To mark variables as required"
+        ],
+        "correctAnswer": "To prevent sensitive values from being displayed in logs and console output"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "What is Terragrunt's dependency block used for?",
+        "choices": [
+            "To define dependencies between Terragrunt configurations and pass outputs between them",
+            "To install package dependencies",
+            "To configure provider dependencies",
+            "To set up resource dependencies"
+        ],
+        "correctAnswer": "To define dependencies between Terragrunt configurations and pass outputs between them"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "What is the purpose of dynamic blocks in Terraform?",
+        "choices": [
+            "To dynamically generate nested configuration blocks based on complex values",
+            "To create dynamic resource names",
+            "To configure conditional resources",
+            "To enable real-time configuration updates"
+        ],
+        "correctAnswer": "To dynamically generate nested configuration blocks based on complex values"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "What is the function of terraform refresh?",
+        "choices": [
+            "To update the state file with the current real-world state of resources",
+            "To reload provider plugins",
+            "To refresh authentication tokens",
+            "To update configuration files"
+        ],
+        "correctAnswer": "To update the state file with the current real-world state of resources"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What is the purpose of version constraints in Terraform?",
+        "choices": [
+            "To ensure compatibility and reproducible deployments by constraining provider and module versions",
+            "To version configuration files",
+            "To track state file versions",
+            "To manage workspace versions"
+        ],
+        "correctAnswer": "To ensure compatibility and reproducible deployments by constraining provider and module versions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "What is the recommended way to handle secrets in Terraform?",
+        "choices": [
+            "Use external secret management systems and data sources, never hardcode secrets",
+            "Store secrets in variables",
+            "Encrypt secrets in configuration files",
+            "Use environment variables for all secrets"
+        ],
+        "correctAnswer": "Use external secret management systems and data sources, never hardcode secrets"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "What is Terragrunt's generate block used for?",
+        "choices": [
+            "To dynamically generate Terraform configuration files",
+            "To generate documentation",
+            "To generate test cases",
+            "To generate state files"
+        ],
+        "correctAnswer": "To dynamically generate Terraform configuration files"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "What is the purpose of the moved block in Terraform?",
+        "choices": [
+            "To refactor resource addresses without destroying and recreating resources",
+            "To move resources between providers",
+            "To relocate state files",
+            "To transfer resource ownership"
+        ],
+        "correctAnswer": "To refactor resource addresses without destroying and recreating resources"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "What is the difference between input variables and local values in terms of scope?",
+        "choices": [
+            "Input variables can be set from outside the module, local values are internal to the module",
+            "Input variables are global, local values are function-scoped",
+            "Input variables are mutable, local values are constants",
+            "There is no scope difference"
+        ],
+        "correctAnswer": "Input variables can be set from outside the module, local values are internal to the module"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "What is the purpose of terraform fmt?",
+        "choices": [
+            "To automatically format Terraform configuration files according to standard conventions",
+            "To format output for display",
+            "To format state files",
+            "To format log files"
+        ],
+        "correctAnswer": "To automatically format Terraform configuration files according to standard conventions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "What is Terragrunt's run-all command used for?",
+        "choices": [
+            "To execute Terraform commands across multiple Terragrunt configurations simultaneously",
+            "To run all tests",
+            "To run all provisioners",
+            "To run all validations"
+        ],
+        "correctAnswer": "To execute Terraform commands across multiple Terragrunt configurations simultaneously"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "What is the function of the ignore_changes lifecycle argument?",
+        "choices": [
+            "To prevent Terraform from reverting manual changes to specific resource attributes",
+            "To ignore configuration syntax errors",
+            "To ignore state file changes",
+            "To ignore provider updates"
+        ],
+        "correctAnswer": "To prevent Terraform from reverting manual changes to specific resource attributes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "What is the purpose of terraform taint?",
+        "choices": [
+            "To mark a resource for recreation on the next apply",
+            "To mark resources as corrupted",
+            "To flag configuration errors",
+            "To mark resources for deletion"
+        ],
+        "correctAnswer": "To mark a resource for recreation on the next apply"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "What is the recommended pattern for organizing Terraform code in large projects?",
+        "choices": [
+            "Use modules for reusable components and separate environments into different directories",
+            "Keep all configuration in a single file",
+            "Separate each resource into its own file",
+            "Use workspaces for all organization"
+        ],
+        "correctAnswer": "Use modules for reusable components and separate environments into different directories"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q41",
+        "title": "What is the purpose of Terragrunt's before_hook and after_hook?",
+        "choices": [
+            "To execute custom commands before and after Terraform operations",
+            "To validate configurations",
+            "To manage state backups",
+            "To handle authentication"
+        ],
+        "correctAnswer": "To execute custom commands before and after Terraform operations"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q42",
+        "title": "What is the function of the replace_triggered_by lifecycle argument?",
+        "choices": [
+            "To force resource replacement when referenced values change",
+            "To configure automatic replacement schedules",
+            "To replace failed resources",
+            "To replace deprecated resources"
+        ],
+        "correctAnswer": "To force resource replacement when referenced values change"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q43",
+        "title": "What is the purpose of conditional expressions in Terraform (condition ? true_val : false_val)?",
+        "choices": [
+            "To choose between different values based on boolean conditions",
+            "To validate input conditions",
+            "To handle error conditions",
+            "To configure conditional resource creation"
+        ],
+        "correctAnswer": "To choose between different values based on boolean conditions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q44",
+        "title": "What is Terragrunt's remote_state block used for?",
+        "choices": [
+            "To configure backend settings for Terraform state storage",
+            "To access remote state from other configurations",
+            "To backup state to remote locations",
+            "To replicate state across regions"
+        ],
+        "correctAnswer": "To configure backend settings for Terraform state storage"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q45",
+        "title": "What is the purpose of terraform state commands?",
+        "choices": [
+            "To perform advanced state management operations like moving and removing resources",
+            "To backup state files",
+            "To encrypt state files",
+            "To validate state integrity"
+        ],
+        "correctAnswer": "To perform advanced state management operations like moving and removing resources"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q46",
+        "title": "What is the recommended approach for handling Terraform state locking?",
+        "choices": [
+            "Use backends that support native locking (like S3 with DynamoDB) to prevent concurrent modifications",
+            "Use file-based locking mechanisms",
+            "Coordinate manually between team members",
+            "Disable locking for better performance"
+        ],
+        "correctAnswer": "Use backends that support native locking (like S3 with DynamoDB) to prevent concurrent modifications"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q47",
+        "title": "What is the purpose of the precondition and postcondition blocks in Terraform?",
+        "choices": [
+            "To validate assumptions and ensure resource state meets specified requirements",
+            "To configure resource dependencies",
+            "To handle error conditions",
+            "To set up monitoring conditions"
+        ],
+        "correctAnswer": "To validate assumptions and ensure resource state meets specified requirements"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q48",
+        "title": "What is Terragrunt's inputs block used for?",
+        "choices": [
+            "To pass variable values to the underlying Terraform configuration",
+            "To configure input validation",
+            "To define input sources",
+            "To encrypt input values"
+        ],
+        "correctAnswer": "To pass variable values to the underlying Terraform configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q49",
+        "title": "What is the benefit of using Terraform modules from the Terraform Registry?",
+        "choices": [
+            "Access to community-tested, well-documented, and versioned infrastructure patterns",
+            "Faster execution time",
+            "Automatic security compliance",
+            "Built-in monitoring capabilities"
+        ],
+        "correctAnswer": "Access to community-tested, well-documented, and versioned infrastructure patterns"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q50",
+        "title": "What is the recommended practice for testing Terraform configurations?",
+        "choices": [
+            "Use terraform plan, validate, and dedicated testing frameworks like Terratest",
+            "Test only in production environments",
+            "Rely on provider validation only",
+            "Manual testing is sufficient"
+        ],
+        "correctAnswer": "Use terraform plan, validate, and dedicated testing frameworks like Terratest"
+    }
+]

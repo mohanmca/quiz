@@ -1,0 +1,602 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the fundamental building block of an Apache Airflow workflow?",
+        "choices": [
+            "DAG (Directed Acyclic Graph)",
+            "Pipeline",
+            "Workflow",
+            "Job"
+        ],
+        "correctAnswer": "DAG (Directed Acyclic Graph)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "What is the role of the Airflow Scheduler?",
+        "choices": [
+            "To monitor DAGs and trigger task instances when their dependencies are met",
+            "To execute tasks directly",
+            "To store metadata about workflows",
+            "To provide the web interface"
+        ],
+        "correctAnswer": "To monitor DAGs and trigger task instances when their dependencies are met"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the purpose of an Airflow Executor?",
+        "choices": [
+            "To execute task instances on different infrastructure",
+            "To schedule DAGs",
+            "To store task logs",
+            "To manage connections"
+        ],
+        "correctAnswer": "To execute task instances on different infrastructure"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "Which Airflow component stores metadata about DAGs, tasks, and their execution history?",
+        "choices": [
+            "Metadata Database",
+            "Scheduler",
+            "Webserver",
+            "Executor"
+        ],
+        "correctAnswer": "Metadata Database"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is the default task state when a task is first created?",
+        "choices": [
+            "None",
+            "Scheduled",
+            "Queued",
+            "Running"
+        ],
+        "correctAnswer": "None"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What happens when a task enters the 'upstream_failed' state?",
+        "choices": [
+            "The task is skipped because one of its upstream tasks failed",
+            "The task runs despite upstream failures",
+            "The task is retried automatically",
+            "The entire DAG is marked as failed"
+        ],
+        "correctAnswer": "The task is skipped because one of its upstream tasks failed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is the purpose of XCom in Airflow?",
+        "choices": [
+            "To enable cross-communication between tasks by sharing small amounts of data",
+            "To execute tasks in parallel",
+            "To schedule DAGs",
+            "To manage connections to external systems"
+        ],
+        "correctAnswer": "To enable cross-communication between tasks by sharing small amounts of data"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "Which parameter controls the maximum number of task instances that can run concurrently across all DAGs?",
+        "choices": [
+            "parallelism",
+            "max_active_runs",
+            "concurrency",
+            "dag_concurrency"
+        ],
+        "correctAnswer": "parallelism"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is the purpose of the depends_on_past parameter in a task?",
+        "choices": [
+            "To ensure a task only runs if the previous instance of the same task succeeded",
+            "To create dependencies between different tasks",
+            "To schedule tasks based on time",
+            "To enable parallel execution"
+        ],
+        "correctAnswer": "To ensure a task only runs if the previous instance of the same task succeeded"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is a Sensor in Airflow?",
+        "choices": [
+            "A special type of operator that waits for an external condition to be met",
+            "A monitoring tool for DAG performance",
+            "A component that executes SQL queries",
+            "A logging mechanism for tasks"
+        ],
+        "correctAnswer": "A special type of operator that waits for an external condition to be met"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "What is the difference between start_date and execution_date in Airflow?",
+        "choices": [
+            "start_date is when the DAG becomes schedulable, execution_date is the logical date being processed",
+            "start_date is when the task starts, execution_date is when it ends",
+            "They are the same thing",
+            "start_date is for manual runs, execution_date is for scheduled runs"
+        ],
+        "correctAnswer": "start_date is when the DAG becomes schedulable, execution_date is the logical date being processed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What is the purpose of the catchup parameter in a DAG?",
+        "choices": [
+            "To control whether Airflow should automatically schedule past due runs",
+            "To retry failed tasks",
+            "To pause the DAG",
+            "To set the maximum runtime for tasks"
+        ],
+        "correctAnswer": "To control whether Airflow should automatically schedule past due runs"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "Which Airflow operator is best suited for running Python functions?",
+        "choices": [
+            "PythonOperator",
+            "BashOperator",
+            "SqlOperator",
+            "EmailOperator"
+        ],
+        "correctAnswer": "PythonOperator"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the purpose of Airflow Connections?",
+        "choices": [
+            "To store credentials and connection information for external systems",
+            "To link tasks together",
+            "To connect DAGs to each other",
+            "To establish network connections"
+        ],
+        "correctAnswer": "To store credentials and connection information for external systems"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "What is a pool in Airflow?",
+        "choices": [
+            "A way to limit parallelism for a subset of tasks",
+            "A collection of workers",
+            "A storage mechanism for data",
+            "A group of related DAGs"
+        ],
+        "correctAnswer": "A way to limit parallelism for a subset of tasks"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What happens when you set trigger_rule to 'one_success' for a task?",
+        "choices": [
+            "The task runs when at least one upstream task succeeds",
+            "The task runs only when all upstream tasks succeed",
+            "The task runs when exactly one upstream task succeeds",
+            "The task runs when all upstream tasks fail"
+        ],
+        "correctAnswer": "The task runs when at least one upstream task succeeds"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "What is the purpose of Variables in Airflow?",
+        "choices": [
+            "To store global configuration values accessible across DAGs",
+            "To pass data between tasks",
+            "To define task dependencies",
+            "To store task logs"
+        ],
+        "correctAnswer": "To store global configuration values accessible across DAGs"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "Which executor is recommended for production deployments with high workloads?",
+        "choices": [
+            "CeleryExecutor or KubernetesExecutor",
+            "SequentialExecutor",
+            "LocalExecutor",
+            "DebugExecutor"
+        ],
+        "correctAnswer": "CeleryExecutor or KubernetesExecutor"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What is the purpose of the SubDAG operator?",
+        "choices": [
+            "To group a set of tasks into a reusable component",
+            "To create parallel branches in a DAG",
+            "To schedule child DAGs",
+            "To handle task failures"
+        ],
+        "correctAnswer": "To group a set of tasks into a reusable component"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What is the recommended approach for passing large amounts of data between tasks?",
+        "choices": [
+            "Use external storage (S3, HDFS) and pass file paths through XCom",
+            "Use XCom directly",
+            "Use Airflow Variables",
+            "Use task return values"
+        ],
+        "correctAnswer": "Use external storage (S3, HDFS) and pass file paths through XCom"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What is the purpose of the task_timeout parameter?",
+        "choices": [
+            "To set the maximum time a task can run before being killed",
+            "To delay task execution",
+            "To set retry intervals",
+            "To schedule task dependencies"
+        ],
+        "correctAnswer": "To set the maximum time a task can run before being killed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What is a DAG Run in Airflow?",
+        "choices": [
+            "An instance of a DAG executed for a specific execution date",
+            "A collection of related DAGs",
+            "A single task execution",
+            "A scheduled interval"
+        ],
+        "correctAnswer": "An instance of a DAG executed for a specific execution date"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the purpose of the BranchPythonOperator?",
+        "choices": [
+            "To conditionally execute downstream tasks based on logic",
+            "To run Python code in parallel",
+            "To branch Git repositories",
+            "To create multiple DAG instances"
+        ],
+        "correctAnswer": "To conditionally execute downstream tasks based on logic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What is the recommended way to handle secrets in Airflow?",
+        "choices": [
+            "Use Airflow's secrets backend integration or environment variables",
+            "Store them in Variables",
+            "Hardcode them in DAG files",
+            "Pass them through XCom"
+        ],
+        "correctAnswer": "Use Airflow's secrets backend integration or environment variables"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is the purpose of the retry_delay parameter?",
+        "choices": [
+            "To set the time to wait between task retries",
+            "To delay the initial task execution",
+            "To set the maximum retry count",
+            "To timeout failed tasks"
+        ],
+        "correctAnswer": "To set the time to wait between task retries"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "What is the difference between schedule_interval and timetable in Airflow 2.2+?",
+        "choices": [
+            "Timetables provide more flexible scheduling logic than schedule_interval",
+            "They are identical in functionality",
+            "schedule_interval is for DAGs, timetable is for tasks",
+            "Timetables are deprecated"
+        ],
+        "correctAnswer": "Timetables provide more flexible scheduling logic than schedule_interval"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "What is the purpose of the DummyOperator (now EmptyOperator)?",
+        "choices": [
+            "To create placeholders for workflow structure without executing any operation",
+            "To test DAG syntax",
+            "To generate dummy data",
+            "To simulate task failures"
+        ],
+        "correctAnswer": "To create placeholders for workflow structure without executing any operation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "What is the role of the Airflow Webserver?",
+        "choices": [
+            "To provide a web-based user interface for monitoring and managing workflows",
+            "To execute tasks",
+            "To schedule DAGs",
+            "To store metadata"
+        ],
+        "correctAnswer": "To provide a web-based user interface for monitoring and managing workflows"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "What happens when you set max_active_runs=1 for a DAG?",
+        "choices": [
+            "Only one DAG run can be active at a time",
+            "Only one task can run at a time",
+            "The DAG runs only once",
+            "The DAG is paused after one run"
+        ],
+        "correctAnswer": "Only one DAG run can be active at a time"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "What is the purpose of Airflow Hooks?",
+        "choices": [
+            "To provide interfaces for connecting to external systems and services",
+            "To trigger DAGs automatically",
+            "To catch task failures",
+            "To schedule tasks"
+        ],
+        "correctAnswer": "To provide interfaces for connecting to external systems and services"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What is the difference between soft_fail and retries in task configuration?",
+        "choices": [
+            "soft_fail skips downstream tasks on failure, retries attempt the task again",
+            "They are the same feature",
+            "soft_fail is for warnings, retries are for errors",
+            "soft_fail affects the entire DAG, retries affect only the task"
+        ],
+        "correctAnswer": "soft_fail skips downstream tasks on failure, retries attempt the task again"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "What is the purpose of the SLA (Service Level Agreement) feature in Airflow?",
+        "choices": [
+            "To monitor if tasks complete within expected time frames",
+            "To automatically retry failed tasks",
+            "To set maximum execution time",
+            "To prioritize task execution"
+        ],
+        "correctAnswer": "To monitor if tasks complete within expected time frames"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "What is a TaskGroup in Airflow?",
+        "choices": [
+            "A UI grouping of tasks for better organization without affecting execution",
+            "A way to execute tasks in parallel",
+            "A replacement for SubDAGs",
+            "A pool for task resources"
+        ],
+        "correctAnswer": "A UI grouping of tasks for better organization without affecting execution"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "What is the purpose of the weight_rule parameter in tasks?",
+        "choices": [
+            "To prioritize task execution when resources are limited",
+            "To set task memory requirements",
+            "To define task dependencies",
+            "To configure retry behavior"
+        ],
+        "correctAnswer": "To prioritize task execution when resources are limited"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "What is the recommended way to test Airflow DAGs?",
+        "choices": [
+            "Use pytest with airflow.models.DagBag and task unit tests",
+            "Run them directly in production",
+            "Use the web interface only",
+            "Test them manually with airflow test command"
+        ],
+        "correctAnswer": "Use pytest with airflow.models.DagBag and task unit tests"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "What is the purpose of the DockerOperator?",
+        "choices": [
+            "To execute tasks inside Docker containers",
+            "To manage Docker images",
+            "To deploy Airflow in containers",
+            "To connect to Docker registries"
+        ],
+        "correctAnswer": "To execute tasks inside Docker containers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "What is the difference between dynamic and static DAGs in Airflow?",
+        "choices": [
+            "Dynamic DAGs generate tasks at runtime, static DAGs have fixed structure",
+            "Dynamic DAGs can be paused, static DAGs cannot",
+            "There is no difference",
+            "Dynamic DAGs use more memory"
+        ],
+        "correctAnswer": "Dynamic DAGs generate tasks at runtime, static DAGs have fixed structure"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "What is the purpose of the EmailOperator?",
+        "choices": [
+            "To send email notifications as part of the workflow",
+            "To read emails from mailboxes",
+            "To validate email addresses",
+            "To archive email data"
+        ],
+        "correctAnswer": "To send email notifications as part of the workflow"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "What is the role of the dag_processor_timeout configuration?",
+        "choices": [
+            "To set the maximum time for parsing a single DAG file",
+            "To timeout entire DAG runs",
+            "To limit task execution time",
+            "To configure scheduler intervals"
+        ],
+        "correctAnswer": "To set the maximum time for parsing a single DAG file"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "What is the purpose of Airflow's data lineage feature?",
+        "choices": [
+            "To track data flow and dependencies between tasks and datasets",
+            "To compress log files",
+            "To schedule backfill operations",
+            "To manage user permissions"
+        ],
+        "correctAnswer": "To track data flow and dependencies between tasks and datasets"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q41",
+        "title": "What happens when you use the 'none_failed' trigger rule?",
+        "choices": [
+            "The task runs only if no upstream tasks have failed (succeeded or skipped)",
+            "The task runs when all upstream tasks fail",
+            "The task never runs",
+            "The task runs regardless of upstream status"
+        ],
+        "correctAnswer": "The task runs only if no upstream tasks have failed (succeeded or skipped)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q42",
+        "title": "What is the purpose of the KubernetesExecutor?",
+        "choices": [
+            "To run each task in a separate Kubernetes pod for better isolation",
+            "To deploy Airflow on Kubernetes",
+            "To manage Kubernetes clusters",
+            "To store logs in Kubernetes"
+        ],
+        "correctAnswer": "To run each task in a separate Kubernetes pod for better isolation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q43",
+        "title": "What is the recommended approach for handling database connections in Airflow?",
+        "choices": [
+            "Use Airflow Connections with appropriate hooks",
+            "Hardcode connection strings in DAGs",
+            "Use environment variables directly",
+            "Create new connections for each task"
+        ],
+        "correctAnswer": "Use Airflow Connections with appropriate hooks"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q44",
+        "title": "What is the purpose of the airflow.cfg configuration file?",
+        "choices": [
+            "To configure Airflow's global settings and behavior",
+            "To define DAG structures",
+            "To store connection information",
+            "To log task execution details"
+        ],
+        "correctAnswer": "To configure Airflow's global settings and behavior"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q45",
+        "title": "What is the difference between task instance logs and DAG processor logs?",
+        "choices": [
+            "Task instance logs show task execution details, DAG processor logs show DAG parsing issues",
+            "They are the same type of logs",
+            "Task instance logs are for errors, DAG processor logs are for warnings",
+            "DAG processor logs are encrypted"
+        ],
+        "correctAnswer": "Task instance logs show task execution details, DAG processor logs show DAG parsing issues"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q46",
+        "title": "What is the purpose of the FileSensor?",
+        "choices": [
+            "To wait for a file to appear in a specified location",
+            "To read file contents",
+            "To delete files",
+            "To compress files"
+        ],
+        "correctAnswer": "To wait for a file to appear in a specified location"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q47",
+        "title": "What is the role of the SequentialExecutor?",
+        "choices": [
+            "To execute tasks one at a time, mainly for development and testing",
+            "To run tasks in parallel",
+            "To distribute tasks across multiple workers",
+            "To execute tasks in random order"
+        ],
+        "correctAnswer": "To execute tasks one at a time, mainly for development and testing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q48",
+        "title": "What is the purpose of backfill operations in Airflow?",
+        "choices": [
+            "To run historical DAG instances for past dates",
+            "To restore deleted DAGs",
+            "To backup task logs",
+            "To fill missing data in databases"
+        ],
+        "correctAnswer": "To run historical DAG instances for past dates"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q49",
+        "title": "What is the recommended way to handle long-running tasks in Airflow?",
+        "choices": [
+            "Break them into smaller tasks or use external systems with sensors",
+            "Increase the task timeout to maximum",
+            "Run them in a separate DAG",
+            "Use the LongRunningOperator"
+        ],
+        "correctAnswer": "Break them into smaller tasks or use external systems with sensors"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q50",
+        "title": "What is the purpose of Airflow's REST API?",
+        "choices": [
+            "To programmatically interact with Airflow for monitoring and management",
+            "To execute DAGs remotely",
+            "To store task data",
+            "To handle user authentication only"
+        ],
+        "correctAnswer": "To programmatically interact with Airflow for monitoring and management"
+    }
+]
