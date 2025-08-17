@@ -135,6 +135,48 @@
             transform: translateY(-2px);
         }
         
+        .breadcrumb-nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .breadcrumb-nav .breadcrumb {
+            margin: 0;
+            background: none;
+            padding: 0;
+        }
+        
+        .breadcrumb-nav .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-nav .breadcrumb-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .category-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            border-color: currentColor;
+        }
+        
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
         .stop-quiz-btn {
             position: fixed;
             top: 20px;
@@ -422,6 +464,55 @@
         </div>
         
         <div class="container">
+            <div class="row" id="categoryGrid">
+                <!-- Category cards will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Category Page -->
+    <div id="categoryPage" style="display: none;">
+        <div class="platform-header text-center">
+            <div class="container">
+                <div class="breadcrumb-nav d-inline-block mb-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" onclick="showHomePage()">🏠 Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="categoryBreadcrumb">Category</li>
+                        </ol>
+                    </nav>
+                </div>
+                <h1 class="display-4 mb-3" id="categoryTitle">Category</h1>
+                <p class="lead" id="categoryDescription">Explore quizzes in this category</p>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row" id="subcategoryGrid">
+                <!-- Subcategory cards will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quiz List Page -->
+    <div id="quizListPage" style="display: none;">
+        <div class="platform-header text-center">
+            <div class="container">
+                <div class="breadcrumb-nav d-inline-block mb-3">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" onclick="showHomePage()">🏠 Home</a></li>
+                            <li class="breadcrumb-item"><a href="#" onclick="showCategory(currentCategory)" id="categoryBreadcrumbLink">Category</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" id="subcategoryBreadcrumb">Subcategory</li>
+                        </ol>
+                    </nav>
+                </div>
+                <h1 class="display-4 mb-3" id="quizListTitle">Quizzes</h1>
+                <p class="lead" id="quizListDescription">Select a quiz to begin</p>
+            </div>
+        </div>
+        
+        <div class="container">
             <div class="row" id="quizGrid">
                 <!-- Quiz cards will be loaded here -->
             </div>
@@ -443,6 +534,165 @@
         let allQuestions = [];
         let questionsLoaded = false;
         let quizStartTime = null;
+        let currentCategory = null;
+        let currentSubcategory = null;
+        let categories = {};
+
+        // Category structure definition
+        const categoryStructure = {
+            "programming": {
+                title: "Programming Languages",
+                icon: "💻",
+                color: "#3776ab",
+                description: "Master programming language internals and advanced concepts",
+                subcategories: {
+                    "python": {
+                        title: "Python Programming",
+                        icon: "🐍",
+                        color: "#3776ab",
+                        description: "Python language features, internals, and advanced patterns"
+                    },
+                    "jvm": {
+                        title: "JVM & Java",
+                        icon: "☕",
+                        color: "#ed8b00",
+                        description: "Java Virtual Machine architecture and optimization"
+                    },
+                    "golang": {
+                        title: "Go Language",
+                        icon: "🔷",
+                        color: "#00add8",
+                        description: "Go runtime, concurrency, and performance"
+                    }
+                }
+            },
+            "algorithms": {
+                title: "Data Structures & Algorithms",
+                icon: "📊",
+                color: "#ff6b35",
+                description: "Master fundamental and advanced algorithms for coding interviews",
+                subcategories: {
+                    "leetcode": {
+                        title: "LeetCode Problems",
+                        icon: "💻",
+                        color: "#f39c12",
+                        description: "Coding interview problems and algorithmic patterns"
+                    },
+                    "data-structures": {
+                        title: "Data Structures",
+                        icon: "📊",
+                        color: "#ff6b35",
+                        description: "Advanced data structures and their implementations"
+                    },
+                    "advanced": {
+                        title: "Advanced Algorithms",
+                        icon: "🧠",
+                        color: "#9b59b6",
+                        description: "Complex algorithmic concepts and optimization techniques"
+                    }
+                }
+            },
+            "cloud": {
+                title: "Cloud & Infrastructure",
+                icon: "☁️",
+                color: "#ff9900",
+                description: "Cloud platforms, infrastructure, and DevOps practices",
+                subcategories: {
+                    "aws": {
+                        title: "Amazon Web Services",
+                        icon: "🔶",
+                        color: "#ff9900",
+                        description: "AWS services, security, and best practices"
+                    },
+                    "kubernetes": {
+                        title: "Kubernetes",
+                        icon: "⚙️",
+                        color: "#326ce5",
+                        description: "Container orchestration and management"
+                    },
+                    "terraform": {
+                        title: "Infrastructure as Code",
+                        icon: "🏗️",
+                        color: "#623ce4",
+                        description: "Terraform, Terragrunt, and IaC principles"
+                    }
+                }
+            },
+            "data": {
+                title: "Data Engineering",
+                icon: "🔄",
+                color: "#017cee",
+                description: "Data pipelines, workflow orchestration, and big data technologies",
+                subcategories: {
+                    "workflow": {
+                        title: "Workflow Orchestration",
+                        icon: "🌊",
+                        color: "#017cee",
+                        description: "Apache Airflow and data pipeline management"
+                    }
+                }
+            },
+            "finance": {
+                title: "Financial Technology",
+                icon: "💰",
+                color: "#f7931a",
+                description: "Trading systems, financial instruments, and risk management",
+                subcategories: {
+                    "crypto": {
+                        title: "Cryptocurrency Trading",
+                        icon: "₿",
+                        color: "#f7931a",
+                        description: "Crypto derivatives, trading strategies, and market mechanics"
+                    }
+                }
+            }
+        };
+
+        // Map surveys to categories and subcategories
+        function organizeSurveysByCategory() {
+            const surveyMapping = {
+                "leetcode-medium-python": { category: "algorithms", subcategory: "leetcode" },
+                "python-internals": { category: "programming", subcategory: "python" },
+                "python-data-structures": { category: "algorithms", subcategory: "data-structures" },
+                "python-dunder-methods": { category: "programming", subcategory: "python" },
+                "python-type-internals": { category: "programming", subcategory: "python" },
+                "jvm-internals": { category: "programming", subcategory: "jvm" },
+                "golang-internals": { category: "programming", subcategory: "golang" },
+                "advanced-data-structures-python": { category: "algorithms", subcategory: "advanced" },
+                "aws-k8s-secrets": { category: "cloud", subcategory: "aws" },
+                "crypto-derivatives": { category: "finance", subcategory: "crypto" },
+                "airflow-programming": { category: "data", subcategory: "workflow" },
+                "aws-policy-permissions": { category: "cloud", subcategory: "aws" },
+                "terraform-terragrunt": { category: "cloud", subcategory: "terraform" }
+            };
+
+            categories = {};
+
+            availableSurveys.forEach(survey => {
+                const mapping = surveyMapping[survey.id];
+                if (mapping) {
+                    const { category, subcategory } = mapping;
+                    
+                    if (!categories[category]) {
+                        categories[category] = {
+                            ...categoryStructure[category],
+                            subcategories: {}
+                        };
+                    }
+                    
+                    if (!categories[category].subcategories[subcategory]) {
+                        categories[category].subcategories[subcategory] = {
+                            ...categoryStructure[category].subcategories[subcategory],
+                            quizzes: []
+                        };
+                    }
+                    
+                    categories[category].subcategories[subcategory].quizzes.push(survey);
+                }
+            });
+
+            console.log('Organized categories:', categories);
+        }
 
         // Configure marked.js for enhanced markdown processing
         if (typeof marked !== 'undefined') {
@@ -855,6 +1105,187 @@
             `).join('');
         }
 
+        // Display category cards on home page
+        function displayCategoryCards() {
+            const grid = document.getElementById('categoryGrid');
+            
+            if (Object.keys(categories).length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No categories available at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = Object.entries(categories).map(([categoryKey, category]) => {
+                const subcategoryCount = Object.keys(category.subcategories).length;
+                const totalQuizzes = Object.values(category.subcategories).reduce((total, sub) => total + sub.quizzes.length, 0);
+                
+                return `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card category-card h-100 position-relative" onclick="showCategory('${categoryKey}')" style="border-color: ${category.color}30;">
+                            <div class="card-body text-center">
+                                <div class="category-icon" style="color: ${category.color};">
+                                    ${category.icon}
+                                </div>
+                                <h5 class="card-title" style="color: ${category.color};">
+                                    ${category.title}
+                                </h5>
+                                <p class="card-text text-muted">
+                                    ${category.description}
+                                </p>
+                                <div class="mt-3">
+                                    <div class="row text-center">
+                                        <div class="col-6">
+                                            <div class="d-block">
+                                                <strong style="color: ${category.color};">${subcategoryCount}</strong>
+                                                <small class="d-block text-muted">Categories</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="d-block">
+                                                <strong style="color: ${category.color};">${totalQuizzes}</strong>
+                                                <small class="d-block text-muted">Quizzes</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display subcategory cards
+        function displaySubcategoryCards(categoryKey) {
+            const grid = document.getElementById('subcategoryGrid');
+            const category = categories[categoryKey];
+            
+            if (!category || Object.keys(category.subcategories).length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No subcategories available in this category.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = Object.entries(category.subcategories).map(([subcategoryKey, subcategory]) => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card quiz-card h-100 position-relative" onclick="showQuizList('${categoryKey}', '${subcategoryKey}')" style="border-color: ${subcategory.color}20;">
+                        <div class="card-body text-center">
+                            <div class="quiz-icon" style="color: ${subcategory.color};">
+                                ${subcategory.icon}
+                            </div>
+                            <h5 class="card-title" style="color: ${subcategory.color};">
+                                ${subcategory.title}
+                            </h5>
+                            <p class="card-text text-muted">
+                                ${subcategory.description}
+                            </p>
+                            <div class="mt-3">
+                                <div class="text-center">
+                                    <strong style="color: ${subcategory.color};">${subcategory.quizzes.length}</strong>
+                                    <small class="d-block text-muted">${subcategory.quizzes.length === 1 ? 'Quiz' : 'Quizzes'} Available</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display quiz cards for a specific subcategory
+        function displayQuizzesForSubcategory(categoryKey, subcategoryKey) {
+            const grid = document.getElementById('quizGrid');
+            const subcategory = categories[categoryKey]?.subcategories[subcategoryKey];
+            
+            if (!subcategory || subcategory.quizzes.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No quizzes available in this subcategory.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = subcategory.quizzes.map(survey => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card quiz-card h-100 position-relative" onclick="startSurvey('${survey.id}')" style="border-color: ${survey.color}20;">
+                        <span class="difficulty-badge badge bg-secondary">${survey.difficulty}</span>
+                        <div class="card-body text-center">
+                            <div class="quiz-icon" style="color: ${survey.color};">
+                                ${survey.icon}
+                            </div>
+                            <h5 class="card-title" style="color: ${survey.color};">
+                                ${survey.title}
+                            </h5>
+                            <p class="card-text text-muted">
+                                ${survey.description}
+                            </p>
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-clock"></i> ${survey.estimatedTime}<br>
+                                    <i class="bi bi-folder"></i> ${survey.category}<br>
+                                    <i class="fas fa-stopwatch"></i> ${Math.floor((survey.timePerQuestion || 60) / 60)}:${String((survey.timePerQuestion || 60) % 60).padStart(2, '0')} per question
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Navigation functions
+        function showCategory(categoryKey) {
+            currentCategory = categoryKey;
+            const category = categories[categoryKey];
+            
+            // Update page content
+            document.getElementById('categoryTitle').textContent = category.title;
+            document.getElementById('categoryDescription').textContent = category.description;
+            document.getElementById('categoryBreadcrumb').textContent = category.title;
+            
+            // Display subcategories
+            displaySubcategoryCards(categoryKey);
+            
+            // Show category page
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('categoryPage').style.display = 'block';
+            document.getElementById('quizListPage').style.display = 'none';
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'block';
+            document.getElementById('stopQuizBtn').style.display = 'none';
+        }
+
+        function showQuizList(categoryKey, subcategoryKey) {
+            currentCategory = categoryKey;
+            currentSubcategory = subcategoryKey;
+            const category = categories[categoryKey];
+            const subcategory = categories[categoryKey]?.subcategories[subcategoryKey];
+            
+            if (!subcategory) return;
+            
+            // Update page content
+            document.getElementById('quizListTitle').textContent = subcategory.title;
+            document.getElementById('quizListDescription').textContent = subcategory.description;
+            document.getElementById('categoryBreadcrumbLink').textContent = category.title;
+            document.getElementById('subcategoryBreadcrumb').textContent = subcategory.title;
+            
+            // Display quizzes
+            displayQuizzesForSubcategory(categoryKey, subcategoryKey);
+            
+            // Show quiz list page
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('categoryPage').style.display = 'none';
+            document.getElementById('quizListPage').style.display = 'block';
+            document.getElementById('quizPage').style.display = 'none';
+            document.getElementById('backBtn').style.display = 'block';
+            document.getElementById('stopQuizBtn').style.display = 'none';
+        }
+
         // Start a specific survey
         async function startSurvey(surveyId) {
             try {
@@ -878,6 +1309,8 @@
                 
                 // Switch to quiz page
                 document.getElementById('homePage').style.display = 'none';
+                document.getElementById('categoryPage').style.display = 'none';
+                document.getElementById('quizListPage').style.display = 'none';
                 document.getElementById('quizPage').style.display = 'block';
                 document.getElementById('backBtn').style.display = 'block';
                 document.getElementById('stopQuizBtn').style.display = 'block';
@@ -904,7 +1337,22 @@
 
         // Show home page
         function showHomePage() {
+            // Check current state and navigate accordingly
+            if (currentSubcategory && currentCategory) {
+                // We're on quiz list page, go back to category page
+                showCategory(currentCategory);
+                currentSubcategory = null;
+                return;
+            } else if (currentCategory) {
+                // We're on category page, go back to home page
+                currentCategory = null;
+                currentSubcategory = null;
+            }
+            
+            // Go to home page
             document.getElementById('homePage').style.display = 'block';
+            document.getElementById('categoryPage').style.display = 'none';
+            document.getElementById('quizListPage').style.display = 'none';
             document.getElementById('quizPage').style.display = 'none';
             document.getElementById('backBtn').style.display = 'none';
             document.getElementById('stopQuizBtn').style.display = 'none';
@@ -918,6 +1366,9 @@
             
             // Clear survey container
             document.getElementById('surveyContainer').innerHTML = '';
+            
+            // Display categories
+            displayCategoryCards();
         }
         
         // Stop quiz and show progress
@@ -1618,8 +2069,13 @@
 
         // Initialize the platform when the page loads
         $(document).ready(async function() {
+            console.log('Starting initialization...');
             await loadAvailableSurveys();
-            displaySurveyCards();
+            console.log('Available surveys loaded:', availableSurveys.length, availableSurveys);
+            organizeSurveysByCategory();
+            console.log('Categories organized:', Object.keys(categories).length, categories);
+            displayCategoryCards();
+            console.log('Category cards displayed');
         });
 
         // Make copyCodeToClipboard globally available
