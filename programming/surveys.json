@@ -123,12 +123,25 @@
         "category": "Financial Trading",
         "difficulty": "Intermediate",
         "estimatedTime": "40-60 minutes",
-        "questionsFile": "crypto-derivatives-questions.json",
+        "questionsFile": "trading/crypto-derivatives-questions.json",
         "icon": "₿",
         "color": "#f7931a",
         "timePerQuestion": 120,
         "maxTimeToFinish": 6000
     },
+    {
+        "id": "oms-fix-protocol",
+        "title": "Order Management Systems & FIX Protocol Quiz",
+        "description": "Master Order Management System design, exchange connectivity, and FIX protocol concepts with 50 real-world interview questions",
+        "category": "Financial Trading",
+        "difficulty": "Advanced",
+        "estimatedTime": "45-70 minutes",
+        "questionsFile": "trading/oms-fix-questions.json",
+        "icon": "📈",
+        "color": "#2980b9",
+        "timePerQuestion": 120,
+        "maxTimeToFinish": 6000
+    },    
     {
         "id": "airflow-programming",
         "title": "Apache Airflow Programming & Concepts",
