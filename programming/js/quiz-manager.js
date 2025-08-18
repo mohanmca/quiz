@@ -24,6 +24,11 @@ class QuizManager {
             Logger.info(`Starting survey: ${surveyConfig.title}`);
             platformState.currentSurveyConfig = surveyConfig;
             
+            // Verify SurveyJS is available
+            if (typeof Survey === 'undefined' || !Survey.Model) {
+                throw new Error('SurveyJS library not loaded. Please check that SurveyJS scripts are properly included.');
+            }
+            
             // Switch to quiz page first
             Utils.safeToggleDisplay(CONFIG.SELECTORS.HOME_PAGE, false);
             Utils.safeToggleDisplay(CONFIG.SELECTORS.CATEGORY_PAGE, false);
@@ -63,7 +68,10 @@ class QuizManager {
                         <summary>Technical Details</summary>
                         <pre class="mt-2">${error.stack || 'No stack trace available'}</pre>
                     </details>
-                    <button class="btn btn-primary mt-3" onclick="NavigationManager.showHomePage()">Back to Home</button>
+                    <div class="mt-3">
+                        <button class="btn btn-primary me-2" onclick="window.location.reload()">🔄 Reload Page</button>
+                        <button class="btn btn-secondary" onclick="NavigationManager.showHomePage()">🏠 Back to Home</button>
+                    </div>
                 </div>
             `, true);
         } finally {
@@ -82,6 +90,15 @@ class QuizManager {
                 throw new Error('No questions available to create survey');
             }
             
+            // Verify SurveyJS dependencies
+            if (typeof Survey === 'undefined') {
+                throw new Error('Survey library is not loaded');
+            }
+            
+            if (!Survey.Model) {
+                throw new Error('Survey.Model is not available');
+            }
+            
             // Clear the loading state first
             Utils.safeSetContent(CONFIG.SELECTORS.SURVEY_CONTAINER, '', true);
             
@@ -96,25 +113,47 @@ class QuizManager {
             
             // Add all questions to the survey config
             allQuestionPages.forEach((questionPage, index) => {
-                const question = questionPage.elements[0];
-                const originalTitle = question.title;
-                const quizTitle = platformState.currentSurveyConfig.title;
-                const quizIcon = platformState.currentSurveyConfig.icon;
-                
-                // Prepend quiz info to question title
-                question.title = `${quizIcon} ${quizTitle} - Question ${index + 1}\n\n${originalTitle}`;
-                
-                surveyConfig.pages.push({
-                    name: `question${index + 1}`,
-                    elements: questionPage.elements
-                });
+                try {
+                    const question = questionPage.elements[0];
+                    const originalTitle = question.title;
+                    const quizTitle = platformState.currentSurveyConfig.title;
+                    const quizIcon = platformState.currentSurveyConfig.icon;
+                    
+                    // Prepend quiz info to question title
+                    question.title = `${quizIcon} ${quizTitle} - Question ${index + 1}\n\n${originalTitle}`;
+                    
+                    surveyConfig.pages.push({
+                        name: `question${index + 1}`,
+                        elements: questionPage.elements
+                    });
+                } catch (questionError) {
+                    Logger.error(`Error processing question ${index}`, questionError);
+                }
             });
             
             Logger.info(`Survey config now has ${surveyConfig.pages.length} pages`);
             
-            // Create survey
-            const survey = new Survey.Model(surveyConfig);
-            Logger.info('Survey created with pages:', survey.pages.length);
+            // Create survey with error handling
+            let survey;
+            try {
+                survey = new Survey.Model(surveyConfig);
+                if (!survey) {
+                    throw new Error('Survey.Model constructor returned null/undefined');
+                }
+                Logger.info('Survey created with pages:', survey.pages ? survey.pages.length : 'unknown');
+            } catch (surveyCreateError) {
+                Logger.error('Error creating Survey.Model', surveyCreateError);
+                throw new Error(`Failed to create survey: ${surveyCreateError.message}`);
+            }
+            
+            // Verify survey object has required methods
+            if (!survey.onCurrentPageChanged || typeof survey.onCurrentPageChanged.add !== 'function') {
+                Logger.error('Survey object missing event handler methods', {
+                    hasOnCurrentPageChanged: !!survey.onCurrentPageChanged,
+                    hasAddMethod: survey.onCurrentPageChanged ? typeof survey.onCurrentPageChanged.add : 'N/A'
+                });
+                throw new Error('Survey object is missing required event handler methods. This may indicate a SurveyJS version incompatibility.');
+            }
             
             // Store survey instance
             platformState.currentSurvey = survey;
@@ -126,20 +165,29 @@ class QuizManager {
             const surveyContainer = Utils.safeGetElement(CONFIG.SELECTORS.SURVEY_CONTAINER);
             surveyContainer.innerHTML = '';
             
-            // Render survey using jQuery plugin
+            // Render survey using jQuery plugin with error handling
             try {
+                // Verify jQuery plugin is available
+                if (!$ || !$.fn.Survey) {
+                    throw new Error('SurveyJS jQuery plugin not loaded');
+                }
+                
                 $("#surveyContainer").Survey({
                     model: survey
                 });
                 
                 // Verify the survey was rendered
                 setTimeout(() => {
-                    const surveyElements = surveyContainer.querySelectorAll('.sv-root, .sd-root');
-                    if (surveyElements.length === 0) {
-                        Logger.error('Survey elements not found after rendering');
-                        throw new Error('Survey failed to render properly');
-                    } else {
-                        Logger.info(`Survey rendered successfully with ${surveyElements.length} root elements`);
+                    try {
+                        const surveyElements = surveyContainer.querySelectorAll('.sv-root, .sd-root, .sv-container, .sd-container');
+                        if (surveyElements.length === 0) {
+                            Logger.error('Survey elements not found after rendering');
+                            throw new Error('Survey failed to render properly - no survey DOM elements found');
+                        } else {
+                            Logger.info(`Survey rendered successfully with ${surveyElements.length} root elements`);
+                        }
+                    } catch (verifyError) {
+                        Logger.error('Error verifying survey render', verifyError);
                     }
                 }, 500);
                 
@@ -159,18 +207,28 @@ class QuizManager {
                     <h4>Survey Initialization Failed</h4>
                     <p>There was an error setting up the quiz. This might be due to:</p>
                     <ul>
-                        <li>Invalid question format in the data file</li>
                         <li>SurveyJS library not loading properly</li>
+                        <li>Invalid question format in the data file</li>
                         <li>JavaScript errors in survey configuration</li>
+                        <li>Version incompatibility with SurveyJS</li>
                     </ul>
                     <p><strong>Error:</strong> ${error.message}</p>
                     <details class="mt-2">
                         <summary>Technical Details</summary>
                         <pre class="mt-2">${error.stack || 'No stack trace available'}</pre>
+                        <div class="mt-2">
+                            <strong>Debug Info:</strong><br>
+                            Survey available: ${typeof Survey !== 'undefined'}<br>
+                            Survey.Model available: ${typeof Survey !== 'undefined' && Survey.Model ? 'true' : 'false'}<br>
+                            jQuery available: ${typeof $ !== 'undefined'}<br>
+                            jQuery.Survey available: ${typeof $ !== 'undefined' && $.fn && $.fn.Survey ? 'true' : 'false'}<br>
+                            Questions loaded: ${platformState.allQuestions ? platformState.allQuestions.length : 0}
+                        </div>
                     </details>
                     <div class="mt-3">
-                        <button class="btn btn-primary me-2" onclick="QuizManager.startSurvey('${platformState.currentSurveyConfig?.id}')" ${!platformState.currentSurveyConfig ? 'disabled' : ''}>🔄 Retry Quiz</button>
+                        <button class="btn btn-primary me-2" onclick="window.location.reload()">🔄 Reload Page</button>
                         <button class="btn btn-secondary" onclick="NavigationManager.showHomePage()">🏠 Back to Home</button>
+                        <button class="btn btn-info" onclick="console.log('SurveyJS Debug:', {Survey: typeof Survey, Model: typeof Survey !== 'undefined' ? typeof Survey.Model : 'N/A', jQuery: typeof $, jQuerySurvey: typeof $ !== 'undefined' && $.fn ? typeof $.fn.Survey : 'N/A'})">🐛 Debug SurveyJS</button>
                     </div>
                 </div>
             `, true);
@@ -245,55 +303,90 @@ class QuizManager {
      * Setup survey event handlers
      */
     static setupSurveyEventHandlers(survey) {
+        Logger.group('Setting up Survey Event Handlers');
+        
         try {
-            // Handle start page completion and question filtering
-            survey.onCurrentPageChanged.add(function(sender, options) {
-                try {
-                    if (options.oldCurrentPage && options.oldCurrentPage.name === "startPage") {
-                        Logger.info("Leaving start page, filtering questions...");
-                        
-                        const questionCount = sender.getValue("questionCount") || 10;
-                        const username = sender.getValue("username");
-                        
-                        Logger.info(`Filtering to ${questionCount} questions for user: ${username}`);
-                        
-                        // Remove excess question pages
-                        const questionPages = sender.pages.filter(page => page.name.startsWith("question"));
-                        const pagesToRemove = questionPages.slice(questionCount);
-                        
-                        Logger.debug(`Removing ${pagesToRemove.length} excess pages`);
-                        pagesToRemove.forEach(page => sender.removePage(page));
-                        
-                        // Update timer based on question count
-                        const timePerQuestion = platformState.currentSurveyConfig.timePerQuestion || CONFIG.DEFAULT_TIME_PER_QUESTION;
-                        sender.maxTimeToFinish = questionCount * timePerQuestion;
-                        sender.maxTimeToFinishPage = timePerQuestion;
-                        
-                        Logger.info(`Survey filtered to ${questionCount} questions, ${sender.maxTimeToFinish} seconds total`);
-                    }
-                } catch (pageChangeError) {
-                    Logger.error('Error in page change handler', pageChangeError);
-                }
+            // Verify survey object and its methods
+            if (!survey) {
+                throw new Error('Survey object is null or undefined');
+            }
+            
+            Logger.debug('Survey object type:', typeof survey);
+            Logger.debug('Survey methods available:', {
+                onCurrentPageChanged: typeof survey.onCurrentPageChanged,
+                onComplete: typeof survey.onComplete,
+                onError: typeof survey.onError
             });
+            
+            // Handle start page completion and question filtering
+            if (survey.onCurrentPageChanged && typeof survey.onCurrentPageChanged.add === 'function') {
+                survey.onCurrentPageChanged.add(function(sender, options) {
+                    try {
+                        if (options.oldCurrentPage && options.oldCurrentPage.name === "startPage") {
+                            Logger.info("Leaving start page, filtering questions...");
+                            
+                            const questionCount = sender.getValue("questionCount") || 10;
+                            const username = sender.getValue("username");
+                            
+                            Logger.info(`Filtering to ${questionCount} questions for user: ${username}`);
+                            
+                            // Remove excess question pages
+                            const questionPages = sender.pages.filter(page => page.name.startsWith("question"));
+                            const pagesToRemove = questionPages.slice(questionCount);
+                            
+                            Logger.debug(`Removing ${pagesToRemove.length} excess pages`);
+                            pagesToRemove.forEach(page => sender.removePage(page));
+                            
+                            // Update timer based on question count
+                            const timePerQuestion = platformState.currentSurveyConfig.timePerQuestion || CONFIG.DEFAULT_TIME_PER_QUESTION;
+                            sender.maxTimeToFinish = questionCount * timePerQuestion;
+                            sender.maxTimeToFinishPage = timePerQuestion;
+                            
+                            Logger.info(`Survey filtered to ${questionCount} questions, ${sender.maxTimeToFinish} seconds total`);
+                        }
+                    } catch (pageChangeError) {
+                        Logger.error('Error in page change handler', pageChangeError);
+                    }
+                });
+                Logger.debug('onCurrentPageChanged handler attached');
+            } else {
+                Logger.warn('onCurrentPageChanged not available or not a function', {
+                    exists: !!survey.onCurrentPageChanged,
+                    type: typeof survey.onCurrentPageChanged,
+                    hasAdd: survey.onCurrentPageChanged ? typeof survey.onCurrentPageChanged.add : 'N/A'
+                });
+            }
             
             // Handle survey completion
-            survey.onComplete.add(function(sender) {
-                try {
-                    QuizManager.showDetailedResults(sender);
-                } catch (completionError) {
-                    Logger.error('Error in completion handler', completionError);
-                }
-            });
+            if (survey.onComplete && typeof survey.onComplete.add === 'function') {
+                survey.onComplete.add(function(sender) {
+                    try {
+                        QuizManager.showDetailedResults(sender);
+                    } catch (completionError) {
+                        Logger.error('Error in completion handler', completionError);
+                    }
+                });
+                Logger.debug('onComplete handler attached');
+            } else {
+                Logger.warn('onComplete not available or not a function');
+            }
             
-            // Add error handler for survey errors
-            survey.onError.add(function(sender, options) {
-                Logger.error('Survey error occurred', options);
-            });
+            // Add error handler for survey errors if available
+            if (survey.onError && typeof survey.onError.add === 'function') {
+                survey.onError.add(function(sender, options) {
+                    Logger.error('Survey error occurred', options);
+                });
+                Logger.debug('onError handler attached');
+            } else {
+                Logger.debug('onError handler not available (this is normal for some SurveyJS versions)');
+            }
             
-            Logger.debug('Survey event handlers setup complete');
+            Logger.info('Survey event handlers setup complete');
         } catch (error) {
             Logger.error('Error setting up survey event handlers', error);
-            throw error;
+            throw new Error(`Failed to setup event handlers: ${error.message}. This may indicate a SurveyJS version compatibility issue.`);
+        } finally {
+            Logger.groupEnd();
         }
     }
     
