@@ -1,0 +1,242 @@
+[
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q1",
+        "title": "**Single Number Pattern - Basic XOR**\\n\\nGiven a non-empty array of integers `nums`, every element appears twice except for one. Find that single one.\\n\\n**Example:** `nums = [2,2,1]` → `1`\\n\\n**What is the optimal Python solution using XOR properties?**",
+        "choices": [
+            "```python\\ndef singleNumber(nums):\\n    result = 0\\n    for num in nums:\\n        result ^= num\\n    return result\\n```",
+            "```python\\ndef singleNumber(nums):\\n    count = {}\\n    for num in nums:\\n        count[num] = count.get(num, 0) + 1\\n    for num, freq in count.items():\\n        if freq == 1:\\n            return num\\n```",
+            "```python\\ndef singleNumber(nums):\\n    return sum(set(nums)) * 2 - sum(nums)\\n```"
+        ],
+        "correctAnswer": "```python\\ndef singleNumber(nums):\\n    result = 0\\n    for num in nums:\\n        result ^= num\\n    return result\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q2",
+        "title": "**Number of 1 Bits - Brian Kernighan's Algorithm**\\n\\nWrite a function that takes an unsigned integer and returns the number of '1' bits it has (Hamming weight).\\n\\n**Example:** `n = 11` (binary: 1011) → `3`\\n\\n**What is the most efficient solution?**",
+        "choices": [
+            "```python\\ndef hammingWeight(n):\\n    count = 0\\n    while n:\\n        n &= n - 1  # Turn off rightmost set bit\\n        count += 1\\n    return count\\n```",
+            "```python\\ndef hammingWeight(n):\\n    count = 0\\n    while n:\\n        count += n & 1\\n        n >>= 1\\n    return count\\n```",
+            "```python\\ndef hammingWeight(n):\\n    return bin(n).count('1')\\n```"
+        ],
+        "correctAnswer": "```python\\ndef hammingWeight(n):\\n    count = 0\\n    while n:\\n        n &= n - 1  # Turn off rightmost set bit\\n        count += 1\\n    return count\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q3",
+        "title": "**Power of Two Check**\\n\\nGiven an integer `n`, return `true` if it is a power of two. Otherwise, return `false`.\\n\\n**Example:** `n = 16` → `true` (2^4 = 16)\\n\\n**What is the optimal bit manipulation solution?**",
+        "choices": [
+            "```python\\ndef isPowerOfTwo(n):\\n    return n > 0 and (n & (n - 1)) == 0\\n```",
+            "```python\\ndef isPowerOfTwo(n):\\n    return n > 0 and (n & -n) == n\\n```",
+            "```python\\ndef isPowerOfTwo(n):\\n    if n <= 0:\\n        return False\\n    while n % 2 == 0:\\n        n //= 2\\n    return n == 1\\n```"
+        ],
+        "correctAnswer": "```python\\ndef isPowerOfTwo(n):\\n    return n > 0 and (n & (n - 1)) == 0\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q4",
+        "title": "**Missing Number Using XOR**\\n\\nGiven an array `nums` containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.\\n\\n**Example:** `nums = [3,0,1]` → `2`\\n\\n**What is the XOR-based solution?**",
+        "choices": [
+            "```python\\ndef missingNumber(nums):\\n    xor = 0\\n    for i in range(len(nums) + 1):\\n        xor ^= i\\n    for num in nums:\\n        xor ^= num\\n    return xor\\n```",
+            "```python\\ndef missingNumber(nums):\\n    n = len(nums)\\n    expected_sum = n * (n + 1) // 2\\n    actual_sum = sum(nums)\\n    return expected_sum - actual_sum\\n```",
+            "```python\\ndef missingNumber(nums):\\n    nums_set = set(nums)\\n    for i in range(len(nums) + 1):\\n        if i not in nums_set:\\n            return i\\n```"
+        ],
+        "correctAnswer": "```python\\ndef missingNumber(nums):\\n    xor = 0\\n    for i in range(len(nums) + 1):\\n        xor ^= i\\n    for num in nums:\\n        xor ^= num\\n    return xor\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q5",
+        "title": "**Sum of Two Integers Without + Operator**\\n\\nGiven two integers `a` and `b`, return the sum of the two integers without using the operators `+` and `-`.\\n\\n**Example:** `a = 1, b = 2` → `3`\\n\\n**What is the bit manipulation solution?**",
+        "choices": [
+            "```python\\ndef getSum(a, b):\\n    mask = 0xFFFFFFFF\\n    while b != 0:\\n        carry = ((a & b) << 1) & mask\\n        a = (a ^ b) & mask\\n        b = carry\\n    return a if a <= 0x7FFFFFFF else ~(a ^ mask)\\n```",
+            "```python\\ndef getSum(a, b):\\n    while b != 0:\\n        carry = (a & b) << 1\\n        a = a ^ b\\n        b = carry\\n    return a\\n```",
+            "```python\\ndef getSum(a, b):\\n    return a + b  # Not allowed!\\n```"
+        ],
+        "correctAnswer": "```python\\ndef getSum(a, b):\\n    mask = 0xFFFFFFFF\\n    while b != 0:\\n        carry = ((a & b) << 1) & mask\\n        a = (a ^ b) & mask\\n        b = carry\\n    return a if a <= 0x7FFFFFFF else ~(a ^ mask)\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q6",
+        "title": "**Hamming Distance**\\n\\nThe Hamming distance between two integers is the number of positions at which the corresponding bits are different.\\n\\n**Example:** `x = 1, y = 4` → `2` (binary: 001 vs 100)\\n\\n**What is the optimal solution?**",
+        "choices": [
+            "```python\\ndef hammingDistance(x, y):\\n    return bin(x ^ y).count('1')\\n```",
+            "```python\\ndef hammingDistance(x, y):\\n    xor = x ^ y\\n    count = 0\\n    while xor:\\n        xor &= xor - 1\\n        count += 1\\n    return count\\n```",
+            "```python\\ndef hammingDistance(x, y):\\n    xor = x ^ y\\n    count = 0\\n    while xor:\\n        count += xor & 1\\n        xor >>= 1\\n    return count\\n```"
+        ],
+        "correctAnswer": "```python\\ndef hammingDistance(x, y):\\n    return bin(x ^ y).count('1')\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q7",
+        "title": "**Reverse Bits of 32-bit Integer**\\n\\nReverse bits of a given 32 bits unsigned integer.\\n\\n**Example:** `n = 43261596` → `964176192`\\n\\n**What is the optimal solution?**",
+        "choices": [
+            "```python\\ndef reverseBits(n):\\n    result = 0\\n    for i in range(32):\\n        result = (result << 1) | (n & 1)\\n        n >>= 1\\n    return result\\n```",
+            "```python\\ndef reverseBits(n):\\n    binary = format(n, '032b')\\n    return int(binary[::-1], 2)\\n```",
+            "```python\\ndef reverseBits(n):\\n    result = 0\\n    for i in range(32):\\n        if n & (1 << i):\\n            result |= 1 << (31 - i)\\n    return result\\n```"
+        ],
+        "correctAnswer": "```python\\ndef reverseBits(n):\\n    result = 0\\n    for i in range(32):\\n        result = (result << 1) | (n & 1)\\n        n >>= 1\\n    return result\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q8",
+        "title": "**Single Number II - Appears Thrice**\\n\\nGiven an integer array `nums` where every element appears three times except for one, which appears exactly once. Find the single element.\\n\\n**Example:** `nums = [2,2,3,2]` → `3`\\n\\n**What is the advanced bit manipulation solution?**",
+        "choices": [
+            "```python\\ndef singleNumber(nums):\\n    ones = twos = 0\\n    for num in nums:\\n        ones = ~twos & (ones ^ num)\\n        twos = ~ones & (twos ^ num)\\n    return ones\\n```",
+            "```python\\ndef singleNumber(nums):\\n    count = {}\\n    for num in nums:\\n        count[num] = count.get(num, 0) + 1\\n    for num, freq in count.items():\\n        if freq == 1:\\n            return num\\n```",
+            "```python\\ndef singleNumber(nums):\\n    result = 0\\n    for i in range(32):\\n        bit_sum = sum((num >> i) & 1 for num in nums)\\n        if bit_sum % 3:\\n            result |= 1 << i\\n    return result if result < 2**31 else result - 2**32\\n```"
+        ],
+        "correctAnswer": "```python\\ndef singleNumber(nums):\\n    ones = twos = 0\\n    for num in nums:\\n        ones = ~twos & (ones ^ num)\\n        twos = ~ones & (twos ^ num)\\n    return ones\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q9",
+        "title": "**Counting Bits**\\n\\nGiven an integer `n`, return an array `ans` of length `n + 1` such that for each `i` (0 <= i <= n), `ans[i]` is the number of 1's in the binary representation of `i`.\\n\\n**Example:** `n = 5` → `[0,1,1,2,1,2]`\\n\\n**What is the optimal DP solution using bit manipulation?**",
+        "choices": [
+            "```python\\ndef countBits(n):\\n    ans = [0] * (n + 1)\\n    for i in range(1, n + 1):\\n        ans[i] = ans[i >> 1] + (i & 1)\\n    return ans\\n```",
+            "```python\\ndef countBits(n):\\n    ans = [0] * (n + 1)\\n    for i in range(1, n + 1):\\n        ans[i] = ans[i & (i - 1)] + 1\\n    return ans\\n```",
+            "```python\\ndef countBits(n):\\n    ans = []\\n    for i in range(n + 1):\\n        ans.append(bin(i).count('1'))\\n    return ans\\n```"
+        ],
+        "correctAnswer": "```python\\ndef countBits(n):\\n    ans = [0] * (n + 1)\\n    for i in range(1, n + 1):\\n        ans[i] = ans[i >> 1] + (i & 1)\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q10",
+        "title": "**Bitwise AND of Numbers Range**\\n\\nGiven two integers `left` and `right` that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.\\n\\n**Example:** `left = 5, right = 7` → `4` (5&6&7 = 4)\\n\\n**What is the optimal solution?**",
+        "choices": [
+            "```python\\ndef rangeBitwiseAnd(left, right):\\n    shift = 0\\n    while left != right:\\n        left >>= 1\\n        right >>= 1\\n        shift += 1\\n    return left << shift\\n```",
+            "```python\\ndef rangeBitwiseAnd(left, right):\\n    while left < right:\\n        right &= right - 1\\n    return right\\n```",
+            "```python\\ndef rangeBitwiseAnd(left, right):\\n    result = left\\n    for i in range(left + 1, right + 1):\\n        result &= i\\n    return result\\n```"
+        ],
+        "correctAnswer": "```python\\ndef rangeBitwiseAnd(left, right):\\n    shift = 0\\n    while left != right:\\n        left >>= 1\\n        right >>= 1\\n        shift += 1\\n    return left << shift\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q11",
+        "title": "**Find Complement of Number**\\n\\nThe complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.\\n\\n**Example:** `num = 5` (101) → `2` (010)\\n\\n**What is the correct solution?**",
+        "choices": [
+            "```python\\ndef findComplement(num):\\n    bit_length = num.bit_length()\\n    mask = (1 << bit_length) - 1\\n    return num ^ mask\\n```",
+            "```python\\ndef findComplement(num):\\n    return ~num\\n```",
+            "```python\\ndef findComplement(num):\\n    binary = bin(num)[2:]\\n    complement = ''\\n    for bit in binary:\\n        complement += '0' if bit == '1' else '1'\\n    return int(complement, 2)\\n```"
+        ],
+        "correctAnswer": "```python\\ndef findComplement(num):\\n    bit_length = num.bit_length()\\n    mask = (1 << bit_length) - 1\\n    return num ^ mask\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q12",
+        "title": "**Subset Generation Using Bitmasks**\\n\\nGiven an integer array `nums` of unique elements, return all possible subsets (the power set).\\n\\n**Example:** `nums = [1,2,3]` → `[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]`\\n\\n**What is the bitmask-based solution?**",
+        "choices": [
+            "```python\\ndef subsets(nums):\\n    result = []\\n    n = len(nums)\\n    \\n    for mask in range(1 << n):\\n        subset = []\\n        for i in range(n):\\n            if mask & (1 << i):\\n                subset.append(nums[i])\\n        result.append(subset)\\n    \\n    return result\\n```",
+            "```python\\ndef subsets(nums):\\n    result = []\\n    \\n    def backtrack(start, path):\\n        result.append(path[:])\\n        for i in range(start, len(nums)):\\n            path.append(nums[i])\\n            backtrack(i + 1, path)\\n            path.pop()\\n    \\n    backtrack(0, [])\\n    return result\\n```",
+            "```python\\ndef subsets(nums):\\n    result = [[]]\\n    for num in nums:\\n        result += [curr + [num] for curr in result]\\n    return result\\n```"
+        ],
+        "correctAnswer": "```python\\ndef subsets(nums):\\n    result = []\\n    n = len(nums)\\n    \\n    for mask in range(1 << n):\\n        subset = []\\n        for i in range(n):\\n            if mask & (1 << i):\\n                subset.append(nums[i])\\n        result.append(subset)\\n    \\n    return result\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q13",
+        "title": "**Power of Four Check**\\n\\nGiven an integer `n`, return `true` if it is a power of four. Otherwise, return `false`.\\n\\n**Example:** `n = 16` → `true` (4^2 = 16)\\n\\n**What is the bit manipulation solution?**",
+        "choices": [
+            "```python\\ndef isPowerOfFour(n):\\n    return n > 0 and (n & (n - 1)) == 0 and (n & 0x55555555) != 0\\n```",
+            "```python\\ndef isPowerOfFour(n):\\n    return n > 0 and (n & (n - 1)) == 0 and n % 3 == 1\\n```",
+            "```python\\ndef isPowerOfFour(n):\\n    if n <= 0:\\n        return False\\n    while n % 4 == 0:\\n        n //= 4\\n    return n == 1\\n```"
+        ],
+        "correctAnswer": "```python\\ndef isPowerOfFour(n):\\n    return n > 0 and (n & (n - 1)) == 0 and (n & 0x55555555) != 0\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q14",
+        "title": "**Single Number III - Two Single Numbers**\\n\\nGiven an integer array `nums`, exactly two elements appear only once and all others appear exactly twice. Find the two elements that appear only once.\\n\\n**Example:** `nums = [1,2,1,3,2,5]` → `[3,5]`\\n\\n**What is the XOR-based solution?**",
+        "choices": [
+            "```python\\ndef singleNumber(nums):\\n    xor = 0\\n    for num in nums:\\n        xor ^= num\\n    \\n    # Find rightmost set bit\\n    rightmost_bit = xor & -xor\\n    \\n    num1 = num2 = 0\\n    for num in nums:\\n        if num & rightmost_bit:\\n            num1 ^= num\\n        else:\\n            num2 ^= num\\n    \\n    return [num1, num2]\\n```",
+            "```python\\ndef singleNumber(nums):\\n    count = {}\\n    for num in nums:\\n        count[num] = count.get(num, 0) + 1\\n    return [num for num, freq in count.items() if freq == 1]\\n```",
+            "```python\\ndef singleNumber(nums):\\n    return list(set(nums))\\n```"
+        ],
+        "correctAnswer": "```python\\ndef singleNumber(nums):\\n    xor = 0\\n    for num in nums:\\n        xor ^= num\\n    \\n    # Find rightmost set bit\\n    rightmost_bit = xor & -xor\\n    \\n    num1 = num2 = 0\\n    for num in nums:\\n        if num & rightmost_bit:\\n            num1 ^= num\\n        else:\\n            num2 ^= num\\n    \\n    return [num1, num2]\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q15",
+        "title": "**Gray Code Generation**\\n\\nThe gray code is a binary numeral system where two successive values differ in only one bit. Given `n`, generate the sequence of n-bit gray code.\\n\\n**Example:** `n = 2` → `[0,1,3,2]`\\n\\n**What is the iterative solution?**",
+        "choices": [
+            "```python\\ndef grayCode(n):\\n    result = [0]\\n    for i in range(n):\\n        result += [x + (1 << i) for x in reversed(result)]\\n    return result\\n```",
+            "```python\\ndef grayCode(n):\\n    result = []\\n    for i in range(1 << n):\\n        result.append(i ^ (i >> 1))\\n    return result\\n```",
+            "```python\\ndef grayCode(n):\\n    if n == 0:\\n        return [0]\\n    \\n    prev = grayCode(n - 1)\\n    return prev + [x + (1 << (n - 1)) for x in reversed(prev)]\\n```"
+        ],
+        "correctAnswer": "```python\\ndef grayCode(n):\\n    result = [0]\\n    for i in range(n):\\n        result += [x + (1 << i) for x in reversed(result)]\\n    return result\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q16",
+        "title": "**Total Hamming Distance**\\n\\nThe Hamming distance between two integers is the number of positions at which the corresponding bits are different. Given an integer array `nums`, return the total Hamming distance between all the pairs.\\n\\n**Example:** `nums = [4,14,2]` → `6`\\n\\n**What is the optimal O(n) solution?**",
+        "choices": [
+            "```python\\ndef totalHammingDistance(nums):\\n    total = 0\\n    n = len(nums)\\n    \\n    for i in range(32):\\n        ones = sum((num >> i) & 1 for num in nums)\\n        zeros = n - ones\\n        total += ones * zeros\\n    \\n    return total\\n```",
+            "```python\\ndef totalHammingDistance(nums):\\n    total = 0\\n    for i in range(len(nums)):\\n        for j in range(i + 1, len(nums)):\\n            total += bin(nums[i] ^ nums[j]).count('1')\\n    return total\\n```",
+            "```python\\ndef totalHammingDistance(nums):\\n    result = 0\\n    for num1 in nums:\\n        for num2 in nums:\\n            if num1 != num2:\\n                result += bin(num1 ^ num2).count('1')\\n    return result // 2\\n```"
+        ],
+        "correctAnswer": "```python\\ndef totalHammingDistance(nums):\\n    total = 0\\n    n = len(nums)\\n    \\n    for i in range(32):\\n        ones = sum((num >> i) & 1 for num in nums)\\n        zeros = n - ones\\n        total += ones * zeros\\n    \\n    return total\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q17",
+        "title": "**Check if Number is Binary Palindrome**\\n\\nGiven an integer `n`, return `true` if the binary representation of `n` is a palindrome, `false` otherwise.\\n\\n**Example:** `n = 9` (1001) → `true`\\n\\n**What is the bit manipulation solution?**",
+        "choices": [
+            "```python\\ndef isPalindrome(n):\\n    original = n\\n    reversed_num = 0\\n    \\n    while n > 0:\\n        reversed_num = (reversed_num << 1) | (n & 1)\\n        n >>= 1\\n    \\n    return original == reversed_num\\n```",
+            "```python\\ndef isPalindrome(n):\\n    binary = bin(n)[2:]\\n    return binary == binary[::-1]\\n```",
+            "```python\\ndef isPalindrome(n):\\n    bits = []\\n    while n > 0:\\n        bits.append(n & 1)\\n        n >>= 1\\n    \\n    left, right = 0, len(bits) - 1\\n    while left < right:\\n        if bits[left] != bits[right]:\\n            return False\\n        left += 1\\n        right -= 1\\n    \\n    return True\\n```"
+        ],
+        "correctAnswer": "```python\\ndef isPalindrome(n):\\n    original = n\\n    reversed_num = 0\\n    \\n    while n > 0:\\n        reversed_num = (reversed_num << 1) | (n & 1)\\n        n >>= 1\\n    \\n    return original == reversed_num\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q18",
+        "title": "**Maximum Product of Word Lengths**\\n\\nGiven a string array `words`, return the maximum value of `length(word[i]) * length(word[j])` where the two words do not share common letters.\\n\\n**Example:** `words = [\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]` → `16`\\n\\n**What is the bitmask optimization solution?**",
+        "choices": [
+            "```python\\ndef maxProduct(words):\\n    n = len(words)\\n    masks = [0] * n\\n    \\n    for i, word in enumerate(words):\\n        for char in word:\\n            masks[i] |= 1 << (ord(char) - ord('a'))\\n    \\n    max_product = 0\\n    for i in range(n):\\n        for j in range(i + 1, n):\\n            if masks[i] & masks[j] == 0:\\n                max_product = max(max_product, len(words[i]) * len(words[j]))\\n    \\n    return max_product\\n```",
+            "```python\\ndef maxProduct(words):\\n    max_product = 0\\n    for i in range(len(words)):\\n        for j in range(i + 1, len(words)):\\n            if not set(words[i]) & set(words[j]):\\n                max_product = max(max_product, len(words[i]) * len(words[j]))\\n    return max_product\\n```",
+            "```python\\ndef maxProduct(words):\\n    from collections import defaultdict\\n    \\n    groups = defaultdict(list)\\n    for word in words:\\n        mask = 0\\n        for char in set(word):\\n            mask |= 1 << (ord(char) - ord('a'))\\n        groups[mask].append(len(word))\\n    \\n    for mask in groups:\\n        groups[mask].sort(reverse=True)\\n    \\n    max_product = 0\\n    masks = list(groups.keys())\\n    for i in range(len(masks)):\\n        for j in range(i + 1, len(masks)):\\n            if masks[i] & masks[j] == 0:\\n                max_product = max(max_product, groups[masks[i]][0] * groups[masks[j]][0])\\n    \\n    return max_product\\n```"
+        ],
+        "correctAnswer": "```python\\ndef maxProduct(words):\\n    n = len(words)\\n    masks = [0] * n\\n    \\n    for i, word in enumerate(words):\\n        for char in word:\\n            masks[i] |= 1 << (ord(char) - ord('a'))\\n    \\n    max_product = 0\\n    for i in range(n):\\n        for j in range(i + 1, n):\\n            if masks[i] & masks[j] == 0:\\n                max_product = max(max_product, len(words[i]) * len(words[j]))\\n    \\n    return max_product\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q19",
+        "title": "**Minimum Number of Operations to Make Array XOR Equal to K**\\n\\nYou are given a 0-indexed integer array `nums` and a positive integer `k`. You can apply the operation any number of times: choose any element and flip a bit in its binary representation. Return the minimum number of operations required.\\n\\n**Example:** `nums = [2,1,3,4], k = 1` → `2`\\n\\n**What is the XOR-based solution?**",
+        "choices": [
+            "```python\\ndef minOperations(nums, k):\\n    current_xor = 0\\n    for num in nums:\\n        current_xor ^= num\\n    \\n    diff = current_xor ^ k\\n    return bin(diff).count('1')\\n```",
+            "```python\\ndef minOperations(nums, k):\\n    total_xor = 0\\n    for num in nums:\\n        total_xor ^= num\\n    \\n    operations = 0\\n    while total_xor != k:\\n        if (total_xor & 1) != (k & 1):\\n            operations += 1\\n        total_xor >>= 1\\n        k >>= 1\\n    \\n    return operations\\n```",
+            "```python\\ndef minOperations(nums, k):\\n    xor_result = 0\\n    for num in nums:\\n        xor_result ^= num\\n    \\n    target_diff = xor_result ^ k\\n    count = 0\\n    while target_diff:\\n        target_diff &= target_diff - 1\\n        count += 1\\n    \\n    return count\\n```"
+        ],
+        "correctAnswer": "```python\\ndef minOperations(nums, k):\\n    current_xor = 0\\n    for num in nums:\\n        current_xor ^= num\\n    \\n    diff = current_xor ^ k\\n    return bin(diff).count('1')\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q20",
+        "title": "**Decode XORed Array**\\n\\nThere is a hidden integer array `arr` that consists of `n` non-negative integers. Given `encoded` array and `first` element, decode the original array.\\n\\n**Example:** `encoded = [1,2,3], first = 1` → `[1,0,2,1]`\\n\\n**What is the XOR decoding solution?**",
+        "choices": [
+            "```python\\ndef decode(encoded, first):\\n    arr = [first]\\n    for num in encoded:\\n        arr.append(arr[-1] ^ num)\\n    return arr\\n```",
+            "```python\\ndef decode(encoded, first):\\n    result = [first]\\n    current = first\\n    \\n    for encoded_val in encoded:\\n        current ^= encoded_val\\n        result.append(current)\\n    \\n    return result\\n```",
+            "```python\\ndef decode(encoded, first):\\n    decoded = [first]\\n    for i in range(len(encoded)):\\n        next_val = decoded[i] ^ encoded[i]\\n        decoded.append(next_val)\\n    return decoded\\n```"
+        ],
+        "correctAnswer": "```python\\ndef decode(encoded, first):\\n    arr = [first]\\n    for num in encoded:\\n        arr.append(arr[-1] ^ num)\\n    return arr\\n```"
+    }
+]

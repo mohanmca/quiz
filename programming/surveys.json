@@ -167,5 +167,31 @@
         "color": "#623ce4",
         "timePerQuestion": 95,
         "maxTimeToFinish": 4750
+    },
+    {
+        "id": "bit-manipulation-coding",
+        "title": "Bit Manipulation - LeetCode Coding Problems",
+        "description": "Master bit manipulation techniques with 30 coding problems covering XOR patterns, bit arithmetic, binary operations, and advanced bit tricks for coding interviews",
+        "category": "Data Structures & Algorithms",
+        "difficulty": "Intermediate",
+        "estimatedTime": "45-75 minutes",
+        "questionsFile": "python/bit-manipulation-questions.json",
+        "icon": "🔢",
+        "color": "#2ecc71",
+        "timePerQuestion": 150,
+        "maxTimeToFinish": 4500
+    },
+    {
+        "id": "bit-manipulation-advanced",
+        "title": "Advanced Bit Manipulation - Part 2",
+        "description": "Master advanced bit manipulation patterns including bit arithmetic without operators, complex XOR applications, bitwise DP, and optimization techniques for competitive programming",
+        "category": "Advanced Algorithms",
+        "difficulty": "Advanced",
+        "estimatedTime": "40-65 minutes",
+        "questionsFile": "python/bit-manipulation-advanced-questions.json",
+        "icon": "⚡",
+        "color": "#e67e22",
+        "timePerQuestion": 180,
+        "maxTimeToFinish": 3600
     }
 ]
