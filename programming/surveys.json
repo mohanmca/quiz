@@ -91,6 +91,19 @@
         "maxTimeToFinish": 1800
     },
     {
+        "id": "scala-slick-api",
+        "title": "Scala Slick API Design",
+        "description": "Master the Scala Slick API for functional relational mapping, including advanced querying, schema management, and database interaction patterns",
+        "category": "Programming Languages",
+        "difficulty": "Advanced",
+        "estimatedTime": "40-65 minutes",
+        "questionsFile": "scala-slick/questions.json",
+        "icon": "⚡",
+        "color": "#e67e22",
+        "timePerQuestion": 180,
+        "maxTimeToFinish": 3600
+    },
+    {
         "id": "advanced-data-structures-python",
         "title": "Advanced Data Structures - Python Coding",
         "description": "Master advanced data structures including Trie, Hash Maps, Circular Buffers, Monotonic Stack, and Union-Find with real coding problems",
@@ -207,4 +220,5 @@
         "timePerQuestion": 180,
         "maxTimeToFinish": 3600
     }
+
 ]

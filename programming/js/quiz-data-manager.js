@@ -314,13 +314,14 @@ class DataManager {
                 "python-type-internals": { category: "programming", subcategory: "python" },
                 "jvm-internals": { category: "programming", subcategory: "jvm" },
                 "golang-internals": { category: "programming", subcategory: "golang" },
+                "scala-slick-api": { category: "programming", subcategory: "scala" },
                 "advanced-data-structures-python": { category: "algorithms", subcategory: "advanced" },
                 "aws-k8s-secrets": { category: "cloud", subcategory: "aws" },                
                 "airflow-programming": { category: "data", subcategory: "workflow" },
                 "aws-policy-permissions": { category: "cloud", subcategory: "aws" },
                 "terraform-terragrunt": { category: "cloud", subcategory: "terraform" },
                 "crypto-derivatives": { category: "finance", subcategory: "crypto" },
-                "oms-fix-questions": { category: "finance", subcategory: "trading" }
+                "oms-fix-questions": { category: "finance", subcategory: "trading" }                
             };
             
             platformState.categories = {};

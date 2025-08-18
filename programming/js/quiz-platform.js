@@ -504,6 +504,12 @@ const categoryStructure = {
                 icon: "🔷",
                 color: "#00add8",
                 description: "Go runtime, concurrency, and performance"
+            },
+            "scala": {
+                title: "Scala Slick",
+                icon: "🔶",
+                color: "#e67e22",
+                description: "Scala Slick for functional relational mapping"
             }
         }
     },
