@@ -245,5 +245,18 @@
         "color": "#e74c3c",
         "timePerQuestion": 100,
         "maxTimeToFinish": 4000
+    },
+    {
+        "id": "apache-kafka-consumer-part3",
+        "title": "Apache Kafka Consumer & Groups - Part 3",
+        "description": "Master Kafka consumer interactions, consumer groups, transactions, message ordering, rebalancing, offset management, Consumer API, and failover strategies",
+        "category": "Messaging Systems",
+        "difficulty": "Advanced",
+        "estimatedTime": "45-70 minutes",
+        "questionsFile": "messaging/kafka-consumer-part3-questions.json",
+        "icon": "👥",
+        "color": "#2980b9",
+        "timePerQuestion": 105,
+        "maxTimeToFinish": 4200
     }
 ]

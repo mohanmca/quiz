@@ -323,7 +323,8 @@ class DataManager {
                 "crypto-derivatives": { category: "finance", subcategory: "crypto" },
                 "oms-fix-questions": { category: "finance", subcategory: "trading" },
                 "apache-kafka-part1": { category: "messaging", subcategory: "kafka" },
-                "apache-kafka-broker-part2": { category: "messaging", subcategory: "kafka" }
+                "apache-kafka-broker-part2": { category: "messaging", subcategory: "kafka" },
+                "apache-kafka-consumer-part3": { category: "messaging", subcategory: "kafka" }
             };
             
             platformState.categories = {};
