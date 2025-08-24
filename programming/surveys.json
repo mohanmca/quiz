@@ -219,6 +219,31 @@
         "color": "#e67e22",
         "timePerQuestion": 180,
         "maxTimeToFinish": 3600
+    },
+    {
+        "id": "apache-kafka-part1",
+        "title": "Apache Kafka Fundamentals - Part 1",
+        "description": "Master Apache Kafka fundamentals including producers, topics, partitions, message structure, and key differences from JMS/IBM MQ for distributed streaming",
+        "category": "Messaging Systems",
+        "difficulty": "Intermediate",
+        "estimatedTime": "35-55 minutes",
+        "questionsFile": "messaging/kafka-part1-questions.json",
+        "icon": "🚀",
+        "color": "#231f20",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 3600
+    },
+    {
+        "id": "apache-kafka-broker-part2",
+        "title": "Apache Kafka Broker Internals - Part 2",
+        "description": "Master Kafka broker architecture, leader election, message reliability, failover mechanisms, acknowledgments, quorum concepts, and broker roles in distributed systems",
+        "category": "Messaging Systems",
+        "difficulty": "Advanced",
+        "estimatedTime": "40-65 minutes",
+        "questionsFile": "messaging/kafka-broker-part2-questions.json",
+        "icon": "⚙️",
+        "color": "#e74c3c",
+        "timePerQuestion": 100,
+        "maxTimeToFinish": 4000
     }
-
 ]

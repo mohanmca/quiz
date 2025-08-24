@@ -604,6 +604,26 @@ const categoryStructure = {
                 description: "OMS design, FIX protocol, and exchange connectivity"
             }
         }
+    },
+    "messaging": {
+        title: "Messaging & Event Streaming",
+        icon: "📨",
+        color: "#231f20",
+        description: "Distributed messaging systems, event streaming, and message brokers",
+        subcategories: {
+            "kafka": {
+                title: "Apache Kafka",
+                icon: "🚀",
+                color: "#231f20",
+                description: "Distributed event streaming platform and messaging patterns"
+            },
+            "jms": {
+                title: "JMS & Message Brokers",
+                icon: "📬",
+                color: "#4a90e2",
+                description: "Java Message Service and traditional message brokers"
+            }
+        }
     }
 };
 

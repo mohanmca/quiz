@@ -77,3 +77,44 @@ Create 35 AWS Concept Questions involving K8s in new Quiz similar to python-inte
 7. Namespace secrets
 9. Good practices
 
+---
+
+----
+
+Create 40 Quiz similar to python-internals-questions.json for following "Apache Kafka - Part-1" Topic and register to quiz application
+
+1. General misunderstanding for JMS and IBM MQ developers
+2. What are kafka producer
+3. Producer API
+4. How producer find topics
+5. Producer Partition and Performance
+6. Partition and Topic
+7. Message Structure and Properties of Message
+
+
+----
+
+Create 40 Quiz similar to python-internals-questions.json for following "Apache Kafka - Part-2" Topic and register to quiz application
+
+1. Broker
+2. Broker Leader Election
+3. Message Reliability and Durability
+4. Failover
+5. In memory message Queue
+6. Message Ack
+7. Quoram
+8. Group Coordinator
+9. Broker Roles
+
+----
+
+Create 40 Quiz similar to python-internals-questions.json for following "Apache Kafka - Part-3" Topic and register to quiz application
+
+1. Broker Consumer Interaction
+2. Consumer  Group
+3. Consumer  Group Transaction
+4. Consumer  Group Message Order
+5. Consumer  Group Rebalance
+6. Message Offset
+7. Consumer API
+8. Consumer Faillver

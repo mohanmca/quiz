@@ -1,0 +1,482 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the main difference between Apache Kafka and traditional message brokers like IBM MQ?",
+        "choices": [
+            "Kafka is a distributed streaming platform, while IBM MQ is a point-to-point message broker",
+            "Kafka only supports synchronous messaging, IBM MQ supports asynchronous",
+            "Kafka is slower than IBM MQ for all use cases",
+            "Kafka and IBM MQ are functionally identical"
+        ],
+        "correctAnswer": "Kafka is a distributed streaming platform, while IBM MQ is a point-to-point message broker"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "Unlike JMS queues, Kafka topics are:",
+        "choices": [
+            "Append-only logs that retain messages for a configurable period",
+            "FIFO queues that delete messages after consumption",
+            "Priority queues that process high-priority messages first",
+            "Circular buffers with fixed size"
+        ],
+        "correctAnswer": "Append-only logs that retain messages for a configurable period"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is a common misconception JMS developers have about Kafka message consumption?",
+        "choices": [
+            "That messages are automatically deleted after being consumed by one consumer",
+            "That Kafka supports transactions",
+            "That Kafka can handle high throughput",
+            "That Kafka requires schema registry"
+        ],
+        "correctAnswer": "That messages are automatically deleted after being consumed by one consumer"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "How does Kafka's consumer model differ from IBM MQ's competing consumers pattern?",
+        "choices": [
+            "Kafka uses consumer groups where each message is delivered to one consumer per group",
+            "Kafka delivers every message to every consumer",
+            "Kafka only supports single consumer per topic",
+            "Kafka requires manual message acknowledgment"
+        ],
+        "correctAnswer": "Kafka uses consumer groups where each message is delivered to one consumer per group"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is a Kafka producer?",
+        "choices": [
+            "A client application that publishes messages to Kafka topics",
+            "A server component that manages Kafka clusters",
+            "A tool for creating Kafka topics",
+            "A monitoring service for Kafka brokers"
+        ],
+        "correctAnswer": "A client application that publishes messages to Kafka topics"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "Which class is the main entry point for the Kafka Producer API in Java?",
+        "choices": [
+            "KafkaProducer",
+            "Producer",
+            "MessageProducer",
+            "TopicProducer"
+        ],
+        "correctAnswer": "KafkaProducer"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is the primary method used to send messages in the Kafka Producer API?",
+        "choices": [
+            "send()",
+            "publish()",
+            "write()",
+            "emit()"
+        ],
+        "correctAnswer": "send()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What does the Producer.send() method return?",
+        "choices": [
+            "A Future<RecordMetadata> object",
+            "A boolean indicating success",
+            "The partition number where the message was stored",
+            "The offset of the published message"
+        ],
+        "correctAnswer": "A Future<RecordMetadata> object"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "How does a Kafka producer discover topic metadata (like partition information)?",
+        "choices": [
+            "By sending metadata requests to the bootstrap servers",
+            "By reading from a configuration file",
+            "By connecting to ZooKeeper directly",
+            "By querying a schema registry"
+        ],
+        "correctAnswer": "By sending metadata requests to the bootstrap servers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What happens when a producer tries to send to a non-existent topic?",
+        "choices": [
+            "The topic is auto-created if auto.create.topics.enable is true",
+            "The message is immediately dropped",
+            "An exception is thrown immediately",
+            "The message is queued until the topic is manually created"
+        ],
+        "correctAnswer": "The topic is auto-created if auto.create.topics.enable is true"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "Which producer configuration controls how often metadata is refreshed?",
+        "choices": [
+            "metadata.max.age.ms",
+            "refresh.metadata.interval.ms",
+            "topic.metadata.refresh.ms",
+            "bootstrap.refresh.interval.ms"
+        ],
+        "correctAnswer": "metadata.max.age.ms"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What is the purpose of the bootstrap.servers configuration in a producer?",
+        "choices": [
+            "To provide initial broker addresses for cluster discovery",
+            "To specify all brokers in the cluster",
+            "To define backup servers for failover",
+            "To list servers for schema validation"
+        ],
+        "correctAnswer": "To provide initial broker addresses for cluster discovery"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "How does specifying a partition key affect producer performance?",
+        "choices": [
+            "It ensures messages with the same key go to the same partition, enabling ordering",
+            "It always improves throughput by distributing load",
+            "It reduces memory usage in the producer",
+            "It has no impact on performance"
+        ],
+        "correctAnswer": "It ensures messages with the same key go to the same partition, enabling ordering"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the default partitioning strategy when no key is provided?",
+        "choices": [
+            "Round-robin distribution across available partitions",
+            "All messages go to partition 0",
+            "Random partition selection",
+            "Based on message timestamp"
+        ],
+        "correctAnswer": "Round-robin distribution across available partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "Which producer configuration affects batching and can improve performance?",
+        "choices": [
+            "batch.size",
+            "buffer.memory",
+            "max.request.size",
+            "connections.max.idle.ms"
+        ],
+        "correctAnswer": "batch.size"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What does the linger.ms configuration control in a producer?",
+        "choices": [
+            "How long to wait for additional messages before sending a batch",
+            "How long to keep connections alive",
+            "How long to retry failed sends",
+            "How long to cache metadata"
+        ],
+        "correctAnswer": "How long to wait for additional messages before sending a batch"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "What is a Kafka partition?",
+        "choices": [
+            "An ordered, immutable sequence of messages within a topic",
+            "A subset of consumers in a consumer group",
+            "A backup copy of topic data",
+            "A configuration setting for message retention"
+        ],
+        "correctAnswer": "An ordered, immutable sequence of messages within a topic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "How many partitions can a Kafka topic have?",
+        "choices": [
+            "Any number, but it affects parallelism and performance",
+            "Exactly one partition per topic",
+            "Maximum of 10 partitions",
+            "Must be a power of 2"
+        ],
+        "correctAnswer": "Any number, but it affects parallelism and performance"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What is the relationship between partitions and consumer parallelism?",
+        "choices": [
+            "The number of partitions determines the maximum number of consumers in a group",
+            "Partitions have no impact on consumer parallelism",
+            "More partitions always mean slower consumption",
+            "Each consumer must read from all partitions"
+        ],
+        "correctAnswer": "The number of partitions determines the maximum number of consumers in a group"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "Can you increase the number of partitions for an existing topic?",
+        "choices": [
+            "Yes, but you cannot decrease the number of partitions",
+            "No, partition count is immutable",
+            "Yes, both increase and decrease are supported",
+            "Only with cluster restart"
+        ],
+        "correctAnswer": "Yes, but you cannot decrease the number of partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What determines which partition a message goes to when a key is provided?",
+        "choices": [
+            "Hash of the key modulo number of partitions",
+            "Alphabetical order of the key",
+            "Length of the key",
+            "First available partition"
+        ],
+        "correctAnswer": "Hash of the key modulo number of partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What is the basic structure of a Kafka message?",
+        "choices": [
+            "Key, Value, Headers, Timestamp, and Offset",
+            "Topic, Partition, and Message Body",
+            "Subject, Body, and Metadata",
+            "Header and Payload only"
+        ],
+        "correctAnswer": "Key, Value, Headers, Timestamp, and Offset"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the purpose of message headers in Kafka?",
+        "choices": [
+            "To store metadata as key-value pairs without affecting partitioning",
+            "To determine which partition the message goes to",
+            "To encrypt message content",
+            "To specify message priority"
+        ],
+        "correctAnswer": "To store metadata as key-value pairs without affecting partitioning"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What data types can be used for Kafka message keys and values?",
+        "choices": [
+            "Any serializable data type with appropriate serializers",
+            "Only strings and byte arrays",
+            "Only JSON objects",
+            "Only primitive data types"
+        ],
+        "correctAnswer": "Any serializable data type with appropriate serializers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is the offset in a Kafka message?",
+        "choices": [
+            "A unique identifier for the message's position within a partition",
+            "The time when the message was created",
+            "The size of the message in bytes",
+            "The partition number where the message is stored"
+        ],
+        "correctAnswer": "A unique identifier for the message's position within a partition"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "Can a Kafka message have a null key?",
+        "choices": [
+            "Yes, and it will be distributed round-robin across partitions",
+            "No, keys are always required",
+            "Yes, but it will cause errors",
+            "Only for certain topic configurations"
+        ],
+        "correctAnswer": "Yes, and it will be distributed round-robin across partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "What is the timestamp in a Kafka message used for?",
+        "choices": [
+            "Time-based retention and ordering within partitions",
+            "Message routing decisions",
+            "Consumer group coordination",
+            "Producer acknowledgment"
+        ],
+        "correctAnswer": "Time-based retention and ordering within partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "Which configuration determines the maximum size of a Kafka message?",
+        "choices": [
+            "message.max.bytes",
+            "max.message.size",
+            "record.max.size",
+            "buffer.max.size"
+        ],
+        "correctAnswer": "message.max.bytes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "What happens if you send a message larger than the configured maximum size?",
+        "choices": [
+            "The producer throws a RecordTooLargeException",
+            "The message is automatically compressed",
+            "The message is split into multiple smaller messages",
+            "The message is queued until buffer space is available"
+        ],
+        "correctAnswer": "The producer throws a RecordTooLargeException"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "How does message compression work in Kafka?",
+        "choices": [
+            "Messages are compressed in batches by the producer before sending",
+            "Each message is compressed individually",
+            "Compression happens only on the broker",
+            "Compression is handled by the consumer"
+        ],
+        "correctAnswer": "Messages are compressed in batches by the producer before sending"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What is the difference between CreateTime and LogAppendTime for message timestamps?",
+        "choices": [
+            "CreateTime is set by producer, LogAppendTime is set by broker when message is appended",
+            "CreateTime is for consumers, LogAppendTime is for producers",
+            "CreateTime is in local time, LogAppendTime is in UTC",
+            "CreateTime and LogAppendTime are identical"
+        ],
+        "correctAnswer": "CreateTime is set by producer, LogAppendTime is set by broker when message is appended"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "Unlike IBM MQ's message expiration, Kafka messages expire based on:",
+        "choices": [
+            "Time-based retention policy configured at topic level",
+            "Individual message TTL (Time To Live)",
+            "Consumer acknowledgment timeout",
+            "Message priority levels"
+        ],
+        "correctAnswer": "Time-based retention policy configured at topic level"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "What is a major difference in error handling between JMS and Kafka producers?",
+        "choices": [
+            "Kafka producers handle errors asynchronously through callbacks or futures",
+            "JMS has no error handling mechanisms",
+            "Kafka automatically retries all failed messages indefinitely",
+            "JMS requires manual error handling for all operations"
+        ],
+        "correctAnswer": "Kafka producers handle errors asynchronously through callbacks or futures"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "How does Kafka's 'fire and forget' delivery differ from JMS AUTO_ACKNOWLEDGE?",
+        "choices": [
+            "Kafka doesn't wait for broker acknowledgment, JMS waits for message delivery confirmation",
+            "They are functionally identical",
+            "Kafka is slower than JMS AUTO_ACKNOWLEDGE",
+            "JMS doesn't support fire and forget mode"
+        ],
+        "correctAnswer": "Kafka doesn't wait for broker acknowledgment, JMS waits for message delivery confirmation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "What is the equivalent of JMS message selectors in Kafka?",
+        "choices": [
+            "Kafka doesn't have built-in message selectors; filtering happens at consumer level",
+            "Kafka topics serve as message selectors",
+            "Kafka headers work exactly like JMS selectors",
+            "Kafka partitions provide message selection"
+        ],
+        "correctAnswer": "Kafka doesn't have built-in message selectors; filtering happens at consumer level"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "Which producer configuration is most similar to JMS persistent delivery mode?",
+        "choices": [
+            "acks=all (or acks=-1)",
+            "retries=1",
+            "enable.idempotence=true",
+            "buffer.memory=32MB"
+        ],
+        "correctAnswer": "acks=all (or acks=-1)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "How does Kafka's approach to message ordering compare to IBM MQ?",
+        "choices": [
+            "Kafka guarantees ordering within a partition, IBM MQ guarantees ordering within a queue",
+            "Kafka guarantees global ordering across all partitions",
+            "IBM MQ has no ordering guarantees",
+            "Both guarantee identical ordering behavior"
+        ],
+        "correctAnswer": "Kafka guarantees ordering within a partition, IBM MQ guarantees ordering within a queue"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "What is the Kafka equivalent of JMS ConnectionFactory?",
+        "choices": [
+            "Producer/Consumer configuration properties",
+            "Bootstrap servers list",
+            "Kafka cluster configuration",
+            "Topic configuration"
+        ],
+        "correctAnswer": "Producer/Consumer configuration properties"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "How does Kafka's publish-subscribe model differ from JMS topics?",
+        "choices": [
+            "Kafka consumers must be part of consumer groups and track their own offsets",
+            "JMS topics don't support multiple subscribers",
+            "Kafka topics are point-to-point only",
+            "JMS topics provide better ordering guarantees"
+        ],
+        "correctAnswer": "Kafka consumers must be part of consumer groups and track their own offsets"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "What is a key advantage of Kafka's log-based architecture over traditional message brokers?",
+        "choices": [
+            "Messages can be replayed from any point in time within the retention period",
+            "Messages are processed faster than in traditional brokers",
+            "Messages require less storage space",
+            "Messages are automatically prioritized by importance"
+        ],
+        "correctAnswer": "Messages can be replayed from any point in time within the retention period"
+    }
+]
