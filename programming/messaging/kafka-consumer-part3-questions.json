@@ -4,10 +4,10 @@
         "name": "q1",
         "title": "How do Kafka consumers interact with brokers to fetch messages?",
         "choices": [
+            "Consumers establish persistent connections and receive real-time streams",
             "Consumers poll brokers using fetch requests to retrieve batches of messages",
-            "Consumers query a central message queue managed by brokers",
             "Brokers push messages to consumers automatically",
-            "Consumers establish persistent connections and receive real-time streams"
+            "Consumers query a central message queue managed by brokers"
         ],
         "correctAnswer": "Consumers poll brokers using fetch requests to retrieve batches of messages"
     },
@@ -16,9 +16,9 @@
         "name": "q2",
         "title": "What information does a consumer send to a broker when fetching messages?",
         "choices": [
+            "Authentication credentials and message format preferences",
             "Partition key and timestamp range",
             "Topic, partition, offset, and maximum bytes to fetch",
-            "Authentication credentials and message format preferences",
             "Consumer group ID and message filter criteria"
         ],
         "correctAnswer": "Topic, partition, offset, and maximum bytes to fetch"
@@ -28,10 +28,10 @@
         "name": "q3",
         "title": "How does a broker respond to a consumer's fetch request when no new messages are available?",
         "choices": [
+            "The broker redirects the consumer to another partition",
             "The broker waits for new messages or until a timeout, then responds",
             "The broker immediately returns an empty response",
-            "The broker sends an error indicating no messages available",
-            "The broker redirects the consumer to another partition"
+            "The broker sends an error indicating no messages available"
         ],
         "correctAnswer": "The broker waits for new messages or until a timeout, then responds"
     },
@@ -40,9 +40,9 @@
         "name": "q4",
         "title": "What is the purpose of the fetch.min.bytes configuration in consumer-broker interaction?",
         "choices": [
+            "To set the minimum network packet size for efficiency",
             "To ensure the broker waits until enough data is available before responding",
             "To control the consumer's memory usage",
-            "To set the minimum network packet size for efficiency",
             "To limit the maximum message size a consumer can receive"
         ],
         "correctAnswer": "To ensure the broker waits until enough data is available before responding"
@@ -52,10 +52,10 @@
         "name": "q5",
         "title": "What is a Kafka consumer group?",
         "choices": [
-            "A set of consumers that work together to consume messages from topics with load balancing",
             "A monitoring group for tracking consumer performance",
-            "A configuration group for managing consumer settings",
-            "A collection of topics that consumers can subscribe to"
+            "A set of consumers that work together to consume messages from topics with load balancing",
+            "A collection of topics that consumers can subscribe to",
+            "A configuration group for managing consumer settings"
         ],
         "correctAnswer": "A set of consumers that work together to consume messages from topics with load balancing"
     },
@@ -64,9 +64,9 @@
         "name": "q6",
         "title": "How are partitions distributed among consumers in a consumer group?",
         "choices": [
+            "All consumers in the group read from all partitions simultaneously",
             "Partitions are randomly distributed based on consumer availability",
             "Each partition is assigned to exactly one consumer in the group",
-            "All consumers in the group read from all partitions simultaneously",
             "The first consumer gets all partitions until it reaches capacity"
         ],
         "correctAnswer": "Each partition is assigned to exactly one consumer in the group"
@@ -76,8 +76,8 @@
         "name": "q7",
         "title": "What happens when the number of consumers in a group exceeds the number of partitions?",
         "choices": [
-            "Some consumers will remain idle with no partition assignments",
             "Multiple consumers will share the same partitions",
+            "Some consumers will remain idle with no partition assignments",
             "New partitions are automatically created for the extra consumers",
             "The excess consumers are automatically removed from the group"
         ],
@@ -88,9 +88,9 @@
         "name": "q8",
         "title": "How do different consumer groups interact with the same topic?",
         "choices": [
-            "Consumer groups compete for messages, with only one group receiving each message",
-            "Each consumer group independently consumes all messages from the topic",
             "Consumer groups must coordinate to avoid reading duplicate messages",
+            "Each consumer group independently consumes all messages from the topic",
+            "Consumer groups compete for messages, with only one group receiving each message",
             "The first consumer group gets priority access to messages"
         ],
         "correctAnswer": "Each consumer group independently consumes all messages from the topic"
@@ -101,9 +101,9 @@
         "title": "Do Kafka consumer groups support transactions in the traditional ACID sense?",
         "choices": [
             "No, but Kafka provides exactly-once semantics through idempotent producers and transactional writes",
-            "Transactions are handled entirely by the producer side",
+            "Only for single-partition topics",
             "Yes, consumer groups automatically handle ACID transactions",
-            "Only for single-partition topics"
+            "Transactions are handled entirely by the producer side"
         ],
         "correctAnswer": "No, but Kafka provides exactly-once semantics through idempotent producers and transactional writes"
     },
@@ -112,9 +112,9 @@
         "name": "q10",
         "title": "How can consumers participate in Kafka transactions?",
         "choices": [
+            "By joining a transactional consumer group",
             "By setting isolation.level to read_committed to only consume committed messages",
             "By enabling auto.commit.transactions in consumer configuration",
-            "By joining a transactional consumer group",
             "By using a special transactional consumer API"
         ],
         "correctAnswer": "By setting isolation.level to read_committed to only consume committed messages"
@@ -126,8 +126,8 @@
         "choices": [
             "read_committed only reads transactionally committed messages, read_uncommitted reads all messages",
             "read_committed reads faster, read_uncommitted provides stronger consistency",
-            "read_committed requires transactions, read_uncommitted works with any producer",
-            "read_committed is for single consumers, read_uncommitted is for consumer groups"
+            "read_committed is for single consumers, read_uncommitted is for consumer groups",
+            "read_committed requires transactions, read_uncommitted works with any producer"
         ],
         "correctAnswer": "read_committed only reads transactionally committed messages, read_uncommitted reads all messages"
     },
@@ -136,10 +136,10 @@
         "name": "q12",
         "title": "How does Kafka handle exactly-once processing with consumer groups?",
         "choices": [
-            "Through a combination of idempotent producers, transactions, and careful offset management",
             "By storing message checksums to detect duplicates",
-            "By automatically deduplicating messages at the consumer level",
-            "By using unique consumer group IDs for each processing attempt"
+            "Through a combination of idempotent producers, transactions, and careful offset management",
+            "By using unique consumer group IDs for each processing attempt",
+            "By automatically deduplicating messages at the consumer level"
         ],
         "correctAnswer": "Through a combination of idempotent producers, transactions, and careful offset management"
     },
@@ -148,8 +148,8 @@
         "name": "q13",
         "title": "Is message order guaranteed across all partitions in a topic for consumer groups?",
         "choices": [
-            "No, order is only guaranteed within individual partitions",
             "Order is guaranteed only for messages with the same key",
+            "No, order is only guaranteed within individual partitions",
             "Yes, Kafka maintains global ordering across all partitions",
             "Only if the topic has a single partition"
         ],
@@ -162,8 +162,8 @@
         "choices": [
             "Use a topic with only one partition",
             "Configure all consumers to read partitions sequentially",
-            "Enable the global.ordering configuration in Kafka",
-            "Use a special ordering consumer group configuration"
+            "Use a special ordering consumer group configuration",
+            "Enable the global.ordering configuration in Kafka"
         ],
         "correctAnswer": "Use a topic with only one partition"
     },
@@ -184,9 +184,9 @@
         "name": "q16",
         "title": "How does partition assignment affect message ordering in consumer groups?",
         "choices": [
-            "Each consumer processes messages in order within its assigned partitions",
-            "Message order is randomized when partitions are reassigned",
             "Order is maintained only for the first consumer in the group",
+            "Message order is randomized when partitions are reassigned",
+            "Each consumer processes messages in order within its assigned partitions",
             "Only the group coordinator can maintain message order"
         ],
         "correctAnswer": "Each consumer processes messages in order within its assigned partitions"
@@ -197,8 +197,8 @@
         "title": "What triggers a consumer group rebalance?",
         "choices": [
             "Consumer joining/leaving, partition changes, or consumer failure",
-            "Every time the group coordinator changes",
             "Only when explicitly requested by an administrator",
+            "Every time the group coordinator changes",
             "When message throughput exceeds a threshold"
         ],
         "correctAnswer": "Consumer joining/leaving, partition changes, or consumer failure"
@@ -208,8 +208,8 @@
         "name": "q18",
         "title": "What happens to message processing during a consumer group rebalance?",
         "choices": [
-            "All consumers in the group stop processing until rebalancing completes",
             "Processing continues but with reduced throughput",
+            "All consumers in the group stop processing until rebalancing completes",
             "Messages are queued and processed after rebalancing",
             "Only new consumers stop processing, existing consumers continue"
         ],
@@ -220,8 +220,8 @@
         "name": "q19",
         "title": "Which consumer group rebalance strategy distributes partitions most evenly?",
         "choices": [
-            "RoundRobin strategy",
             "Sticky strategy",
+            "RoundRobin strategy",
             "Range strategy",
             "Random strategy"
         ],
@@ -232,10 +232,10 @@
         "name": "q20",
         "title": "What is the benefit of the Sticky assignment strategy in consumer group rebalancing?",
         "choices": [
+            "It guarantees no rebalancing will occur",
             "It minimizes partition reassignment by keeping existing assignments when possible",
             "It assigns partitions based on consumer processing capacity",
-            "It ensures partitions stick to the fastest consumers",
-            "It guarantees no rebalancing will occur"
+            "It ensures partitions stick to the fastest consumers"
         ],
         "correctAnswer": "It minimizes partition reassignment by keeping existing assignments when possible"
     },
@@ -244,9 +244,9 @@
         "name": "q21",
         "title": "What is a message offset in Kafka?",
         "choices": [
+            "A checksum used to verify message integrity",
             "A unique sequential identifier for each message within a partition",
             "The position of a message within the entire topic",
-            "A checksum used to verify message integrity",
             "The time delay between message production and consumption"
         ],
         "correctAnswer": "A unique sequential identifier for each message within a partition"
@@ -256,9 +256,9 @@
         "name": "q22",
         "title": "Where are consumer offsets stored in Kafka?",
         "choices": [
-            "In the __consumer_offsets internal topic",
             "In ZooKeeper (legacy) or broker memory",
             "In a separate offset database",
+            "In the __consumer_offsets internal topic",
             "In each consumer's local memory"
         ],
         "correctAnswer": "In the __consumer_offsets internal topic"
@@ -268,8 +268,8 @@
         "name": "q23",
         "title": "What does it mean to commit an offset in Kafka?",
         "choices": [
-            "To save the current position in a partition to track progress",
             "To lock a partition for exclusive access",
+            "To save the current position in a partition to track progress",
             "To confirm that a message has been successfully processed",
             "To mark a message as ready for deletion"
         ],
@@ -280,9 +280,9 @@
         "name": "q24",
         "title": "What is the difference between auto-commit and manual offset commit?",
         "choices": [
+            "Auto-commit is faster, manual commit is more reliable",
             "Auto-commit periodically commits offsets automatically, manual commit requires explicit calls",
             "Auto-commit works only with consumer groups, manual commit works with individual consumers",
-            "Auto-commit is faster, manual commit is more reliable",
             "Auto-commit commits after processing, manual commit commits before processing"
         ],
         "correctAnswer": "Auto-commit periodically commits offsets automatically, manual commit requires explicit calls"
@@ -292,10 +292,10 @@
         "name": "q25",
         "title": "What happens if a consumer restarts and no committed offset exists?",
         "choices": [
-            "It uses the auto.offset.reset configuration (earliest, latest, or error)",
             "It throws an error and refuses to start",
-            "It automatically starts from the beginning of the partition",
-            "It waits for new messages to arrive"
+            "It uses the auto.offset.reset configuration (earliest, latest, or error)",
+            "It waits for new messages to arrive",
+            "It automatically starts from the beginning of the partition"
         ],
         "correctAnswer": "It uses the auto.offset.reset configuration (earliest, latest, or error)"
     },
@@ -304,9 +304,9 @@
         "name": "q26",
         "title": "Can you manually set a consumer's offset to a specific position?",
         "choices": [
+            "No, offsets must always be sequential",
             "Yes, using seek() method to position the consumer at any valid offset",
             "Only to the beginning or end of the partition",
-            "No, offsets must always be sequential",
             "Only within the current consumer session"
         ],
         "correctAnswer": "Yes, using seek() method to position the consumer at any valid offset"
@@ -316,10 +316,10 @@
         "name": "q27",
         "title": "Which class is the main entry point for the Kafka Consumer API in Java?",
         "choices": [
+            "TopicConsumer",
             "KafkaConsumer",
             "Consumer",
-            "MessageConsumer",
-            "TopicConsumer"
+            "MessageConsumer"
         ],
         "correctAnswer": "KafkaConsumer"
     },
@@ -329,9 +329,9 @@
         "title": "What is the primary method used to retrieve messages in the Kafka Consumer API?",
         "choices": [
             "poll()",
+            "fetch()",
             "consume()",
-            "receive()",
-            "fetch()"
+            "receive()"
         ],
         "correctAnswer": "poll()"
     },
@@ -342,8 +342,8 @@
         "choices": [
             "A ConsumerRecords object containing multiple messages",
             "A Future object for asynchronous processing",
-            "A boolean indicating if messages are available",
-            "A single ConsumerRecord"
+            "A single ConsumerRecord",
+            "A boolean indicating if messages are available"
         ],
         "correctAnswer": "A ConsumerRecords object containing multiple messages"
     },
@@ -353,9 +353,9 @@
         "title": "How do you subscribe to topics using the Consumer API?",
         "choices": [
             "Using subscribe() method with topic names or pattern",
+            "Using join() method with consumer group ID",
             "Using assign() method with specific partitions",
-            "Using connect() method with broker addresses",
-            "Using join() method with consumer group ID"
+            "Using connect() method with broker addresses"
         ],
         "correctAnswer": "Using subscribe() method with topic names or pattern"
     },
@@ -366,8 +366,8 @@
         "choices": [
             "subscribe() joins a consumer group with automatic partition assignment, assign() manually assigns specific partitions",
             "subscribe() handles offsets automatically, assign() requires manual offset management",
-            "subscribe() is synchronous, assign() is asynchronous",
-            "subscribe() is for single consumers, assign() is for consumer groups"
+            "subscribe() is for single consumers, assign() is for consumer groups",
+            "subscribe() is synchronous, assign() is asynchronous"
         ],
         "correctAnswer": "subscribe() joins a consumer group with automatic partition assignment, assign() manually assigns specific partitions"
     },
@@ -376,9 +376,9 @@
         "name": "q32",
         "title": "How do you commit offsets manually in the Consumer API?",
         "choices": [
+            "Using saveOffset() method",
             "Using commitSync() or commitAsync() methods",
             "Offsets are always committed automatically",
-            "Using saveOffset() method",
             "Using markConsumed() method"
         ],
         "correctAnswer": "Using commitSync() or commitAsync() methods"
@@ -388,10 +388,10 @@
         "name": "q33",
         "title": "What happens when a consumer in a group fails or becomes unresponsive?",
         "choices": [
-            "The group coordinator detects the failure and triggers a rebalance to reassign partitions",
-            "The entire consumer group is shut down",
             "Other consumers automatically take over the failed consumer's partitions",
-            "The failed consumer's partitions become unavailable until manual intervention"
+            "The group coordinator detects the failure and triggers a rebalance to reassign partitions",
+            "The failed consumer's partitions become unavailable until manual intervention",
+            "The entire consumer group is shut down"
         ],
         "correctAnswer": "The group coordinator detects the failure and triggers a rebalance to reassign partitions"
     },
@@ -400,8 +400,8 @@
         "name": "q34",
         "title": "How does Kafka detect consumer failure?",
         "choices": [
-            "Through heartbeat mechanism and session timeout configuration",
             "By monitoring network connection status",
+            "Through heartbeat mechanism and session timeout configuration",
             "By tracking message processing rates",
             "Through explicit failure notifications from consumers"
         ],
@@ -414,8 +414,8 @@
         "choices": [
             "It defines how long the group coordinator waits before considering a consumer failed",
             "It sets the maximum time a consumer can process a single message",
-            "It determines the rebalance timeout period",
-            "It controls how often consumers send heartbeats"
+            "It controls how often consumers send heartbeats",
+            "It determines the rebalance timeout period"
         ],
         "correctAnswer": "It defines how long the group coordinator waits before considering a consumer failed"
     },
@@ -438,8 +438,8 @@
         "choices": [
             "Messages may be reprocessed by the new consumer that takes over the partition",
             "The partition becomes unavailable until offsets are manually recovered",
-            "The messages are automatically marked as consumed",
-            "The messages are moved to a dead letter topic"
+            "The messages are moved to a dead letter topic",
+            "The messages are automatically marked as consumed"
         ],
         "correctAnswer": "Messages may be reprocessed by the new consumer that takes over the partition"
     },
@@ -450,8 +450,8 @@
         "choices": [
             "Use manual offset commits after successful message processing",
             "Enable auto-commit with a very short interval",
-            "Increase the consumer's memory allocation",
-            "Use multiple consumer groups for redundancy"
+            "Use multiple consumer groups for redundancy",
+            "Increase the consumer's memory allocation"
         ],
         "correctAnswer": "Use manual offset commits after successful message processing"
     },
@@ -472,10 +472,10 @@
         "name": "q40",
         "title": "How does consumer failover affect exactly-once processing guarantees?",
         "choices": [
-            "It may require additional application-level deduplication or idempotent processing",
-            "Failover always results in at-least-once delivery semantics",
             "Exactly-once is impossible with consumer groups",
-            "Exactly-once is automatically maintained by Kafka during failover"
+            "Failover always results in at-least-once delivery semantics",
+            "Exactly-once is automatically maintained by Kafka during failover",
+            "It may require additional application-level deduplication or idempotent processing"
         ],
         "correctAnswer": "It may require additional application-level deduplication or idempotent processing"
     }
