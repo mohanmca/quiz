@@ -189,7 +189,7 @@ class QuizManager {
                     } catch (verifyError) {
                         Logger.error('Error verifying survey render', verifyError);
                     }
-                }, 500);
+                }, 1500);
                 
             } catch (renderError) {
                 Logger.error('Error rendering survey with jQuery plugin', renderError);
