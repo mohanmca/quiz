@@ -311,6 +311,7 @@ class DataManager {
                 "python-internals": { category: "programming", subcategory: "python" },
                 "python-data-structures": { category: "algorithms", subcategory: "data-structures" },
                 "bit-manipulation-coding": { category: "algorithms", subcategory: "data-structures" },
+                "fenwick-tree-fundamentals": { category: "algorithms", subcategory: "data-structures" },                
                 "python-dunder-methods": { category: "programming", subcategory: "python" },
                 "python-type-internals": { category: "programming", subcategory: "python" },
                 "jvm-internals": { category: "programming", subcategory: "jvm" },

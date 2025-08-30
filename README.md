@@ -36,7 +36,7 @@ chmod 755 /var/www/indiatruck/public/
 4. If this is new category, we have to register in quiz-platform.js
 5. Example prompt
 
-1. Under "Data Structures & Algorithms" Category, can you generate new file like python/leetcode-medium-questions-fixed.json for for fenwick tree fundamentals and ensure   quiz covers basics knowledge of fenwick and sample program to update getsum. Overall we need to create new quiz for fenwick tree and number of questions should be 50 and regsitered and should be accessible
+1. Under "Data Structures & Algorithms" Category, can you generate new quiz file like python/leetcode-medium-questions-fixed.json for Fenwick tree fundamentals and ensure   quiz covers basics knowledge of Fenwick and sample program to update getsum. Overall we need to create new quiz for Fenwick tree and number of questions should be 50 and regsitered and should be accessible
 
 ---
 **New Quiz Registered:**  
