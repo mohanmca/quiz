@@ -310,6 +310,7 @@ class DataManager {
                 "leetcode-medium-python": { category: "algorithms", subcategory: "leetcode" },
                 "python-internals": { category: "programming", subcategory: "python" },
                 "python-data-structures": { category: "algorithms", subcategory: "data-structures" },
+                "bit-manipulation-coding": { category: "algorithms", subcategory: "data-structures" },
                 "python-dunder-methods": { category: "programming", subcategory: "python" },
                 "python-type-internals": { category: "programming", subcategory: "python" },
                 "jvm-internals": { category: "programming", subcategory: "jvm" },

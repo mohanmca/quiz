@@ -208,19 +208,6 @@
         "maxTimeToFinish": 4500
     },
     {
-        "id": "bit-manipulation-advanced",
-        "title": "Advanced Bit Manipulation - Part 2",
-        "description": "Master advanced bit manipulation patterns including bit arithmetic without operators, complex XOR applications, bitwise DP, and optimization techniques for competitive programming",
-        "category": "Advanced Algorithms",
-        "difficulty": "Advanced",
-        "estimatedTime": "40-65 minutes",
-        "questionsFile": "python/bit-manipulation-advanced-questions.json",
-        "icon": "⚡",
-        "color": "#e67e22",
-        "timePerQuestion": 180,
-        "maxTimeToFinish": 3600
-    },
-    {
         "id": "apache-kafka-part1",
         "title": "Apache Kafka Fundamentals - Part 1",
         "description": "Master Apache Kafka fundamentals including producers, topics, partitions, message structure, and key differences from JMS/IBM MQ for distributed streaming",
@@ -258,5 +245,18 @@
         "color": "#2980b9",
         "timePerQuestion": 105,
         "maxTimeToFinish": 4200
+    },
+    {
+        "id": "bitwise-operations-part1",
+        "title": "Bitwise Operations - Part I",
+        "description": "50 questions covering bitwise operations, binary arithmetic, and XOR patterns. Content based on https://github.com/mohanmca/CodingChallenges/blob/master/src/md/coding_patterns/25_bits_binary_anki.md",
+        "category": "Data Structures & Algorithms",
+        "difficulty": "Intermediate",
+        "estimatedTime": "60-90 minutes",
+        "questionsFile": "python/bitwise-operations-part1-questions.json",
+        "icon": "🔢",
+        "color": "#3498db",
+        "timePerQuestion": 120,
+        "maxTimeToFinish": 6000
     }
 ]
