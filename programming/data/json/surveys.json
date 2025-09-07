@@ -300,4 +300,32 @@
         "timePerQuestion": 120,
         "maxTimeToFinish": 9000
     }
+    ,
+    {
+        "id": "postgres-query-planning-internals",
+        "title": "PostgreSQL Query Planning Internals",
+        "description": "Deep dive into the cost model, JIT, parallelism, join strategies, extended statistics, and EXPLAIN diagnostics.",
+        "category": "Databases",
+        "difficulty": "Advanced",
+        "estimatedTime": "60-100 minutes",
+        "questionsFile": "data/json/postgres/postgres-query-planning-internals-questions.json",
+        "icon": "🧠",
+        "color": "#0ea5e9",
+        "timePerQuestion": 110,
+        "maxTimeToFinish": 7800
+    }
+    ,
+    {
+        "id": "postgres-vacuum-autovacuum-deep-dive",
+        "title": "PostgreSQL VACUUM & Autovacuum Deep Dive",
+        "description": "Hands-on maintenance concepts: visibility map, HOT, freezing, bloat, vacuum tuning, monitoring, and safe rebuild strategies.",
+        "category": "Databases",
+        "difficulty": "Advanced",
+        "estimatedTime": "60-100 minutes",
+        "questionsFile": "data/json/postgres/postgres-vacuum-autovacuum-deep-dive-questions.json",
+        "icon": "🧹",
+        "color": "#f59e0b",
+        "timePerQuestion": 110,
+        "maxTimeToFinish": 7800
+    }
 ]
