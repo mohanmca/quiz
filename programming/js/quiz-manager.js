@@ -176,20 +176,30 @@ class QuizManager {
                     model: survey
                 });
                 
-                // Verify the survey was rendered
-                setTimeout(() => {
+                // Verify the survey was rendered (retry a few times to avoid false negatives)
+                const selectorList = [
+                    '.sd-root', '.sd-root-modern', '.sd-container',
+                    '.sv-root', '.sv-container', '.sd-body',
+                    '.sv-body', '.sd-page', '.sv-page'
+                ].join(', ');
+                let attempts = 0;
+                const verifyRender = () => {
                     try {
-                        const surveyElements = surveyContainer.querySelectorAll('.sv-root, .sd-root, .sv-container, .sd-container');
-                        if (surveyElements.length === 0) {
-                            Logger.error('Survey elements not found after rendering');
-                            throw new Error('Survey failed to render properly - no survey DOM elements found');
+                        attempts += 1;
+                        const surveyElements = surveyContainer.querySelectorAll(selectorList);
+                        const hasContent = surveyContainer.innerHTML && surveyContainer.innerHTML.trim().length > 0;
+                        if (surveyElements.length > 0 || hasContent) {
+                            Logger.info(`Survey rendered; detected ${surveyElements.length} elements (hasContent=${hasContent}) after ${attempts} checks`);
+                        } else if (attempts < 4) {
+                            setTimeout(verifyRender, 500);
                         } else {
-                            Logger.info(`Survey rendered successfully with ${surveyElements.length} root elements`);
+                            Logger.warn('Survey verification found no known SurveyJS elements after multiple checks; rendering may be delayed or theme classes changed');
                         }
                     } catch (verifyError) {
                         Logger.error('Error verifying survey render', verifyError);
                     }
-                }, 1500);
+                };
+                setTimeout(verifyRender, 500);
                 
             } catch (renderError) {
                 Logger.error('Error rendering survey with jQuery plugin', renderError);
@@ -357,6 +367,22 @@ class QuizManager {
                 });
             }
             
+            // Confirm render via SurveyJS event if supported
+            if (survey.onAfterRenderSurvey && typeof survey.onAfterRenderSurvey.add === 'function') {
+                survey.onAfterRenderSurvey.add(function(sender) {
+                    try {
+                        const container = document.querySelector('#surveyContainer');
+                        const hasContent = !!(container && container.innerHTML && container.innerHTML.trim().length > 0);
+                        Logger.info(`onAfterRenderSurvey fired (hasContent=${hasContent})`);
+                    } catch (e) {
+                        Logger.warn('onAfterRenderSurvey handler error', e);
+                    }
+                });
+                Logger.debug('onAfterRenderSurvey handler attached');
+            } else {
+                Logger.debug('onAfterRenderSurvey event not available');
+            }
+
             // Handle survey completion
             if (survey.onComplete && typeof survey.onComplete.add === 'function') {
                 survey.onComplete.add(function(sender) {

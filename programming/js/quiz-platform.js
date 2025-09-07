@@ -15,7 +15,7 @@ const CONFIG = {
     DEFAULT_COUNTDOWN_SECONDS: 10,
     RETRY_ATTEMPTS: 3,
     RETRY_DELAY: 1000,
-    SURVEYS_FILE: './surveys.json',
+    SURVEYS_FILE: './data/json/surveys.json',
     
     // Error messages
     ERRORS: {
