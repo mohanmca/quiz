@@ -28,6 +28,8 @@
     th, td { border:1px solid #e5e7eb; padding:10px; text-align:left; }
     th { background:#f9fafb; font-weight:700; }
     tbody tr:nth-child(even) { background:#fafafa; }
+    .diagram { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background:#f8fafc; border:1px solid #e5e7eb; color:#0f172a; padding:12px; border-radius:10px; overflow-x:auto; }
+    .diagram .muted { color:#64748b; }
     /* Lightweight syntax highlighting */
     .tok-kw { color:#93c5fd; }
     .tok-str { color:#a7f3d0; }
@@ -98,6 +100,16 @@
         like <code>1_000_000_007</code> or <code>1_000_000_009</code>. Map characters to small integers, e.g. <code>ord(c)</code> or <code>ord(c)-96</code> for 'a'..'z'.
       </p>
       <div class="tip">Precompute <code>pow_base[i] = base^i % M</code> so removing the outgoing character is O(1).</div>
+      <h3 id="base">Choosing the Base b: How and Why</h3>
+      <ul>
+        <li><strong>Cover the alphabet:</strong> pick <code>b ≥ |Σ|</code> (alphabet size). Examples: <code>b=4</code> for DNA (A,C,G,T); <code>b=26..31</code> for lowercase; <code>b=256</code> for bytes.</li>
+        <li><strong>Avoid degenerate bases:</strong> <code>b=1</code> eliminates positional weight so different strings collide easily. Use <code>b ≥ 2</code>.</li>
+        <li><strong>Co-prime with M:</strong> ensure <code>gcd(b, M)=1</code> so inverses exist when needed and to avoid pathological cycles; with prime <code>M</code>, any <code>1 ≤ b &lt; M</code> works.</li>
+        <li><strong>Distribution vs overflow:</strong> larger <code>b</code> tends to mix positions more strongly but don’t let <code>b</code> approach <code>M</code>. In practice, <code>b</code> in the few hundreds to thousands with <code>M≈1e9+7</code> is fine.</li>
+        <li><strong>Randomize for robustness:</strong> choose <code>b</code> uniformly from a safe range at runtime to defend against adversarial inputs that cause collisions.</li>
+        <li><strong>Double hashing:</strong> use two independent pairs <code>(b₁,M₁)</code>, <code>(b₂,M₂)</code> with unrelated bases and large distinct primes.</li>
+        <li><strong>Normalization/encoding:</strong> normalize case/Unicode if needed; map symbols to dense integers starting from 0 for compact arithmetic.</li>
+      </ul>
 
       <h2 id="rolling">4. Rolling Update</h2>
       <p>
@@ -283,6 +295,33 @@ if __name__ == '__main__':
         <li><strong>First window:</strong> initialize from <code>text[0:m]</code> before the loop; the loop typically runs <code>i = m .. n-1</code>.</li>
         <li><strong>Zero vs one-based:</strong> math derivations are often 1-based; code is 0-based. Translate <code>i-m+1</code> carefully.</li>
       </ul>
+      <div class="diagram" aria-label="Forward slide window indexing diagram">
+        Forward slide (rightward), m = 4
+        
+        Index:  0  1  2  3  4  5  6  7
+        Text :  a  b  r  a  c  a  d  a
+                 └────────┘
+                 start=0, end=3, i=3  => start = i - m + 1 = 0
+                    └────────┘
+                    start=1, end=4, i=4  => start = 4 - 4 + 1 = 1
+        
+        Update at each i ≥ m:
+          - outgoing index = i - m
+          - incoming index = i
+          - next start     = i - m + 1
+      </div>
+      <div class="diagram" aria-label="Backward slide window indexing diagram">
+        Backward slide (leftward), m = 4 (less common but useful conceptually)
+        
+        From window [start, end] = [k, k+3], slide left to [k-1, k+2]
+          - outgoing index (rightmost) = k + (m - 1)
+          - incoming index (new left)  = k - 1
+          - next start                 = k - 1
+        
+        Note: a leftward roll requires dividing by base (using the modular inverse of base) and
+        adding the new left character at weight base^(m-1). If modular inverse doesn’t exist,
+        prefer rightward scans or recompute the hash for the new window.
+      </div>
 
       <h2 id="mod">9. Modulo Math Essentials</h2>
       <p>Modulo arithmetic underpins rolling hashes. Core properties with modulus <code>M</code>:</p>

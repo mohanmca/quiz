@@ -1036,3 +1036,86 @@ Here, **two independent rolling hashes** must both match before verifying the su
 **Double hashing is used when you want to minimize the chance of collisions to nearly zero, especially in adversarial or high-reliability settings.**
 
 ---
+
+
+Great question — the choice of **base** is one of the most important design decisions in polynomial rolling hash (like in Rabin–Karp).
+
+---
+
+## 🔹 What is the **base**?
+
+In polynomial hashing, a string is treated like a number in a **positional numeral system** with base `B`:
+
+$$
+H(s) = (s_0 \cdot B^0 + s_1 \cdot B^1 + \dots + s_{m-1} \cdot B^{m-1}) \bmod M
+$$
+
+* Each character (or symbol) is mapped to an integer (`s_i`).
+* The **base** `B` is the multiplier that separates positions.
+* Example: in decimal numbers, the "base" is 10.
+
+  * The number `472` means `4×10² + 7×10¹ + 2×10⁰`.
+* Similarly, `"abc"` with base `31` is:
+
+  $$
+  H("abc") = 1 \cdot 31^0 + 2 \cdot 31^1 + 3 \cdot 31^2
+  $$
+
+---
+
+## 🔹 How to choose a base
+
+The base must be **larger than the alphabet size**, otherwise different strings might map to the same hash more easily.
+
+### Typical choices:
+
+1. **Lowercase letters (`'a'..'z'`)**
+
+   * Alphabet size ≈ 26.
+   * Use a small prime like **31** or **53**.
+   * Why prime? Helps spread values uniformly under modulus.
+
+2. **ASCII / bytes (0–255)**
+
+   * Alphabet size = 256.
+   * Use base = **257** (prime slightly above 256).
+   * Or simply **256**, which works naturally for byte sequences.
+
+3. **Unicode text**
+
+   * Alphabet size is large (up to 1,114,112).
+   * Common to use **larger primes** like 131, 137, 911382323.
+   * In practice, keep `base < M` to avoid overflow.
+
+---
+
+## 🔹 Rules of thumb
+
+* **B > alphabet size**, usually a **small prime**.
+* Avoid `B` too small → more collisions.
+* Avoid `B` too close to `M` → might cause bad modular distribution.
+* Typical values used in CP/LeetCode:
+
+  * `31`, `53` → for letters.
+  * `131`, `137` → safe for mixed text.
+  * `256` or `257` → for byte-oriented hashing.
+
+---
+
+## 🔹 Why base matters
+
+Imagine base = 2 and alphabet = {a=1, b=2}.
+
+* Hash("ab") = `1*2^0 + 2*2^1 = 5`.
+* Hash("ba") = `2*2^0 + 1*2^1 = 4`.
+  They’re too close together and will collide easily under modulo.
+  Using base = 31 spreads them out much more evenly.
+
+---
+
+✅ **Summary:**
+The **base** is like the radix in a number system. Choose it as a small prime larger than the alphabet size (e.g., 31, 53 for letters; 257 for bytes). The goal is to maximize hash distribution and minimize collisions.
+
+---
+
+Would you like me to also explain how the choice of **modulus `M`** interacts with the base (e.g., why `10^9+7` is common)?

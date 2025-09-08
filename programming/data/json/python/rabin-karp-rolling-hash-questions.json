@@ -51,4 +51,11 @@
   {"title":"In a rolling loop where i is the index of the new rightmost char, the correct start index is:","choices":["i-m","i-m+1","i+m","i+1"],"correctAnswer":"i-m+1"},
   {"title":"Approximate per-window collision probability with prime modulus M:","choices":["~1/M","~1/√M","~log M","0"],"correctAnswer":"~1/M"},
   {"title":"With independent moduli M1 and M2, joint collision probability per window is:","choices":["~1/(M1+M2)","~1/(M1·M2)","~1/min(M1,M2)","~1"],"correctAnswer":"~1/(M1·M2)"}
+,
+  {"title":"General guideline for choosing base b:","choices":["b should equal modulus M","b ≥ alphabet size and gcd(b,M)=1","b must be prime","b must be a power of two"],"correctAnswer":"b ≥ alphabet size and gcd(b,M)=1"},
+  {"title":"Why avoid base b = 1 for polynomial rolling hash?","choices":["Too slow","No positional weighting leading to heavy collisions","Incompatible with primes","Overflow risk"],"correctAnswer":"No positional weighting leading to heavy collisions"},
+  {"title":"Double hashing base choice best practice:","choices":["Use same base for both hashes","Use independent bases b1 != b2 with independent moduli","Use base=1 for second hash","Derive base2 from base1 by squaring"],"correctAnswer":"Use independent bases b1 != b2 with independent moduli"},
+  {"title":"Why is b = 256 a practical choice for byte-oriented text?","choices":["Because 256 is prime","Matches alphabet size (0..255) and simplifies encoding","Maximizes collisions","Required by pow()"],"correctAnswer":"Matches alphabet size (0..255) and simplifies encoding"},
+  {"title":"Why randomize base at runtime?","choices":["To speed up pow()","To reduce adversarial collision scenarios by varying parameters","To avoid precomputation","To prevent Unicode issues"],"correctAnswer":"To reduce adversarial collision scenarios by varying parameters"},
+  {"title":"Should base b be less than modulus M?","choices":["No requirement","Prefer b < M to keep operations well-behaved under mod","b must equal M-1","b must divide M"],"correctAnswer":"Prefer b < M to keep operations well-behaved under mod"}
 ]
