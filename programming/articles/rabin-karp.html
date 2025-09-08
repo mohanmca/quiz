@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rabin–Karp Rolling Hash Fundamentals</title>
+  <style>
+    :root { --primary:#1e88e5; --bg:#f7f9fc; --text:#1a1a1a; --muted:#6b7280; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 24px; font-weight: 800; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#eef2ff; color:#1f2937; }
+    button.ghost { background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
+    main.container article { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px; }
+    h2 { margin-top: 20px; }
+    h3 { margin-top: 16px; }
+    p { line-height: 1.6; }
+    ul { margin-top: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1020; color:#e5e7eb; padding: 1px 4px; border-radius:4px; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid #111827; }
+    pre code { display:block; background:transparent; padding:0; }
+    /* Lightweight syntax highlighting */
+    .tok-kw { color:#93c5fd; }
+    .tok-str { color:#a7f3d0; }
+    .tok-com { color:#9ca3af; font-style:italic; }
+    .tok-num { color:#fcd34d; }
+    .tok-builtin { color:#fca5a5; }
+    .tip { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; }
+    .note { background:#fefce8; border:1px solid #fde68a; color:#713f12; padding:12px; border-radius:10px; }
+    .muted { color: var(--muted); }
+    .toc a { color:#2563eb; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Rabin–Karp Rolling Hash Fundamentals</div>
+      <div class="subtitle">Step-by-step guide with Python code, collisions, modular arithmetic, and practical patterns</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=rabin-karp-rolling-hash'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents:</strong>
+        <ul>
+          <li><a href="#intro">1. Intuition</a></li>
+          <li><a href="#naive">2. Naïve vs. Rabin–Karp</a></li>
+          <li><a href="#polyhash">3. Polynomial Rolling Hash</a></li>
+          <li><a href="#rolling">4. Rolling Update</a></li>
+          <li><a href="#impl">5. A Minimal Python Implementation</a></li>
+          <li><a href="#collisions">6. Collisions and Double Hashing</a></li>
+          <li><a href="#multipattern">7. Multiple Pattern Matching</a></li>
+          <li><a href="#tips">8. Practical Tips and Pitfalls</a></li>
+          <li><a href="#practice">9. Practice Exercises</a></li>
+        </ul>
+      </div>
+
+      <h2 id="intro">1. Intuition</h2>
+      <p>
+        Rabin–Karp accelerates substring search by comparing <em>hashes</em> of the pattern and each
+        window of the text before performing an exact comparison. If the hashes don’t match, we skip
+        the character-by-character check. If they match, we verify to defend against collisions.
+      </p>
+
+      <h2 id="naive">2. Naïve vs. Rabin–Karp</h2>
+      <ul>
+        <li><strong>Naïve:</strong> Compare each window character-by-character → worst-case O(nm).</li>
+        <li><strong>Rabin–Karp:</strong> Maintain a rolling hash for each window. Average O(n); worst-case O(nm) when many collisions.</li>
+      </ul>
+
+      <h2 id="polyhash">3. Polynomial Rolling Hash</h2>
+      <p>
+        For string <code>s[0..m-1]</code> we commonly use a polynomial hash:
+      </p>
+      <pre><code class="language-python"># H = (s[0]*base^0 + s[1]*base^1 + ... + s[m-1]*base^(m-1)) % M
+# base: weights positions; M: large prime to avoid overflow and spread values
+</code></pre>
+      <p>
+        Choose <code>base</code> according to alphabet: 31 for lowercase letters, 256 for bytes. Choose a large prime <code>M</code>
+        like <code>1_000_000_007</code> or <code>1_000_000_009</code>. Map characters to small integers, e.g. <code>ord(c)</code> or <code>ord(c)-96</code> for 'a'..'z'.
+      </p>
+      <div class="tip">Precompute <code>pow_base[i] = base^i % M</code> so removing the outgoing character is O(1).</div>
+
+      <h2 id="rolling">4. Rolling Update</h2>
+      <p>
+        For window length <code>m</code>, when sliding right by one character (remove <code>s_out</code>, add <code>s_in</code>):
+      </p>
+      <pre><code class="language-python"># H' = (H - s_out * base^(m-1)) * base + s_in   (mod M)
+# Handle negatives safely by adding M before taking % M again.
+</code></pre>
+      <pre><code class="language-python">def roll_hash_right(H, s_out, s_in, base, pow_m_1, M):
+    # remove outgoing contribution
+    H = (H - (s_out * pow_m_1) % M) % M
+    # shift window and add incoming
+    H = (H * base + s_in) % M
+    return H
+</code></pre>
+
+      <h2 id="impl">5. A Minimal Python Implementation</h2>
+      <p>We’ll build Rabin–Karp in three steps: hash helpers, initial window, sliding loop.</p>
+      <pre><code class="language-python">def poly_hash(arr, base, M):
+    """Compute polynomial hash for an integer array arr (e.g., ord values)."""
+    H = 0
+    p = 1  # base^0
+    for x in arr:
+        H = (H + (x * p) % M) % M
+        p = (p * base) % M
+    return H
+
+def rabin_karp(text: str, pattern: str, base=256, M=1_000_000_007):
+    n, m = len(text), len(pattern)
+    if m == 0 or m > n:
+        return []
+
+    t = [ord(c) for c in text]
+    p = [ord(c) for c in pattern]
+
+    pow_m_1 = pow(base, m-1, M)
+    H_pat = poly_hash(p, base, M)
+    H_win = poly_hash(t[:m], base, M)
+
+    ans = []
+    if H_win == H_pat and text[:m] == pattern:
+        ans.append(0)
+
+    for i in range(m, n):
+        H_win = (H_win - (t[i-m] * pow_m_1) % M) % M
+        H_win = (H_win * base + t[i]) % M
+
+        if H_win == H_pat:
+            # verify to avoid collision
+            start = i - m + 1
+            if text[start:start+m] == pattern:
+                ans.append(start)
+    return ans
+
+# Example
+if __name__ == '__main__':
+    print(rabin_karp('abracadabra', 'abra'))  # [0, 7]
+</code></pre>
+
+      <h3>Handling Collisions with Double Hashing</h3>
+      <pre><code class="language-python">def rabin_karp_double(text, pattern,
+                      base1=911382323, M1=972663749,
+                      base2=972663749, M2=1_000_000_007):
+    n, m = len(text), len(pattern)
+    if m == 0 or m > n:
+        return []
+
+    t = [ord(c) for c in text]
+    p = [ord(c) for c in pattern]
+
+    pow1 = pow(base1, m-1, M1)
+    pow2 = pow(base2, m-1, M2)
+
+    def H(arr, base, M):
+        h = 0; b = 1
+        for x in arr:
+            h = (h + (x * b) % M) % M
+            b = (b * base) % M
+        return h
+
+    hp1 = H(p, base1, M1); hw1 = H(t[:m], base1, M1)
+    hp2 = H(p, base2, M2); hw2 = H(t[:m], base2, M2)
+
+    ans = []
+    def ok(i):
+        return text[i:i+m] == pattern
+
+    if hw1 == hp1 and hw2 == hp2 and ok(0):
+        ans.append(0)
+
+    for i in range(m, n):
+        # hash 1
+        hw1 = (hw1 - (t[i-m] * pow1) % M1) % M1
+        hw1 = (hw1 * base1 + t[i]) % M1
+        # hash 2
+        hw2 = (hw2 - (t[i-m] * pow2) % M2) % M2
+        hw2 = (hw2 * base2 + t[i]) % M2
+
+        if hw1 == hp1 and hw2 == hp2:
+            start = i - m + 1
+            if ok(start):
+                ans.append(start)
+    return ans
+</code></pre>
+
+      <h2 id="collisions">6. Collisions and Double Hashing</h2>
+      <ul>
+        <li>Collisions are possible. When hashes match, verify substring equality.</li>
+        <li>Double hashing (two independent (base, M) pairs) drastically reduces collision probability.</li>
+        <li>Always normalize negatives after subtraction with <code>(x % M + M) % M</code>.</li>
+      </ul>
+
+      <h2 id="multipattern">7. Multiple Pattern Matching</h2>
+      <p>
+        Rabin–Karp shines when searching many patterns of the <em>same length</em> against one text.
+        Compute the pattern hashes once and store them in a set. Slide over the text and check if a
+        window hash is in the set; verify on match.
+      </p>
+      <pre><code class="language-python">def find_any(text, patterns, base=256, M=1_000_000_007):
+    # patterns: list of strings, assumed same length m
+    if not patterns:
+        return []
+    m = len(patterns[0])
+    if any(len(p) != m for p in patterns):
+        raise ValueError('All patterns must have the same length')
+
+    t = [ord(c) for c in text]
+    P = [[ord(c) for c in p] for p in patterns]
+
+    def H(arr):
+        h = 0; b = 1
+        for x in arr:
+            h = (h + (x * b) % M) % M
+            b = (b * base) % M
+        return h
+
+    targets = { H(p): p for p in P }
+    if len(text) < m:
+        return []
+
+    pow_m_1 = pow(base, m-1, M)
+    h = H(t[:m])
+    out = []
+    if h in targets and text[:m] == ''.join(map(chr, targets[h])):
+        out.append((0, text[:m]))
+
+    for i in range(m, len(text)):
+        h = (h - (t[i-m]*pow_m_1) % M) % M
+        h = (h * base + t[i]) % M
+        if h in targets:
+            start = i - m + 1
+            cand = text[start:start+m]
+            if cand == ''.join(map(chr, targets[h])):
+                out.append((start, cand))
+    return out
+</code></pre>
+
+      <h2 id="tips">8. Practical Tips and Pitfalls</h2>
+      <ul>
+        <li><strong>Base selection:</strong> 31 for lowercase letters; 256 for bytes; any base ≥ alphabet size.</li>
+        <li><strong>Modulus:</strong> large primes near <code>1e9+7</code>/<code>1e9+9</code> are common. Keep all operations under mod.</li>
+        <li><strong>Precompute:</strong> <code>base^(m-1) % M</code> for fast outgoing char removal.</li>
+        <li><strong>Negative values:</strong> add <code>M</code> before another <code>% M</code>.</li>
+        <li><strong>Worst-case:</strong> O(nm) if many collisions; double-hash + verify to mitigate.</li>
+        <li><strong>Unicode:</strong> Using <code>ord</code> works; consider normalization (NFC/NFD) if needed.</li>
+      </ul>
+
+      <h2 id="practice">9. Practice Exercises</h2>
+      <ol>
+        <li>Implement Rabin–Karp to return <em>all</em> occurrences of a pattern in a text.</li>
+        <li>Implement double hashing and compare collision behavior on random data.</li>
+        <li>Given many patterns of the same length, use a hash set to find any occurrence.</li>
+      </ol>
+
+      <div class="note muted">This article is designed to cover nearly all core concepts tested in the “Rabin–Karp Rolling Hash Fundamentals” quiz: rolling hash formula, base/mod choices, O(1) rolling update, negative handling, collision checks, expected complexity, double hashing, and multi-pattern use.</div>
+    </article>
+  </main>
+
+  <script>
+    // Minimal Python highlighter (same scheme as the app)
+    function escapeHtml(s){
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+    function highlightPython(src){
+      if (!src) return '';
+      const holders=[]; const keep = html => (holders.push(html), `@@H${holders.length-1}@@`);
+      src = src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g, m => keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+      src = src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g, m => keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+      src = src.replace(/#.*/g, m => keep(`<span class="tok-com">${escapeHtml(m)}</span>`));
+      let html = escapeHtml(src);
+      const KW = ['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];
+      html = html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'), '<span class="tok-kw">$1</span>');
+      const BI = ['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];
+      html = html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'), '<span class="tok-builtin">$1</span>');
+      html = html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g, '<span class="tok-num">$&</span>');
+      return html.replace(/@@H(\d+)@@/g, (m,i)=>holders[Number(i)]);
+    }
+    function applySyntax(){
+      document.querySelectorAll('pre code.language-python').forEach(el => {
+        el.innerHTML = highlightPython(el.textContent || '');
+      });
+    }
+    window.addEventListener('DOMContentLoaded', applySyntax);
+  </script>
+</body>
+</html>
+

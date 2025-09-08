@@ -1,51 +1,78 @@
-# Repository Guidelines
+# Technical Quiz Platform — Agent Guide
 
-## Introduction
-1. Welcome to the  Technical Quiz Platform
-2. Some of the question has python, it should be able to use markdown and view the code 
-3. To validate someone's knowledge this application has certain questions in json format and it would give quiz using javascript
-4. It uses css, javascript and html
+This repository hosts a static, browser-based quiz platform. Quizzes are described in JSON, loaded over HTTP, and rendered with HTML/CSS/JavaScript. Many questions include Python snippets rendered as markdown with code fences.
 
-## Project Structure & Module Organization
-- `programming/index.html`: Web entry point for the quiz UI.
-- `programming/js/`: Client code — `quiz-platform.js` (core), `quiz-data-manager.js` (data I/O), `quiz-ui-manager.js` (rendering), `quiz-manager.js` (quiz flow).
-- `programming/css/quiz-platform.css`: Styles.
-- `programming/surveys.json`: Registry of quizzes shown in the UI.
-- `programming/<category>/*.json`: Question banks (e.g., `python/advanced-data-structures-questions.json`).
-- `programming/doc/`: Authoring prompts and structure docs.
-- `escape_json.py`: Utility to HTML-escape strings inside JSON question files.
+Use this file as your quick-start map: structure, how it runs, how data is shaped, and where to make changes.
 
-## Build, Test, and Development Commands
-- Serve locally (required — avoids CORS):
-  - `cd programming && python3 -m http.server 8000` → open `http://localhost:8000`.
-  - or `cd programming && npx http-server`.
-- Deployment: static files only. See `README.md` for the Nginx location block and copy commands.
-- Validate JSON escaping: `python3 escape_json.py programming/<category>/<file>.json`.
+## How It Works
+- Data source: `programming/data/json/surveys.json` lists quizzes (title, description, category, file path, etc.). Each entry points to a questions JSON file under `programming/data/json/...`.
+- Runtime: The UI is a dependency-free app served from `programming/index.html` and implemented in `programming/app.js`.
+  - Home lists quizzes with search and category filter.
+  - Start Quiz fetches the referenced questions JSON, normalizes each item, and renders one-by-one with navigation.
+  - Markdown: basic support for inline code and fenced code blocks (```lang ... ```), with strong HTML escaping to prevent injection.
+  - Correctness: `correctAnswer` may be an index, a value, or an array of indices/values. Review shows your selection and the correct choices.
+.- Note: A historical SurveyJS-based UI previously lived under `programming/js/` and has been removed to simplify the codebase.
 
-## Coding Style & Naming Conventions
+## Run Locally (required — avoids CORS)
+- `cd programming && python3 -m http.server 8000` then open `http://localhost:8000`.
+- Or `cd programming && npx http-server`.
+
+## Project Structure (from git ls-files)
+- Root
+  - `AGENTS.md` — this file.
+  - `README.md` — Nginx, deployment steps, and authoring notes.
+  - `escape_json.py` — HTML-escapes strings in question JSON.
+  - `package-lock.json` — present if using a simple static server locally.
+- `programming/`
+  - `index.html` — entry page (uses `app.js`).
+  - `app.js` — minimal, dependency-free quiz app (fetch + DOM only).
+  - `css/quiz-platform.css` — legacy stylesheet (not required by `index.html`).
+  - `simple/index.html` — self-contained simple demo page.
+  - `js/` — currently empty (legacy code/docs removed).
+  - `data/json/` — quiz registry + question banks
+    - `surveys.json` — quiz registry used by `app.js`.
+    - Categories and example files (full list tracked in git):
+      - `aws/`: `aws-policy-permissions-questions.json`, `k8s-secrets-questions.json`
+      - `golang/`: `questions.json`
+      - `infrastructure/`: `terraform-terragrunt-questions.json`
+      - `jvm/`: `questions.json`
+      - `messaging/`: `kafka-part1-questions.json`, `kafka-broker-part2-questions.json`, `kafka-consumer-part3-questions.json`
+      - `postgres/`: `postgres-data-model-index-performance-questions.json`, `postgres-query-planning-internals-questions.json`, `postgres-vacuum-autovacuum-deep-dive-questions.json`
+      - `python/`: `advanced-data-structures-questions.json`, `airflow-questions.json`, `bit-manipulation-questions.json`, `data-structures-questions.json`, `dunder-methods-questions.json`, `fenwick-tree-questions.json`, `leetcode-medium-questions.json`, `type-internals-questions.json`, `rabin-karp-rolling-hash-questions.json`
+      - `scala-slick/`: `questions.json`
+      - `trading/`: `crypto-derivatives-questions.json`, `oms-fix-questions.json`
+  - `doc/` — authoring aids: `CATEGORY_STRUCTURE.md`, `PROMPT.md`, `currentprompt.md`.
+
+Notes:
+- `programming/index.html` displays “Data source: programming/data/json” to clarify the expected location of the data.
+- Some historical docs/files may exist in the git history; the current runtime path is the minimal app in `app.js`.
+
+## Data Model
+- surveys.json entry fields:
+  - Required: `id`, `title`, `description`, `questionsFile` (path relative to `programming/`), plus typically `category`, `difficulty`.
+  - Optional: `icon`, `color`, `estimatedTime`, `timePerQuestion`, `maxTimeToFinish`.
+- question item (normalized by `app.js`):
+  - `title` or `question`: text (markdown-lite supported).
+  - `choices` or `options`: array of strings (markdown-lite supported).
+  - `correctAnswer`: index (number), value (string), or array of indices/values.
+
+## Coding Style
 - JavaScript: 4-space indent, semicolons, single quotes; classes `PascalCase`, functions/vars `camelCase`, constants `UPPER_SNAKE`.
-- Files: hyphenated lowercase (e.g., `quiz-ui-manager.js`, `fenwick-tree-questions.json`).
-- Surveys (`programming/surveys.json`) entries must include: `id`, `title`, `description`, `questionsFile` (path relative to `programming/`).
-- Questions JSON: each item should provide `title` or `question`, `choices` (or `options`), and `correctAnswer`.
-
-## Testing Guidelines
-- Smoke test locally: load home, open a category/subcategory, start a quiz, finish a few questions; ensure no console errors.
-- Data validation: incorrect or missing fields surface warnings in the console; fix before submitting.
-- Large diffs to questions: prefer separate PRs per topic/category.
-
-## Commit & Pull Request Guidelines
-- Use concise, imperative subjects: `feat(programming/python): add fenwick-tree questions`, `fix(js): handle surveys fetch timeout`.
-- PRs should include:
-  - What changed and why; linked issue (if any).
-  - Where the quiz is registered (surveys entry and file path).
-  - Manual test steps (server used, URL, screenshots if UI changes).
+- Filenames: hyphenated lowercase for JSON and JS (e.g., `fenwick-tree-questions.json`).
 
 ## Adding or Updating Quizzes
-- Add questions under `programming/<category>/<topic>-questions.json`.
-- Register in `programming/surveys.json` (ensure unique `id`).
-- If introducing a new category/subcategory, extend `categoryStructure` in `programming/js/quiz-platform.js`.
-- Run locally via a web server and verify the quiz renders and loads questions without errors.
+- Place a new questions file under `programming/data/json/<category>/<topic>-questions.json`.
+- Register it in `programming/data/json/surveys.json` with a unique `id` and `questionsFile` path.
+- If you rely on the legacy SurveyJS UI, ensure mappings exist in `programming/js/quiz-data-manager.js` and category structure in `programming/js/quiz-platform.js`.
+- Run locally and verify the quiz renders, loads, and scores without console errors.
 
+## Validation & Utilities
+- Run a local server to avoid CORS errors (see Run Locally).
+- Escape JSON content that includes markup/code: `python3 escape_json.py programming/data/json/<category>/<file>.json`.
+- Console shows warnings when survey or question fields are missing/invalid.
+
+## Deployment
+- Static site; see `README.md` for the Nginx location block and copy commands.
 
 # Agents
 

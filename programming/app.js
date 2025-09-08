@@ -60,16 +60,25 @@
   // Minimal Markdown: fenced code blocks and inline code; preserve newlines
   function mdToHtml(src){
     if (src == null) return '';
-    let s = String(src).replace(/\r\n?/g, '\n');
-    // Fenced code blocks ```lang\n...```
-    s = s.replace(/```(\w+)?\n([\s\S]*?)```/g, (m, lang, code) => {
+    let s = String(src);
+    // Normalize CRLF
+    s = s.replace(/\r\n?/g, '\n');
+    // Convert common double-escaped sequences (\\n, \\t) into real characters
+    s = s.replace(/\\n/g, '\n').replace(/\\t/g, '    ');
+    // Extract fenced code blocks first and replace with placeholders
+    const blocks = [];
+    s = s.replace(/```([\w-]+)?\s*\n([\s\S]*?)```/g, (m, lang, code) => {
       const klass = lang ? `language-${lang.toLowerCase()}` : '';
-      return `<pre><code class="${klass}">${escapeHtml(code)}</code></pre>`;
+      const html = `<pre><code class="${klass}">${escapeHtml(code)}</code></pre>`;
+      blocks.push(html);
+      return `@@CODE_BLOCK_${blocks.length - 1}@@`;
     });
-    // Inline code `...`
+    // Inline code outside fenced blocks
     s = s.replace(/`([^`]+)`/g, (m, code) => `<code>${escapeHtml(code)}</code>`);
     // Preserve newlines outside code blocks
     s = s.replace(/\n/g, '<br>');
+    // Restore fenced code blocks
+    s = s.replace(/@@CODE_BLOCK_(\d+)@@/g, (m, i) => blocks[Number(i)]);
     return s;
   }
 
@@ -152,7 +161,14 @@
           h('span', { class:'badge', text: s.category || 'Quiz' }), ' ',
           h('span', { class:'badge', text: s.difficulty || '' })
         ]),
-        h('div', { class:'row' }, [ h('button', { onclick: () => startQuiz(s), text:'Start Quiz' }) ])
+        (function(){
+          const row = h('div', { class:'row' });
+          row.append(h('button', { onclick: () => startQuiz(s), text:'Start Quiz' }));
+          if (s.articleFile) {
+            row.append(h('button', { class:'ghost', onclick: () => { window.location.href = s.articleFile; }, text:'Read Article' }));
+          }
+          return row;
+        })()
       ]);
       grid.append(card);
     });
@@ -218,6 +234,8 @@
 
     // initialize progress values on first render
     updateProgressUI();
+    // apply syntax highlighting after DOM updates
+    applySyntaxHighlighting();
   }
 
   function prev(){ if (state.index > 0) { state.index--; renderQuiz(); } }
@@ -277,6 +295,7 @@
       review.append(block);
     });
     main.append(review);
+    applySyntaxHighlighting();
   }
 
   function populateFilters(){
@@ -309,6 +328,7 @@
       if (s) return startQuiz(s);
     }
     renderHome();
+    applySyntaxHighlighting();
   }
 
   window.addEventListener('DOMContentLoaded', () => { init().catch(err => {
@@ -316,4 +336,54 @@
     main.innerHTML = '';
     main.append(h('div', { class:'error' }, [ h('strong', { text:'Error: ' }), document.createTextNode(err.message || String(err)) ]));
   }); });
+
+  // Lightweight syntax highlighting for Python
+  function applySyntaxHighlighting(){
+    const blocks = document.querySelectorAll('pre code');
+    blocks.forEach(codeEl => {
+      const cls = codeEl.className || '';
+      if (/(^|\s)language-python(\s|$)/.test(cls)) {
+        try {
+          const raw = codeEl.textContent || '';
+          codeEl.innerHTML = highlightPython(raw);
+        } catch (e) { /* ignore */ }
+      }
+    });
+  }
+
+  function highlightPython(src){
+    if (!src) return '';
+    // Protect strings and comments with placeholders
+    const holders = [];
+    function keep(html){ holders.push(html); return `@@H${holders.length-1}@@`; }
+
+    // Triple-quoted strings
+    src = src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g, m => keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+    // Single/double quoted strings
+    src = src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g, m => keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+    // Comments
+    src = src.replace(/#.*/g, m => keep(`<span class="tok-com">${escapeHtml(m)}</span>`));
+
+    // Escape remaining
+    let html = escapeHtml(src);
+
+    // Keywords
+    const KW = [
+      'def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'
+    ];
+    const kwRe = new RegExp(`\\b(${KW.join('|')})\\b`,'g');
+    html = html.replace(kwRe, '<span class="tok-kw">$1</span>');
+
+    // Builtins (common subset)
+    const BI = ['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];
+    const biRe = new RegExp(`\\b(${BI.join('|')})\\b`,'g');
+    html = html.replace(biRe, '<span class="tok-builtin">$1</span>');
+
+    // Numbers
+    html = html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g, '<span class="tok-num">$&</span>');
+
+    // Restore placeholders
+    html = html.replace(/@@H(\d+)@@/g, (m, i) => holders[Number(i)]);
+    return html;
+  }
 })();

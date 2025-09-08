@@ -21,6 +21,7 @@
 ## Deployment
 ```
 git config --global --add safe.directory /tmp/quiz
+mkdir -p /tmp/quiz
 cd /tmp/quiz
 git pull
 cp -r ../quiz/ /var/www/indiatruck/public/
@@ -29,12 +30,11 @@ chmod 755 /var/www/indiatruck/public/
 ```
 
 
-## How to register new quiz
-1. generate data json in quiz format
-2. register the file name in surveys.json without unique id
-3. register the id from surveys.json and update in quiz-data-manager.js
-4. If this is new category, we have to register in quiz-platform.js
-5. Example prompt
+## How to register a new quiz
+1. Generate the questions JSON in the expected format (array of items with `title`/`question`, `choices`/`options`, and `correctAnswer`).
+2. Add an entry in `programming/data/json/surveys.json` with a unique `id` and the `questionsFile` path (relative to `programming/`).
+3. Run locally via a web server and confirm the quiz loads and renders without console errors.
+4. Example prompt
 
 1. Under "Data Structures & Algorithms" Category, can you generate new quiz file like python/leetcode-medium-questions-fixed.json for Fenwick tree fundamentals and ensure   quiz covers basics knowledge of Fenwick and sample program to update getsum. Overall we need to create new quiz for Fenwick tree and number of questions should be 50 and regsitered and should be accessible
 
