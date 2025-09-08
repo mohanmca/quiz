@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Python List API for LeetCode</title>
+  <style>:root{--primary:#4f46e5;--bg:#f7f9fc;--text:#1a1a1a;--muted:#6b7280}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}.container{max-width:980px;margin:0 auto;padding:16px}.title{margin:6px 0 2px;font-size:24px;font-weight:800}.subtitle{margin:0 0 12px;color:var(--muted)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}button.secondary{background:#eef2ff;color:#1f2937}button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}h2{margin-top:20px}pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}.tok-kw{color:#93c5fd}.tok-str{color:#a7f3d0}.tok-com{color:#9ca3af;font-style:italic}.tok-num{color:#fcd34d}.tok-builtin{color:#fca5a5}.note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}.toc a{color:#2563eb;text-decoration:none}</style>
+  <script>function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}function H(src){if(!src)return'';const K=[];const keep=h=>(K.push(h),`@@H${K.length-1}@@`);src=src.replace(/'{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3}/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/#.*/g,m=>keep(`<span class='tok-com'>${E(m)}</span>`));let html=E(src);const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),"<span class='tok-kw'>$1</span>");const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),"<span class='tok-builtin'>$1</span>");html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,"<span class='tok-num'>$&</span>");return html.replace(/@@H(\d+)@@/g,(m,i)=>K[Number(i)])}function apply(){document.querySelectorAll('pre code.language-python').forEach(el=>el.innerHTML=H(el.textContent||''))}window.addEventListener('DOMContentLoaded',apply)</script>
+</head><body>
+  <header><div class="container">
+    <div class="title">Python List API for LeetCode</div>
+    <div class="subtitle">Slicing, mutation, copying, sorting, comprehension, and gotchas</div>
+    <div class="toolbar">
+      <button class="secondary" onclick="window.location.href='../index.html?id=python-list-api'">Start Quiz</button>
+      <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+    </div>
+  </div></header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents</strong>
+      <ul>
+        <li><a href="#mutate">1. Mutating Ops</a></li>
+        <li><a href="#copy">2. Copying & Aliasing</a></li>
+        <li><a href="#slice">3. Slicing & Assignment</a></li>
+        <li><a href="#sort">4. Sorting & Stability</a></li>
+        <li><a href="#comp">5. Comprehensions & Patterns</a></li>
+        <li><a href="#iter">6. Iterators & Reverse</a></li>
+        <li><a href="#common">7. Common Utilities</a></li>
+      </ul>
+    </div>
+
+    <h2 id="mutate">1. Mutating Ops</h2>
+    <pre><code class="language-python">a = [3,1,4]
+a.append(2)           # [3,1,4,2]  (returns None)
+a.extend([9,9])       # [3,1,4,2,9,9]
+a.insert(1, 7)        # [3,7,1,4,2,9,9]
+last = a.pop()        # removes last; returns 9
+a.remove(7)           # removes first 7; ValueError if not present
+a.clear()             # []
+    </code></pre>
+
+    <h2 id="copy">2. Copying & Aliasing</h2>
+    <pre><code class="language-python">import copy
+a = [[0]*3 for _ in range(3)]
+b = a[:]           # shallow copy
+c = copy.deepcopy(a)
+a[0][0] = 99
+print(b[0][0])     # 99 (shares inner lists)
+print(c[0][0])     # 0  (deep copied)
+
+# 2D pitfall
+bad = [[0]*3]*3    # rows alias the same inner list
+bad[0][0] = 1
+print(bad)         # [[1,0,0],[1,0,0],[1,0,0]]
+    </code></pre>
+
+    <h2 id="slice">3. Slicing & Assignment</h2>
+    <pre><code class="language-python">a = [0,1,2,3,4,5]
+print(a[1:5])     # [1,2,3,4]
+print(a[::2])     # [0,2,4]
+# Out-of-range bounds clamp
+print(a[-999:999])
+
+# Slice assignment can resize
+a[2:4] = [9,9,9]  # [0,1,9,9,9,4,5]
+del a[::3]        # delete every 3rd element
+    </code></pre>
+
+    <h2 id="sort">4. Sorting & Stability</h2>
+    <pre><code class="language-python">names = ['bob','alice','eve','al']
+names.sort()                 # in place, returns None (stable)
+by_len = sorted(names, key=len)           # new list
+both   = sorted(names, key=lambda s:(len(s), s))
+
+# Reverse
+names.sort(reverse=True)
+    </code></pre>
+
+    <h2 id="comp">5. Comprehensions & Patterns</h2>
+    <pre><code class="language-python"># Flatten
+A = [[1,2],[3],[4,5,6]]
+flat = [x for row in A for x in row]
+
+# Frequency of values
+from collections import Counter
+freq = Counter([1,2,2,3,3,3])
+
+# Unique while preserving order
+uniq = list(dict.fromkeys([3,1,3,2,1]))  # [3,1,2]
+    </code></pre>
+
+    <h2 id="iter">6. Iterators & Reverse</h2>
+    <pre><code class="language-python">a = [1,2,3]
+it = reversed(a)       # iterator view
+print(list(it))        # [3,2,1]
+
+for i, x in enumerate(a, start=1):
+    print(i, x)
+    </code></pre>
+
+    <h2 id="common">7. Common Utilities</h2>
+    <pre><code class="language-python">a = [10, -3, 5]
+print(min(a, key=abs))        # -3
+print(' '.join(map(str, a)))  # '10 -3 5'
+
+# Safe concatenation vs in-place extension
+b = a + [7]     # new list
+a += [7]        # mutate in place (like extend)
+    </code></pre>
+
+    <div class="note">This guide covers the listed quiz topics: mutating methods (return None), copying and aliasing, slicing rules and assignment, sorting and stability, comprehensions, iterators/reverse, and common list patterns used in LeetCode solutions.</div>
+  </article></main>
+</body></html>
+

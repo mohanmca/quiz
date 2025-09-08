@@ -1,8 +1,10 @@
 # Technical Quiz Platform — Agent Guide
 
-This repository hosts a static, browser-based quiz platform. Quizzes are described in JSON, loaded over HTTP, and rendered with HTML/CSS/JavaScript. Many questions include Python snippets rendered as markdown with code fences.
-
-Use this file as your quick-start map: structure, how it runs, how data is shaped, and where to make changes.
+1. This repository hosts a static, browser-based quiz platform. Quizzes are described in JSON, loaded over HTTP, and rendered with HTML/CSS/JavaScript. Many questions include Python snippets rendered as markdown with code fences.
+1. Use this file as your quick-start map: structure, how it runs, how data is shaped, and where to make changes.
+2. Every Quiz should have a article under programming/articles
+3. Ensure articles covers all the question in respective quiz
+4. Article should have python code
 
 ## How It Works
 - Data source: `programming/data/json/surveys.json` lists quizzes (title, description, category, file path, etc.). Each entry points to a questions JSON file under `programming/data/json/...`.
@@ -84,3 +86,7 @@ Notes:
 - doc/
 - .vscode/
 - .git/
+
+
+## TODO for everysession by Codex
+1. Can you create document under doc after every session which involves code change, document what you learnt and what was tricky so human can learn from this session and improve his knowledge
