@@ -959,3 +959,80 @@ class Solution:
 ```
 
 https://leetcode.com/problem-list/rolling-hash/
+
+---
+
+Double hashing is used in **Rabin–Karp** (and other rolling-hash–based algorithms) to **reduce the probability of hash collisions**.
+
+---
+
+## 🔹 Why collisions happen
+
+* A single modular hash (e.g., `hash % M`) maps infinitely many strings into just `M` possible values.
+* Two different substrings may produce the same hash — this is a **collision**.
+* If you rely on only one hash, you’d need to **verify substrings** with an `O(m)` check every time a collision occurs. With bad luck or adversarial inputs, this can degrade performance.
+
+---
+
+## 🔹 What double hashing does
+
+Instead of keeping **one hash**, you keep **two independent hashes** with different:
+
+* **Bases** (`base1`, `base2`)
+* **Moduli** (`M1`, `M2`)
+
+Then each substring is represented as a **pair**:
+
+$$
+H(s) = \big( H_1(s) \;,\; H_2(s) \big)
+$$
+
+For a match:
+
+* Both `H1(substring) == H1(pattern)` and `H2(substring) == H2(pattern)` must hold.
+* Probability of random collision drops from about `1/M` to `1/(M1*M2)`. With moduli ≈ 1e9, this is astronomically small.
+
+---
+
+## 🔹 When to use double hashing
+
+1. **Competitive programming / LeetCode / coding interviews**
+
+   * Often a single large prime modulus (≈ 1e9+7) is enough.
+   * Double hashing is added for safety against crafted test cases.
+
+2. **Adversarial or cryptographic contexts**
+
+   * If input can be chosen by an attacker, single hashing is risky.
+   * Double hashing makes collision attacks far less practical.
+
+3. **Production systems (like plagiarism checkers, search engines, DNA sequencing tools)**
+
+   * Reliability is crucial, so double hashing avoids false positives.
+
+---
+
+## 🔹 Example
+
+In your `rabin_karp_double`:
+
+```python
+pow1 = pow(base1, m-1, M1)
+pow2 = pow(base2, m-1, M2)
+
+hp1 = H(p, base1, M1); hw1 = H(t[:m], base1, M1)
+hp2 = H(p, base2, M2); hw2 = H(t[:m], base2, M2)
+
+# later, a match only counts if both hashes agree
+if hw1 == hp1 and hw2 == hp2 and text[i:i+m] == pattern:
+    ans.append(i)
+```
+
+Here, **two independent rolling hashes** must both match before verifying the substring. This almost eliminates spurious collisions.
+
+---
+
+✅ In short:
+**Double hashing is used when you want to minimize the chance of collisions to nearly zero, especially in adversarial or high-reliability settings.**
+
+---

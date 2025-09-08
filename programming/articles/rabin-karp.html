@@ -209,6 +209,16 @@ if __name__ == '__main__':
         <li>Double hashing (two independent (base, M) pairs) drastically reduces collision probability.</li>
         <li>Always normalize negatives after subtraction with <code>(x % M + M) % M</code>.</li>
       </ul>
+      <h3>When and Why to Use Double Hashing</h3>
+      <ul>
+        <li><strong>Adversarial or dense matches:</strong> If data may cause many collisions (e.g., repeated characters or crafted inputs), double hashing reduces false positives.</li>
+        <li><strong>Many windows:</strong> For long texts with <code>N = n - m + 1</code> windows, even low per-window collision rates can add up; double hashing keeps total risk low.</li>
+        <li><strong>Performance:</strong> It cuts down expensive verifications when pattern occurrences are rare.</li>
+      </ul>
+      <p>
+        Collision model (idealized uniform hashes): per-window collision probability is about <code>~ 1/M</code>. Over <code>N</code> windows, the union bound gives at most <code>N/M</code> chance that any window collides. With two independent pairs <code>(base₁, M₁)</code> and <code>(base₂, M₂)</code>, the joint collision probability is about <code>1/(M₁·M₂)</code>, and over <code>N</code> windows at most <code>N/(M₁·M₂)</code>.
+      </p>
+      <div class="note">Choose large, independent primes for <code>M₁, M₂</code> (e.g., <code>1e9+7</code> and <code>1e9+9</code>) and unrelated bases. Verification remains necessary but will trigger far less often.</div>
 
       <h2 id="multipattern">7. Multiple Pattern Matching</h2>
       <p>
@@ -263,6 +273,15 @@ if __name__ == '__main__':
         <li><strong>Negative values:</strong> add <code>M</code> before another <code>% M</code>.</li>
         <li><strong>Worst-case:</strong> O(nm) if many collisions; double-hash + verify to mitigate.</li>
         <li><strong>Unicode:</strong> Using <code>ord</code> works; consider normalization (NFC/NFD) if needed.</li>
+      </ul>
+      <h3 id="offbyone">Indexing and Off-by-One Pitfalls</h3>
+      <ul>
+        <li><strong>Window count:</strong> a text of length <code>n</code> has <code>n - m + 1</code> windows of length <code>m</code>.</li>
+        <li><strong>Loop indexing:</strong> if <code>i</code> is the index of the newly added character (right end), the window start is <code>start = i - m + 1</code>.</li>
+        <li><strong>Slice verification:</strong> compare <code>text[start:start+m]</code> to the pattern. Do not use <code>i-m</code> or <code>i+m</code> by mistake.</li>
+        <li><strong>Rolling order:</strong> remove <code>text[i-m]</code>, then multiply by <code>base</code>, then add <code>text[i]</code>.</li>
+        <li><strong>First window:</strong> initialize from <code>text[0:m]</code> before the loop; the loop typically runs <code>i = m .. n-1</code>.</li>
+        <li><strong>Zero vs one-based:</strong> math derivations are often 1-based; code is 0-based. Translate <code>i-m+1</code> carefully.</li>
       </ul>
 
       <h2 id="mod">9. Modulo Math Essentials</h2>

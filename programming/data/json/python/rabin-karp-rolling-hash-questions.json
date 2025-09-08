@@ -46,4 +46,9 @@
   {"title":"Modular division caution:","choices":["Always valid","Valid only when divisor is coprime with M","Only when M is composite","Never valid"],"correctAnswer":"Valid only when divisor is coprime with M"},
   {"title":"nCr mod prime p typical approach:","choices":["Recompute factorial each time","Use floating division","Precompute factorials and inverse factorials","No modulus needed"],"correctAnswer":"Precompute factorials and inverse factorials"},
   {"title":"Which pow call is correct in Python for mod exp:","choices":["pow(a,e) % M","pow(a,e,M)","a**e(M)","exp(a,e,M)"],"correctAnswer":"pow(a,e,M)"}
+,
+  {"title":"How many windows of length m exist in a text of length n?","choices":["n/m","n-m+1","n-m","n+m"],"correctAnswer":"n-m+1"},
+  {"title":"In a rolling loop where i is the index of the new rightmost char, the correct start index is:","choices":["i-m","i-m+1","i+m","i+1"],"correctAnswer":"i-m+1"},
+  {"title":"Approximate per-window collision probability with prime modulus M:","choices":["~1/M","~1/√M","~log M","0"],"correctAnswer":"~1/M"},
+  {"title":"With independent moduli M1 and M2, joint collision probability per window is:","choices":["~1/(M1+M2)","~1/(M1·M2)","~1/min(M1,M2)","~1"],"correctAnswer":"~1/(M1·M2)"}
 ]
