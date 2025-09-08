@@ -24,6 +24,10 @@
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1020; color:#e5e7eb; padding: 1px 4px; border-radius:4px; }
     pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid #111827; }
     pre code { display:block; background:transparent; padding:0; }
+    table { width:100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border:1px solid #e5e7eb; padding:10px; text-align:left; }
+    th { background:#f9fafb; font-weight:700; }
+    tbody tr:nth-child(even) { background:#fafafa; }
     /* Lightweight syntax highlighting */
     .tok-kw { color:#93c5fd; }
     .tok-str { color:#a7f3d0; }
@@ -60,7 +64,10 @@
           <li><a href="#collisions">6. Collisions and Double Hashing</a></li>
           <li><a href="#multipattern">7. Multiple Pattern Matching</a></li>
           <li><a href="#tips">8. Practical Tips and Pitfalls</a></li>
-          <li><a href="#practice">9. Practice Exercises</a></li>
+          <li><a href="#usage">9. Where Rabin–Karp Shines</a></li>
+          <li><a href="#kmp">10. KMP: Quick Primer</a></li>
+          <li><a href="#compare">11. RK vs KMP: Comparison</a></li>
+          <li><a href="#practice">12. Practice Exercises</a></li>
         </ul>
       </div>
 
@@ -256,14 +263,141 @@ if __name__ == '__main__':
         <li><strong>Unicode:</strong> Using <code>ord</code> works; consider normalization (NFC/NFD) if needed.</li>
       </ul>
 
-      <h2 id="practice">9. Practice Exercises</h2>
+      <h2 id="usage">9. Where Rabin–Karp Shines</h2>
+      <p>
+        Rabin–Karp is particularly effective when you need to scan a large text once for many fixed-length patterns, or when fast elimination via hashes saves expensive string compares. Common use cases include:
+      </p>
+      <ul>
+        <li><strong>Plagiarism detection:</strong> compare shingles (fixed-length substrings) across large corpora using hashed windows.</li>
+        <li><strong>Bioinformatics:</strong> search for k-mers (DNA substrings of length k) across genomes efficiently.</li>
+        <li><strong>Intrusion/log scanning:</strong> detect known signatures across logs/memory dumps using precomputed hashes.</li>
+        <li><strong>Duplicate detection:</strong> find repeated substrings (e.g., "Repeated DNA Sequences") via rolling hashes and sets.</li>
+        <li><strong>Multi-pattern lookup:</strong> when the number of patterns is large but all have the same length.</li>
+      </ul>
+      <pre><code class="language-python"># Tiny demo: find indices of a short pattern using a base-256 rolling hash
+def rk_find_all(text, pat, base=256, M=1_000_000_007):
+    n, m = len(text), len(pat)
+    if m == 0 or m > n: return []
+    pow_m_1 = pow(base, m-1, M)
+    th = ph = 0
+    for i in range(m):
+        th = (th * base + ord(text[i])) % M
+        ph = (ph * base + ord(pat[i])) % M
+    out = [0] if th == ph and text[:m] == pat else []
+    for i in range(m, n):
+        th = (th - ord(text[i-m]) * pow_m_1) % M
+        th = (th * base + ord(text[i])) % M
+        if th == ph:
+            j = i - m + 1
+            if text[j:j+m] == pat:
+                out.append(j)
+    return out
+      </code></pre>
+
+      <h3>Example: Repeated DNA Sequences (k-mers)</h3>
+      <p>
+        Classic bioinformatics task: find all repeated DNA substrings of fixed length <code>L</code>.
+        Use a base-4 rolling hash with mapping <code>A→0</code>, <code>C→1</code>, <code>G→2</code>, <code>T→3</code> for O(1) window updates.
+      </p>
+      <pre><code class="language-python">def repeated_kmers_dna(s: str, L: int = 10):
+    if len(s) <= L: return []
+    to_int = {'A':0,'C':1,'G':2,'T':3}
+    a = 4
+    aL = pow(a, L)
+    nums = [to_int[c] for c in s]
+    h = 0
+    seen, out = set(), set()
+    for i in range(len(s) - L + 1):
+        if i:
+            h = h * a - nums[i-1] * aL + nums[i+L-1]
+        else:
+            for j in range(L):
+                h = h * a + nums[j]
+        if h in seen:
+            out.add(s[i:i+L])
+        seen.add(h)
+    return sorted(out)
+
+# Example
+# repeated_kmers_dna('AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT', 10)
+      </code></pre>
+
+      <h2 id="kmp">10. KMP: Quick Primer</h2>
+      <p>
+        Knuth–Morris–Pratt (KMP) solves single-pattern search in O(n + m) by precomputing a failure function (also called LPS/"longest prefix which is also suffix"). This table tells how far to shift the pattern on mismatch without re-checking characters, eliminating backtracking in the text.
+      </p>
+      <pre><code class="language-python"># Build LPS array used by KMP
+def build_lps(p):
+    lps = [0]*len(p)
+    k = 0
+    for i in range(1, len(p)):
+        while k and p[i] != p[k]:
+            k = lps[k-1]
+        if p[i] == p[k]:
+            k += 1
+        lps[i] = k
+    return lps
+      </code></pre>
+      <p class="tip">
+        Usage contrast: prefer <strong>KMP</strong> for one pattern against one large text. Prefer <strong>Rabin–Karp</strong> for many equal-length patterns, shingling, or when hashing enables constant-time window updates or quick elimination before exact checks.
+      </p>
+
+      <h2 id="compare">11. RK vs KMP: Comparison</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Rabin–Karp (RK)</th>
+            <th>KMP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Goal</td>
+            <td>Hash-based filtering, great for multi-pattern, fixed-length windows</td>
+            <td>Deterministic single-pattern search without backtracking</td>
+          </tr>
+          <tr>
+            <td>Time complexity</td>
+            <td>Average O(n + m); worst O(nm) if many collisions</td>
+            <td>O(n + m) worst-case</td>
+          </tr>
+          <tr>
+            <td>Preprocessing</td>
+            <td>Precompute powers; pattern hash; optional double hash</td>
+            <td>Compute LPS table for pattern</td>
+          </tr>
+          <tr>
+            <td>Collisions</td>
+            <td>Possible; must verify on hash match; double hashing reduces risk</td>
+            <td>None; exact character comparisons guided by LPS</td>
+          </tr>
+          <tr>
+            <td>Multiple patterns</td>
+            <td>Efficient for many patterns of same length using a hash set</td>
+            <td>Requires building multiple LPS tables or Aho–Corasick for many patterns</td>
+          </tr>
+          <tr>
+            <td>Typical uses</td>
+            <td>Plagiarism detection, k-mer search, log signature scan, duplicate substrings</td>
+            <td>Editor "Find", exact single-pattern search, streaming match</td>
+          </tr>
+          <tr>
+            <td>Memory</td>
+            <td>O(1) plus optional hash sets for seen windows</td>
+            <td>O(m) for LPS</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="practice">12. Practice Exercises</h2>
       <ol>
         <li>Implement Rabin–Karp to return <em>all</em> occurrences of a pattern in a text.</li>
         <li>Implement double hashing and compare collision behavior on random data.</li>
         <li>Given many patterns of the same length, use a hash set to find any occurrence.</li>
       </ol>
 
-      <div class="note muted">This article is designed to cover nearly all core concepts tested in the “Rabin–Karp Rolling Hash Fundamentals” quiz: rolling hash formula, base/mod choices, O(1) rolling update, negative handling, collision checks, expected complexity, double hashing, and multi-pattern use.</div>
+      <div class="note muted">This article now includes usage patterns, a KMP primer, and an RK vs KMP comparison table, in addition to rolling hash fundamentals, collision handling, and multi-pattern strategies.</div>
     </article>
   </main>
 
@@ -295,4 +429,3 @@ if __name__ == '__main__':
   </script>
 </body>
 </html>
-

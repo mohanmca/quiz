@@ -118,3 +118,18 @@ Create 40 Quiz similar to python-internals-questions.json for following "Apache 
 6. Message Offset
 7. Consumer API
 8. Consumer Faillver
+
+
+----
+
+
+
+▌1. Refer article content from file - /Users/mohannarayanaswamy/git/quiz/rabin.md
+▌2. Can you update article by reading above file and add more content and smaller code segment - /Users/
+▌mohannarayanaswamy/git/quiz/programming/articles/rabin-karp.html
+▌3. Add a bit about usage of robin-karp usage in the article
+▌4. Have a small comparision and introduction about KMP and contrast the usage of it
+▌5. Compare in a table between Both the above algorithm
+ ⏎ send   ⌃J newline   ⌃T transcript   ⌃C quit   27391 token
+
+--- 

@@ -5,6 +5,7 @@
 2. Every Quiz should have a article under programming/articles
 3. Ensure articles covers all the question in respective quiz
 4. Article should have python code
+5. Articles should be accesible using "Read Article" similar to "Rabin–Karp Rolling Hash Fundamentals" under articles folder similar to /Users/mohannarayanaswamy/git/quiz/programming/articles/rabin-karp.html
 
 ## How It Works
 - Data source: `programming/data/json/surveys.json` lists quizzes (title, description, category, file path, etc.). Each entry points to a questions JSON file under `programming/data/json/...`.
@@ -86,6 +87,7 @@ Notes:
 - doc/
 - .vscode/
 - .git/
+- programming/doc/
 
 
 ## TODO for everysession by Codex
