@@ -30,6 +30,13 @@
     tbody tr:nth-child(even) { background:#fafafa; }
     .diagram { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background:#f8fafc; border:1px solid #e5e7eb; color:#0f172a; padding:12px; border-radius:10px; overflow-x:auto; }
     .diagram .muted { color:#64748b; }
+    .viz { background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:8px; }
+    .viz svg { max-width:100%; height:auto; display:block; }
+    .viz text { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:12px; fill:#0f172a; }
+    .viz .idx { fill:#64748b; font-size:11px; }
+    .viz .box { fill:#e2e8f0; stroke:#94a3b8; }
+    .viz .hilite { fill:#bfdbfe; stroke:#3b82f6; }
+    .viz .arrow { stroke:#0f172a; stroke-width:1.2; marker-end:url(#arrowhead); }
     /* Lightweight syntax highlighting */
     .tok-kw { color:#93c5fd; }
     .tok-str { color:#a7f3d0; }
@@ -310,6 +317,67 @@ if __name__ == '__main__':
           - incoming index = i
           - next start     = i - m + 1
       </div>
+      <figure class="viz" aria-label="Forward slide window indexing SVG diagram">
+        <svg viewBox="0 0 560 120" role="img">
+          <defs>
+            <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#0f172a"></path>
+            </marker>
+          </defs>
+          <!-- indices row -->
+          <text class="idx" x="10" y="20">Index:</text>
+          <!-- boxes 0..7 -->
+          <g transform="translate(70,5)">
+            <g>
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">0</text>
+            </g>
+            <g transform="translate(40,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">1</text>
+            </g>
+            <g transform="translate(80,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">2</text>
+            </g>
+            <g transform="translate(120,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">3</text>
+            </g>
+            <g transform="translate(160,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">4</text>
+            </g>
+            <g transform="translate(200,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">5</text>
+            </g>
+            <g transform="translate(240,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">6</text>
+            </g>
+            <g transform="translate(280,0)">
+              <rect class="box" x="0" y="6" width="40" height="24"></rect>
+              <text x="15" y="24">7</text>
+            </g>
+          </g>
+          <!-- first window highlight [0..3] at i=3 -->
+          <g transform="translate(70,40)">
+            <rect class="hilite" x="0" y="0" width="160" height="24"></rect>
+            <text x="0" y="44">start=0, end=3, i=3 ⇒ start = i - m + 1 = 0</text>
+          </g>
+          <!-- next window highlight [1..4] at i=4 -->
+          <g transform="translate(110,75)">
+            <rect class="hilite" x="0" y="0" width="160" height="24"></rect>
+            <text x="0" y="44">start=1, end=4, i=4 ⇒ start = 1</text>
+          </g>
+          <!-- arrows for outgoing/incoming at i=4 -->
+          <line class="arrow" x1="110" y1="62" x2="78" y2="28"></line>
+          <text x="35" y="26" class="idx">outgoing = i - m</text>
+          <line class="arrow" x1="270" y1="62" x2="304" y2="28"></line>
+          <text x="310" y="26" class="idx">incoming = i</text>
+        </svg>
+      </figure>
       <div class="diagram" aria-label="Backward slide window indexing diagram">
         Backward slide (leftward), m = 4 (less common but useful conceptually)
         
@@ -322,6 +390,27 @@ if __name__ == '__main__':
         adding the new left character at weight base^(m-1). If modular inverse doesn’t exist,
         prefer rightward scans or recompute the hash for the new window.
       </div>
+      <figure class="viz" aria-label="Backward slide window indexing SVG diagram">
+        <svg viewBox="0 0 560 120" role="img">
+          <defs>
+            <marker id="arrowhead2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#0f172a"></path>
+            </marker>
+          </defs>
+          <text class="idx" x="10" y="20">Leftward slide (concept), m=4</text>
+          <!-- window [k, k+3] and [k-1, k+2] -->
+          <g transform="translate(40,40)">
+            <rect class="hilite" x="80" y="0" width="160" height="24"></rect>
+            <text x="80" y="44">[k, k+3]</text>
+            <rect class="hilite" x="40" y="70" width="160" height="24"></rect>
+            <text x="40" y="114">[k-1, k+2]</text>
+            <line class="arrow" x1="240" y1="12" x2="280" y2="12" marker-end="url(#arrowhead2)"></line>
+            <text class="idx" x="290" y="16">outgoing = k + (m-1)</text>
+            <line class="arrow" x1="40" y1="82" x2="0" y2="82" marker-end="url(#arrowhead2)"></line>
+            <text class="idx" x="-5" y="70">incoming = k - 1</text>
+          </g>
+        </svg>
+      </figure>
 
       <h2 id="mod">9. Modulo Math Essentials</h2>
       <p>Modulo arithmetic underpins rolling hashes. Core properties with modulus <code>M</code>:</p>

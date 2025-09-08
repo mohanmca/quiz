@@ -12,7 +12,8 @@ Changes made
   - Appended two practice tasks + a tiny Python test harness for fast pow and modular inverse with randomized checks.
 - Expanded collisions section with when/why to use double hashing and included simple probability bounds: per-window ~1/M, union bound N/M, and with double hashing ~1/(M1*M2).
   - Added an off-by-one checklist (start = i - m + 1, window count n - m + 1, remove text[i-m], verify text[start:start+m]).
-  - Inserted two small ASCII diagrams clarifying forward (rightward) and backward (leftward) window slides with indices and incoming/outgoing positions.
+- Inserted two small ASCII diagrams clarifying forward (rightward) and backward (leftward) window slides with indices and incoming/outgoing positions.
+  - Added inline SVG versions of both diagrams for sharper visuals while retaining ASCII as readable context.
   - Added a dedicated "Choosing the Base b" subsection: alphabet coverage, avoiding b=1, co-prime with M, randomized base, and guidance for bytes/DNA/lowercase.
 
 Also updated quiz
