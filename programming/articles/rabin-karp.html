@@ -64,10 +64,12 @@
           <li><a href="#collisions">6. Collisions and Double Hashing</a></li>
           <li><a href="#multipattern">7. Multiple Pattern Matching</a></li>
           <li><a href="#tips">8. Practical Tips and Pitfalls</a></li>
-          <li><a href="#usage">9. Where Rabin–Karp Shines</a></li>
-          <li><a href="#kmp">10. KMP: Quick Primer</a></li>
-          <li><a href="#compare">11. RK vs KMP: Comparison</a></li>
-          <li><a href="#practice">12. Practice Exercises</a></li>
+          <li><a href="#mod">9. Modulo Math Essentials</a></li>
+          <li><a href="#modtricks">10. Mod Tricks for Interviews</a></li>
+          <li><a href="#usage">11. Where Rabin–Karp Shines</a></li>
+          <li><a href="#kmp">12. KMP: Quick Primer</a></li>
+          <li><a href="#compare">13. RK vs KMP: Comparison</a></li>
+          <li><a href="#practice">14. Practice Exercises</a></li>
         </ul>
       </div>
 
@@ -263,7 +265,73 @@ if __name__ == '__main__':
         <li><strong>Unicode:</strong> Using <code>ord</code> works; consider normalization (NFC/NFD) if needed.</li>
       </ul>
 
-      <h2 id="usage">9. Where Rabin–Karp Shines</h2>
+      <h2 id="mod">9. Modulo Math Essentials</h2>
+      <p>Modulo arithmetic underpins rolling hashes. Core properties with modulus <code>M</code>:</p>
+      <ul>
+        <li><strong>Addition:</strong> <code>(a + b) % M = ((a % M) + (b % M)) % M</code></li>
+        <li><strong>Subtraction:</strong> <code>(a - b) % M = ((a % M) - (b % M) + M) % M</code> (normalize to avoid negatives)</li>
+        <li><strong>Multiplication:</strong> <code>(a * b) % M = ((a % M) * (b % M)) % M</code></li>
+        <li><strong>Exponent:</strong> use fast power: <code>pow(base, exp, M)</code> in Python runs in O(log exp)</li>
+        <li><strong>Division:</strong> multiply by modular inverse when it exists (e.g., <code>a / b ≡ a * b^{-1} (mod M)</code>)</li>
+        <li><strong>Associativity/Commutativity:</strong> <code>+ , *</code> remain associative and commutative under mod.</li>
+        <li><strong>Distributivity:</strong> <code>((a + b) * c) % M = ((a % M) * (c % M) + (b % M) * (c % M)) % M</code></li>
+        <li><strong>Congruence:</strong> <code>a ≡ b (mod M)</code> iff <code>M</code> divides <code>a - b</code>; you can replace <code>a</code> by <code>b</code> in any sum/product.</li>
+        <li><strong>Residues:</strong> every integer has a unique representative in <code>[0, M-1]</code> after reduction.</li>
+      </ul>
+      <div class="tip">When <code>M</code> is prime and <code>b % M != 0</code>, the inverse is <code>b^{M-2} % M</code> (Fermat’s little theorem). Otherwise use the extended Euclidean algorithm if <code>gcd(b, M)=1</code>.</div>
+      <pre><code class="language-python"># Essentials in Python
+def add_mod(a,b,M): return (a + b) % M
+def sub_mod(a,b,M): return (a - b) % M  # Python already returns non-negative
+def mul_mod(a,b,M): return (a * b) % M
+def pow_mod(a,e,M): return pow(a, e, M)  # O(log e)
+def inv_mod_prime(a,M):
+    if a % M == 0: raise ZeroDivisionError('no inverse')
+    return pow(a, M-2, M)
+
+# Extended Euclid inverse (works when gcd(a,M)=1)
+def egcd(a,b):
+    if b==0: return (a,1,0)
+    g,x1,y1 = egcd(b, a%b)
+    return (g, y1, x1 - (a//b)*y1)
+def inv_mod(a,M):
+    g,x,_ = egcd(a,M)
+    if g != 1: raise ZeroDivisionError('no inverse')
+    return x % M
+      </code></pre>
+      <ul>
+        <li><strong>Normalization:</strong> in C/C++/Java normalize with <code>(x % M + M) % M</code> after subtraction. Python’s <code>%</code> already yields non-negative.</li>
+        <li><strong>Overflow:</strong> prefer 64-bit; for <code>a*b % M</code> in C++ use <code>__int128</code> or Montgomery; Python bigints are safe.</li>
+        <li><strong>Choosing M:</strong> large primes near <code>1e9+7</code>/<code>1e9+9</code>; for double hashing, use two independent primes.</li>
+        <li><strong>Precompute powers:</strong> <code>pow(base, i, M)</code> or <code>pow(base, m-1, M)</code> to remove outgoing char in O(1).</li>
+      </ul>
+
+      <h2 id="modtricks">10. Mod Tricks for Interviews</h2>
+      <ul>
+        <li><strong>Sliding windows:</strong> remove outgoing term with a precomputed power, then multiply and add incoming, all mod <code>M</code>.</li>
+        <li><strong>Avoid negatives:</strong> always normalize after subtraction before the next multiply.</li>
+        <li><strong>Fast exponent:</strong> use <code>pow(base, exp, M)</code> instead of repeated multiplication.</li>
+        <li><strong>Inverse on primes:</strong> <code>inv = pow(a, M-2, M)</code>; otherwise use extended Euclid.</li>
+        <li><strong>Double hashing:</strong> compute two hashes with different <code>(base, M)</code> to reduce collision probability.</li>
+        <li><strong>Randomized bases:</strong> choose base at runtime to defend against adversarial inputs.</li>
+        <li><strong>nCr mod p (p prime):</strong> precompute <code>fact</code> and <code>invfact</code> arrays for O(1) queries.</li>
+        <li><strong>Prefix sums mod p:</strong> take every addition mod <code>p</code>; differences use normalized subtraction.</li>
+      </ul>
+      <pre><code class="language-python"># nCr modulo prime p with precomputation
+def build_nCr(N, p=1_000_000_007):
+    fact = [1]*(N+1)
+    for i in range(1, N+1):
+        fact[i] = (fact[i-1]*i) % p
+    invfact = [1]*(N+1)
+    invfact[N] = pow(fact[N], p-2, p)
+    for i in range(N, 0, -1):
+        invfact[i-1] = (invfact[i]*i) % p
+    def nCr(n, r):
+        if r < 0 or r > n: return 0
+        return (((fact[n]*invfact[r])%p)*invfact[n-r])%p
+    return nCr
+      </code></pre>
+
+      <h2 id="usage">11. Where Rabin–Karp Shines</h2>
       <p>
         Rabin–Karp is particularly effective when you need to scan a large text once for many fixed-length patterns, or when fast elimination via hashes saves expensive string compares. Common use cases include:
       </p>
@@ -322,7 +390,7 @@ def rk_find_all(text, pat, base=256, M=1_000_000_007):
 # repeated_kmers_dna('AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT', 10)
       </code></pre>
 
-      <h2 id="kmp">10. KMP: Quick Primer</h2>
+      <h2 id="kmp">12. KMP: Quick Primer</h2>
       <p>
         Knuth–Morris–Pratt (KMP) solves single-pattern search in O(n + m) by precomputing a failure function (also called LPS/"longest prefix which is also suffix"). This table tells how far to shift the pattern on mismatch without re-checking characters, eliminating backtracking in the text.
       </p>
@@ -342,7 +410,7 @@ def build_lps(p):
         Usage contrast: prefer <strong>KMP</strong> for one pattern against one large text. Prefer <strong>Rabin–Karp</strong> for many equal-length patterns, shingling, or when hashing enables constant-time window updates or quick elimination before exact checks.
       </p>
 
-      <h2 id="compare">11. RK vs KMP: Comparison</h2>
+      <h2 id="compare">13. RK vs KMP: Comparison</h2>
       <table>
         <thead>
           <tr>
@@ -390,12 +458,54 @@ def build_lps(p):
         </tbody>
       </table>
 
-      <h2 id="practice">12. Practice Exercises</h2>
+      <h2 id="practice">14. Practice Exercises</h2>
       <ol>
         <li>Implement Rabin–Karp to return <em>all</em> occurrences of a pattern in a text.</li>
         <li>Implement double hashing and compare collision behavior on random data.</li>
         <li>Given many patterns of the same length, use a hash set to find any occurrence.</li>
+        <li>Implement fast modular exponentiation <code>pow_mod(a, e, M)</code> and verify correctness by comparing with Python’s <code>pow(a, e, M)</code> on 1000 random cases.</li>
+        <li>Implement modular inverse for general <code>M</code> via extended Euclid and for prime <code>M</code> via Fermat. Verify that <code>(a * inv(a)) % M == 1</code> for random <code>a</code> with <code>gcd(a, M)=1</code>.</li>
       </ol>
+
+      <pre><code class="language-python"># Quick correctness harness (small-scale)
+import random, math
+
+def pow_mod_ref(a,e,M):
+    # your implementation under test
+    res = 1; a %= M
+    while e:
+        if e & 1: res = (res * a) % M
+        a = (a * a) % M
+        e >>= 1
+    return res
+
+def inv_mod_euclid(a,M):
+    def egcd(x,y):
+        if y==0: return (x,1,0)
+        g, p, q = egcd(y, x%y)
+        return (g, q, p - (x//y)*q)
+    g,x,_ = egcd(a,M)
+    if g != 1: return None
+    return x % M
+
+def inv_mod_fermat(a,M):
+    return pow(a, M-2, M)
+
+def test():
+    for _ in range(1000):
+        a = random.randrange(1, 10**9+7)
+        e = random.randrange(0, 10**6)
+        M = 1_000_000_007
+        assert pow_mod_ref(a,e,M) == pow(a,e,M)
+        # inverse tests
+        inv1 = inv_mod_euclid(a,M)
+        inv2 = inv_mod_fermat(a,M)
+        assert inv1 is not None and (a*inv1) % M == 1
+        assert (a*inv2) % M == 1
+    print('OK')
+
+# test()
+      </code></pre>
 
       <div class="note muted">This article now includes usage patterns, a KMP primer, and an RK vs KMP comparison table, in addition to rolling hash fundamentals, collision handling, and multi-pattern strategies.</div>
     </article>

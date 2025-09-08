@@ -7,10 +7,14 @@ Changes made
   - KMP quick primer section with an `build_lps` example and usage contrast.
   - RK vs KMP comparison table (goals, complexity, preprocessing, collisions, multi-pattern, usage, memory).
   - Light table styling for consistent visuals.
-- Added a DNA repeated k-mer example (base-4 rolling hash) with a compact Python snippet under the Usage section.
+  - Added a DNA repeated k-mer example (base-4 rolling hash) with a compact Python snippet under the Usage section.
+- Added two new sections on modulo arithmetic: fundamentals (addition, subtraction, multiplication, exponentiation, inverses) and interview tricks (normalization, pow with mod, inverses, double hashing, randomized bases, overflow notes).
+  - Appended two practice tasks + a tiny Python test harness for fast pow and modular inverse with randomized checks.
 
 Also updated quiz
 - Rewrote `programming/data/json/python/rabin-karp-rolling-hash-questions.json` to 30 items covering:
+  - Now expanded to 40 items by adding 10 questions on modulo math properties, inverses, powmod, normalization, and overflow considerations.
+  - Further expanded to 46 items with questions on distributivity, congruence definition, residue classes, modular division preconditions, nCr mod p approach, and correct pow call usage.
   - Rolling hash math, base/mod choices, negative handling, collision verification, double hashing.
   - Practical usage including plagiarism detection, bio k-mers, multi-pattern matching constraints.
   - KMP basics: purpose, LPS table, complexity, and direct contrasts vs Rabin–Karp.

@@ -28,5 +28,22 @@
   {"title":"Memory comparison:","choices":["RK needs O(m) always; KMP O(1)","RK O(1) (plus optional sets); KMP O(m)","RK O(n); KMP O(n)","Both O(mn)"],"correctAnswer":"RK O(1) (plus optional sets); KMP O(m)"},
   {"title":"Why verify after RK hash match?","choices":["To handle negative numbers","To confirm true match due to possible collisions","To compute LPS","To remove need for modulus"],"correctAnswer":"To confirm true match due to possible collisions"},
   {"title":"Technique to further reduce RK collisions:","choices":["Use base 1","Use larger window only","Double hashing with independent (base, M)","Skip verification"],"correctAnswer":"Double hashing with independent (base, M)"},
-  {"title":"Which algorithm handles many patterns with varying lengths best?","choices":["Single-pattern KMP","Rabin–Karp without hashing","Aho–Corasick automaton","Naïve nested loops"],"correctAnswer":"Aho–Corasick automaton"}
+  {"title":"Which algorithm handles many patterns with varying lengths best?","choices":["Single-pattern KMP","Rabin–Karp without hashing","Aho–Corasick automaton","Naïve nested loops"],"correctAnswer":"Aho–Corasick automaton"},
+  {"title":"Property of addition under mod M:","choices":["(a+b)%M = a%M + b","(a+b)%M = ((a%M)+(b%M))%M","(a+b)%M = (a*b)%M","No property"],"correctAnswer":"(a+b)%M = ((a%M)+(b%M))%M"},
+  {"title":"Safe modular subtraction in C++/Java:","choices":["(a-b)%M","((a%M)-(b%M))%M","((a%M)-(b%M)+M)%M","No need to adjust"],"correctAnswer":"((a%M)-(b%M)+M)%M"},
+  {"title":"Python modular subtraction behavior:","choices":["May be negative","Always non-negative result","Depends on base","Undefined"],"correctAnswer":"Always non-negative result"},
+  {"title":"Efficient exponentiation modulo in Python:","choices":["a**e % M (O(e))","pow(a,e,M) (O(log e))","loop multiply (O(e))","use sqrt"],"correctAnswer":"pow(a,e,M) (O(log e))"},
+  {"title":"When does modular inverse a^{-1} (mod M) exist?","choices":["Always","Only when a is even","When gcd(a, M) = 1","Only for prime M"],"correctAnswer":"When gcd(a, M) = 1"},
+  {"title":"Computing inverse under prime M uses:","choices":["Floyd–Warshall","Dijkstra","Fermat’s little theorem a^{M-2} % M","Karatsuba"],"correctAnswer":"Fermat’s little theorem a^{M-2} % M"},
+  {"title":"Best reason to prefer 1e9+7 as modulus:","choices":["Power of two","Small and fast","Large prime, fits in 32/64-bit, well-tested","Random"],"correctAnswer":"Large prime, fits in 32/64-bit, well-tested"},
+  {"title":"Avoiding overflow for (a*b)%M in C++:","choices":["Use 32-bit int","Use __int128 or long double tricks","Ignore overflow","Multiply by base"],"correctAnswer":"Use __int128 or long double tricks"},
+  {"title":"Why normalize after subtraction in rolling hash?","choices":["To speed up","To avoid negative before next multiply","To change base","To avoid double hashing"],"correctAnswer":"To avoid negative before next multiply"},
+  {"title":"Double hashing collision probability reduces because:","choices":["Hashes become longer by concatenation","Using two independent primes/bases makes joint collision extremely unlikely","We compare fewer characters","We skip modulus"],"correctAnswer":"Using two independent primes/bases makes joint collision extremely unlikely"}
+,
+  {"title":"Distributivity under mod:","choices":["(a+b)*c % M = (a*c + b*c) % M","(a+b)*c % M = (a*b) % M","Does not hold","Only for prime M"],"correctAnswer":"(a+b)*c % M = (a*c + b*c) % M"},
+  {"title":"Congruence definition:","choices":["a ≡ b (mod M) iff a=b","a ≡ b (mod M) iff M | (a-b)","a ≡ b (mod M) iff a*b is even","No formal definition"],"correctAnswer":"a ≡ b (mod M) iff M | (a-b)"},
+  {"title":"Valid residue representatives:","choices":["Any integers","Exactly [1..M]","Exactly [0..M-1] after reduction","Only primes"],"correctAnswer":"Exactly [0..M-1] after reduction"},
+  {"title":"Modular division caution:","choices":["Always valid","Valid only when divisor is coprime with M","Only when M is composite","Never valid"],"correctAnswer":"Valid only when divisor is coprime with M"},
+  {"title":"nCr mod prime p typical approach:","choices":["Recompute factorial each time","Use floating division","Precompute factorials and inverse factorials","No modulus needed"],"correctAnswer":"Precompute factorials and inverse factorials"},
+  {"title":"Which pow call is correct in Python for mod exp:","choices":["pow(a,e) % M","pow(a,e,M)","a**e(M)","exp(a,e,M)"],"correctAnswer":"pow(a,e,M)"}
 ]
