@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Self-Improvement Psychology: Motivation, Focus, and Productivity</title>
+  <style>
+    :root { --primary:#2563eb; --bg:#f7f9fc; --text:#111827; --muted:#6b7280; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 24px; font-weight: 800; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#eef2ff; color:#1f2937; }
+    button.ghost { background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
+    main.container article { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px; }
+    h2 { margin-top: 20px; }
+    h3 { margin-top: 16px; }
+    p { line-height: 1.6; }
+    ul { margin-top: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1020; color:#e5e7eb; padding: 1px 4px; border-radius:4px; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid #111827; }
+    pre code { display:block; background:transparent; padding:0; }
+    .tok-kw { color:#93c5fd; }
+    .tok-str { color:#a7f3d0; }
+    .tok-com { color:#9ca3af; font-style:italic; }
+    .tok-num { color:#fcd34d; }
+    .tok-builtin { color:#fca5a5; }
+    .tip { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; }
+    .note { background:#fefce8; border:1px solid #fde68a; color:#713f12; padding:12px; border-radius:10px; }
+    .muted { color: var(--muted); }
+    .toc a { color:#2563eb; text-decoration:none; }
+    blockquote { border-left:4px solid #e5e7eb; margin:8px 0; padding:8px 12px; color:#374151; background:#fafafa; border-radius:8px; }
+  </style>
+  <script>
+    // Lightweight Python syntax highlight, mirrors programming/app.js behavior
+    function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;');}
+    function highlightPython(src){
+      if (!src) return '';
+      const holders = [];
+      const keep = (html) => { holders.push(html); return `@@H${holders.length-1}@@`; };
+      src = src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g, m => keep(`<span class=\"tok-str\">${escapeHtml(m)}</span>`));
+      src = src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g, m => keep(`<span class=\"tok-str\">${escapeHtml(m)}</span>`));
+      src = src.replace(/#.*/g, m => keep(`<span class=\"tok-com\">${escapeHtml(m)}</span>`));
+      let html = escapeHtml(src);
+      const KW = ['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];
+      html = html.replace(new RegExp(`\\b(${KW.join('|')})\\b`, 'g'), '<span class="tok-kw">$1</span>');
+      const BI = ['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];
+      html = html.replace(new RegExp(`\\b(${BI.join('|')})\\b`, 'g'), '<span class="tok-builtin">$1</span>');
+      html = html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g, '<span class="tok-num">$&</span>');
+      html = html.replace(/@@H(\d+)@@/g, (m, i) => holders[Number(i)]);
+      return html;
+    }
+    function highlightAll(){
+      document.querySelectorAll('pre code.language-python').forEach(el => {
+        try { el.innerHTML = highlightPython(el.textContent || ''); } catch(e){}
+      });
+    }
+    window.addEventListener('DOMContentLoaded', highlightAll);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Self-Improvement Psychology: Motivation, Focus, and Productivity</div>
+      <div class="subtitle">A research-backed playbook with quotes, tactics, and Python tools</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=self-improvement-psychology'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents:</strong>
+        <ul>
+          <li><a href="#motivation">1. Motivation (Research + Quotes)</a></li>
+          <li><a href="#productivity">2. Psychology → Productivity</a></li>
+          <li><a href="#procrastination">3. Reducing Procrastination</a></li>
+          <li><a href="#kaizen">4. Small Continuous Improvement</a></li>
+          <li><a href="#getting-done">5. Better at Getting Things Done</a></li>
+          <li><a href="#behavior">6. Behavioral Science to Improve Self</a></li>
+          <li><a href="#focus">7. Improving Focus</a></li>
+          <li><a href="#confidence">8. Building Self-Confidence</a></li>
+          <li><a href="#listening">9. Increasing Active Listening</a></li>
+          <li><a href="#python-tools">10. Python Tools for Habits</a></li>
+          <li><a href="#weekly-review">11. Weekly Review Checklist (Printable)</a></li>
+          <li><a href="#scenarios">12. Scenarios & Model Answers</a></li>
+        </ul>
+      </div>
+
+      <h2 id="motivation">1) Motivation (Research + Quotes)</h2>
+      <p>
+        Motivation is not a single force; it emerges from expectations, values, identity, and context.
+        Three research pillars are especially practical:
+      </p>
+      <ul>
+        <li><strong>Self‑Determination Theory (Deci & Ryan):</strong> Autonomy, Competence, Relatedness. Design work to satisfy these needs.</li>
+        <li><strong>Expectancy–Value (Wigfield & Eccles):</strong> We act when we expect success and value the outcome. Raise clarity and make value vivid.</li>
+        <li><strong>Implementation Intentions (Gollwitzer):</strong> “If situation X, then I will do Y.” Pre-decisions beat willpower.</li>
+      </ul>
+      <blockquote>“We are what we repeatedly do. Excellence, then, is not an act but a habit.” — Will Durant (summarizing Aristotle)</blockquote>
+      <blockquote>“The impediment to action advances action. What stands in the way becomes the way.” — Marcus Aurelius</blockquote>
+      <div class="tip">Quick wins: Write one implementation intention per goal. Make the value concrete: Who benefits? How soon? What metric improves?</div>
+
+      <h2 id="productivity">2) Psychology → Productivity</h2>
+      <ul>
+        <li><strong>Attention Residue (Sophie Leroy):</strong> Context switches leave cognitive “residue”. Batch similar tasks; protect deep work blocks.</li>
+        <li><strong>Flow (Csikszentmihalyi):</strong> Match challenge to skill, clear goals, immediate feedback. Reduce friction and ambiguity.</li>
+        <li><strong>Zeigarnik Effect:</strong> Open loops persist in memory. Externalize tasks; use a trusted list; close loops with a clear “done”.</li>
+        <li><strong>Parkinson’s Law:</strong> Work expands to fill time. Timebox and shrink scope.</li>
+      </ul>
+      <blockquote>“Clarity about what matters provides clarity about what does not.” — Cal Newport</blockquote>
+
+      <h2 id="procrastination">3) Reducing Procrastination</h2>
+      <ul>
+        <li><strong>Temporal Discounting:</strong> We overvalue now vs. later. Make rewards immediate: a small treat after a work sprint.</li>
+        <li><strong>Mood Repair (Sirois & Pychyl):</strong> Procrastination often avoids negative feelings. Start tiny to lower discomfort.</li>
+        <li><strong>2‑Minute Rule:</strong> Begin with 120 seconds. Momentum beats hesitation.</li>
+        <li><strong>Precommitment & Friction:</strong> Block distractions; schedule focus sessions with someone else (“body‑double”).</li>
+      </ul>
+      <div class="note">Script your first action: “Open file, write a title, list 3 bullets.”</div>
+
+      <h2 id="kaizen">4) Small Continuous Improvement</h2>
+      <ul>
+        <li><strong>Kaizen / Marginal Gains:</strong> 1% daily compounds. Track one tiny improvement per day.</li>
+        <li><strong>Habit Stacking (James Clear):</strong> After current habit X, I will do Y. Piggyback to reduce friction.</li>
+        <li><strong>Feedback Loops:</strong> Review weekly; promote what worked; prune what didn’t.</li>
+      </ul>
+      <blockquote>“Success is the product of daily habits — not once‑in‑a‑lifetime transformations.” — James Clear</blockquote>
+
+      <h2 id="getting-done">5) Better at Getting Things Done</h2>
+      <ul>
+        <li><strong>Definition of Done:</strong> Write the acceptance criteria before starting.</li>
+        <li><strong>Eisenhower Matrix:</strong> Urgent vs. Important. Protect important/non‑urgent work.</li>
+        <li><strong>Checklists (Atul Gawande):</strong> Prevent cognitive slips on repeatable tasks.</li>
+        <li><strong>Timeboxing + Review:</strong> Work in sprints; end with a 2‑minute reflection.</li>
+      </ul>
+
+      <h2 id="behavior">6) Behavioral Science to Improve Self</h2>
+      <ul>
+        <li><strong>Fogg Model (B=MAP):</strong> Behavior happens when Motivation, Ability, and Prompt coincide. Lower ability barrier first.</li>
+        <li><strong>Nudges & Defaults:</strong> Put fruits on desk; hide distracting apps; auto‑open your task doc at login.</li>
+        <li><strong>Identity‑Based Habits:</strong> “I am the kind of person who ships.” Cast one vote daily for that identity.</li>
+      </ul>
+      <blockquote>“Whether you think you can or you think you can’t, you’re right.” — Often attributed to Henry Ford</blockquote>
+
+      <h2 id="focus">7) Improving Focus</h2>
+      <ul>
+        <li><strong>Single‑task Windows:</strong> 25–50 minutes, one goal, notifications off.</li>
+        <li><strong>Environment:</strong> Visual minimalism; full‑screen; noise control; ready checklist.</li>
+        <li><strong>Attentional Warm‑up:</strong> 3 minutes of planning: goal, first step, blockers.</li>
+        <li><strong>Recovery:</strong> Short breaks, movement, water; beware attention residue on switching.</li>
+      </ul>
+
+      <h2 id="confidence">8) Building Self‑Confidence</h2>
+      <ul>
+        <li><strong>Self‑Efficacy (Bandura):</strong> Confidence grows from mastery experiences. Start small, escalate challenge.</li>
+        <li><strong>Growth Mindset (Dweck):</strong> Treat mistakes as data. Use “not yet.”</li>
+        <li><strong>Self‑Compassion (Neff):</strong> Speak to yourself as to a friend; reduces rumination, improves persistence.</li>
+      </ul>
+      <blockquote>“Do not wish for an easy life; wish for the strength to endure a difficult one.” — Bruce Lee</blockquote>
+
+      <h2 id="listening">9) Increasing Active Listening</h2>
+      <ul>
+        <li><strong>Rogers’ Core Conditions:</strong> Empathy, congruence, positive regard. Aim to understand before responding.</li>
+        <li><strong>Reflect & Label:</strong> Paraphrase what you heard, then ask, “Did I get that right?”</li>
+        <li><strong>Nonverbal:</strong> Eye contact, nods, short verbal encouragers. Minimal interruptions.</li>
+        <li><strong>Summarize & Next:</strong> Close with agreed actions; confirm ownership and timelines.</li>
+      </ul>
+      <blockquote>“Most people do not listen with the intent to understand; they listen with the intent to reply.” — Stephen R. Covey</blockquote>
+
+      <h2 id="python-tools">10) Python Tools for Habits</h2>
+      <p>Quick, practical Python helpers you can run locally to support habits and focus.</p>
+      <h3>1) Micro‑Commit Journal (2 minutes)</h3>
+      <pre><code class="language-python">from datetime import datetime
+
+def log_commit(msg: str, path: str = "commit_journal.txt"):
+    ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    line = f"[{ts}] {msg}\n"
+    with open(path, "a", encoding="utf-8") as f:
+        f.write(line)
+    return line
+
+if __name__ == "__main__":
+    # Example usage: record a 2-minute start
+    print(log_commit("Started: write first paragraph for report (2-min rule)"))
+      </code></pre>
+
+      <h3>2) Simple Pomodoro Planner</h3>
+      <pre><code class="language-python">from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+@dataclass
+class Block:
+    start: datetime
+    end: datetime
+    label: str
+
+def plan_pomodoros(start: datetime, n=4, work=25, break_min=5):
+    plan = []
+    t = start
+    for i in range(n):
+        w_end = t + timedelta(minutes=work)
+        plan.append(Block(t, w_end, f"Focus #{i+1}"))
+        t = w_end
+        if i != n-1:
+            b_end = t + timedelta(minutes=break_min)
+            plan.append(Block(t, b_end, "Break"))
+            t = b_end
+    return plan
+
+if __name__ == "__main__":
+    now = datetime.now()
+    for b in plan_pomodoros(now, n=3, work=30, break_min=5):
+        print(b.start.strftime('%H:%M'), '→', b.end.strftime('%H:%M'), '-', b.label)
+      </code></pre>
+
+      <h3>3) Habit Stacking Prompter</h3>
+      <pre><code class="language-python">def habit_stack(current: str, new: str) -> str:
+    return f"After I {current}, I will {new}."
+
+if __name__ == "__main__":
+    print(habit_stack("brew coffee","write 3 bullets for daily goal"))
+      </code></pre>
+
+      <h3>4) Active Listening Checklist (Console Prompt)</h3>
+      <pre><code class="language-python">QUESTIONS = [
+    "What I heard you say is …",
+    "What outcome would be ideal for you?",
+    "What would make this a win this week?",
+    "Is there anything I’m missing?",
+]
+
+def guide():
+    print("Active Listening Prompts:\n")
+    for i, q in enumerate(QUESTIONS, 1):
+        print(f"{i}. {q}")
+
+if __name__ == "__main__":
+    guide()
+      </code></pre>
+
+      <div class="tip">
+        Tie tools to identity: “I am a finisher.” Log one micro‑commit; run one focus block; make one tiny improvement. Repeat daily.
+      </div>
+
+      <h2>Recap</h2>
+      <ul>
+        <li>Design for autonomy, competence, and relatedness; script first steps.</li>
+        <li>Batch and timebox; reduce attention residue; define “done”.</li>
+        <li>Use tiny wins to build self‑efficacy; review and iterate weekly.</li>
+        <li>Listen to understand, then summarize and confirm next actions.</li>
+      </ul>
+
+      <h2 id="weekly-review">11) Weekly Review Checklist (Printable)</h2>
+      <p class="muted">Tip: Click Print to get a clean, one‑page checklist for your weekly review.</p>
+      <div class="toolbar" style="margin: 8px 0 12px;">
+        <button class="ghost" onclick="window.print()">Print Checklist</button>
+        <button class="secondary" onclick="window.location.href='weekly-review-checklist.html'">Download PDF (Print to PDF)</button>
+      </div>
+      <style>
+        @media print {
+          header, .toolbar { display:none !important; }
+          body { background:#fff; }
+          main.container article { border:none; }
+          .print-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+          h2 { margin-top: 0; }
+        }
+        .checklist { display:grid; gap:12px; }
+        .print-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
+        .card { border:1px solid #e5e7eb; border-radius:10px; padding:12px; background:#fff; }
+        .item { display:flex; gap:10px; align-items:flex-start; }
+        .item input { transform: translateY(3px); }
+        .small { color:#6b7280; font-size: 13px; }
+      </style>
+      <div class="checklist print-grid">
+        <div class="card">
+          <h3>1. Wins & Momentum</h3>
+          <label class="item"><input type="checkbox"> Logged at least 5 micro‑commits (2‑minute wins)</label>
+          <label class="item"><input type="checkbox"> Captured 3 biggest wins and why they worked</label>
+          <label class="item"><input type="checkbox"> Identified one skill upgraded (mastery experience)</label>
+        </div>
+        <div class="card">
+          <h3>2. Focus & Deep Work</h3>
+          <label class="item"><input type="checkbox"> Scheduled 3–5 focus blocks (25–50 min each)</label>
+          <label class="item"><input type="checkbox"> Batched email/meetings to reduce residue</label>
+          <label class="item"><input type="checkbox"> Defined a single goal per block + first step</label>
+        </div>
+        <div class="card">
+          <h3>3. Procrastination Breakers</h3>
+          <label class="item"><input type="checkbox"> Used 2‑minute rule to start hard tasks</label>
+          <label class="item"><input type="checkbox"> Added immediate, modest reward for starts</label>
+          <label class="item"><input type="checkbox"> Set a precommitment (e.g., blocker, body‑double)</label>
+        </div>
+        <div class="card">
+          <h3>4. Kaizen (1% Gains)</h3>
+          <label class="item"><input type="checkbox"> Logged one tiny improvement per day</label>
+          <label class="item"><input type="checkbox"> Promoted one practice; pruned one friction</label>
+          <label class="item"><input type="checkbox"> Wrote a habit stack: After I X, I will Y</label>
+        </div>
+        <div class="card">
+          <h3>5. Getting Things Done</h3>
+          <label class="item"><input type="checkbox"> Wrote DoD for each major task</label>
+          <label class="item"><input type="checkbox"> Closed loops: moved tasks to clear “done”</label>
+          <label class="item"><input type="checkbox"> Timeboxed work; reflected 2 minutes per box</label>
+        </div>
+        <div class="card">
+          <h3>6. Confidence & Mindset</h3>
+          <label class="item"><input type="checkbox"> Reframed at least 2 setbacks as “not yet”</label>
+          <label class="item"><input type="checkbox"> Practiced self‑compassion after a miss</label>
+          <label class="item"><input type="checkbox"> Chose one escalating challenge next week</label>
+        </div>
+        <div class="card">
+          <h3>7. Active Listening</h3>
+          <label class="item"><input type="checkbox"> Used paraphrase + “Did I get that right?”</label>
+          <label class="item"><input type="checkbox"> Closed conversations with owners + timelines</label>
+          <label class="item"><input type="checkbox"> Noted one relationship strengthened (relatedness)</label>
+        </div>
+        <div class="card">
+          <h3>8. Next Week Snapshot</h3>
+          <div class="small">Write one line each</div>
+          <label class="item"><input type="checkbox"> Top outcome (important, non‑urgent)</label>
+          <label class="item"><input type="checkbox"> First focus block + first action</label>
+          <label class="item"><input type="checkbox"> One kaizen target</label>
+        </div>
+      </div>
+
+      <h2 id="scenarios">12) Scenarios & Model Answers</h2>
+      <p>Short, practical answers that mirror the scenario-style quiz items.</p>
+      <ul>
+        <li><strong>Procrastinated 3‑hour report:</strong> Start with a 2‑minute outline and 3 bullets. Momentum lowers avoidance and creates a mastery experience.</li>
+        <li><strong>Meetings all day:</strong> Batch meetings; protect 1–2 deep work blocks. Capture next actions before switching to cut attention residue.</li>
+        <li><strong>Daily reading habit:</strong> Habit stack: “After I brew coffee, I read 10 pages.” Raise to 20 when stable.</li>
+        <li><strong>Tasks lack closure:</strong> Define DoD upfront (e.g., PR merged, tests pass, changelog updated). Close loops weekly.</li>
+        <li><strong>Forced context switch mid‑task:</strong> Jot 1–2 next steps, then switch. Reduces cognitive load and speeds re‑entry.</li>
+        <li><strong>Under‑challenged and bored:</strong> Nudge challenge up and add clear success criteria to enter flow.</li>
+        <li><strong>Teammate venting:</strong> Paraphrase and label feelings: “What I’m hearing is … Did I get that right?”</li>
+        <li><strong>Morning workouts stickiness:</strong> Reduce friction: lay out clothes/shoes; place alarm by them; prompt on wake.</li>
+        <li><strong>Stretch project fear:</strong> Ship a small prototype this week to build self‑efficacy via mastery.</li>
+        <li><strong>Harsh self‑criticism after a miss:</strong> Use self‑compassion + quick “what did I learn?” Then schedule the next tiny step.</li>
+        <li><strong>Need 45‑minute deep focus:</strong> Full‑screen, notifications off, one goal, first action scripted.</li>
+        <li><strong>Retro without outcomes:</strong> Use a checklist: wins, one kaizen, owners and timelines.</li>
+      </ul>
+    </article>
+  </main>
+</body>
+</html>

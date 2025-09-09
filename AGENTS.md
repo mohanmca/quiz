@@ -1,11 +1,14 @@
-# Technical Quiz Platform — Agent Guide
+# Technical Article cum Quiz Platform — Agent Guide
 
 1. This repository hosts a static, browser-based quiz platform. Quizzes are described in JSON, loaded over HTTP, and rendered with HTML/CSS/JavaScript. Many questions include Python snippets rendered as markdown with code fences.
+1. Every topic also accompanies its own article under programming/articles/
 1. Use this file as your quick-start map: structure, how it runs, how data is shaped, and where to make changes.
 2. Every Quiz should have a article under programming/articles
 3. Ensure articles covers all the question in respective quiz
 4. Article should have python code
 5. Articles should be accesible using "Read Article" similar to "Rabin–Karp Rolling Hash Fundamentals" under articles folder similar to /Users/mohannarayanaswamy/git/quiz/programming/articles/rabin-karp.html
+
+
 
 ## How It Works
 - Data source: `programming/data/json/surveys.json` lists quizzes (title, description, category, file path, etc.). Each entry points to a questions JSON file under `programming/data/json/...`.

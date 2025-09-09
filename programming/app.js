@@ -226,6 +226,12 @@
       h('button', { class:'ghost', disabled: state.index === 0 ? 'true' : null, onclick: prev, text:'Back' }),
       h('button', { class:'danger', onclick: stop, text:'Stop & View Result' })
     );
+    // Quick reference to article scenarios while in-quiz
+    if (s && s.articleFile) {
+      left.append(
+        h('button', { class:'ghost', onclick: () => { window.location.href = s.articleFile + '#scenarios'; }, text:'See Scenarios' })
+      );
+    }
     if (state.index < total - 1) right.append(h('button', { onclick: next, text:'Next' }));
     else right.append(h('button', { onclick: submit, text:'Submit' }));
     controls.append(left, right);
@@ -271,6 +277,13 @@
       h('button', { class:'secondary', onclick: () => { state.currentSurvey = null; renderHome(); }, text:'Back to Quizzes' }),
       h('button', { onclick: () => { state.index = 0; state.answers = {}; state.score = null; renderQuiz(); }, text:'Retry Quiz' })
     );
+    // Deep link to article scenarios section when available
+    const s = state.currentSurvey;
+    if (s && s.articleFile) {
+      actions.append(
+        h('button', { class:'ghost', onclick: () => { window.location.href = s.articleFile + '#scenarios'; }, text:'See Scenarios & Model Answers' })
+      );
+    }
     main.append(actions);
 
     // Per-question review
