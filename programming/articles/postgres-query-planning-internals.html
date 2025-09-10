@@ -26,10 +26,124 @@
     <h2 id="stats">3. Extended Statistics</h2>
     <p>MCV, ndistinct, and functional dependencies improve cardinality estimates for correlated predicates.</p>
     <h2 id="explain">4. EXPLAIN</h2>
-    <pre><code class="language-python">sql = "EXPLAIN (ANALYZE, JIT, BUFFERS) SELECT ..."
-print(sql)
+    <p>Use EXPLAIN to see the planner’s choices and, with ANALYZE, actual runtime behavior. Below are practical examples and the most useful switches.</p>
+
+    <h3>EXPLAIN Options & Formats</h3>
+    <ul>
+      <li><strong>EXPLAIN</strong>: shows the estimated plan without executing the query.</li>
+      <li><strong>ANALYZE</strong>: executes the query and shows actual runtime and row counts; required for <code>BUFFERS</code>.</li>
+      <li><strong>BUFFERS</strong>: reports shared/local/temp hits and reads; only with <code>ANALYZE</code>.</li>
+      <li><strong>TIMING OFF</strong>: still executes and counts rows but skips per-node timing overhead.</li>
+      <li><strong>VERBOSE</strong>: shows additional details like output (target) columns and internal names.</li>
+      <li><strong>COSTS OFF</strong>: hides estimated startup/total cost, rows, and width fields.</li>
+      <li><strong>SUMMARY</strong>: includes planning and execution time totals.</li>
+      <li><strong>SETTINGS</strong>: lists GUC settings that affected planning/execution.</li>
+      <li><strong>FORMAT JSON</strong>: returns a JSON array with one object containing the Plan tree.</li>
+    </ul>
+
+    <h3>Basic text plan (estimates only)</h3>
+    <pre><code>EXPLAIN
+SELECT *
+FROM orders
+WHERE customer_id = 42 AND order_date &gt;= DATE '2025-01-01';
+
+                                   QUERY PLAN
+----------------------------------------------------------------------------------
+ Index Scan using orders_customer_id_date_idx on orders
+   (cost=0.43..85.12 rows=123 width=64)
+   Index Cond: ((customer_id = 42) AND (order_date &gt;= '2025-01-01'::date))
+(2 rows)
     </code></pre>
-    <div class="note">Addresses quiz focus: planning costs, join choices, stats, and EXPLAIN-driven tuning.</div>
+
+    <h3>With actuals and I/O stats</h3>
+    <pre><code>EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM orders
+WHERE customer_id = 42 AND order_date &gt;= DATE '2025-01-01';
+
+ Index Scan using orders_customer_id_date_idx on orders
+   (cost=0.43..85.12 rows=123 width=64)
+   (actual rows=120 loops=1)
+   Index Cond: ((customer_id = 42) AND (order_date &gt;= '2025-01-01'::date))
+   Buffers: shared hit=502 read=10
+ Planning Time: 0.312 ms
+ Execution Time: 2.145 ms
+    </code></pre>
+
+    <h3>ANALYZE with TIMING OFF</h3>
+    <pre><code>EXPLAIN (ANALYZE, BUFFERS, TIMING OFF)
+SELECT * FROM orders WHERE customer_id = 42 AND order_date &gt;= DATE '2025-01-01';
+
+ Index Scan using orders_customer_id_date_idx on orders
+   (cost=0.43..85.12 rows=123 width=64)
+   (actual rows=120 loops=1)  -- per-node timings suppressed
+   Index Cond: ((customer_id = 42) AND (order_date &gt;= '2025-01-01'::date))
+   Buffers: shared hit=502 read=10
+ Planning Time: 0.290 ms
+ Execution Time: 2.021 ms
+    </code></pre>
+
+    <h3>VERBOSE shows output columns</h3>
+    <pre><code>EXPLAIN (VERBOSE)
+SELECT id, order_date FROM orders
+WHERE customer_id = 42 ORDER BY order_date DESC LIMIT 5;
+
+ Limit  (cost=0.43..12.34 rows=5 width=16)
+   Output: orders.id, orders.order_date
+   -&gt;  Index Only Scan using orders_customer_date_desc_idx on public.orders
+         (cost=0.43..123.45 rows=1000 width=16)
+         Output: orders.id, orders.order_date
+         Index Cond: (orders.customer_id = 42)
+    </code></pre>
+
+    <h3>COSTS OFF trims estimate fields</h3>
+    <pre><code>EXPLAIN (COSTS OFF)
+SELECT * FROM orders WHERE customer_id = 42;
+
+ Index Scan using orders_customer_id_idx on orders
+   Index Cond: (customer_id = 42)
+    </code></pre>
+
+    <h3>SUMMARY and SETTINGS</h3>
+    <pre><code>SET enable_seqscan = off;  -- force index usage for demo
+EXPLAIN (ANALYZE, SUMMARY, SETTINGS)
+SELECT * FROM orders WHERE customer_id = 42;
+
+ Index Scan using orders_customer_id_idx on orders
+   (actual rows=120 loops=1)
+   Index Cond: (customer_id = 42)
+ Settings: enable_seqscan = 'off'
+ Planning Time: 0.250 ms
+ Execution Time: 1.800 ms
+    </code></pre>
+
+    <h3>FORMAT JSON (machine-readable)</h3>
+    <pre><code>EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)
+SELECT * FROM orders WHERE customer_id = 42 AND order_date &gt;= DATE '2025-01-01';
+
+[
+  {
+    "Plan": {
+      "Node Type": "Index Scan",
+      "Relation Name": "orders",
+      "Alias": "orders",
+      "Index Name": "orders_customer_id_date_idx",
+      "Startup Cost": 0.43,
+      "Total Cost": 85.12,
+      "Plan Rows": 123,
+      "Plan Width": 64,
+      "Actual Rows": 120,
+      "Actual Loops": 1,
+      "Index Cond": "((customer_id = 42) AND (order_date >= '2025-01-01'::date))",
+      "Buffers": { "Shared Hit": 502, "Shared Read": 10 }
+    },
+    "Planning Time": 0.312,
+    "Execution Time": 2.145,
+    "Settings": { "enable_seqscan": "off" }
+  }
+]
+    </code></pre>
+
+    <div class="note">Tip: Use <code>ANALYZE</code> for truth, <code>BUFFERS</code> for I/O, <code>TIMING OFF</code> to lower overhead, <code>VERBOSE</code> to inspect outputs, <code>JSON</code> for tooling, and <code>SETTINGS</code> to capture non-default GUCs that affected the plan.</div>
   </article></main>
 </body></html>
-

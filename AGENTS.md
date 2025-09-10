@@ -92,6 +92,25 @@ Notes:
 - .git/
 - programming/doc/
 
+# AGENTS.md
+
+## Permissions
+- tool: shell
+  commands:
+    - curl
+    - ls
+    - cat
+    - echo
+  ask_permission: false
+
+## Capabilities
+- name: shell
+  description: Allows running local shell commands
+  allowed: true
+  ask: false
+  commands:
+    - curl
+    - "*"
 
 ## TODO for everysession by Codex
 1. Can you create document under doc after every session which involves code change, document what you learnt and what was tricky so human can learn from this session and improve his knowledge
