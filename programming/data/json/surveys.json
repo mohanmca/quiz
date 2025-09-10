@@ -344,13 +344,28 @@
         "description": "Deep dive into the cost model, JIT, parallelism, join strategies, extended statistics, and EXPLAIN diagnostics.",
         "category": "Databases",
         "difficulty": "Advanced",
-        "estimatedTime": "60-100 minutes",
+        "estimatedTime": "90-130 minutes",
         "questionsFile": "data/json/postgres/postgres-query-planning-internals-questions.json",
         "icon": "🧠",
         "color": "#0ea5e9",
-        "timePerQuestion": 110,
+        "timePerQuestion": 120,
         "maxTimeToFinish": 7800,
         "articleFile": "articles/postgres-query-planning-internals.html"
+    }
+    ,
+    {
+        "id": "postgres-psql-explain-tuning-automation",
+        "title": "PostgreSQL PSQL, EXPLAIN & Automation",
+        "description": "Fluent psql scripting, EXPLAIN/ANALYZE diagnostics, index before/after comparisons, performance tuning, and safe Bash automation with error handling.",
+        "category": "Databases",
+        "difficulty": "Advanced",
+        "estimatedTime": "60-100 minutes",
+        "questionsFile": "data/json/postgres/postgres-psql-explain-tuning-automation-questions.json",
+        "icon": "🛠️",
+        "color": "#10b981",
+        "timePerQuestion": 110,
+        "maxTimeToFinish": 7800,
+        "articleFile": "articles/postgres-psql-explain-tuning-automation.html"
     }
     ,
     {
