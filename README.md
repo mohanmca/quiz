@@ -65,4 +65,4 @@ Move everthing under "PostgreSQL PSQL, EXPLAIN & Automation"
 8. Answers in markdown could be Java, need to convert to python
 
 
-9. Conver all the questions and tips and tricks from 1_arrays_tricks.md, 0_daily_divine.md coding_mistakes.md
+Can you add a short pattern-to-problem index in the article’s overview (e.g., which pattern to try first for common LeetCode topics)

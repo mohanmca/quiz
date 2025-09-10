@@ -131,16 +131,77 @@
         ],
         "correctAnswer": "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```"
     },
+    },
     {
         "type": "radiogroup",
         "questionType": "source-code",
-        "name": "q12",
-        "title": "Off-by-One Guard — Count of value x in sorted array using bounds",
+        "name": "q13",
+        "title": "Majority Element — Boyer–Moore Vote (O(n), O(1))",
         "choices": [
-            "```python\\ndef count_x(a, x):\\n    def lb(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] >= x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    def ub(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] > x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    return ub(a,x) - lb(a,x)\\n```",
+            "```python\\ndef majority_element(nums):\\n    count = 0; cand = None\\n    for x in nums:\\n        if count == 0: cand = x\\n        count += 1 if x == cand else -1\\n    return cand\\n```",
             "NA1",
             "NA2"
         ],
-        "correctAnswer": "```python\\ndef count_x(a, x):\\n    def lb(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] >= x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    def ub(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] > x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    return ub(a,x) - lb(a,x)\\n```"
+        "correctAnswer": "```python\\ndef majority_element(nums):\\n    count = 0; cand = None\\n    for x in nums:\\n        if count == 0: cand = x\\n        count += 1 if x == cand else -1\\n    return cand\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q14",
+        "title": "Rotate Array — Three-Reversal Method (in-place)",
+        "choices": [
+            "```python\\ndef rotate(nums, k):\\n    k %= len(nums)\\n    def rev(i, j):\\n        while i < j:\\n            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1\\n    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef rotate(nums, k):\\n    k %= len(nums)\\n    def rev(i, j):\\n        while i < j:\\n            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1\\n    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q15",
+        "title": "Find Duplicates — Content-as-Index Sign Trick (1..n)",
+        "choices": [
+            "```python\\ndef find_duplicates(nums):\\n    res = []\\n    for x in nums:\\n        i = abs(x) - 1\\n        if nums[i] < 0: res.append(abs(x))\\n        nums[i] = -nums[i]\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef find_duplicates(nums):\\n    res = []\\n    for x in nums:\\n        i = abs(x) - 1\\n        if nums[i] < 0: res.append(abs(x))\\n        nums[i] = -nums[i]\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q16",
+        "title": "Product of Array Except Self — Two Passes (O(1) extra)",
+        "choices": [
+            "```python\\ndef product_except_self(nums):\\n    n = len(nums); ans = [1]*n\\n    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]\\n    r = 1\\n    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef product_except_self(nums):\\n    n = len(nums); ans = [1]*n\\n    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]\\n    r = 1\\n    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q17",
+        "title": "Summary Ranges — Merge Consecutive Values",
+        "choices": [
+            "```python\\ndef summary_ranges(nums):\\n    res = []; i = 0\\n    while i < len(nums):\\n        j = i\\n        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1\\n        res.append(str(nums[i]) if i==j else f\\\"{nums[i]}->{nums[j]}\\\")\\n        i = j+1\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef summary_ranges(nums):\\n    res = []; i = 0\\n    while i < len(nums):\\n        j = i\\n        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1\\n        res.append(str(nums[i]) if i==j else f\\\"{nums[i]}->{nums[j]}\\\")\\n        i = j+1\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q18",
+        "title": "Circular Array — Next/Prev Index Helpers",
+        "choices": [
+            "```python\\ndef next_idx(i, n): return (i+1) % n\\n\\ndef prev_idx(i, n): return (i-1 + n) % n\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef next_idx(i, n): return (i+1) % n\\n\\ndef prev_idx(i, n): return (i-1 + n) % n\\n```"
     }
 ]

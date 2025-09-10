@@ -67,7 +67,10 @@
         <li><a href="#uf">10. Union-Find</a></li>
         <li><a href="#bfs">11. BFS Level Order</a></li>
         <li><a href="#topo">12. Topological Sort (DAG)</a></li>
-        <li><a href="#combo">13. Combinatorics & Off-by-One</a></li>
+        <li><a href="#arraytricks">13. Array Tricks</a></li>
+        <li><a href="#divine">14. Daily Divine (Habits & Naming)</a></li>
+        <li><a href="#mistakes">15. Common Mistakes</a></li>
+        <li><a href="#combo">16. Combinatorics & Off-by-One</a></li>
       </ul>
     </div>
     <h2 id="overview">1. Overview</h2>
@@ -235,7 +238,83 @@ def can_finish(num_courses, prerequisites):
             if indeg[v]==0: q.append(v)
     return done == num_courses
     </code></pre>
-    <h2 id="combo">13. Combinatorics & Off-by-One</h2>
+    <h2 id="arraytricks">13. Array Tricks</h2>
+    <ul>
+      <li><strong>Counts:</strong> subarrays = n*(n+1)//2; pairs nC2 = n*(n-1)//2; subsets = 2**n.</li>
+      <li><strong>Between bounds:</strong> exclusive count R-L-1; inclusive R-L+1.</li>
+      <li><strong>Circular array:</strong> next = (i+1)%n; prev = (i-1+n)%n; circular prefix via doubling.</li>
+      <li><strong>Content-as-index:</strong> use sign marking on 1..n arrays for duplicates/missing.</li>
+    </ul>
+    <pre><code class="language-python"># Circular prefix sum by doubling
+def circular_prefix(nums):
+    n = len(nums)
+    ps = [0]*(2*n+1)
+    for i in range(2*n):
+        ps[i+1] = ps[i] + nums[i % n]
+    return ps
+
+# Boyer–Moore Majority Vote
+def majority_element(nums):
+    count = 0; cand = None
+    for x in nums:
+        if count == 0: cand = x
+        count += 1 if x == cand else -1
+    return cand
+
+# Rotate array k steps using 3 reversals (in-place)
+def rotate(nums, k):
+    k %= len(nums)
+    def rev(i, j):
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1
+    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)
+
+# Find duplicates using sign marking (1..n domain)
+def find_duplicates(nums):
+    res = []
+    for x in nums:
+        i = abs(x) - 1
+        if nums[i] < 0: res.append(abs(x))
+        nums[i] = -nums[i]
+    return res
+
+# Product of array except self (O(1) extra)
+def product_except_self(nums):
+    n = len(nums); ans = [1]*n
+    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]
+    r = 1
+    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]
+    return ans
+
+# Summary ranges (merge consecutive)
+def summary_ranges(nums):
+    res = []; i = 0
+    while i < len(nums):
+        j = i
+        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1
+        res.append(str(nums[i]) if i==j else f"{nums[i]}->{nums[j]}")
+        i = j+1
+    return res
+    </code></pre>
+
+    <h2 id="divine">14. Daily Divine (Habits & Naming)</h2>
+    <ul>
+      <li><strong>Big-O practice:</strong> quiz regularly; know typical costs per pattern.</li>
+      <li><strong>Names as DSL:</strong> prefer <em>lo/hi</em>, <em>left/right</em>, <em>rank/parent</em> over i/j/k.</li>
+      <li><strong>Odd partitions:</strong> when splitting odds/evens, use ceil with <code>(n+1)//2</code>.</li>
+      <li><strong>Loop wisdom:</strong> the last line of the loop influences the next iteration condition—connect them.</li>
+      <li><strong>DSU practice:</strong> path compression + union by rank; keep a minimal DSU handy.</li>
+    </ul>
+
+    <h2 id="mistakes">15. Common Mistakes</h2>
+    <ul>
+      <li><strong>Off-by-one on slices:</strong> deleting last 4 chars in Python: <code>s = s[:-4]</code>.</li>
+      <li><strong>Inclusive vs exclusive:</strong> window length is <code>R-L+1</code>; don’t use <code>R-L</code>.</li>
+      <li><strong>Binary search exits:</strong> use tested lower/upper-bound templates; don’t hand-roll variants mid-interview.</li>
+      <li><strong>Rotate array:</strong> verify <code>k %= n</code> and segment boundaries.</li>
+    </ul>
+
+    <h2 id="combo">16. Combinatorics & Off-by-One</h2>
     <ul>
       <li><strong>Inclusive vs exclusive:</strong> window [L,R] length is R-L+1. Update after shrinking.</li>
       <li><strong>Lower/upper bound:</strong> leftmost ≥ x vs first > x. Count of x in sorted = ub(x)-lb(x).</li>
