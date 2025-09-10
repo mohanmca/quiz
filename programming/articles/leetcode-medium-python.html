@@ -45,7 +45,7 @@
   <header>
     <div class="container">
       <div class="title">LeetCode Medium Problems - Python Solutions</div>
-      <div class="subtitle">Patterns: stack, sliding window, heap, BFS/DFS, topological sort</div>
+      <div class="subtitle">Patterns: binary search, two pointers, sliding window, merge intervals, monotonic stack, prefix sum, heap, union-find, BFS/DFS, topological sort</div>
       <div class="toolbar">
         <button class="secondary" onclick="window.location.href='../index.html?id=leetcode-medium-python'">Start Quiz</button>
         <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
@@ -56,15 +56,63 @@
     <div class="toc"><strong>Contents:</strong>
       <ul>
         <li><a href="#overview">1. Overview</a></li>
-        <li><a href="#stack">2. Stack Pattern</a></li>
-        <li><a href="#window">3. Sliding Window</a></li>
-        <li><a href="#heap">4. Heap / Top-K</a></li>
-        <li><a href="#bfs">5. BFS Level Order</a></li>
-        <li><a href="#topo">6. Topological Sort (DAG)</a></li>
+        <li><a href="#order">2. Order of Code</a></li>
+        <li><a href="#binary">3. Binary Search</a></li>
+        <li><a href="#twoptr">4. Two Pointers</a></li>
+        <li><a href="#window">5. Sliding Window</a></li>
+        <li><a href="#merge">6. Merge Intervals</a></li>
+        <li><a href="#mono">7. Monotonic Stack</a></li>
+        <li><a href="#prefix">8. Prefix Sum</a></li>
+        <li><a href="#heap">9. Heap / Top-K</a></li>
+        <li><a href="#uf">10. Union-Find</a></li>
+        <li><a href="#bfs">11. BFS Level Order</a></li>
+        <li><a href="#topo">12. Topological Sort (DAG)</a></li>
+        <li><a href="#combo">13. Combinatorics & Off-by-One</a></li>
       </ul>
     </div>
     <h2 id="overview">1. Overview</h2>
     <p>This article summarizes common solutions for medium-level problems by reusable patterns. Each example is clean, iterative Python suitable for interviews.</p>
+    <h2 id="order">2. Order of Code (Template Mindset)</h2>
+    <ul>
+      <li><strong>Binary Search:</strong> init lo/hi → while lo ≤ hi → mid → pick side → maintain invariant.</li>
+      <li><strong>Two Pointers:</strong> sort/init → l/r → move one pointer per rule → update answer.</li>
+      <li><strong>Sliding Window:</strong> expand right → while invalid shrink left → update best.</li>
+      <li><strong>Monotonic Stack:</strong> iterate → while violates pop and compute → push.</li>
+      <li><strong>Prefix Sum / Hash:</strong> maintain running sum/map → query/update per step.</li>
+    </ul>
+    <h2 id="binary">3. Binary Search (Leftmost/Rightmost)</h2>
+    <pre><code class="language-python">def lower_bound(a, x):  # first idx with a[i] >= x
+    lo, hi = 0, len(a)-1
+    ans = len(a)
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if a[mid] >= x:
+            ans = mid; hi = mid-1
+        else:
+            lo = mid+1
+    return ans
+
+def upper_bound(a, x):  # first idx with a[i] > x
+    lo, hi = 0, len(a)-1
+    ans = len(a)
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if a[mid] > x:
+            ans = mid; hi = mid-1
+        else:
+            lo = mid+1
+    return ans
+    </code></pre>
+    <h2 id="twoptr">4. Two Pointers</h2>
+    <pre><code class="language-python">def two_sum_sorted(a, target):
+    i, j = 0, len(a)-1
+    while i < j:
+        s = a[i] + a[j]
+        if s == target: return [i, j]
+        if s < target: i += 1
+        else: j -= 1
+    return []
+    </code></pre>
     <h2 id="stack">2. Stack Pattern</h2>
     <p>Use a stack to match opening/closing delimiters or to keep candidates that may be invalidated later.</p>
     <pre><code class="language-python">def valid_parentheses(s: str) -> bool:
@@ -78,7 +126,7 @@
             st.append(ch)
     return not st
     </code></pre>
-    <h2 id="window">3. Sliding Window</h2>
+    <h2 id="window">5. Sliding Window</h2>
     <p>Grow/shrink a window while maintaining an O(1) check that determines whether to advance left.</p>
     <pre><code class="language-python">def longest_substring_no_repeat(s: str) -> int:
     seen = set(); left = 0; best = 0
@@ -89,7 +137,43 @@
         best = max(best, right - left + 1)
     return best
     </code></pre>
-    <h2 id="heap">4. Heap / Top-K</h2>
+    <h2 id="merge">6. Merge Intervals</h2>
+    <pre><code class="language-python">def merge_intervals(iv):
+    iv.sort()
+    out = []
+    for s, e in iv:
+        if not out or s > out[-1][1]:
+            out.append([s, e])
+        else:
+            out[-1][1] = max(out[-1][1], e)
+    return out
+    </code></pre>
+
+    <h2 id="mono">7. Monotonic Stack</h2>
+    <pre><code class="language-python">def next_greater(nums):
+    res = [-1]*len(nums)
+    st = []  # indices, decreasing stack by value
+    for i, x in enumerate(nums):
+        while st and nums[st[-1]] < x:
+            res[st.pop()] = x
+        st.append(i)
+    return res
+    </code></pre>
+
+    <h2 id="prefix">8. Prefix Sum</h2>
+    <pre><code class="language-python"># count subarrays with sum == k
+def subarray_sum(nums, k):
+    from collections import defaultdict
+    cnt = defaultdict(int); cnt[0] = 1
+    run = ans = 0
+    for x in nums:
+        run += x
+        ans += cnt[run - k]
+        cnt[run] += 1
+    return ans
+    </code></pre>
+
+    <h2 id="heap">9. Heap / Top-K</h2>
     <p>Use <code>heapq.nlargest</code> with a key function based on a <code>Counter</code> for top-k frequent elements.</p>
     <pre><code class="language-python">from collections import Counter
 import heapq
@@ -98,7 +182,25 @@ def top_k_frequent(nums, k):
     freq = Counter(nums)
     return heapq.nlargest(k, freq.keys(), key=freq.get)
     </code></pre>
-    <h2 id="bfs">5. BFS Level Order</h2>
+    <h2 id="uf">10. Union-Find</h2>
+    <pre><code class="language-python">class DSU:
+    def __init__(self, n):
+        self.p = list(range(n)); self.r = [0]*n
+    def find(self, x):
+        while self.p[x] != x:
+            self.p[x] = self.p[self.p[x]]
+            x = self.p[x]
+        return x
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return False
+        if self.r[ra] < self.r[rb]: ra, rb = rb, ra
+        self.p[rb] = ra
+        if self.r[ra] == self.r[rb]: self.r[ra] += 1
+        return True
+    </code></pre>
+
+    <h2 id="bfs">11. BFS Level Order</h2>
     <p>Level-order traversal uses a queue and processes each level’s breadth before moving on.</p>
     <pre><code class="language-python">from collections import deque
 
@@ -115,7 +217,7 @@ def level_order(root):
         out.append(level)
     return out
     </code></pre>
-    <h2 id="topo">6. Topological Sort (DAG)</h2>
+    <h2 id="topo">12. Topological Sort (DAG)</h2>
     <p>Detect whether all courses can be completed by Kahn’s algorithm (BFS on in-degrees).</p>
     <pre><code class="language-python">from collections import defaultdict, deque
 
@@ -133,8 +235,15 @@ def can_finish(num_courses, prerequisites):
             if indeg[v]==0: q.append(v)
     return done == num_courses
     </code></pre>
-    <div class="note">Designed to cover the quiz’s patterns: stack, sliding window, heap, BFS traversal, and topological sort.</div>
+    <h2 id="combo">13. Combinatorics & Off-by-One</h2>
+    <ul>
+      <li><strong>Inclusive vs exclusive:</strong> window [L,R] length is R-L+1. Update after shrinking.</li>
+      <li><strong>Lower/upper bound:</strong> leftmost ≥ x vs first > x. Count of x in sorted = ub(x)-lb(x).</li>
+      <li><strong>Prefix sums:</strong> subarray [i..j] = pref[j]-pref[i-1]; define pref[0]=0 to avoid underflow.</li>
+      <li><strong>nCk sanity:</strong> pairs nC2 = n*(n-1)//2, triplets nC3 = n*(n-1)*(n-2)//6.</li>
+      <li><strong>Grid bounds:</strong> check 0 ≤ r < R and 0 ≤ c < C before access.</li>
+    </ul>
+    <div class="note">Emphasize order: decide invariants first; each iteration maintains them. This reduces off-by-one errors.</div>
   </article></main>
 </body>
 </html>
-

@@ -58,5 +58,89 @@
             "NA2"
         ],
         "correctAnswer": "```python\\nfrom collections import defaultdict, deque\\n\\ndef canFinish(numCourses, prerequisites):\\n    graph = defaultdict(list)\\n    indegree = [0] * numCourses\\n    \\n    for course, prereq in prerequisites:\\n        graph[prereq].append(course)\\n        indegree[course] += 1\\n    \\n    queue = deque([i for i in range(numCourses) if indegree[i] == 0])\\n    completed = 0\\n    \\n    while queue:\\n        current = queue.popleft()\\n        completed += 1\\n        \\n        for neighbor in graph[current]:\\n            indegree[neighbor] -= 1\\n            if indegree[neighbor] == 0:\\n                queue.append(neighbor)\\n    \\n    return completed == numCourses\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q6",
+        "title": "Binary Search — Leftmost and Rightmost (lower_bound / upper_bound)\\n\\nGiven a sorted array `a` and value `x`, implement functions to find the first index with `a[i] >= x` and the first index with `a[i] > x`. Return `len(a)` if not found.",
+        "choices": [
+            "```python\\ndef lower_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] >= x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n\\ndef upper_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] > x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef lower_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] >= x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n\\ndef upper_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] > x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q7",
+        "title": "Two Pointers — Two Sum (sorted array)\\n\\nReturn indices `i, j` (0-indexed) such that `a[i]+a[j]==target`.",
+        "choices": [
+            "```python\\ndef two_sum_sorted(a, target):\\n    i, j = 0, len(a)-1\\n    while i < j:\\n        s = a[i] + a[j]\\n        if s == target: return [i, j]\\n        if s < target: i += 1\\n        else: j -= 1\\n    return []\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef two_sum_sorted(a, target):\\n    i, j = 0, len(a)-1\\n    while i < j:\\n        s = a[i] + a[j]\\n        if s == target: return [i, j]\\n        if s < target: i += 1\\n        else: j -= 1\\n    return []\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q8",
+        "title": "Merge Intervals — Consolidate Overlaps\\n\\nGiven list of intervals `[s,e]`, merge overlapping intervals.",
+        "choices": [
+            "```python\\ndef merge_intervals(iv):\\n    iv.sort()\\n    out = []\\n    for s, e in iv:\\n        if not out or s > out[-1][1]:\\n            out.append([s, e])\\n        else:\\n            out[-1][1] = max(out[-1][1], e)\\n    return out\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef merge_intervals(iv):\\n    iv.sort()\\n    out = []\\n    for s, e in iv:\\n        if not out or s > out[-1][1]:\\n            out.append([s, e])\\n        else:\\n            out[-1][1] = max(out[-1][1], e)\\n    return out\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q9",
+        "title": "Monotonic Stack — Next Greater Element (single pass)",
+        "choices": [
+            "```python\\ndef next_greater(nums):\\n    res = [-1]*len(nums)\\n    st = []\\n    for i, x in enumerate(nums):\\n        while st and nums[st[-1]] < x:\\n            res[st.pop()] = x\\n        st.append(i)\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef next_greater(nums):\\n    res = [-1]*len(nums)\\n    st = []\\n    for i, x in enumerate(nums):\\n        while st and nums[st[-1]] < x:\\n            res[st.pop()] = x\\n        st.append(i)\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q10",
+        "title": "Prefix Sum — Count Subarrays with Sum == k",
+        "choices": [
+            "```python\\nfrom collections import defaultdict\\n\\ndef subarray_sum(nums, k):\\n    cnt = defaultdict(int); cnt[0] = 1\\n    run = ans = 0\\n    for x in nums:\\n        run += x\\n        ans += cnt[run - k]\\n        cnt[run] += 1\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom collections import defaultdict\\n\\ndef subarray_sum(nums, k):\\n    cnt = defaultdict(int); cnt[0] = 1\\n    run = ans = 0\\n    for x in nums:\\n        run += x\\n        ans += cnt[run - k]\\n        cnt[run] += 1\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q11",
+        "title": "Union-Find — Path Compression + Union by Rank (minimal)",
+        "choices": [
+            "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q12",
+        "title": "Off-by-One Guard — Count of value x in sorted array using bounds",
+        "choices": [
+            "```python\\ndef count_x(a, x):\\n    def lb(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] >= x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    def ub(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] > x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    return ub(a,x) - lb(a,x)\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef count_x(a, x):\\n    def lb(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] >= x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    def ub(a, x):\\n        lo, hi, ans = 0, len(a)-1, len(a)\\n        while lo <= hi:\\n            m = (lo+hi)//2\\n            if a[m] > x: ans, hi = m, m-1\\n            else: lo = m+1\\n        return ans\\n    return ub(a,x) - lb(a,x)\\n```"
     }
 ]
