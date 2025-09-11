@@ -1,0 +1,113 @@
+[
+  {
+    "title": "Search Everywhere opens with which shortcut?",
+    "choices": ["Shift Shift", "Ctrl+Shift+F", "Ctrl+N", "Alt+F7"],
+    "correctAnswer": "Shift Shift"
+  },
+  {
+    "title": "Go to Implementation(s) for a symbol (macOS / Win-Linux)?",
+    "choices": [
+      "macOS Cmd+Alt+B / Win-Linux Ctrl+Alt+B",
+      "macOS Cmd+B / Win-Linux Ctrl+B",
+      "macOS Cmd+U / Win-Linux Ctrl+U",
+      "macOS Cmd+Shift+B / Win-Linux Ctrl+Shift+B"
+    ],
+    "correctAnswer": "macOS Cmd+Alt+B / Win-Linux Ctrl+Alt+B"
+  },
+  {
+    "title": "Find Usages (popup) vs Find Usages window — the popup shortcut is?",
+    "choices": [
+      "macOS Option+Cmd+F7 / Win-Linux Ctrl+Alt+F7",
+      "macOS Option+F7 / Win-Linux Alt+F7",
+      "macOS Cmd+Shift+F7 / Win-Linux Ctrl+Shift+F7",
+      "Shift Shift"
+    ],
+    "correctAnswer": "macOS Option+Cmd+F7 / Win-Linux Ctrl+Alt+F7"
+  },
+  {
+    "title": "When to prefer Git Annotate/Blame vs File History?",
+    "choices": [
+      "Blame for line-level who/when; History for file evolution and renames",
+      "Blame shows full diff tree; History only authors",
+      "They are identical",
+      "Blame is only for merges"
+    ],
+    "correctAnswer": "Blame for line-level who/when; History for file evolution and renames"
+  },
+  {
+    "title": "Open Call Hierarchy on a method (default)?",
+    "choices": [
+      "Ctrl+Alt+H (both)",
+      "Ctrl+H (both)",
+      "Ctrl+Shift+H (both)",
+      "Alt+F7 (both)"
+    ],
+    "correctAnswer": "Ctrl+Alt+H (both)"
+  },
+  {
+    "title": "Scala: quickly reveal implicit parameters/conversions at a call site?",
+    "choices": [
+      "Toggle Show Implicit Hints and hover / Quick Documentation",
+      "Run Type Hierarchy",
+      "Optimize Imports",
+      "Invalidate Caches"
+    ],
+    "correctAnswer": "Toggle Show Implicit Hints and hover / Quick Documentation"
+  },
+  {
+    "title": "C++: switch between header and source conveniently?",
+    "choices": [
+      "Navigate → Related Symbol / intention (Alt+Enter)",
+      "Ctrl+U",
+      "Ctrl+Shift+F",
+      "Ctrl+Alt+L"
+    ],
+    "correctAnswer": "Navigate → Related Symbol / intention (Alt+Enter)"
+  },
+  {
+    "title": "Go to Type Declaration (macOS / Win-Linux)?",
+    "choices": [
+      "Cmd+Shift+B / Ctrl+Shift+B",
+      "Cmd+B / Ctrl+B",
+      "Cmd+Alt+B / Ctrl+Alt+B",
+      "Cmd+U / Ctrl+U"
+    ],
+    "correctAnswer": "Cmd+Shift+B / Ctrl+Shift+B"
+  },
+  {
+    "title": "Find in Files (project-wide) shortcut?",
+    "choices": ["Cmd+Shift+F (macOS) / Ctrl+Shift+F (Win-Linux)", "Cmd+F / Ctrl+F", "Alt+F7", "Shift Shift"],
+    "correctAnswer": "Cmd+Shift+F (macOS) / Ctrl+Shift+F (Win-Linux)"
+  },
+  {
+    "title": "Multiple implementations exist for a trait method. Which combo finds all impls fast?",
+    "choices": [
+      "Go to Implementations + Method Hierarchy",
+      "Find in Files",
+      "Optimize Imports",
+      "Annotate"
+    ],
+    "correctAnswer": "Go to Implementations + Method Hierarchy"
+  },
+  {
+    "title": "Bazel: quickest way to run a target by name from anywhere?",
+    "choices": [
+      "Run Anything: Cmd Cmd / Ctrl Ctrl",
+      "Open Terminal and type bazel",
+      "Use only toolbar",
+      "Invalidate Caches"
+    ],
+    "correctAnswer": "Run Anything: Cmd Cmd / Ctrl Ctrl"
+  },
+  {
+    "title": "Navigation drill order to practice daily?",
+    "choices": [
+      "Declaration → Type → Implementations → Usages → Callers → Commit",
+      "Usages → Optimize Imports → Reformat",
+      "Run tests only",
+      "Only use mouse"
+    ],
+    "correctAnswer": "Declaration → Type → Implementations → Usages → Callers → Commit"
+  }
+]
+

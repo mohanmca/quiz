@@ -383,4 +383,19 @@
         "timePerQuestion": 90,
         "maxTimeToFinish": 5400
     }
+    ,
+    {
+        "id": "intellij-navigation-productivity",
+        "title": "IntelliJ IDEA Navigation & Productivity",
+        "description": "Master navigation in IntelliJ IDEA for C++/Scala with Bazel: search workflows, usages, hierarchies, trait/implicit navigation, and Git annotate/blame with practical shortcuts.",
+        "category": "Developer Tools",
+        "difficulty": "Intermediate",
+        "estimatedTime": "25-40 minutes",
+        "questionsFile": "data/json/tools/intellij-navigation-questions.json",
+        "icon": "🧭",
+        "color": "#2563eb",
+        "timePerQuestion": 75,
+        "maxTimeToFinish": 2400,
+        "articleFile": "articles/intellij-navigation-productivity.html"
+    }
 ]
