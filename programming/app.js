@@ -284,6 +284,12 @@
         h('button', { class:'ghost', onclick: () => { window.location.href = s.articleFile + '#scenarios'; }, text:'See Scenarios & Model Answers' })
       );
     }
+    // Offer Anki download when available
+    if (s && s.ankiFile) {
+      actions.append(
+        h('button', { class:'ghost', onclick: () => { window.location.href = s.ankiFile; }, text:'Download Anki CSV' })
+      );
+    }
     main.append(actions);
 
     // Per-question review

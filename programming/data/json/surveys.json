@@ -294,7 +294,7 @@
         "articleFile": "articles/fenwick-tree-fundamentals.html"
     }
     ,
-  {
+    {
         "id": "self-improvement-psychology",
         "title": "Self-Improvement Psychology: Motivation, Focus, and Productivity",
         "description": "One guide and quiz covering motivation research, productivity psychology, anti-procrastination, kaizen, behavior design, focus, self-confidence, and active listening—with practical tips and Python tools.",
@@ -307,6 +307,21 @@
         "timePerQuestion": 90,
         "maxTimeToFinish": 5400,
         "articleFile": "articles/self-improvement-psychology.html"
+    },
+    {
+        "id": "habits-behavior-communication",
+        "title": "Habits, Behavior, and Communication Mastery",
+        "description": "Improve habits, thinking, behavior, and choice of words with a practical guide, quotes, diagrams, Python tools, and 50+ question revision quiz.",
+        "category": "Self Improvement",
+        "difficulty": "Intermediate",
+        "estimatedTime": "45-75 minutes",
+        "questionsFile": "data/json/self-improvement/habits-behavior-words-questions.json",
+        "icon": "🧠",
+        "color": "#2563eb",
+        "timePerQuestion": 90,
+        "maxTimeToFinish": 6000,
+        "articleFile": "articles/habits-behavior-communication.html",
+        "ankiFile": "data/anki/habits-behavior-communication.csv"
     },
     {
         "id": "rabin-karp-rolling-hash",

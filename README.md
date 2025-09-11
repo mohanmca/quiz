@@ -66,3 +66,29 @@ Move everthing under "PostgreSQL PSQL, EXPLAIN & Automation"
 
 
 Can you add a short pattern-to-problem index in the article’s overview (e.g., which pattern to try first for common LeetCode topics)
+
+---
+
+We need one more quiz similar to other quizes and articles
+1. I need a way to improve code navigation inside Intellij, can you write article and quiz and downloadable cheatsheet
+2. Give all the menu for latest Intellij Idea based shortcut in article and quiz
+3. Focus on navigation and usage finding and include git related feature
+4. Cover all the shortcut key
+5. Create quiz for all the above + shortcut key
+6. Article should have a topic to continuously improve navation ability of the developer
+7. For different usescases explain when to use git annotate blame
+8. Assume bazel is the build of the project
+9. We use C++  scala
+10. Should cover method hierarchy call hierarchy implicit and traits and other complicated navigation tricks
+11. Assume code may have multiple implementation
+
+
+We need one more quiz similar to other quizes and articles
+1. It should cover scala version 2.13 (avoid latest scala 3 and above)
+2. Introduction to traits
+3. Why it is used and how it is linearize
+4. Give usecases
+5. Cover indepdently about implicits without traits and all its usage
+6. Cover implicits resolution and how many ways it is resolved and order, and navigate
+7. By using implicit and traits how many patterns of the solutions can be created, and give all the details
+8. Let the article be more than 30000 words, it should be descriptive not brief
