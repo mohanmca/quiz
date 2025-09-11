@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scala 2.13 — Traits, Implicits, and Pattern Toolkit</title>
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f7f9fc; --text:#111827; --muted:#6b7280; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+    .container{max-width:980px;margin:0 auto;padding:16px}
+    .title{margin:6px 0 2px;font-size:24px;font-weight:800}
+    .subtitle{margin:0 0 12px;color:#6b7280}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.secondary{background:#eef2ff;color:#1f2937} button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}
+    main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}
+    h2{margin-top:20px} h3{margin-top:16px} p{line-height:1.6} ul{margin-top:8px}
+    pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}
+    .tip{background:#ecfdf5;border:1px solid #10b98133;color:#065f46;padding:12px;border-radius:10px}
+    .note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}
+    .toc a{color:#0ea5e9;text-decoration:none}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Scala 2.13 — Traits, Implicits, and Pattern Toolkit</div>
+      <div class="subtitle">For Scala 2.13 (avoids Scala 3 syntax). Traits, linearization, implicits, resolution order, and composition patterns with practical navigation tips.</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=scala-2-13-traits-implicits'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents</strong>
+      <ul>
+        <li><a href="#scope">1. Scope & Version</a></li>
+        <li><a href="#traits">2. Traits: Purpose and Basics</a></li>
+        <li><a href="#linearization">3. Linearization & Diamond Problem</a></li>
+        <li><a href="#usecases">4. Trait Use Cases</a></li>
+        <li><a href="#implicits-core">5. Implicits (Independent of Traits)</a></li>
+        <li><a href="#resolution">6. Implicit Resolution: Where and Order</a></li>
+        <li><a href="#patterns">7. Patterns with Traits + Implicits</a></li>
+        <li><a href="#nav">8. Navigation: Find, Hierarchies, Disambiguation</a></li>
+        <li><a href="#checklist">9. Checklist & Gotchas (Scala 2.13)</a></li>
+        <li><a href="#practice">10. Practice Drills</a></li>
+      </ul>
+    </div>
+
+    <h2 id="scope">1) Scope & Version</h2>
+    <p>This guide targets Scala 2.13 specifically. It avoids Scala 3 features such as <code>given/using</code> and retains Scala 2 implicit constructs: <code>implicit val</code>, <code>implicit def</code>, and <code>implicit class</code>.</p>
+
+    <h2 id="traits">2) Traits: Purpose and Basics</h2>
+    <p>Traits in Scala 2.13 provide interface-like contracts with optional method/field implementations and are mixin-ready. They enable multiple inheritance of behavior (not state layout), reduce duplication, and support stackable modifications.</p>
+    <pre><code>// Scala 2.13
+trait Logger { def log(msg: String): Unit }
+trait Timestamped extends Logger {
+  abstract override def log(msg: String): Unit = {
+    super.log(s"${System.currentTimeMillis()} - $msg")
+  }
+}
+class ConsoleLogger extends Logger { def log(msg: String) = println(msg) }
+class Service extends ConsoleLogger with Timestamped
+new Service().log("hello")
+</code></pre>
+    <div class="tip">Marking overrides in stackable traits as <code>abstract override</code> requires a concrete implementation later in the linearization (e.g., a base class).</div>
+
+    <h2 id="linearization">3) Linearization & Diamond Problem</h2>
+    <p>Scala computes a linear order of parents (class + mixed-in traits) to resolve <code>super</code> calls without ambiguity. The rightmost trait wins for member resolution; <code>super</code> chains flow leftward across the linearization.</p>
+    <pre><code>trait A { def f() = println("A") }
+trait B extends A { abstract override def f() = { println("B"); super.f() } }
+trait C extends A { abstract override def f() = { println("C"); super.f() } }
+class X extends A
+class Y extends X with B with C // linearization: Y, C, B, X, A, AnyRef, Any
+new Y().f()
+// Output order: C, B, A
+</code></pre>
+    <p>Disambiguation for a specific parent can use <code>super[Parent].method</code> in Scala 2.</p>
+
+    <h2 id="usecases">4) Trait Use Cases</h2>
+    <ul>
+      <li>Stackable behavior (logging, metrics, retries).</li>
+      <li>Cross-cutting concerns (authorization, tracing).</li>
+      <li>Pluggable strategies (serialization, formatting) via self-types.</li>
+      <li>Mixing platform integrations in C++/Scala interop layers (e.g., JNI wrappers).</li>
+    </ul>
+
+    <h2 id="implicits-core">5) Implicits (Independent of Traits)</h2>
+    <p>Scala 2 implicits enable three core features: implicit parameters, implicit conversions, and extension methods via <code>implicit class</code>.</p>
+    <pre><code>// (1) Implicit parameter / typeclass instance
+trait Show[A] { def show(a: A): String }
+object Show {
+  implicit val showInt: Show[Int] = (a: Int) => s"Int($a)"
+}
+def render[A](a: A)(implicit ev: Show[A]) = ev.show(a)
+render(42) // Int(42)
+
+// (2) Implicit conversion (discouraged; enable feature flag)
+import scala.language.implicitConversions
+implicit def intToString(i: Int): String = s"n=$i"
+val s: String = 5 // "n=5"
+
+// (3) Extension methods via implicit class
+object syntax {
+  implicit class StrOps(private val s: String) extends AnyVal {
+    def snake: String = s.replaceAll("[A-Z]", m => "_"+m.group(0).toLowerCase).stripPrefix("_")
+  }
+}
+import syntax._
+"HelloWorld".snake // hello_world
+</code></pre>
+
+    <h2 id="resolution">6) Implicit Resolution: Where and Order</h2>
+    <p>Search spaces (simplified):</p>
+    <ul>
+      <li>Local scope (defs, vals), and enclosing <code>implicit</code> definitions.</li>
+      <li>Imported implicits.</li>
+      <li>Companion objects of the type(s) involved (including type constructor arguments).</li>
+    </ul>
+    <p>Rules:</p>
+    <ul>
+      <li>Exactly one applicable implicit must be found; otherwise ambiguous/missing errors occur.</li>
+      <li>Most specific wins when multiple candidates apply (subtyping, specificity).</li>
+      <li>Implicit parameters are resolved before implicit conversions (prefer typeclasses over conversions).</li>
+    </ul>
+    <pre><code>// Companion discovery
+case class Box[A](value: A)
+trait Show2[A] { def show(a: A): String }
+object Box { implicit def showBox[A](implicit s: Show2[A]): Show2[Box[A]] = (b: Box[A]) => s"Box(${s.show(b.value)})" }
+object Show2 { implicit val showInt: Show2[Int] = (a: Int) => a.toString }
+def render2[A](a: A)(implicit sh: Show2[A]) = sh.show(a)
+render2(Box(1)) // uses Box.showBox + Show2.showInt
+</code></pre>
+
+    <h2 id="patterns">7) Patterns with Traits + Implicits</h2>
+    <ul>
+      <li><strong>Typeclass pattern:</strong> define a trait <code>Typeclass[A]</code>, provide instances in companions, and bring syntax via implicit classes.</li>
+      <li><strong>Context bounds:</strong> <code>def f[A: Show](a: A)</code> sugar for an implicit parameter <code>(implicit ev: Show[A])</code>.</li>
+      <li><strong>Stackable typeclass derivation:</strong> combine traits that refine a base typeclass via <code>abstract override</code> (e.g., logging wrappers around <code>Monoid</code> or <code>Show</code>).</li>
+      <li><strong>Tagless Final interfaces:</strong> algebras as traits; instances provided implicitly per effect type.</li>
+      <li><strong>Newtypes (value classes):</strong> use <code>AnyVal</code> wrappers plus implicit ops for zero‑allocation syntax.</li>
+      <li><strong>Evidence params:</strong> <code>implicit ev: A &lt;:&lt; B</code>, <code>ClassTag</code>, <code>TypeTag</code> (2.13 with reflection) to guide overloads.</li>
+    </ul>
+    <pre><code>// Typeclass + syntax + instances
+trait Semigroup[A] { def combine(x: A, y: A): A }
+object Semigroup {
+  implicit val intSum: Semigroup[Int] = (x, y) => x + y
+}
+object semigroupSyntax {
+  implicit class SemigroupOps[A](private val a: A) extends AnyVal {
+    def |+|(b: A)(implicit sg: Semigroup[A]): A = sg.combine(a,b)
+  }
+}
+import semigroupSyntax._
+1 |+| 2 // 3
+</code></pre>
+
+    <h2 id="nav">8) Navigation: Find, Hierarchies, Disambiguation</h2>
+    <ul>
+      <li>Use IDE “Find Usages” on typeclasses and their instances’ companions.</li>
+      <li>For multiple implementations, use Method/Type Hierarchy + “Go to Implementations”.</li>
+      <li>To examine linearization, open the class declaration; rightmost trait methods take precedence, and <code>super</code> follows the linear chain.</li>
+      <li>For implicits, enable show-implicit-hints and inspect the resolution path; follow into companions via “Go to Declaration”.</li>
+    </ul>
+
+    <h2 id="checklist">9) Checklist & Gotchas (Scala 2.13)</h2>
+    <ul>
+      <li>Avoid implicit conversions unless essential; prefer implicit params + syntax.</li>
+      <li>Keep one obvious instance in implicit scope to avoid ambiguity; import locally, not globally.</li>
+      <li>Stackable traits use <code>abstract override</code> and require a concrete base later in the chain.</li>
+      <li>Disambiguate with <code>super[Parent]</code> when necessary.</li>
+    </ul>
+
+    <h2 id="practice">10) Practice Drills</h2>
+    <ul>
+      <li>Implement <code>Show</code> instances for <code>List[A]</code> and <code>Option[A]</code> using companion implicits.</li>
+      <li>Create two logging traits that wrap <code>log()</code> and validate linearization order by printing headers.</li>
+      <li>Model an <code>Eq[A]</code> typeclass, add <code>===</code> via implicit class, and derive for a case class via field comparisons.</li>
+    </ul>
+
+    <div class="note">This article targets correctness and breadth for Scala 2.13. If you want a much longer deep-dive (30k+ words) with expanded examples and exercises, I can generate it as a multi-part document.</div>
+  </article></main>
+</body>
+</html>
+

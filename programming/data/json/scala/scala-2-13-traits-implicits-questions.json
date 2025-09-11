@@ -1,0 +1,113 @@
+[
+  {
+    "title": "Scala 2.13: What does trait linearization guarantee when mixing multiple traits?",
+    "choices": [
+      "Rightmost trait members take precedence; super calls follow the linear order",
+      "Leftmost trait members take precedence; super calls are ambiguous",
+      "No deterministic order",
+      "Only classes are linearized, not traits"
+    ],
+    "correctAnswer": "Rightmost trait members take precedence; super calls follow the linear order"
+  },
+  {
+    "title": "In Scala 2.13, how do you disambiguate a specific parent’s super call?",
+    "choices": [
+      "super.this.method",
+      "super[Parent].method",
+      "Parent.super.method",
+      "this.super[Parent].method"
+    ],
+    "correctAnswer": "super[Parent].method"
+  },
+  {
+    "title": "Which three features are enabled by Scala 2 implicits (independent of traits)?",
+    "choices": [
+      "Implicit params, implicit conversions, extension methods via implicit class",
+      "Macros, runtime reflection, annotations",
+      "Pattern matching, for-comprehensions, partial functions",
+      "Type erasure control, by-name parameters, tail calls"
+    ],
+    "correctAnswer": "Implicit params, implicit conversions, extension methods via implicit class"
+  },
+  {
+    "title": "Where does the compiler look when resolving an implicit parameter?",
+    "choices": [
+      "Local scope, imported implicits, companions of involved types",
+      "Only local scope",
+      "Only imports",
+      "Only package object"
+    ],
+    "correctAnswer": "Local scope, imported implicits, companions of involved types"
+  },
+  {
+    "title": "Which rule holds when multiple implicits could apply?",
+    "choices": [
+      "Most specific wins; otherwise ambiguity error",
+      "First imported wins",
+      "Last defined wins",
+      "Random choice"
+    ],
+    "correctAnswer": "Most specific wins; otherwise ambiguity error"
+  },
+  {
+    "title": "Enable implicit conversions explicitly in Scala 2.13?",
+    "choices": [
+      "import scala.language.implicitConversions",
+      "No import needed",
+      "@enableConversions annotation",
+      "-YimplicitConversions flag"
+    ],
+    "correctAnswer": "import scala.language.implicitConversions"
+  },
+  {
+    "title": "Which snippet defines an extension method via implicit class?",
+    "choices": [
+      "```scala\nobject syntax { implicit class I(private val n: Int) { def sq: Int = n*n } }\nimport syntax._; 3.sq\n```",
+      "```scala\nclass I(n: Int) { def sq = n*n }; 3.sq\n```",
+      "```scala\nimplicit def sq(n: Int) = n*n; 3.sq\n```",
+      "```scala\nimplicit val sq: Int => Int = n => n*n; 3.sq\n```"
+    ],
+    "correctAnswer": "```scala\nobject syntax { implicit class I(private val n: Int) { def sq: Int = n*n } }\nimport syntax._; 3.sq\n```"
+  },
+  {
+    "title": "Typeclass pattern components include…",
+    "choices": [
+      "Typeclass trait, instances (often in companions), syntax via implicit class",
+      "Implicit conversions only",
+      "Inheritance hierarchies only",
+      "Macros"
+    ],
+    "correctAnswer": "Typeclass trait, instances (often in companions), syntax via implicit class"
+  },
+  {
+    "title": "Context bound sugar \"[A: Show]\" desugars to…",
+    "choices": [
+      "(implicit ev: Show[A])",
+      "(implicit ev: A => Show[A])",
+      "(implicit Show[A] => A)",
+      "(implicit class Show[A])"
+    ],
+    "correctAnswer": "(implicit ev: Show[A])"
+  },
+  {
+    "title": "Given trait B and C both override f() and you mix: new X with B with C — which runs first?",
+    "choices": [
+      "C’s f() then B’s f() then X/A",
+      "B then C then X/A",
+      "Order is undefined",
+      "Only X/A runs"
+    ],
+    "correctAnswer": "C’s f() then B’s f() then X/A"
+  },
+  {
+    "title": "For multiple implementations across modules, which tools locate all impls fastest?",
+    "choices": [
+      "Go to Implementations + Method/Type Hierarchy",
+      "Find in Files only",
+      "Optimize Imports",
+      "Git Annotate"
+    ],
+    "correctAnswer": "Go to Implementations + Method/Type Hierarchy"
+  }
+]
+
