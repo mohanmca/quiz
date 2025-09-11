@@ -5,24 +5,24 @@
     "correctAnswer": "Shift Shift"
   },
   {
-    "title": "Go to Implementation(s) for a symbol (macOS / Win-Linux)?",
+    "title": "Go to Implementation(s) for a symbol (macOS)?",
     "choices": [
-      "macOS Cmd+Alt+B / Win-Linux Ctrl+Alt+B",
-      "macOS Cmd+B / Win-Linux Ctrl+B",
-      "macOS Cmd+U / Win-Linux Ctrl+U",
-      "macOS Cmd+Shift+B / Win-Linux Ctrl+Shift+B"
+      "Cmd+Alt+B",
+      "Cmd+B",
+      "Cmd+U",
+      "Cmd+Shift+B"
     ],
-    "correctAnswer": "macOS Cmd+Alt+B / Win-Linux Ctrl+Alt+B"
+    "correctAnswer": "Cmd+Alt+B"
   },
   {
     "title": "Find Usages (popup) vs Find Usages window — the popup shortcut is?",
     "choices": [
-      "macOS Option+Cmd+F7 / Win-Linux Ctrl+Alt+F7",
-      "macOS Option+F7 / Win-Linux Alt+F7",
-      "macOS Cmd+Shift+F7 / Win-Linux Ctrl+Shift+F7",
+      "Option+Cmd+F7",
+      "Option+F7",
+      "Cmd+Shift+F7",
       "Shift Shift"
     ],
-    "correctAnswer": "macOS Option+Cmd+F7 / Win-Linux Ctrl+Alt+F7"
+    "correctAnswer": "Option+Cmd+F7"
   },
   {
     "title": "When to prefer Git Annotate/Blame vs File History?",
@@ -35,14 +35,14 @@
     "correctAnswer": "Blame for line-level who/when; History for file evolution and renames"
   },
   {
-    "title": "Open Call Hierarchy on a method (default)?",
+    "title": "Open Call Hierarchy on a method (macOS default)?",
     "choices": [
-      "Ctrl+Alt+H (both)",
-      "Ctrl+H (both)",
-      "Ctrl+Shift+H (both)",
-      "Alt+F7 (both)"
+      "Ctrl+Alt+H",
+      "Ctrl+H",
+      "Cmd+Shift+H",
+      "Option+F7"
     ],
-    "correctAnswer": "Ctrl+Alt+H (both)"
+    "correctAnswer": "Ctrl+Alt+H"
   },
   {
     "title": "Scala: quickly reveal implicit parameters/conversions at a call site?",
@@ -65,19 +65,19 @@
     "correctAnswer": "Navigate → Related Symbol / intention (Alt+Enter)"
   },
   {
-    "title": "Go to Type Declaration (macOS / Win-Linux)?",
+    "title": "Go to Type Declaration (macOS)?",
     "choices": [
-      "Cmd+Shift+B / Ctrl+Shift+B",
-      "Cmd+B / Ctrl+B",
-      "Cmd+Alt+B / Ctrl+Alt+B",
-      "Cmd+U / Ctrl+U"
+      "Cmd+Shift+B",
+      "Cmd+B",
+      "Cmd+Alt+B",
+      "Cmd+U"
     ],
-    "correctAnswer": "Cmd+Shift+B / Ctrl+Shift+B"
+    "correctAnswer": "Cmd+Shift+B"
   },
   {
     "title": "Find in Files (project-wide) shortcut?",
-    "choices": ["Cmd+Shift+F (macOS) / Ctrl+Shift+F (Win-Linux)", "Cmd+F / Ctrl+F", "Alt+F7", "Shift Shift"],
-    "correctAnswer": "Cmd+Shift+F (macOS) / Ctrl+Shift+F (Win-Linux)"
+    "choices": ["Cmd+Shift+F", "Cmd+F", "Option+F7", "Shift Shift"],
+    "correctAnswer": "Cmd+Shift+F"
   },
   {
     "title": "Multiple implementations exist for a trait method. Which combo finds all impls fast?",
@@ -92,12 +92,12 @@
   {
     "title": "Bazel: quickest way to run a target by name from anywhere?",
     "choices": [
-      "Run Anything: Cmd Cmd / Ctrl Ctrl",
+      "Run Anything: Cmd Cmd",
       "Open Terminal and type bazel",
       "Use only toolbar",
       "Invalidate Caches"
     ],
-    "correctAnswer": "Run Anything: Cmd Cmd / Ctrl Ctrl"
+    "correctAnswer": "Run Anything: Cmd Cmd"
   },
   {
     "title": "Navigation drill order to practice daily?",
@@ -110,4 +110,3 @@
     "correctAnswer": "Declaration → Type → Implementations → Usages → Callers → Commit"
   }
 ]
-
