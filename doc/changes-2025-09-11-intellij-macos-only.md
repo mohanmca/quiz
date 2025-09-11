@@ -16,7 +16,8 @@ Why
 Details
 - Quiz JSON: normalized option texts to macOS-only (e.g., "Cmd+Alt+B"), removed mixed "macOS / Win-Linux" phrasing, and adjusted correct answers accordingly.
 - Article: removed Windows mentions in narrative bullets; simplified OS-agnostic hints; updated the keymap table to a macOS-only column.
- - Cheatsheet: main cheatsheet is macOS-only with a link to a legacy two-column (Windows/macOS) version.
+- Cheatsheet: main cheatsheet is macOS-only with a link to a legacy two-column (Windows/macOS) version.
+ - Article: appended a new section “12. Memory Techniques” incorporating content from `memory_technique.md` and extra retention tips (mnemonics, spaced repetition, drills).
 
 Tricky bits
 - Some shortcuts were labeled "(both)" or mixed (e.g., `Cmd/Ctrl`). Where present, chose the macOS variant (e.g., `Ctrl+Alt+H` kept as-is for mac as per existing article usage; `Cmd+Alt+B` for implementations).
