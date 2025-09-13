@@ -14,6 +14,21 @@
         "articleFile": "articles/leetcode-medium-python.html"
     },
     {
+        "id": "cpp-advanced-value-lifetimes",
+        "title": "Modern C++: Value Categories, Lifetimes, Ownership, Templates, Concurrency",
+        "description": "Deep-dive into value categories, lifetimes, move semantics, RAII/smart pointers, templates/SFINAE/Concepts, object model, low-level features, error handling, modern features, concurrency, and build tooling.",
+        "category": "C++",
+        "difficulty": "Advanced",
+        "estimatedTime": "90-150 minutes",
+        "questionsFile": "data/json/cpp/cpp-advanced-value-lifetimes-questions.json",
+        "icon": "🟦",
+        "color": "#0ea5e9",
+        "timePerQuestion": 120,
+        "maxTimeToFinish": 14400,
+        "articleFile": "articles/cpp-value-lifetimes-ownership-templates-concurrency.html",
+        "ankiFile": "data/anki/cpp-advanced.csv"
+    },
+    {
         "id": "python-internals",
         "title": "Python Internals Quiz",
         "description": "Test your knowledge of Python's internal workings and CPython implementation details",
