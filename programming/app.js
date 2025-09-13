@@ -19,7 +19,8 @@
     questions: [],
     index: 0,
     answers: {},
-    score: null
+    score: null,
+    tagFilter: ''
   };
 
   const ui = {
@@ -141,10 +142,13 @@
   function filterSurveys() {
     const s = (ui.search().value || '').toLowerCase();
     const cat = ui.category().value || '';
+    const tag = state.tagFilter || '';
     state.filtered = state.surveys.filter(x => {
       const matchesText = !s || `${x.title} ${x.description || ''}`.toLowerCase().includes(s);
       const matchesCat = !cat || (x.category || '') === cat;
-      return matchesText && matchesCat;
+      const tags = Array.isArray(x.tags) ? x.tags : [];
+      const matchesTag = !tag || tags.includes(tag);
+      return matchesText && matchesCat && matchesTag;
     });
   }
 
@@ -166,6 +170,7 @@
           h('span', { class:'badge', text: s.category || 'Quiz' }), ' ',
           h('span', { class:'badge', text: s.difficulty || '' })
         ]),
+        renderTagsRow(s.tags || []),
         (function(){
           const row = h('div', { class:'row' });
           row.append(h('button', { onclick: () => startQuiz(s), text:'Start Quiz' }));
@@ -180,6 +185,33 @@
     main.append(grid);
   }
 
+  function renderTagsRow(tags){
+    const row = h('div', { class:'row' });
+    const shown = (tags || []).slice(0, 8);
+    shown.forEach(t => {
+      const btn = h('button', { class:'ghost', text: `#${t}` });
+      btn.addEventListener('click', () => { state.tagFilter = t; renderHome(); });
+      row.append(btn);
+    });
+    return row;
+  }
+
+  function computeItemTags(item){
+    if (Array.isArray(item.tags) && item.tags.length) return item.tags;
+    const extra = [];
+    if (item.category) extra.push(String(item.category).toLowerCase());
+    if (item.id) extra.push(...String(item.id).toLowerCase().split(/[^a-z0-9]+/g).filter(Boolean));
+    const words = String(item.title || '').toLowerCase().match(/[a-z0-9]+/g) || [];
+    const stop = new Set(['the','and','for','with','into','from','your','you','are','about','part','overview','fundamentals','guide','notes','design','api','deep','dive','internals','concepts','principles','mastery','quiz','questions']);
+    const toks = words.filter(w => w.length >= 3 && !stop.has(w));
+    const tags = [];
+    const seen = new Set();
+    function add(t){ if (t && !seen.has(t)) { seen.add(t); tags.push(t); } }
+    toks.forEach(add); extra.forEach(add);
+    ['quiz','practice','mcq','revision','study','reference','cheatsheet','guide'].forEach(add);
+    return tags.slice(0, 12);
+  }
+
   function renderArticlesPanel(){
     const wrap = h('div', { class:'card' });
     const header = h('div', { class:'row' });
@@ -190,7 +222,7 @@
     const table = h('table', { style:'width:100%; border-collapse:collapse;' });
     const thead = h('thead');
     const thr = h('tr');
-    ['Title','Open','Path'].forEach(k => thr.append(h('th', { text:k, style:'border:1px solid #e5e7eb; padding:6px; background:#f3f4f6; text-align:left;' })));
+    ['Title','Tags','Open','Path'].forEach(k => thr.append(h('th', { text:k, style:'border:1px solid #e5e7eb; padding:6px; background:#f3f4f6; text-align:left;' })));
     thead.append(thr);
     table.append(thead);
     const tbody = h('tbody');
@@ -198,6 +230,17 @@
       const tr = h('tr');
       tr.append(
         h('td', { style:'border:1px solid #e5e7eb; padding:6px;' , text: a.title || a.path }),
+        (function(){
+          const td = h('td', { style:'border:1px solid #e5e7eb; padding:6px;' });
+          const tags = Array.isArray(a.tags) ? a.tags.slice(0,8) : [];
+          tags.forEach(t => {
+            const b = h('button', { class:'ghost', text:`#${t}` });
+            b.addEventListener('click', () => { state.tagFilter = t; renderHome(); });
+            td.append(b, document.createTextNode(' '));
+          });
+          if (!tags.length) td.append(document.createTextNode('—'));
+          return td;
+        })(),
         (function(){
           const td = h('td', { style:'border:1px solid #e5e7eb; padding:6px;' });
           td.append(h('button', { class:'ghost', onclick: () => { window.location.href = a.path; }, text:'Open' }));
@@ -384,7 +427,7 @@
       fetchJSON(API.surveys).catch(() => []),
       fetchJSON(API.articles).catch(() => [])
     ]);
-    state.surveys = (Array.isArray(survData) ? survData : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/'));
+    state.surveys = (Array.isArray(survData) ? survData : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/')).map(s => ({...s, tags: computeItemTags(s)}));
     state.articles = (Array.isArray(artData) ? artData : []).filter(a => a && typeof a.path === 'string');
     populateFilters();
     attachFilterEvents();

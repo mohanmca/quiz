@@ -33,6 +33,35 @@ def extract_title(path: str) -> str:
     return os.path.splitext(os.path.basename(path))[0]
 
 
+STOP = {
+    'the','and','for','with','into','from','your','you','are','about','part','overview','fundamentals','guide','notes','design','api','deep','dive','internals','concepts','principles','mastery','quiz','questions'
+}
+
+
+def make_tags(title: str, relpath: str) -> List[str]:
+    base = title.lower()
+    toks = re.findall(r'[a-z0-9]+', base)
+    toks = [t for t in toks if len(t) >= 3 and t not in STOP]
+    # add folder/category hints
+    parts = [p for p in relpath.split('/') if p]
+    toks += [p for p in parts[:-1] if p not in ('articles',)]
+    # de-dup
+    seen = set()
+    tags: List[str] = []
+    for t in toks:
+        if t not in seen:
+            seen.add(t)
+            tags.append(t)
+    # ensure at least 6 generic tags
+    GENERIC = ['article','reference','cheatsheet','study','notes','guide','practice','revision']
+    for g in GENERIC:
+        if len(tags) >= 8:
+            break
+        if g not in seen:
+            tags.append(g); seen.add(g)
+    return tags[:12]
+
+
 def collect_articles() -> List[Dict[str, str]]:
     entries: List[Dict[str, str]] = []
     for root, _, files in os.walk(ARTICLES_DIR):
@@ -42,9 +71,11 @@ def collect_articles() -> List[Dict[str, str]]:
             full = os.path.join(root, name)
             rel = os.path.relpath(full, os.path.join(ROOT, 'programming'))
             title = extract_title(full)
+            tags = make_tags(title, rel)
             entries.append({
                 'path': rel.replace('\\', '/'),
                 'title': title,
+                'tags': tags,
             })
     entries.sort(key=lambda x: (x['title'] or '').lower())
     return entries
@@ -61,4 +92,3 @@ def main() -> None:
 
 if __name__ == '__main__':
     main()
-
