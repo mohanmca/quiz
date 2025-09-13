@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Deep Dive — Value Categories & Object Lifetimes</title>
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f8fafc; --text:#0f172a; --muted:#64748b; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:10; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .title { font-weight:800; font-size: 24px; margin: 4px 0; }
+    .subtitle { color: var(--muted); margin-bottom: 8px; }
+    .toolbar { display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#e2efff; color:#0f172a; }
+    button.ghost { background:transparent; color:#0f172a; border:1px solid #e2e8f0; }
+    main.container article { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; }
+    h2 { margin-top:22px; }
+    h3 { margin-top:16px; }
+    p { line-height:1.7; }
+    table { width:100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { border:1px solid #e2e8f0; padding:8px; text-align:left; vertical-align:top; }
+    th { background:#f1f5f9; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; border:1px solid #111827; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .ascii { white-space: pre; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:10px; }
+    .tip { background:#ecfeff; border:1px solid #06b6d433; color:#0c4a6e; padding:12px; border-radius:10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">C++ Deep Dive — Value Categories & Object Lifetimes</div>
+      <div class="subtitle">glvalue/prvalue/xvalue, reference binding, materialization, lifetime extension, dangling</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../../index.html?id=cpp-advanced-value-lifetimes'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../cpp-value-lifetimes-ownership-templates-concurrency.html'">Back to Overview</button>
+        <button onclick="window.location.href='../../data/anki/cpp-advanced.csv'">Download Anki CSV</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>1. Value Categories Map</h2>
+      <div class="ascii">Value categories
+name of object  ─► lvalue (has identity, addressable)
+42, make_T()    ─► prvalue (temporary; C++17 materializes as needed)
+std::move(expr) ─► xvalue (expiring glvalue)
+      </div>
+
+      <table>
+        <thead><tr><th>Category</th><th>Definition</th><th>Binds To</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>lvalue</td><td>Has identity; can take address</td><td>T&, const T&, volatile T&</td><td>named variables, *ptr, a[i]</td></tr>
+          <tr><td>prvalue</td><td>Pure rvalue; temporary materializes in C++17+</td><td>const T&, T&&</td><td>42, std::string("hi"), make_T()</td></tr>
+          <tr><td>xvalue</td><td>Expiring glvalue (to be moved from)</td><td>T&&, const T&</td><td>std::move(obj), std::array<T, N>{}.
+          </td></tr>
+        </tbody>
+      </table>
+
+      <h2>2. Binding & Collapsing Rules</h2>
+      <ul>
+        <li>T& binds only to lvalues; const T& binds to lvalue/xvalue/prvalue; T&& binds to rvalues (xvalue/prvalue).</li>
+        <li>Reference collapsing: & + & → &, & + && → &, && + & → &, && + && → &&.</li>
+        <li>Forwarding references: T&& in a template parameter with deduction, forward with std::forward<T>(arg).</li>
+      </ul>
+
+      <h2>3. Materialization & Lifetime Extension</h2>
+      <ul>
+        <li>Materialization (C++17): prvalues materialize a temporary when a glvalue is needed (e.g., binding to const T&).</li>
+        <li>Lifetime extension: a temporary bound directly to a const reference lives to the reference’s scope.</li>
+        <li>No extension for a temporary bound to a local rvalue reference (int&&) variable.</li>
+      </ul>
+
+      <h2>4. Common Dangling Cases</h2>
+      <ul>
+        <li>Returning a reference to a local variable.</li>
+        <li>Capturing by reference in asynchronous callbacks.</li>
+        <li>Storing std::string_view to a temporary string.</li>
+      </ul>
+
+      <h2>5. Diagnostics & Heuristics</h2>
+      <ul>
+        <li>Prefer return-by-value; enable elision and moves. Avoid returning references to locals.</li>
+        <li>Add std::move at ownership transfer boundaries; not on local names you still need.</li>
+        <li>Use sanitizers (ASan/UBSan) and lifetime checkers (Clang) to catch misuse.</li>
+      </ul>
+
+      <div class="tip">Tip: Write APIs that accept by value and move into members when cheap; this leverages copy elision and simplifies call sites.</div>
+    </article>
+  </main>
+</body>
+</html>
+
