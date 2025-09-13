@@ -59,6 +59,37 @@
         <li>Noexcept move enables container optimizations.</li>
       </ul>
 
+      <h2>2.1 Rules: Zero / Three / Five (and the “Seven” question)</h2>
+      <table>
+        <thead><tr><th>Rule</th><th>What it means</th><th>When to apply</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Rule of Zero</td>
+            <td>Do not write special members (dtor/copy/move); own resources via RAII members that manage themselves.</td>
+            <td>High-level types composed of std::string, std::vector, smart pointers, etc.</td>
+            <td>Best default. Yields simple, exception-safe code.</td>
+          </tr>
+          <tr>
+            <td>Rule of Three</td>
+            <td>If you define any of: destructor, copy constructor, copy assignment — you probably need all three.</td>
+            <td>Pre‑C++11 guidance; still useful to reason about copy‑managed resources.</td>
+            <td>Signals manual resource management (raw owning pointers, file handles, etc.).</td>
+          </tr>
+          <tr>
+            <td>Rule of Five</td>
+            <td>In C++11+, add move constructor and move assignment to the Rule of Three set.</td>
+            <td>Types that directly own resources and benefit from moving.</td>
+            <td>Prefer =default when semantics are correct; consider noexcept on moves.</td>
+          </tr>
+          <tr>
+            <td>About a “Rule of Seven”</td>
+            <td>Not a standard C++ guideline; occasionally used informally to add swap/compare or other ops.</td>
+            <td>Stick to Zero/Three/Five. Provide <code>swap</code> and comparisons when appropriate.</td>
+            <td>Over‑specifying “rules” can obscure the core guidance above.</td>
+          </tr>
+        </tbody>
+      </table>
+
       <h2>3. Cycles & Aliasing</h2>
       <ul>
         <li>Break cycles with weak_ptr on back-edges.</li>
@@ -80,4 +111,3 @@
   </main>
 </body>
 </html>
-

@@ -140,6 +140,33 @@ std::move(expr) ─► xvalue (expiring glvalue)
         <li>Custom deleters: pass functor function; note deleter type affects unique_ptr type.</li>
       </ul>
 
+      <h3>Rules Cheat‑Sheet: Zero / Three / Five (and “Seven”)</h3>
+      <table>
+        <thead><tr><th>Rule</th><th>Definition</th><th>Practical guidance</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Rule of Zero</td>
+            <td>Don’t write dtor/copy/move; rely on RAII members to manage resources.</td>
+            <td>Default choice for high‑level types; simplest and safest.</td>
+          </tr>
+          <tr>
+            <td>Rule of Three</td>
+            <td>Define dtor, copy ctor, copy assign together when owning manual resources.</td>
+            <td>Signals manual ownership; consider migrating to RAII members.</td>
+          </tr>
+          <tr>
+            <td>Rule of Five</td>
+            <td>Add move ctor and move assign (C++11+) when direct ownership benefits from moves.</td>
+            <td>Use =default where correct; prefer noexcept on moves; provide swap.</td>
+          </tr>
+          <tr>
+            <td>“Rule of Seven”</td>
+            <td>Not a standard rule; sometimes an informal extension including swap/compare.</td>
+            <td>Stick to Zero/Three/Five; add <code>swap</code> and comparisons as needed.</td>
+          </tr>
+        </tbody>
+      </table>
+
       <h2 id="templates">3) Templates & Generics</h2>
       <ul>
         <li>Specialization: full vs partial; partial for class templates only.</li>
