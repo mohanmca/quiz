@@ -2,6 +2,7 @@
 (function(){
   const API = {
     surveys: './data/json/surveys.json',
+    articles: './data/json/articles.json',
     resolveQuestionsPath(p) {
       // surveys.json entries are like "data/json/python/..." relative to programming/
       if (p.startsWith('./')) return p.slice(2);
@@ -11,6 +12,7 @@
 
   const state = {
     surveys: [],
+    articles: [],
     filtered: [],
     categories: [],
     currentSurvey: null,
@@ -150,6 +152,9 @@
     const main = ui.main();
     filterSurveys();
     main.innerHTML = '';
+    // Articles panel (collapsible)
+    main.append(renderArticlesPanel());
+    // Quiz section header
     main.append(h('div', { class:'title', text:'Quizzes'}));
     main.append(h('div', { class:'subtitle', text: `${state.filtered.length} available`}));
     const grid = h('div', { class:'grid' });
@@ -173,6 +178,44 @@
       grid.append(card);
     });
     main.append(grid);
+  }
+
+  function renderArticlesPanel(){
+    const wrap = h('div', { class:'card' });
+    const header = h('div', { class:'row' });
+    const title = h('div', { class:'title', text:'Articles' });
+    const toggleBtn = h('button', { class:'ghost', text:'Show/Hide' });
+    header.append(title, toggleBtn);
+    const panel = h('div', { style:'margin-top:8px;' });
+    const table = h('table', { style:'width:100%; border-collapse:collapse;' });
+    const thead = h('thead');
+    const thr = h('tr');
+    ['Title','Open','Path'].forEach(k => thr.append(h('th', { text:k, style:'border:1px solid #e5e7eb; padding:6px; background:#f3f4f6; text-align:left;' })));
+    thead.append(thr);
+    table.append(thead);
+    const tbody = h('tbody');
+    (state.articles || []).forEach(a => {
+      const tr = h('tr');
+      tr.append(
+        h('td', { style:'border:1px solid #e5e7eb; padding:6px;' , text: a.title || a.path }),
+        (function(){
+          const td = h('td', { style:'border:1px solid #e5e7eb; padding:6px;' });
+          td.append(h('button', { class:'ghost', onclick: () => { window.location.href = a.path; }, text:'Open' }));
+          return td;
+        })(),
+        h('td', { style:'border:1px solid #e5e7eb; padding:6px; color:#6b7280;' , text: a.path })
+      );
+      tbody.append(tr);
+    });
+    table.append(tbody);
+    panel.append(table);
+    // collapsed by default
+    panel.style.display = 'none';
+    toggleBtn.addEventListener('click', () => {
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    });
+    wrap.append(header, panel);
+    return wrap;
   }
 
   async function startQuiz(survey){
@@ -337,8 +380,12 @@
   }
 
   async function init(){
-    const data = await fetchJSON(API.surveys);
-    state.surveys = (Array.isArray(data) ? data : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/'));
+    const [survData, artData] = await Promise.all([
+      fetchJSON(API.surveys).catch(() => []),
+      fetchJSON(API.articles).catch(() => [])
+    ]);
+    state.surveys = (Array.isArray(survData) ? survData : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/'));
+    state.articles = (Array.isArray(artData) ? artData : []).filter(a => a && typeof a.path === 'string');
     populateFilters();
     attachFilterEvents();
     const id = deepLinkId();
