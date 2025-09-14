@@ -460,5 +460,18 @@
             "i & -i = 0"
         ],
         "correctAnswer": "i & (i-1) = i - (i & -i)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q38",
+        "title": "**Partition identity**\\n\\nWhich equation partitions i into disjoint lowest-bit and the rest?",
+        "choices": [
+            "i = (i & (i-1)) + (i & -i)",
+            "i = (i | (i-1)) + (i & -i)",
+            "i = (i ^ (i-1)) + (i & -i)",
+            "i = (i & (i-1)) - (i & -i)"
+        ],
+        "correctAnswer": "i = (i & (i-1)) + (i & -i)"
     }
 ]
