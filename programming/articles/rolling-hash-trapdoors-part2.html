@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Rolling Hash Trapdoors II — Modulus and Normalization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <main class="article">
+    <h1>Rolling Hash Trapdoors II — Modulus and Normalization</h1>
+    <p>This quiz focuses on why we use a modulus and how to normalize intermediates correctly, especially after subtraction.</p>
+
+    <h2>1. Why Modulus</h2>
+    <ul>
+      <li>Prevents unbounded growth; keeps values in <code>[0, M)</code>.</li>
+      <li>Distributes hash values and lowers collision rates with a large prime.</li>
+    </ul>
+
+    <h2>2. Correct Normalization</h2>
+    <pre><code class="language-python">def sub_mod(h, x, M):
+    # Safe: ensure non-negative before the final % M
+    return (h - (x % M) + M) % M
+    </code></pre>
+    <p>Python's <code>%</code> already returns a non-negative remainder, but when building from raw arithmetic, explicitly adding <code>M</code> before the final modulo avoids pitfalls and mirrors portable code in other languages.</p>
+
+    <h2>3. What This Uncovers</h2>
+    <ul>
+      <li>Incorrect assumptions about negative modulo behavior.</li>
+      <li>Choosing weak composite moduli (e.g., <code>2^k</code>) leading to patterns.</li>
+    </ul>
+
+    <h2>4. Quiz Coverage Map</h2>
+    <ul>
+      <li>Purpose of <code>M</code>, safe subtraction, and prime choices.</li>
+      <li>Relation to later rolling updates that require subtracting outgoing terms.</li>
+    </ul>
+  </main>
+</body>
+</html>
+

@@ -1,0 +1,8 @@
+[
+  {"title": "Rightward slide update (window length m): choose correct formula", "choices": ["h' = (h + s_in - s_out) % M", "h' = (h - s_out*base^(m-1)) * base + s_in (mod M)", "h' = h/base + s_in - s_out", "h' = h xor s_out xor s_in"], "correctAnswer": "h' = (h - s_out*base^(m-1)) * base + s_in (mod M)"},
+  {"title": "Order of operations for rolling update under mod M", "choices": ["multiply, add, subtract", "subtract outgoing, multiply by base, add incoming", "add incoming, multiply, subtract outgoing", "doesn't matter"], "correctAnswer": "subtract outgoing, multiply by base, add incoming"},
+  {"title": "Precompute which value for O(1) update?", "choices": ["base^m", "base^(m-1) % M", "sum s[i]", "M/base"], "correctAnswer": "base^(m-1) % M"},
+  {"title": "Given base=10, M=1000, m=3, window [1,2,3] with h=123, slide to include 4 and drop 1; what is new h?", "choices": ["234", "124", "120 + 4 = 124", "(123 - 1*100)*10 + 4 = 114", "(123 - 1*100)*10 + 4 = 240 + 4 = 244 (mod 1000)"], "correctAnswer": "(123 - 1*100)*10 + 4 = 240 + 4 = 244 (mod 1000)"},
+  {"title": "Edge case: when h - out*pow < 0, best practice?", "choices": ["Let it go negative; Python handles it", "Add k*M before % M", "Clamp to zero", "Switch to floats"], "correctAnswer": "Add k*M before % M"}
+]
+

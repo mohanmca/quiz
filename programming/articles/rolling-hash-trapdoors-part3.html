@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Rolling Hash Trapdoors III — Sliding Window Update</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <main class="article">
+    <h1>Rolling Hash Trapdoors III — Sliding Window Update</h1>
+    <p>With a correct <code>poly_hash</code> in hand, we can safely implement and test the <em>rolling</em> update for a rightward slide by one character.</p>
+
+    <h2>1. Update Formula</h2>
+    <pre><code class="language-python">def roll_right(h, s_out, s_in, base, M, pow_m_1):
+    # Remove outgoing contribution, multiply, then add incoming
+    h = (h - (s_out * pow_m_1) % M + M) % M
+    h = (h * base) % M
+    h = (h + s_in) % M
+    return h
+    </code></pre>
+
+    <h2>2. Validation with poly_hash</h2>
+    <pre><code class="language-python">def poly_hash(arr, base, M):
+    h = 0
+    for x in arr:
+        h = ((h * base) % M + x) % M
+    return h
+
+def check_slide(window, nxt, base=256, M=1_000_000_007):
+    m = len(window)
+    pow_m_1 = pow(base, m-1, M)
+    h = poly_hash(window, base, M)
+    h2 = roll_right(h, window[0], nxt, base, M, pow_m_1)
+    ref = poly_hash(window[1:] + [nxt], base, M)
+    assert h2 == ref, (h2, ref)
+    </code></pre>
+
+    <h2>3. Quiz Coverage Map</h2>
+    <ul>
+      <li>Operation ordering: subtract → multiply → add.</li>
+      <li>Precomputation: <code>pow(base, m-1, M)</code>.</li>
+      <li>Numerical example sanity checks.</li>
+    </ul>
+  </main>
+</body>
+</html>
+

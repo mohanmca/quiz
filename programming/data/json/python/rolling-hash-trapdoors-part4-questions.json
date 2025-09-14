@@ -1,0 +1,8 @@
+[
+  {"title": "Unicode/bytes mapping for hashing: robust approach?", "choices": ["Use ord(c) directly or encode to bytes", "Hash(str(c))", "Use random per character", "Use index in alphabet only"], "correctAnswer": "Use ord(c) directly or encode to bytes"},
+  {"title": "Handling negative intermediate values in Python under mod", "choices": ["Python % already returns non-negative; still normalize after subtraction", "No need to worry ever", "Use abs()", "Convert to float"], "correctAnswer": "Python % already returns non-negative; still normalize after subtraction"},
+  {"title": "Window count for text length n and pattern length m", "choices": ["n/m", "n - m + 1", "m - n + 1", "n + m"], "correctAnswer": "n - m + 1"},
+  {"title": "Verification step purpose after hash match", "choices": ["To skip true matches", "To confirm and eliminate collisions", "To compute LPS", "To rehash"], "correctAnswer": "To confirm and eliminate collisions"},
+  {"title": "Choose the safe removal expression", "choices": ["h = (h - out*pow_m_1) % M", "h = (h - (out*pow_m_1) % M + M) % M", "h = h - out*pow_m_1", "h = h ^ out"], "correctAnswer": "h = (h - (out*pow_m_1) % M + M) % M"}
+]
+

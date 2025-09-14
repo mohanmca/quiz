@@ -1,0 +1,8 @@
+[
+  {"title": "Which polynomial hash form matches left-to-right accumulation?", "choices": ["h = sum(s[i] * base^(m-1-i)) % M", "h = sum(s[i] * base^i) % M", "h = xor(s[i] << i) % M", "h = product(s[i] + base^i) % M"], "correctAnswer": "h = sum(s[i] * base^i) % M"},
+  {"title": "Given def poly_hash(arr, base, M): h=0; for x in arr: h=(h*base + x)%M; return h, what is poly_hash([1,2,3], base=10, M=1000)?", "choices": ["123", "321", "36", "12"], "correctAnswer": "123"},
+  {"title": "Select the equivalent recurrence for sum_{i=0..m-1} s[i]*base^i mod M", "choices": ["h = (h + s[i])*base % M", "h = (h*base + s[i]) % M", "h = (h + base*s[i]) without mod", "h = (h/base + s[i]) % M"], "correctAnswer": "h = (h*base + s[i]) % M"},
+  {"title": "Why pass base and M explicitly to poly_hash?", "choices": ["To avoid globals and ensure testability", "Because Python requires it", "To speed up Python loops", "To avoid using pow()"], "correctAnswer": "To avoid globals and ensure testability"},
+  {"title": "Which pair often minimizes collisions for byte data?", "choices": ["base=2, M=97", "base=256, M≈1e9+7", "base=10, M=1000", "base=128, M=65536"], "correctAnswer": "base=256, M≈1e9+7"}
+]
+

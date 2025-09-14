@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Rolling Hash Trapdoors I — Polynomial Formulations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <main class="article">
+    <h1>Rolling Hash Trapdoors I — Polynomial Formulations</h1>
+    <p>This mini-quiz stresses correct understanding of polynomial hashes before touching rolling updates. We intentionally present similar-looking formulas to tease out direction, accumulation, and parameter bugs.</p>
+
+    <h2>1. Canonical Left-to-Right Form</h2>
+    <p>We define the polynomial hash over an array of integers <code>arr</code> as</p>
+    <pre><code class="language-python">def poly_hash(arr, base, M):
+    h = 0
+    for x in arr:
+        h = ((h * base) % M + x) % M
+    return h
+    </code></pre>
+    <p>This corresponds to <code>h = sum(arr[i] * base^i) mod M</code> with left-to-right accumulation. It is simple, testable, and becomes the foundation for rolling updates.</p>
+
+    <h2>2. Why This Comes First</h2>
+    <ul>
+      <li><strong>Single source of truth:</strong> A correct <code>poly_hash</code> lets us verify any rolling update by recomputing directly on a window.</li>
+      <li><strong>Direction clarity:</strong> Many bugs arise from mixing <code>base^i</code> vs <code>base^(m-1-i)</code>. Fix the convention up front.</li>
+      <li><strong>Explicit parameters:</strong> Passing <code>base</code> and <code>M</code> avoids hidden globals and test pollution.</li>
+    </ul>
+
+    <h2>3. Worked Example</h2>
+    <pre><code class="language-python"># arr = [1, 2, 3], base = 10, M = 1000
+print(poly_hash([1,2,3], 10, 1000))  # 123
+    </code></pre>
+
+    <h2>4. Quiz Coverage Map</h2>
+    <ul>
+      <li>Form equivalence: recurrence vs sum-of-powers.</li>
+      <li>Parameter passing and choice of <code>(base, M)</code>.</li>
+      <li>Sanity checks with small numeric alphabets.</li>
+    </ul>
+  </main>
+</body>
+</html>
+

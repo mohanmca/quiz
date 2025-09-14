@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Rolling Hash Trapdoors IV — Edge Cases and Negatives</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <main class="article">
+    <h1>Rolling Hash Trapdoors IV — Edge Cases and Negatives</h1>
+    <p>Subtleties around Unicode vs bytes, negative intermediate values, and bookkeeping make or break robust rolling-hash code.</p>
+
+    <h2>1. Mapping Strategy</h2>
+    <pre><code class="language-python">def to_ints(text):
+    # Use bytes for general data; ord(c) for simple demos
+    return list(text.encode('utf-8'))
+    </code></pre>
+
+    <h2>2. Normalization Reminder</h2>
+    <pre><code class="language-python">def safe_sub(h, term, M):
+    return (h - (term % M) + M) % M
+    </code></pre>
+
+    <h2>3. Quiz Coverage Map</h2>
+    <ul>
+      <li>Unicode/bytes mapping choices.</li>
+      <li>Normalization after subtraction even in Python.</li>
+      <li>Counting windows and verifying substring equality.</li>
+    </ul>
+  </main>
+</body>
+</html>
+
