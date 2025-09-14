@@ -55,6 +55,30 @@
       </ul>
       If it has a minus sign inside the <code>&amp;</code>, it’s almost certainly a Fenwick move.
     </div>
+
+    <h3>2.3 Index Walkthrough Examples</h3>
+    <p>The internal tree uses 1-based indices. Below, assume <code>n = 16</code> and 1-based <code>i</code>.</p>
+    <h4>Update: “move upward” via <code>i += i &amp; -i</code></h4>
+    <ul>
+      <li>Start at <code>i = 6</code> (binary <code>0110</code>), <code>LSB(6)=2</code>. Touch <code>6</code> (covers <code>[5..6]</code>).</li>
+      <li>Next <code>i = 6 + 2 = 8</code> (binary <code>1000</code>), <code>LSB(8)=8</code>. Touch <code>8</code> (covers <code>[1..8]</code>).</li>
+      <li>Next <code>i = 8 + 8 = 16</code>, <code>LSB(16)=16</code>. Touch <code>16</code> (covers <code>[1..16]</code>).</li>
+      <li>Next <code>i = 16 + 16 = 32 &gt; n</code> ⇒ stop.</li>
+    </ul>
+    <p>
+      Intuition: you are “climbing” to all ancestors whose aggregated ranges include the original position.
+    </p>
+
+    <h4>Query: “move to parent” via <code>i -= i &amp; -i</code> (or <code>i = i &amp; (i-1)</code>)</h4>
+    <ul>
+      <li>Compute <code>prefix(13)</code>. Start <code>i = 13</code> (binary <code>1101</code>), <code>LSB(13)=1</code>. Add <code>BIT[13]</code> (covers <code>[13..13]</code>).</li>
+      <li>Parent <code>i = 13 - 1 = 12</code> (binary <code>1100</code>), <code>LSB(12)=4</code>. Add <code>BIT[12]</code> (covers <code>[9..12]</code>).</li>
+      <li>Parent <code>i = 12 - 4 = 8</code> (binary <code>1000</code>), <code>LSB(8)=8</code>. Add <code>BIT[8]</code> (covers <code>[1..8]</code>).</li>
+      <li>Parent <code>i = 8 - 8 = 0</code> ⇒ stop. Total is sum of these buckets.</li>
+    </ul>
+    <p>
+      Same path using <code>i = i &amp; (i-1)</code>: <code>13 → 12 → 8 → 0</code>.
+    </p>
     <ul>
       <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
       <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>

@@ -421,5 +421,31 @@
             "`i |= i & -i` and `i = i & (i-1)`"
         ],
         "correctAnswer": "`i -= i & -i` and `i = i & (i-1)`"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q35",
+        "title": "**Move upward (update path)**\\n\\nWith n=16 and 1-based indexing, which indices are touched when updating index i=6?",
+        "choices": [
+            "6, 8, 16",
+            "6, 7, 9, 13",
+            "6, 12, 24",
+            "5, 6, 10, 14"
+        ],
+        "correctAnswer": "6, 8, 16"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q36",
+        "title": "**Move to parent (query path)**\\n\\nComputing prefix(13) with 1-based indexing, which nodes are visited?",
+        "choices": [
+            "13, 12, 8, 0",
+            "13, 14, 16, 0",
+            "13, 9, 1, 0",
+            "13, 11, 7, 3"
+        ],
+        "correctAnswer": "13, 12, 8, 0"
     }
 ]
