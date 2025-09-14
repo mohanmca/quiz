@@ -138,10 +138,8 @@
       <pre><code class="language-python">def poly_hash(arr, base, M):
     """Compute polynomial hash for an integer array arr (e.g., ord values)."""
     H = 0
-    p = 1  # base^0
     for x in arr:
-        H = (H + (x * p) % M) % M
-        p = (p * base) % M
+        H = (H * base + x) % M
     return H
 
 def rabin_karp(text: str, pattern: str, base=256, M=1_000_000_007):
