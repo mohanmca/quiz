@@ -79,6 +79,16 @@
     <p>
       Same path using <code>i = i &amp; (i-1)</code>: <code>13 → 12 → 8 → 0</code>.
     </p>
+
+    <h3>2.4 Mathematical Relations</h3>
+    <p>Let <code>L = i &amp; -i</code> (the isolated lowest set bit). Then:</p>
+    <ul>
+      <li><strong>Clearing identity:</strong> <code>i &amp; (i-1) = i - L</code>. Proof sketch: subtracting <code>L</code> clears the lowest set bit and leaves higher bits unchanged; that is exactly what <code>i &amp; (i-1)</code> does.</li>
+      <li><strong>Partition of bits:</strong> <code>i = (i &amp; (i-1)) + (i &amp; -i)</code> and the two addends have no overlapping 1-bits.</li>
+      <li><strong>Two’s complement link:</strong> <code>-i = ~i + 1</code> ⇒ <code>i &amp; -i = i &amp; (~i + 1)</code> picks the lowest 1-bit.</li>
+      <li><strong>Trailing zeros:</strong> if <code>tz(i)</code> is the count of trailing zeros in binary, then <code>L = 1 &lt;&lt; tz(i)</code>.</li>
+    </ul>
+    <p>Example: <code>i = 12 (1100₂)</code>, <code>L = i &amp; -i = 4 (0100₂)</code>, so <code>i &amp; (i-1) = 12 - 4 = 8 (1000₂)</code>.</p>
     <ul>
       <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
       <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>

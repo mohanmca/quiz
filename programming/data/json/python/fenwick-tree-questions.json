@@ -447,5 +447,18 @@
             "13, 11, 7, 3"
         ],
         "correctAnswer": "13, 12, 8, 0"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q37",
+        "title": "**Identity**\\n\\nWhich identity is true for any nonzero integer i?",
+        "choices": [
+            "i & (i-1) = i - (i & -i)",
+            "i & (i-1) = i + (i & -i)",
+            "i & (i-1) = (i & -i)",
+            "i & -i = 0"
+        ],
+        "correctAnswer": "i & (i-1) = i - (i & -i)"
     }
 ]
