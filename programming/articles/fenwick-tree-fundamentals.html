@@ -44,6 +44,17 @@
     <p>
       These two expressions are related but do different things:
     </p>
+    <h3>2.2 Memory Hook (Humorous)</h3>
+    <div class="note">
+      Fenwick's silly rhyme: <em>“AND the negative, quick!”</em> — if you see <code>i &amp; -i</code>, think
+      Fenwick. The “negative” is your giveaway among bit tricks. Imagine <code>i</code> stepping in gum; the
+      lowest sticky bit clings to your shoe. You can:
+      <ul>
+        <li><strong>Climb</strong> by adding the sticky bit: <code>i += i &amp; -i</code> (updates).</li>
+        <li><strong>Float to parent</strong> by peeling it off: <code>i = i &amp; (i-1)</code> (queries).</li>
+      </ul>
+      If it has a minus sign inside the <code>&amp;</code>, it’s almost certainly a Fenwick move.
+    </div>
     <ul>
       <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
       <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>
