@@ -395,5 +395,31 @@
             "You use 1-based indexing"
         ],
         "correctAnswer": "Values are large/non-contiguous and used as indices"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q33",
+        "title": "**What does the expression `i & (i-1)` do?**",
+        "choices": [
+            "Clears the lowest set bit of i",
+            "Isolates the lowest set bit of i",
+            "Sets the highest set bit of i",
+            "Flips all bits of i"
+        ],
+        "correctAnswer": "Clears the lowest set bit of i"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q34",
+        "title": "**Fenwick Query Equivalence**\\n\\nWhich two parent-step statements are equivalent in a Fenwick prefix-sum loop?",
+        "choices": [
+            "`i -= i & -i` and `i = i & (i-1)`",
+            "`i += i & -i` and `i = i & (i-1)`",
+            "`i ^= i & -i` and `i = i & (i-1)`",
+            "`i |= i & -i` and `i = i & (i-1)`"
+        ],
+        "correctAnswer": "`i -= i & -i` and `i = i & (i-1)`"
     }
 ]

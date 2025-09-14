@@ -40,6 +40,37 @@
       <li>1-based indexing keeps the math simple and avoids zero cycles.</li>
     </ul>
 
+    <h3>2.1 <code>i &amp; (i-1)</code> vs <code>i &amp; -i</code></h3>
+    <p>
+      These two expressions are related but do different things:
+    </p>
+    <ul>
+      <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
+      <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>
+    </ul>
+    <p>
+      For Fenwick query, both of the following parent moves are equivalent:
+    </p>
+    <pre><code class="language-python"># Using i -= i & -i (typical)
+s = 0
+while i > 0:
+    s += BIT[i]
+    i -= i & -i
+
+# Equivalent using i = i & (i-1)
+s = 0
+while i > 0:
+    s += BIT[i]
+    i = i & (i-1)
+    </code></pre>
+    <p>
+      Why it works: every index <code>i</code> covers a block of size <code>LSB(i)</code>, i.e., range
+      <code>(i - LSB(i) + 1 .. i)</code>. Moving to parent means removing that trailing block; clearing the
+      trailing 1-bit achieves exactly that. By iteratively dropping LSBs, you walk up the implicit tree.
+      Conversely, during updates, adding <code>LSB(i)</code> via <code>i += i &amp; -i</code> ascends to the next bucket
+      that also aggregates index <code>i</code>.
+    </p>
+
     <h2 id="api">3. Core API (Sum BIT)</h2>
     <pre><code class="language-python">class FenwickSum:
     """Fenwick Tree for sums (1-based internal indexing).
