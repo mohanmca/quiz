@@ -1,8 +1,0 @@
-[
-  {"title": "Goal of double hashing in Rabin–Karp", "choices": ["Speed up multiplication", "Reduce probability of collisions", "Eliminate modulus", "Allow variable window size"], "correctAnswer": "Reduce probability of collisions"},
-  {"title": "Independent parameter pairs for double hashing", "choices": ["(base1,M1) and (base2,M2) with distinct primes", "Same base and same M for both", "One with no modulus", "Use MD5 as second hash"], "correctAnswer": "(base1,M1) and (base2,M2) with distinct primes"},
-  {"title": "Ordering of tests to confuse and verify implementation", "choices": ["Start with window update, then define poly_hash", "Define and test poly_hash first, then rolling updates", "Skip poly_hash; rely on updates only", "Random order"], "correctAnswer": "Define and test poly_hash first, then rolling updates"},
-  {"title": "Which bug does this catch: mixing left-to-right and right-to-left forms?", "choices": ["Off-by-one in window start", "Base exponent direction mismatch", "Missing verification step", "Incorrect modulus size"], "correctAnswer": "Base exponent direction mismatch"},
-  {"title": "Best practice for parameters in helpers", "choices": ["Use globals for base/M", "Pass base and M explicitly to functions", "Hardcode M=1e9+7", "Infer base from alphabet"], "correctAnswer": "Pass base and M explicitly to functions"}
-]
-

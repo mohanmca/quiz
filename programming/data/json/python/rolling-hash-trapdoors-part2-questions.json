@@ -1,8 +1,0 @@
-[
-  {"title": "Purpose of modulus M in polynomial/rolling hash", "choices": ["Guarantee no collisions", "Avoid overflow and keep values bounded", "Make base unnecessary", "Speed up I/O"], "correctAnswer": "Avoid overflow and keep values bounded"},
-  {"title": "Pick the correct normalization after subtraction under mod M", "choices": ["h = (h - x) % M", "h = ((h - x) + M) % M", "h = abs(h - x) % M", "h = (h - x + 1) % M"], "correctAnswer": "h = ((h - x) + M) % M"},
-  {"title": "Compute (h - out*base^(m-1)) % M safely when h < out*base^(m-1)", "choices": ["h = (h - out*pow) % M works in Python", "Must avoid % entirely", "Add M before %, possibly multiple times", "Use floating point"], "correctAnswer": "Add M before %, possibly multiple times"},
-  {"title": "Which M is a good choice for 32-bit-safe hashing?", "choices": ["M=2^32", "M=10^9+7", "M=1009*1013", "M=65536"], "correctAnswer": "M=10^9+7"},
-  {"title": "Is base required if using modulus?", "choices": ["No, modulus replaces base", "Yes, base encodes position weighting", "Only in C/C++", "Only if double hashing"], "correctAnswer": "Yes, base encodes position weighting"}
-]
-
