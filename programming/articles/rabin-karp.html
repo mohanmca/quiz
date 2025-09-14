@@ -253,19 +253,18 @@ if __name__ == '__main__':
     t = [ord(c) for c in text]
     P = [[ord(c) for c in p] for p in patterns]
 
-    def H(arr):
-        h = 0; b = 1
+    def H(arr, base, M):
+        h = 0;
         for x in arr:
-            h = (h + (x * b) % M) % M
-            b = (b * base) % M
+            h = ((h * base) % M + x) % M        
         return h
 
-    targets = { H(p): p for p in P }
+    targets = { H(p, base, M): p for p in P }
     if len(text) < m:
         return []
 
     pow_m_1 = pow(base, m-1, M)
-    h = H(t[:m])
+    h = H(t[:m], base, M)
     out = []
     if h in targets and text[:m] == ''.join(map(chr, targets[h])):
         out.append((0, text[:m]))
