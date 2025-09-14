@@ -279,5 +279,121 @@
             "def update(BIT, n, i, delta):\n    BIT[i] += delta"
         ],
         "correctAnswer": "```python\ndef update(BIT, n, i, delta):\n    while i <= n:\n        BIT[i] += delta\n        i += i & -i\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q24",
+        "title": "**RUPQ: How to support Range Update, Point Query with a single Fenwick?**",
+        "choices": [
+            "Maintain BIT over the difference array; add(l,+d) and add(r+1,-d), point value is prefix(i)",
+            "Store segment minimums and lazy tags",
+            "Rebuild prefix sums after each range update",
+            "Use DFS over an explicit tree"
+        ],
+        "correctAnswer": "Maintain BIT over the difference array; add(l,+d) and add(r+1,-d), point value is prefix(i)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q25",
+        "title": "**RURQ with two BITs: what is the correct prefix formula?**",
+        "choices": [
+            "prefix(x) = sum(B1,x) * x - sum(B2,x)",
+            "prefix(x) = sum(B1,x) + sum(B2,x) * x",
+            "prefix(x) = sum(B1,x) - sum(B2,x) / x",
+            "prefix(x) = sum(B2,x)"
+        ],
+        "correctAnswer": "prefix(x) = sum(B1,x) * x - sum(B2,x)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q26",
+        "title": "**Python: 2D Fenwick update skeleton**",
+        "choices": [
+            "```python\n# add at (r,c) by delta (0-based input)\nri = r + 1\nwhile ri <= R:\n    ci = c + 1\n    while ci <= C:\n        T[ri][ci] += delta\n        ci += ci & -ci\n    ri += ri & -ri\n```",
+            "```python\nfor ri in range(r,R):\n    for ci in range(c,C):\n        T[ri][ci] += delta\n```",
+            "```python\nri = r\nwhile ri > 0: ri -= ri & -ri\n```"
+        ],
+        "correctAnswer": "```python\n# add at (r,c) by delta (0-based input)\nri = r + 1\nwhile ri <= R:\n    ci = c + 1\n    while ci <= C:\n        T[ri][ci] += delta\n        ci += ci & -ci\n    ri += ri & -ri\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q27",
+        "title": "**Order statistics on a frequency BIT: what does the bitmask step do in find-by-order?**",
+        "choices": [
+            "Jumps by powers of two to probe candidate indices in O(log n)",
+            "Computes the lowest set bit",
+            "Counts set bits in a range",
+            "Sorts the tree levels"
+        ],
+        "correctAnswer": "Jumps by powers of two to probe candidate indices in O(log n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q28",
+        "title": "**When would you prefer a Fenwick Tree over a Segment Tree?**",
+        "choices": [
+            "When you only need prefix aggregations (sum/max) with point or simple range updates",
+            "When you need arbitrary range minimum queries with complex lazy propagation",
+            "When you need to support strings",
+            "Never"
+        ],
+        "correctAnswer": "When you only need prefix aggregations (sum/max) with point or simple range updates"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q29",
+        "title": "**Which problems map well to BIT patterns?**",
+        "choices": [
+            "Range Sum Query (Mutable), Count of Smaller After Self, Create Sorted Array through Instructions",
+            "Dijkstra's shortest path",
+            "Knuth–Morris–Pratt string matching",
+            "Union-Find connectivity"
+        ],
+        "correctAnswer": "Range Sum Query (Mutable), Count of Smaller After Self, Create Sorted Array through Instructions"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q30",
+        "title": "**Complexity: What is the time for a single 2D Fenwick update?**",
+        "choices": [
+            "O(log R * log C)",
+            "O(log(R+C))",
+            "O(1)",
+            "O(R + C)"
+        ],
+        "correctAnswer": "O(log R * log C)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q31",
+        "title": "**Counting inversions with BIT on array of size n has which complexity?**",
+        "choices": [
+            "O(n log n)",
+            "O(n)",
+            "O(log n)",
+            "O(n^2)"
+        ],
+        "correctAnswer": "O(n log n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q32",
+        "title": "**Coordinate compression is necessary in which scenario for BIT?**",
+        "choices": [
+            "Values are large/non-contiguous and used as indices",
+            "Array length is prime",
+            "All values are small 0..n",
+            "You use 1-based indexing"
+        ],
+        "correctAnswer": "Values are large/non-contiguous and used as indices"
     }
 ]
