@@ -650,7 +650,93 @@ def test():
 # test()
       </code></pre>
 
-      <div class="note muted">This article now includes usage patterns, a KMP primer, and an RK vs KMP comparison table, in addition to rolling hash fundamentals, collision handling, and multi-pattern strategies.</div>
+      <section id="trapdoors-appendix">
+        <h2>Appendix: Rolling Hash Trapdoors (I–V)</h2>
+        <p>This appendix consolidates the five “Rolling Hash Trapdoors” mini-articles into a single place, preserving all examples and explanations while aligning them with the Rabin–Karp fundamentals above.</p>
+
+        <h3>I. Polynomial Formulations</h3>
+        <p>Canonical left-to-right accumulation corresponds to <code>h = \sum arr[i] * base^i (mod M)</code> and the iterative form below:</p>
+        <pre><code class="language-python">def poly_hash(arr, base, M):
+    h = 0
+    for x in arr:
+        h = ((h * base) % M + x) % M
+    return h
+
+# Example
+print(poly_hash([1,2,3], 10, 1000))  # 123
+        </code></pre>
+        <ul>
+          <li>Define and test <code>poly_hash</code> first — it serves as the ground-truth reference.</li>
+          <li>Passing <code>base</code> and <code>M</code> explicitly avoids hidden globals and makes tests reliable.</li>
+        </ul>
+
+        <h3>II. Modulus and Normalization</h3>
+        <p>We keep values in <code>[0, M)</code> to avoid overflow and maintain good distribution. After subtraction, normalize explicitly:</p>
+        <pre><code class="language-python">def sub_mod(h, x, M):
+    # Safe: ensure non-negative before the final % M
+    return (h - (x % M) + M) % M
+        </code></pre>
+        <ul>
+          <li>Use large primes for <code>M</code> (e.g., <code>1e9+7</code>, <code>1e9+9</code>).</li>
+          <li>This pattern mirrors portable code in languages where <code>%</code> can return negatives.</li>
+        </ul>
+
+        <h3>III. Sliding Window Update</h3>
+        <p>Rightward slide by one character for window length <code>m</code>:</p>
+        <pre><code class="language-python">def roll_right(h, s_out, s_in, base, M, pow_m_1):
+    # Remove outgoing contribution, multiply, then add incoming
+    h = (h - (s_out * pow_m_1) % M + M) % M
+    h = (h * base) % M
+    h = (h + s_in) % M
+    return h
+
+def check_slide(window, nxt, base=256, M=1_000_000_007):
+    m = len(window)
+    pow_m_1 = pow(base, m-1, M)
+    h = poly_hash(window, base, M)
+    h2 = roll_right(h, window[0], nxt, base, M, pow_m_1)
+    ref = poly_hash(window[1:] + [nxt], base, M)
+    assert h2 == ref, (h2, ref)
+        </code></pre>
+        <ul>
+          <li>Order matters: subtract → multiply → add.</li>
+          <li>Precompute <code>pow(base, m-1, M)</code> for the outgoing term.</li>
+        </ul>
+
+        <h3>IV. Edge Cases and Negatives</h3>
+        <p>Be mindful of Unicode/bytes mapping and intermediate negatives.</p>
+        <pre><code class="language-python">def to_ints(text):
+    # Use bytes for general data; ord(c) for simple demos
+    return list(text.encode('utf-8'))
+
+def safe_sub(h, term, M):
+    return (h - (term % M) + M) % M
+        </code></pre>
+        <ul>
+          <li>Count windows correctly: a text of length <code>n</code> has <code>n - m + 1</code> windows of length <code>m</code>.</li>
+          <li>Always verify substring equality after a hash match to eliminate collisions.</li>
+        </ul>
+
+        <h3>V. Double Hashing and Test Order</h3>
+        <pre><code class="language-python">def H(arr, base, M):
+    h = 0
+    for x in arr:
+        h = ((h * base) % M + x) % M
+    return h
+
+def H2(arr, base1, M1, base2, M2):
+    return (H(arr, base1, M1), H(arr, base2, M2))
+        </code></pre>
+        <ol>
+          <li><strong>Poly hash first:</strong> establish the reference.</li>
+          <li><strong>Mod/normalization:</strong> subtraction must be correct.</li>
+          <li><strong>Rolling update:</strong> validate O(1) transitions against the reference.</li>
+          <li><strong>Edge cases:</strong> Unicode/bytes and negatives.</li>
+          <li><strong>Double hashing:</strong> combine two independent pairs to reduce collision risk.</li>
+        </ol>
+      </section>
+
+      <div class="note muted">This article now includes usage patterns, a KMP primer, and an RK vs KMP comparison table, in addition to rolling hash fundamentals, collision handling, multi-pattern strategies, and the consolidated “Trapdoors” appendix.</div>
     </article>
   </main>
 
