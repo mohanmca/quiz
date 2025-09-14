@@ -189,10 +189,9 @@ if __name__ == '__main__':
     pow2 = pow(base2, m-1, M2)
 
     def H(arr, base, M):
-        h = 0; b = 1
+        h = 0;
         for x in arr:
-            h = (h + (x * b) % M) % M
-            b = (b * base) % M
+            h = ((h * base) % M + x) % M        
         return h
 
     hp1 = H(p, base1, M1); hw1 = H(t[:m], base1, M1)
