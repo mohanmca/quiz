@@ -89,6 +89,24 @@
       <li><strong>Trailing zeros:</strong> if <code>tz(i)</code> is the count of trailing zeros in binary, then <code>L = 1 &lt;&lt; tz(i)</code>.</li>
     </ul>
     <p>Example: <code>i = 12 (1100₂)</code>, <code>L = i &amp; -i = 4 (0100₂)</code>, so <code>i &amp; (i-1) = 12 - 4 = 8 (1000₂)</code>.</p>
+
+    <h3>2.5 LSB as Bucket Span and Update Step</h3>
+    <p>
+      <strong><code>i &amp; -i</code> → isolate lowest set bit (LSB)</strong>. This equals the bucket size (range span)
+      that index <code>i</code> is responsible for in the Fenwick array.
+    </p>
+    <pre><code class="language-python">i = 12   # 1100b
+lsb = i & -i  # 0100b = 4
+# Meaning: index 12 covers a block of size 4 ⇒ [9..12]
+    </code></pre>
+    <p>
+      That’s why <em>update ascends</em> with <code>i += i &amp; -i</code>: the LSB tells you “how far to jump upward in
+      the implicit tree” to the next bucket that also aggregates index <code>i</code>.
+    </p>
+    <pre><code class="language-python">while i <= n:
+    BIT[i] += delta
+    i += i & -i   # jump to next bucket that also covers index
+    </code></pre>
     <ul>
       <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
       <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>
