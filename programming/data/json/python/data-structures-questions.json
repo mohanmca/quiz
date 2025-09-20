@@ -803,16 +803,76 @@
         ],
         "correctAnswer": "find(u) == find(v)"
     },
-    {
-        "type": "radiogroup",
-        "name": "q68",
-        "title": "With both path compression and union by rank, the amortized complexity per op is:",
+  {
+    "type": "radiogroup",
+    "name": "q68",
+    "title": "With both path compression and union by rank, the amortized complexity per op is:",
         "choices": [
             "Near-constant, O(α(n))",
             "O(log n)",
             "O(n)",
             "O(n log n)"
         ],
-        "correctAnswer": "Near-constant, O(α(n))"
+    "correctAnswer": "Near-constant, O(α(n))"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q69",
+        "title": "Counting islands in a grid with DFS/BFS typically uses:",
+        "choices": [
+            "4-directional neighbors and marking visited",
+            "8-directional only",
+            "Sorting rows first",
+            "Union-Find always"
+        ],
+        "correctAnswer": "4-directional neighbors and marking visited"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q70",
+        "title": "In grid island DFS, a common in-place visited mark is:",
+        "choices": [
+            "Flip '1' to '0' as you visit",
+            "Increment '1' to '2' only at the end",
+            "Store visited in a min-heap",
+            "Use a stack but never mark"
+        ],
+        "correctAnswer": "Flip '1' to '0' as you visit"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q71",
+        "title": "DSU islands solution maps (r, c) to id using:",
+        "choices": [
+            "r * C + c",
+            "r + c",
+            "r ^ c",
+            "hash((r,c))"
+        ],
+        "correctAnswer": "r * C + c"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q72",
+        "title": "Shortest Bridge strategy between two islands is to:",
+        "choices": [
+            "Mark one island, then multi-source BFS over water until hitting the other",
+            "Run Dijkstra on all cells",
+            "Use union-find only",
+            "Sort cells by value and connect greedily"
+        ],
+        "correctAnswer": "Mark one island, then multi-source BFS over water until hitting the other"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q73",
+        "title": "For shortest bridge BFS, the answer equals:",
+        "choices": [
+            "Number of BFS expansion layers before touching the second island",
+            "Total number of land cells",
+            "Manhattan distance between island centroids",
+            "Sum of row and column sizes"
+        ],
+        "correctAnswer": "Number of BFS expansion layers before touching the second island"
     }
 ]

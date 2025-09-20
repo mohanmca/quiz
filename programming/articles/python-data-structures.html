@@ -44,6 +44,9 @@
         <li><a href="#cyclic-sort">29. Cyclic Sort</a></li>
         <li><a href="#greedy">30. Greedy Patterns & Tips</a></li>
         <li><a href="#dsu">31. Disjoint Set Union (Union-Find)</a></li>
+        <li><a href="#islands-grid">32. Islands: Grid DFS/BFS</a></li>
+        <li><a href="#islands-dsu">33. Islands via DSU</a></li>
+        <li><a href="#shortest-bridge">34. Shortest Bridge (Two Islands)</a></li>
       </ul>
     </div>
     <h2 id="lists">1. Lists & Slicing</h2>
@@ -668,6 +671,138 @@ def count_components(n, edges):
     for u, v in edges:
         dsu.union(u, v)
     return dsu.count
+    </code></pre>
+
+    <h2 id="islands-grid">32. Islands: Grid DFS/BFS</h2>
+    <p>Count connected components of 1s in a grid using DFS/BFS. Use 4-directional neighbors and mark visited (via a set or in-place flip to 0).</p>
+    <pre><code class="language-python">def num_islands_dfs(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    def dfs(r, c):
+        if r < 0 or r >= R or c < 0 or c >= C or grid[r][c] != '1':
+            return
+        grid[r][c] = '0'  # mark visited
+        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)
+    count = 0
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                count += 1
+                dfs(r, c)
+    return count
+
+from collections import deque
+def num_islands_bfs(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    def bfs(sr, sc):
+        q = deque([(sr, sc)])
+        grid[sr][sc] = '0'
+        while q:
+            r, c = q.popleft()
+            for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+                nr, nc = r+dr, c+dc
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == '1':
+                    grid[nr][nc] = '0'
+                    q.append((nr, nc))
+    count = 0
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                count += 1
+                bfs(r, c)
+    return count
+    </code></pre>
+
+    <h2 id="islands-dsu">33. Islands via DSU</h2>
+    <p>Map (r, c) to id = r*C + c and union adjacent land cells. Count unique roots among land.</p>
+    <pre><code class="language-python">def num_islands_dsu(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    n = R * C
+    parent = list(range(n))
+    rank = [0] * n
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra == rb: return
+        if rank[ra] < rank[rb]:
+            ra, rb = rb, ra
+        parent[rb] = ra
+        if rank[ra] == rank[rb]:
+            rank[ra] += 1
+
+    def idx(r, c):
+        return r * C + c
+
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] != '1':
+                continue
+            for dr, dc in ((1,0),(0,1)):
+                nr, nc = r+dr, c+dc
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == '1':
+                    union(idx(r,c), idx(nr,nc))
+
+    roots = set()
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                roots.add(find(idx(r,c)))
+    return len(roots)
+    </code></pre>
+
+    <h2 id="shortest-bridge">34. Shortest Bridge (Two Islands)</h2>
+    <p>Mark one island, then multi-source BFS through water until reaching the second island. The level count before the first hit is the answer.</p>
+    <pre><code class="language-python">from collections import deque
+
+def shortest_bridge(grid):
+    R, C = len(grid), len(grid[0])
+    q = deque()
+    seen = set()
+
+    def inb(r, c):
+        return 0 <= r < R and 0 <= c < C
+
+    # 1) Find and mark the first island; seed BFS queue with its cells
+    def mark():
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == 1:
+                    stack = [(r, c)]
+                    grid[r][c] = 2
+                    q.append((r, c))
+                    while stack:
+                        x, y = stack.pop()
+                        for dx, dy in ((1,0),(-1,0),(0,1),(0,-1)):
+                            nx, ny = x+dx, y+dy
+                            if inb(nx, ny) and grid[nx][ny] == 1:
+                                grid[nx][ny] = 2
+                                stack.append((nx, ny))
+                                q.append((nx, ny))
+                    return
+    mark()
+
+    # 2) BFS layer expansion over water until we hit the second island (value==1)
+    steps = 0
+    while q:
+        for _ in range(len(q)):
+            r, c = q.popleft()
+            for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+                nr, nc = r+dr, c+dc
+                if not inb(nr, nc) or (nr, nc) in seen:
+                    continue
+                if grid[nr][nc] == 1:
+                    return steps
+                if grid[nr][nc] == 0:
+                    q.append((nr, nc))
+                    seen.add((nr, nc))
+        steps += 1
+    return -1
     </code></pre>
   </article></main>
 </body></html>

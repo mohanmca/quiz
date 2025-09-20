@@ -50,3 +50,10 @@ Further extension
 DSU addition
 - Added Disjoint Set Union (Union-Find) section with path compression and union by rank, plus a connected components example.
 - Quiz appended q64–q68 covering DSU init, path compression, union by rank/size, connectivity check, and amortized complexity.
+
+Islands & bridge patterns
+- Added three sections:
+  - Islands via grid DFS/BFS (mark visited or flip to '0')
+  - Islands via DSU with id = r*C + c
+  - Shortest Bridge using island marking + multi-source BFS
+- Quiz appended q69–q73 to check these techniques and the BFS-layer answer definition.
