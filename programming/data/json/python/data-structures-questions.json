@@ -647,16 +647,172 @@
         ],
         "correctAnswer": "Exploring a search space by making choices, pruning, and undoing"
     },
-    {
-        "type": "radiogroup",
-        "name": "q55",
-        "title": "To generate all subsets of nums, which template fits?",
+  {
+    "type": "radiogroup",
+    "name": "q55",
+    "title": "To generate all subsets of nums, which template fits?",
         "choices": [
             "Backtracking with path append then path.pop()",
             "BFS with a queue only",
             "Tree DFS sum aggregation",
             "Union-Find merges"
         ],
-        "correctAnswer": "Backtracking with path append then path.pop()"
+    "correctAnswer": "Backtracking with path append then path.pop()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q56",
+        "title": "Bucket/top-k frequency trick groups by:",
+        "choices": [
+            "Count of occurrences (frequency)",
+            "Array index modulo k",
+            "Value parity",
+            "Prefix sums"
+        ],
+        "correctAnswer": "Count of occurrences (frequency)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q57",
+        "title": "Bucket sort is most appropriate when:",
+        "choices": [
+            "The value range is small/known",
+            "The array is linked-list based",
+            "Values are arbitrary floats with huge range",
+            "Data is already sorted"
+        ],
+        "correctAnswer": "The value range is small/known"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q58",
+        "title": "LSD radix sort as used here assumes:",
+        "choices": [
+            "Non-negative integers",
+            "Arbitrary Python objects",
+            "Negative and positive floats",
+            "Strings of varying length only"
+        ],
+        "correctAnswer": "Non-negative integers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q59",
+        "title": "Radix sort’s per-digit step relies on a stable:",
+        "choices": [
+            "Counting sort",
+            "Quicksort",
+            "Heapsort",
+            "Selection sort"
+        ],
+        "correctAnswer": "Counting sort"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q60",
+        "title": "Cyclic sort works best for arrays containing:",
+        "choices": [
+            "Numbers in 1..n (or 0..n-1)",
+            "Arbitrary strings",
+            "Sorted floating points",
+            "Sparse dict keys"
+        ],
+        "correctAnswer": "Numbers in 1..n (or 0..n-1)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q61",
+        "title": "Greedy interval scheduling chooses intervals sorted by:",
+        "choices": [
+            "Earliest finish time",
+            "Longest duration",
+            "Earliest start time",
+            "Largest gap"
+        ],
+        "correctAnswer": "Earliest finish time"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q62",
+        "title": "A common way to justify a greedy algorithm is:",
+        "choices": [
+            "Exchange argument showing local choice can replace optimal’s",
+            "Comparing average case runtimes",
+            "Random testing",
+            "Brute-forcing small inputs only"
+        ],
+        "correctAnswer": "Exchange argument showing local choice can replace optimal’s"
+    },
+  {
+    "type": "radiogroup",
+    "name": "q63",
+    "title": "Meeting rooms (min rooms) solution commonly uses:",
+        "choices": [
+            "Two-pointer sweep over sorted starts/ends",
+            "Union-Find",
+            "Trie",
+            "Binary Indexed Tree"
+        ],
+    "correctAnswer": "Two-pointer sweep over sorted starts/ends"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q64",
+        "title": "Union-Find initialization typically sets:",
+        "choices": [
+            "parent[i] = i for all i",
+            "parent[i] = -1 for all i",
+            "parent[i] = 0 for all i",
+            "parent is left uninitialized"
+        ],
+        "correctAnswer": "parent[i] = i for all i"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q65",
+        "title": "Path compression in find(x) does what?",
+        "choices": [
+            "Flattens the tree by pointing nodes directly to the root",
+            "Increases the rank of the root",
+            "Always merges two sets",
+            "Sorts the parent array"
+        ],
+        "correctAnswer": "Flattens the tree by pointing nodes directly to the root"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q66",
+        "title": "Union by rank/size chooses as new parent the root with:",
+        "choices": [
+            "Higher rank (or larger size)",
+            "Lower rank",
+            "Random choice",
+            "Smaller index"
+        ],
+        "correctAnswer": "Higher rank (or larger size)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q67",
+        "title": "To check connectivity between u and v you compute:",
+        "choices": [
+            "find(u) == find(v)",
+            "parent[u] == parent[v]",
+            "rank[u] == rank[v]",
+            "u in parent[v]"
+        ],
+        "correctAnswer": "find(u) == find(v)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q68",
+        "title": "With both path compression and union by rank, the amortized complexity per op is:",
+        "choices": [
+            "Near-constant, O(α(n))",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "Near-constant, O(α(n))"
     }
 ]

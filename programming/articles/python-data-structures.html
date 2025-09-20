@@ -39,6 +39,11 @@
         <li><a href="#dijkstra">24. Dijkstra's Algorithm</a></li>
         <li><a href="#coin-change">25. Coin Change (Backtracking)</a></li>
         <li><a href="#dfs-vs-backtracking">26. DFS vs Backtracking</a></li>
+        <li><a href="#bucket-sort">27. Bucket Sort</a></li>
+        <li><a href="#radix-sort">28. Radix Sort</a></li>
+        <li><a href="#cyclic-sort">29. Cyclic Sort</a></li>
+        <li><a href="#greedy">30. Greedy Patterns & Tips</a></li>
+        <li><a href="#dsu">31. Disjoint Set Union (Union-Find)</a></li>
       </ul>
     </div>
     <h2 id="lists">1. Lists & Slicing</h2>
@@ -517,6 +522,152 @@ def subsets(nums):
             path.pop()             # undo
     bt(0)
     return res
+    </code></pre>
+
+    <h2 id="bucket-sort">27. Bucket Sort</h2>
+    <p>Use when values fall in a small or known range, or for frequency bucketing (e.g., Top-K Frequent). Time is near O(n + range) or O(n + k) buckets.</p>
+    <pre><code class="language-python"># Integer bucket sort for small ranges [0..maxv]
+def bucket_sort_small_range(nums):
+    if not nums: return []
+    maxv = max(nums)
+    buckets = [[] for _ in range(maxv + 1)]
+    for x in nums:
+        buckets[x].append(x)
+    out = []
+    for b in buckets:
+        out.extend(b)  # stable within bucket
+    return out
+
+# Bucket trick: Top-K frequent elements in O(n)
+from collections import Counter
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for x, f in freq.items():
+        buckets[f].append(x)
+    out = []
+    for f in range(len(nums), -1, -1):
+        for x in buckets[f]:
+            out.append(x)
+            if len(out) == k:
+                return out
+    return out
+    </code></pre>
+
+    <h2 id="radix-sort">28. Radix Sort</h2>
+    <p>LSD Radix sort works well for many fixed-width, non-negative integers. It applies a stable counting sort per digit (base 10 shown).</p>
+    <pre><code class="language-python">def radix_sort(nums):
+    if not nums: return nums
+    if min(nums) < 0:
+        raise ValueError('radix_sort here assumes non-negative integers')
+    exp = 1
+    base = 10
+    aux = [0] * len(nums)
+    while max(nums) // exp > 0:
+        count = [0] * base
+        for x in nums:
+            count[(x // exp) % base] += 1
+        for i in range(1, base):
+            count[i] += count[i-1]
+        for i in range(len(nums) - 1, -1, -1):  # stable placement
+            d = (nums[i] // exp) % base
+            count[d] -= 1
+            aux[count[d]] = nums[i]
+        nums[:] = aux[:]
+        exp *= base
+    return nums
+    </code></pre>
+
+    <h2 id="cyclic-sort">29. Cyclic Sort</h2>
+    <p>Great for arrays containing the set 1..n (or 0..n-1). Place each number at its correct index by swapping in O(n) time, O(1) extra space.</p>
+    <pre><code class="language-python">def cyclic_sort(nums):
+    i = 0
+    n = len(nums)
+    while i < n:
+        x = nums[i]
+        correct = x - 1  # for values in [1..n]
+        if 1 <= x <= n and nums[i] != nums[correct]:
+            nums[i], nums[correct] = nums[correct], nums[i]
+        else:
+            i += 1
+    return nums
+
+# Example: find the missing number in 1..n
+def find_missing(nums):
+    cyclic_sort(nums)
+    for i, x in enumerate(nums, start=1):
+        if x != i:
+            return i
+    return len(nums) + 1
+    </code></pre>
+
+    <h2 id="greedy">30. Greedy Patterns & Tips</h2>
+    <ul>
+      <li><strong>Greedy-choice property</strong>: a locally optimal move extends to a global optimum (prove via exchange argument or cut-and-paste argument).</li>
+      <li><strong>Sort first</strong>: many greedy problems require sorting by a key (end time, ratio, weight, value/weight, etc.).</li>
+      <li><strong>Heaps help</strong>: combine with priority queues to maintain best current choice (e.g., scheduling, meeting rooms, k selections).</li>
+      <li><strong>Counterexamples</strong>: if you cannot prove the greedy choice is safe, test small counterexamples—greedy may fail.</li>
+      <li><strong>When it shines</strong>: interval scheduling (earliest finish), activity selection, min arrows to burst balloons, minimizing rooms.</li>
+    </ul>
+    <pre><code class="language-python"># Interval scheduling: select max non-overlapping intervals
+def max_non_overlapping(intervals):
+    intervals.sort(key=lambda it: it[1])  # by end
+    count, end = 0, float('-inf')
+    for s, e in intervals:
+        if s >= end:
+            count += 1
+            end = e
+    return count
+
+# Meeting rooms (min number of rooms) using two pointers (greedy)
+def min_meeting_rooms(intervals):
+    starts = sorted(s for s, _ in intervals)
+    ends = sorted(e for _, e in intervals)
+    i = j = rooms = max_rooms = 0
+    while i < len(starts):
+        if starts[i] < ends[j]:
+            rooms += 1; max_rooms = max(max_rooms, rooms); i += 1
+        else:
+            rooms -= 1; j += 1
+    return max_rooms
+    </code></pre>
+
+    <h2 id="dsu">31. Disjoint Set Union (Union-Find)</h2>
+    <p>Efficiently tracks connectivity among elements with near-constant amortized time using path compression and union by rank/size.</p>
+    <pre><code class="language-python">class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n          # or use size initialized to 1
+        self.count = n               # optional: number of sets
+
+    def find(self, x):
+        # Path compression
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb:
+            return False
+        # Union by rank (attach smaller tree under larger)
+        if self.rank[ra] < self.rank[rb]:
+            ra, rb = rb, ra
+        self.parent[rb] = ra
+        if self.rank[ra] == self.rank[rb]:
+            self.rank[ra] += 1
+        self.count -= 1
+        return True
+
+    def connected(self, a, b):
+        return self.find(a) == self.find(b)
+
+# Example: count connected components in an undirected graph with n nodes
+def count_components(n, edges):
+    dsu = DSU(n)
+    for u, v in edges:
+        dsu.union(u, v)
+    return dsu.count
     </code></pre>
   </article></main>
 </body></html>

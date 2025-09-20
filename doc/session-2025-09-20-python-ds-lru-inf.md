@@ -35,6 +35,18 @@ Extension (same day)
   - Binary search on answer (min/max feasible)
   - Backtracking skeleton and DP + memoization
   - Trie template
-  - Dijkstra’s algorithm (with `math.inf` and heap)
-  - Coin Change (backtracking) aligned with `src/coinchange.py`
+- Dijkstra’s algorithm (with `math.inf` and heap)
+- Coin Change (backtracking) aligned with `src/coinchange.py`
 - Extended quiz (`data-structures-questions.json`) with q36–q52 to cover each new section.
+
+Further extension
+- Added sections and quiz coverage for:
+  - Bucket Sort (small-range integer sort, Top-K frequent via buckets)
+  - Radix Sort (LSD, base-10, stable counting per digit; non-negative ints)
+  - Cyclic Sort (1..n placement; also used to find missing/duplicate)
+  - Greedy patterns and tips (interval scheduling by earliest finish, meeting rooms two-pointer sweep, exchange argument)
+- Quiz appended q56–q63 to validate these concepts.
+
+DSU addition
+- Added Disjoint Set Union (Union-Find) section with path compression and union by rank, plus a connected components example.
+- Quiz appended q64–q68 covering DSU init, path compression, union by rank/size, connectivity check, and amortized complexity.
