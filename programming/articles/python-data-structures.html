@@ -38,6 +38,7 @@
         <li><a href="#trie">23. Trie Template</a></li>
         <li><a href="#dijkstra">24. Dijkstra's Algorithm</a></li>
         <li><a href="#coin-change">25. Coin Change (Backtracking)</a></li>
+        <li><a href="#dfs-vs-backtracking">26. DFS vs Backtracking</a></li>
       </ul>
     </div>
     <h2 id="lists">1. Lists & Slicing</h2>
@@ -489,6 +490,33 @@ def dijkstra(graph, source, n):
         return best
     ans = bt(0, amount)
     return -1 if ans == INF else ans
+    </code></pre>
+
+    <h2 id="dfs-vs-backtracking">26. DFS vs Backtracking</h2>
+    <p>Both use depth-first exploration and recursion/stack, but they target different problems and manage state differently.</p>
+    <ul>
+      <li><strong>DFS (traversal/aggregation)</strong>: walk an existing structure (tree/graph), aggregate results; usually no need to undo state across siblings.</li>
+      <li><strong>Backtracking (constructive search)</strong>: build candidates (subsets, permutations, combinations) under constraints; <em>must</em> undo the last choice before exploring the next.</li>
+      <li><strong>Visited vs Undo</strong>: Graph DFS guards cycles via <code>visited</code>; backtracking often works on indices/choices and maintains a <code>path</code> you append/pop.</li>
+      <li><strong>Pruning</strong>: Backtracking commonly includes feasibility checks to cut branches early.</li>
+    </ul>
+    <pre><code class="language-python"># DFS example: sum of all values in a binary tree (no undo needed)
+def dfs_sum(root):
+    if not root:
+        return 0
+    return root.val + dfs_sum(root.left) + dfs_sum(root.right)
+
+# Backtracking example: generate all subsets (must undo path)
+def subsets(nums):
+    res, path = [], []
+    def bt(i):
+        res.append(path[:])
+        for j in range(i, len(nums)):
+            path.append(nums[j])   # choose
+            bt(j + 1)              # explore
+            path.pop()             # undo
+    bt(0)
+    return res
     </code></pre>
   </article></main>
 </body></html>

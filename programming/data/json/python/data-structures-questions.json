@@ -622,5 +622,41 @@
             "1"
         ],
         "correctAnswer": "0"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q53",
+        "title": "Which step is essential in backtracking but typically unnecessary in plain tree DFS?",
+        "choices": [
+            "Undoing the last choice to restore state",
+            "Marking nodes as visited to avoid cycles",
+            "Using a queue for level order",
+            "Computing prefix sums beforehand"
+        ],
+        "correctAnswer": "Undoing the last choice to restore state"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q54",
+        "title": "Backtracking is best described as:",
+        "choices": [
+            "Exploring a search space by making choices, pruning, and undoing",
+            "A linear scan over an array",
+            "A shortest path algorithm using a priority queue",
+            "A divide-and-conquer sort"
+        ],
+        "correctAnswer": "Exploring a search space by making choices, pruning, and undoing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q55",
+        "title": "To generate all subsets of nums, which template fits?",
+        "choices": [
+            "Backtracking with path append then path.pop()",
+            "BFS with a queue only",
+            "Tree DFS sum aggregation",
+            "Union-Find merges"
+        ],
+        "correctAnswer": "Backtracking with path append then path.pop()"
     }
 ]
