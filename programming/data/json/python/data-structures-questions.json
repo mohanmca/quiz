@@ -298,5 +298,329 @@
             "Regular dictionary"
         ],
         "correctAnswer": "List with custom logic to maintain monotonic property"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "What is the most portable way to represent positive infinity without imports?",
+        "choices": [
+            "float('inf')",
+            "math.infinity",
+            "1e309",
+            "sys.maxsize"
+        ],
+        "correctAnswer": "float('inf')"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "Which statement about comparisons with infinity is TRUE?",
+        "choices": [
+            "All finite numbers are less than float('inf')",
+            "float('inf') < 10 is True",
+            "float('-inf') > -10 is True",
+            "Comparisons with infinity raise TypeError"
+        ],
+        "correctAnswer": "All finite numbers are less than float('inf')"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "How do you safely initialize distances for Dijkstra's algorithm?",
+        "choices": [
+            "dist = [float('inf')] * n; dist[src] = 0",
+            "dist = [10**9] * n; dist[src] = 1",
+            "dist = [None] * n",
+            "dist = [0] * n"
+        ],
+        "correctAnswer": "dist = [float('inf')] * n; dist[src] = 0"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "Using functools.lru_cache for recursion requires that:",
+        "choices": [
+            "All function arguments are hashable",
+            "The function has no return value",
+            "The function must be iterative",
+            "maxsize must be set to a finite number"
+        ],
+        "correctAnswer": "All function arguments are hashable"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "In an OrderedDict-based LRU cache, how do you mark a key as most recently used?",
+        "choices": [
+            "move_to_end(key, last=True)",
+            "popitem(last=False)",
+            "reversed(order)",
+            "sort(keys)"
+        ],
+        "correctAnswer": "move_to_end(key, last=True)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What does OrderedDict.popitem(last=False) remove?",
+        "choices": [
+            "The least recently used item (leftmost)",
+            "The most recently used item (rightmost)",
+            "A random item",
+            "Raises KeyError always"
+        ],
+        "correctAnswer": "The least recently used item (leftmost)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "bisect_left on a sorted list returns:",
+        "choices": [
+            "Index of first element \u2265 target",
+            "Index of last element \u2264 target",
+            "-1 when not found",
+            "None when not found"
+        ],
+        "correctAnswer": "Index of first element \u2265 target"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "Time complexity of inserting with bisect.insort into a Python list is:",
+        "choices": [
+            "O(n)",
+            "O(log n)",
+            "O(1)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(n)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "Most succinct way to build a prefix sum array from nums:",
+        "choices": [
+            "[0] + list(itertools.accumulate(nums))",
+            "Use sum(nums[:i]) in a loop",
+            "Use math.cumsum(nums)",
+            "Use numpy.cumsum without importing numpy"
+        ],
+        "correctAnswer": "[0] + list(itertools.accumulate(nums))"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "For sliding window maximum of size k, the best structure is:",
+        "choices": [
+            "A deque as a monotonic queue",
+            "A set",
+            "A regular list with sort each step",
+            "A dictionary"
+        ],
+        "correctAnswer": "A deque as a monotonic queue"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "Opposite-end two-pointer loops typically use which condition?",
+        "choices": [
+            "while left < right",
+            "while left <= right",
+            "while left != right",
+            "while True"
+        ],
+        "correctAnswer": "while left < right"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "When scanning two arrays with pointers i and j, a common main loop is:",
+        "choices": [
+            "while i < len(arr1) and j < len(arr2)",
+            "while i < len(arr1) or j < len(arr2)",
+            "for i in range(len(arr1))",
+            "while True"
+        ],
+        "correctAnswer": "while i < len(arr1) and j < len(arr2)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "Efficient way to build a large string from characters is:",
+        "choices": [
+            "Collect in a list then ''.join(list)",
+            "Repeated '+=' concatenation",
+            "Format strings in a loop",
+            "Write to a file and read back"
+        ],
+        "correctAnswer": "Collect in a list then ''.join(list)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "Fast/slow pointer loop guard on a singly linked list is usually:",
+        "choices": [
+            "while fast and fast.next",
+            "while slow",
+            "while head",
+            "while fast.next.next"
+        ],
+        "correctAnswer": "while fast and fast.next"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "After reversing a singly linked list iteratively, you should return:",
+        "choices": [
+            "prev",
+            "head",
+            "curr",
+            "None"
+        ],
+        "correctAnswer": "prev"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q41",
+        "title": "In prefix-sum + hashmap for subarray sum = k, initialize:",
+        "choices": [
+            "counts[0] = 1",
+            "counts[1] = 0",
+            "counts[k] = 1",
+            "counts = {}  # empty"
+        ],
+        "correctAnswer": "counts[0] = 1"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q42",
+        "title": "To maintain a monotonically decreasing stack, pop while:",
+        "choices": [
+            "stack[-1] < x",
+            "stack[-1] > x",
+            "stack[-1] == x",
+            "never pop"
+        ],
+        "correctAnswer": "stack[-1] < x"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q43",
+        "title": "In BFS level order, the number of nodes at current level is:",
+        "choices": [
+            "len(queue)",
+            "queue[0]",
+            "sum(queue)",
+            "a constant"
+        ],
+        "correctAnswer": "len(queue)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q44",
+        "title": "When pushing neighbors in graph traversal, add to 'seen':",
+        "choices": [
+            "Immediately when enqueuing/pushing",
+            "Only when popping",
+            "After processing all neighbors",
+            "Never; rely on queue"
+        ],
+        "correctAnswer": "Immediately when enqueuing/pushing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q45",
+        "title": "Maintaining top-k largest with a min-heap, you pop when:",
+        "choices": [
+            "len(heap) > k",
+            "len(heap) >= 1",
+            "the next element is smaller",
+            "at the end only"
+        ],
+        "correctAnswer": "len(heap) > k"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q46",
+        "title": "upper_bound on a sorted list returns the first index where:",
+        "choices": [
+            "a[i] > target",
+            "a[i] >= target",
+            "a[i] == target",
+            "a[i] < target"
+        ],
+        "correctAnswer": "a[i] > target"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q47",
+        "title": "Binary search on answer (min feasible): when check(mid) is True, update:",
+        "choices": [
+            "right = mid - 1",
+            "left = mid + 1",
+            "return mid",
+            "swap left and right"
+        ],
+        "correctAnswer": "right = mid - 1"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q48",
+        "title": "Backtracking requires this step after recursion:",
+        "choices": [
+            "Undo the choice (backtrack)",
+            "Recompute prefix sums",
+            "Sort the input",
+            "Recreate the stack"
+        ],
+        "correctAnswer": "Undo the choice (backtrack)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q49",
+        "title": "Memoized DP should first:",
+        "choices": [
+            "Return memo[state] if present",
+            "Compute the full recursion first",
+            "Iterate bottom-up",
+            "Clear the memo"
+        ],
+        "correctAnswer": "Return memo[state] if present"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q50",
+        "title": "In a Trie, children are commonly stored as:",
+        "choices": [
+            "A dict mapping char -> node",
+            "A flat list of nodes",
+            "A set of characters",
+            "A single string"
+        ],
+        "correctAnswer": "A dict mapping char -> node"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q51",
+        "title": "Dijkstra: when popped (dist, u) has dist > recorded[u], you should:",
+        "choices": [
+            "continue (skip stale entry)",
+            "update recorded[u] to dist",
+            "clear the heap",
+            "break"
+        ],
+        "correctAnswer": "continue (skip stale entry)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q52",
+        "title": "Coin Change (min coins) backtracking base case when amount == 0 returns:",
+        "choices": [
+            "0",
+            "-1",
+            "float('inf')",
+            "1"
+        ],
+        "correctAnswer": "0"
     }
 ]
