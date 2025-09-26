@@ -62,7 +62,7 @@
         <li><a href="#window">5. Sliding Window</a></li>
         <li><a href="#merge">6. Merge Intervals</a></li>
         <li><a href="#mono">7. Monotonic Stack</a></li>
-        <li><a href="#prefix">8. Prefix Sum</a></li>
+        <li><a href="#prefix">8. Prefix Sum + Capacity Burning</a></li>
         <li><a href="#heap">9. Heap / Top-K</a></li>
         <li><a href="#uf">10. Union-Find</a></li>
         <li><a href="#bfs">11. BFS Level Order</a></li>
@@ -177,6 +177,7 @@ def upper_bound(a, x):  # first idx with a[i] > x
     </code></pre>
 
     <h2 id="prefix">8. Prefix Sum</h2>
+    <p>Prefix sums turn many range questions into simple lookups. A classic interview task counts subarrays whose sum equals <code>k</code> using a hash map of prefix frequencies.</p>
     <pre><code class="language-python"># count subarrays with sum == k
 def subarray_sum(nums, k):
     from collections import defaultdict
@@ -187,6 +188,24 @@ def subarray_sum(nums, k):
         ans += cnt[run - k]
         cnt[run] += 1
     return ans
+    </code></pre>
+
+    <h3 id="prefix-capacity">Capacity Burning Difference Array</h3>
+    <p>Range-update problems such as <em>Car Pooling</em> benefit from the difference-array flavour of prefix sums. We mark passenger deltas at each stop and "burn" remaining capacity as we scan the timeline—dropping to a negative value means we over-booked the car.</p>
+    <pre><code class="language-python">from typing import List
+
+def can_carpool(trips: List[List[int]], capacity: int) -> bool:
+    diff = [0] * 1001  # net passenger change at each stop
+    for passengers, start, end in trips:
+        diff[start] += passengers
+        diff[end] -= passengers
+
+    remaining = capacity
+    for delta in diff:
+        remaining -= delta  # subtract pickups, add drop-offs
+        if remaining < 0:
+            return False
+    return True
     </code></pre>
 
     <h2 id="heap">9. Heap / Top-K</h2>

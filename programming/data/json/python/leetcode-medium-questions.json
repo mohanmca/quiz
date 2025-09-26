@@ -122,6 +122,18 @@
     {
         "type": "radiogroup",
         "questionType": "source-code",
+        "name": "q10b",
+        "title": "Prefix Sum Variant — Car Pooling Capacity Burning (difference array)",
+        "choices": [
+            "```python\\nfrom typing import List\\n\\n\\ndef can_carpool(trips: List[List[int]], capacity: int) -> bool:\\n    diff = [0] * 1001\\n    for passengers, start, end in trips:\\n        diff[start] += passengers\\n        diff[end] -= passengers\\n\\n    remaining = capacity\\n    for delta in diff:\\n        remaining -= delta\\n        if remaining < 0:\\n            return False\\n    return True\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom typing import List\\n\\n\\ndef can_carpool(trips: List[List[int]], capacity: int) -> bool:\\n    diff = [0] * 1001\\n    for passengers, start, end in trips:\\n        diff[start] += passengers\\n        diff[end] -= passengers\\n\\n    remaining = capacity\\n    for delta in diff:\\n        remaining -= delta\\n        if remaining < 0:\\n            return False\\n    return True\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
         "name": "q11",
         "title": "Union-Find — Path Compression + Union by Rank (minimal)",
         "choices": [
@@ -130,7 +142,6 @@
             "NA2"
         ],
         "correctAnswer": "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```"
-    },
     },
     {
         "type": "radiogroup",
