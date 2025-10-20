@@ -1,0 +1,962 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "es3_q1",
+        "title": "Which sample project anchors Chapter 1 of Essential Slick?",
+        "choices": [
+            "Sequel Odyssey",
+            "Coffee Server",
+            "Reactive Trades",
+            "Stream Hub"
+        ],
+        "correctAnswer": "Sequel Odyssey"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q2",
+        "title": "Slick queries feel familiar because they mirror which Scala concept?",
+        "choices": [
+            "Collections API combinators",
+            "Actor message handling",
+            "Macros and reflection",
+            "XML literals"
+        ],
+        "correctAnswer": "Collections API combinators"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q3",
+        "title": "What configuration entry point do the authors recommend for bootstrapping a Database?",
+        "choices": [
+            "Database.forConfig",
+            "Database.forURLDirect",
+            "DriverManager.newConnection",
+            "SessionFactory.build"
+        ],
+        "correctAnswer": "Database.forConfig"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q4",
+        "title": "Which Slick construct exposes a schema you can create or drop programmatically?",
+        "choices": [
+            "TableQuery.schema",
+            "Database.meta",
+            "SchemaBuilder",
+            "DDLManager.tableSchema"
+        ],
+        "correctAnswer": "TableQuery.schema"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q5",
+        "title": "In the Sequel Odyssey walkthrough, where do table classes typically live?",
+        "choices": [
+            "A dedicated model or tables package",
+            "Inside controllers",
+            "In application.conf",
+            "Under project/plugins.sbt"
+        ],
+        "correctAnswer": "A dedicated model or tables package"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q6",
+        "title": "Why do the authors advocate using the sbt console early?",
+        "choices": [
+            "To iterate on queries interactively with fast feedback",
+            "To compile native binaries",
+            "To configure Gradle builds",
+            "To generate Dockerfiles"
+        ],
+        "correctAnswer": "To iterate on queries interactively with fast feedback"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q7",
+        "title": "What helper do the authors use to keep blocking waits out of production code?",
+        "choices": [
+            "Prefer futures over Await.result",
+            "Call Thread.sleep after each query",
+            "Wrap all actions in try/catch",
+            "Use synchronized blocks"
+        ],
+        "correctAnswer": "Prefer futures over Await.result"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q8",
+        "title": "Which method converts a Slick select query into an executable action?",
+        "choices": [
+            "result",
+            "perform",
+            "execute",
+            "runQuery"
+        ],
+        "correctAnswer": "result"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q9",
+        "title": "What operator represents equality between Slick column reps?",
+        "choices": [
+            "===",
+            "==",
+            "eq",
+            "iseq"
+        ],
+        "correctAnswer": "==="
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q10",
+        "title": "Which combinator limits the number of rows returned from a query?",
+        "choices": [
+            "take",
+            "sliceLeft",
+            "first",
+            "cap"
+        ],
+        "correctAnswer": "take"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q11",
+        "title": "What is the suggested way to materialise results from a DBIO?",
+        "choices": [
+            "db.run(action)",
+            "action.executeNow",
+            "result.await",
+            "query.fetchAll"
+        ],
+        "correctAnswer": "db.run(action)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q12",
+        "title": "Which method appends a single row during Chapter 3's insertion examples?",
+        "choices": [
+            "+=",
+            "insertRow",
+            "append",
+            "put"
+        ],
+        "correctAnswer": "+="
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q13",
+        "title": "How do you batch multiple inserts in Slick?",
+        "choices": [
+            "++=",
+            "insertMany",
+            "bulkInsert",
+            "enqueue"
+        ],
+        "correctAnswer": "++="
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q14",
+        "title": "What helper fetches auto-generated keys after an insert?",
+        "choices": [
+            "returning",
+            "withGeneratedKey",
+            "captureId",
+            "getPrimaryKey"
+        ],
+        "correctAnswer": "returning"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q15",
+        "title": "How do you update multiple columns in one statement?",
+        "choices": [
+            "Map to a tuple projection then call update",
+            "Invoke update on each column individually",
+            "Use delete followed by insert",
+            "Call updateAll"
+        ],
+        "correctAnswer": "Map to a tuple projection then call update"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q16",
+        "title": "Which combinator chains multiple actions sequentially while discarding intermediate results?",
+        "choices": [
+            "DBIO.seq",
+            "DBIO.any",
+            "DBIO.drop",
+            "DBIO.concat"
+        ],
+        "correctAnswer": "DBIO.seq"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q17",
+        "title": "What does action.transactionally guarantee?",
+        "choices": [
+            "All steps run within a single transaction",
+            "Parallel execution",
+            "Automatic retries",
+            "Schema recreation"
+        ],
+        "correctAnswer": "All steps run within a single transaction"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q18",
+        "title": "Which method wraps an action to capture success or failure as a Try?",
+        "choices": [
+            "asTry",
+            "toResult",
+            "wrap",
+            "guard"
+        ],
+        "correctAnswer": "asTry"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q19",
+        "title": "Why does the book highlight withPinnedSession?",
+        "choices": [
+            "To keep a session open for streaming workflows",
+            "To disable pooling",
+            "To spawn extra threads",
+            "To log SQL"
+        ],
+        "correctAnswer": "To keep a session open for streaming workflows"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q20",
+        "title": "Which trait exports Slick's lifted DSL for a specific backend?",
+        "choices": [
+            "profile.api._",
+            "slick.simple._",
+            "jdbc.dsl._",
+            "database.profile._"
+        ],
+        "correctAnswer": "profile.api._"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q21",
+        "title": "What utility builds custom column mappings?",
+        "choices": [
+            "MappedColumnType.base",
+            "ColumnBinder.create",
+            "MapColumn",
+            "SchemaMapper"
+        ],
+        "correctAnswer": "MappedColumnType.base"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q22",
+        "title": "How do you represent optional columns in Slick?",
+        "choices": [
+            "column[Option[T]]",
+            "column.optional[T]",
+            "columnNullable[T]",
+            "columnOpt[T]"
+        ],
+        "correctAnswer": "column[Option[T]]"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q23",
+        "title": "Which helper declares a foreign key relationship?",
+        "choices": [
+            "foreignKey",
+            "refConstraint",
+            "linkTable",
+            "bindKey"
+        ],
+        "correctAnswer": "foreignKey"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q24",
+        "title": "Why do the authors recommend separating tables, repositories, and services?",
+        "choices": [
+            "To keep schema, query logic, and orchestration modular",
+            "To mimic Java packages",
+            "To reduce build times",
+            "To avoid using imports"
+        ],
+        "correctAnswer": "To keep schema, query logic, and orchestration modular"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q25",
+        "title": "What join style mirrors SQL JOIN ... ON syntax?",
+        "choices": [
+            "Applicative join via join/joinLeft",
+            "Monadic join via flatMap",
+            "Cartesian zip",
+            "Window join"
+        ],
+        "correctAnswer": "Applicative join via join/joinLeft"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q26",
+        "title": "Which join style leverages for-comprehensions?",
+        "choices": [
+            "Monadic",
+            "Applicative",
+            "Hash",
+            "Temporal"
+        ],
+        "correctAnswer": "Monadic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q27",
+        "title": "How do you express a left outer join in Slick?",
+        "choices": [
+            "joinLeft",
+            "leftOuter",
+            "outerJoin",
+            "flatJoin"
+        ],
+        "correctAnswer": "joinLeft"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q28",
+        "title": "What does zip accomplish when applied to two queries?",
+        "choices": [
+            "Pairs rows by positional alignment",
+            "Performs a natural join",
+            "Executes both independently without pairing",
+            "Batches inserts"
+        ],
+        "correctAnswer": "Pairs rows by positional alignment"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q29",
+        "title": "Which methods supply aggregation after groupBy?",
+        "choices": [
+            "sum, avg, min, max",
+            "flatMap, foreach",
+            "persist, flush",
+            "collect, traverse"
+        ],
+        "correctAnswer": "sum, avg, min, max"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q30",
+        "title": "Why might you prefer plain SQL for some queries?",
+        "choices": [
+            "To access vendor-specific features not exposed by the DSL",
+            "To avoid writing Scala entirely",
+            "Because plain SQL is always faster",
+            "To bypass transactions"
+        ],
+        "correctAnswer": "To access vendor-specific features not exposed by the DSL"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q31",
+        "title": "Which interpolator executes a select statement in plain SQL?",
+        "choices": [
+            "sql\"...\"",
+            "rawSql\"...\"",
+            "select\"...\"",
+            "plainSelect\"...\""
+        ],
+        "correctAnswer": "sql\"...\""
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q32",
+        "title": "What interpolator targets updates or DDL in plain SQL?",
+        "choices": [
+            "sqlu\"...\"",
+            "sqlUpdate\"...\"",
+            "plainExec\"...\"",
+            "ddl\"...\""
+        ],
+        "correctAnswer": "sqlu\"...\""
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q33",
+        "title": "How are parameters safely embedded in plain SQL interpolators?",
+        "choices": [
+            "${expression} placeholders with prepared statements",
+            "String concatenation",
+            "Manual escaping",
+            "XML literals"
+        ],
+        "correctAnswer": "${expression} placeholders with prepared statements"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q34",
+        "title": "What type class maps plain SQL rows to Scala values?",
+        "choices": [
+            "GetResult",
+            "RowMapper",
+            "ResultDecoder",
+            "ColumnReader"
+        ],
+        "correctAnswer": "GetResult"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q35",
+        "title": "Which log category reveals generated SQL?",
+        "choices": [
+            "slick.jdbc.JdbcBackend.statement",
+            "slick.basic.Database.exec",
+            "slick.util.Logger.db",
+            "slick.profile.QueryPlan"
+        ],
+        "correctAnswer": "slick.jdbc.JdbcBackend.statement"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q36",
+        "title": "What exercise caps Chapter 2?",
+        "choices": [
+            "Implement custom filters and exists subqueries",
+            "Write Akka HTTP routes",
+            "Configure Kubernetes manifests",
+            "Add Spark connectors"
+        ],
+        "correctAnswer": "Implement custom filters and exists subqueries"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q37",
+        "title": "Why do the authors caution against Await.result in production code?",
+        "choices": [
+            "It blocks the async execution context Slick manages",
+            "It deletes tables",
+            "It disables pooling",
+            "It rewrites SQL"
+        ],
+        "correctAnswer": "It blocks the async execution context Slick manages"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q38",
+        "title": "Which project file in the book preloads imports for the console?",
+        "choices": [
+            "project/Console.scala",
+            "build.sbt",
+            "console.sbt",
+            "console.conf"
+        ],
+        "correctAnswer": "project/Console.scala"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q39",
+        "title": "How do you create schema DDL for multiple tables at once?",
+        "choices": [
+            "users.schema ++ orders.schema",
+            "schema.merge(users, orders)",
+            "Database.createAll",
+            "DDL.combine"
+        ],
+        "correctAnswer": "users.schema ++ orders.schema"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q40",
+        "title": "What does DBIOAction.cleanUp provide?",
+        "choices": [
+            "A finally-like cleanup even if the main action fails",
+            "Automatic retries",
+            "Bulk inserts",
+            "Schema diffing"
+        ],
+        "correctAnswer": "A finally-like cleanup even if the main action fails"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q41",
+        "title": "Which Slick capability is needed for insertOrUpdate to work natively?",
+        "choices": [
+            "profile.capabilities.insertOrUpdate",
+            "profile.capabilities.aggregate",
+            "profile.capabilities.json",
+            "profile.capabilities.windowFunctions"
+        ],
+        "correctAnswer": "profile.capabilities.insertOrUpdate"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q42",
+        "title": "Why store domain logic outside case classes?",
+        "choices": [
+            "To keep projections flexible and avoid bloated row models",
+            "Because case classes cannot have methods",
+            "To reduce JVM memory",
+            "To satisfy JDBC limits"
+        ],
+        "correctAnswer": "To keep projections flexible and avoid bloated row models"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q43",
+        "title": "Which helper creates an index in Slick's schema DSL?",
+        "choices": [
+            "index",
+            "uniqueIndex",
+            "createIndex",
+            "makeIndex"
+        ],
+        "correctAnswer": "index"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q44",
+        "title": "What combination calculates message counts per user in Chapter 6?",
+        "choices": [
+            "groupBy followed by aggregate functions",
+            "zipWithIndex then delete",
+            "plain SQL only",
+            "recursive CTEs"
+        ],
+        "correctAnswer": "groupBy followed by aggregate functions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q45",
+        "title": "Why is enabling statement logging useful before writing plain SQL?",
+        "choices": [
+            "You can inspect the generated SQL Slick produces",
+            "It forces schema creation",
+            "It upgrades drivers",
+            "It pauses streaming"
+        ],
+        "correctAnswer": "You can inspect the generated SQL Slick produces"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q46",
+        "title": "Which module do the authors use to organise inserts and updates?",
+        "choices": [
+            "Repository objects returning DBIO",
+            "Controllers",
+            "SBT plugins",
+            "Ansible playbooks"
+        ],
+        "correctAnswer": "Repository objects returning DBIO"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q47",
+        "title": "What does the Sequel Odyssey configuration demonstrate?",
+        "choices": [
+            "Switching between H2 and Postgres profiles",
+            "Using MongoDB",
+            "Setting up Redis",
+            "Compiling to GraalVM"
+        ],
+        "correctAnswer": "Switching between H2 and Postgres profiles"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q48",
+        "title": "Which action combinator pairs independent actions and preserves both results?",
+        "choices": [
+            "zip",
+            "chain",
+            "merge",
+            "append"
+        ],
+        "correctAnswer": "zip"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q49",
+        "title": "Why might you prefer monadic joins in complex flows?",
+        "choices": [
+            "They compose naturally with for-comprehensions and business logic",
+            "They always run faster",
+            "They skip SQL generation",
+            "They force eager loading"
+        ],
+        "correctAnswer": "They compose naturally with for-comprehensions and business logic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q50",
+        "title": "What advice accompanies custom enums stored via MappedColumnType?",
+        "choices": [
+            "Define converters in a shared trait and import them where needed",
+            "Store enum names as dynamic SQL",
+            "Encode enums as JSON blobs",
+            "Avoid enums entirely"
+        ],
+        "correctAnswer": "Define converters in a shared trait and import them where needed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q51",
+        "title": "How do you declare cascading delete behaviour?",
+        "choices": [
+            "Provide onDelete to foreignKey",
+            "Call deleteCascade(true)",
+            "Enable global cascade mode",
+            "Use joinDelete"
+        ],
+        "correctAnswer": "Provide onDelete to foreignKey"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q52",
+        "title": "Which method safely checks a profile capability at runtime?",
+        "choices": [
+            "profile.capabilities.contains(cap)",
+            "profile.supports(cap)",
+            "Database.hasCapability(cap)",
+            "cap.enabled"
+        ],
+        "correctAnswer": "profile.capabilities.contains(cap)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q53",
+        "title": "Why does the book advocate keeping action building pure?",
+        "choices": [
+            "So the same DBIO can be reused in tests, prod code, or transactions",
+            "To improve serialization",
+            "To enable reflection",
+            "To avoid imports"
+        ],
+        "correctAnswer": "So the same DBIO can be reused in tests, prod code, or transactions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q54",
+        "title": "Which exercise at the end of Chapter 3 reinforces batch inserts?",
+        "choices": [
+            "Load custom CSV data using ++=",
+            "Implement a Kafka consumer",
+            "Deploy to AWS Lambda",
+            "Rewrite in Java"
+        ],
+        "correctAnswer": "Load custom CSV data using ++="
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q55",
+        "title": "How can you prevent N+1 style fetches in Slick?",
+        "choices": [
+            "Compose joins or use eager projection queries",
+            "Call query.cache",
+            "Use global transactions",
+            "Limit concurrency"
+        ],
+        "correctAnswer": "Compose joins or use eager projection queries"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q56",
+        "title": "Why is DBIO.sequence featured in Chapter 4?",
+        "choices": [
+            "It turns Collections of actions into a single action",
+            "It parallelises threads",
+            "It logs metrics",
+            "It generates DDL"
+        ],
+        "correctAnswer": "It turns Collections of actions into a single action"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q57",
+        "title": "Which config keys control Slick's AsyncExecutor thread pool?",
+        "choices": [
+            "numThreads and queueSize",
+            "maxRows and fetchDepth",
+            "heapSize and stackSize",
+            "bufferCount and throttle"
+        ],
+        "correctAnswer": "numThreads and queueSize"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q58",
+        "title": "For optional filters, what pattern do the authors demonstrate?",
+        "choices": [
+            "Apply fold on Option to include or ignore a predicate",
+            "Use synchronized blocks",
+            "Reload the profile",
+            "Throw exceptions"
+        ],
+        "correctAnswer": "Apply fold on Option to include or ignore a predicate"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q59",
+        "title": "What does the exercises section suggest for schema evolution practice?",
+        "choices": [
+            "Refactor the chat schema to include channels and attachments",
+            "Switch to Cassandra",
+            "Disable Liquibase",
+            "Use XML migrations"
+        ],
+        "correctAnswer": "Refactor the chat schema to include channels and attachments"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q60",
+        "title": "Which plain SQL helper executes multiple statements safely?",
+        "choices": [
+            "DBIO.seq(sqlu..., sqlu...)",
+            "sqlBatch",
+            "runStatements",
+            "execAll"
+        ],
+        "correctAnswer": "DBIO.seq(sqlu..., sqlu...)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q61",
+        "title": "How do you create a reusable compiled query?",
+        "choices": [
+            "Compiled(param => query.filter(_.id === param.bind))",
+            "query.compileNow",
+            "SQL.compile",
+            "DBIO.compile"
+        ],
+        "correctAnswer": "Compiled(param => query.filter(_.id === param.bind))"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q62",
+        "title": "Why is it helpful to keep sbt console helpers under version control?",
+        "choices": [
+            "Everyone on the team shares consistent REPL defaults",
+            "It speeds up JVM startup",
+            "It enforces code style",
+            "It auto-upgrades Scala"
+        ],
+        "correctAnswer": "Everyone on the team shares consistent REPL defaults"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q63",
+        "title": "Which chapter introduces the chat-style schema redesign?",
+        "choices": [
+            "Chapter 5 Data Modelling",
+            "Chapter 2 Selecting Data",
+            "Chapter 7 Plain SQL",
+            "Appendix A"
+        ],
+        "correctAnswer": "Chapter 5 Data Modelling"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q64",
+        "title": "What is the recommended approach when the lifted API lacks a feature?",
+        "choices": [
+            "Drop to plain SQL for that query",
+            "Abandon Slick entirely",
+            "Use JDBC directly everywhere",
+            "Switch databases"
+        ],
+        "correctAnswer": "Drop to plain SQL for that query"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q65",
+        "title": "How does the book suggest handling generated IDs with multiple inserts?",
+        "choices": [
+            "Use returning.andThen for post-processing",
+            "Insert then run select max",
+            "Rely on UUID.randomUUID with no DB check",
+            "Avoid generated IDs"
+        ],
+        "correctAnswer": "Use returning.andThen for post-processing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q66",
+        "title": "Which testing advice do the authors provide?",
+        "choices": [
+            "Keep reusable DBIOs so you can run them against in-memory databases",
+            "Mock Database.run using println",
+            "Skip integration tests",
+            "Disable transactions"
+        ],
+        "correctAnswer": "Keep reusable DBIOs so you can run them against in-memory databases"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q67",
+        "title": "Which Slick feature mirrors Scala's for/yield comprehension semantics?",
+        "choices": [
+            "Query combinators producing new Query values",
+            "AsyncExecutor",
+            "Plain SQL",
+            "Session pinning"
+        ],
+        "correctAnswer": "Query combinators producing new Query values"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q68",
+        "title": "Why do the exercises encourage loading personal datasets?",
+        "choices": [
+            "To reinforce concepts by applying them to familiar domains",
+            "To benchmark hardware",
+            "To test clustering",
+            "To practice XML parsing"
+        ],
+        "correctAnswer": "To reinforce concepts by applying them to familiar domains"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q69",
+        "title": "What does the book emphasise about error messages?",
+        "choices": [
+            "They surface at compile time thanks to lifted queries",
+            "They are always hidden",
+            "They appear only in logs",
+            "They require manual parsing"
+        ],
+        "correctAnswer": "They surface at compile time thanks to lifted queries"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q70",
+        "title": "Which object supplies schema DDL for a given Table class?",
+        "choices": [
+            "TableQuery[TableClass].schema",
+            "Schema.of(TableClass)",
+            "DDLFactory.create",
+            "DatabaseSchema.apply"
+        ],
+        "correctAnswer": "TableQuery[TableClass].schema"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q71",
+        "title": "How do you capture SQL output for debugging?",
+        "choices": [
+            "Enable slick.jdbc.JdbcBackend.statement logging",
+            "Set globalLogLevel=DEBUG",
+            "Always print queries manually",
+            "Disable pooling"
+        ],
+        "correctAnswer": "Enable slick.jdbc.JdbcBackend.statement logging"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q72",
+        "title": "What is the takeaway from the \"Sequel Odyssey\" story arc?",
+        "choices": [
+            "Build a thin data access layer first, then evolve complexity",
+            "Start with microservices",
+            "Jump straight to Spark",
+            "Avoid repositories"
+        ],
+        "correctAnswer": "Build a thin data access layer first, then evolve complexity"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q73",
+        "title": "Why is sqlu useful during migrations?",
+        "choices": [
+            "It executes update/DDL statements with parameter binding",
+            "It logs metrics",
+            "It does lazy evaluation",
+            "It auto-creates indexes"
+        ],
+        "correctAnswer": "It executes update/DDL statements with parameter binding"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q74",
+        "title": "Which technique synchronises Slick actions with external async code?",
+        "choices": [
+            "DBIO.from to lift a Future",
+            "Thread.sleep",
+            "Await.result",
+            "synchronized"
+        ],
+        "correctAnswer": "DBIO.from to lift a Future"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q75",
+        "title": "How do you ensure repository code remains agnostic to the concrete profile?",
+        "choices": [
+            "Parameterise components by a profile trait and import profile.api._",
+            "Hardcode Postgres everywhere",
+            "Use global objects",
+            "Avoid traits"
+        ],
+        "correctAnswer": "Parameterise components by a profile trait and import profile.api._"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q76",
+        "title": "What does the plain SQL chapter warn about composing queries?",
+        "choices": [
+            "Plain SQL lacks the composability and safety of the lifted API",
+            "Plain SQL always optimises better",
+            "Plain SQL is faster by default",
+            "Plain SQL is deprecated"
+        ],
+        "correctAnswer": "Plain SQL lacks the composability and safety of the lifted API"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q77",
+        "title": "Which schema helper deletes tables only if they are present?",
+        "choices": [
+            "dropIfExists",
+            "dropAlways",
+            "dropOptional",
+            "dropGuard"
+        ],
+        "correctAnswer": "dropIfExists"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q78",
+        "title": "How do you express pagination combining two operations?",
+        "choices": [
+            "sortBy(...).drop(offset).take(limit)",
+            "callPaginate",
+            "fetchWindow",
+            "cursorMode"
+        ],
+        "correctAnswer": "sortBy(...).drop(offset).take(limit)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q79",
+        "title": "Which pattern keeps schema creation code idempotent for demos?",
+        "choices": [
+            "Use createIfNotExists",
+            "Call create every time",
+            "Drop and recreate",
+            "Wrap in retry loops"
+        ],
+        "correctAnswer": "Use createIfNotExists"
+    },
+    {
+        "type": "radiogroup",
+        "name": "es3_q80",
+        "title": "Why is it beneficial to keep dataset exercises close to business requirements?",
+        "choices": [
+            "It boosts retention by solving meaningful problems",
+            "It benchmarks classloaders",
+            "It improves GC tuning",
+            "It enables quicker Spark jobs"
+        ],
+        "correctAnswer": "It boosts retention by solving meaningful problems"
+    }
+]
