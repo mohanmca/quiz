@@ -2,601 +2,1213 @@
     {
         "type": "radiogroup",
         "name": "q1",
-        "title": "What is Scala Slick primarily used for?",
+        "title": "What does FRM stand for in Slick's documentation?",
         "choices": [
-            "Functional Relational Mapping (FRM) for Scala",
-            "Object-Relational Mapping (ORM) for Java",
-            "NoSQL database access",
-            "Message queue processing"
+            "Functional Relational Mapping",
+            "Functional Reactive Modeling",
+            "Federated Relational Mapper",
+            "Functional Resource Manager"
         ],
-        "correctAnswer": "Functional Relational Mapping (FRM) for Scala"
+        "correctAnswer": "Functional Relational Mapping"
     },
     {
         "type": "radiogroup",
         "name": "q2",
-        "title": "Which of the following is a core principle of Slick's API design?",
+        "title": "Which directory in the Slick repo holds the Paradox documentation sources?",
         "choices": [
-            "Type-safe composable queries",
-            "Runtime query validation",
-            "Dynamic schema generation",
-            "Automatic caching"
+            "doc/paradox",
+            "docs/manual",
+            "guide/pages",
+            "reference/md"
         ],
-        "correctAnswer": "Type-safe composable queries"
+        "correctAnswer": "doc/paradox"
     },
     {
         "type": "radiogroup",
         "name": "q3",
-        "title": "What does the 'lifted embedding' approach in Slick provide?",
+        "title": "Which import brings Slick's lifted embedding DSL into scope for a given profile?",
         "choices": [
-            "Type-safe query construction using Scala syntax",
-            "Automatic database schema migration",
-            "Runtime query optimization",
-            "Connection pooling"
+            "profile.api._",
+            "slick.api._",
+            "JdbcProfile.dsl._",
+            "profile.simple._"
         ],
-        "correctAnswer": "Type-safe query construction using Scala syntax"
+        "correctAnswer": "profile.api._"
     },
     {
         "type": "radiogroup",
         "name": "q4",
-        "title": "How do you define a table in Slick?",
+        "title": "Calling db.run on a DBIOAction returns which Scala type?",
         "choices": [
-            "Extend TableQuery[T] where T <: Table[_]",
-            "Use @Entity annotation",
-            "Extend Database.Table",
-            "Use case class with @Table annotation"
+            "Future",
+            "IO",
+            "ZIO",
+            "Task"
         ],
-        "correctAnswer": "Extend TableQuery[T] where T <: Table[_]"
+        "correctAnswer": "Future"
     },
     {
         "type": "radiogroup",
         "name": "q5",
-        "title": "What is the purpose of Rep[T] in Slick?",
+        "title": "What best describes a DBIOAction in Slick?",
         "choices": [
-            "Represents a column value that can be used in queries",
-            "Represents a database connection",
-            "Represents a table schema",
-            "Represents query results"
+            "Immutable description of database I/O work",
+            "JDBC connection wrapper",
+            "Compiled SQL string",
+            "Blocking transaction handle"
         ],
-        "correctAnswer": "Represents a column value that can be used in queries"
+        "correctAnswer": "Immutable description of database I/O work"
     },
     {
         "type": "radiogroup",
         "name": "q6",
-        "title": "Which method is used to execute a query and return Future[Seq[T]] in Slick?",
+        "title": "The TableQuery macro expands to which expression internally?",
         "choices": [
-            "run()",
-            "result",
-            "execute()",
-            "fetch()"
+            "new TableQuery(new TableClass(_))",
+            "TableClass.apply()",
+            "profile.api.TableQuery(TableClass)",
+            "TableQuery.empty"
         ],
-        "correctAnswer": "result"
+        "correctAnswer": "new TableQuery(new TableClass(_))"
     },
     {
         "type": "radiogroup",
         "name": "q7",
-        "title": "What is the recommended way to handle database transactions in Slick?",
+        "title": "Which file in the Slick repo documents query operators like map, filter, and join?",
         "choices": [
-            "Using db.run(query.transactionally)",
-            "Using @Transactional annotation",
-            "Using begin/commit statements",
-            "Using try-catch blocks"
+            "doc/paradox/queries.md",
+            "doc/paradox/sql.md",
+            "doc/paradox/config.md",
+            "doc/paradox/testkit.md"
         ],
-        "correctAnswer": "Using db.run(query.transactionally)"
+        "correctAnswer": "doc/paradox/queries.md"
     },
     {
         "type": "radiogroup",
         "name": "q8",
-        "title": "How does Slick handle lazy evaluation of queries?",
+        "title": "What does the mapTo macro do when defining table projections?",
         "choices": [
-            "Queries are only executed when db.run() is called",
-            "Queries are executed immediately when defined",
-            "Queries are cached automatically",
-            "Queries are executed on first access"
+            "Maps a tuple projection to a case class at compile time",
+            "Generates plain SQL select statements",
+            "Registers a custom JDBC driver",
+            "Runs migrations automatically"
         ],
-        "correctAnswer": "Queries are only executed when db.run() is called"
+        "correctAnswer": "Maps a tuple projection to a case class at compile time"
     },
     {
         "type": "radiogroup",
         "name": "q9",
-        "title": "What is the purpose of Database.forConfig() in Slick?",
+        "title": "When do you use MappedColumnType.base?",
         "choices": [
-            "Creates a Database instance from application configuration",
-            "Configures query timeouts",
-            "Sets up connection pooling",
-            "Initializes schema migration"
+            "To define custom Scala to JDBC column conversions",
+            "To declare table indexes",
+            "To configure connection pools",
+            "To enable query logging"
         ],
-        "correctAnswer": "Creates a Database instance from application configuration"
+        "correctAnswer": "To define custom Scala to JDBC column conversions"
     },
     {
         "type": "radiogroup",
         "name": "q10",
-        "title": "Which Slick feature allows you to compose queries?",
+        "title": "What does the O.AutoInc column option signal?",
         "choices": [
-            "Monadic operations like map, flatMap, filter",
-            "SQL string concatenation",
-            "Query inheritance",
-            "Dynamic query builders"
+            "The database should auto increment the column when inserting",
+            "The column must not accept null values",
+            "The column is part of a foreign key",
+            "The column should be hidden from projections"
         ],
-        "correctAnswer": "Monadic operations like map, flatMap, filter"
+        "correctAnswer": "The database should auto increment the column when inserting"
     },
     {
         "type": "radiogroup",
         "name": "q11",
-        "title": "What is the difference between Plain SQL and Lifted Embedding in Slick?",
+        "title": "Which schema method executes DDL only if the table is missing?",
         "choices": [
-            "Plain SQL uses raw SQL strings, Lifted Embedding uses type-safe Scala syntax",
-            "Plain SQL is faster, Lifted Embedding is safer",
-            "Plain SQL is for reads, Lifted Embedding is for writes",
-            "Plain SQL is deprecated, Lifted Embedding is current"
+            "createIfNotExists",
+            "createOptional",
+            "createOrReplace",
+            "createCached"
         ],
-        "correctAnswer": "Plain SQL uses raw SQL strings, Lifted Embedding uses type-safe Scala syntax"
+        "correctAnswer": "createIfNotExists"
     },
     {
         "type": "radiogroup",
         "name": "q12",
-        "title": "How do you define a foreign key relationship in Slick?",
+        "title": "What does DatabaseConfig.forConfig return?",
         "choices": [
-            "Using foreignKey() method in table definition",
-            "Using @ForeignKey annotation",
-            "Using join operations only",
-            "Using implicit conversions"
+            "A DatabaseConfig bundling profile and Database",
+            "Only a Database instance",
+            "Only a JdbcProfile",
+            "A HikariCP data source"
         ],
-        "correctAnswer": "Using foreignKey() method in table definition"
+        "correctAnswer": "A DatabaseConfig bundling profile and Database"
     },
     {
         "type": "radiogroup",
         "name": "q13",
-        "title": "What is the purpose of slick.jdbc.PostgresProfile?",
+        "title": "Which AsyncExecutor parameter controls the backlog before rejecting new work?",
         "choices": [
-            "Provides PostgreSQL-specific database driver and SQL dialect",
-            "Configures connection pooling for PostgreSQL",
-            "Handles PostgreSQL-specific data types",
-            "Manages PostgreSQL schema migrations"
+            "queueSize",
+            "isolationLevel",
+            "fetchSize",
+            "schemaName"
         ],
-        "correctAnswer": "Provides PostgreSQL-specific database driver and SQL dialect"
+        "correctAnswer": "queueSize"
     },
     {
         "type": "radiogroup",
         "name": "q14",
-        "title": "Which method is used for batch inserts in Slick?",
+        "title": "How do you enable HikariCP pooling with Slick's configuration?",
         "choices": [
-            "++= operator",
-            "insertAll()",
-            "batchInsert()",
-            "bulkInsert()"
+            "Set connectionPool = \"HikariCP\" in the db block",
+            "Import slick.hikaricp._",
+            "Call Database.useHikari()",
+            "Set db.pool = hikari"
         ],
-        "correctAnswer": "++= operator"
+        "correctAnswer": "Set connectionPool = \"HikariCP\" in the db block"
     },
     {
         "type": "radiogroup",
         "name": "q15",
-        "title": "What is the recommended pattern for handling optional columns in Slick?",
+        "title": "Why would you wrap a query in Compiled{ ... }?",
         "choices": [
-            "Use Option[T] type for nullable columns",
-            "Use null values directly",
-            "Use empty strings for missing values",
-            "Use default values always"
+            "To cache the query plan for efficient reuse",
+            "To enforce transactional execution",
+            "To switch profiles at runtime",
+            "To log generated SQL"
         ],
-        "correctAnswer": "Use Option[T] type for nullable columns"
+        "correctAnswer": "To cache the query plan for efficient reuse"
     },
     {
         "type": "radiogroup",
         "name": "q16",
-        "title": "How do you perform a left join in Slick?",
+        "title": "What does a StreamingDBIO represent?",
         "choices": [
-            "Using joinLeft method",
-            "Using leftJoin method",
-            "Using join with LEFT keyword",
-            "Using optional join operator"
+            "An action producing a Reactive Streams publisher",
+            "A batch insert action",
+            "A blocking migration",
+            "A schema description"
         ],
-        "correctAnswer": "Using joinLeft method"
+        "correctAnswer": "An action producing a Reactive Streams publisher"
     },
     {
         "type": "radiogroup",
         "name": "q17",
-        "title": "What is the purpose of DBIO[T] in Slick?",
+        "title": "Calling db.stream(action) yields which interface?",
         "choices": [
-            "Represents a database action that can be composed and executed",
-            "Represents a database connection",
-            "Represents query results",
-            "Represents table schema"
+            "DatabasePublisher",
+            "Iterator",
+            "Observable",
+            "Enumerator"
         ],
-        "correctAnswer": "Represents a database action that can be composed and executed"
+        "correctAnswer": "DatabasePublisher"
     },
     {
         "type": "radiogroup",
         "name": "q18",
-        "title": "Which Slick feature helps prevent SQL injection attacks?",
+        "title": "Why would you call withStatementParameters on a query?",
         "choices": [
-            "Parameterized queries with type-safe query construction",
-            "Input validation filters",
-            "Automatic escaping",
-            "Query sanitization"
+            "To adjust JDBC fetch and statement options like fetchSize",
+            "To switch to another schema",
+            "To enable retries",
+            "To change log levels"
         ],
-        "correctAnswer": "Parameterized queries with type-safe query construction"
+        "correctAnswer": "To adjust JDBC fetch and statement options like fetchSize"
     },
     {
         "type": "radiogroup",
         "name": "q19",
-        "title": "How do you handle database schema evolution in Slick?",
+        "title": "What does action.transactionally guarantee?",
         "choices": [
-            "Using Slick migrations or custom evolution scripts",
-            "Automatic schema updates",
-            "Version control integration",
-            "Runtime schema detection"
+            "The composed action runs within a single database transaction",
+            "Rows are streamed lazily",
+            "The action will retry on failure",
+            "All statements are logged verbosely"
         ],
-        "correctAnswer": "Using Slick migrations or custom evolution scripts"
+        "correctAnswer": "The composed action runs within a single database transaction"
     },
     {
         "type": "radiogroup",
         "name": "q20",
-        "title": "What is the recommended way to handle connection pooling in Slick?",
+        "title": "What is the purpose of withPinnedSession?",
         "choices": [
-            "Configure HikariCP in application.conf",
-            "Use custom connection pool implementation",
-            "Handle connections manually",
-            "Use database-specific pooling"
+            "Reuse the same session without starting a transaction",
+            "Force autocommit per statement",
+            "Close the session eagerly",
+            "Execute actions in parallel"
         ],
-        "correctAnswer": "Configure HikariCP in application.conf"
+        "correctAnswer": "Reuse the same session without starting a transaction"
     },
     {
         "type": "radiogroup",
         "name": "q21",
-        "title": "Which performance optimization technique is recommended for Slick queries?",
+        "title": "How does DBIO.from assist inside transactions?",
         "choices": [
-            "Use compiled queries for frequently executed queries",
-            "Always use Plain SQL for better performance",
-            "Cache all query results",
-            "Use synchronous execution"
+            "It converts a Future into a DBIOAction so sequencing stays transactional",
+            "It creates a new JDBC connection",
+            "It flushes the connection pool",
+            "It logs SQL statements"
         ],
-        "correctAnswer": "Use compiled queries for frequently executed queries"
+        "correctAnswer": "It converts a Future into a DBIOAction so sequencing stays transactional"
     },
     {
         "type": "radiogroup",
         "name": "q22",
-        "title": "How do you enable SQL logging in Slick?",
+        "title": "What does cleanUp provide for DBIO workflows?",
         "choices": [
-            "Set logger level for slick.jdbc.JdbcBackend.statement",
-            "Use debug() method on queries",
-            "Enable database profiling",
-            "Use query.explain()"
+            "A finally-like cleanup action that runs even on failure",
+            "Automatic retries",
+            "SQL beautification",
+            "Schema diffing"
         ],
-        "correctAnswer": "Set logger level for slick.jdbc.JdbcBackend.statement"
+        "correctAnswer": "A finally-like cleanup action that runs even on failure"
     },
     {
         "type": "radiogroup",
         "name": "q23",
-        "title": "What is the purpose of StreamingDBIO in Slick?",
+        "title": "The sqlu interpolator is designed for which statements?",
         "choices": [
-            "Handles large result sets with constant memory usage",
-            "Streams data to multiple databases",
-            "Provides real-time database updates",
-            "Enables concurrent query execution"
+            "Data manipulation actions returning affected row counts",
+            "Plain queries returning result sets",
+            "Schema introspection",
+            "Connection pooling"
         ],
-        "correctAnswer": "Handles large result sets with constant memory usage"
+        "correctAnswer": "Data manipulation actions returning affected row counts"
     },
     {
         "type": "radiogroup",
         "name": "q24",
-        "title": "Which technique helps optimize N+1 query problems in Slick?",
+        "title": "What role does GetResult play in plain SQL APIs?",
         "choices": [
-            "Use explicit joins instead of separate queries",
-            "Enable automatic query batching",
-            "Use lazy loading",
-            "Cache all relationships"
+            "Maps raw JDBC rows to Scala values",
+            "Configures connection pools",
+            "Generates DDL scripts",
+            "Schedules retries"
         ],
-        "correctAnswer": "Use explicit joins instead of separate queries"
+        "correctAnswer": "Maps raw JDBC rows to Scala values"
     },
     {
         "type": "radiogroup",
         "name": "q25",
-        "title": "How do you configure query timeout in Slick?",
+        "title": "What is the primary purpose of SourceCodeGenerator?",
         "choices": [
-            "Set queryTimeout in database configuration",
-            "Use timeout() method on queries",
-            "Configure connection timeout",
-            "Set global application timeout"
+            "Emit Scala table definitions from an existing schema",
+            "Execute database migrations automatically",
+            "Run integration tests",
+            "Provide connection pools"
         ],
-        "correctAnswer": "Set queryTimeout in database configuration"
+        "correctAnswer": "Emit Scala table definitions from an existing schema"
     },
     {
         "type": "radiogroup",
         "name": "q26",
-        "title": "What is Java QueryDSL primarily used for?",
+        "title": "Which package hosts MTable.getTables for runtime metadata inspection?",
         "choices": [
-            "Type-safe SQL query construction in Java",
-            "Object-relational mapping",
-            "Database schema generation",
-            "Connection pooling"
+            "slick.jdbc.meta",
+            "slick.schema.meta",
+            "slick.meta.tables",
+            "slick.tableinfo"
         ],
-        "correctAnswer": "Type-safe SQL query construction in Java"
+        "correctAnswer": "slick.jdbc.meta"
     },
     {
         "type": "radiogroup",
         "name": "q27",
-        "title": "How can you integrate QueryDSL with Slick in a Scala project?",
+        "title": "How do you combine two SchemaDescription instances?",
         "choices": [
-            "Use QueryDSL for complex queries and Slick for simple operations",
-            "Replace Slick entirely with QueryDSL",
-            "Use QueryDSL annotations in Slick entities",
-            "Convert QueryDSL queries to Slick automatically"
+            "Using the ++ operator",
+            "Using the && operator",
+            "Using Schema.merge",
+            "You cannot combine them"
         ],
-        "correctAnswer": "Use QueryDSL for complex queries and Slick for simple operations"
+        "correctAnswer": "Using the ++ operator"
     },
     {
         "type": "radiogroup",
         "name": "q28",
-        "title": "What is the main benefit of using QueryDSL alongside Slick?",
+        "title": "Which Paradox chapter documents database configuration keys in Slick?",
         "choices": [
-            "Leverage QueryDSL's advanced query capabilities while using Slick's Scala integration",
-            "Better performance than pure Slick",
-            "Automatic query optimization",
-            "Built-in caching mechanisms"
+            "doc/paradox/config.md",
+            "doc/paradox/sql.md",
+            "doc/paradox/queries.md",
+            "doc/paradox/cookbook.md"
         ],
-        "correctAnswer": "Leverage QueryDSL's advanced query capabilities while using Slick's Scala integration"
+        "correctAnswer": "doc/paradox/config.md"
     },
     {
         "type": "radiogroup",
         "name": "q29",
-        "title": "Which QueryDSL feature is particularly useful for complex analytical queries?",
+        "title": "What does the numThreads setting on AsyncExecutor influence?",
         "choices": [
-            "Window functions and advanced aggregations",
-            "Simple CRUD operations",
-            "Basic joins",
-            "Insert operations"
+            "Number of JDBC worker threads Slick uses",
+            "Maximum rows per query",
+            "Number of database schemas",
+            "Fetch size for streaming"
         ],
-        "correctAnswer": "Window functions and advanced aggregations"
+        "correctAnswer": "Number of JDBC worker threads Slick uses"
     },
     {
         "type": "radiogroup",
         "name": "q30",
-        "title": "How do you generate QueryDSL Q-classes for use with Slick entities?",
+        "title": "What is the effect of queueSize exhaustion in AsyncExecutor?",
         "choices": [
-            "Use QueryDSL annotation processor with JPA annotations",
-            "Use Slick code generation",
-            "Write Q-classes manually",
-            "Use runtime reflection"
+            "Incoming actions are rejected with back pressure",
+            "Connections leak",
+            "Transactions auto commit",
+            "DDL runs twice"
         ],
-        "correctAnswer": "Use QueryDSL annotation processor with JPA annotations"
+        "correctAnswer": "Incoming actions are rejected with back pressure"
     },
     {
         "type": "radiogroup",
         "name": "q31",
-        "title": "What is the recommended approach for mixing Slick and QueryDSL in the same project?",
+        "title": "How does DBIO.sequence process actions?",
         "choices": [
-            "Use shared database connection and separate query execution",
-            "Use completely separate database configurations",
-            "Convert all Slick queries to QueryDSL",
-            "Use QueryDSL only for read operations"
+            "Sequentially in the order provided",
+            "All at once in parallel",
+            "Random order execution",
+            "Only the first action runs"
         ],
-        "correctAnswer": "Use shared database connection and separate query execution"
+        "correctAnswer": "Sequentially in the order provided"
     },
     {
         "type": "radiogroup",
         "name": "q32",
-        "title": "Which performance consideration is important when using both Slick and QueryDSL?",
+        "title": "When is Database.forURL typically used?",
         "choices": [
-            "Ensure connection pool is properly shared between both libraries",
-            "Use separate connection pools for each library",
-            "Always prefer QueryDSL over Slick for performance",
-            "Cache all QueryDSL query results"
+            "For small utilities or manual wiring scenarios",
+            "In all production services",
+            "Never, it is deprecated",
+            "Only with HikariCP"
         ],
-        "correctAnswer": "Ensure connection pool is properly shared between both libraries"
+        "correctAnswer": "For small utilities or manual wiring scenarios"
     },
     {
         "type": "radiogroup",
         "name": "q33",
-        "title": "What is a key difference between Slick's lifted embedding and QueryDSL's approach?",
+        "title": "Which capability flag indicates window function support in a profile?",
         "choices": [
-            "Slick uses Scala's type system, QueryDSL uses code generation",
-            "Slick is runtime-based, QueryDSL is compile-time",
-            "Slick is Java-only, QueryDSL is Scala-only",
-            "Slick is for NoSQL, QueryDSL is for SQL"
+            "SqlCapabilities.windowFunctions",
+            "JdbcCapabilities.returnInsertKey",
+            "RelationalCapabilities.filterCapabilities",
+            "ProfileCapabilities.windowing"
         ],
-        "correctAnswer": "Slick uses Scala's type system, QueryDSL uses code generation"
+        "correctAnswer": "SqlCapabilities.windowFunctions"
     },
     {
         "type": "radiogroup",
         "name": "q34",
-        "title": "How do you handle transactions when using both Slick and QueryDSL?",
+        "title": "Why does sum on a numeric column return Rep[Option[T]]?",
         "choices": [
-            "Use Slick's transaction management for both Slick and QueryDSL operations",
-            "Use separate transaction managers",
-            "QueryDSL handles transactions automatically",
-            "Disable transactions for QueryDSL operations"
+            "Aggregates may be empty and yield no value",
+            "Slick lacks numeric support",
+            "It forces null padding",
+            "It ensures eager evaluation"
         ],
-        "correctAnswer": "Use Slick's transaction management for both Slick and QueryDSL operations"
+        "correctAnswer": "Aggregates may be empty and yield no value"
     },
     {
         "type": "radiogroup",
         "name": "q35",
-        "title": "What is the benefit of using QueryDSL's Criteria API with Slick?",
+        "title": "What does mapResult allow when streaming query results?",
         "choices": [
-            "Dynamic query construction based on runtime conditions",
-            "Better compile-time safety",
-            "Automatic query caching",
-            "Built-in pagination"
+            "Transform each row synchronously while streaming",
+            "Convert results to Futures",
+            "Batch rows in memory",
+            "Switch profiles"
         ],
-        "correctAnswer": "Dynamic query construction based on runtime conditions"
+        "correctAnswer": "Transform each row synchronously while streaming"
     },
     {
         "type": "radiogroup",
         "name": "q36",
-        "title": "Which Slick feature should you use to optimize batch operations?",
+        "title": "DatabasePublisher implements which industry standard?",
         "choices": [
-            "Compiled queries with batch parameters",
-            "Plain SQL with string concatenation",
-            "Individual insert operations",
-            "Automatic batching"
+            "Reactive Streams Publisher",
+            "Java Observable",
+            "RxJava Flowable",
+            "Akka Actor"
         ],
-        "correctAnswer": "Compiled queries with batch parameters"
+        "correctAnswer": "Reactive Streams Publisher"
     },
     {
         "type": "radiogroup",
         "name": "q37",
-        "title": "What is the recommended way to handle large result sets in Slick?",
+        "title": "What does profile.capabilities.contains(cap) let you do?",
         "choices": [
-            "Use streaming queries with Akka Streams",
-            "Load all results into memory",
-            "Use pagination with limit/offset",
-            "Use cursor-based iteration"
+            "Check at runtime whether a feature is supported",
+            "Modify the database schema",
+            "Generate indexes",
+            "Switch JDBC drivers"
         ],
-        "correctAnswer": "Use streaming queries with Akka Streams"
+        "correctAnswer": "Check at runtime whether a feature is supported"
     },
     {
         "type": "radiogroup",
         "name": "q38",
-        "title": "How do you optimize Slick for read-heavy workloads?",
+        "title": "Why might insertOrUpdate fail on certain backends?",
         "choices": [
-            "Use read replicas and configure appropriate connection pools",
-            "Enable automatic caching",
-            "Use only Plain SQL queries",
-            "Increase batch sizes"
+            "The profile lacks the required capability",
+            "The query uses mapTo",
+            "DBIOAction cannot chain inserts",
+            "Transactions are disabled"
         ],
-        "correctAnswer": "Use read replicas and configure appropriate connection pools"
+        "correctAnswer": "The profile lacks the required capability"
     },
     {
         "type": "radiogroup",
         "name": "q39",
-        "title": "What is the purpose of Slick's MappedColumnType?",
+        "title": "What is the returning extension used for on inserts?",
         "choices": [
-            "Maps custom Scala types to database column types",
-            "Encrypts sensitive column data",
-            "Validates column constraints",
-            "Compresses column values"
+            "Fetch generated values such as IDs after insertion",
+            "Rollback transactions",
+            "Switch schemas",
+            "Enable logging"
         ],
-        "correctAnswer": "Maps custom Scala types to database column types"
+        "correctAnswer": "Fetch generated values such as IDs after insertion"
     },
     {
         "type": "radiogroup",
         "name": "q40",
-        "title": "Which technique helps reduce memory usage in Slick applications?",
+        "title": "What does the <> operator enable within table projections?",
         "choices": [
-            "Use streaming for large result sets and proper connection pool sizing",
-            "Cache all query results",
-            "Use larger heap size",
-            "Disable garbage collection"
+            "Manual bidirectional mapping between tuples and custom types",
+            "Stream rows as JSON",
+            "Encrypt columns",
+            "Record audit logs"
         ],
-        "correctAnswer": "Use streaming for large result sets and proper connection pool sizing"
+        "correctAnswer": "Manual bidirectional mapping between tuples and custom types"
     },
     {
         "type": "radiogroup",
         "name": "q41",
-        "title": "How do you implement custom column types in Slick?",
+        "title": "Where do you define SimpleFunction binary helpers like to_tsvector?",
         "choices": [
-            "Implement MappedColumnType with bidirectional mapping functions",
-            "Use @ColumnType annotation",
-            "Extend BaseColumnType",
-            "Use implicit conversions only"
+            "In the profile.api scope using SimpleFunction utilities",
+            "Inside application.conf",
+            "Within DatabaseConfig",
+            "In sbt plugins"
         ],
-        "correctAnswer": "Implement MappedColumnType with bidirectional mapping functions"
+        "correctAnswer": "In the profile.api scope using SimpleFunction utilities"
     },
     {
         "type": "radiogroup",
         "name": "q42",
-        "title": "What is the recommended pattern for handling database migrations in production?",
+        "title": "What does literalColumn provide when composing queries?",
         "choices": [
-            "Use versioned migration scripts with proper rollback strategies",
-            "Auto-generate schema changes",
-            "Use database-specific tools only",
-            "Manual schema updates"
+            "Embed a literal value as a Rep constant",
+            "Declare a foreign key",
+            "Switch transaction isolation",
+            "Enable caching"
         ],
-        "correctAnswer": "Use versioned migration scripts with proper rollback strategies"
+        "correctAnswer": "Embed a literal value as a Rep constant"
     },
     {
         "type": "radiogroup",
         "name": "q43",
-        "title": "Which monitoring technique is recommended for Slick applications?",
+        "title": "In a left join, how is the right side represented in Slick?",
         "choices": [
-            "Monitor connection pool metrics and query execution times",
-            "Monitor only application-level metrics",
-            "Use database monitoring tools only",
-            "Monitor memory usage only"
+            "Option[...]",
+            "Either[...]",
+            "List[...]",
+            "Seq[...]"
         ],
-        "correctAnswer": "Monitor connection pool metrics and query execution times"
+        "correctAnswer": "Option[...]"
     },
     {
         "type": "radiogroup",
         "name": "q44",
-        "title": "How do you handle database-specific features in Slick?",
+        "title": "What does query.result.headOption produce?",
         "choices": [
-            "Use database profile-specific extensions and Plain SQL when needed",
-            "Use only standard SQL features",
-            "Create custom database drivers",
-            "Use reflection for database-specific code"
+            "A DBIO[Option[T]] that is None when no rows match",
+            "A Future[T] immediately",
+            "An Option[DBIO[T]]",
+            "A blocking value"
         ],
-        "correctAnswer": "Use database profile-specific extensions and Plain SQL when needed"
+        "correctAnswer": "A DBIO[Option[T]] that is None when no rows match"
     },
     {
         "type": "radiogroup",
         "name": "q45",
-        "title": "What is the best practice for organizing Slick table definitions?",
+        "title": "What protection does Slick's sql interpolator provide by default?",
         "choices": [
-            "Group related tables in modules with clear separation of concerns",
-            "Put all tables in a single file",
-            "Use one file per table",
-            "Generate all table definitions automatically"
+            "Prepared statement parameter binding against SQL injection",
+            "Automatic index creation",
+            "Connection pooling",
+            "Schema migration"
         ],
-        "correctAnswer": "Group related tables in modules with clear separation of concerns"
+        "correctAnswer": "Prepared statement parameter binding against SQL injection"
     },
     {
         "type": "radiogroup",
         "name": "q46",
-        "title": "How do you implement soft deletes in Slick?",
+        "title": "How does sqlu differ from sql when using the interpolator?",
         "choices": [
-            "Add a boolean/timestamp column and filter queries accordingly",
-            "Use database triggers",
-            "Override delete methods",
-            "Use separate archive tables"
+            "sqlu is for updates returning row counts while sql streams result rows",
+            "sqlu streams rows, sql returns counts",
+            "They are identical",
+            "sqlu logs statements, sql does not"
         ],
-        "correctAnswer": "Add a boolean/timestamp column and filter queries accordingly"
+        "correctAnswer": "sqlu is for updates returning row counts while sql streams result rows"
     },
     {
         "type": "radiogroup",
         "name": "q47",
-        "title": "What is the recommended approach for testing Slick applications?",
+        "title": "What is the behavior of DBIOAction.zip?",
         "choices": [
-            "Use in-memory databases for unit tests and real databases for integration tests",
-            "Use only production databases",
-            "Mock all database interactions",
-            "Use only integration tests"
+            "Combine actions preserving both results when safe to run independently",
+            "Drop the second result",
+            "Force sequential blocking",
+            "Run schema migrations"
         ],
-        "correctAnswer": "Use in-memory databases for unit tests and real databases for integration tests"
+        "correctAnswer": "Combine actions preserving both results when safe to run independently"
     },
     {
         "type": "radiogroup",
         "name": "q48",
-        "title": "Which technique helps with query debugging in Slick?",
+        "title": "withTransactionIsolation expects which kind of argument?",
         "choices": [
-            "Enable SQL statement logging and use query result inspection",
-            "Use debugger breakpoints only",
-            "Print query objects directly",
-            "Use database profiling tools only"
+            "A JDBC isolation level such as TransactionIsolation.Serializable",
+            "A Boolean flag",
+            "A timeout in milliseconds",
+            "A schema name"
         ],
-        "correctAnswer": "Enable SQL statement logging and use query result inspection"
+        "correctAnswer": "A JDBC isolation level such as TransactionIsolation.Serializable"
     },
     {
         "type": "radiogroup",
         "name": "q49",
-        "title": "How do you handle concurrent access to the same data in Slick?",
+        "title": "Where is AsyncExecutor implemented?",
         "choices": [
-            "Use database-level locking and optimistic concurrency control",
-            "Use application-level synchronization",
-            "Disable concurrent access",
-            "Use eventual consistency"
+            "slick/basic/AsyncExecutor.scala",
+            "doc/code/Connection.scala",
+            "slick/jdbc/hikaricp/HikariCPJdbcDataSource.scala",
+            "slick/util/Logging.scala"
         ],
-        "correctAnswer": "Use database-level locking and optimistic concurrency control"
+        "correctAnswer": "slick/basic/AsyncExecutor.scala"
     },
     {
         "type": "radiogroup",
         "name": "q50",
-        "title": "What is the recommended pattern for error handling in Slick applications?",
+        "title": "What topics are showcased in doc/code/Connection.scala?",
         "choices": [
-            "Use Try/Future error handling with proper exception mapping",
-            "Use exceptions only",
-            "Ignore database errors",
-            "Use return codes"
+            "Streaming and session control examples",
+            "Code generation templates",
+            "Akka HTTP routes",
+            "Cats Effect bridges"
         ],
-        "correctAnswer": "Use Try/Future error handling with proper exception mapping"
+        "correctAnswer": "Streaming and session control examples"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q51",
+        "title": "When would you call schema.dropIfExists?",
+        "choices": [
+            "To tear down tables only when they already exist",
+            "To force drop even when absent",
+            "To migrate data",
+            "To refresh query caches"
+        ],
+        "correctAnswer": "To tear down tables only when they already exist"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q52",
+        "title": "What does schema.truncate execute under the hood?",
+        "choices": [
+            "DDL to remove all rows without dropping tables",
+            "A vacuum analyze",
+            "A full database backup",
+            "A schema migration"
+        ],
+        "correctAnswer": "DDL to remove all rows without dropping tables"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q53",
+        "title": "What does DBIOAction.failed(Throwable) create?",
+        "choices": [
+            "An action that fails immediately with the provided error",
+            "A logger",
+            "A retry policy",
+            "A streaming publisher"
+        ],
+        "correctAnswer": "An action that fails immediately with the provided error"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q54",
+        "title": "When does the Future returned by db.run complete?",
+        "choices": [
+            "After the database action finishes asynchronously",
+            "Immediately upon submission",
+            "Only after JVM shutdown",
+            "Never for streaming"
+        ],
+        "correctAnswer": "After the database action finishes asynchronously"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q55",
+        "title": "Why must you call db.close() in long running apps?",
+        "choices": [
+            "To release pooled resources when shutting down",
+            "To flush caches",
+            "To commit open transactions",
+            "To switch profiles"
+        ],
+        "correctAnswer": "To release pooled resources when shutting down"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q56",
+        "title": "What does the slick-hikaricp module add?",
+        "choices": [
+            "HikariCP based DataSource integration for Slick",
+            "HTTP endpoints",
+            "SQL migration DSL",
+            "Logging appenders"
+        ],
+        "correctAnswer": "HikariCP based DataSource integration for Slick"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q57",
+        "title": "What combination is recommended for PostgreSQL streaming results?",
+        "choices": [
+            "transactionally plus withStatementParameters specifying fetchSize",
+            "Disabling transactions",
+            "Switching to SQLite",
+            "Using blocking loops"
+        ],
+        "correctAnswer": "transactionally plus withStatementParameters specifying fetchSize"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q58",
+        "title": "Which construct helps you build CASE expressions in Slick?",
+        "choices": [
+            "SimpleExpression",
+            "Future.sequence",
+            "literalColumn",
+            "TableQuery.compile"
+        ],
+        "correctAnswer": "SimpleExpression"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q59",
+        "title": "If a custom case class companion lacks tupled, what helper does doc/paradox/schemas.md suggest?",
+        "choices": [
+            "Lift apply with (User.apply _).tupled before using mapTo",
+            "Define an implicit ExecutionContext",
+            "Use Database.forConfig",
+            "Switch to plain SQL"
+        ],
+        "correctAnswer": "Lift apply with (User.apply _).tupled before using mapTo"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q60",
+        "title": "What does the note about Option equality in schemas.md highlight?",
+        "choices": [
+            "None === None evaluates to None rather than true",
+            "Options cannot be stored",
+            "Nulls throw exceptions",
+            "MapTo is unsafe"
+        ],
+        "correctAnswer": "None === None evaluates to None rather than true"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q61",
+        "title": "What does users.schema.create produce when run?",
+        "choices": [
+            "A DBIO[Unit] that emits DDL to create the table",
+            "An immediate Boolean",
+            "A streaming result set",
+            "A plain SQL string"
+        ],
+        "correctAnswer": "A DBIO[Unit] that emits DDL to create the table"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q62",
+        "title": "How do you import the API from a DatabaseConfig instance?",
+        "choices": [
+            "dbConfig.profile.api._",
+            "Database.api._",
+            "slick.api._",
+            "JdbcBackend.api._"
+        ],
+        "correctAnswer": "dbConfig.profile.api._"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q63",
+        "title": "What does the DBIOAction.andThen combinator do?",
+        "choices": [
+            "Runs one action after another discarding the first result",
+            "Runs actions in reverse order",
+            "Merges actions concurrently",
+            "Retries failed actions"
+        ],
+        "correctAnswer": "Runs one action after another discarding the first result"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q64",
+        "title": "Why is profile.backend.Database used as the type of db?",
+        "choices": [
+            "It keeps code generic across different profiles",
+            "It forces Postgres only usage",
+            "It auto closes connections",
+            "It enables SQL logging"
+        ],
+        "correctAnswer": "It keeps code generic across different profiles"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q65",
+        "title": "What is the role of slick.jdbc.JdbcBackend.Session?",
+        "choices": [
+            "Wrap low level JDBC connection operations for a session",
+            "Provide HTTP routing",
+            "Enforce schema migrations",
+            "Generate JSON"
+        ],
+        "correctAnswer": "Wrap low level JDBC connection operations for a session"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q66",
+        "title": "Why should you avoid blocking operations directly on db.run results?",
+        "choices": [
+            "It can exhaust Slick's dedicated thread pool",
+            "It changes SQL generation",
+            "It drops transactions",
+            "It disables logging"
+        ],
+        "correctAnswer": "It can exhaust Slick's dedicated thread pool"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q67",
+        "title": "Which class underlies the sql interpolator's implementation?",
+        "choices": [
+            "slick.jdbc.SQLActionBuilder",
+            "slick.jdbc.JdbcBackend",
+            "slick.jdbc.StreamingInvokerAction",
+            "slick.jdbc.Invoker"
+        ],
+        "correctAnswer": "slick.jdbc.SQLActionBuilder"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q68",
+        "title": "How do you read an optional column with GetResult?",
+        "choices": [
+            "Use r.<<[Option[T]]",
+            "Call r.nextOption",
+            "Wrap in Try",
+            "Use sqlu"
+        ],
+        "correctAnswer": "Use r.<<[Option[T]]"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q69",
+        "title": "In SourceCodeGenerator.run, what does the pkg argument control?",
+        "choices": [
+            "The target Scala package for generated tables",
+            "The JDBC schema to introspect",
+            "Connection pool size",
+            "Log level"
+        ],
+        "correctAnswer": "The target Scala package for generated tables"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q70",
+        "title": "Which tool does the article recommend for production migrations?",
+        "choices": [
+            "Flyway or Liquibase external tools",
+            "Automatic schema.create",
+            "Slick testkit",
+            "HikariCP"
+        ],
+        "correctAnswer": "Flyway or Liquibase external tools"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q71",
+        "title": "How does DBIOAction.traverse differ from sequence?",
+        "choices": [
+            "traverse maps a function over data to produce actions before sequencing",
+            "It runs actions in parallel",
+            "It ignores failures",
+            "It commits after each action"
+        ],
+        "correctAnswer": "traverse maps a function over data to produce actions before sequencing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q72",
+        "title": "How do you declare a compiled query taking a parameter?",
+        "choices": [
+            "Compiled(param => query.filter(_.col === param.bind))",
+            "query.compile(param)",
+            "TableQuery.compiled",
+            "Schema.compile"
+        ],
+        "correctAnswer": "Compiled(param => query.filter(_.col === param.bind))"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q73",
+        "title": "What symbol names the default projection in a Table subclass?",
+        "choices": [
+            "def *",
+            "def projection",
+            "def select",
+            "def base"
+        ],
+        "correctAnswer": "def *"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q74",
+        "title": "Calling index(\"idx\", column, unique = true) registers what?",
+        "choices": [
+            "An index definition included in generated DDL",
+            "A runtime query filter",
+            "A plain SQL fragment",
+            "A connection pool"
+        ],
+        "correctAnswer": "An index definition included in generated DDL"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q75",
+        "title": "Which parameters can foreignKey accept beyond names and columns?",
+        "choices": [
+            "onUpdate and onDelete cascade actions",
+            "Thread counts",
+            "SQL interpolation",
+            "Execution contexts"
+        ],
+        "correctAnswer": "onUpdate and onDelete cascade actions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q76",
+        "title": "How do you merge two schemas for a combined migration?",
+        "choices": [
+            "users.schema ++ orders.schema",
+            "users.schema && orders.schema",
+            "Schema.merge(users, orders)",
+            "Database.schemaCombine"
+        ],
+        "correctAnswer": "users.schema ++ orders.schema"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q77",
+        "title": "What must consumers do with DatabasePublisher instances?",
+        "choices": [
+            "Subscribe using a Reactive Streams subscriber or adapter",
+            "Convert them to blocking iterators",
+            "Close them manually via close()",
+            "Wrap them in Option"
+        ],
+        "correctAnswer": "Subscribe using a Reactive Streams subscriber or adapter"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q78",
+        "title": "How do you throttle Slick usage in Akka Streams?",
+        "choices": [
+            "Use mapAsync with a parallelism matching database capacity",
+            "Use blocking foreach",
+            "Disable back pressure",
+            "Run on the default dispatcher"
+        ],
+        "correctAnswer": "Use mapAsync with a parallelism matching database capacity"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q79",
+        "title": "Where does the slick-testkit module live?",
+        "choices": [
+            "At the repo root under slick-testkit",
+            "Embedded inside doc/code",
+            "In programming/doc",
+            "Under project/plugins"
+        ],
+        "correctAnswer": "At the repo root under slick-testkit"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q80",
+        "title": "What purpose does common-test-resources serve?",
+        "choices": [
+            "Shared fixtures and configuration for Slick's integration tests",
+            "Production application configs",
+            "Akka sample apps",
+            "Migration scripts"
+        ],
+        "correctAnswer": "Shared fixtures and configuration for Slick's integration tests"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q81",
+        "title": "Which simple SQL query does the article recommend for health checks?",
+        "choices": [
+            "select 1",
+            "select * from users",
+            "drop table",
+            "commit"
+        ],
+        "correctAnswer": "select 1"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q82",
+        "title": "What is a symptom of AsyncExecutor queue saturation?",
+        "choices": [
+            "RejectedExecutionException or timed out submissions",
+            "Automatic schema drops",
+            "Increased index counts",
+            "Compile time warnings"
+        ],
+        "correctAnswer": "RejectedExecutionException or timed out submissions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q83",
+        "title": "How do you keep transactions consistent when mixing Future logic?",
+        "choices": [
+            "Wrap external futures with DBIO.from before sequencing",
+            "Run futures on the DB thread pool",
+            "Ignore failures",
+            "Call sqlu"
+        ],
+        "correctAnswer": "Wrap external futures with DBIO.from before sequencing"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q84",
+        "title": "Why do some databases require withPinnedSession for streaming?",
+        "choices": [
+            "Drivers need a single session kept open for the entire stream",
+            "It speeds up compilation",
+            "It enables JSON output",
+            "It forces schema creation"
+        ],
+        "correctAnswer": "Drivers need a single session kept open for the entire stream"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q85",
+        "title": "What does db.stream return for plain SQL actions?",
+        "choices": [
+            "A DatabasePublisher emitting rows",
+            "A blocking Iterator",
+            "A Future of Seq",
+            "Unit"
+        ],
+        "correctAnswer": "A DatabasePublisher emitting rows"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q86",
+        "title": "How can you attach descriptive labels to DBIO actions for logging?",
+        "choices": [
+            "Use the named(\"label\") combinator",
+            "Rename the Table",
+            "Call println",
+            "Set db.name"
+        ],
+        "correctAnswer": "Use the named(\"label\") combinator"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q87",
+        "title": "Which logger category shows generated SQL statements?",
+        "choices": [
+            "slick.jdbc.JdbcBackend.statement",
+            "slick.basic.BasicBackend.database",
+            "slick.util.AsyncExecutor",
+            "slick.schema.DDL"
+        ],
+        "correctAnswer": "slick.jdbc.JdbcBackend.statement"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q88",
+        "title": "What type of content lives in doc/paradox/cookbook.md?",
+        "choices": [
+            "Recipe style how-to guides covering common patterns",
+            "API scaladoc",
+            "JVM tuning parameters",
+            "SBT plugins"
+        ],
+        "correctAnswer": "Recipe style how-to guides covering common patterns"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q89",
+        "title": "Where can you find the Slick upgrade guide in the repo?",
+        "choices": [
+            "doc/paradox/upgrade.md",
+            "README.md",
+            "samples/README.md",
+            "doc/paradox/sql.md"
+        ],
+        "correctAnswer": "doc/paradox/upgrade.md"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q90",
+        "title": "What does DBIOAction.asTry return?",
+        "choices": [
+            "An action yielding a Try of the original result",
+            "A streaming publisher",
+            "A JDBC connection",
+            "A schema description"
+        ],
+        "correctAnswer": "An action yielding a Try of the original result"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q91",
+        "title": "How do you create a precompleted DBIO success value?",
+        "choices": [
+            "DBIO.successful(value)",
+            "DBIO.from(Future.failed(ex))",
+            "sqlu\"select\"",
+            "db.run(Future(value))"
+        ],
+        "correctAnswer": "DBIO.successful(value)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q92",
+        "title": "Which helper embeds a raw SQL snippet verbatim when the DSL is insufficient?",
+        "choices": [
+            "SimpleLiteral",
+            "TableQueryLiteral",
+            "SchemaSnippet",
+            "ResultRaw"
+        ],
+        "correctAnswer": "SimpleLiteral"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q93",
+        "title": "Window functions like rowNumber require which Slick capability?",
+        "choices": [
+            "SqlCapabilities.windowFunctions",
+            "JdbcCapabilities.forceInsert",
+            "RelationalCapabilities.ddlCapability",
+            "ProfileCapabilities.stream"
+        ],
+        "correctAnswer": "SqlCapabilities.windowFunctions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q94",
+        "title": "How can you convert the Future from db.run into a ZIO effect?",
+        "choices": [
+            "ZIO.fromFuture(_ => db.run(action))",
+            "db.run(action).unsafeRunSync",
+            "Use DBIO.sequence",
+            "Call sqlu"
+        ],
+        "correctAnswer": "ZIO.fromFuture(_ => db.run(action))"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q95",
+        "title": "What pattern does the article suggest for Play Framework integration?",
+        "choices": [
+            "Inject DatabaseConfigProvider and use dbConfig.profile.api._",
+            "Create a global object extending Table",
+            "Use Database.forURL in each controller",
+            "Block on Await.result"
+        ],
+        "correctAnswer": "Inject DatabaseConfigProvider and use dbConfig.profile.api._"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q96",
+        "title": "Why is it beneficial to review slick-testkit when documentation is sparse?",
+        "choices": [
+            "It contains runnable examples covering edge cases",
+            "It replaces official docs",
+            "It disables compilation",
+            "It provides production configs"
+        ],
+        "correctAnswer": "It contains runnable examples covering edge cases"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q97",
+        "title": "What should you verify after upgrading Slick?",
+        "choices": [
+            "Run integration tests against target databases",
+            "Skip tests and deploy",
+            "Remove all logging",
+            "Disable HikariCP"
+        ],
+        "correctAnswer": "Run integration tests against target databases"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q98",
+        "title": "How do you log all executed SQL for troubleshooting?",
+        "choices": [
+            "Enable slick.jdbc.JdbcBackend.statement logging in configuration",
+            "Call println on queries",
+            "Use DBIO.sequence",
+            "Disable pooling"
+        ],
+        "correctAnswer": "Enable slick.jdbc.JdbcBackend.statement logging in configuration"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q99",
+        "title": "What readiness probe does the article recommend?",
+        "choices": [
+            "Execute db.run(sql\"select 1\".as[Int].head)",
+            "Run schema.drop",
+            "Restart the JVM",
+            "Analyze tables"
+        ],
+        "correctAnswer": "Execute db.run(sql\"select 1\".as[Int].head)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q100",
+        "title": "How do you guard against replication lag when reading from replicas?",
+        "choices": [
+            "Monitor lag and choose appropriate transaction isolation",
+            "Disable transactions",
+            "Force insertOrUpdate",
+            "Use literalColumn"
+        ],
+        "correctAnswer": "Monitor lag and choose appropriate transaction isolation"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q101",
+        "title": "Why might teams mix Slick and plain SQL in one project?",
+        "choices": [
+            "To access vendor specific features while retaining lifted queries elsewhere",
+            "Because Slick forbids joins",
+            "To avoid type safety",
+            "To disable streaming"
+        ],
+        "correctAnswer": "To access vendor specific features while retaining lifted queries elsewhere"
     }
 ]
