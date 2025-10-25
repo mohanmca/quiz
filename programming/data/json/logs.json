@@ -73,5 +73,35 @@
       "daily-log"
     ],
     "content": "### Context\nCaptured the reminder that many problems begging for sorting can fall to an O(n) scan if I lean on constant-time hash lookups instead. Longest consecutive sequence is a textbook example.\n\n- Sorting costs O(n log n); a set gives O(1) expected membership tests once I ingest the array.\n- Only expand streaks from numbers that do not have a predecessor, keeping the scan linear.\n- Update the running best length on the fly while walking each streak with the hash lookups.\n\n```python\nclass Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        s = set(nums)\n        maxcount = 0\n        for num in nums:\n            if num - 1 not in s:\n                count = 1\n                while num + 1 in s:\n                    count += 1\n                    num += 1\n                maxcount = max(maxcount, count)\n        return maxcount\n```\n\n**Reflection:** Hash-based passes keep the work proportional to the input size while still covering every streak; it is a good first check whenever my instinct reaches for `sorted()`."
+  },
+  {
+    "id": "log-2025-10-25-python-valid-palindrome",
+    "date": "2025-10-25",
+    "title": "Two-Pointer Valid Palindrome Safety Checks",
+    "category": "python",
+    "mood": "confident",
+    "tags": [
+      "python",
+      "two-pointers",
+      "strings",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nSolved LeetCode 125 \"Valid Palindrome\" to drill pointer safety when skipping punctuation and spaces.\n\n- Lowercasing once keeps comparisons case-insensitive without extra work.\n- `str.isalnum()` handles the alphanumeric filter, so the loop never touches punctuation.\n- Guarding lines 6, 8, and 10 with `i < j` keeps both indices in range before advancing or comparing.\n\n```python\nclass Solution:\n    def isPalindrome(self, s: str) -> bool:\n        i, j = 0, len(s) - 1\n        s = s.lower()\n        while i < j:\n            while i < j and not s[i].isalnum():\n                i += 1\n            while i < j and not s[j].isalnum():\n                j -= 1\n            if i < j and (s[i] != s[j]):\n                return False\n            i += 1\n            j -= 1\n        return True\n```\n\n**Reflection:** The `i < j` guardrails prevent out-of-bounds lookups when a string is mostly symbols; the pointers only compare characters after both have landed on valid alphanumerics."
+  },
+  {
+    "id": "log-2025-10-25-python-division-trunc",
+    "date": "2025-10-25",
+    "title": "Division Rounding: trunc vs floor",
+    "category": "python",
+    "mood": "reflective",
+    "tags": [
+      "python",
+      "math",
+      "division",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nCaptured a reminder that Python exposes multiple \"round toward zero\" options and they do not behave identically to floor division.\n\n- `math.trunc(x)` drops the fractional part toward zero, so `math.trunc(-1.2)` returns `-1` while `math.floor(-1.2)` returns `-2`.\n- Floor division `a // b` follows floor semantics and matches `math.floor(a / b)` for positive `b`, so negatives step further from zero.\n- `int(a / b)` first performs true division and then truncates, making it equivalent to `math.trunc(a / b)` rather than `a // b`.\n\n```python\nimport math\n\nprint(math.trunc(-7 / 2))  # -3\nprint((-7) // 2)           # -4\nprint(int(-7 / 2))         # -3\nprint(math.floor(-7 / 2))  # -4\n```\n\n**Reflection:** When I need LeetCode-style truncation toward zero (e.g., reversing integers), I should call `math.trunc` or rely on `int(a / b)`; using `//` would bias negative results downward."
   }
 ]
