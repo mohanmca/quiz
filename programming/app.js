@@ -3,12 +3,19 @@
   const API = {
     surveys: './data/json/surveys.json',
     articles: './data/json/articles.json',
+    journal: './data/json/logs.json',
     resolveQuestionsPath(p) {
       // surveys.json entries are like "data/json/python/..." relative to programming/
       if (p.startsWith('./')) return p.slice(2);
       return p; // already relative to programming/
     }
   };
+
+  const TABS = [
+    { id: 'quizzes', label: 'Quizzes', color: '#1e88e5', background: '#eff6ff' },
+    { id: 'articles', label: 'Articles', color: '#10b981', background: '#ecfdf5' },
+    { id: 'journal', label: 'Learning Journal', color: '#8b5cf6', background: '#f5f3ff' }
+  ];
 
   const state = {
     surveys: [],
@@ -20,7 +27,9 @@
     index: 0,
     answers: {},
     score: null,
-    tagFilter: ''
+    tagFilter: '',
+    logs: [],
+    activeTab: 'quizzes'
   };
 
   const ui = {
@@ -156,11 +165,50 @@
     const main = ui.main();
     filterSurveys();
     main.innerHTML = '';
-    // Articles panel (collapsible)
-    main.append(renderArticlesPanel());
-    // Quiz section header
-    main.append(h('div', { class:'title', text:'Quizzes'}));
-    main.append(h('div', { class:'subtitle', text: `${state.filtered.length} available`}));
+    const wrap = h('div', { class:'tab-wrap' });
+    wrap.append(renderTabBar(), renderActiveTabPanel());
+    main.append(wrap);
+    applySyntaxHighlighting();
+  }
+
+  function getTabMeta(id){
+    return TABS.find(t => t.id === id) || TABS[0];
+  }
+
+  function renderTabBar(){
+    const bar = h('div', { class:'tab-bar' });
+    TABS.forEach(tab => {
+      const classes = 'tab-btn' + (state.activeTab === tab.id ? ' active' : '');
+      const btn = h('button', { class: classes, text: tab.label });
+      btn.style.setProperty('--tab-color', tab.color);
+      if (tab.background) btn.style.setProperty('--tab-bg', tab.background);
+      btn.addEventListener('click', () => {
+        if (state.activeTab === tab.id) return;
+        state.activeTab = tab.id;
+        renderHome();
+      });
+      bar.append(btn);
+    });
+    return bar;
+  }
+
+  function renderActiveTabPanel(){
+    const meta = getTabMeta(state.activeTab);
+    if (state.activeTab === 'articles') return renderArticlesPanel(meta);
+    if (state.activeTab === 'journal') return renderLogsPanel(meta);
+    return renderQuizzesPanel(meta);
+  }
+
+  function renderQuizzesPanel(meta){
+    const panel = h('div', { class:'tab-panel tab-quizzes' });
+    panel.style.setProperty('--tab-color', meta.color);
+    if (meta.background) panel.style.setProperty('--tab-bg', meta.background);
+    panel.append(h('div', { class:'title', text:'Quizzes' }));
+    panel.append(h('div', { class:'subtitle', text: `${state.filtered.length} available` }));
+    if (!state.filtered.length) {
+      panel.append(h('div', { class:'subtitle', text:'No quizzes match the current filters yet.' }));
+      return panel;
+    }
     const grid = h('div', { class:'grid' });
     state.filtered.forEach(s => {
       const card = h('div', { class:'card' }, [
@@ -182,15 +230,20 @@
       ]);
       grid.append(card);
     });
-    main.append(grid);
+    panel.append(grid);
+    return panel;
   }
 
   function renderTagsRow(tags){
     const row = h('div', { class:'row' });
     const shown = (tags || []).slice(0, 8);
     shown.forEach(t => {
-      const btn = h('button', { class:'ghost', text: `#${t}` });
-      btn.addEventListener('click', () => { state.tagFilter = t; renderHome(); });
+      const cls = 'ghost' + (state.tagFilter === t ? ' active' : '');
+      const btn = h('button', { class: cls, text: `#${t}` });
+      btn.addEventListener('click', () => {
+        state.tagFilter = state.tagFilter === t ? '' : t;
+        renderHome();
+      });
       row.append(btn);
     });
     return row;
@@ -212,53 +265,139 @@
     return tags.slice(0, 12);
   }
 
-  function renderArticlesPanel(){
-    const wrap = h('div', { class:'card' });
-    const header = h('div', { class:'row' });
-    const title = h('div', { class:'title', text:'Articles' });
-    const toggleBtn = h('button', { class:'ghost', text:'Show/Hide' });
-    header.append(title, toggleBtn);
-    const panel = h('div', { style:'margin-top:8px;' });
-    const table = h('table', { style:'width:100%; border-collapse:collapse;' });
+  function renderArticlesPanel(meta){
+    const panel = h('div', { class:'tab-panel tab-articles' });
+    panel.style.setProperty('--tab-color', meta.color);
+    if (meta.background) panel.style.setProperty('--tab-bg', meta.background);
+    panel.append(h('div', { class:'title', text:'Articles' }));
+    panel.append(h('div', { class:'subtitle', text: `${state.articles.length} long-form explanations linked with quizzes` }));
+
+    if (!(state.articles || []).length) {
+      panel.append(h('div', { class:'subtitle', text: 'No articles found in the registry yet.' }));
+      return panel;
+    }
+
+    const tableWrap = h('div', { class:'table-wrap' });
+    const table = h('table', { class:'article-table' });
     const thead = h('thead');
     const thr = h('tr');
-    ['Title','Tags','Open','Path'].forEach(k => thr.append(h('th', { text:k, style:'border:1px solid #e5e7eb; padding:6px; background:#f3f4f6; text-align:left;' })));
+    ['Title','Tags','Open','Path'].forEach(label => thr.append(h('th', { text: label })));
     thead.append(thr);
     table.append(thead);
+
     const tbody = h('tbody');
-    (state.articles || []).forEach(a => {
+    (state.articles || []).forEach(article => {
       const tr = h('tr');
-      tr.append(
-        h('td', { style:'border:1px solid #e5e7eb; padding:6px;' , text: a.title || a.path }),
-        (function(){
-          const td = h('td', { style:'border:1px solid #e5e7eb; padding:6px;' });
-          const tags = Array.isArray(a.tags) ? a.tags.slice(0,8) : [];
-          tags.forEach(t => {
-            const b = h('button', { class:'ghost', text:`#${t}` });
-            b.addEventListener('click', () => { state.tagFilter = t; renderHome(); });
-            td.append(b, document.createTextNode(' '));
-          });
-          if (!tags.length) td.append(document.createTextNode('—'));
-          return td;
-        })(),
-        (function(){
-          const td = h('td', { style:'border:1px solid #e5e7eb; padding:6px;' });
-          td.append(h('button', { class:'ghost', onclick: () => { window.location.href = a.path; }, text:'Open' }));
-          return td;
-        })(),
-        h('td', { style:'border:1px solid #e5e7eb; padding:6px; color:#6b7280;' , text: a.path })
-      );
+      const titleCell = h('td'); titleCell.textContent = article.title || article.path;
+
+      const tagsCell = h('td');
+      const tagRow = renderTagsRow(article.tags || []);
+      if (tagRow.childNodes.length) {
+        tagRow.classList.add('tag-pills');
+        tagsCell.append(tagRow);
+      } else {
+        tagsCell.textContent = '—';
+      }
+
+      const openCell = h('td');
+      openCell.append(h('button', { class:'ghost', onclick: () => { window.location.href = article.path; }, text:'Open' }));
+
+      const pathCell = h('td'); pathCell.textContent = article.path;
+
+      tr.append(titleCell, tagsCell, openCell, pathCell);
       tbody.append(tr);
     });
     table.append(tbody);
-    panel.append(table);
-    // collapsed by default
-    panel.style.display = 'none';
-    toggleBtn.addEventListener('click', () => {
-      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    tableWrap.append(table);
+    panel.append(tableWrap);
+    return panel;
+  }
+
+  function normalizeLog(entry){
+    const obj = entry && typeof entry === 'object' ? { ...entry } : {};
+    obj.date = obj.date || '';
+    obj.title = obj.title || obj.id || 'Journal entry';
+    obj.content = obj.content || '';
+    const providedTags = Array.isArray(obj.tags) ? obj.tags.filter(Boolean) : [];
+    const derived = [];
+    if (obj.category) derived.push(String(obj.category).toLowerCase());
+    if (obj.mood) derived.push(`mood:${String(obj.mood).toLowerCase()}`);
+    if (obj.date) derived.push(obj.date);
+    const words = String(obj.title).toLowerCase().match(/[a-z0-9]+/g) || [];
+    const stop = new Set(['the','and','for','with','about','practice','practiced','strings','lists']);
+    words.forEach(w => {
+      if (w.length >= 3 && !stop.has(w)) derived.push(w);
     });
-    wrap.append(header, panel);
-    return wrap;
+    obj.tags = dedupe([...providedTags, ...derived]);
+    return obj;
+  }
+
+  function renderLogsPanel(meta){
+    const panel = h('div', { class:'tab-panel tab-journal' });
+    panel.style.setProperty('--tab-color', meta.color);
+    if (meta.background) panel.style.setProperty('--tab-bg', meta.background);
+    const activeTag = state.tagFilter;
+    const logs = (state.logs || []).filter(entry => {
+      if (!activeTag) return true;
+      const tags = Array.isArray(entry.tags) ? entry.tags : [];
+      return tags.includes(activeTag);
+    }).slice().sort((a, b) => {
+      const da = Date.parse(a.date || '') || 0;
+      const db = Date.parse(b.date || '') || 0;
+      return db - da;
+    });
+
+    panel.append(h('div', { class:'title', text:'Learning Journal' }));
+    const subtitleText = activeTag
+      ? `Focused on #${activeTag} • ${logs.length} entries`
+      : `${logs.length} captured lessons`;
+    panel.append(h('div', { class:'subtitle', text: subtitleText }));
+
+    if (!logs.length) {
+      const msg = activeTag
+        ? `No journal entries found for #${activeTag}.`
+        : 'No journal entries yet. Come back after your next lesson learned.';
+      panel.append(h('div', { class:'subtitle', text: msg }));
+      return panel;
+    }
+
+    const logList = h('div', { class:'log-panel' });
+    logs.forEach(entry => logList.append(renderLogEntry(entry)));
+    panel.append(logList);
+    return panel;
+  }
+
+  function renderLogEntry(entry){
+    const details = h('details', { class:'log-entry' });
+    const summary = h('summary', { class:'log-summary' });
+    const title = h('span', { class:'log-title', text: entry.title });
+    const date = entry.date ? h('span', { class:'log-date', text: formatLogDate(entry.date) }) : null;
+    summary.append(title);
+    if (date) summary.append(document.createTextNode(' • '), date);
+    if (entry.mood) {
+      const mood = h('span', { class:'log-mood', text: `mood: ${entry.mood}` });
+      summary.append(document.createTextNode(' • '), mood);
+    }
+    const body = h('div', { class:'log-body' });
+    body.innerHTML = mdToHtml(entry.content);
+    const tags = renderTagsRow(entry.tags || []);
+    if (tags.childNodes.length) {
+      tags.classList.add('log-tags');
+      body.prepend(tags);
+    }
+    details.append(summary, body);
+    details.addEventListener('toggle', () => {
+      if (details.open) applySyntaxHighlighting();
+    });
+    return details;
+  }
+
+  function formatLogDate(value){
+    try {
+      const date = new Date(value);
+      if (!Number.isFinite(date.getTime())) return value;
+      return date.toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+    } catch { return value; }
   }
 
   async function startQuiz(survey){
@@ -412,7 +551,12 @@
   function attachFilterEvents(){
     ui.search().addEventListener('input', renderHome);
     ui.category().addEventListener('change', renderHome);
-    ui.clear().addEventListener('click', () => { ui.search().value=''; ui.category().value=''; renderHome(); });
+    ui.clear().addEventListener('click', () => {
+      ui.search().value = '';
+      ui.category().value = '';
+      state.tagFilter = '';
+      renderHome();
+    });
   }
 
   function deepLinkId(){
@@ -423,12 +567,14 @@
   }
 
   async function init(){
-    const [survData, artData] = await Promise.all([
+    const [survData, artData, logData] = await Promise.all([
       fetchJSON(API.surveys).catch(() => []),
-      fetchJSON(API.articles).catch(() => [])
+      fetchJSON(API.articles).catch(() => []),
+      fetchJSON(API.journal).catch(() => [])
     ]);
     state.surveys = (Array.isArray(survData) ? survData : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/')).map(s => ({...s, tags: computeItemTags(s)}));
     state.articles = (Array.isArray(artData) ? artData : []).filter(a => a && typeof a.path === 'string');
+    state.logs = (Array.isArray(logData) ? logData : []).map(normalizeLog);
     populateFilters();
     attachFilterEvents();
     const id = deepLinkId();

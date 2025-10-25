@@ -1,116 +1,76 @@
-# Technical Article cum Quiz Platform — Agent Guide
+# Technical Article cum Quiz Platform - Agent Handbook
 
-1. This repository hosts a static, browser-based quiz platform. Quizzes are described in JSON, loaded over HTTP, and rendered with HTML/CSS/JavaScript. Many questions include Python snippets rendered as markdown with code fences.
-1. Every topic also accompanies its own article under programming/articles/
-1. Use this file as your quick-start map: structure, how it runs, how data is shaped, and where to make changes.
-2. Every Quiz should have a article under programming/articles
-3. Ensure articles covers all the question in respective quiz
-4. Article should have python code
-5. Articles should be accesible using "Read Article" similar to "Rabin–Karp Rolling Hash Fundamentals" under articles folder similar to /Users/mohannarayanaswamy/git/quiz/programming/articles/rabin-karp.html
+## Mission Snapshot
+- This repo powers a static browser-based quiz + article experience served from `programming/`.
+- Quizzes are JSON definitions registered in `programming/data/json/surveys.json`; articles are HTML under `programming/articles/` and listed in `programming/data/json/articles.json`.
+- The SPA in `programming/app.js` runs entirely in-browser (tabs: Quizzes, Articles, Learning Journal) and fetches JSON at runtime.
 
+## Local Runtime
+- Serve from `programming/` to avoid CORS: `cd programming && python3 -m http.server 8000` (or `npx http-server`).
+- Open `http://localhost:8000` and monitor the browser console for warnings thrown by `app.js`.
+- There is no bundler/dev server; edit files directly and refresh.
 
+## Directory Tour
+- `/programming/index.html` bootstraps the SPA and wires in `app.js`, CSS, and JSON data sources.
+- `/programming/app.js` handles fetch, quiz rendering, markdown conversion, and tab switching (Quizzes/Articles/Journal).
+- `/programming/data/json/` holds `surveys.json`, `articles.json`, `logs.json`, and category folders with question banks.
+- `/programming/articles/` contains static HTML articles that must stay in lockstep with quizzes.
+- `/doc/` captures per-session notes; add a new document here whenever you modify repository content.
+- `/src/` hosts supporting Python snippets (e.g., `src/rabinkarp.py`) that supplement articles/quizzes.
+- Root utilities: `escape_json.py` (escape quiz JSON), `generate_articles_json.py` (rebuild article registry), `README.md` (deployment/authoring), `DESIGN.md` (architecture background).
 
-## How It Works
-- Data source: `programming/data/json/surveys.json` lists quizzes (title, description, category, file path, etc.). Each entry points to a questions JSON file under `programming/data/json/...`.
-- Runtime: The UI is a dependency-free app served from `programming/index.html` and implemented in `programming/app.js`.
-  - Home lists quizzes with search and category filter.
-  - Start Quiz fetches the referenced questions JSON, normalizes each item, and renders one-by-one with navigation.
-  - Markdown: basic support for inline code and fenced code blocks (```lang ... ```), with strong HTML escaping to prevent injection.
-  - Correctness: `correctAnswer` may be an index, a value, or an array of indices/values. Review shows your selection and the correct choices.
-.- Note: A historical SurveyJS-based UI previously lived under `programming/js/` and has been removed to simplify the codebase.
+## Data & Content Model
+- `programming/data/json/surveys.json`: each survey entry includes `id`, `title`, `description`, `category`, `difficulty`, optional metadata, and `questionsFile` (path relative to `programming/`).
+- Question banks accept `title`|`question`, `choices`|`options`, and `correctAnswer` (number index, string value, or array of either). Keep strings markdown-friendly; runtime escaping prevents injection.
+- `programming/data/json/articles.json` drives the Articles tab: `{ "path": "articles/...", "title": "...", "tags": [...] }`. Run `python3 generate_articles_json.py` after adding or renaming HTML articles.
+- `programming/data/json/logs.json` feeds the Learning Journal tab. Follow the existing schema (`id`, `date`, `title`, `category`, `mood`, `tags`, `content` markdown).
 
-## Run Locally (required — avoids CORS)
-- `cd programming && python3 -m http.server 8000` then open `http://localhost:8000`.
-- Or `cd programming && npx http-server`.
+## Frontend Behaviour Notes
+- `app.js` converts markdown to escaped HTML with fenced-code support via `mdToHtml`; avoid embedding raw HTML in JSON.
+- Tab metadata is defined in `app.js` (`TABS`). Adding new panels requires wiring both the metadata and renderer.
+- Quiz state lives in `state.answers`; ensure choice ordering matches any `correctAnswer` indices or values.
 
-## Project Structure (from git ls-files)
-- Root
-  - `AGENTS.md` — this file.
-  - `README.md` — Nginx, deployment steps, and authoring notes.
-  - `escape_json.py` — HTML-escapes strings in question JSON.
-  - `package-lock.json` — present if using a simple static server locally.
-- `programming/`
-  - `index.html` — entry page (uses `app.js`).
-  - `app.js` — minimal, dependency-free quiz app (fetch + DOM only).
-  - `css/quiz-platform.css` — legacy stylesheet (not required by `index.html`).
-  - `simple/index.html` — self-contained simple demo page.
-  - `js/` — currently empty (legacy code/docs removed).
-  - `data/json/` — quiz registry + question banks
-    - `surveys.json` — quiz registry used by `app.js`.
-    - Categories and example files (full list tracked in git):
-      - `aws/`: `aws-policy-permissions-questions.json`, `k8s-secrets-questions.json`
-      - `golang/`: `questions.json`
-      - `infrastructure/`: `terraform-terragrunt-questions.json`
-      - `jvm/`: `questions.json`
-      - `messaging/`: `kafka-part1-questions.json`, `kafka-broker-part2-questions.json`, `kafka-consumer-part3-questions.json`
-      - `postgres/`: `postgres-data-model-index-performance-questions.json`, `postgres-query-planning-internals-questions.json`, `postgres-vacuum-autovacuum-deep-dive-questions.json`
-      - `python/`: `advanced-data-structures-questions.json`, `airflow-questions.json`, `bit-manipulation-questions.json`, `data-structures-questions.json`, `dunder-methods-questions.json`, `fenwick-tree-questions.json`, `leetcode-medium-questions.json`, `type-internals-questions.json`, `rabin-karp-rolling-hash-questions.json`
-      - `scala-slick/`: `questions.json`
-      - `trading/`: `crypto-derivatives-questions.json`, `oms-fix-questions.json`
-  - `doc/` — authoring aids: `CATEGORY_STRUCTURE.md`, `PROMPT.md`, `currentprompt.md`.
+## Content Authoring Checklist
+1. Every quiz must have a companion article under `programming/articles/` that covers each question and includes at least one Python code block.
+2. Ensure articles surface in the UI:
+   - Save HTML as `programming/articles/<topic>.html`.
+   - Update `articles.json` (or rerun `generate_articles_json.py`).
+   - Confirm "Read Article" links resolve correctly (see `rabin-karp.html` as the model).
+3. When creating quizzes:
+   - Place JSON under `programming/data/json/<category>/<topic>-questions.json`.
+   - Add a `surveys.json` entry with a unique `id`, matching `questionsFile`, and metadata (category, difficulty, tags, timing if needed).
+   - Run `escape_json.py` if the content includes code fences or HTML-sensitive characters.
+   - Align quiz coverage with the companion article narrative.
+4. Structure articles so sections map to quiz progression, highlight remediation tips, and weave in combinatorial or navigation insights when relevant.
 
-Notes:
-- `programming/index.html` displays “Data source: programming/data/json” to clarify the expected location of the data.
-- Some historical docs/files may exist in the git history; the current runtime path is the minimal app in `app.js`.
+## Scripts & Utilities
+- `python3 escape_json.py programming/data/json/<category>/<file>.json` - escape JSON strings before committing quizzes containing code or markup.
+- `python3 generate_articles_json.py` - rescan `programming/articles/` and rewrite `articles.json` with titles and tags.
+- Use `rg`/`rg --files` for searches per repo convention (faster and sandbox-friendly than `grep`).
 
-## Data Model
-- surveys.json entry fields:
-  - Required: `id`, `title`, `description`, `questionsFile` (path relative to `programming/`), plus typically `category`, `difficulty`.
-  - Optional: `icon`, `color`, `estimatedTime`, `timePerQuestion`, `maxTimeToFinish`.
-- question item (normalized by `app.js`):
-  - `title` or `question`: text (markdown-lite supported).
-  - `choices` or `options`: array of strings (markdown-lite supported).
-  - `correctAnswer`: index (number), value (string), or array of indices/values.
+## Agent Workflow Expectations
+- Run shell commands via `['bash','-lc', ...]` and always set the `workdir` parameter; avoid chaining `cd` in command strings.
+- Respect sandboxing (workspace-write) and restricted network; request escalated permissions with justification only when necessary.
+- Use the planning tool for multi-step tasks (skip only for trivial work) and update it as steps complete; never create single-step plans.
+- Prefer ASCII when editing; only introduce non-ASCII when the target file already relies on it.
+- Keep code comments minimal and purposeful; avoid narrating obvious intent.
+- Do not revert or overwrite user-made changes outside your scope; stop and ask if unexpected edits appear.
+- Review diffs and run available validations/tests before finishing whenever possible.
 
-## Coding Style
-- JavaScript: 4-space indent, semicolons, single quotes; classes `PascalCase`, functions/vars `camelCase`, constants `UPPER_SNAKE`.
-- Filenames: hyphenated lowercase for JSON and JS (e.g., `fenwick-tree-questions.json`).
+## Testing & QA
+- Serve the site locally and smoke-test quizzes, articles, and the journal. Watch the browser console for fetch/markdown warnings.
+- Verify quiz navigation, scoring, and progress indicators; ensure article links and code blocks render properly.
+- Validate JSON with `python -m json.tool < file` or similar before loading in the app.
 
-## Adding or Updating Quizzes
-- Place a new questions file under `programming/data/json/<category>/<topic>-questions.json`.
-- Register it in `programming/data/json/surveys.json` with a unique `id` and `questionsFile` path.
-- If you rely on the legacy SurveyJS UI, ensure mappings exist in `programming/js/quiz-data-manager.js` and category structure in `programming/js/quiz-platform.js`.
-- Run locally and verify the quiz renders, loads, and scores without console errors.
+## Deployment Reference
+- `README.md` captures the Nginx location block and static deployment steps (copying to `/var/www/indiatruck/public/`). Follow it when preparing releases.
 
-## Validation & Utilities
-- Run a local server to avoid CORS errors (see Run Locally).
-- Escape JSON content that includes markup/code: `python3 escape_json.py programming/data/json/<category>/<file>.json`.
-- Console shows warnings when survey or question fields are missing/invalid.
+## Session Documentation
+- Every session that changes repository content must add a note under `doc/` (e.g., `session-YYYY-MM-DD-topic.md`) summarizing edits, lessons, and tricky areas.
 
-## Deployment
-- Static site; see `README.md` for the Nginx location block and copy commands.
+## Helpful References
+- `README.md` for operational workflows.
+- `DESIGN.md` and `programming/doc/` for architectural and historical context.
+- Existing `doc/session-*.md` files for examples of the expected depth in session documentation.
 
-# Agents
-
-## Include
-- src/
-- app/
-
-## Ignore
-- doc/
-- .vscode/
-- .git/
-- programming/doc/
-
-# AGENTS.md
-
-## Permissions
-- tool: shell
-  commands:
-    - curl
-    - ls
-    - cat
-    - echo
-  ask_permission: false
-
-## Capabilities
-- name: shell
-  description: Allows running local shell commands
-  allowed: true
-  ask: false
-  commands:
-    - curl
-    - "*"
-
-## TODO for everysession by Codex
-1. Can you create document under doc after every session which involves code change, document what you learnt and what was tricky so human can learn from this session and improve his knowledge
+Stay consistent with these practices so future agents can build quizzes, articles, and journal entries quickly while keeping the platform coherent.

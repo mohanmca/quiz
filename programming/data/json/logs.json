@@ -1,0 +1,77 @@
+[
+  {
+    "id": "log-2025-10-23-python-hashing",
+    "date": "2025-10-23",
+    "title": "Python Hashing Practice — Strings and Lists",
+    "category": "python",
+    "mood": "curious",
+    "tags": [
+      "python",
+      "hashing",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nToday I practiced hashing built-in types in Python while revisiting LeetCode 49 \"Group Anagrams\" (https://leetcode.com/problems/group-anagrams/) and noted the behaviour differences between immutable and mutable containers.\n\n- Strings are immutable, so they work directly with Python's `hash`.\n- Lists must be converted to an immutable representation before hashing.\n- Dictionaries need a deterministic ordering; turning `.items()` into a sorted tuple makes them hashable.\n\n```python\nfrom typing import Iterable\n\ndef hash_text_and_list(text: str, items: Iterable[str]) -> tuple[int, int]:\n    \"\"\"Return the hash for the string and a list of strings.\"\"\"\n    text_hash = hash(text)\n    items_hash = hash(tuple(items))\n    return text_hash, items_hash\n\nlabel = \"python hashing practice\"\nfeatures = [\"hash\", \"string\", \"list\"]\nprint(hash_text_and_list(label, features))\n```\n\n**Extras:** Captured an anagram-friendly hash that buckets strings with the same character multiset—the same idea used to key groups in the LeetCode exercise.\n\n```python\nfrom collections import Counter\n\ndef anagram_hash(s: str) -> int:\n    counts = Counter(s)\n    items = tuple(sorted(counts.items()))\n    return hash(items)\n```\n\n**Bonus:** Hashing a dictionary after freezing it into a tuple.\n\n```python\ndef hash_dict(data: dict[str, int]) -> int:\n    frozen = tuple(sorted(data.items()))  # make ordering deterministic\n    return hash(frozen)\n\nprint(hash_dict({\"a\": 1, \"b\": 2}))\n```\n\n**Reflection:** Converting lists to tuples keeps ordering intact, and I should avoid hashing mutable structures directly so downstream code does not accidentally rely on a mutable key."
+  },
+  {
+    "id": "log-2025-10-23-python-defaultdict-anagrams",
+    "date": "2025-10-23",
+    "title": "Grouping Anagrams with collections.defaultdict",
+    "category": "python",
+    "mood": "motivated",
+    "tags": [
+      "python",
+      "defaultdict",
+      "anagrams",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nExplored why `collections.defaultdict(list)` is a natural fit when solving LeetCode 49 \"Group Anagrams\"; it keeps bucket creation implicit and the code focused on the transformation logic.\n\n- `defaultdict(list)` avoids repetitive `if key not in dict` checks.\n- Using a sorted tuple of characters as the key collapses anagrams into the same bucket.\n- Returning `list(r.values())` exposes just the grouped words, hiding the hashing key implementation detail.\n\n```python\nfrom collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        buckets = defaultdict(list)\n        for word in strs:\n            signature = tuple(sorted(word))\n            buckets[signature].append(word)\n        return list(buckets.values())\n```\n\n**Reflection:** Letting the dictionary auto-initialize removes the mental overhead of bookkeeping, so I can focus on choosing stable keys (like tuples) that make anagrams fall into place."
+  },
+  {
+    "id": "log-2025-10-24-python-postfix",
+    "date": "2025-10-24",
+    "title": "Python Postfix Sweep for Product Exclusion",
+    "category": "python",
+    "mood": "focused",
+    "tags": [
+      "python",
+      "arrays",
+      "prefix-postfix",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nPracticed building postfix accumulators to complement prefix sums when scanning arrays from the end. The technique keeps constant extra space for problems like LeetCode 238 (Product of Array Except Self).\n\n- Prefix handles the running product up to index `i`; postfix captures the product to the right.\n- Multiplying both views in-place avoids division and works with zeros.\n\n```python\npostfix = 1\nfor i in range(N-1, -1, -1):\n    n = nums[i]\n    result[i] *= postfix\n    postfix = postfix * n\n```\n\n**Reflection:** Pairing a prefix pass with this backward sweep produces the final answers in two linear scans, and storing the interim postfix in a scalar keeps memory overhead minimal."
+  },
+  {
+    "id": "log-2025-10-24-python-reverse-iteration",
+    "date": "2025-10-24",
+    "title": "Reverse Array Iteration With Index",
+    "category": "python",
+    "mood": "thoughtful",
+    "tags": [
+      "python",
+      "arrays",
+      "iteration",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nReviewed patterns for walking an array from the end while keeping the current index handy. Helpful when pairing with prefix/postfix tricks or when consuming two pointers from opposite sides.\n\n- `range(len(nums) - 1, -1, -1)` keeps the index explicit without materializing a copy.\n- `reversed(range(len(nums)))` expresses the same idea if I want the forward slice syntax.\n- Enumerating the reversed view needs a small offset fix to recover the original index.\n- `zip(range(len(nums) - 1, -1, -1), reversed(nums))` keeps the index/value pair aligned without recomputing an offset.\n- `enumerate(nums[::-1], start=0)` offers a compact slice-based option when a temporary reversed copy is acceptable.\n\n```python\nfor idx in range(len(nums) - 1, -1, -1):\n    val = nums[idx]\n    process(idx, val)\n\nfor offset, val in enumerate(reversed(nums)):\n    idx = len(nums) - 1 - offset\n    process(idx, val)\n\nfor idx, val in zip(range(len(nums) - 1, -1, -1), reversed(nums)):\n    process(idx, val)\n\nfor offset, val in enumerate(nums[::-1], start=0):\n    idx = len(nums) - 1 - offset\n    process(idx, val)\n```\n\n**Reflection:** Choosing the countdown `range` keeps the code terse and avoids building intermediate lists, but knowing the enumerate, zip, and slice options helps when I want both the forward and backward perspectives in one loop."
+  },
+  {
+    "id": "log-2025-10-24-python-on-hash",
+    "date": "2025-10-24",
+    "title": "Trading Sorting For O(n) With Hash Lookups",
+    "category": "python",
+    "mood": "determined",
+    "tags": [
+      "python",
+      "hash",
+      "arrays",
+      "patterns",
+      "journal",
+      "daily-log"
+    ],
+    "content": "### Context\nCaptured the reminder that many problems begging for sorting can fall to an O(n) scan if I lean on constant-time hash lookups instead. Longest consecutive sequence is a textbook example.\n\n- Sorting costs O(n log n); a set gives O(1) expected membership tests once I ingest the array.\n- Only expand streaks from numbers that do not have a predecessor, keeping the scan linear.\n- Update the running best length on the fly while walking each streak with the hash lookups.\n\n```python\nclass Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        s = set(nums)\n        maxcount = 0\n        for num in nums:\n            if num - 1 not in s:\n                count = 1\n                while num + 1 in s:\n                    count += 1\n                    num += 1\n                maxcount = max(maxcount, count)\n        return maxcount\n```\n\n**Reflection:** Hash-based passes keep the work proportional to the input size while still covering every streak; it is a good first check whenever my instinct reaches for `sorted()`."
+  }
+]
