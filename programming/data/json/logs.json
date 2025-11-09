@@ -180,5 +180,20 @@
             "daily-log"
         ],
         "content": "### Context\nRevisited LeetCode 239 \"Sliding Window Maximum\" to test whether a stack-only design works for window tracking.\n\n- Storing candidates in a stack fails when the window slides left because we need O(1) access to the front of the structure.\n- Using a deque keeps the front as the maximum and supports popleft when the index ages out.\n- Each element enters and leaves the deque once, maintaining O(n) time with O(k) extra space.\n\n```python\nfrom collections import deque\nfrom typing import List\n\nclass Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        window = deque()\n        output = []\n        for i, value in enumerate(nums):\n            while window and window[0][1] <= i - k:\n                window.popleft()\n            while window and window[-1][0] < value:\n                window.pop()\n            window.append((value, i))\n            if i + 1 >= k:\n                output.append(window[0][0])\n        return output\n```\n\n**Reflection:** I should reserve stacks for problems with strictly LIFO semantics; sliding windows demand a deque so I can prune both ends without rebuilding state."
+    },
+    {
+        "id": "log-2025-11-03-python-truthy-or",
+        "date": "2025-11-03",
+        "title": "Truthiness Makes Python's `or` a Handy Fallback",
+        "category": "python",
+        "mood": "insightful",
+        "tags": [
+            "python",
+            "boolean-logic",
+            "linked-lists",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nWhile wiring two sorted linked lists together, I kept writing `result.next = list1 if list1 else list2` and realised Python's `or` captures the same intent. Because `or` returns the first truthy operand, the line can shrink to `result.next = list1 or list2` without losing readability.\n\n- `or` short-circuits: it evaluates the left operand, and if it's truthy, that value is returned immediately.\n- For linked lists, any non-None node is truthy, so `list1 or list2` yields whichever list still has nodes without extra branching.\n- This mirrors other Pythonic idioms like `value = cache.get(key) or expensive_lookup(key)` where a falsy cache hit (e.g., `None`) intentionally falls through.\n\n```python\nif list1 and list2 and list1.val <= list2.val:\n    result.next = list1\nelse:\n    result.next = list1 or list2  # whichever list still has nodes\n```\n\n**Reflection:** Remembering that `or` returns an operand (not merely `True`/`False`) keeps my list merges concise, but I still need to guard cases where falsy-but-valid values (like `0`) could short-circuit unexpectedly."
     }
 ]
