@@ -1,0 +1,1202 @@
+[
+  {
+    "type": "radiogroup",
+    "name": "q1",
+    "title": "Which API matches this description: Central entry point that initializes global dependencies before any Activity runs.",
+    "choices": [
+      "Application",
+      "Context",
+      "Intent",
+      "Bundle"
+    ],
+    "correctAnswer": "Application"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2",
+    "title": "Which API matches this description: Handle to application and system services required to inflate layouts, access resources, and obtain managers quickly.",
+    "choices": [
+      "Context",
+      "Application",
+      "Intent",
+      "Bundle"
+    ],
+    "correctAnswer": "Context"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3",
+    "title": "Which API matches this description: Message object used to request an activity, service, or broadcast and ferry typed extras.",
+    "choices": [
+      "Intent",
+      "Application",
+      "Context",
+      "Bundle"
+    ],
+    "correctAnswer": "Intent"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q4",
+    "title": "Which API matches this description: Key-value container that carries primitive or Parcelable state across process recreation boundaries.",
+    "choices": [
+      "Bundle",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "Bundle"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q5",
+    "title": "Which API matches this description: UI entry point responsible for window setup, permission dialogs, and lifecycle-aware resource management.",
+    "choices": [
+      "Activity",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "Activity"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q6",
+    "title": "Which API matches this description: Modular UI/controller component seated inside activities to keep screens composable and testable.",
+    "choices": [
+      "Fragment",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "Fragment"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q7",
+    "title": "Which API matches this description: Base class that fuses Jetpack lifecycle + ViewModel owners for modern Kotlin-first screens.",
+    "choices": [
+      "ComponentActivity",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "ComponentActivity"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q8",
+    "title": "Which API matches this description: Coordinator that attaches, detaches, and restores fragments plus the navigation back stack.",
+    "choices": [
+      "FragmentManager",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "FragmentManager"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q9",
+    "title": "Which API matches this description: Lifecycle-aware holder for screen state and business logic that survives configuration changes.",
+    "choices": [
+      "ViewModel",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "ViewModel"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q10",
+    "title": "Which API matches this description: Key-value store automatically scoped to a ViewModel for persisting user input quickly.",
+    "choices": [
+      "SavedStateHandle",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "SavedStateHandle"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q11",
+    "title": "Which API matches this description: Interface implemented by Activities, Fragments, and Compose hosts so observers can watch state changes.",
+    "choices": [
+      "LifecycleOwner",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "LifecycleOwner"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q12",
+    "title": "Which API matches this description: Convenient observer with typed callbacks (onCreate, onStart, etc.) for hooking into hosts without reflection.",
+    "choices": [
+      "DefaultLifecycleObserver",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "DefaultLifecycleObserver"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q13",
+    "title": "Which API matches this description: Singleton that reports when the entire app enters foreground or background.",
+    "choices": [
+      "ProcessLifecycleOwner",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "ProcessLifecycleOwner"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q14",
+    "title": "Which API matches this description: Observable data holder that only notifies active lifecycle owners on the main thread.",
+    "choices": [
+      "LiveData",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "LiveData"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q15",
+    "title": "Which API matches this description: Mutable variant of LiveData for pushing UI updates from repositories, ViewModels, or services.",
+    "choices": [
+      "MutableLiveData",
+      "Application",
+      "Context",
+      "Intent"
+    ],
+    "correctAnswer": "MutableLiveData"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q16",
+    "title": "Which API matches this description: Structured concurrency boundary that launches jobs tied to lifecycle-aware cancellation.",
+    "choices": [
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main",
+      "Dispatchers.IO"
+    ],
+    "correctAnswer": "CoroutineScope"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q17",
+    "title": "Which API matches this description: Parent job that keeps sibling coroutines alive even if one fails.",
+    "choices": [
+      "SupervisorJob",
+      "CoroutineScope",
+      "Dispatchers.Main",
+      "Dispatchers.IO"
+    ],
+    "correctAnswer": "SupervisorJob"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q18",
+    "title": "Which API matches this description: Main-thread dispatcher for UI work, composition, and LiveData bridging.",
+    "choices": [
+      "Dispatchers.Main",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.IO"
+    ],
+    "correctAnswer": "Dispatchers.Main"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q19",
+    "title": "Which API matches this description: Thread pool optimized for disk and network operations without starving the main loop.",
+    "choices": [
+      "Dispatchers.IO",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "Dispatchers.IO"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q20",
+    "title": "Which API matches this description: Auto-created CoroutineScope tied to each ViewModel for fire-and-forget background work.",
+    "choices": [
+      "viewModelScope",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "viewModelScope"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q21",
+    "title": "Which API matches this description: CoroutineScope bound to LifecycleOwners, ideal for collecting Flow from UI layers.",
+    "choices": [
+      "lifecycleScope",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "lifecycleScope"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q22",
+    "title": "Which API matches this description: Hot Flow that stores the latest value and emits updates to collectors instantly.",
+    "choices": [
+      "MutableStateFlow",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "MutableStateFlow"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q23",
+    "title": "Which API matches this description: Read-only Flow counterpart for exposing immutable state to Compose or LiveData bridges.",
+    "choices": [
+      "StateFlow",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "StateFlow"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q24",
+    "title": "Which API matches this description: Broadcast Flow for fan-out events such as analytics pings or navigation commands.",
+    "choices": [
+      "SharedFlow",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "SharedFlow"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q25",
+    "title": "Which API matches this description: Coroutine-friendly queue for one-off tasks or streaming sensor samples with back-pressure.",
+    "choices": [
+      "Channel",
+      "CoroutineScope",
+      "SupervisorJob",
+      "Dispatchers.Main"
+    ],
+    "correctAnswer": "Channel"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q26",
+    "title": "Which API matches this description: Annotation describing a function that contributes UI to the Compose tree.",
+    "choices": [
+      "Composable",
+      "Modifier",
+      "remember",
+      "rememberSaveable"
+    ],
+    "correctAnswer": "Composable"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q27",
+    "title": "Which API matches this description: Fluent object for sizing, padding, gesture detection, and semantics adjustments in Compose.",
+    "choices": [
+      "Modifier",
+      "Composable",
+      "remember",
+      "rememberSaveable"
+    ],
+    "correctAnswer": "Modifier"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q28",
+    "title": "Which API matches this description: Utility that stores objects in composition so expensive work runs once per recomposition group.",
+    "choices": [
+      "remember",
+      "Composable",
+      "Modifier",
+      "rememberSaveable"
+    ],
+    "correctAnswer": "remember"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q29",
+    "title": "Which API matches this description: State saver that persists values across activity recreation using Parcelables or Saver objects.",
+    "choices": [
+      "rememberSaveable",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "rememberSaveable"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q30",
+    "title": "Which API matches this description: Backed property delegate whose changes trigger recomposition of dependent Composables.",
+    "choices": [
+      "MutableState",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "MutableState"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q31",
+    "title": "Which API matches this description: Read-only wrapper around MutableState for exposing immutable views of UI state.",
+    "choices": [
+      "State",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "State"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q32",
+    "title": "Which API matches this description: Coroutine launcher that reacts to key changes and runs suspend functions without leaking.",
+    "choices": [
+      "LaunchedEffect",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "LaunchedEffect"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q33",
+    "title": "Which API matches this description: Shortcut for grabbing a scope tied to the current composition.",
+    "choices": [
+      "rememberCoroutineScope",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "rememberCoroutineScope"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q34",
+    "title": "Which API matches this description: Hook to perform thread-safe, synchronous work (like imperatively updating a map camera) post-draw.",
+    "choices": [
+      "SideEffect",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "SideEffect"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q35",
+    "title": "Which API matches this description: High-level layout that wires top bars, FABs, snackbars, and body content consistently.",
+    "choices": [
+      "Scaffold",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "Scaffold"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q36",
+    "title": "Which API matches this description: Material component implementing a toolbar with icons, titles, and scroll behaviors.",
+    "choices": [
+      "TopAppBar",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "TopAppBar"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q37",
+    "title": "Which API matches this description: Vertical navigation component optimized for tablets and desktop-style layouts.",
+    "choices": [
+      "NavigationRail",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "NavigationRail"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q38",
+    "title": "Which API matches this description: Composable responsible for queuing and rendering snackbars triggered by ScaffoldState.",
+    "choices": [
+      "SnackbarHost",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "SnackbarHost"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q39",
+    "title": "Which API matches this description: Composable text primitive honoring typography, color, and accessibility scaling.",
+    "choices": [
+      "Text",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "Text"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q40",
+    "title": "Which API matches this description: Composable wrapper for vector and bitmap assets with automatic tinting.",
+    "choices": [
+      "Icon",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "Icon"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q41",
+    "title": "Which API matches this description: Clickable Material surface for primary actions with ripple, elevation, and disabled states.",
+    "choices": [
+      "Button",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "Button"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q42",
+    "title": "Which API matches this description: Input component with validation states, leading icons, and IME action hooks.",
+    "choices": [
+      "OutlinedTextField",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "OutlinedTextField"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q43",
+    "title": "Which API matches this description: Container with elevation and rounded corners for grouping related driver data.",
+    "choices": [
+      "Card",
+      "Composable",
+      "Modifier",
+      "remember"
+    ],
+    "correctAnswer": "Card"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q44",
+    "title": "Which API matches this description: Highly optimized vertical list that composes items on demand.",
+    "choices": [
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid",
+      "FlowRow"
+    ],
+    "correctAnswer": "LazyColumn"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q45",
+    "title": "Which API matches this description: Horizontal list ideal for chip carousels or fleet card scrollers.",
+    "choices": [
+      "LazyRow",
+      "LazyColumn",
+      "LazyVerticalGrid",
+      "FlowRow"
+    ],
+    "correctAnswer": "LazyRow"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q46",
+    "title": "Which API matches this description: Two-dimensional grid for dashboards, filters, or feature shelves.",
+    "choices": [
+      "LazyVerticalGrid",
+      "LazyColumn",
+      "LazyRow",
+      "FlowRow"
+    ],
+    "correctAnswer": "LazyVerticalGrid"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q47",
+    "title": "Which API matches this description: Responsive row that wraps items to the next line when width is constrained.",
+    "choices": [
+      "FlowRow",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "FlowRow"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q48",
+    "title": "Which API matches this description: Constraint-based Compose layout for intricate alignments without nested Rows/Columns.",
+    "choices": [
+      "ConstraintLayout (Compose)",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "ConstraintLayout (Compose)"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q49",
+    "title": "Which API matches this description: Animation-aware constraint system for gestures, transitions, and sensor-driven layouts.",
+    "choices": [
+      "MotionLayout (Compose)",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "MotionLayout (Compose)"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q50",
+    "title": "Which API matches this description: Utility that fades/expands content when boolean state toggles.",
+    "choices": [
+      "AnimatedVisibility",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "AnimatedVisibility"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q51",
+    "title": "Which API matches this description: Transition API swapping between two composables with cross-fade animation.",
+    "choices": [
+      "Crossfade",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "Crossfade"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q52",
+    "title": "Which API matches this description: Animates size and content changes when target state mutates.",
+    "choices": [
+      "AnimatedContent",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "AnimatedContent"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q53",
+    "title": "Which API matches this description: Creates time-based animations (pulses, shimmer) without manual coroutine plumbing.",
+    "choices": [
+      "rememberInfiniteTransition",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "rememberInfiniteTransition"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q54",
+    "title": "Which API matches this description: Low-level drawing surface for charts, maps, and sensor visualizations.",
+    "choices": [
+      "Canvas (Compose)",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "Canvas (Compose)"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q55",
+    "title": "Which API matches this description: Composable modal window supporting custom content and lifecycle-aware dismissal.",
+    "choices": [
+      "Dialog (Compose)",
+      "LazyColumn",
+      "LazyRow",
+      "LazyVerticalGrid"
+    ],
+    "correctAnswer": "Dialog (Compose)"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q56",
+    "title": "Which API matches this description: Flexible list container that reuses child views for efficient scrolling.",
+    "choices": [
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil",
+      "ViewBinding"
+    ],
+    "correctAnswer": "RecyclerView"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q57",
+    "title": "Which API matches this description: RecyclerView adapter with DiffUtil support baked in for painless updates.",
+    "choices": [
+      "ListAdapter",
+      "RecyclerView",
+      "DiffUtil",
+      "ViewBinding"
+    ],
+    "correctAnswer": "ListAdapter"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q58",
+    "title": "Which API matches this description: Utility that computes list diffs on background threads for smooth UI refreshes.",
+    "choices": [
+      "DiffUtil",
+      "RecyclerView",
+      "ListAdapter",
+      "ViewBinding"
+    ],
+    "correctAnswer": "DiffUtil"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q59",
+    "title": "Which API matches this description: Generated binding classes that replace findViewById with type-safe accessors.",
+    "choices": [
+      "ViewBinding",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "ViewBinding"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q60",
+    "title": "Which API matches this description: Helper for inflating databound layouts and binding ViewModels declaratively.",
+    "choices": [
+      "DataBindingUtil",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "DataBindingUtil"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q61",
+    "title": "Which API matches this description: Powerful XML layout enabling flat hierarchies with constraint chains.",
+    "choices": [
+      "ConstraintLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "ConstraintLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q62",
+    "title": "Which API matches this description: ConstraintLayout extension for rich transitions driven by keyframes or progress values.",
+    "choices": [
+      "MotionLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "MotionLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q63",
+    "title": "Which API matches this description: Layout that coordinates scroll behaviors between child views like AppBar + RecyclerView.",
+    "choices": [
+      "CoordinatorLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "CoordinatorLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q64",
+    "title": "Which API matches this description: Toolbar container that collapses/expands based on nested scrolling child input.",
+    "choices": [
+      "AppBarLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "AppBarLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q65",
+    "title": "Which API matches this description: ScrollView variant that participates in nested scrolling with CoordinatorLayout.",
+    "choices": [
+      "NestedScrollView",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "NestedScrollView"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q66",
+    "title": "Which API matches this description: Widget for swiping between fragments or views with RecyclerView under the hood.",
+    "choices": [
+      "ViewPager2",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "ViewPager2"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q67",
+    "title": "Which API matches this description: Material tabs component that syncs with ViewPager2 or Compose nav destinations.",
+    "choices": [
+      "TabLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "TabLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q68",
+    "title": "Which API matches this description: Layout wrapper providing pull-to-refresh affordances with Compose interop.",
+    "choices": [
+      "SwipeRefreshLayout",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "SwipeRefreshLayout"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q69",
+    "title": "Which API matches this description: Material Components implementation of Toolbar with menu, navigation, and color theming.",
+    "choices": [
+      "MaterialToolbar",
+      "RecyclerView",
+      "ListAdapter",
+      "DiffUtil"
+    ],
+    "correctAnswer": "MaterialToolbar"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q70",
+    "title": "Which API matches this description: Central navigation orchestrator handling back stack, deep links, and arguments.",
+    "choices": [
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder",
+      "NavOptions"
+    ],
+    "correctAnswer": "NavController"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q71",
+    "title": "Which API matches this description: Fragment that hosts composables or views defined inside a nav graph.",
+    "choices": [
+      "NavHostFragment",
+      "NavController",
+      "NavGraphBuilder",
+      "NavOptions"
+    ],
+    "correctAnswer": "NavHostFragment"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q72",
+    "title": "Which API matches this description: DSL entry point for declaring composable or fragment destinations in Kotlin.",
+    "choices": [
+      "NavGraphBuilder",
+      "NavController",
+      "NavHostFragment",
+      "NavOptions"
+    ],
+    "correctAnswer": "NavGraphBuilder"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q73",
+    "title": "Which API matches this description: Configuration object for animations, popUpTo rules, and launchSingleTop semantics.",
+    "choices": [
+      "NavOptions",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "NavOptions"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q74",
+    "title": "Which API matches this description: Builder that constructs PendingIntents which open destinations with arguments prefilled.",
+    "choices": [
+      "NavDeepLinkBuilder",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "NavDeepLinkBuilder"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q75",
+    "title": "Which API matches this description: Annotation that triggers Hilt code generation for Application subclasses.",
+    "choices": [
+      "HiltAndroidApp",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "HiltAndroidApp"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q76",
+    "title": "Which API matches this description: Annotation marking Activities, Fragments, or Services as Hilt injection targets.",
+    "choices": [
+      "AndroidEntryPoint",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "AndroidEntryPoint"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q77",
+    "title": "Which API matches this description: Annotation hooking a ViewModel into the Hilt graph with @Inject constructors.",
+    "choices": [
+      "HiltViewModel",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "HiltViewModel"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q78",
+    "title": "Which API matches this description: Utility for fetching Hilt bindings from classes that cannot use @AndroidEntryPoint.",
+    "choices": [
+      "EntryPointAccessors",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "EntryPointAccessors"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q79",
+    "title": "Which API matches this description: Default Hilt component scope for app-wide singletons.",
+    "choices": [
+      "SingletonComponent",
+      "NavController",
+      "NavHostFragment",
+      "NavGraphBuilder"
+    ],
+    "correctAnswer": "SingletonComponent"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q80",
+    "title": "Which API matches this description: Abstract base class tying DAOs together and configuring migrations for Room.",
+    "choices": [
+      "RoomDatabase",
+      "Room",
+      "Entity",
+      "Dao"
+    ],
+    "correctAnswer": "RoomDatabase"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q81",
+    "title": "Which API matches this description: ORM abstraction that generates SQL and type-safe DAO implementations.",
+    "choices": [
+      "Room",
+      "RoomDatabase",
+      "Entity",
+      "Dao"
+    ],
+    "correctAnswer": "Room"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q82",
+    "title": "Which API matches this description: Annotation describing a Room table schema tied to Kotlin data classes.",
+    "choices": [
+      "Entity",
+      "RoomDatabase",
+      "Room",
+      "Dao"
+    ],
+    "correctAnswer": "Entity"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q83",
+    "title": "Which API matches this description: Interface whose annotated methods perform type-safe SQL queries and updates.",
+    "choices": [
+      "Dao",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "Dao"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q84",
+    "title": "Which API matches this description: Annotation ensuring multi-query methods run atomically.",
+    "choices": [
+      "Transaction",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "Transaction"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q85",
+    "title": "Which API matches this description: Data source that loads pages of results for infinite scroll experiences.",
+    "choices": [
+      "PagingSource",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "PagingSource"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q86",
+    "title": "Which API matches this description: Immutable stream of paged items consumed by Paging adapters or Compose.",
+    "choices": [
+      "PagingData",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "PagingData"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q87",
+    "title": "Which API matches this description: Helper that coordinates PagingSource creation, config, and Flow emission.",
+    "choices": [
+      "Pager",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "Pager"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q88",
+    "title": "Which API matches this description: Component syncing network + database to keep Paging layers fresh.",
+    "choices": [
+      "RemoteMediator",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "RemoteMediator"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q89",
+    "title": "Which API matches this description: Coroutines-first key-value store replacing SharedPreferences with predictable I/O.",
+    "choices": [
+      "DataStore",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "DataStore"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q90",
+    "title": "Which API matches this description: Factory for building preference DataStore instances from Context.",
+    "choices": [
+      "PreferencesDataStoreFactory",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "PreferencesDataStoreFactory"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q91",
+    "title": "Which API matches this description: Typed DataStore powered by Protocol Buffers for structured config/state.",
+    "choices": [
+      "ProtoDataStore",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "ProtoDataStore"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q92",
+    "title": "Which API matches this description: Legacy key-value store still handy for small synchronous flags.",
+    "choices": [
+      "SharedPreferences",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "SharedPreferences"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q93",
+    "title": "Which API matches this description: Drop-in SharedPreferences replacement that encrypts keys + values transparently.",
+    "choices": [
+      "EncryptedSharedPreferences",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "EncryptedSharedPreferences"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q94",
+    "title": "Which API matches this description: Helper for managing custom SQLite schemas without Room.",
+    "choices": [
+      "SQLiteOpenHelper",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "SQLiteOpenHelper"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q95",
+    "title": "Which API matches this description: Facade for querying ContentProviders and observing cursor changes.",
+    "choices": [
+      "ContentResolver",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "ContentResolver"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q96",
+    "title": "Which API matches this description: ContentProvider that shares app-private files via secure content URIs.",
+    "choices": [
+      "FileProvider",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "FileProvider"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q97",
+    "title": "Which API matches this description: Indexed media provider for photos, audio, and downloads.",
+    "choices": [
+      "MediaStore",
+      "RoomDatabase",
+      "Room",
+      "Entity"
+    ],
+    "correctAnswer": "MediaStore"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q98",
+    "title": "Which API matches this description: Declarative HTTP client that turns annotated interfaces into suspend functions.",
+    "choices": [
+      "Retrofit",
+      "OkHttpClient",
+      "HttpLoggingInterceptor",
+      "WebSocket"
+    ],
+    "correctAnswer": "Retrofit"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q99",
+    "title": "Which API matches this description: Low-level HTTP stack powering Retrofit with interceptors and connection pooling.",
+    "choices": [
+      "OkHttpClient",
+      "Retrofit",
+      "HttpLoggingInterceptor",
+      "WebSocket"
+    ],
+    "correctAnswer": "OkHttpClient"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q100",
+    "title": "Which API matches this description: OkHttp interceptor that logs request/response data for debugging.",
+    "choices": [
+      "HttpLoggingInterceptor",
+      "Retrofit",
+      "OkHttpClient",
+      "WebSocket"
+    ],
+    "correctAnswer": "HttpLoggingInterceptor"
+  }
+]
