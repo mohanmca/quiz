@@ -27,6 +27,7 @@ git pull
 cp -r ../quiz/ /var/www/indiatruck/public/
 chown -R  www-data:www-data /var/www/indiatruck/public/
 chmod 755 /var/www/indiatruck/public/
+curl https://indiatruck.in/quiz/programming/index.html
 ```
 
 
