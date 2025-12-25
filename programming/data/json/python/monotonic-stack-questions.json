@@ -1,0 +1,1404 @@
+[
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q1",
+    "title": "**Which stack helps find next/previous larger elements?**",
+    "choices": [
+      "Monotonic decreasing stack",
+      "Monotonic increasing stack",
+      "Monotonic queue",
+      "Binary heap"
+    ],
+    "correctAnswer": "Monotonic decreasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q2",
+    "title": "**Which stack helps find next/previous smaller elements?**",
+    "choices": [
+      "Monotonic increasing stack",
+      "Monotonic decreasing stack",
+      "Priority queue",
+      "Binary search tree"
+    ],
+    "correctAnswer": "Monotonic increasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q3",
+    "title": "**Which variant is preferred when duplicates should stay in an increasing stack?**",
+    "choices": [
+      "Monotonic non-decreasing stack",
+      "Monotonic decreasing stack",
+      "Monotonic non-increasing stack",
+      "Randomized stack"
+    ],
+    "correctAnswer": "Monotonic non-decreasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q4",
+    "title": "**Which variant is preferred when duplicates should stay in a decreasing stack?**",
+    "choices": [
+      "Monotonic non-increasing stack",
+      "Monotonic increasing stack",
+      "Monotonic non-decreasing stack",
+      "Deque with heap"
+    ],
+    "correctAnswer": "Monotonic non-increasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q5",
+    "title": "**In a monotonic decreasing stack, what sits at the bottom after processing?**",
+    "choices": [
+      "The largest element",
+      "The smallest element",
+      "The median element",
+      "The last element"
+    ],
+    "correctAnswer": "The largest element"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q6",
+    "title": "**In a monotonic decreasing stack, what happens when a larger element appears to the right?**",
+    "choices": [
+      "Smaller elements are popped",
+      "Larger elements are popped",
+      "Stack is cleared",
+      "Nothing"
+    ],
+    "correctAnswer": "Smaller elements are popped"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q7",
+    "title": "**Every pop in MDS reveals the element's:**",
+    "choices": [
+      "Next larger element",
+      "Previous larger element",
+      "Next smaller element",
+      "Previous smaller element"
+    ],
+    "correctAnswer": "Next larger element"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q8",
+    "title": "**In MIS, popping indicates:**",
+    "choices": [
+      "A smaller element appeared on the right",
+      "A larger element appeared on the right",
+      "The sequence is sorted",
+      "Duplicates are ignored"
+    ],
+    "correctAnswer": "A smaller element appeared on the right"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q9",
+    "title": "**MIS popping corresponds to which trend change?**",
+    "choices": [
+      "Peak followed by valley",
+      "Valley followed by peak",
+      "Flat plateau",
+      "No trend change"
+    ],
+    "correctAnswer": "Peak followed by valley"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q10",
+    "title": "**MDS popping corresponds to which trend change?**",
+    "choices": [
+      "Valley followed by peak",
+      "Peak followed by valley",
+      "Flat plateau",
+      "No trend change"
+    ],
+    "correctAnswer": "Valley followed by peak"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q11",
+    "title": "**To find Next Greater Element while scanning left to right, use:**",
+    "choices": [
+      "Monotonic decreasing stack",
+      "Monotonic increasing stack",
+      "Queue",
+      "Balanced tree"
+    ],
+    "correctAnswer": "Monotonic decreasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q12",
+    "title": "**To find Next Smaller Element while scanning left to right, use:**",
+    "choices": [
+      "Monotonic increasing stack",
+      "Monotonic decreasing stack",
+      "Queue",
+      "Hash map"
+    ],
+    "correctAnswer": "Monotonic increasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q13",
+    "title": "**In sum of subarray minimums, duplicates are handled by using which comparison on the right side?**",
+    "choices": [
+      ">=",
+      ">",
+      "<",
+      "<="
+    ],
+    "correctAnswer": ">="
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q14",
+    "title": "**Why store indices in a monotonic stack for arrays?**",
+    "choices": [
+      "Indices allow range calculations",
+      "Indices use less memory",
+      "Values are always unique",
+      "Indices remove the need for a stack"
+    ],
+    "correctAnswer": "Indices allow range calculations"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q15",
+    "title": "**MDS is dictated by which order?**",
+    "choices": [
+      "Descending (reverse sorted)",
+      "Ascending (sorted)",
+      "Random order",
+      "Input order"
+    ],
+    "correctAnswer": "Descending (reverse sorted)"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q16",
+    "title": "**Which statement matches the MDS mental model?**",
+    "choices": [
+      "Stronger elements pop weaker ones above",
+      "Weaker elements pop stronger ones",
+      "Elements never pop",
+      "Only duplicates pop"
+    ],
+    "correctAnswer": "Stronger elements pop weaker ones above"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q17",
+    "title": "**True or False: In MDS, the smallest element stays only if it was added last.**",
+    "choices": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "True"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q18",
+    "title": "**True or False: Once MDS is constructed, it feels like descending order.**",
+    "choices": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "True"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q19",
+    "title": "**MIS filters out all elements before the:**",
+    "choices": [
+      "Smallest element",
+      "Largest element",
+      "Median element",
+      "Last element"
+    ],
+    "correctAnswer": "Smallest element"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q20",
+    "title": "**If adjacent elements in MIS have large gaps, it indicates:**",
+    "choices": [
+      "Out-of-order elements were removed",
+      "The array was sorted",
+      "Stack was empty",
+      "Duplicates were kept"
+    ],
+    "correctAnswer": "Out-of-order elements were removed"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q21",
+    "title": "**How many monotonic stack types are commonly used?**",
+    "choices": [
+      "Four",
+      "Two",
+      "Three",
+      "One"
+    ],
+    "correctAnswer": "Four"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q22",
+    "title": "**Monotonic stack vs queue: the key difference is:**",
+    "choices": [
+      "Stack is LIFO, queue is FIFO",
+      "Stack is FIFO, queue is LIFO",
+      "Stacks keep max, queues keep min",
+      "Queues ignore order"
+    ],
+    "correctAnswer": "Stack is LIFO, queue is FIFO"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q23",
+    "title": "**In the example, which structure yields [8, 15, 31, 49, 53]?**",
+    "choices": [
+      "Monotonic increasing queue",
+      "Monotonic decreasing queue",
+      "Monotonic increasing stack",
+      "Monotonic decreasing stack"
+    ],
+    "correctAnswer": "Monotonic increasing queue"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q24",
+    "title": "**In the example, which structure yields [53, 66, 68, 75, 97]?**",
+    "choices": [
+      "Monotonic decreasing stack",
+      "Monotonic increasing stack",
+      "Monotonic increasing queue",
+      "Monotonic decreasing queue"
+    ],
+    "correctAnswer": "Monotonic decreasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q25",
+    "title": "**Stock span is defined as:**",
+    "choices": [
+      "Max consecutive days with price <= today",
+      "Max consecutive days with price >= today",
+      "Days until next higher price",
+      "Days until next lower price"
+    ],
+    "correctAnswer": "Max consecutive days with price <= today"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q26",
+    "title": "**Peak followed by trough is detected by:**",
+    "choices": [
+      "Monotonic increasing stack",
+      "Monotonic decreasing stack",
+      "Queue",
+      "Heap"
+    ],
+    "correctAnswer": "Monotonic increasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q27",
+    "title": "**Trough followed by peak is detected by:**",
+    "choices": [
+      "Monotonic decreasing stack",
+      "Monotonic increasing stack",
+      "Queue",
+      "Heap"
+    ],
+    "correctAnswer": "Monotonic decreasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q28",
+    "title": "**If i < j and you need nums[j] > nums[i], build:**",
+    "choices": [
+      "MDS left to right",
+      "MIS left to right",
+      "MDS right to left",
+      "MIS right to left"
+    ],
+    "correctAnswer": "MDS left to right"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q29",
+    "title": "**If i < j and you need nums[j] < nums[i], build:**",
+    "choices": [
+      "MIS left to right",
+      "MDS left to right",
+      "MIS right to left",
+      "MDS right to left"
+    ],
+    "correctAnswer": "MIS left to right"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q30",
+    "title": "**Range of bigger numbers between two smaller numbers is computed with:**",
+    "choices": [
+      "Monotonic stacks",
+      "Binary search trees",
+      "Heaps",
+      "Prefix sums only"
+    ],
+    "correctAnswer": "Monotonic stacks"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q31",
+    "title": "**For contribution of a minimum, left[i] is distance to:**",
+    "choices": [
+      "Previous less element",
+      "Next less element",
+      "Previous greater element",
+      "Next greater element"
+    ],
+    "correctAnswer": "Previous less element"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q32",
+    "title": "**Subarray count where A[i] is minimum equals:**",
+    "choices": [
+      "left[i] * right[i]",
+      "left[i] + right[i]",
+      "left[i] - right[i]",
+      "left[i] / right[i]"
+    ],
+    "correctAnswer": "left[i] * right[i]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q33",
+    "title": "**In [2,9,7,8,3,4,6,1], for element 3, how many subarrays use 3 as min?**",
+    "choices": [
+      "12",
+      "7",
+      "8",
+      "9"
+    ],
+    "correctAnswer": "12"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q34",
+    "title": "**In that example, contribution of 3 is:**",
+    "choices": [
+      "36",
+      "12",
+      "9",
+      "24"
+    ],
+    "correctAnswer": "36"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q35",
+    "title": "**Next Greater Element I uses which stack order?**",
+    "choices": [
+      "Monotonic decreasing by value",
+      "Monotonic increasing by value",
+      "Random",
+      "Sorted by index"
+    ],
+    "correctAnswer": "Monotonic decreasing by value"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q36",
+    "title": "**Next Greater Element II iterates 2N times to:**",
+    "choices": [
+      "Simulate circular array",
+      "Reduce memory",
+      "Handle duplicates",
+      "Sort the array"
+    ],
+    "correctAnswer": "Simulate circular array"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q37",
+    "title": "**Online Stock Span stack stores:**",
+    "choices": [
+      "(span, price) pairs",
+      "(index, price) pairs only",
+      "Only prices",
+      "Only indices"
+    ],
+    "correctAnswer": "(span, price) pairs"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q38",
+    "title": "**Daily Temperatures uses a stack of:**",
+    "choices": [
+      "Indices of decreasing temperatures",
+      "Indices of increasing temperatures",
+      "Temperatures only",
+      "Sorted temperatures"
+    ],
+    "correctAnswer": "Indices of decreasing temperatures"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q39",
+    "title": "**132 Pattern solution scans from the right to keep:**",
+    "choices": [
+      "Potential '2' candidates in a stack",
+      "Potential '1' candidates only",
+      "A sorted array",
+      "A heap of values"
+    ],
+    "correctAnswer": "Potential '2' candidates in a stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q40",
+    "title": "**Shortest Unsorted Continuous Subarray uses:**",
+    "choices": [
+      "Two monotonic stack passes to find boundaries",
+      "One heap pass",
+      "A BFS traversal",
+      "A hash set only"
+    ],
+    "correctAnswer": "Two monotonic stack passes to find boundaries"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q41",
+    "title": "**Largest Rectangle in Histogram uses stack of:**",
+    "choices": [
+      "Increasing heights (indices)",
+      "Decreasing heights (indices)",
+      "Random heights",
+      "Sorted widths"
+    ],
+    "correctAnswer": "Increasing heights (indices)"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q42",
+    "title": "**In histogram algorithm, pop when:**",
+    "choices": [
+      "Current height <= height at stack top",
+      "Current height >= height at stack top",
+      "Current index is odd",
+      "Stack size is even"
+    ],
+    "correctAnswer": "Current height <= height at stack top"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q43",
+    "title": "**Trapping Rain Water algorithm uses stack of:**",
+    "choices": [
+      "Indices of decreasing heights",
+      "Indices of increasing heights",
+      "Heights only",
+      "Sorted heights"
+    ],
+    "correctAnswer": "Indices of decreasing heights"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q44",
+    "title": "**Steps to Make Array Non-decreasing uses:**",
+    "choices": [
+      "Stack plus dp to count rounds",
+      "Only prefix sums",
+      "Only a heap",
+      "Only sorting"
+    ],
+    "correctAnswer": "Stack plus dp to count rounds"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q45",
+    "title": "**Sum of Subarray Minimums uses:**",
+    "choices": [
+      "Monotonic increasing stack",
+      "Monotonic decreasing stack",
+      "Queue",
+      "Tree"
+    ],
+    "correctAnswer": "Monotonic increasing stack"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q46",
+    "title": "**NSE and PSE help compute:**",
+    "choices": [
+      "Range contributions for each element",
+      "Only sorting",
+      "Only prefix sums",
+      "Only suffix sums"
+    ],
+    "correctAnswer": "Range contributions for each element"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q47",
+    "title": "**Which is best solved by a monotonic queue, not stack?**",
+    "choices": [
+      "Sliding window maximum",
+      "Next greater element",
+      "Daily temperatures",
+      "Largest rectangle"
+    ],
+    "correctAnswer": "Sliding window maximum"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q48",
+    "title": "**Sliding window maximum maintains a deque that is:**",
+    "choices": [
+      "Decreasing by value",
+      "Increasing by value",
+      "Random",
+      "Sorted by index only"
+    ],
+    "correctAnswer": "Decreasing by value"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q49",
+    "title": "**To find first smaller to left, use MIS and pop while:**",
+    "choices": [
+      "Current <= stack top",
+      "Current >= stack top",
+      "Current == stack top",
+      "Never pop"
+    ],
+    "correctAnswer": "Current <= stack top"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q50",
+    "title": "**To find first larger to left, use MDS and pop while:**",
+    "choices": [
+      "Current >= stack top",
+      "Current <= stack top",
+      "Current == stack top",
+      "Never pop"
+    ],
+    "correctAnswer": "Current >= stack top"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q51",
+    "title": "**If i pops j because i > j, then:**",
+    "choices": [
+      "i is NGE for j and j is PSE for i",
+      "i is NSE for j and j is PGE for i",
+      "i is PGE for j",
+      "No relation"
+    ],
+    "correctAnswer": "i is NGE for j and j is PSE for i"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q52",
+    "title": "**If i pops j because i < j, then:**",
+    "choices": [
+      "i is NSE for j and j is PGE for i",
+      "i is NGE for j and j is PSE for i",
+      "i is PGE for j",
+      "No relation"
+    ],
+    "correctAnswer": "i is NSE for j and j is PGE for i"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q53",
+    "title": "**In MDS, increasing subsequences are:**",
+    "choices": [
+      "Collapsed and only the last larger remains",
+      "Expanded",
+      "Sorted fully",
+      "Ignored"
+    ],
+    "correctAnswer": "Collapsed and only the last larger remains"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q54",
+    "title": "**True or False: Pushing a sorted array from tail to head gives MDS.**",
+    "choices": [
+      "True",
+      "False"
+    ],
+    "correctAnswer": "True"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q55",
+    "title": "**Monotonic increasing stack can give previous smaller by:**",
+    "choices": [
+      "Reading top after popping larger or equal elements",
+      "Reading bottom only",
+      "Sorting the stack",
+      "Using a heap"
+    ],
+    "correctAnswer": "Reading top after popping larger or equal elements"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q56",
+    "title": "**Handling duplicates in monotonic stacks usually means:**",
+    "choices": [
+      "Use strict on one side and non-strict on the other",
+      "Never pop duplicates",
+      "Always pop duplicates on both sides",
+      "Duplicates are ignored"
+    ],
+    "correctAnswer": "Use strict on one side and non-strict on the other"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q57",
+    "title": "**In sum of subarray minimums, a common choice is:**",
+    "choices": [
+      "Left strictly smaller, right smaller or equal",
+      "Left smaller or equal, right strictly smaller",
+      "Both strictly smaller",
+      "Both smaller or equal"
+    ],
+    "correctAnswer": "Left strictly smaller, right smaller or equal"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q58",
+    "title": "**NGE I uses a value-to-next-greater map because:**",
+    "choices": [
+      "nums1 is a subset of nums2",
+      "nums1 is larger than nums2",
+      "nums2 is sorted",
+      "nums1 has duplicates"
+    ],
+    "correctAnswer": "nums1 is a subset of nums2"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q59",
+    "title": "**In NGE II, pushing indices with i % N lets us:**",
+    "choices": [
+      "Reuse the array for circular search",
+      "Sort the array",
+      "Skip duplicates",
+      "Avoid stack"
+    ],
+    "correctAnswer": "Reuse the array for circular search"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q60",
+    "title": "**Stock span uses which stack type?**",
+    "choices": [
+      "Monotonic decreasing stack by price",
+      "Monotonic increasing stack by price",
+      "Random stack",
+      "Queue"
+    ],
+    "correctAnswer": "Monotonic decreasing stack by price"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q61",
+    "title": "**Daily temperatures is equivalent to:**",
+    "choices": [
+      "Next greater element on the right",
+      "Next smaller element on the right",
+      "Previous smaller element",
+      "Range minimum query"
+    ],
+    "correctAnswer": "Next greater element on the right"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q62",
+    "title": "**132 pattern uses a stack to maintain:**",
+    "choices": [
+      "A decreasing stack of potential nums[k]",
+      "A queue of nums[i]",
+      "A heap of nums[j]",
+      "A sorted list"
+    ],
+    "correctAnswer": "A decreasing stack of potential nums[k]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q63",
+    "title": "**Shortest unsorted subarray left boundary is found by:**",
+    "choices": [
+      "Left-to-right pass with MIS",
+      "Right-to-left pass with MDS",
+      "Sorting only",
+      "Binary search"
+    ],
+    "correctAnswer": "Left-to-right pass with MIS"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q64",
+    "title": "**Shortest unsorted subarray right boundary is found by:**",
+    "choices": [
+      "Right-to-left pass with MDS",
+      "Left-to-right pass with MIS",
+      "Sorting only",
+      "Binary search"
+    ],
+    "correctAnswer": "Right-to-left pass with MDS"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q65",
+    "title": "**Histogram algorithm often uses a sentinel index of:**",
+    "choices": [
+      "-1",
+      "0",
+      "n",
+      "1"
+    ],
+    "correctAnswer": "-1"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q66",
+    "title": "**In trapping rain water, if stack becomes empty after pop:**",
+    "choices": [
+      "No water is trapped for that pop",
+      "Water is infinite",
+      "You should break the loop",
+      "Add zero and continue"
+    ],
+    "correctAnswer": "No water is trapped for that pop"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q67",
+    "title": "**Steps to Make Array Non-decreasing updates dp by:**",
+    "choices": [
+      "dp[i] = max(++dp[i], dp[popped])",
+      "dp[i] = min(dp[i], dp[popped])",
+      "dp[i] = dp[popped] - 1",
+      "dp[i] = 0"
+    ],
+    "correctAnswer": "dp[i] = max(++dp[i], dp[popped])"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q68",
+    "title": "**Remove K Digits uses which monotonic structure?**",
+    "choices": [
+      "Monotonic increasing stack of digits",
+      "Monotonic decreasing stack of digits",
+      "Queue",
+      "Heap"
+    ],
+    "correctAnswer": "Monotonic increasing stack of digits"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q69",
+    "title": "**Remove Duplicate Letters commonly uses:**",
+    "choices": [
+      "Monotonic increasing stack to build lexicographically smallest",
+      "Monotonic decreasing stack to build largest",
+      "Queue only",
+      "Heap only"
+    ],
+    "correctAnswer": "Monotonic increasing stack to build lexicographically smallest"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q70",
+    "title": "**Create Maximum Number uses:**",
+    "choices": [
+      "Monotonic decreasing stack to pick digits",
+      "Monotonic increasing stack to pick digits",
+      "Queue",
+      "Heap"
+    ],
+    "correctAnswer": "Monotonic decreasing stack to pick digits"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q71",
+    "title": "**Max Chunks To Make Sorted II can be solved with:**",
+    "choices": [
+      "Monotonic stack of chunk maxima",
+      "Heap only",
+      "DFS",
+      "Sorting the entire array"
+    ],
+    "correctAnswer": "Monotonic stack of chunk maxima"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q72",
+    "title": "**Minimum Cost Tree From Leaf Values uses:**",
+    "choices": [
+      "Monotonic decreasing stack to pair leaves",
+      "Monotonic increasing queue",
+      "Heap only",
+      "Union-Find"
+    ],
+    "correctAnswer": "Monotonic decreasing stack to pair leaves"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q73",
+    "title": "**Maximal Rectangle reduces to:**",
+    "choices": [
+      "Largest Rectangle in Histogram per row",
+      "DFS on grid",
+      "Dijkstra",
+      "Topological sort"
+    ],
+    "correctAnswer": "Largest Rectangle in Histogram per row"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q74",
+    "title": "**Sliding window maximum uses indices because:**",
+    "choices": [
+      "We must evict out-of-window elements",
+      "Values are unique",
+      "Indices are sorted",
+      "Values are too large"
+    ],
+    "correctAnswer": "We must evict out-of-window elements"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q75",
+    "title": "**Online stock span is amortized O(1) per day because:**",
+    "choices": [
+      "Each price is pushed and popped once",
+      "Sorting is used",
+      "Binary search is used",
+      "We cache results forever"
+    ],
+    "correctAnswer": "Each price is pushed and popped once"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q76",
+    "title": "**For non-decreasing stack with duplicates, pop while:**",
+    "choices": [
+      "Current > stack top",
+      "Current >= stack top",
+      "Current < stack top",
+      "Never pop"
+    ],
+    "correctAnswer": "Current > stack top"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q77",
+    "title": "**For non-increasing stack with duplicates, pop while:**",
+    "choices": [
+      "Current < stack top",
+      "Current <= stack top",
+      "Current > stack top",
+      "Never pop"
+    ],
+    "correctAnswer": "Current < stack top"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q78",
+    "title": "**To find next greater to the left, scan:**",
+    "choices": [
+      "Right to left with MDS",
+      "Left to right with MIS",
+      "Left to right with MDS",
+      "Right to left with MIS"
+    ],
+    "correctAnswer": "Right to left with MDS"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q79",
+    "title": "**To find next smaller to the left, scan:**",
+    "choices": [
+      "Right to left with MIS",
+      "Left to right with MDS",
+      "Right to left with MDS",
+      "Left to right with MIS"
+    ],
+    "correctAnswer": "Right to left with MIS"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q80",
+    "title": "**NGE for 2 in [2,1,3] is:**",
+    "choices": [
+      "3",
+      "1",
+      "-1",
+      "2"
+    ],
+    "correctAnswer": "3"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q81",
+    "title": "**Sum of subarray minimums for [3,1,2,4] is:**",
+    "choices": [
+      "17",
+      "13",
+      "11",
+      "19"
+    ],
+    "correctAnswer": "17"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q82",
+    "title": "**Stock span for [100,80,60,70,60,75,85] is:**",
+    "choices": [
+      "[1,1,1,2,1,4,6]",
+      "[1,2,3,4,5,6,7]",
+      "[1,1,2,2,2,3,4]",
+      "[7,6,5,4,3,2,1]"
+    ],
+    "correctAnswer": "[1,1,1,2,1,4,6]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q83",
+    "title": "**Daily temperatures for [73,74,75,71,69,72,76,73] is:**",
+    "choices": [
+      "[1,1,4,2,1,1,0,0]",
+      "[1,1,1,1,1,1,1,1]",
+      "[7,6,5,4,3,2,1,0]",
+      "[0,0,0,0,0,0,0,0]"
+    ],
+    "correctAnswer": "[1,1,4,2,1,1,0,0]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q84",
+    "title": "**Largest rectangle in histogram for [2,1,5,6,2,3] is:**",
+    "choices": [
+      "10",
+      "8",
+      "12",
+      "6"
+    ],
+    "correctAnswer": "10"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q85",
+    "title": "**Trapping rain water for [0,1,0,2,1,0,1,3,2,1,2,1] is:**",
+    "choices": [
+      "6",
+      "5",
+      "7",
+      "8"
+    ],
+    "correctAnswer": "6"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q86",
+    "title": "**132 pattern on [1,2,3,4] returns:**",
+    "choices": [
+      "False",
+      "True"
+    ],
+    "correctAnswer": "False"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q87",
+    "title": "**NGE I example: nums1 [4,1,2], nums2 [1,3,4,2] gives:**",
+    "choices": [
+      "[-1,3,-1]",
+      "[3,-1,2]",
+      "[3,2,-1]",
+      "[-1,-1,-1]"
+    ],
+    "correctAnswer": "[-1,3,-1]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q88",
+    "title": "**NGE II example: [1,2,1] gives:**",
+    "choices": [
+      "[2,-1,2]",
+      "[2,1,-1]",
+      "[-1,2,2]",
+      "[1,2,1]"
+    ],
+    "correctAnswer": "[2,-1,2]"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q89",
+    "title": "**Steps to Make Array Non-decreasing for [5,3,4,4,7,3,6,11,8,5,11] is:**",
+    "choices": [
+      "3",
+      "2",
+      "4",
+      "5"
+    ],
+    "correctAnswer": "3"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "concept",
+    "name": "ms_q90",
+    "title": "**Largest rectangle algorithm uses width computed as:**",
+    "choices": [
+      "i - stack.peek() - 1",
+      "i + stack.peek()",
+      "stack.peek() - i",
+      "length - i"
+    ],
+    "correctAnswer": "i - stack.peek() - 1"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q91",
+    "title": "**Python: Monotonic decreasing stack for NGE**",
+    "choices": [
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val > nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val < nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    if stack and val > nums[stack[-1]]:\n        ans[i] = val\n    stack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val > nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q92",
+    "title": "**Python: Monotonic increasing stack for NSE**",
+    "choices": [
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val < nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val > nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i, val in enumerate(nums):\n    if stack and val < nums[stack[-1]]:\n        ans[i] = val\n    stack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nfor i, val in enumerate(nums):\n    while stack and val < nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q93",
+    "title": "**Python: Previous smaller element (left)**",
+    "choices": [
+      "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] >= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] <= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    prev[i] = nums[i-1] if i else -1\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] >= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q94",
+    "title": "**Python: Contribution formula (sum of subarray minimums)**",
+    "choices": [
+      "```python\nans = 0\nfor i in range(n):\n    ans += arr[i] * left[i] * right[i]\n```",
+      "```python\nans = 0\nfor i in range(n):\n    ans += arr[i] + left[i] + right[i]\n```",
+      "```python\nans = 0\nfor i in range(n):\n    ans += arr[i] * (left[i] + right[i])\n```"
+    ],
+    "correctAnswer": "```python\nans = 0\nfor i in range(n):\n    ans += arr[i] * left[i] * right[i]\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q95",
+    "title": "**Python: Sliding window maximum (monotonic deque)**",
+    "choices": [
+      "```python\nfrom collections import deque\nq = deque()\nfor i, val in enumerate(nums):\n    while q and nums[q[-1]] <= val:\n        q.pop()\n    q.append(i)\n    if q[0] <= i - k:\n        q.popleft()\n    if i >= k - 1:\n        out.append(nums[q[0]])\n```",
+      "```python\nfrom collections import deque\nq = deque()\nfor i, val in enumerate(nums):\n    while q and nums[q[-1]] >= val:\n        q.pop()\n    q.append(i)\n    if i >= k - 1:\n        out.append(nums[q[0]])\n```",
+      "```python\nq = []\nfor i, val in enumerate(nums):\n    q.append(val)\n    if i >= k - 1:\n        out.append(max(q))\n        q.pop(0)\n```"
+    ],
+    "correctAnswer": "```python\nfrom collections import deque\nq = deque()\nfor i, val in enumerate(nums):\n    while q and nums[q[-1]] <= val:\n        q.pop()\n    q.append(i)\n    if q[0] <= i - k:\n        q.popleft()\n    if i >= k - 1:\n        out.append(nums[q[0]])\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q96",
+    "title": "**Python: Sum of subarray minimums (stack core)**",
+    "choices": [
+      "```python\nstack = []\nfor i in range(n + 1):\n    cur = arr[i] if i < n else -1\n    while stack and arr[stack[-1]] >= cur:\n        mid = stack.pop()\n        left = mid - (stack[-1] if stack else -1)\n        right = i - mid\n        ans = (ans + arr[mid] * left * right) % MOD\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i in range(n):\n    while stack and arr[stack[-1]] < arr[i]:\n        stack.pop()\n    stack.append(i)\n```",
+      "```python\nstack = []\nfor i in range(n):\n    if stack and arr[stack[-1]] >= arr[i]:\n        ans += arr[i]\n    stack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nfor i in range(n + 1):\n    cur = arr[i] if i < n else -1\n    while stack and arr[stack[-1]] >= cur:\n        mid = stack.pop()\n        left = mid - (stack[-1] if stack else -1)\n        right = i - mid\n        ans = (ans + arr[mid] * left * right) % MOD\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q97",
+    "title": "**Python: Next greater element II (two pass)**",
+    "choices": [
+      "```python\nans = [-1] * n\nstack = []\nfor i in range(2 * n):\n    while stack and nums[i % n] > nums[stack[-1]]:\n        ans[stack.pop()] = nums[i % n]\n    if i < n:\n        stack.append(i)\n```",
+      "```python\nans = [-1] * n\nstack = []\nfor i in range(n):\n    while stack and nums[i] > nums[stack[-1]]:\n        ans[stack.pop()] = nums[i]\n    stack.append(i)\n```",
+      "```python\nans = [0] * n\nfor i in range(n):\n    ans[i] = nums[(i+1) % n]\n```"
+    ],
+    "correctAnswer": "```python\nans = [-1] * n\nstack = []\nfor i in range(2 * n):\n    while stack and nums[i % n] > nums[stack[-1]]:\n        ans[stack.pop()] = nums[i % n]\n    if i < n:\n        stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q98",
+    "title": "**Python: Remove K Digits core stack rule**",
+    "choices": [
+      "```python\nfor d in num:\n    while k and stack and stack[-1] > d:\n        stack.pop(); k -= 1\n    stack.append(d)\n```",
+      "```python\nfor d in num:\n    while k and stack and stack[-1] < d:\n        stack.pop(); k -= 1\n    stack.append(d)\n```",
+      "```python\nfor d in num:\n    stack.append(d)\n```"
+    ],
+    "correctAnswer": "```python\nfor d in num:\n    while k and stack and stack[-1] > d:\n        stack.pop(); k -= 1\n    stack.append(d)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q99",
+    "title": "**Python: Next greater element mapping (subset case)**",
+    "choices": [
+      "```python\nstack = []\nnext_map = {}\nfor i, val in enumerate(nums2):\n    while stack and val > nums2[stack[-1]]:\n        next_map[nums2[stack.pop()]] = val\n    stack.append(i)\n```",
+      "```python\nfor i, val in enumerate(nums2):\n    next_map[val] = nums2[i+1]\n```",
+      "```python\nnext_map = {v: -1 for v in nums2}\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nnext_map = {}\nfor i, val in enumerate(nums2):\n    while stack and val > nums2[stack[-1]]:\n        next_map[nums2[stack.pop()]] = val\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q100",
+    "title": "**Python: Online stock span (stack of pairs)**",
+    "choices": [
+      "```python\nstack = []\ndef next_price(price):\n    span = 1\n    while stack and stack[-1][1] <= price:\n        span += stack.pop()[0]\n    stack.append((span, price))\n    return span\n```",
+      "```python\nstack = []\ndef next_price(price):\n    stack.append(price)\n    return len(stack)\n```",
+      "```python\nstack = []\ndef next_price(price):\n    while stack and stack[-1] >= price:\n        stack.pop()\n    return price\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\ndef next_price(price):\n    span = 1\n    while stack and stack[-1][1] <= price:\n        span += stack.pop()[0]\n    stack.append((span, price))\n    return span\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q101",
+    "title": "**Python: Monotonic decreasing stack for previous greater element**",
+    "choices": [
+      "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] <= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] >= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nprev = nums[:]\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nprev = [-1] * len(nums)\nfor i, val in enumerate(nums):\n    while stack and nums[stack[-1]] <= val:\n        stack.pop()\n    prev[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q102",
+    "title": "**Python: Non-decreasing stack build rule**",
+    "choices": [
+      "```python\nwhile stack and nums[i] > nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```",
+      "```python\nwhile stack and nums[i] >= nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```",
+      "```python\nstack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nwhile stack and nums[i] > nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q103",
+    "title": "**Python: Non-increasing stack build rule**",
+    "choices": [
+      "```python\nwhile stack and nums[i] < nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```",
+      "```python\nwhile stack and nums[i] <= nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```",
+      "```python\nstack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nwhile stack and nums[i] < nums[stack[-1]]:\n    stack.pop()\nstack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q104",
+    "title": "**Python: Largest rectangle in histogram (core pop)**",
+    "choices": [
+      "```python\nwhile stack and heights[stack[-1]] >= heights[i]:\n    h = heights[stack.pop()]\n    w = i - stack[-1] - 1\n    max_area = max(max_area, h * w)\n```",
+      "```python\nwhile stack and heights[stack[-1]] <= heights[i]:\n    h = heights[stack.pop()]\n    w = i - stack[-1] - 1\n    max_area = max(max_area, h * w)\n```",
+      "```python\nif stack:\n    max_area += heights[i]\n```"
+    ],
+    "correctAnswer": "```python\nwhile stack and heights[stack[-1]] >= heights[i]:\n    h = heights[stack.pop()]\n    w = i - stack[-1] - 1\n    max_area = max(max_area, h * w)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q105",
+    "title": "**Python: Trapping rain water (core while loop)**",
+    "choices": [
+      "```python\nwhile stack and height[i] > height[stack[-1]]:\n    top = stack.pop()\n    if not stack:\n        break\n    distance = i - stack[-1] - 1\n    bounded = min(height[i], height[stack[-1]]) - height[top]\n    ans += distance * bounded\n```",
+      "```python\nwhile stack and height[i] < height[stack[-1]]:\n    ans += 1\n```",
+      "```python\nwhile stack:\n    stack.pop()\n```"
+    ],
+    "correctAnswer": "```python\nwhile stack and height[i] > height[stack[-1]]:\n    top = stack.pop()\n    if not stack:\n        break\n    distance = i - stack[-1] - 1\n    bounded = min(height[i], height[stack[-1]]) - height[top]\n    ans += distance * bounded\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q106",
+    "title": "**Python: Daily temperatures (core loop)**",
+    "choices": [
+      "```python\nfor i, t in enumerate(temps):\n    while stack and t > temps[stack[-1]]:\n        j = stack.pop()\n        ans[j] = i - j\n    stack.append(i)\n```",
+      "```python\nfor i, t in enumerate(temps):\n    while stack and t < temps[stack[-1]]:\n        j = stack.pop()\n        ans[j] = i - j\n    stack.append(i)\n```",
+      "```python\nfor i, t in enumerate(temps):\n    ans[i] = 0\n```"
+    ],
+    "correctAnswer": "```python\nfor i, t in enumerate(temps):\n    while stack and t > temps[stack[-1]]:\n        j = stack.pop()\n        ans[j] = i - j\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q107",
+    "title": "**Python: Next smaller to right (core)**",
+    "choices": [
+      "```python\nfor i, val in enumerate(nums):\n    while stack and val < nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nfor i, val in enumerate(nums):\n    while stack and val > nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```",
+      "```python\nfor i, val in enumerate(nums):\n    ans[i] = val\n```"
+    ],
+    "correctAnswer": "```python\nfor i, val in enumerate(nums):\n    while stack and val < nums[stack[-1]]:\n        ans[stack.pop()] = val\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q108",
+    "title": "**Python: Next greater to left (scan right to left)**",
+    "choices": [
+      "```python\nfor i in range(n - 1, -1, -1):\n    while stack and nums[i] >= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nfor i in range(n):\n    while stack and nums[i] >= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nfor i in range(n - 1, -1, -1):\n    ans[i] = nums[i]\n```"
+    ],
+    "correctAnswer": "```python\nfor i in range(n - 1, -1, -1):\n    while stack and nums[i] >= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q109",
+    "title": "**Python: Next smaller to left (scan right to left)**",
+    "choices": [
+      "```python\nfor i in range(n - 1, -1, -1):\n    while stack and nums[i] <= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nfor i in range(n - 1, -1, -1):\n    while stack and nums[i] >= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```",
+      "```python\nfor i in range(n):\n    ans[i] = -1\n```"
+    ],
+    "correctAnswer": "```python\nfor i in range(n - 1, -1, -1):\n    while stack and nums[i] <= nums[stack[-1]]:\n        stack.pop()\n    ans[i] = nums[stack[-1]] if stack else -1\n    stack.append(i)\n```"
+  },
+  {
+    "type": "radiogroup",
+    "questionType": "source-code",
+    "name": "ms_q110",
+    "title": "**Python: Stock span with indices only (correct logic)**",
+    "choices": [
+      "```python\nstack = []\nfor i, price in enumerate(prices):\n    while stack and prices[stack[-1]] <= price:\n        stack.pop()\n    span[i] = i + 1 if not stack else i - stack[-1]\n    stack.append(i)\n```",
+      "```python\nfor i, price in enumerate(prices):\n    span[i] = 1\n```",
+      "```python\nstack = []\nfor i, price in enumerate(prices):\n    while stack and prices[stack[-1]] >= price:\n        stack.pop()\n    span[i] = i + 1\n    stack.append(i)\n```"
+    ],
+    "correctAnswer": "```python\nstack = []\nfor i, price in enumerate(prices):\n    while stack and prices[stack[-1]] <= price:\n        stack.pop()\n    span[i] = i + 1 if not stack else i - stack[-1]\n    stack.append(i)\n```"
+  }
+]

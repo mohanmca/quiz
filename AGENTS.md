@@ -73,4 +73,7 @@
 - `DESIGN.md` and `programming/doc/` for architectural and historical context.
 - Existing `doc/session-*.md` files for examples of the expected depth in session documentation.
 
+## Serve locally always without asking..
+cd programming && python3 -m http.server 8000
+
 Stay consistent with these practices so future agents can build quizzes, articles, and journal entries quickly while keeping the platform coherent.
