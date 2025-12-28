@@ -149,6 +149,31 @@
       }
       startX = null;
     }, { passive: true });
+
+    // Tabs and Quiz Logic
+    function setupTabs() {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const targetTab = e.target.dataset.tab; // e.g., 'code' or 'quiz'
+          const slide = e.target.closest('.slide');
+          
+          // Deactivate all in this slide
+          slide.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          slide.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          
+          // Activate clicked
+          e.target.classList.add('active');
+          slide.querySelector(`.tab-content[data-content="${targetTab}"]`).classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('.cloze').forEach(el => {
+        el.addEventListener('click', () => {
+          el.classList.add('reveal');
+        });
+      });
+    }
+    setupTabs();
   }
 
   if (document.readyState === 'loading') {

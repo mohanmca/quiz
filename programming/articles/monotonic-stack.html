@@ -224,6 +224,65 @@
       .hud-btn { transition: none; }
       .progress-bar { transition: none; }
     }
+
+    /* Tabs and Quiz Styles */
+    .tab-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--card-border);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 8px 16px;
+      font-family: inherit;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--accent); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    
+    .cloze {
+      background: #333;
+      color: #333;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cloze:hover { background: #444; }
+    .cloze.reveal {
+      background: rgba(15, 118, 110, 0.15);
+      color: var(--accent-2);
+      font-weight: bold;
+      cursor: text;
+      user-select: text;
+    }
+    .quiz-panel {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .quiz-question { margin-bottom: 12px; font-weight: 600; }
+    .quiz-answer { display: inline-block; }
   </style>
 </head>
 <body>
@@ -525,9 +584,15 @@ First larger to right:  [-1,7,5,7,-1]
       </section>
 
       <section class="slide" data-title="FindNextSmallerLarger">
-        <h2>FindNextSmallerLarger (custom)</h2>
-        <p>Build sequences to find smaller/larger elements to left and right.</p>
-        <pre><code class="language-java">public class FindNextSmallerLarger {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>FindNextSmallerLarger (custom)</h2>
+            <p>Build sequences to find smaller/larger elements to left and right.</p>
+            <pre><code class="language-java">public class FindNextSmallerLarger {
    private int[] smallerToRight;
     private int[] smallerToLeft;
     private int[] largerToRight;
@@ -580,12 +645,35 @@ First larger to right:  [-1,7,5,7,-1]
     }
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: FindNextSmallerLarger</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>stack.pop()</code> returning 'k' represent?</div>
+              <div class="quiz-answer">The <span class="cloze">index</span> of the element being resolved options.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Why do we store indices instead of values?</div>
+              <div class="quiz-answer">To calculate <span class="cloze">distance/ranges</span> later if needed.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. What pattern is <code>nums[i] &lt;= nums[stack.peek()]</code>?</div>
+              <div class="quiz-answer"><span class="cloze">Monotonic Increasing Stack</span> (popping larger/equal elements to maintain order).</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Next Greater Element I" data-leetcode="https://leetcode.com/problems/next-greater-element-i/">
-        <h2>Next Greater Element I</h2>
-        <p>Find the first greater element to the right for each nums1 element in nums2.</p>
-        <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Next Greater Element I</h2>
+            <p>Find the first greater element to the right for each nums1 element in nums2.</p>
+            <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1, int[] nums2) {
     Stack&lt;Integer&gt;  stack = new Stack&lt;Integer&gt;();
     Map&lt;Integer, Integer&gt; mapping = new HashMap&lt;Integer, Integer&gt;();
     for(int i=0; i&lt;nums2.length; i++) {
@@ -601,12 +689,35 @@ First larger to right:  [-1,7,5,7,-1]
     return answer;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Next Greater Element I</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What data structure maps the result?</div>
+              <div class="quiz-answer"><span class="cloze">HashMap</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The stack stores values here. Why?</div>
+              <div class="quiz-answer">Because <span class="cloze">indices aren't needed</span> for mapping values directly.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Time complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N + M)</span> where N and M are array lengths.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Next Greater Element II" data-leetcode="https://leetcode.com/problems/next-greater-element-ii/">
-        <h2>Next Greater Element II</h2>
-        <p>Next greater number in a circular array.</p>
-        <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Next Greater Element II</h2>
+            <p>Next greater number in a circular array.</p>
+            <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1) {
     Stack&lt;Integer&gt; stack = new Stack&lt;Integer&gt;();
     int[] answer = new int[nums1.length];
     Arrays.fill(answer, -1);
@@ -620,12 +731,35 @@ First larger to right:  [-1,7,5,7,-1]
     return answer;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Next Greater Element II</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. How is circularity handled?</div>
+              <div class="quiz-answer">Looping to <span class="cloze">2 * N</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What does <code>i % N</code> do?</div>
+              <div class="quiz-answer">Maps <span class="cloze">extended index to original</span>.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why initialize <code>answer</code> with -1?</div>
+              <div class="quiz-answer">Default if <span class="cloze">no greater element exists</span>.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Online stock span" data-leetcode="https://leetcode.com/problems/online-stock-span/">
-        <h2>Online Stock Span</h2>
-        <p>Span = consecutive days with price less than or equal to today.</p>
-        <pre><code class="language-java">public class OnlineStockSpan {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Online Stock Span</h2>
+            <p>Span = consecutive days with price less than or equal to today.</p>
+            <pre><code class="language-java">public class OnlineStockSpan {
     Stack&lt;int[]&gt; stack = new Stack&lt;int[]&gt;();
 
     public int next(int price) {
@@ -640,11 +774,34 @@ First larger to right:  [-1,7,5,7,-1]
     }
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Online Stock Span</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does the stack store?</div>
+              <div class="quiz-answer">Pairs of <span class="cloze">{count, price}</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Why add <code>smallerPrices</code> to the current count?</div>
+              <div class="quiz-answer">To <span class="cloze">merge spans</span> of popped elements.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Is this online or offline?</div>
+              <div class="quiz-answer"><span class="cloze">Online</span> (stream processing).</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Daily Temperatures" data-leetcode="https://leetcode.com/problems/daily-temperatures/">
-        <h2>Daily Temperatures</h2>
-        <pre><code class="language-java">public int[] dailyTemperatures(int[] temperatures) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Daily Temperatures</h2>
+            <pre><code class="language-java">public int[] dailyTemperatures(int[] temperatures) {
     Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
     int[] counter = new int[temperatures.length];
     Arrays.fill(counter, 0);
@@ -659,11 +816,34 @@ First larger to right:  [-1,7,5,7,-1]
     return counter;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Daily Temperatures</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>i - oldI</code> represent?</div>
+              <div class="quiz-answer"><span class="cloze">Days until warmer temperature</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What Stack property is used?</div>
+              <div class="quiz-answer"><span class="cloze">Monotonic Decreasing</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. What if the stack is not empty at the end?</div>
+              <div class="quiz-answer"><span class="cloze">Remaining days have no warmer future</span></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="132 Pattern" data-leetcode="https://leetcode.com/problems/132-pattern/">
-        <h2>132 Pattern</h2>
-        <pre><code class="language-java">public boolean find132pattern(int[] nums) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>132 Pattern</h2>
+            <pre><code class="language-java">public boolean find132pattern(int[] nums) {
     if (nums.length &lt; 3) return false;
     Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
     int[] min = new int[nums.length];
@@ -680,11 +860,34 @@ First larger to right:  [-1,7,5,7,-1]
     return false;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: 132 Pattern</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>min[j]</code> represent?</div>
+              <div class="quiz-answer"><span class="cloze">Minimum value to the left of j</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The stack represents which number in 1-3-2?</div>
+              <div class="quiz-answer">The <span class="cloze">'3' (peak)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. We iterate backwards. Why?</div>
+              <div class="quiz-answer">To find the <span class="cloze">'2' (intermediate value)</span></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Shortest unsorted subarray" data-leetcode="https://leetcode.com/problems/shortest-unsorted-continuous-subarray/">
-        <h2>Shortest Unsorted Continuous Subarray</h2>
-        <pre><code class="language-java">public int findUnsortedSubarray(int[] nums) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Shortest Unsorted Continuous Subarray</h2>
+            <pre><code class="language-java">public int findUnsortedSubarray(int[] nums) {
     if (nums.length &lt;= 1) return 0;
     Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
     int left = nums.length;
@@ -705,11 +908,34 @@ First larger to right:  [-1,7,5,7,-1]
     return left &lt; right ? (right - left) + 1 : 0;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Shortest Unsorted Subarray</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. The left boundary is found when?</div>
+              <div class="quiz-answer">A <span class="cloze">smaller element pops a larger one</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The right boundary is found when?</div>
+              <div class="quiz-answer">A <span class="cloze">larger element pops a smaller one (reverse)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why sort comparisons?</div>
+              <div class="quiz-answer">To find correct bounds in <span class="cloze">O(N)</span></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Best Time to Buy/Sell II" data-leetcode="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">
-        <h2>Best Time to Buy and Sell Stock II</h2>
-        <pre><code class="language-java">public int maxProfit(int[] prices) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Best Time to Buy and Sell Stock II</h2>
+            <pre><code class="language-java">public int maxProfit(int[] prices) {
     Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
     int profit = 0;
     for (int i = 0; i &lt; prices.length; i++) {
@@ -722,11 +948,34 @@ First larger to right:  [-1,7,5,7,-1]
     return profit;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Best Time to Buy/Sell II</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. This approach is similar to?</div>
+              <div class="quiz-answer">Finding all <span class="cloze">ascending slopes</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Can we do this without a stack?</div>
+              <div class="quiz-answer"><span class="cloze">Yes</span>, just sum positive differences</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. The stack ensures we capture?</div>
+              <div class="quiz-answer"><span class="cloze">Consecutive increasing prices</span></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Largest Rectangle brute 1" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
-        <h2>Largest Rectangle in Histogram - Brute Force</h2>
-        <pre><code class="language-java">public class Solution {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Brute Force</h2>
+            <pre><code class="language-java">public class Solution {
     public int largestRectangleArea(int[] heights) {
         int maxArea = 0;
         int length = heights.length;
@@ -741,11 +990,30 @@ First larger to right:  [-1,7,5,7,-1]
     }
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (Brute)</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. Time complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N^2)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What does the inner loop do?</div>
+              <div class="quiz-answer">Finds <span class="cloze">min-height</span> for every pair (i, j).</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Largest Rectangle brute 2" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
-        <h2>Largest Rectangle in Histogram - Divide and Conquer</h2>
-        <pre><code class="language-java">public class Solution {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Divide and Conquer</h2>
+            <pre><code class="language-java">public class Solution {
     public int calculateArea(int[] heights, int start, int end) {
         if (start &gt; end) return 0;
         int minindex = start;
@@ -762,11 +1030,34 @@ First larger to right:  [-1,7,5,7,-1]
     }
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (DnC)</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. Average complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N log N)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Worst case complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N^2)</span> (sorted array)</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Key strategy?</div>
+              <div class="quiz-answer">Find min bar, <span class="cloze">split left and right</span>.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Largest Rectangle monotonic" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
-        <h2>Largest Rectangle in Histogram - Monotonic Stack</h2>
-        <pre><code class="language-java">public int largestRectangleArea(int[] heights) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Monotonic Stack</h2>
+            <pre><code class="language-java">public int largestRectangleArea(int[] heights) {
     Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
     stack.push(-1);
     int length = heights.length;
@@ -787,11 +1078,34 @@ First larger to right:  [-1,7,5,7,-1]
     return maxArea;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (Monotonic)</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does popping imply?</div>
+              <div class="quiz-answer">The popped bar is the <span class="cloze">height limiting the rectangle</span>.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Width is calculated as?</div>
+              <div class="quiz-answer"><span class="cloze">i - stack.peek() - 1</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why push -1 initially?</div>
+              <div class="quiz-answer">Sentinel to handle <span class="cloze">left boundary</span> without empty checks.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Trapping Rain Water" data-leetcode="https://leetcode.com/problems/trapping-rain-water/">
-        <h2>Trapping Rain Water</h2>
-        <pre><code class="language-java">public int trap(int[] height) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Trapping Rain Water</h2>
+            <pre><code class="language-java">public int trap(int[] height) {
     if (height == null || height.length == 0) return 0;
     int ans = 0, current = 0;
     Stack&lt;Integer&gt; st = new Stack&lt;&gt;();
@@ -808,11 +1122,34 @@ First larger to right:  [-1,7,5,7,-1]
     return ans;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Trapping Rain Water</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. bounded_height is?</div>
+              <div class="quiz-answer"><span class="cloze">min(left, right) - current_bottom</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. distance is?</div>
+              <div class="quiz-answer"><span class="cloze">current - stack.peek() - 1</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why uses indices?</div>
+              <div class="quiz-answer">To calculate <span class="cloze">width/distance</span>.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Steps to make non-decreasing" data-leetcode="https://leetcode.com/problems/steps-to-make-array-non-decreasing/">
-        <h2>Steps to Make Array Non-decreasing</h2>
-        <pre><code class="language-java">public int totalSteps(int[] nums) {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Steps to Make Array Non-decreasing</h2>
+            <pre><code class="language-java">public int totalSteps(int[] nums) {
     int n = nums.length - 1;
     Stack&lt;Integer&gt; s = new Stack&lt;Integer&gt;();
     int[] dp = new int[nums.length];
@@ -827,15 +1164,38 @@ First larger to right:  [-1,7,5,7,-1]
     return res;
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Steps to Make Non-decreasing</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>dp</code> array store?</div>
+              <div class="quiz-answer"><span class="cloze">Max steps to remove elements</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Comparison <code>nums[stack.peek()] &lt; nums[i]</code> means?</div>
+              <div class="quiz-answer">Finding <span class="cloze">previous larger element</span> (since backward iteration).</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why <code>Math.max</code>?</div>
+              <div class="quiz-answer">Must wait for <span class="cloze">all smaller elements</span> to disappear.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Sum of Subarray Minimums" data-leetcode="https://leetcode.com/problems/sum-of-subarray-minimums/">
-        <h2>Sum of Subarray Minimums</h2>
-        <p>
-          Find NSE and PSE for each element, then sum A[i] * left[i] * right[i].
-          Use a monotonic increasing stack with the &gt;= comparison to handle duplicates.
-        </p>
-        <pre><code class="language-java">class Solution {
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Sum of Subarray Minimums</h2>
+            <p>
+              Find NSE and PSE for each element, then sum A[i] * left[i] * right[i].
+              Use a monotonic increasing stack with the &gt;= comparison to handle duplicates.
+            </p>
+            <pre><code class="language-java">class Solution {
     public int sumSubarrayMins(int[] arr) {
         int MOD = 1000000007;
         Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
@@ -856,11 +1216,34 @@ First larger to right:  [-1,7,5,7,-1]
     }
 }
 </code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Sum of Subarray Minimums</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. Contribution of `arr[mid]`?</div>
+              <div class="quiz-answer"><span class="cloze">(mid - left) * (right - mid)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Why use `&gt;=` on one side and `&lt;` on other?</div>
+              <div class="quiz-answer">To handle duplicates <span class="cloze">without double counting</span>.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Modulo arithmetic is needed because?</div>
+              <div class="quiz-answer">Sum can <span class="cloze">exceed integer limits</span>.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Python template">
-        <h2>Python template for NGE (monotonic decreasing)</h2>
-        <pre><code class="language-python">def next_greater(nums):
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Python template for NGE (monotonic decreasing)</h2>
+            <pre><code class="language-python">def next_greater(nums):
     n = len(nums)
     ans = [-1] * n
     stack = []  # indices, values are decreasing
@@ -870,7 +1253,24 @@ First larger to right:  [-1,7,5,7,-1]
         stack.append(i)
     return ans
 </code></pre>
-        <div class="note">For NSE, flip the comparison. For duplicates use &gt;= or &lt;= as needed.</div>
+            <div class="note">For NSE, flip the comparison. For duplicates use &gt;= or &lt;= as needed.</div>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Python Template</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. <code>stack[-1]</code> is equivalent to Java's?</div>
+              <div class="quiz-answer"><span class="cloze">stack.peek()</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. <code>enumerate</code> provides?</div>
+              <div class="quiz-answer"><span class="cloze">index and value</span> pair.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. List initialization <code>[-1] * n</code> is?</div>
+              <div class="quiz-answer"><span class="cloze">O(N)</span> time/space operation.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="slide" data-title="Anki and follow-up">
