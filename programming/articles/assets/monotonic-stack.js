@@ -9,6 +9,27 @@
     const progressLabel = document.getElementById('progress-label');
     const STORAGE_KEY = 'monotonic-stack-slide-index';
     const COOKIE_KEY = 'monotonic_stack_slide';
+    const DEFAULT_LEETCODE = 'https://leetcode.com/discuss/study-guide/2347639/a-comprehensive-guide-and-template-for-monotonic-stack-based-problems';
+    const DEFAULT_LABEL = 'Monotonic Stack Guide';
+
+    function ensureLeetCodeRefs() {
+      slides.forEach(slide => {
+        if (slide.querySelector('a[href*="leetcode.com"]')) return;
+        const url = slide.dataset.leetcode || DEFAULT_LEETCODE;
+        const title = slide.getAttribute('data-title') || '';
+        const label = slide.dataset.leetcodeTitle || (slide.dataset.leetcode ? (title ? title + ' on LeetCode' : 'LeetCode') : DEFAULT_LABEL);
+        const wrap = document.createElement('div');
+        wrap.className = 'leetcode-ref';
+        wrap.append('LeetCode: ');
+        const link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = label;
+        wrap.appendChild(link);
+        slide.appendChild(wrap);
+      });
+    }
 
     function setCookie(name, value, days) {
       const date = new Date();
@@ -63,6 +84,8 @@
       progressLabel.textContent = 'Progress: ' + (idx + 1) + ' / ' + total + ' (' + pct + '%)';
       saveIndex(idx);
     }
+
+    ensureLeetCodeRefs();
 
     let current = readStoredIndex();
     updateSlide(current);

@@ -6,6 +6,7 @@ Changes made:
 - Added a JS init guard and a default active slide so the deck renders even if scripts load late.
 - Fixed HTML-escaped comparison operators inside the slide script that broke keyboard navigation.
 - Moved the slide JavaScript into `programming/articles/assets/monotonic-stack.js` and referenced it via a script tag.
+- Added LeetCode reference links to every slide via a default guide link and per-problem overrides.
 - Added quiz `programming/data/json/python/monotonic-stack-questions.json` with 110 questions covering definitions, stack variants, range contributions, and coding problems.
 - Registered the new quiz in `programming/data/json/surveys.json` and regenerated `programming/data/json/articles.json`.
 

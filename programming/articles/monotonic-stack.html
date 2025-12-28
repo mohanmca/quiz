@@ -182,6 +182,18 @@
       text-decoration: none;
     }
     .links a:hover { text-decoration: underline; }
+    .leetcode-ref {
+      margin-top: 12px;
+      font-size: 12px;
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      color: var(--muted);
+    }
+    .leetcode-ref a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .leetcode-ref a:hover { text-decoration: underline; }
     .tag-row {
       display: flex;
       flex-wrap: wrap;
@@ -533,7 +545,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Next Greater Element I">
+      <section class="slide" data-title="Next Greater Element I" data-leetcode="https://leetcode.com/problems/next-greater-element-i/">
         <h2>Next Greater Element I</h2>
         <p>Find the first greater element to the right for each nums1 element in nums2.</p>
         <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1, int[] nums2) {
@@ -554,7 +566,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Next Greater Element II">
+      <section class="slide" data-title="Next Greater Element II" data-leetcode="https://leetcode.com/problems/next-greater-element-ii/">
         <h2>Next Greater Element II</h2>
         <p>Next greater number in a circular array.</p>
         <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1) {
@@ -573,7 +585,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Online stock span">
+      <section class="slide" data-title="Online stock span" data-leetcode="https://leetcode.com/problems/online-stock-span/">
         <h2>Online Stock Span</h2>
         <p>Span = consecutive days with price less than or equal to today.</p>
         <pre><code class="language-java">public class OnlineStockSpan {
@@ -593,7 +605,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Daily Temperatures">
+      <section class="slide" data-title="Daily Temperatures" data-leetcode="https://leetcode.com/problems/daily-temperatures/">
         <h2>Daily Temperatures</h2>
         <pre><code class="language-java">public int[] dailyTemperatures(int[] temperatures) {
     Stack&lt;Integer&gt; deque = new Stack&lt;&gt;();
@@ -612,7 +624,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="132 Pattern">
+      <section class="slide" data-title="132 Pattern" data-leetcode="https://leetcode.com/problems/132-pattern/">
         <h2>132 Pattern</h2>
         <pre><code class="language-java">public boolean find132pattern(int[] nums) {
     if (nums.length &lt; 3) return false;
@@ -633,7 +645,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Shortest unsorted subarray">
+      <section class="slide" data-title="Shortest unsorted subarray" data-leetcode="https://leetcode.com/problems/shortest-unsorted-continuous-subarray/">
         <h2>Shortest Unsorted Continuous Subarray</h2>
         <pre><code class="language-java">public int findUnsortedSubarray(int[] nums) {
     if (nums.length &lt;= 1) return 0;
@@ -658,7 +670,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Best Time to Buy/Sell II">
+      <section class="slide" data-title="Best Time to Buy/Sell II" data-leetcode="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">
         <h2>Best Time to Buy and Sell Stock II</h2>
         <pre><code class="language-java">public int maxProfit(int[] prices) {
     Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
@@ -675,7 +687,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Largest Rectangle brute 1">
+      <section class="slide" data-title="Largest Rectangle brute 1" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
         <h2>Largest Rectangle in Histogram - Brute Force</h2>
         <pre><code class="language-java">public class Solution {
     public int largestRectangleArea(int[] heights) {
@@ -694,7 +706,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Largest Rectangle brute 2">
+      <section class="slide" data-title="Largest Rectangle brute 2" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
         <h2>Largest Rectangle in Histogram - Divide and Conquer</h2>
         <pre><code class="language-java">public class Solution {
     public int calculateArea(int[] heights, int start, int end) {
@@ -715,7 +727,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Largest Rectangle monotonic">
+      <section class="slide" data-title="Largest Rectangle monotonic" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
         <h2>Largest Rectangle in Histogram - Monotonic Stack</h2>
         <pre><code class="language-java">public int largestRectangleArea(int[] heights) {
     Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
@@ -740,7 +752,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Trapping Rain Water">
+      <section class="slide" data-title="Trapping Rain Water" data-leetcode="https://leetcode.com/problems/trapping-rain-water/">
         <h2>Trapping Rain Water</h2>
         <pre><code class="language-java">int trap(vector&lt;int&gt;&amp; height)
 {
@@ -763,7 +775,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Steps to make non-decreasing">
+      <section class="slide" data-title="Steps to make non-decreasing" data-leetcode="https://leetcode.com/problems/steps-to-make-array-non-decreasing/">
         <h2>Steps to Make Array Non-decreasing</h2>
         <pre><code class="language-java">public int totalSteps(int[] nums) {
     int n = nums.length - 1;
@@ -782,7 +794,7 @@ First larger to right:  [-1,7,5,7,-1]
 </code></pre>
       </section>
 
-      <section class="slide" data-title="Sum of Subarray Minimums">
+      <section class="slide" data-title="Sum of Subarray Minimums" data-leetcode="https://leetcode.com/problems/sum-of-subarray-minimums/">
         <h2>Sum of Subarray Minimums</h2>
         <p>
           Find NSE and PSE for each element, then sum A[i] * left[i] * right[i].
