@@ -487,6 +487,43 @@ First larger to right:  [-1,7,5,7,-1]
         </ol>
       </section>
 
+      <section class="slide" data-title="Problem list 3">
+        <h2>Monotonic-Sequence Problems (3/3) - New Additions</h2>
+        <ol start="20">
+          <li><strong>Asteroid Collision</strong>: Simulating collisions using a stack (often standard stack, but monotonic properties apply).</li>
+          <li><strong>Sum of Subarray Ranges</strong>: Sum of (Max - Min) for all subarrays. Uses both Monotonic Increasing and Decreasing logic.</li>
+          <li><strong>Car Fleet</strong>: Determine how many car fleets will arrive at the destination. Sort by position + Monotonic Stack for arrival times.</li>
+        </ol>
+      </section>
+
+      <section class="slide" data-title="Concept Quiz">
+        <h2>Concept Quiz</h2>
+        <div class="panel">
+          <h3>Question 1: Time Complexity</h3>
+          <p>What is the amortized time complexity of a standard monotonic stack approach on an array of size N?</p>
+          <details>
+            <summary>Answer</summary>
+            Is <strong>O(N)</strong> because each element is pushed once and popped at most once.
+          </details>
+        </div>
+        <div class="panel">
+          <h3>Question 2: Stack Type</h3>
+          <p>If you want to find the <strong>Next Greater Element</strong>, which type of monotonic stack do you use?</p>
+          <details>
+            <summary>Answer</summary>
+            <strong>Monotonic Decreasing Stack</strong>. You keep elements in decreasing order; a larger element arriving "pops" the smaller ones, identifying them as the "next greater".
+          </details>
+        </div>
+        <div class="panel">
+          <h3>Question 3: Space Complexity</h3>
+          <p>What is the worst-case space complexity for the stack?</p>
+          <details>
+            <summary>Answer</summary>
+            <strong>O(N)</strong>, which happens if the input array is already sorted (e.g., strictly decreasing for a Decreasing Stack) and no elements are ever popped until the end.
+          </details>
+        </div>
+      </section>
+
       <section class="slide" data-title="FindNextSmallerLarger">
         <h2>FindNextSmallerLarger (custom)</h2>
         <p>Build sequences to find smaller/larger elements to left and right.</p>
@@ -608,16 +645,16 @@ First larger to right:  [-1,7,5,7,-1]
       <section class="slide" data-title="Daily Temperatures" data-leetcode="https://leetcode.com/problems/daily-temperatures/">
         <h2>Daily Temperatures</h2>
         <pre><code class="language-java">public int[] dailyTemperatures(int[] temperatures) {
-    Stack&lt;Integer&gt; deque = new Stack&lt;&gt;();
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
     int[] counter = new int[temperatures.length];
     Arrays.fill(counter, 0);
-    deque.add(0);
+    stack.push(0);
     for (int i = 1; i &lt; temperatures.length; i++) {
-        while (!deque.isEmpty() &amp;&amp; temperatures[i] &gt; temperatures[deque.peek()]) {
-            int oldI = deque.pop();
+        while (!stack.isEmpty() &amp;&amp; temperatures[i] &gt; temperatures[stack.peek()]) {
+            int oldI = stack.pop();
             counter[oldI] = i - oldI;
         }
-        deque.push(i);
+        stack.push(i);
     }
     return counter;
 }
@@ -754,18 +791,16 @@ First larger to right:  [-1,7,5,7,-1]
 
       <section class="slide" data-title="Trapping Rain Water" data-leetcode="https://leetcode.com/problems/trapping-rain-water/">
         <h2>Trapping Rain Water</h2>
-        <pre><code class="language-java">int trap(vector&lt;int&gt;&amp; height)
-{
+        <pre><code class="language-java">public int trap(int[] height) {
+    if (height == null || height.length == 0) return 0;
     int ans = 0, current = 0;
-    stack&lt;int&gt; st;
-    while (current &lt; height.size()) {
-        while (!st.empty() &amp;&amp; height[current] &gt; height[st.top()]) {
-            int top = st.top();
-            st.pop();
-            if (st.empty())
-                break;
-            int distance = current - st.top() - 1;
-            int bounded_height = min(height[current], height[st.top()]) - height[top];
+    Stack&lt;Integer&gt; st = new Stack&lt;&gt;();
+    while (current &lt; height.length) {
+        while (!st.isEmpty() &amp;&amp; height[current] &gt; height[st.peek()]) {
+            int top = st.pop();
+            if (st.isEmpty()) break;
+            int distance = current - st.peek() - 1;
+            int bounded_height = Math.min(height[current], height[st.peek()]) - height[top];
             ans += distance * bounded_height;
         }
         st.push(current++);
