@@ -12,3 +12,5 @@ and application would be used by driver, hence any additional api that involves 
 6. Article should be this time like prsentaion with space-bar to move next
 7. Use local storage and cookie to track the progress
 8. There should be progress bar while reading article which should show either % vise or count wise for article which should be saved in local cookie, local storage  for  /Users/mohannarayanaswamy/git/quiz/programming/articles/monotonic-stack.html
+9. Keep all the javascript into a seaprate folder for the above article
+10. For each slide can you  add few sample line of code-block and few questions in the same slide to validate its knowledge, and if possible memory hook to remember

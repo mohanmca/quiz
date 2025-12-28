@@ -9,6 +9,7 @@
 - Serve from `programming/` to avoid CORS: `cd programming && python3 -m http.server 8000` (or `npx http-server`).
 - Open `http://localhost:8000` and monitor the browser console for warnings thrown by `app.js`.
 - There is no bundler/dev server; edit files directly and refresh.
+-- codex --allow-system
 
 ## Directory Tour
 - `/programming/index.html` bootstraps the SPA and wires in `app.js`, CSS, and JSON data sources.
@@ -72,6 +73,8 @@
 - `README.md` for operational workflows.
 - `DESIGN.md` and `programming/doc/` for architectural and historical context.
 - Existing `doc/session-*.md` files for examples of the expected depth in session documentation.
+
+
 
 ## Serve locally always without asking..
 cd programming && python3 -m http.server 8000
