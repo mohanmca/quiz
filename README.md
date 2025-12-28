@@ -93,3 +93,4 @@ We need one more quiz similar to other quizes and articles
 6. Cover implicits resolution and how many ways it is resolved and order, and navigate
 7. By using implicit and traits how many patterns of the solutions can be created, and give all the details
 8. Let the article be more than 30000 words, it should be descriptive not brief
+9. For each programming Slides, can you add a additional tab (one tab is Slide itself), and another tab should have 3 to 5 questions about the code that should hide answer and on clicking ... (similar to Cloze Deletion), it should reveal answer, it would help to review and understand important questions
