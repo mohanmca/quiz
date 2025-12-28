@@ -1081,17 +1081,40 @@ First larger to right:  [-1,7,5,7,-1]
           </div>
           <div class="tab-content" data-content="quiz">
             <h2>Quiz: Largest Rectangle (Monotonic)</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: Time complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span> - each element pushed/popped once.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Space complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span> - stack size.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Sentinel role?</div>
+                <div class="quiz-answer">Avoid <span class="cloze">empty checks</span> for left boundary.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Popped element role?</div>
+                <div class="quiz-answer">Height of the <span class="cloze">candidate rectangle</span>.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
             <div class="quiz-panel">
-              <div class="quiz-question">1. What does popping imply?</div>
-              <div class="quiz-answer">The popped bar is the <span class="cloze">height limiting the rectangle</span>.</div>
+              <div class="quiz-question">5. Loop condition</div>
+              <pre><code>while ((stack.peek() != -1) &amp;&amp; <span class="cloze">(heights[stack.peek()] &gt;= heights[i])</span>) {</code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">2. Width is calculated as?</div>
-              <div class="quiz-answer"><span class="cloze">i - stack.peek() - 1</span></div>
+              <div class="quiz-question">6. Get height</div>
+              <pre><code>int currentHeight = <span class="cloze">heights[stack.pop()];</span></code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">3. Why push -1 initially?</div>
-              <div class="quiz-answer">Sentinel to handle <span class="cloze">left boundary</span> without empty checks.</div>
+              <div class="quiz-question">7. Get width</div>
+              <pre><code>int currentWidth = <span class="cloze">i - stack.peek() - 1;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Update Area</div>
+              <pre><code>maxArea = <span class="cloze">Math.max(maxArea, currentHeight * currentWidth);</span></code></pre>
             </div>
           </div>
         </div>
@@ -1125,17 +1148,40 @@ First larger to right:  [-1,7,5,7,-1]
           </div>
           <div class="tab-content" data-content="quiz">
             <h2>Quiz: Trapping Rain Water</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: What is bounded_height?</div>
+                <div class="quiz-answer">Height of water <span class="cloze">above current block</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Why use stack?</div>
+                <div class="quiz-answer">To find <span class="cloze">boundaries of valleys</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Time Complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Edge case empty stack?</div>
+                <div class="quiz-answer"><span class="cloze">Break</span> (no left boundary to trap water).</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
             <div class="quiz-panel">
-              <div class="quiz-question">1. bounded_height is?</div>
-              <div class="quiz-answer"><span class="cloze">min(left, right) - current_bottom</span></div>
+              <div class="quiz-question">5. While loop condition</div>
+              <pre><code>while (!st.isEmpty() &amp;&amp; <span class="cloze">height[current] &gt; height[st.peek()]</span>) {</code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">2. distance is?</div>
-              <div class="quiz-answer"><span class="cloze">current - stack.peek() - 1</span></div>
+              <div class="quiz-question">6. Get top element</div>
+              <pre><code>int top = <span class="cloze">st.pop();</span></code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">3. Why uses indices?</div>
-              <div class="quiz-answer">To calculate <span class="cloze">width/distance</span>.</div>
+              <div class="quiz-question">7. Calculate distance</div>
+              <pre><code>int distance = <span class="cloze">current - st.peek() - 1;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Calculate value</div>
+              <pre><code>int bounded_height = <span class="cloze">Math.min(height[current], height[st.peek()]) - height[top];</span></code></pre>
             </div>
           </div>
         </div>
@@ -1167,17 +1213,40 @@ First larger to right:  [-1,7,5,7,-1]
           </div>
           <div class="tab-content" data-content="quiz">
             <h2>Quiz: Steps to Make Non-decreasing</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: dp[i] meaning?</div>
+                <div class="quiz-answer">Max steps to <span class="cloze">remove elements</span> starting at i.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Stack stores?</div>
+                <div class="quiz-answer"><span class="cloze">Indices</span> of elements.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Iteration direction?</div>
+                <div class="quiz-answer"><span class="cloze">Backwards</span> (from n-1 to 0).</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Why Math.max?</div>
+                <div class="quiz-answer">Must wait for <span class="cloze">all smaller elements</span> to pop.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
             <div class="quiz-panel">
-              <div class="quiz-question">1. What does <code>dp</code> array store?</div>
-              <div class="quiz-answer"><span class="cloze">Max steps to remove elements</span></div>
+              <div class="quiz-question">5. Loop condition</div>
+              <pre><code>while (!s.isEmpty() &amp;&amp; <span class="cloze">nums[s.peek()] &lt; nums[i]</span>) {</code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">2. Comparison <code>nums[stack.peek()] &lt; nums[i]</code> means?</div>
-              <div class="quiz-answer">Finding <span class="cloze">previous larger element</span> (since backward iteration).</div>
+              <div class="quiz-question">6. DP update</div>
+              <pre><code>dp[i] = Math.max(<span class="cloze">++dp[i], dp[s.pop()]</span>);</code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">3. Why <code>Math.max</code>?</div>
-              <div class="quiz-answer">Must wait for <span class="cloze">all smaller elements</span> to disappear.</div>
+              <div class="quiz-question">7. Result update</div>
+              <pre><code>res = <span class="cloze">Math.max(res, dp[i]);</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Push to stack</div>
+              <pre><code>s.push(<span class="cloze">i</span>);</code></pre>
             </div>
           </div>
         </div>
@@ -1219,17 +1288,40 @@ First larger to right:  [-1,7,5,7,-1]
           </div>
           <div class="tab-content" data-content="quiz">
             <h2>Quiz: Sum of Subarray Minimums</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: PLE/NLE?</div>
+                <div class="quiz-answer">Previous/Next <span class="cloze">Less Element</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Subarray count?</div>
+                <div class="quiz-answer"><span class="cloze">(mid - left) * (right - mid)</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Why Modulo?</div>
+                <div class="quiz-answer">Prevent <span class="cloze">integer overflow</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: &gt;= vs &gt;?</div>
+                <div class="quiz-answer">Avoid <span class="cloze">double counting</span> duplicates.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
             <div class="quiz-panel">
-              <div class="quiz-question">1. Contribution of `arr[mid]`?</div>
-              <div class="quiz-answer"><span class="cloze">(mid - left) * (right - mid)</span></div>
+              <div class="quiz-question">5. Loop with sentinel</div>
+              <pre><code>while (!stack.empty() &amp;&amp; <span class="cloze">(i == arr.length || arr[stack.peek()] &gt;= arr[i])</span>) {</code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">2. Why use `&gt;=` on one side and `&lt;` on other?</div>
-              <div class="quiz-answer">To handle duplicates <span class="cloze">without double counting</span>.</div>
+              <div class="quiz-question">6. Get mid</div>
+              <pre><code>int mid = <span class="cloze">stack.pop();</span></code></pre>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">3. Modulo arithmetic is needed because?</div>
-              <div class="quiz-answer">Sum can <span class="cloze">exceed integer limits</span>.</div>
+              <div class="quiz-question">7. Calc contribution</div>
+              <pre><code>long count = <span class="cloze">(long) (mid - leftBoundary) * (rightBoundary - mid) % MOD;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Update sum</div>
+              <pre><code>sumOfMinimums += <span class="cloze">(count * arr[mid]) % MOD;</span></code></pre>
             </div>
           </div>
         </div>
