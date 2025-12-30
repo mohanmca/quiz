@@ -968,39 +968,45 @@ First larger to right:  [-1,7,5,7,-1]
         </div>
       </section>
 
-      <section class="slide" data-title="Largest Rectangle brute 1" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
+      <section class="slide" data-title="Largest Rectangle monotonic python" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
         <div class="tab-container">
           <div class="tabs">
             <button class="tab-btn active" data-tab="code">Code</button>
             <button class="tab-btn" data-tab="quiz">Quiz</button>
           </div>
           <div class="tab-content active" data-content="code">
-            <h2>Largest Rectangle in Histogram - Brute Force</h2>
-            <pre><code class="language-java">public class Solution {
-    public int largestRectangleArea(int[] heights) {
-        int maxArea = 0;
-        int length = heights.length;
-        for (int i = 0; i &lt; length; i++) {
-            int minHeight = Integer.MAX_VALUE;
-            for (int j = i; j &lt; length; j++) {
-                minHeight = Math.min(minHeight, heights[j]);
-                maxArea = Math.max(maxArea, minHeight * (j - i + 1));
-            }
-        }
-        return maxArea;
-    }
-}
+            <h2>Largest Rectangle in Histogram - Monotonic Stack (Python)</h2>
+            <pre><code class="language-python">class Solution:
+    def largestRectangleArea(self, heights: List[int]) -&gt; int:
+        stack = [-1]
+        max_area = 0
+        for i in range(len(heights)):
+            while stack[-1] != -1 and heights[stack[-1]] &gt;= heights[i]:
+                current_height = heights[stack.pop()]
+                current_width = i - stack[-1] - 1
+                max_area = max(max_area, current_height * current_width)
+            stack.append(i)
+
+        while stack[-1] != -1:
+            current_height = heights[stack.pop()]
+            current_width = len(heights) - stack[-1] - 1
+            max_area = max(max_area, current_height * current_width)
+        return max_area
 </code></pre>
           </div>
           <div class="tab-content" data-content="quiz">
-            <h2>Quiz: Largest Rectangle (Brute)</h2>
+            <h2>Quiz: Largest Rectangle (Monotonic Stack)</h2>
             <div class="quiz-panel">
               <div class="quiz-question">1. Time complexity?</div>
-              <div class="quiz-answer"><span class="cloze">O(N^2)</span></div>
+              <div class="quiz-answer"><span class="cloze">O(N)</span></div>
             </div>
             <div class="quiz-panel">
-              <div class="quiz-question">2. What does the inner loop do?</div>
-              <div class="quiz-answer">Finds <span class="cloze">min-height</span> for every pair (i, j).</div>
+              <div class="quiz-question">2. What does the stack store?</div>
+              <div class="quiz-answer"><span class="cloze">Indices</span> of increasing heights.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why keep -1 in the stack?</div>
+              <div class="quiz-answer">It acts as a <span class="cloze">sentinel</span> to compute widths safely.</div>
             </div>
           </div>
         </div>
