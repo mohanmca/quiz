@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Quiz App</title>
+  <style>
+    :root { --primary:#1e88e5; --bg:#f7f9fc; --text:#1a1a1a; --muted:#6b7280; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 22px; font-weight: 700; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:14px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .card h3 { margin: 6px 0; font-size: 18px; }
+    .card p { margin: 6px 0; color: var(--muted); font-size: 14px; }
+    .row { margin-top: 10px; display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#eef2ff; color:#1f2937; }
+    button.ghost { background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
+    button:disabled { opacity: 0.5; cursor:not-allowed; }
+    .badge { display:inline-block; font-size:12px; padding:2px 8px; background:#eef2ff; border:1px solid #e5e7eb; border-radius:999px; color:#111827; }
+    .question { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; margin-top:10px; }
+    .answers { margin-top: 10px; display:grid; gap:8px; }
+    .answer { display:flex; gap:10px; align-items:center; padding:10px; border:1px solid #e5e7eb; border-radius:8px; cursor:pointer; background:#fafafa; }
+    .answer input { margin:0; }
+    .footer { margin-top: 12px; display:flex; justify-content: space-between; align-items:center; }
+    .progress { font-size: 14px; color: var(--muted); }
+    .result { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; margin-top: 14px; }
+    .hidden { display:none; }
+    .error { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:12px; border-radius:10px; }
+  </style>
+  <script>
+  // Minimal quiz app loading data from ../data/json
+  const API = {
+    surveys: '../data/json/surveys.json',
+    resolveQuestionsPath(p) {
+      // surveys.json uses paths like "data/json/python/..." relative to programming/
+      // from programming/simple/, prefix with "../"
+      if (p.startsWith('data/')) return `../${p}`;
+      if (p.startsWith('./data/')) return `../${p.slice(2)}`;
+      // Already absolute or external
+      return p;
+    }
+  };
+
+  const state = {
+    surveys: [],
+    currentSurvey: null,
+    questions: [],
+    index: 0,
+    answers: {}, // index -> selected index
+    started: false,
+    score: null,
+  };
+
+  async function fetchJSON(url) {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status} for ${url}`);
+    return r.json();
+  }
+
+  function $(sel) { return document.querySelector(sel); }
+  function h(tag, attrs={}, children=[]) {
+    const el = document.createElement(tag);
+    for (const [k,v] of Object.entries(attrs)) {
+      if (k === 'class') el.className = v; else if (k === 'text') el.textContent = v; else el.setAttribute(k, v);
+    }
+    for (const c of children) el.append(c);
+    return el;
+  }
+
+  function renderHome() {
+    const main = $('#main');
+    main.innerHTML = '';
+    main.append(h('div', { class:'title', text: 'Quizzes' }));
+    main.append(h('div', { class:'subtitle', text: 'Pick a quiz to get started' }));
+
+    const grid = h('div', { class:'grid' });
+    state.surveys.forEach(s => {
+      const card = h('div', { class:'card' }, [
+        h('h3', { text: s.title }),
+        h('p', { text: s.description || '' }),
+        h('div', {}, [
+          h('span', { class:'badge', text: s.category || 'Quiz' }),
+          ' ', h('span', { class:'badge', text: s.difficulty || '' })
+        ]),
+        h('div', { class:'row' }, [
+          h('button', { onclick: () => loadSurvey(s) , text:'Start Quiz' })
+        ])
+      ]);
+      grid.append(card);
+    });
+    main.append(grid);
+  }
+
+  function normalizeQuestion(q) {
+    const text = q.title || q.question || 'Question';
+    const choices = Array.isArray(q.choices) ? q.choices : (Array.isArray(q.options) ? q.options : []);
+    const correct = q.correctAnswer; // may be index or value
+    return { text, choices, correct };
+  }
+
+  async function loadSurvey(survey) {
+    try {
+      state.currentSurvey = survey;
+      state.index = 0; state.answers = {}; state.score = null; state.started = true;
+      const url = API.resolveQuestionsPath(survey.questionsFile);
+      const data = await fetchJSON(url);
+      if (!Array.isArray(data) || data.length === 0) throw new Error('Empty or invalid questions');
+      state.questions = data.map(normalizeQuestion).filter(q => q.choices.length > 0);
+      renderQuiz();
+    } catch (e) {
+      showError(e);
+    }
+  }
+
+  function renderQuiz() {
+    const main = $('#main');
+    main.innerHTML = '';
+    const s = state.currentSurvey;
+    main.append(h('div', { class:'title', text: s.title }));
+    if (s.description) main.append(h('div', { class:'subtitle', text: s.description }));
+
+    // progress
+    const total = state.questions.length;
+    const pos = Math.min(state.index + 1, total);
+    main.append(h('div', { class:'progress', text: `Question ${pos} / ${total}` }));
+
+    // question
+    const q = state.questions[state.index];
+    const qWrap = h('div', { class:'question' });
+    qWrap.append(h('div', { class:'title', text: q.text }));
+
+    const answers = h('div', { class:'answers' });
+    q.choices.forEach((choice, i) => {
+      const id = `q_${state.index}_${i}`;
+      const checked = state.answers[state.index] === i;
+      const label = h('label', { class:'answer', for:id });
+      const input = h('input', { type:'radio', name:'answer', id, value:String(i) });
+      if (checked) input.checked = true;
+      label.append(input, h('span', { text: String(choice) }));
+      label.addEventListener('click', () => { state.answers[state.index] = i; });
+      answers.append(label);
+    });
+    qWrap.append(answers);
+
+    // controls
+    const controls = h('div', { class:'footer' });
+    const left = h('div');
+    const right = h('div');
+    left.append(h('button', { class:'ghost', disabled: state.index === 0 ? 'true': null, onclick: prev, text:'Back' }));
+    if (state.index < total - 1) right.append(h('button', { onclick: next, text:'Next' }));
+    else right.append(h('button', { onclick: submit, text:'Submit' }));
+    controls.append(left, right);
+    qWrap.append(controls);
+    main.append(qWrap);
+  }
+
+  function prev() { if (state.index > 0) { state.index--; renderQuiz(); } }
+  function next() { if (state.index < state.questions.length - 1) { state.index++; renderQuiz(); } }
+
+  function isCorrect(q, selectedIndex) {
+    if (selectedIndex == null) return false;
+    const correct = q.correct;
+    if (typeof correct === 'number') return selectedIndex === correct;
+    if (Array.isArray(correct)) return correct.includes(selectedIndex) || correct.includes(q.choices[selectedIndex]);
+    return String(q.choices[selectedIndex]) === String(correct);
+  }
+
+  function submit() {
+    let score = 0;
+    state.questions.forEach((q, idx) => { if (isCorrect(q, state.answers[idx])) score++; });
+    state.score = score;
+    renderResult();
+  }
+
+  function renderResult() {
+    const main = $('#main');
+    const total = state.questions.length;
+    main.append(h('div', { class:'result', text: `You scored ${state.score} / ${total}.` }));
+    const actions = h('div', { class:'row' });
+    actions.append(
+      h('button', { class:'secondary', onclick: () => { state.started = false; renderHome(); }, text:'Back to Quizzes' }),
+      h('button', { onclick: () => { state.index = 0; state.answers = {}; state.score = null; renderQuiz(); }, text:'Retry Quiz' })
+    );
+    main.append(actions);
+  }
+
+  function showError(e) {
+    const main = $('#main');
+    main.innerHTML = '';
+    main.append(h('div', { class:'error' }, [
+      h('strong', { text: 'Error: ' }),
+      document.createTextNode(e.message || String(e))
+    ]));
+    main.append(h('div', { class:'row' }, [ h('button', { class:'secondary', onclick: init, text:'Retry' }) ]));
+  }
+
+  function getDeepLinkId() {
+    try {
+      const url = new URL(window.location.href);
+      const q = url.searchParams.get('id');
+      if (q) return q;
+      if (url.hash && url.hash.startsWith('#id=')) return url.hash.slice(4);
+    } catch {}
+    return null;
+  }
+
+  async function init() {
+    try {
+      const data = await fetchJSON(API.surveys);
+      state.surveys = Array.isArray(data) ? data : [];
+      // Only include surveys whose questions files are under data/json
+      state.surveys = state.surveys.filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/'));
+      const deepId = getDeepLinkId();
+      if (deepId) {
+        const s = state.surveys.find(x => x.id === deepId);
+        if (s) return loadSurvey(s);
+      }
+      renderHome();
+    } catch (e) {
+      showError(e);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Simple Quiz App</div>
+      <div class="subtitle">Data source: programming/data/json</div>
+    </div>
+  </header>
+  <main class="container" id="main">
+    <!-- Content injected here -->
+  </main>
+</body>
+</html>

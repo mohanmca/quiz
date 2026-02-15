@@ -1,0 +1,122 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is the purpose of the Java Virtual Machine (JVM)?",
+        "choices": [
+            "To provide platform independence by executing bytecode",
+            "To compile Java source code to machine code",
+            "To manage database connections",
+            "To handle network communications"
+        ],
+        "correctAnswer": "To provide platform independence by executing bytecode"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "Which garbage collector is best suited for low-latency applications?",
+        "choices": [
+            "G1 Garbage Collector",
+            "ZGC (Z Garbage Collector)",
+            "Parallel GC",
+            "Serial GC"
+        ],
+        "correctAnswer": "ZGC (Z Garbage Collector)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the purpose of the Method Area in JVM memory?",
+        "choices": [
+            "To store class-level information and method bytecode",
+            "To store object instances",
+            "To store local variables",
+            "To store the program counter"
+        ],
+        "correctAnswer": "To store class-level information and method bytecode"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What happens during the 'Mark and Sweep' phase of garbage collection?",
+        "choices": [
+            "Mark reachable objects, then sweep away unreachable ones",
+            "Copy objects to a new memory region",
+            "Compress memory to reduce fragmentation",
+            "Sort objects by their creation time"
+        ],
+        "correctAnswer": "Mark reachable objects, then sweep away unreachable ones"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is the difference between Young Generation and Old Generation in heap memory?",
+        "choices": [
+            "Young Generation holds newly created objects, Old Generation holds long-lived objects",
+            "Young Generation is faster, Old Generation is slower",
+            "Young Generation uses more memory, Old Generation uses less",
+            "Young Generation is for primitives, Old Generation is for objects"
+        ],
+        "correctAnswer": "Young Generation holds newly created objects, Old Generation holds long-lived objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is JIT (Just-In-Time) compilation in the JVM?",
+        "choices": [
+            "Converting frequently executed bytecode to native machine code at runtime",
+            "Compiling Java source code at development time",
+            "Loading classes dynamically at runtime",
+            "Optimizing memory allocation patterns"
+        ],
+        "correctAnswer": "Converting frequently executed bytecode to native machine code at runtime"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What is the purpose of the String Pool in JVM?",
+        "choices": [
+            "To reuse identical string literals and save memory",
+            "To store all string variables",
+            "To cache frequently used strings",
+            "To compress string data"
+        ],
+        "correctAnswer": "To reuse identical string literals and save memory"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the role of the ClassLoader in JVM?",
+        "choices": [
+            "To load class files into memory and create Class objects",
+            "To execute static methods",
+            "To manage object lifecycle",
+            "To handle garbage collection"
+        ],
+        "correctAnswer": "To load class files into memory and create Class objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is the difference between Stack and Heap memory in JVM?",
+        "choices": [
+            "Stack stores method calls and local variables, Heap stores objects",
+            "Stack is larger than Heap",
+            "Stack is global, Heap is thread-local",
+            "Stack stores objects, Heap stores primitives"
+        ],
+        "correctAnswer": "Stack stores method calls and local variables, Heap stores objects"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is method inlining in JVM optimization?",
+        "choices": [
+            "Replacing method calls with the actual method body to reduce overhead",
+            "Moving methods to different classes",
+            "Caching method results",
+            "Sorting methods by execution frequency"
+        ],
+        "correctAnswer": "Replacing method calls with the actual method body to reduce overhead"
+    }
+]

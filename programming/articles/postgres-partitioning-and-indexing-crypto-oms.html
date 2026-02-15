@@ -1,0 +1,536 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PostgreSQL 17+ Partitioning & Indexing Playbook for a Crypto OMS</title>
+  <style>:root{--primary:#2563eb;--bg:#f5f7ff;--surface:#ffffff;--surface-alt:#eef2ff;--border:#c7d2fe;--text:#0f172a;--muted:#475569}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}header{background:linear-gradient(135deg,#ffffff 0%,#eef4ff 100%);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}.container{max-width:1040px;margin:0 auto;padding:20px}.title{margin:6px 0 2px;font-size:28px;font-weight:800;color:#0f172a}.subtitle{margin:0 0 12px;color:var(--muted)}.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}button{background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:12px;cursor:pointer;font-weight:600;box-shadow:0 10px 24px -18px rgba(37,99,235,0.8)}button.secondary{background:rgba(37,99,235,0.12);color:#1d4ed8}button.ghost{background:transparent;color:#1d4ed8;border:1px solid rgba(37,99,235,0.35)}button:hover{transform:translateY(-1px);box-shadow:0 12px 26px -20px rgba(37,99,235,0.65);transition:all .2s ease}main.container article{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px;margin-top:22px;box-shadow:0 24px 70px -48px rgba(15,23,42,0.55)}h2{margin-top:32px;font-size:22px;color:#1e3a8a}h3{margin-top:24px;font-size:18px;color:#1e40af}p{line-height:1.7;margin:12px 0;color:#0f172a}pre{background:#102a43;color:#e0f2ff;padding:16px;border-radius:16px;overflow:auto;border:1px solid rgba(148,163,184,0.45);font-size:14px;box-shadow:0 20px 60px -40px rgba(15,23,42,0.9)}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:rgba(37,99,235,0.12);color:#1d4ed8;padding:2px 6px;border-radius:6px}.toc{background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.25);padding:18px;border-radius:16px;margin:12px 0 24px;box-shadow:0 14px 40px -30px rgba(37,99,235,0.55)}.toc ul{margin:0;padding-left:20px}.toc a{color:#2563eb;text-decoration:none;font-weight:600}.note{background:#e0f2fe;border:1px solid #93c5fd;color:#1d4ed8;padding:16px;border-radius:14px;margin:24px 0;box-shadow:0 16px 48px -36px rgba(37,99,235,0.5)}.callout{background:#eff6ff;border-left:4px solid #2563eb;padding:18px 20px;margin:20px 0;border-radius:14px;box-shadow:0 18px 42px -36px rgba(37,99,235,0.45)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin:18px 0}.grid-item{background:var(--surface-alt);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:0 16px 38px -32px rgba(15,23,42,0.45)}table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;background:var(--surface-alt);border-radius:14px;overflow:hidden;box-shadow:0 12px 30px -28px rgba(37,99,235,0.4)}th,td{border:1px solid rgba(199,210,254,0.6);padding:12px;text-align:left}th{background:rgba(37,99,235,0.12);color:#1e3a8a;font-weight:700}.extended-panel{background:var(--surface-alt);border:1px solid var(--border);border-radius:18px;padding:28px;margin:36px 0;box-shadow:0 30px 80px -50px rgba(37,99,235,0.5)}.extended-panel h2:first-child{margin-top:0}.extended-panel h3{color:#1d4ed8}</style>
+  <script>function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}function H(src){if(!src)return'';const K=[];const keep=h=>(K.push(h),`@@H${K.length-1}@@`);src=src.replace(/'{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3}/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/#.*/g,m=>keep(`<span class='tok-com'>${E(m)}</span>`));let html=E(src);const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),"<span class='tok-kw'>$1</span>");const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter','any','all'];html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),"<span class='tok-builtin'>$1</span>");html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,"<span class='tok-num'>$&</span>");return html.replace(/@@H(\d+)@@/g,(m,i)=>K[Number(i)])}function apply(){document.querySelectorAll('pre code.language-python').forEach(el=>el.innerHTML=H(el.textContent||''))}window.addEventListener('DOMContentLoaded',apply)</script>
+</head><body>
+  <header><div class="container">
+    <div class="title">PostgreSQL 17+ Partitioning & Indexing Playbook for a Crypto OMS</div>
+    <div class="subtitle">Designing resilient multi-level partitions, lock-safe indexing, and operational guardrails for orders, fills, accounts, and market data.</div>
+    <div class="toolbar">
+      <button class="secondary" onclick="window.location.href='../index.html?id=postgres-partitioning-and-indexing-crypto-oms'">Start Quiz</button>
+      <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+    </div>
+  </div></header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents</strong>
+      <ul>
+        <li><a href="#overview">1. Scenario & Objectives</a></li>
+        <li><a href="#partition-types">2. Partitioning Architecture</a></li>
+        <li><a href="#partition-hierarchy">3. Root, Intermediate, Leaf Differences</a></li>
+        <li><a href="#crypto-model">4. Modeling OMS Entities with Multi-Level Partitions</a></li>
+        <li><a href="#index-strategy">5. Indexing Strategy for Partitioned Tables</a></li>
+        <li><a href="#batch-indexing">6. Batch Indexing a 100 TB Partitioned Table</a></li>
+        <li><a href="#locks">7. Lock Semantics & Contention Management</a></li>
+        <li><a href="#operations">8. Operational Safety: Deployment, Monitoring, Recovery</a></li>
+        <li><a href="#python-tooling">9. Python Automation Toolkit</a></li>
+        <li><a href="#monitoring">10. Monitoring Partitions & Indexes</a></li>
+        <li><a href="#rollback">11. Rollback & Failure Recovery Patterns</a></li>
+        <li><a href="#checklist">12. Production Checklist & Habit Loops</a></li>
+        <li><a href="#planner">13. Planner & Statistics Considerations</a></li>
+        <li><a href="#testing">14. Testing & Chaos Drills</a></li>
+        <li><a href="#fills-case-study">15. Case Study: Rolling Out Partitioning to Fills</a></li>
+        <li><a href="#governance">16. Governance, Compliance, and Auditing</a></li>
+        <li><a href="#tooling">17. Tooling for Consistency</a></li>
+        <li><a href="#benchmarks">18. Benchmarking & Capacity Planning</a></li>
+        <li><a href="#faq">19. Frequently Asked Questions</a></li>
+        <li><a href="#appendix">20. Appendix: Reference Commands</a></li>
+        <li><a href="#conclusion">21. Closing Thoughts</a></li>
+      </ul>
+    </div>
+    <h2 id="overview">1. Scenario & Objectives</h2>
+    <p>Our example system is a crypto order management system (OMS) that captures high-frequency orders across spot and derivative venues, tracks fills, and maintains compliance-grade account books. PostgreSQL 17 introduces incremental improvements for partitioning and indexing, including expanded support for foreign keys referencing partitioned parents, better parallel index builds, and enhanced statistics. We want to exploit these features without compromising availability while running on commodity hardware and cloud volumes.</p>
+    <p>The OMS has four primary fact tables: <code>orders</code>, <code>fills</code>, <code>positions</code>, and <code>account_snapshots</code>. Supporting tables include <code>instruments</code>, <code>venues</code>, <code>accounts</code>, and <code>users</code>. Throughput requirements exceed ten million daily orders and a hundred million fills, with regulatory retention mandates of seven years. We must design partitions that keep data navigable, compressible, and quickly prunable while ensuring that indexes remain manageable.</p>
+    <div class="note">Design goals: partition pruning that matches trading lifecycle, localized vacuuming, lock-efficient index maintenance, and observability that answers “Are we on track?” within seconds.</div>
+
+    <h2 id="partition-types">2. Partitioning Architecture</h2>
+    <p>PostgreSQL supports four native partitioning methods: range, list, hash, and a hybrid of range+list or range+hash when you add intermediate tables. Choosing the correct method hinges on pruning efficiency and maintenance patterns.</p>
+    <h3>2.1 Range Partitions</h3>
+    <p>Range partitions slice data by ordered key intervals. For the OMS we apply range splitting on <code>event_date</code> for orders and fills because trading activity correlates strongly with calendar cycles. Range partitions are ideal when you need multi-level rollouts, e.g., year &gt; month &gt; day. PostgreSQL 17 lets you detach old partitions and attach new ones atomically, making end-of-day rotations predictable.</p>
+    <h3>2.2 List Partitions</h3>
+    <p>List partitions match discrete values. In OMS domain they shine for separating venues (<code>venue_id</code>), liquidity pools, or regulatory classifications. Combined with range partitions, they allow targeted retention per venue or product.</p>
+    <h3>2.3 Hash Partitions</h3>
+    <p>Hash partitions distribute data evenly when you cannot rely on time-based skew. For account snapshots we hash on <code>account_id</code> after range partitioning on <code>snapshot_date</code>, ensuring uniform distribution across shards for analytics queries that drill into specific accounts. Hash partitions also mitigate outlier accounts from generating unbounded partition sizes.</p>
+    <h3>2.4 Composite Strategies</h3>
+    <p>Complex workloads benefit from mixing partition types. PostgreSQL lets you create sub-partitions by defining child tables that are themselves partitioned. For example, <code>orders</code> can be range-partitioned by trading day, and each day partition can be hash-partitioned by <code>instrument_id</code>. This layering keeps each leaf partition small, enabling fast index builds and vacuum cycles.</p>
+
+    <h2 id="partition-hierarchy">3. Root, Intermediate, Leaf Differences</h2>
+    <p>A partitioned table comprises three structural levels, each with distinct roles:</p>
+    <div class="grid">
+      <div class="grid-item"><strong>Root Partitioned Table</strong><br>Logical parent that stores metadata, default constraints, and global indexes. It holds no data rows but exposes unified schema, triggers, privileges, and identity columns. Cross-partition queries target the root to leverage pruning. DDL on the root cascades to children.</div>
+      <div class="grid-item"><strong>Intermediate Partition</strong><br>Optional nodes created when you partition child tables further. Intermediates can hold constraints and local indexes but still contain no rows. They primarily group leaf children, enabling hierarchical pruning (e.g., year &gt; month &gt; day). Maintenance tasks like DETACH or ATTACH operate at this level for batches of leaves.</div>
+      <div class="grid-item"><strong>Leaf Partition</strong><br>Concrete tables containing actual tuples. Each leaf inherits storage parameters, autovacuum settings, and indexes (either local or attached). Leaf size determines vacuum time, index build duration, and backup chunk size. We keep each leaf under 50 GB for the OMS to ensure index builds finish within maintenance windows.</div>
+    </div>
+    <p>Understanding these distinctions keeps operations predictable. Indexes defined on the root are automatically created on each leaf (unless you disable partitioned indexes), while indexes created directly on a leaf remain local. PostgreSQL 17 also retains check constraints on leaves that guide planner pruning.</p>
+
+    <h2 id="crypto-model">4. Modeling OMS Entities with Multi-Level Partitions</h2>
+    <p>We align partitions with lifecycle events. Crypto trading exhibits regional surges (Asia, EU, US sessions), regulatory segregation (institutional vs. retail), and instrument diversity (spot BTC/USD vs. perpetual swaps). Multi-level partitions let us encode these axes.</p>
+    <h3>4.1 Orders Table</h3>
+    <p>The <code>orders</code> table is range-partitioned by <code>trading_date</code>, with intermediate monthly partitions and daily leaves. Each daily leaf is hash-partitioned into eight shards on <code>instrument_group</code> (a derived field grouping correlated instruments). This design isolates BTC perpetual load from altcoin noise while enabling targeted reindexing during incidents.</p>
+<pre><code class="language-sql">CREATE TABLE oms.orders (
+  order_id        BIGINT GENERATED ALWAYS AS IDENTITY,
+  venue_id        INTEGER NOT NULL,
+  account_id      BIGINT NOT NULL,
+  instrument_id   BIGINT NOT NULL,
+  instrument_group TEXT NOT NULL,
+  side            CHAR(1) NOT NULL CHECK (side IN ('B','S')),
+  quantity        NUMERIC(38,18) NOT NULL,
+  price           NUMERIC(38,18),
+  order_type      TEXT NOT NULL,
+  status          TEXT NOT NULL,
+  event_timestamp TIMESTAMPTZ NOT NULL,
+  trading_date    DATE NOT NULL,
+  created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (order_id, trading_date)
+) PARTITION BY RANGE (trading_date);
+</code></pre>
+    <p>Monthly parents: <code>orders_2024_01</code>, <code>orders_2024_02</code>, each partitioned by RANGE (trading_date) and HASH (instrument_group). Daily leaves: <code>orders_2024_01_15_p0</code> to <code>orders_2024_01_15_p7</code>. This arrangement surfaces the following benefits:</p>
+    <ul>
+      <li>Daily detach and archive takes milliseconds because each leaf contains only that day’s data.</li>
+      <li>Hash shards enable parallel index builds (<code>CREATE INDEX CONCURRENTLY</code>) with manageable footprint.</li>
+      <li>Hotspot mitigation: mass quoting on BTC/USD remains isolated to the leaf shards, allowing targeted vacuum or reindex.</li>
+    </ul>
+
+    <h3>4.2 Fills Table</h3>
+    <p>The <code>fills</code> table tracks trade confirmations. It inherits the same calendar structure but partitions by <code>venue_id</code> after the daily split. Some venues produce more fills than others; list partitioning each daily shard by <code>venue_id</code> ensures we can detach one venue’s data to run offline reconciliation without freezing other venues.</p>
+<pre><code class="language-sql">CREATE TABLE oms.fills (
+  fill_id         BIGINT GENERATED ALWAYS AS IDENTITY,
+  order_id        BIGINT NOT NULL,
+  venue_fill_ref  TEXT NOT NULL,
+  venue_id        INTEGER NOT NULL,
+  account_id      BIGINT NOT NULL,
+  instrument_id   BIGINT NOT NULL,
+  quantity        NUMERIC(38,18) NOT NULL,
+  price           NUMERIC(38,18) NOT NULL,
+  fee             NUMERIC(38,18) NOT NULL DEFAULT 0,
+  side            CHAR(1) NOT NULL,
+  event_timestamp TIMESTAMPTZ NOT NULL,
+  trading_date    DATE NOT NULL,
+  PRIMARY KEY (fill_id, trading_date)
+) PARTITION BY RANGE (trading_date);
+</code></pre>
+    <p>Daily range partitions then LIST partitioned by <code>venue_id</code>. This introduces intermediate nodes for each day-venue combination. PostgreSQL 17’s optimized pruning makes planner overhead manageable even with hundreds of child partitions.</p>
+
+    <h3>4.3 Account Snapshots</h3>
+    <p><code>account_snapshots</code> collects end-of-interval balances. We partition by RANGE on <code>snapshot_date</code> with weekly buckets to match reporting cadence, then HASH on <code>account_id</code> to keep each leaf under 2 GB. Hash on <code>account_id</code> improves analytics that pivot per account, because queries read only one or two shards.</p>
+
+    <h3>4.4 Instrument & Reference Data</h3>
+    <p>Reference tables such as <code>instruments</code> and <code>venue_metadata</code> remain regular tables but serve as dimension tables for foreign keys. PostgreSQL 17 lets referencing partitioned table primary keys from regular tables, but we still prefer surrogate keys on the root to stabilize relationships.</p>
+
+    <h3>4.5 Partition Maintenance Cadence</h3>
+    <p>Every trading day we run a partition rotation job:</p>
+    <ol>
+      <li>Create next day’s partitions for all tables using utility functions (see Section 6).</li>
+      <li>Detach partitions older than retention policy, attach to archival tablespaces, and optionally copy to cold storage.</li>
+      <li>Run <code>ANALYZE</code> on the new day’s partitions to prime planner statistics.</li>
+    </ol>
+    <p>Pre-creating partitions prevents inserts from hitting the default partition or failing due to missing ranges. We also use <code>pg_partman</code>-style scheduling but customized to our naming scheme.</p>
+
+    <h2 id="index-strategy">5. Indexing Strategy for Partitioned Tables</h2>
+    <p>Indexes keep compliance queries fast but introduce maintenance risk. Partitioned tables support two styles: partitioned indexes (root-defined, spanning leaves) and local indexes (defined per leaf). We balance both to meet latency and operational constraints.</p>
+    <h3>5.1 Index Types in PostgreSQL 17</h3>
+    <p>PostgreSQL ships several index access methods. Choosing correctly avoids unnecessary bloat:</p>
+    <table>
+      <thead><tr><th>Index Type</th><th>Use Cases in Crypto OMS</th><th>Trade-offs</th></tr></thead>
+      <tbody>
+        <tr><td>B-tree</td><td>Order lookups by <code>order_id</code>, range queries on <code>event_timestamp</code></td><td>Great general purpose, but large on wide keys. Partitioned B-trees per leaf remain manageable.</td></tr>
+        <tr><td>BRIN</td><td>Audit scans across time-range on <code>event_timestamp</code>, especially on append-only partitions</td><td>Super compact, but only effective when values correlate with heap order. Perfect for archived leaves.</td></tr>
+        <tr><td>GIN</td><td>JSONB fields such as compliance annotations or order metadata arrays</td><td>High write overhead; use fastupdate buffers and partial GIN for hot partitions.</td></tr>
+        <tr><td>GiST</td><td>Geospatial or range types (e.g., price bands or volatility intervals)</td><td>More maintenance heavy; best for specialized analytics partitions.</td></tr>
+        <tr><td>SP-GiST</td><td>Non-uniform data like text prefixes for venue routes</td><td>Complex to tune; only for targeted use.</td></tr>
+        <tr><td>Bloom</td><td>Multi-column membership tests (rare, extension-based)</td><td>False positives; not ideal for high integrity queries.</td></tr>
+        <tr><td>Hypothetical (hypopg)</td><td>Planning indexes offline to evaluate benefit</td><td>Planner-only; great for experimentation but not persistent.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>5.2 Partitioned vs Local Indexes</h3>
+    <p>Partitioned indexes are declared on the root and automatically created on each leaf as sub-indexes. They support unique constraints only if partition keys participate in the uniqueness expression. For example, <code>PRIMARY KEY (order_id, trading_date)</code> works because the partition key <code>trading_date</code> is included. If you need uniqueness on <code>venue_fill_ref</code> per venue, define it on each leaf or use <code>UNIQUE (venue_id, venue_fill_ref)</code> at root.</p>
+    <p>Local indexes (created on a leaf) provide flexibility: you can drop or rebuild them without affecting siblings. We use local BRIN indexes on older partitions while keeping B-tree indexes on hot partitions.</p>
+
+    <h3>5.3 Impact of Indexes on Partition Maintenance</h3>
+    <p>When you create a partitioned index, PostgreSQL 17 builds sub-indexes for every existing leaf. On a table with thousands of partitions this is expensive. Strategy:</p>
+    <ul>
+      <li>Create partitioned indexes only during initial bootstrap when partition count is manageable. Subsequent indexes should be attached using <code>ALTER INDEX ATTACH PARTITION</code> after building leaf indexes individually.</li>
+      <li>Leverage <code>SET (fastupdate = off)</code> for GIN indexes on bulk load partitions to avoid deferred maintenance, then re-enable for OLTP partitions.</li>
+      <li>Use <code>ALTER TABLE ... SET (parallel_workers = N)</code> for large partitions to accelerate index builds.</li>
+    </ul>
+
+    <h3>5.4 Index Selection Heuristics</h3>
+    <div class="callout"><strong>Choosing the right index:</strong>
+      <ul>
+        <li>Hot OLTP partitions: B-tree on primary access paths (order id, account+timestamp), optional partial indexes with <code>WHERE status IN ('NEW','PARTIAL')</code>.</li>
+        <li>Compliance queries spanning months: BRIN on <code>event_timestamp</code>, B-tree on <code>account_id</code>.</li>
+        <li>JSON metadata search: GIN with <code>jsonb_path_ops</code>.</li>
+        <li>Pricing ranges: GiST on <code>numrange(price_low, price_high)</code> for risk band queries.</li>
+      </ul>
+    </div>
+
+    <h2 id="batch-indexing">6. Batch Indexing a 100 TB Partitioned Table</h2>
+    <p>Indexing a table exceeding 100 TB demands incremental tactics. PostgreSQL 17 retains <code>CREATE INDEX CONCURRENTLY</code> semantics but improved failure handling when aborted. Our plan:</p>
+    <ol>
+      <li>Build indexes leaf by leaf, not globally. Use <code>CREATE INDEX CONCURRENTLY</code> on each leaf partition to avoid global locks. Track progress with <code>pg_stat_progress_create_index</code>.</li>
+      <li>Throttle using work queues. Limit concurrent builds to the number of IO channels available.</li>
+      <li>Detach aged partitions, reindex offline, then attach. Detached partitions avoid impacting online transactions.</li>
+      <li>Use covering indexes only where necessary; wide indexes cost more than sequential scans on cold partitions.</li>
+    </ol>
+    <p>Batching example for <code>orders</code> daily partitions:</p>
+<pre><code class="language-sql">SELECT child.relname AS leaf_name
+FROM pg_inherits
+JOIN pg_class parent ON parent.oid = inhparent
+JOIN pg_class child ON child.oid = inhrelid
+JOIN pg_namespace nsp ON nsp.oid = child.relnamespace
+WHERE parent.relname = 'orders'
+  AND nsp.nspname = 'oms'
+ORDER BY child.relname;
+</code></pre>
+    <p>For each leaf we queue <code>CREATE INDEX CONCURRENTLY</code>. PostgreSQL 17 supports <code>CREATE INDEX CONCURRENTLY IF NOT EXISTS</code> to guard orchestration scripts.</p>
+
+    <h3>6.1 Utility Function for Sub-Sub Level Partitions</h3>
+    <p>Managing sub-sub-level partitions is tedious. We build a reusable function that generates range partitions with optional hash sub-partitions. Inputs: parent table name, month, hash modulus, optional <code>WHERE</code> clause to filter rows during backfills, index name hints, and JSON policy describing sub-sub ranges.</p>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION oms.create_trading_day_partitions(
+    p_table regclass,
+    p_date date,
+    p_hash_parts integer DEFAULT 8,
+    p_where_clause text DEFAULT NULL,
+    p_index_name text DEFAULT NULL,
+    p_hash_range jsonb DEFAULT '{"type":"hash","buckets":8}'
+) RETURNS void LANGUAGE plpgsql AS $$
+DECLARE
+    parent_schema name;
+    parent_table name;
+    month_partition name;
+    day_partition name;
+    idx_sql text;
+    i integer;
+BEGIN
+    SELECT nspname, relname INTO parent_schema, parent_table
+    FROM pg_class JOIN pg_namespace ON relnamespace = pg_namespace.oid
+    WHERE pg_class.oid = p_table;
+
+    month_partition := format('%s_%s', parent_table, to_char(p_date, 'YYYY_MM'));
+    EXECUTE format('CREATE TABLE IF NOT EXISTS %I.%I PARTITION OF %I FOR VALUES FROM (%L) TO (%L) PARTITION BY RANGE (trading_date)',
+        parent_schema, month_partition, p_table, date_trunc('month', p_date), date_trunc('month', p_date) + interval '1 month');
+
+    day_partition := format('%s_%s', month_partition, to_char(p_date, 'DD'));
+    EXECUTE format('CREATE TABLE IF NOT EXISTS %I.%I PARTITION OF %I.%I FOR VALUES FROM (%L) TO (%L) PARTITION BY HASH (instrument_group)',
+        parent_schema, day_partition, parent_schema, month_partition, p_date, p_date + 1);
+
+    FOR i IN 0..p_hash_parts-1 LOOP
+        EXECUTE format('CREATE TABLE IF NOT EXISTS %I.%I_p%s PARTITION OF %I.%I FOR VALUES WITH (MODULUS %s, REMAINDER %s)',
+            parent_schema, day_partition, i, parent_schema, day_partition, p_hash_parts, i);
+
+        IF p_index_name IS NOT NULL THEN
+            idx_sql := format('CREATE INDEX IF NOT EXISTS %I ON %I.%I_p%s (instrument_id, event_timestamp)',
+                p_index_name || '_' || i, parent_schema, day_partition, i);
+            IF p_where_clause IS NOT NULL THEN
+                idx_sql := idx_sql || format(' WHERE %s', p_where_clause);
+            END IF;
+            EXECUTE idx_sql;
+        END IF;
+    END LOOP;
+END;$$;
+</code></pre>
+    <p>This function handles range partitions for the month and day, then creates hash leaves. Conditionals allow partial indexes (e.g., only active orders). You can extend the JSON parameter to support range sub-sub partitions by replacing the hash loop with dynamic SQL over <code>p_hash_range</code>.</p>
+
+    <h3>6.2 Batch Index Creation Procedure</h3>
+    <p>We combine <code>CREATE INDEX CONCURRENTLY</code> with job state tracking so failures resume gracefully:</p>
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS oms.index_build_queue (
+  job_id bigserial PRIMARY KEY,
+  leaf_schema text NOT NULL,
+  leaf_table text NOT NULL,
+  index_name text NOT NULL,
+  sql_template text NOT NULL,
+  started_at timestamptz,
+  finished_at timestamptz,
+  status text NOT NULL DEFAULT 'pending',
+  error_message text
+);
+
+CREATE OR REPLACE PROCEDURE oms.run_index_build_queue(p_concurrency integer DEFAULT 2)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    job oms.index_build_queue%ROWTYPE;
+BEGIN
+    FOR job IN
+        SELECT * FROM oms.index_build_queue
+         WHERE status = 'pending'
+         ORDER BY job_id
+         FOR UPDATE SKIP LOCKED
+    LOOP
+        UPDATE oms.index_build_queue SET status = 'running', started_at = clock_timestamp()
+         WHERE job_id = job.job_id;
+        BEGIN
+            EXECUTE format(job.sql_template, job.leaf_schema, job.leaf_table, job.index_name);
+            UPDATE oms.index_build_queue SET status = 'completed', finished_at = clock_timestamp()
+             WHERE job_id = job.job_id;
+        EXCEPTION WHEN OTHERS THEN
+            UPDATE oms.index_build_queue SET status = 'failed', finished_at = clock_timestamp(),
+                error_message = SQLERRM
+             WHERE job_id = job.job_id;
+        END;
+    END LOOP;
+END;$$;
+</code></pre>
+    <p>The queue table tracks each leaf. The job runs under <code>FOR UPDATE SKIP LOCKED</code> semantics to avoid deadlocks between workers. You can launch multiple sessions running <code>CALL oms.run_index_build_queue(4);</code> for parallel processing.</p>
+
+    <h2 id="locks">7. Lock Semantics & Contention Management</h2>
+    <p>High-frequency trading systems cannot tolerate blocking DDL. PostgreSQL lock levels require careful orchestration:</p>
+    <ul>
+      <li><strong><code>ACCESS EXCLUSIVE</code></strong>: triggered by <code>CREATE INDEX</code> (non-concurrent), partition detach, and some constraint changes. Avoid on hot partitions; use concurrent index builds.</li>
+      <li><strong><code>SHARE UPDATE EXCLUSIVE</code></strong>: taken by <code>ALTER TABLE ... ATTACH PARTITION</code>. Short but serializes operations, so schedule after trading peaks.</li>
+      <li><strong><code>ROW SHARE</code> and <code>ROW EXCLUSIVE</code></strong>: standard DML; ensure DDL scripts respect <code>LOCK TIMEOUT</code> (set per session) to fail fast instead of blocking traders.</li>
+    </ul>
+    <p>For read operations the row-level locking semantics matter:</p>
+    <ul>
+      <li><code>FOR UPDATE</code>: waits on conflicting locks; use for settlement pipelines that must serialize per order.</li>
+      <li><code>FOR UPDATE SKIP LOCKED</code>: ideal for ingestion services processing stale orders without blocking active ones. It ensures queue workers skip rows locked by peers.</li>
+      <li><code>FOR NO KEY UPDATE</code>: narrower lock, used when modifying non-key columns. Helps keep concurrency high on partitioned tables by lowering conflicts.</li>
+    </ul>
+    <p>Set <code>statement_timeout</code> and <code>lock_timeout</code> conservatively (e.g., 5s for DDL) and rely on <code>pg_locks</code> plus extended events to observe patterns. Partitioned tables reduce the scope of locks because operations target leaves instead of the entire dataset.</p>
+
+    <h2 id="operations">8. Operational Safety: Deployment, Monitoring, Recovery</h2>
+    <p>Operational safety derives from automation, staged rollouts, and observability. We follow these guardrails:</p>
+    <ol>
+      <li><strong>Staged DDL:</strong> apply schema migrations in the staging cluster first, capture query plans, and replicate on production with <code>LOCK TIMEOUT 5s</code>. Use feature flags to gate new indexes.</li>
+      <li><strong>Shadow Partitions:</strong> create new partitions offline, load sample data, validate constraints, then attach. For huge migrations clone storage snapshots to expedite rollback.</li>
+      <li><strong>Metrics:</strong> export <code>pg_stat_progress_create_index</code>, <code>pg_stat_user_tables</code>, and custom queue table metrics to Prometheus/Grafana dashboards.</li>
+      <li><strong>Backups:</strong> combine regular physical backups (pgBackRest) with partition-level logical dumps for compliance extracts.</li>
+    </ol>
+    <p>Always document runbooks with exact commands and rollback steps. Crypto trading regulators expect reproducible procedures documented per change ticket.</p>
+
+    <h2 id="python-tooling">9. Python Automation Toolkit</h2>
+    <p>Python scripts orchestrate partition rotation, index queues, and monitoring. We build on <code>psycopg</code> (the modern version of <code>psycopg2</code>) for asynchronous workflows. The script below demonstrates a control loop that creates partitions for the next seven days, seeds index jobs, and logs outcomes for alerting.</p>
+<pre><code class="language-python">from __future__ import annotations
+import asyncio
+import logging
+from datetime import date, timedelta
+
+import psycopg
+
+LOG = logging.getLogger("oms.partition")
+LOG.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
+LOG.addHandler(handler)
+
+CREATE_PARTITION_CALL = "SELECT oms.create_trading_day_partitions(%s::regclass, %s::date, %s, %s, %s, %s::jsonb);"
+QUEUE_INDEX_SQL = """
+    INSERT INTO oms.index_build_queue(leaf_schema, leaf_table, index_name, sql_template)
+    VALUES (%s, %s, %s, 'SELECT pg_catalog.create_index_concurrently(%s, %s, %s)');
+"""
+
+async def provision_partitions(pool: psycopg.AsyncConnection, table: str, days_ahead: int = 7) -> None:
+    async with pool.cursor() as cur:
+        for offset in range(days_ahead):
+            target_day = date.today() + timedelta(days=offset)
+            LOG.info("Ensuring partitions for %s on %s", table, target_day)
+            await cur.execute(
+                CREATE_PARTITION_CALL,
+                (table, target_day, 8, None, f"idx_{table}_instrument_ts", '{"type":"hash","buckets":8}')
+            )
+        await cur.connection.commit()
+
+async def enqueue_index_jobs(pool: psycopg.AsyncConnection, table: str) -> None:
+    sql = """
+        SELECT ns.nspname, c.relname
+        FROM pg_inherits i
+        JOIN pg_class p ON p.oid = i.inhparent
+        JOIN pg_class c ON c.oid = i.inhrelid
+        JOIN pg_namespace ns ON ns.oid = c.relnamespace
+        WHERE p.relname = %s
+          AND ns.nspname = split_part(%s, '.', 1)
+    """
+    async with pool.cursor() as cur:
+        await cur.execute(sql, (table.split('.')[-1], table))
+        leaves = await cur.fetchall()
+    LOG.info("Queueing index builds for %d leaves", len(leaves))
+    async with pool.cursor() as cur:
+        for schema, relname in leaves:
+            idx_name = f"orders_event_ts_{relname[-2:]}"
+            template = (
+                "SELECT format('CREATE INDEX CONCURRENTLY IF NOT EXISTS %I ON %I.%I (event_timestamp)')"
+            )
+            await cur.execute(QUEUE_INDEX_SQL, (schema, relname, idx_name, schema, relname, idx_name))
+        await cur.connection.commit()
+
+async def main() -> None:
+    dsn = "postgresql://oms_admin@localhost:5432/oms"
+    async with await psycopg.AsyncConnection.connect(dsn) as conn:
+        await provision_partitions(conn, "oms.orders")
+        await enqueue_index_jobs(conn, "oms.orders")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+</code></pre>
+    <p>The script wraps SQL helpers from Section 6, ensures idempotency via <code>CREATE ... IF NOT EXISTS</code>, and integrates with asynchronous event loops so we can run multiple tasks concurrently. Logging provides immediate operational insight.</p>
+
+    <h2 id="monitoring">10. Monitoring Partitions & Indexes</h2>
+    <p>Observability prevents silent failure. PostgreSQL 17 offers built-in views that we augment with helper functions.</p>
+    <h3>10.1 Partition Health Function</h3>
+<pre><code class="language-sql">CREATE OR REPLACE FUNCTION oms.partition_health(p_parent regclass)
+RETURNS TABLE (
+  leaf_name text,
+  relpages bigint,
+  reltuples float8,
+  last_vacuum timestamptz,
+  last_analyze timestamptz,
+  size_pretty text,
+  is_detached boolean
+) LANGUAGE sql AS $$
+SELECT
+  format('%I.%I', ns.nspname, child.relname) AS leaf_name,
+  child.relpages,
+  child.reltuples,
+  st.last_vacuum,
+  st.last_analyze,
+  pg_size_pretty(pg_total_relation_size(child.oid)) AS size_pretty,
+  NOT child.relkind = 'p' AS is_detached
+FROM pg_inherits i
+JOIN pg_class parent ON parent.oid = i.inhparent
+JOIN pg_class child ON child.oid = i.inhrelid
+JOIN pg_namespace ns ON ns.oid = child.relnamespace
+LEFT JOIN pg_stat_user_tables st ON st.relid = child.oid
+WHERE parent.oid = p_parent
+ORDER BY child.relname;
+$$;
+</code></pre>
+    <p>This function lists every leaf partition with size, tuple counts, and vacuum stats. Use it daily to spot partitions that miss autovacuum deadlines.</p>
+
+    <h3>10.2 Index Build Progress Viewer</h3>
+<pre><code class="language-sql">CREATE OR REPLACE VIEW oms.v_index_progress AS
+SELECT
+  datname,
+  relid::regclass AS relation,
+  index_relid::regclass AS index_relation,
+  phase,
+  round(100 * progress / nullif(total,0), 2) AS pct_done,
+  tuples_done,
+  tuples_total,
+  lockers_total,
+  lockers_done,
+  current_locker_pid,
+  block_number,
+  blocks_total
+FROM pg_stat_progress_create_index;
+</code></pre>
+    <p>Streaming this view into Grafana surfaces stalled builds. Combine with <code>pg_locks</code> to correlate blocking sessions.</p>
+
+    <h2 id="rollback">11. Rollback & Failure Recovery Patterns</h2>
+    <p>Even with automation, failures occur. Prepare rollback procedures ahead of time:</p>
+    <ul>
+      <li><strong>Index build failure:</strong> <code>CREATE INDEX CONCURRENTLY</code> leaves invalid indexes. Drop them using <code>DROP INDEX CONCURRENTLY</code> before retrying. Our queue updates the status to <code>failed</code> and stores <code>SQLERRM</code> for diagnosis.</li>
+      <li><strong>Partition attach failure:</strong> If <code>ATTACH PARTITION</code> aborts after long validation, the child remains a standalone table. Verify with <code>pg_class.relkind = 'r'</code>; re-run attach once conflicts resolved. Keep detach script ready: <code>ALTER TABLE ... DETACH PARTITION ...</code>.</li>
+      <li><strong>Backfill errors:</strong> When a bulk insert violates constraints, quarantine the partition by detaching, fix data offline, then reattach. Maintain hashed partition names consistent so application-level routing continues to work.</li>
+      <li><strong>Catastrophic failure:</strong> Use point-in-time recovery (PITR) and partition-level logical backups. Document WAL timeline names and archive sources. Practice restores quarterly.</li>
+    </ul>
+    <p>Always capture <code>pg_wal_lsn_diff</code> before and after major operations to estimate recovery window. For compliance, store before/after catalog snapshots for audit trails.</p>
+
+    <h2 id="checklist">12. Production Checklist & Habit Loops</h2>
+    <p>Embed best practices into daily operations:</p>
+    <ul>
+      <li>Pre-create partitions seven days ahead; verify with <code>SELECT oms.partition_health('oms.orders');</code></li>
+      <li>Run nightly <code>VACUUM (ANALYZE)</code> on the latest leaves; escalate if <code>dead tuples</code> &gt; 10% of tuples.</li>
+      <li>Track index bloat with <code>pgstattuple</code>; rebuild partitions exceeding 20% bloat during low-volume windows.</li>
+      <li>Review <code>LOCK TIMEOUT</code> metrics weekly; adjust concurrency of backfills accordingly.</li>
+      <li>Document every schema change with corresponding rollback script stored next to migrations.</li>
+      <li>Continuously align retention policies with product/legal requirements, ensuring partitions older than required horizon move to archival tablespaces.</li>
+    </ul>
+    <p>Consistency beats heroics; runbooks, automation, and monitoring guarantee the OMS remains compliant and performant while trading velocity grows.</p>
+
+      <div class="extended-panel">
+      <h2 id="planner">13. Planner & Statistics Considerations</h2>
+    <p>Partitioning and indexing succeed only when the query planner receives accurate statistics. PostgreSQL 17 improves extended statistics on partitioned tables, but you still need deliberate configuration. Collect histograms and most-common-values for partition keys and join columns. For <code>orders</code>, set <code>ALTER TABLE ... ALTER COLUMN instrument_id SET STATISTICS 1000;</code> so the planner learns instrument skew that influences pruning. Use <code>ANALYZE VERBOSE</code> on each new leaf to observe sample size and density.</p>
+    <p>Planner pruning occurs in two stages. First, constraint exclusion prunes whole partitions based on partition bounds. Second, runtime partition pruning eliminates partitions during execution when parameter values become known. Ensure queries that rely on prepared statements include the partition key in the predicate; otherwise runtime pruning cannot evaluate it. For example, prefer <code>WHERE trading_date = $1 AND order_id = $2</code> over filtering only by <code>order_id</code>.</p>
+    <p>Extended statistics combine columns that are correlated, such as <code>(venue_id, instrument_group)</code>. Without them the planner may overestimate row counts. Create extended statistics on the root partition so each leaf inherits the configuration. After significant data distribution changes (new venue or instrument class), run <code>ALTER STATISTICS ... OWNER TO ...</code> to keep privileges aligned.</p>
+    <p>Finally, pay attention to plan stability for application-critical queries. Pin query plans via <code>pg_hint_plan</code> or application-level plan forcing only when necessary; otherwise rely on healthy statistics. For auditing queries, consider <code>SET enable_partitionwise_join = on;</code> and <code>SET enable_partitionwise_aggregate = on;</code> to let PostgreSQL execute operations per partition and combine results. In PostgreSQL 17 these features have matured and provide significant speedups for large analytic workloads.</p>
+
+    <h2 id="testing">14. Testing & Chaos Drills</h2>
+    <p>Before shipping partitioning strategies to production we rehearse them in an isolated environment that mirrors production size. Clone a recent physical backup, replay WAL to a staging cluster, and run the partition rotation plus index queue for a full week of data. Capture metrics on build time, WAL volume, and lock contention. Record these numbers to calibrate maintenance windows.</p>
+    <p>Chaos drills expose weaknesses: deliberately cancel <code>CREATE INDEX CONCURRENTLY</code> mid-run to confirm automation reschedules the job; simulate network partitions while the Python script is running; test failover to a streaming replica during partition attaches. Document expected behavior and actual results. If failover occurs while a partition attach is running, check the new primary’s logs to confirm <code>insert</code> statements respect partitions and do not land in the default partition.</p>
+    <p>Load testing is essential. Use <code>pgbench</code> or custom workloads to produce order and fill traffic. Monitor <code>pg_stat_statements</code> to ensure queries benefit from partition pruning. For the OMS we run nightly synthetic trading sessions that generate 50 million inserts, multiple updates, and random queries. These tests reveal edge cases such as missing indexes on new columns or insufficient autovacuum scale factors.</p>
+    <p>Apply schema drift detection to ensure staging and production partition trees stay aligned. Export catalog metadata (<code>pg_class</code>, <code>pg_partition_tree</code>) to JSON, compare diffs, and alert when partitions or indexes diverge. Nothing is worse than discovering in production that a partition was never created because staging didn’t include the same function version.</p>
+
+    <h2 id="fills-case-study">15. Case Study: Rolling Out Partitioning to Fills</h2>
+    <p>Let us walk through a live migration of the <code>fills</code> table from unpartitioned to the multi-level structure described earlier. The table currently holds 12 billion rows in a single heap. Downtime is unacceptable.</p>
+    <ol>
+      <li><strong>Prepare new partitioned table:</strong> Create <code>fills_v2</code> with range partitions by <code>trading_date</code> and list sub-partitions by <code>venue_id</code>. Pre-create partitions for the last 18 months and upcoming 3 months to cover backfill and future inserts.</li>
+      <li><strong>Dual-write period:</strong> Update application code to insert into both <code>fills</code> and <code>fills_v2</code>. Use logical replication or triggers to mirror writes. Monitor lag with <code>pg_replication_slots</code>.</li>
+      <li><strong>Backfill history:</strong> Execute chunked inserts from old table to new partitions. Use <code>INSERT INTO ... SELECT ... WHERE trading_date BETWEEN ...</code> with <code>ORDER BY trading_date</code> to preserve clustering. Wrap each chunk in a transaction sized to keep WAL manageable (target 2 GB per batch).</li>
+      <li><strong>Validate row counts:</strong> Compare <code>COUNT(*)</code> per trading day and per venue between old and new tables. Use <code>MIN/MAX</code> checks on <code>event_timestamp</code>.</li>
+      <li><strong>Swap tables:</strong> Once backfill equals historical row counts and dual-writes run clean for 48 hours, cut over by renaming tables inside a transaction: <code>ALTER TABLE fills RENAME TO fills_legacy;</code> then <code>ALTER TABLE fills_v2 RENAME TO fills;</code>. Update foreign keys.</li>
+      <li><strong>Decommission legacy table:</strong> After 30 days, detach <code>fills_legacy</code> partitions or archive to cold storage.</li>
+    </ol>
+    <p>During the backfill we throttle concurrency to avoid saturating IO. Autovacuum parameters are tuned per partition: <code>ALTER TABLE ... SET (autovacuum_vacuum_scale_factor = 0.01, autovacuum_analyze_scale_factor = 0.005);</code> to keep stale tuples minimal. We measure success by query latencies, WAL shipping throughput, and vacuum catch-up time.</p>
+
+    <h2 id="governance">16. Governance, Compliance, and Auditing</h2>
+    <p>Crypto OMS platforms face audits from jurisdictions such as the CFTC, MAS, and MiCA. Partitioning becomes a compliance enabler because it enforces data retention boundaries. Define retention windows per jurisdiction (e.g., seven years for US, five years for EU) and map them to partition detach policies. Each detach operation must produce an audit log entry referencing ticket ID, operator, timestamp, and digest of archived files.</p>
+    <p>Indexing also intersects with compliance. Regulators expect provable immutability of trade records. We implement append-only partitions for regulatory copies and store checksums of indexes to detect tampering. PostgreSQL 17’s <code>pg_checksums</code> validations help verify base backups. Additionally, store <code>pg_dump --schema-only</code> outputs for each release.</p>
+    <p>Data sovereignty requires regional storage. Partition naming encodes region codes (<code>orders_apac_2024_05_01_p3</code>) and tablespaces direct partitions to region-specific disks. Cross-region queries run against read replicas to avoid data movement. When regulators request data, we detach relevant partitions, export logically, and reattach within minutes.</p>
+    <p>Implement policy-as-code by storing partition and index definitions in Git. Every change must pass code review, automated tests, and linting (see next section). Treat DDL the same as application code to maintain discipline.</p>
+
+    <h2 id="tooling">17. Tooling for Consistency</h2>
+    <p>We invest in tooling to prevent drift and enforce standards:</p>
+    <ul>
+      <li><strong>DDL Linting:</strong> Use <code>pg-formatter</code> and custom scripts to ensure consistent naming (<code>orders_YYYY_MM_DD_pN</code>). Reject migrations lacking rollback scripts.</li>
+      <li><strong>Migration Bundles:</strong> Store SQL migrations and Python orchestration scripts in the same repository. Each bundle includes validation queries and metrics to watch during rollout.</li>
+      <li><strong>Catalog Snapshots:</strong> Nightly job exports <code>pg_partition_tree</code>, <code>pg_indexes</code>, and <code>pg_stat_all_tables</code> to JSON. Compare snapshots across clusters to detect missing partitions or indexes.</li>
+      <li><strong>Self-healing:</strong> A daemon monitors for new trading dates and automatically invokes <code>oms.create_trading_day_partitions</code>. If a partition is missing by 23:55 UTC, paging occurs.</li>
+    </ul>
+    <p>Tooling ensures teams spend time on strategy, not firefighting. When auditors ask for proof, we point to immutable logs, automated runbooks, and reproducible scripts.</p>
+
+    <h2 id="benchmarks">18. Benchmarking & Capacity Planning</h2>
+    <p>Capacity planning keeps operations ahead of growth. Benchmark each partition type and index combination with realistic datasets. Measure:</p>
+    <ul>
+      <li>Insert throughput (orders per second) while partitions rotate.</li>
+      <li>Query latency for key workloads: order lookup, fill reconciliation, account snapshot aggregation.</li>
+      <li>Index build time per leaf and aggregate for daily rotation.</li>
+      <li>Autovacuum lag and freeze age to avoid wraparound.</li>
+    </ul>
+    <p>Collect WAL volume metrics to predict replica lag. Partition attaches and index builds generate WAL bursts. Ensure replicas catch up before trading starts. Configure <code>max_wal_senders</code>, <code>wal_sender_timeout</code>, and <code>wal_compression</code> appropriately.</p>
+    <p>Storage planning: track <code>pg_total_relation_size</code> per partition plus indexes. For B-tree indexes set <code>fillfactor=90</code> on hot partitions to reduce page splits; for archival partitions reduce to <code>fillfactor=100</code> to maximize density. Plan tablespace growth by projecting average daily data (e.g., 2.5 TB) multiplied by retention horizon plus overhead. Document triggers for scaling storage and compute.</p>
+
+    <h2 id="faq">19. Frequently Asked Questions</h2>
+    <h3>How many partition levels are too many?</h3>
+    <p>Practically, two to three levels suffice. Postgres handles thousands of partitions but planning time increases beyond 10,000 leaves. In our OMS we cap daily hash shards at 16 and rely on tablespace segmentation for further isolation. If you require more, consider sharding at the application layer or using foreign data wrappers to split across clusters.</p>
+    <h3>Can we create global unique indexes across partitions?</h3>
+    <p>PostgreSQL 17 still mandates inclusion of partition keys in unique indexes. If you need uniqueness on <code>venue_fill_ref</code> independent of date, use a trigger to check duplicates or maintain a separate lookup table keyed by (<code>venue_fill_ref</code>, <code>venue_id</code>). Another pattern is to store the latest reference in an unpartitioned table and rely on <code>ON CONFLICT</code> to reject duplicates.</p>
+    <h3>How do we handle schema changes on large partition sets?</h3>
+    <p>Use <code>ALTER TABLE ... ADD COLUMN ... DEFAULT ...</code> which rewrites metadata only in PostgreSQL 17. For columns requiring backfill, run <code>UPDATE</code> in batches per leaf to avoid long transactions. Keep default values <code>NOT NULL</code> to simplify index usage. When dropping columns, detach old partitions, modify offline, reattach to reduce rewriting cost.</p>
+    <h3>What about replication and logical decoding?</h3>
+    <p>Logical replication supports partitioned tables by replicating changes to the appropriate partition. Ensure subscribers have identical partition layout. When adding new partitions, create them on subscribers first, then on publishers, to avoid replication conflicts. Monitor <code>pg_replication_origin_status</code> for lag. For logical decoding slots, set <code>max_slot_wal_keep_size</code> to prevent WAL bloating.</p>
+    <h3>How do we secure access?</h3>
+    <p>Use row-level security (RLS) policies on root tables to restrict accounts to their own data. Partitioning respects RLS defined at the parent. Combine with column-level privileges for sensitive fields such as customer identity. Ensure superuser-only functions (like <code>oms.run_index_build_queue</code>) use <code>SECURITY DEFINER</code> carefully, with stable ownership and explicit <code>SET search_path</code>.</p>
+
+    <h2 id="appendix">20. Appendix: Reference Commands</h2>
+    <p>Quick commands operators rely on daily:</p>
+<pre><code class="language-sql">-- See full partition tree
+SELECT * FROM pg_partition_tree('oms.orders'::regclass);
+
+-- Check partitions missing indexes
+SELECT leaf.relname, idx.indexrelid::regclass
+FROM pg_partition_tree('oms.orders'::regclass) AS leaf
+LEFT JOIN pg_index idx ON idx.indrelid = leaf.relid
+WHERE idx.indexrelid IS NULL;
+
+-- Detach and archive an old partition
+ALTER TABLE oms.orders DETACH PARTITION oms.orders_2023_01_01_p3;
+ALTER TABLE oms.archive_orders ATTACH PARTITION oms.orders_2023_01_01_p3 FOR VALUES FROM ('2023-01-01') TO ('2023-01-02');
+
+-- Refresh statistics on the latest partitions
+ANALYZE VERBOSE oms.orders_2024_06_15_p0;
+ANALYZE VERBOSE oms.orders_2024_06_15_p1;
+
+-- Inspect lock waiters
+SELECT pid, locktype, mode, granted, relation::regclass
+FROM pg_locks
+WHERE relation::regclass::text LIKE 'oms.orders%';
+</code></pre>
+    <p>Keep these commands in runbook templates so operations staff can respond quickly. Pair each command with expected output and remediation instructions.</p>
+
+    <h2 id="conclusion">21. Closing Thoughts</h2>
+    <p>Partitioning and indexing are living systems. As trading patterns evolve—new instruments, regulatory changes, market volatility—reteach your playbook. Revisit assumptions quarterly, re-measure benchmarks, and update automation. PostgreSQL 17 equips us with powerful primitives, but organizational discipline turns them into resilient production systems. By aligning partitions with business semantics, crafting indexes that respect workload mix, and investing in monitoring plus recovery tooling, the crypto OMS remains agile and audit-ready.</p>
+    <p>Study each section, experiment with the Python automation, and test the SQL procedures. When tailoring to your environment, adapt parameters (hash buckets, fillfactor, concurrency) based on measured results, not intuition. The accompanying quiz reinforces mastery through applied scenarios drawn directly from this playbook.</p>
+    </div>
+
+    <div class="note">This playbook aligns with PostgreSQL 17 features, crypto OMS domain nuances, and operational tactics for zero-downtime deployments. Use the accompanying quiz to reinforce each concept.</div>
+  </article></main>
+</body></html>

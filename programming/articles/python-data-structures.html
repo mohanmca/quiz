@@ -1,0 +1,808 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Python Data Structures for LeetCode</title>
+  <style>:root{--primary:#1e88e5;--bg:#f7f9fc;--text:#1a1a1a;--muted:#6b7280}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}.container{max-width:980px;margin:0 auto;padding:16px}.title{margin:6px 0 2px;font-size:24px;font-weight:800}.subtitle{margin:0 0 12px;color:var(--muted)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}button.secondary{background:#eef2ff;color:#1f2937}button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}h2{margin-top:20px}h3{margin-top:16px}p{line-height:1.6}ul{margin-top:8px}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}pre code{display:block;background:transparent;padding:0}.tok-kw{color:#93c5fd}.tok-str{color:#a7f3d0}.tok-com{color:#9ca3af;font-style:italic}.tok-num{color:#fcd34d}.tok-builtin{color:#fca5a5}.note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}.toc a{color:#2563eb;text-decoration:none}</style>
+  <script>function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}function H(src){if(!src)return'';const K=[];const keep=h=>(K.push(h),`@@H${K.length-1}@@`);src=src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/#.*/g,m=>keep(`<span class='tok-com'>${E(m)}</span>`));let html=E(src);const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),"<span class='tok-kw'>$1</span>");const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),"<span class='tok-builtin'>$1</span>");html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,"<span class='tok-num'>$&</span>");return html.replace(/@@H(\d+)@@/g,(m,i)=>K[Number(i)])}function apply(){document.querySelectorAll('pre code.language-python').forEach(el=>el.innerHTML=H(el.textContent||''))}window.addEventListener('DOMContentLoaded',apply)</script>
+</head><body>
+  <header><div class="container">
+    <div class="title">Python Data Structures for LeetCode</div>
+    <div class="subtitle">Lists, dicts, sets, heaps, queues, and patterns</div>
+    <div class="toolbar">
+      <button class="secondary" onclick="window.location.href='../index.html?id=python-data-structures'">Start Quiz</button>
+      <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+    </div>
+  </div></header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents:</strong>
+      <ul>
+        <li><a href="#lists">1. Lists & Slicing</a></li>
+        <li><a href="#dicts">2. Dict/Counter/Defaultdict</a></li>
+        <li><a href="#sets">3. Sets & Membership</a></li>
+        <li><a href="#heap">4. Heaps</a></li>
+        <li><a href="#queue">5. Deque & BFS</a></li>
+        <li><a href="#lru">6. LRU Cache Patterns</a></li>
+        <li><a href="#inf">7. Infinity & Sentinels</a></li>
+        <li><a href="#bisect">8. Bisect & LIS Trick</a></li>
+        <li><a href="#prefix">9. Prefix Sums & Accumulate</a></li>
+        <li><a href="#templates">10. Handy Templates</a></li>
+        <li><a href="#two-pointers">11. Two Pointers</a></li>
+        <li><a href="#build-string">12. Build String Fast</a></li>
+        <li><a href="#fast-slow">13. Fast/Slow Pointers</a></li>
+        <li><a href="#reverse-ll">14. Reverse Linked List</a></li>
+        <li><a href="#prefix-hash">15. Prefix Sum + Hash</a></li>
+        <li><a href="#tree-traversal">16. Tree Traversals</a></li>
+        <li><a href="#graph-traversal">17. Graph Traversals</a></li>
+        <li><a href="#heap-topk">18. Heap Top-K</a></li>
+        <li><a href="#binary-search">19. Binary Search Variants</a></li>
+        <li><a href="#bs-answer">20. Binary Search on Answer</a></li>
+        <li><a href="#backtracking">21. Backtracking Skeleton</a></li>
+        <li><a href="#dp-memo">22. DP with Memoization</a></li>
+        <li><a href="#trie">23. Trie Template</a></li>
+        <li><a href="#dijkstra">24. Dijkstra's Algorithm</a></li>
+        <li><a href="#coin-change">25. Coin Change (Backtracking)</a></li>
+        <li><a href="#dfs-vs-backtracking">26. DFS vs Backtracking</a></li>
+        <li><a href="#bucket-sort">27. Bucket Sort</a></li>
+        <li><a href="#radix-sort">28. Radix Sort</a></li>
+        <li><a href="#cyclic-sort">29. Cyclic Sort</a></li>
+        <li><a href="#greedy">30. Greedy Patterns & Tips</a></li>
+        <li><a href="#dsu">31. Disjoint Set Union (Union-Find)</a></li>
+        <li><a href="#islands-grid">32. Islands: Grid DFS/BFS</a></li>
+        <li><a href="#islands-dsu">33. Islands via DSU</a></li>
+        <li><a href="#shortest-bridge">34. Shortest Bridge (Two Islands)</a></li>
+      </ul>
+    </div>
+    <h2 id="lists">1. Lists & Slicing</h2>
+    <pre><code class="language-python">a = [3,1,4,1,5]
+print(a[::-1])           # reverse copy
+a.sort()                 # in-place sort
+b = sorted(a, key=lambda x: -x)  # new list
+    </code></pre>
+    <h2 id="dicts">2. Dict/Counter/Defaultdict</h2>
+    <pre><code class="language-python">from collections import Counter, defaultdict
+
+cnt = Counter('abracadabra')
+print(cnt.most_common(2))
+
+graph = defaultdict(list)
+edges = [(0,1),(0,2),(1,3)]
+for u,v in edges: graph[u].append(v)
+    </code></pre>
+    <h2 id="sets">3. Sets & Membership</h2>
+    <pre><code class="language-python">seen = set()
+for x in [1,2,2,3]:
+    if x not in seen:
+        seen.add(x)
+    </code></pre>
+    <h2 id="heap">4. Heaps</h2>
+    <pre><code class="language-python">import heapq
+nums = [5,1,9,2]
+heapq.heapify(nums)
+smallest = heapq.heappop(nums)
+top2 = heapq.nsmallest(2, [5,1,9,2])
+    </code></pre>
+    <h2 id="queue">5. Deque & BFS</h2>
+    <pre><code class="language-python">from collections import deque
+
+def bfs(adj, s):
+    q = deque([s]); seen = {s}
+    order = []
+    while q:
+        u = q.popleft(); order.append(u)
+        for v in adj.get(u, []):
+            if v not in seen:
+                seen.add(v); q.append(v)
+    return order
+    </code></pre>
+    <div class="note">These building blocks underpin typical interview solutions across the quiz’s questions.</div>
+    <h2 id="lru">6. LRU Cache Patterns</h2>
+    <p>Two common approaches: a) manual <code>OrderedDict</code>-based cache; b) decorator-based memoization via <code>functools.lru_cache</code> for pure functions.</p>
+    <pre><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity: int):
+        self.cap = capacity
+        self.od = OrderedDict()  # key -> value, order = recency (rightmost = most recent)
+
+    def get(self, key: int) -> int:
+        if key not in self.od:
+            return -1
+        self.od.move_to_end(key, last=True)  # mark as recently used
+        return self.od[key]
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.od:
+            self.od[key] = value
+            self.od.move_to_end(key, last=True)
+        else:
+            if len(self.od) == self.cap:
+                # Pop least-recently-used (leftmost)
+                self.od.popitem(last=False)
+            self.od[key] = value
+    </code></pre>
+    <pre><code class="language-python"># Recursive DP with memoization (arguments must be hashable)
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n: int) -> int:
+    if n &lt; 2:
+        return n
+    return fib(n-1) + fib(n-2)
+    </code></pre>
+    <div class="note">Use <code>move_to_end(key, last=True)</code> to mark a key as recently used, and <code>popitem(last=False)</code> to evict LRU.</div>
+
+    <h2 id="inf">7. Infinity & Sentinels</h2>
+    <p>Represent infinity for initialization (Dijkstra, DP) and comparisons.</p>
+    <pre><code class="language-python">import math
+
+INF = float('inf')       # no import needed; recommended in contests
+# Also valid: math.inf
+NEG_INF = float('-inf')
+
+# All finite numbers compare less than +INF
+assert 10 &lt; INF and -1e18 &lt; INF
+assert NEG_INF &lt; -10
+
+# Typical usage: initialize distances
+def dijkstra_init(n):
+    dist = [INF] * n
+    dist[0] = 0
+    return dist
+    </code></pre>
+    <div class="note">Prefer <code>float('inf')</code>/<code>float('-inf')</code> for portability. Avoid using magic numbers like <code>10**18</code> unless the problem constraints guarantee safety.</div>
+
+    <h2 id="bisect">8. Bisect & LIS Trick</h2>
+    <p><code>bisect</code> performs binary search on sorted lists. Use <code>bisect_left</code> to get the first index where <code>x</code> could be inserted.</p>
+    <pre><code class="language-python">from bisect import bisect_left, insort
+
+arr = [1, 2, 4, 4, 7]
+i = bisect_left(arr, 4)  # i == 2 (first index with value &gt;= 4)
+insort(arr, 5)           # arr becomes [1,2,4,4,5,7] (insertion is O(n))
+
+# LIS in O(n log n) using patience sorting trick
+def length_of_LIS(nums):
+    tails = []
+    for x in nums:
+        i = bisect_left(tails, x)
+        if i == len(tails):
+            tails.append(x)
+        else:
+            tails[i] = x
+    return len(tails)
+    </code></pre>
+
+    <h2 id="prefix">9. Prefix Sums & Accumulate</h2>
+    <p>Prefix sums speed up range queries and sliding windows.</p>
+    <pre><code class="language-python">from itertools import accumulate
+
+nums = [3, -2, 5, 1]
+prefix = [0] + list(accumulate(nums))  # prefix[i] = sum(nums[:i])
+
+def range_sum(l, r):        # inclusive-exclusive [l, r)
+    return prefix[r] - prefix[l]
+    </code></pre>
+
+    <h2 id="templates">10. Handy Templates</h2>
+    <pre><code class="language-python"># Sliding window (at-most K distinct)
+from collections import defaultdict
+def longest_at_most_k(s: str, k: int) -> int:
+    count = defaultdict(int)
+    left = 0
+    best = 0
+    for right, ch in enumerate(s):
+        count[ch] += 1
+        while len(count) &gt; k:
+            count[s[left]] -= 1
+            if count[s[left]] == 0:
+                del count[s[left]]
+            left += 1
+        best = max(best, right - left + 1)
+    return best
+
+# Monotonic queue for sliding-window maximum
+from collections import deque
+def sliding_max(nums, k):
+    dq = deque()  # indices, values decreasing
+    out = []
+    for i, x in enumerate(nums):
+        while dq and nums[dq[-1]] &lt;= x:
+            dq.pop()
+        dq.append(i)
+        if dq[0] == i - k:
+            dq.popleft()
+        if i + 1 &gt;= k:
+            out.append(nums[dq[0]])
+    return out
+    </code></pre>
+
+    <h2 id="two-pointers">11. Two Pointers</h2>
+    <pre><code class="language-python"># Opposite ends
+def two_pointers(arr):
+    left = 0; right = len(arr) - 1; ans = 0
+    while left &lt; right:
+        # logic comparing arr[left], arr[right]
+        if CONDITION:
+            left += 1
+        else:
+            right -= 1
+    return ans
+
+# Merge/process two arrays
+def merge_like(arr1, arr2):
+    i = j = 0; ans = 0
+    while i &lt; len(arr1) and j &lt; len(arr2):
+        if CONDITION:
+            i += 1
+        else:
+            j += 1
+    # handle remainders if needed
+    while i &lt; len(arr1): i += 1
+    while j &lt; len(arr2): j += 1
+    return ans
+    </code></pre>
+
+    <h2 id="build-string">12. Build String Fast</h2>
+    <pre><code class="language-python"># Prefer join over repeated '+='
+def build_string(chars):
+    out = []
+    for c in chars:
+        out.append(c)          # O(1)
+    return "".join(out)       # O(n)
+    </code></pre>
+
+    <h2 id="fast-slow">13. Fast/Slow Pointers</h2>
+    <pre><code class="language-python">def fast_slow(head):
+    slow = head; fast = head; ans = 0
+    while fast and fast.next:
+        # logic with slow/fast
+        slow = slow.next
+        fast = fast.next.next
+    return ans
+    </code></pre>
+
+    <h2 id="reverse-ll">14. Reverse Linked List</h2>
+    <pre><code class="language-python">def reverse_list(head):
+    curr, prev = head, None
+    while curr:
+        nxt = curr.next
+        curr.next = prev
+        prev = curr
+        curr = nxt
+    return prev
+    </code></pre>
+
+    <h2 id="prefix-hash">15. Prefix Sum + Hash</h2>
+    <pre><code class="language-python">from collections import defaultdict
+
+def subarray_sum_equals_k(nums, k):
+    count = defaultdict(int)
+    count[0] = 1
+    ans = curr = 0
+    for x in nums:
+        curr += x
+        ans += count[curr - k]
+        count[curr] += 1
+    return ans
+    </code></pre>
+
+    <h2 id="tree-traversal">16. Tree Traversals</h2>
+    <pre><code class="language-python"># Recursive DFS
+def dfs_rec(root):
+    if not root:
+        return 0
+    # do logic
+    return dfs_rec(root.left) + dfs_rec(root.right)
+
+# Iterative DFS (stack)
+def dfs_it(root):
+    if not root: return 0
+    stack = [root]; ans = 0
+    while stack:
+        node = stack.pop()
+        # do logic
+        if node.left: stack.append(node.left)
+        if node.right: stack.append(node.right)
+    return ans
+
+# BFS level order
+from collections import deque
+def bfs_levels(root):
+    if not root: return []
+    q = deque([root]); levels = []
+    while q:
+        size = len(q); level = []
+        for _ in range(size):
+            n = q.popleft(); level.append(n.val)
+            if n.left: q.append(n.left)
+            if n.right: q.append(n.right)
+        levels.append(level)
+    return levels
+    </code></pre>
+
+    <h2 id="graph-traversal">17. Graph Traversals</h2>
+    <pre><code class="language-python">def graph_dfs_rec(graph, start):
+    seen = {start}
+    def dfs(u):
+        # do logic
+        for v in graph[u]:
+            if v not in seen:
+                seen.add(v)
+                dfs(v)
+    dfs(start)
+
+def graph_dfs_it(graph, start):
+    seen = {start}; stack = [start]
+    while stack:
+        u = stack.pop()
+        for v in graph[u]:
+            if v not in seen:
+                seen.add(v)
+                stack.append(v)
+
+from collections import deque
+def graph_bfs(graph, start):
+    seen = {start}; q = deque([start])
+    while q:
+        u = q.popleft()
+        for v in graph[u]:
+            if v not in seen:
+                seen.add(v)
+                q.append(v)
+    </code></pre>
+
+    <h2 id="heap-topk">18. Heap Top-K</h2>
+    <pre><code class="language-python">import heapq
+
+def top_k(nums, k):
+    heap = []  # min-heap of size at most k
+    for x in nums:
+        heapq.heappush(heap, x)
+        if len(heap) > k:
+            heapq.heappop(heap)
+    return list(heap)
+    </code></pre>
+
+    <h2 id="binary-search">19. Binary Search Variants</h2>
+    <pre><code class="language-python"># lower_bound: first index with a[i] >= target
+def lower_bound(a, target):
+    lo, hi = 0, len(a)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if a[mid] >= target:
+            hi = mid
+        else:
+            lo = mid + 1
+    return lo
+
+# upper_bound: first index with a[i] > target
+def upper_bound(a, target):
+    lo, hi = 0, len(a)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if a[mid] > target:
+            hi = mid
+        else:
+            lo = mid + 1
+    return lo
+
+# exact search (returns insertion point if not found)
+def binary_search(a, target):
+    lo, hi = 0, len(a) - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if a[mid] == target:
+            return mid
+        if a[mid] > target:
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    return lo
+    </code></pre>
+
+    <h2 id="bs-answer">20. Binary Search on Answer</h2>
+    <pre><code class="language-python"># Min feasible value (check(mid) is True means try smaller)
+def min_true(check, lo, hi):
+    ans = hi
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if check(mid):
+            ans = mid
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    return ans
+
+# Max feasible value (check(mid) True means try larger)
+def max_true(check, lo, hi):
+    ans = lo
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if check(mid):
+            ans = mid
+            lo = mid + 1
+        else:
+            hi = mid - 1
+    return ans
+    </code></pre>
+
+    <h2 id="backtracking">21. Backtracking Skeleton</h2>
+    <pre><code class="language-python">def backtrack(curr, args):
+    if BASE_CASE:
+        # record/return answer
+        return
+    for choice in CHOICES:
+        apply(choice)
+        backtrack(curr, args)
+        undo(choice)   # critical backtrack step
+    </code></pre>
+
+    <h2 id="dp-memo">22. DP with Memoization</h2>
+    <pre><code class="language-python">def dp_solve(state):
+    memo = {}
+    def dp(s):
+        if BASE_CASE:
+            return 0
+        if s in memo:
+            return memo[s]
+        memo[s] = RECURRENCE(s)
+        return memo[s]
+    return dp(START_STATE)
+    </code></pre>
+
+    <h2 id="trie">23. Trie Template</h2>
+    <pre><code class="language-python">class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.data = None
+
+def build_trie(words):
+    root = TrieNode()
+    for w in words:
+        cur = root
+        for ch in w:
+            if ch not in cur.children:
+                cur.children[ch] = TrieNode()
+            cur = cur.children[ch]
+    return root
+    </code></pre>
+
+    <h2 id="dijkstra">24. Dijkstra's Algorithm</h2>
+    <pre><code class="language-python">from math import inf
+from heapq import heappush, heappop
+
+def dijkstra(graph, source, n):
+    dist = [inf] * n
+    dist[source] = 0
+    heap = [(0, source)]
+    while heap:
+        d, u = heappop(heap)
+        if d > dist[u]:
+            continue
+        for v, w in graph[u]:
+            nd = d + w
+            if nd < dist[v]:
+                dist[v] = nd
+                heappush(heap, (nd, v))
+    return dist
+    </code></pre>
+
+    <h2 id="coin-change">25. Coin Change (Backtracking)</h2>
+    <pre><code class="language-python">def coinchange(amount, coins):
+    N = len(coins)
+    INF = float('inf')
+    def bt(i, rem):
+        if rem == 0: return 0
+        if i == N or rem < 0: return INF
+        best = INF
+        max_use = rem // coins[i]
+        for k in range(max_use + 1):
+            cnt = bt(i + 1, rem - k * coins[i])
+            best = min(best, cnt + k)
+        return best
+    ans = bt(0, amount)
+    return -1 if ans == INF else ans
+    </code></pre>
+
+    <h2 id="dfs-vs-backtracking">26. DFS vs Backtracking</h2>
+    <p>Both use depth-first exploration and recursion/stack, but they target different problems and manage state differently.</p>
+    <ul>
+      <li><strong>DFS (traversal/aggregation)</strong>: walk an existing structure (tree/graph), aggregate results; usually no need to undo state across siblings.</li>
+      <li><strong>Backtracking (constructive search)</strong>: build candidates (subsets, permutations, combinations) under constraints; <em>must</em> undo the last choice before exploring the next.</li>
+      <li><strong>Visited vs Undo</strong>: Graph DFS guards cycles via <code>visited</code>; backtracking often works on indices/choices and maintains a <code>path</code> you append/pop.</li>
+      <li><strong>Pruning</strong>: Backtracking commonly includes feasibility checks to cut branches early.</li>
+    </ul>
+    <pre><code class="language-python"># DFS example: sum of all values in a binary tree (no undo needed)
+def dfs_sum(root):
+    if not root:
+        return 0
+    return root.val + dfs_sum(root.left) + dfs_sum(root.right)
+
+# Backtracking example: generate all subsets (must undo path)
+def subsets(nums):
+    res, path = [], []
+    def bt(i):
+        res.append(path[:])
+        for j in range(i, len(nums)):
+            path.append(nums[j])   # choose
+            bt(j + 1)              # explore
+            path.pop()             # undo
+    bt(0)
+    return res
+    </code></pre>
+
+    <h2 id="bucket-sort">27. Bucket Sort</h2>
+    <p>Use when values fall in a small or known range, or for frequency bucketing (e.g., Top-K Frequent). Time is near O(n + range) or O(n + k) buckets.</p>
+    <pre><code class="language-python"># Integer bucket sort for small ranges [0..maxv]
+def bucket_sort_small_range(nums):
+    if not nums: return []
+    maxv = max(nums)
+    buckets = [[] for _ in range(maxv + 1)]
+    for x in nums:
+        buckets[x].append(x)
+    out = []
+    for b in buckets:
+        out.extend(b)  # stable within bucket
+    return out
+
+# Bucket trick: Top-K frequent elements in O(n)
+from collections import Counter
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for x, f in freq.items():
+        buckets[f].append(x)
+    out = []
+    for f in range(len(nums), -1, -1):
+        for x in buckets[f]:
+            out.append(x)
+            if len(out) == k:
+                return out
+    return out
+    </code></pre>
+
+    <h2 id="radix-sort">28. Radix Sort</h2>
+    <p>LSD Radix sort works well for many fixed-width, non-negative integers. It applies a stable counting sort per digit (base 10 shown).</p>
+    <pre><code class="language-python">def radix_sort(nums):
+    if not nums: return nums
+    if min(nums) < 0:
+        raise ValueError('radix_sort here assumes non-negative integers')
+    exp = 1
+    base = 10
+    aux = [0] * len(nums)
+    while max(nums) // exp > 0:
+        count = [0] * base
+        for x in nums:
+            count[(x // exp) % base] += 1
+        for i in range(1, base):
+            count[i] += count[i-1]
+        for i in range(len(nums) - 1, -1, -1):  # stable placement
+            d = (nums[i] // exp) % base
+            count[d] -= 1
+            aux[count[d]] = nums[i]
+        nums[:] = aux[:]
+        exp *= base
+    return nums
+    </code></pre>
+
+    <h2 id="cyclic-sort">29. Cyclic Sort</h2>
+    <p>Great for arrays containing the set 1..n (or 0..n-1). Place each number at its correct index by swapping in O(n) time, O(1) extra space.</p>
+    <pre><code class="language-python">def cyclic_sort(nums):
+    i = 0
+    n = len(nums)
+    while i < n:
+        x = nums[i]
+        correct = x - 1  # for values in [1..n]
+        if 1 <= x <= n and nums[i] != nums[correct]:
+            nums[i], nums[correct] = nums[correct], nums[i]
+        else:
+            i += 1
+    return nums
+
+# Example: find the missing number in 1..n
+def find_missing(nums):
+    cyclic_sort(nums)
+    for i, x in enumerate(nums, start=1):
+        if x != i:
+            return i
+    return len(nums) + 1
+    </code></pre>
+
+    <h2 id="greedy">30. Greedy Patterns & Tips</h2>
+    <ul>
+      <li><strong>Greedy-choice property</strong>: a locally optimal move extends to a global optimum (prove via exchange argument or cut-and-paste argument).</li>
+      <li><strong>Sort first</strong>: many greedy problems require sorting by a key (end time, ratio, weight, value/weight, etc.).</li>
+      <li><strong>Heaps help</strong>: combine with priority queues to maintain best current choice (e.g., scheduling, meeting rooms, k selections).</li>
+      <li><strong>Counterexamples</strong>: if you cannot prove the greedy choice is safe, test small counterexamples—greedy may fail.</li>
+      <li><strong>When it shines</strong>: interval scheduling (earliest finish), activity selection, min arrows to burst balloons, minimizing rooms.</li>
+    </ul>
+    <pre><code class="language-python"># Interval scheduling: select max non-overlapping intervals
+def max_non_overlapping(intervals):
+    intervals.sort(key=lambda it: it[1])  # by end
+    count, end = 0, float('-inf')
+    for s, e in intervals:
+        if s >= end:
+            count += 1
+            end = e
+    return count
+
+# Meeting rooms (min number of rooms) using two pointers (greedy)
+def min_meeting_rooms(intervals):
+    starts = sorted(s for s, _ in intervals)
+    ends = sorted(e for _, e in intervals)
+    i = j = rooms = max_rooms = 0
+    while i < len(starts):
+        if starts[i] < ends[j]:
+            rooms += 1; max_rooms = max(max_rooms, rooms); i += 1
+        else:
+            rooms -= 1; j += 1
+    return max_rooms
+    </code></pre>
+
+    <h2 id="dsu">31. Disjoint Set Union (Union-Find)</h2>
+    <p>Efficiently tracks connectivity among elements with near-constant amortized time using path compression and union by rank/size.</p>
+    <pre><code class="language-python">class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n          # or use size initialized to 1
+        self.count = n               # optional: number of sets
+
+    def find(self, x):
+        # Path compression
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb:
+            return False
+        # Union by rank (attach smaller tree under larger)
+        if self.rank[ra] < self.rank[rb]:
+            ra, rb = rb, ra
+        self.parent[rb] = ra
+        if self.rank[ra] == self.rank[rb]:
+            self.rank[ra] += 1
+        self.count -= 1
+        return True
+
+    def connected(self, a, b):
+        return self.find(a) == self.find(b)
+
+# Example: count connected components in an undirected graph with n nodes
+def count_components(n, edges):
+    dsu = DSU(n)
+    for u, v in edges:
+        dsu.union(u, v)
+    return dsu.count
+    </code></pre>
+
+    <h2 id="islands-grid">32. Islands: Grid DFS/BFS</h2>
+    <p>Count connected components of 1s in a grid using DFS/BFS. Use 4-directional neighbors and mark visited (via a set or in-place flip to 0).</p>
+    <pre><code class="language-python">def num_islands_dfs(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    def dfs(r, c):
+        if r < 0 or r >= R or c < 0 or c >= C or grid[r][c] != '1':
+            return
+        grid[r][c] = '0'  # mark visited
+        dfs(r+1, c); dfs(r-1, c); dfs(r, c+1); dfs(r, c-1)
+    count = 0
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                count += 1
+                dfs(r, c)
+    return count
+
+from collections import deque
+def num_islands_bfs(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    def bfs(sr, sc):
+        q = deque([(sr, sc)])
+        grid[sr][sc] = '0'
+        while q:
+            r, c = q.popleft()
+            for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+                nr, nc = r+dr, c+dc
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == '1':
+                    grid[nr][nc] = '0'
+                    q.append((nr, nc))
+    count = 0
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                count += 1
+                bfs(r, c)
+    return count
+    </code></pre>
+
+    <h2 id="islands-dsu">33. Islands via DSU</h2>
+    <p>Map (r, c) to id = r*C + c and union adjacent land cells. Count unique roots among land.</p>
+    <pre><code class="language-python">def num_islands_dsu(grid):
+    if not grid: return 0
+    R, C = len(grid), len(grid[0])
+    n = R * C
+    parent = list(range(n))
+    rank = [0] * n
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+    def union(a, b):
+        ra, rb = find(a), find(b)
+        if ra == rb: return
+        if rank[ra] < rank[rb]:
+            ra, rb = rb, ra
+        parent[rb] = ra
+        if rank[ra] == rank[rb]:
+            rank[ra] += 1
+
+    def idx(r, c):
+        return r * C + c
+
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] != '1':
+                continue
+            for dr, dc in ((1,0),(0,1)):
+                nr, nc = r+dr, c+dc
+                if 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == '1':
+                    union(idx(r,c), idx(nr,nc))
+
+    roots = set()
+    for r in range(R):
+        for c in range(C):
+            if grid[r][c] == '1':
+                roots.add(find(idx(r,c)))
+    return len(roots)
+    </code></pre>
+
+    <h2 id="shortest-bridge">34. Shortest Bridge (Two Islands)</h2>
+    <p>Mark one island, then multi-source BFS through water until reaching the second island. The level count before the first hit is the answer.</p>
+    <pre><code class="language-python">from collections import deque
+
+def shortest_bridge(grid):
+    R, C = len(grid), len(grid[0])
+    q = deque()
+    seen = set()
+
+    def inb(r, c):
+        return 0 <= r < R and 0 <= c < C
+
+    # 1) Find and mark the first island; seed BFS queue with its cells
+    def mark():
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == 1:
+                    stack = [(r, c)]
+                    grid[r][c] = 2
+                    q.append((r, c))
+                    while stack:
+                        x, y = stack.pop()
+                        for dx, dy in ((1,0),(-1,0),(0,1),(0,-1)):
+                            nx, ny = x+dx, y+dy
+                            if inb(nx, ny) and grid[nx][ny] == 1:
+                                grid[nx][ny] = 2
+                                stack.append((nx, ny))
+                                q.append((nx, ny))
+                    return
+    mark()
+
+    # 2) BFS layer expansion over water until we hit the second island (value==1)
+    steps = 0
+    while q:
+        for _ in range(len(q)):
+            r, c = q.popleft()
+            for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+                nr, nc = r+dr, c+dc
+                if not inb(nr, nc) or (nr, nc) in seen:
+                    continue
+                if grid[nr][nc] == 1:
+                    return steps
+                if grid[nr][nc] == 0:
+                    q.append((nr, nc))
+                    seen.add((nr, nc))
+        steps += 1
+    return -1
+    </code></pre>
+  </article></main>
+</body></html>

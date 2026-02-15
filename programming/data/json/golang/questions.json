@@ -1,0 +1,122 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is a goroutine in Go?",
+        "choices": [
+            "A lightweight thread managed by the Go runtime",
+            "A data structure for storing values",
+            "A function that handles errors",
+            "A package management tool"
+        ],
+        "correctAnswer": "A lightweight thread managed by the Go runtime"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "How does Go's garbage collector work?",
+        "choices": [
+            "It uses a concurrent, tri-color mark-and-sweep algorithm",
+            "It uses reference counting only",
+            "It requires manual memory management",
+            "It uses a stop-the-world mark-and-sweep algorithm"
+        ],
+        "correctAnswer": "It uses a concurrent, tri-color mark-and-sweep algorithm"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "What is the purpose of channels in Go?",
+        "choices": [
+            "To enable communication and synchronization between goroutines",
+            "To store configuration data",
+            "To handle HTTP requests",
+            "To manage file operations"
+        ],
+        "correctAnswer": "To enable communication and synchronization between goroutines"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What is the Go scheduler (runtime scheduler)?",
+        "choices": [
+            "A component that multiplexes goroutines onto OS threads",
+            "A tool for scheduling deployments",
+            "A package for time-based operations",
+            "A database connection manager"
+        ],
+        "correctAnswer": "A component that multiplexes goroutines onto OS threads"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is the difference between buffered and unbuffered channels?",
+        "choices": [
+            "Buffered channels can hold values without a receiver, unbuffered channels require synchronous communication",
+            "Buffered channels are faster, unbuffered channels are slower",
+            "Buffered channels use more memory, unbuffered channels use less",
+            "Buffered channels are for strings, unbuffered channels are for numbers"
+        ],
+        "correctAnswer": "Buffered channels can hold values without a receiver, unbuffered channels require synchronous communication"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is the GMP model in Go runtime?",
+        "choices": [
+            "G (goroutine), M (OS thread), P (processor) - the scheduling model",
+            "Go Module Package - the dependency management system",
+            "Generic Method Pattern - a design pattern",
+            "Garbage Memory Pool - the memory management system"
+        ],
+        "correctAnswer": "G (goroutine), M (OS thread), P (processor) - the scheduling model"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "How does Go handle memory allocation?",
+        "choices": [
+            "It uses a combination of stack allocation and heap allocation with escape analysis",
+            "It only uses heap allocation",
+            "It only uses stack allocation",
+            "It requires manual memory allocation"
+        ],
+        "correctAnswer": "It uses a combination of stack allocation and heap allocation with escape analysis"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the purpose of the `defer` statement in Go?",
+        "choices": [
+            "To schedule a function call to be run when the surrounding function returns",
+            "To delay the execution of a goroutine",
+            "To handle errors in a specific way",
+            "To create a new thread"
+        ],
+        "correctAnswer": "To schedule a function call to be run when the surrounding function returns"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What is escape analysis in Go?",
+        "choices": [
+            "A compiler analysis that determines whether a variable should be allocated on the stack or heap",
+            "A security feature that prevents memory leaks",
+            "A debugging tool for finding runtime errors",
+            "A performance profiling technique"
+        ],
+        "correctAnswer": "A compiler analysis that determines whether a variable should be allocated on the stack or heap"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is the purpose of the `sync` package in Go?",
+        "choices": [
+            "To provide synchronization primitives like mutexes and wait groups",
+            "To synchronize files across different systems",
+            "To manage database transactions",
+            "To handle network synchronization"
+        ],
+        "correctAnswer": "To provide synchronization primitives like mutexes and wait groups"
+    }
+]

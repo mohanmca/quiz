@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    :root { --primary:#1e88e5; --bg:#f7f9fc; --text:#1a1a1a; --muted:#6b7280; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 22px; font-weight: 700; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    input[type="search"]{ padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; min-width: 220px; }
+    select{ padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; }
+    .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:14px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .card h3 { margin: 6px 0; font-size: 18px; }
+    .card p { margin: 6px 0; color: var(--muted); font-size: 14px; }
+    .row { margin-top: 10px; display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#eef2ff; color:#1f2937; }
+    button.ghost { background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
+    button.ghost.active { border-color:var(--primary); color:var(--primary); background:#e0f2fe; }
+    button.danger { background:#ef4444; }
+    button:disabled { opacity: 0.5; cursor:not-allowed; }
+    .badge { display:inline-block; font-size:12px; padding:2px 8px; background:#eef2ff; border:1px solid #e5e7eb; border-radius:999px; color:#111827; }
+    .question { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:16px; margin-top:10px; }
+    .answers { margin-top: 10px; display:grid; gap:8px; }
+    .answer { display:flex; gap:10px; align-items:center; padding:10px; border:1px solid #e5e7eb; border-radius:8px; cursor:pointer; background:#fafafa; }
+    .answer input { margin:0; }
+    .feedback { margin-top:10px; padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; background:#f8fafc; color:#374151; font-size:14px; }
+    .feedback.correct { background:#ecfdf5; border-color:#10b98133; color:#065f46; }
+    .feedback.incorrect { background:#fef2f2; border-color:#fecaca; color:#991b1b; }
+    .footer { margin-top: 12px; display:flex; justify-content: space-between; align-items:center; }
+    .progress { font-size: 14px; color: var(--muted); }
+    .result { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; margin-top: 14px; }
+    .hidden { display:none; }
+    .error { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:12px; border-radius:10px; }
+    /* Progress bar */
+    .pbar { margin:10px 0; }
+    .pbar-track { height:10px; background:#eef2ff; border-radius:999px; overflow:hidden; border:1px solid #e5e7eb; }
+    .pbar-fill { height:100%; background:var(--primary); width:0%; transition: width 0.25s ease; }
+    .pbar-label { margin-top:6px; font-size:12px; color:var(--muted); }
+    /* Code styles */
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1020; color:#e5e7eb; padding: 1px 4px; border-radius:4px; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid #111827; }
+    pre code { display:block; background:transparent; padding:0; }
+    /* Lightweight syntax highlighting */
+    .tok-kw { color:#93c5fd; }
+    .tok-str { color:#a7f3d0; }
+    .tok-com { color:#9ca3af; font-style:italic; }
+    .tok-num { color:#fcd34d; }
+    .tok-builtin { color:#fca5a5; }
+    /* Review styles */
+    .review { margin-top:16px; }
+    .q-review { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:12px; margin-top:10px; }
+    .q-review h4 { margin: 0 0 6px; font-size:16px; }
+    .anslist { display:grid; gap:6px; margin-top:8px; }
+    .ans { display:flex; gap:8px; align-items:flex-start; padding:8px; border:1px solid #e5e7eb; border-radius:8px; background:#fafafa; }
+    .ans.correct { border-color:#10b981; background:#ecfdf5; }
+    .ans.selected:not(.correct) { border-color:#ef4444; background:#fef2f2; }
+    .pill { font-size:11px; padding:2px 6px; border-radius:999px; border:1px solid #e5e7eb; background:#eef2ff; color:#111827; }
+    /* Tab layout */
+    .tab-wrap { margin-top:16px; display:flex; flex-direction:column; gap:16px; }
+    .tab-bar { display:flex; gap:8px; flex-wrap:wrap; }
+    .tab-btn { flex:1; min-width:160px; padding:12px 16px; border-radius:10px; border:1px solid transparent; background:var(--tab-bg, #f8fafc); color:#1f2937; font-weight:600; cursor:pointer; transition: all 0.2s ease; }
+    .tab-btn.active { color:#fff; background:var(--tab-color); border-color:var(--tab-color); box-shadow:0 2px 6px rgba(15,23,42,0.15); }
+    .tab-btn:not(.active):hover { color:var(--tab-color); border-color:var(--tab-color); box-shadow:0 2px 6px rgba(15,23,42,0.08); }
+    .tab-panel { position:relative; padding:24px 18px 18px; border-radius:12px; border:1px solid rgba(17,24,39,0.08); background:var(--tab-bg, #fff); box-shadow:0 1px 4px rgba(15,23,42,0.08); }
+    .tab-panel::before { content:''; position:absolute; left:0; top:0; width:100%; height:4px; background:var(--tab-color, var(--primary)); }
+    .tab-panel > .title { margin-top:0; }
+    .tab-panel > .subtitle { margin-top:4px; }
+    .tab-panel .grid { margin-top:16px; }
+    .table-wrap { margin-top:16px; overflow-x:auto; border-radius:10px; }
+    .article-table { width:100%; border-collapse:collapse; font-size:14px; }
+    .article-table th, .article-table td { padding:10px 12px; border:1px solid #e5e7eb; text-align:left; vertical-align:top; background:#fff; }
+    .article-table thead th { background:#f3f4f6; text-transform:uppercase; font-size:12px; letter-spacing:0.05em; color:#4b5563; }
+    .tag-pills { margin-top:0; display:flex; flex-wrap:wrap; gap:6px; }
+    .tag-pills button { margin:0; }
+    /* Journal section */
+    .log-panel { display:flex; flex-direction:column; gap:10px; margin-top:16px; }
+    .log-entry { border:1px solid #e5e7eb; border-radius:10px; background:#f9fafb; padding:10px 12px; }
+    .log-entry[open] { background:#fff; box-shadow:0 1px 2px rgba(15,23,42,0.08); }
+    .log-summary { font-weight:600; cursor:pointer; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+    .log-title { font-size:16px; }
+    .log-date { font-size:12px; color:var(--muted); font-weight:500; }
+    .log-mood { font-size:12px; color:var(--muted); font-style:italic; }
+    .log-body { margin-top:10px; display:flex; flex-direction:column; gap:12px; color:#374151; }
+    .log-body br + br { margin-bottom:6px; }
+    .log-body ul { margin:0 0 0 20px; }
+    .log-tags { margin-top:0; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Quiz App</div>
+      <div class="subtitle">Data source: programming/data/json</div>
+      <div class="toolbar">
+        <input id="search" type="search" placeholder="Search title or description" />
+        <select id="category"><option value="">All categories</option></select>
+        <button class="secondary" id="clear">Clear</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <a href="as_a_man_thinketh_tamil.html">As a man thinketh (Tamil)</a>
+      <a href="as_a_man_thinketh_tamil.pdf">As a man thinketh (Tamil)</a>
+    </div>
+  </header>
+  <main class="container" id="main"></main>
+  <script src="./app.js?v=20250908-01"></script>
+</body>
+</html>

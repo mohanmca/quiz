@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monotonic Stack - Presentation Guide</title>
+  <style>
+    :root {
+      --bg1: #f7f2e8;
+      --bg2: #fde7c7;
+      --ink: #1f2933;
+      --muted: #6b7280;
+      --accent: #b45309;
+      --accent-2: #0f766e;
+      --card: #fffaf1;
+      --card-border: #f0d9b5;
+      --code-bg: #121826;
+      --code-ink: #f8fafc;
+      --shadow: rgba(60, 20, 0, 0.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(180,83,9,0.08), transparent 40%),
+        radial-gradient(circle at 90% 20%, rgba(15,118,110,0.10), transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+      min-height: 100vh;
+    }
+    .deck {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(240, 217, 181, 0.9);
+    }
+    .hud.footer {
+      border-top: 1px solid rgba(240, 217, 181, 0.9);
+      border-bottom: none;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .slide-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ink);
+      margin-left: 12px;
+    }
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+    }
+    .hud-btn {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .hud-btn.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+    .hud-btn:active { transform: translateY(1px); }
+    .slides {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 24px 18px 8px;
+    }
+    .slide {
+      width: min(980px, 94vw);
+      max-height: calc(100vh - 180px);
+      padding: 28px 30px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 22px 60px var(--shadow);
+      display: none;
+      overflow: auto;
+      position: relative;
+      animation: fadeIn 0.4s ease;
+    }
+    .slide.active { display: block; }
+    .slide h1, .slide h2, .slide h3 {
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      margin: 0 0 12px;
+    }
+    .slide h1 { font-size: 32px; }
+    .slide h2 { font-size: 24px; }
+    .slide h3 { font-size: 18px; margin-top: 18px; }
+    .slide p { line-height: 1.6; margin: 10px 0; }
+    .slide ul { margin: 10px 0 0 16px; line-height: 1.6; }
+    .slide li { margin-bottom: 6px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.12);
+      color: var(--accent-2);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+    .panel {
+      border-radius: 14px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(240, 217, 181, 0.8);
+    }
+    .note {
+      background: rgba(180, 83, 9, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 12px 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      border: 1px solid #1f2937;
+      line-height: 1.4;
+      margin: 12px 0;
+    }
+    code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95em;
+    }
+    .progress {
+      flex: 1;
+      height: 10px;
+      background: rgba(31, 41, 51, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.2s ease;
+    }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+    }
+    .links a {
+      color: var(--accent-2);
+      text-decoration: none;
+    }
+    .links a:hover { text-decoration: underline; }
+    .leetcode-ref {
+      margin-top: 12px;
+      font-size: 12px;
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      color: var(--muted);
+    }
+    .leetcode-ref a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .leetcode-ref a:hover { text-decoration: underline; }
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .tag {
+      background: rgba(15, 118, 110, 0.12);
+      color: var(--accent-2);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 720px) {
+      .slide { padding: 20px; max-height: calc(100vh - 200px); }
+      .hud { padding: 10px 12px; }
+      .slide h1 { font-size: 26px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide { animation: none; }
+      .hud-btn { transition: none; }
+      .progress-bar { transition: none; }
+    }
+
+    /* Tabs and Quiz Styles */
+    .tab-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--card-border);
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 8px 16px;
+      font-family: inherit;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .tab-btn:hover { color: var(--accent); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+    
+    .cloze {
+      background: #333;
+      color: #333;
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .cloze:hover { background: #444; }
+    .cloze.reveal {
+      background: rgba(15, 118, 110, 0.15);
+      color: var(--accent-2);
+      font-weight: bold;
+      cursor: text;
+      user-select: text;
+    }
+    .quiz-panel {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .quiz-question { margin-bottom: 12px; font-weight: 600; }
+    .quiz-answer { display: inline-block; }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <header class="hud">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span class="brand">Monotonic Stack</span>
+        <span class="slide-title" id="slide-title">Intro</span>
+      </div>
+      <div class="hud-right">
+        <span id="slide-indicator">1 / 1</span>
+        <span id="progress-label">Progress: 0 / 0 (0%)</span>
+        <button class="hud-btn secondary" id="prev-btn" type="button">Prev</button>
+        <button class="hud-btn" id="next-btn" type="button">Next</button>
+        <button class="hud-btn" id="quiz-btn" type="button">Start Quiz</button>
+      </div>
+    </header>
+
+    <main class="slides" id="slides">
+      <section class="slide active" data-title="Title">
+        <span class="pill">Presentation</span>
+        <h1>Monotonic Stack Patterns and Range Reasoning</h1>
+        <p>
+          A slide-by-slide walk through monotonic decreasing and increasing stacks,
+          when to use them, how popping encodes range boundaries, and the canonical
+          coding problems that follow.
+        </p>
+        <div class="tag-row">
+          <span class="tag">PGE</span>
+          <span class="tag">NGE</span>
+          <span class="tag">PSE</span>
+          <span class="tag">NSE</span>
+          <span class="tag">SPAN</span>
+          <span class="tag">RANGE</span>
+        </div>
+        <div class="note">
+          Press <strong>Space</strong> to move forward. Use <strong>Shift + Space</strong> or <strong>Left Arrow</strong> to move back.
+          Your position is stored using local storage and cookies.
+        </div>
+      </section>
+
+      <section class="slide" data-title="When to use">
+        <h2>When to use MDS vs MIS</h2>
+        <ul>
+          <li>To find next/previous larger elements, use a <strong>monotonic decreasing stack</strong> (MDS).</li>
+          <li>To find next/previous smaller elements, use a <strong>monotonic increasing stack</strong> (MIS).</li>
+          <li>Two additional variants help with duplicates:</li>
+          <li><strong>Monotonic non-decreasing</strong> (allow equals on the way up).</li>
+          <li><strong>Monotonic non-increasing</strong> (allow equals on the way down).</li>
+        </ul>
+        <div class="note">Think of MDS as a stack where larger values dominate, and MIS where smaller values dominate.</div>
+      </section>
+
+      <section class="slide" data-title="MDS idea">
+        <h2>What is a Monotonic Decreasing Stack (bottom to top)</h2>
+        <ul>
+          <li>Keeps the largest element at the bottom and successive smaller elements on top.</li>
+          <li>When a larger element appears to the right, smaller elements are popped.</li>
+          <li>Each pop reveals the <strong>next larger element</strong> for that value.</li>
+          <li>Good for PGE, NGE, PSE, NSE patterns.</li>
+          <li>Subsequences that are increasing are collapsed; only the last larger element remains.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-title="MDS mental model">
+        <h2>MDS mental model</h2>
+        <ul>
+          <li>The strongest person joins the stack, beating (popping) everyone weaker above.</li>
+          <li>The next person stays only if weaker than the top.</li>
+          <li>Largest at the bottom, smallest at the top.</li>
+          <li>The smallest element remains only if it was added last.</li>
+          <li>If you push a sorted array from tail to front, you see a monotonic decreasing stack.</li>
+          <li>MDS is dictated by reverse natural sorted order: descending.</li>
+          <li>Once built, it feels like processing elements in descending order.</li>
+          <li>Elements before the largest are filtered out; only elements after the largest remain.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-title="Pop meaning">
+        <h2>What popping means</h2>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>MDS popping</h3>
+            <ul>
+              <li>Larger element on the right pops smaller element on the left.</li>
+              <li>Decreasing trend breaks because a bigger element appears later.</li>
+              <li>You are encountering a valley followed by a peak.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>MIS popping</h3>
+            <ul>
+              <li>Smaller element on the right pops larger element on the left.</li>
+              <li>Increasing trend breaks because a smaller element appears later.</li>
+              <li>You are encountering a peak followed by a valley.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="PGE/NGE/PSE/NSE">
+        <h2>PGE, NGE, PSE, NSE intuition</h2>
+        <ul>
+          <li>For <strong>Next Greater Element</strong> (NGE): pop until the current is greater.</li>
+          <li>When you pop for NGE, you simultaneously discover <strong>Previous Smaller Element</strong> (PSE).</li>
+          <li>For <strong>Next Smaller Element</strong> (NSE): pop until the current is smaller.</li>
+          <li>When you pop for NSE, you simultaneously discover <strong>Previous Greater Element</strong> (PGE).</li>
+          <li>Placement after: the next smaller element sits on top of the previous greater element.</li>
+        </ul>
+        <div class="note">Store indices in the stack. From index you can reach the value, but not the other way around.</div>
+      </section>
+
+      <section class="slide" data-title="Sample output MIS forward">
+        <h2>Sample output - Monotonic Increasing Stack (forward)</h2>
+        <pre><code>//CodingChallenges\src\main\java\leetcode\educative\monotonic_stack\MonotonicStack.java
+[46, 36, 13, 2, 91, 31, 93, 95, 52, 79]
+ 1 -                 [46] -             [0] - [1, 0, 0] -> [in-relative order vs pruned, vs total-pruned]
+ 2 -                 [36] -             [1] - [1, 1, 1] -> [in-relative order vs pruned, vs total-pruned]
+ 3 -                 [13] -             [2] - [1, 1, 2] -> [in-relative order vs pruned, vs total-pruned]
+ 4 -                  [2] -             [3] - [1, 1, 3] -> [in-relative order vs pruned, vs total-pruned]
+ 5 -              [2, 91] -          [3, 4] - [2, 0, 3] -> [in-relative order vs pruned, vs total-pruned]
+ 6 -              [2, 31] -          [3, 5] - [2, 1, 4] -> [in-relative order vs pruned, vs total-pruned]
+ 7 -          [2, 31, 93] -       [3, 5, 6] - [3, 0, 4] -> [in-relative order vs pruned, vs total-pruned]
+ 8 -      [2, 31, 93, 95] -    [3, 5, 6, 7] - [4, 0, 4] -> [in-relative order vs pruned, vs total-pruned]
+ 9 -          [2, 31, 52] -       [3, 5, 8] - [4, 2, 6] -> [in-relative order vs pruned, vs total-pruned]
+10 -      [2, 31, 52, 79] -    [3, 5, 8, 9] - [5, 0, 6] -> [in-relative order vs pruned, vs total-pruned]
+** - [46, 36, 13, 2, 91, 31, 93, 95, 52, 79] -      [2, 31, 52, 79] -    [3, 5, 8, 9] - [5, null, 6] -> [in-relative order vs pruned, vs total-pruned] ** - Final
+</code></pre>
+      </section>
+
+      <section class="slide" data-title="Sample output MIS backward">
+        <h2>Sample output - Monotonic Increasing Stack (backward)</h2>
+        <pre><code>[46, 36, 13, 2, 91, 31, 93, 95, 52, 79]
+10 -                 [79] -             [9] - [1, 0, 0] -> [in-relative order vs pruned, vs total-pruned]
+ 9 -                 [52] -             [8] - [1, 1, 1] -> [in-relative order vs pruned, vs total-pruned]
+ 8 -             [52, 95] -          [8, 7] - [2, 0, 1] -> [in-relative order vs pruned, vs total-pruned]
+ 7 -             [52, 93] -          [8, 6] - [2, 1, 2] -> [in-relative order vs pruned, vs total-pruned]
+ 6 -                 [31] -             [5] - [2, 2, 4] -> [in-relative order vs pruned, vs total-pruned]
+ 5 -             [31, 91] -          [5, 4] - [3, 0, 4] -> [in-relative order vs pruned, vs total-pruned]
+ 4 -                  [2] -             [3] - [3, 2, 6] -> [in-relative order vs pruned, vs total-pruned]
+ 3 -              [2, 13] -          [3, 2] - [4, 0, 6] -> [in-relative order vs pruned, vs total-pruned]
+ 2 -          [2, 13, 36] -       [3, 2, 1] - [5, 0, 6] -> [in-relative order vs pruned, vs total-pruned]
+ 1 -      [2, 13, 36, 46] -    [3, 2, 1, 0] - [6, 0, 6] -> [in-relative order vs pruned, vs total-pruned]
+** - [46, 36, 13, 2, 91, 31, 93, 95, 52, 79] ** - Final
+</code></pre>
+        <ul>
+          <li>Index shown on the left, then stack values, then stack indices.</li>
+          <li>Metrics: [in-relative order, pruned at current stage, pruned overall].</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-title="Properties">
+        <h2>Properties of Monotonic Stack</h2>
+        <ul>
+          <li>MIS filters out all elements before the smallest element.</li>
+          <li>MIS keeps only elements in increasing order after the smallest.</li>
+          <li>This invariance holds for any subarray processed.</li>
+          <li>The bottom is the smallest element; successive elements appear in order with gaps.</li>
+          <li>Gaps reveal out-of-order elements in the removed ranges.</li>
+          <li>Four kinds of stacks can be built: increasing, decreasing, non-increasing, non-decreasing.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-title="Stack vs Queue">
+        <h2>Monotonic Stack vs Monotonic Queue</h2>
+        <pre><code>inputs                           [8, 71, 57, 39, 26, 18, 15, 80, 31, 97, 49, 75, 68, 66, 53]
+ofDecreasingStack [top-->bottom] [53, 66, 68, 75, 97]
+ofIncreasingQueue [head-->tail]  [8, 15, 31, 49, 53]
+ofIncreasingStack [top-->bottom] [53, 49, 31, 15, 8]
+ofDecreasingQueue [head-->tail]  [97, 75, 68, 66, 53]
+</code></pre>
+        <p>
+          Both enforce order, but stacks are LIFO while queues are FIFO. The same monotonic pruning
+          logic applies, only the end you pop from changes.
+        </p>
+      </section>
+
+      <section class="slide" data-title="Problem patterns">
+        <h2>Monotonic Stack Patterns and Range Queries</h2>
+        <ul>
+          <li>Compute ranges of bigger numbers between two smaller numbers.</li>
+          <li>Compute ranges of smaller numbers between two larger numbers.</li>
+          <li>Store indices as results for easier range math.</li>
+          <li>Span: count of smaller or equal elements before current (stock span).</li>
+          <li>Peak/trough: detect trend changes quickly.</li>
+          <li>Peak followed by trough: MIS. Trough followed by peak: MDS.</li>
+          <li>Find bigger to the right: build MDS left-to-right.</li>
+          <li>Find smaller to the right: build MIS left-to-right.</li>
+          <li>Some problems allow kicking only one element (stock, one transaction).</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-title="Range contribution">
+        <h2>Range of min and max (contribution)</h2>
+        <p>Example array:</p>
+        <pre><code>[2, 9, 7, 8, 3, 4, 6, 1]</code></pre>
+        <ul>
+          <li>For element 3, find previous less element (PSE) and next less element (NSE).</li>
+          <li>Distance to PSE is 4, distance to NSE is 3.</li>
+          <li>Number of subarrays where 3 is the minimum is 4 * 3.</li>
+        </ul>
+        <pre><code>Subarrays with 3 as minimum
+9 7 8 3
+9 7 8 3 4
+9 7 8 3 4 6
+7 8 3
+7 8 3 4
+7 8 3 4 6
+8 3
+8 3 4
+8 3 4 6
+3
+3 4
+3 4 6
+</code></pre>
+        <div class="note">Contribution formula: sum(A[i] * left[i] * right[i]).</div>
+      </section>
+
+      <section class="slide" data-title="Left/right elements">
+        <h2>Next bigger/smaller to left and right</h2>
+        <ul>
+          <li>If index i pops index j, the range between j and i is determined.</li>
+          <li>Left-to-right: i is higher than j when j is popped by i.</li>
+          <li>Right-to-left: i is lower than j when j is popped by i.</li>
+        </ul>
+        <pre><code>First smaller to left:  [-1,-1,-1,4,5]
+First larger to left:   [-1, 8, 6, 6, 8]
+First smaller to right: [6,4,-1,-1,-1]
+First larger to right:  [-1,7,5,7,-1]
+</code></pre>
+      </section>
+
+      <section class="slide" data-title="Problem list 1">
+        <h2>Monotonic-Sequence Problems (1/2)</h2>
+        <ol>
+          <li>FindNextSmallerLargerInTheRightAndLeft</li>
+          <li>Online Stock Span</li>
+          <li>Daily Temperatures</li>
+          <li>Next Greater Element I</li>
+          <li>Next Greater Element II</li>
+          <li>132 Pattern</li>
+          <li>Shortest Unsorted Continuous Subarray</li>
+          <li>Best Time to Buy and Sell Stock II</li>
+          <li>Largest Rectangle in Histogram</li>
+          <li>Maximal Rectangle</li>
+        </ol>
+      </section>
+
+      <section class="slide" data-title="Problem list 2">
+        <h2>Monotonic-Sequence Problems (2/2)</h2>
+        <ol start="11">
+          <li>Sliding Window Maximum</li>
+          <li>Sum of Subarray Minimums</li>
+          <li>Trapping Rain Water</li>
+          <li>Minimum Cost Tree From Leaf Values</li>
+          <li>Score of Parentheses</li>
+          <li>Max Chunks To Make Sorted II</li>
+          <li>Remove Duplicate Letters</li>
+          <li>Create Maximum Number</li>
+          <li>Remove K Digits</li>
+        </ol>
+      </section>
+
+      <section class="slide" data-title="Problem list 3">
+        <h2>Monotonic-Sequence Problems (3/3) - New Additions</h2>
+        <ol start="20">
+          <li><strong>Asteroid Collision</strong>: Simulating collisions using a stack (often standard stack, but monotonic properties apply).</li>
+          <li><strong>Sum of Subarray Ranges</strong>: Sum of (Max - Min) for all subarrays. Uses both Monotonic Increasing and Decreasing logic.</li>
+          <li><strong>Car Fleet</strong>: Determine how many car fleets will arrive at the destination. Sort by position + Monotonic Stack for arrival times.</li>
+        </ol>
+      </section>
+
+      <section class="slide" data-title="Concept Quiz">
+        <h2>Concept Quiz</h2>
+        <div class="panel">
+          <h3>Question 1: Time Complexity</h3>
+          <p>What is the amortized time complexity of a standard monotonic stack approach on an array of size N?</p>
+          <details>
+            <summary>Answer</summary>
+            Is <strong>O(N)</strong> because each element is pushed once and popped at most once.
+          </details>
+        </div>
+        <div class="panel">
+          <h3>Question 2: Stack Type</h3>
+          <p>If you want to find the <strong>Next Greater Element</strong>, which type of monotonic stack do you use?</p>
+          <details>
+            <summary>Answer</summary>
+            <strong>Monotonic Decreasing Stack</strong>. You keep elements in decreasing order; a larger element arriving "pops" the smaller ones, identifying them as the "next greater".
+          </details>
+        </div>
+        <div class="panel">
+          <h3>Question 3: Space Complexity</h3>
+          <p>What is the worst-case space complexity for the stack?</p>
+          <details>
+            <summary>Answer</summary>
+            <strong>O(N)</strong>, which happens if the input array is already sorted (e.g., strictly decreasing for a Decreasing Stack) and no elements are ever popped until the end.
+          </details>
+        </div>
+      </section>
+
+      <section class="slide" data-title="FindNextSmallerLarger">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>FindNextSmallerLarger (custom)</h2>
+            <p>Build sequences to find smaller/larger elements to left and right.</p>
+            <pre><code class="language-java">public class FindNextSmallerLarger {
+   private int[] smallerToRight;
+    private int[] smallerToLeft;
+    private int[] largerToRight;
+    private int[] largerToLeft;
+
+    public FindNextSmallerLarger(int[] nums) {
+        this.nums = nums;
+        buildSequence(this.nums);
+    }
+
+    private void buildSequence(final int[] nums) {
+        smallerToRight = new int[nums.length];
+        smallerToLeft = new int[nums.length];
+        largerToRight = new int[nums.length];
+        largerToLeft = new int[nums.length];
+        Arrays.fill(smallerToRight, -1);
+        Arrays.fill(smallerToLeft, -1);
+        Arrays.fill(largerToRight, -1);
+        Arrays.fill(largerToLeft, -1);
+        buildDecreasingSequence();
+        buildIncreasingSequence();
+    }
+
+    private void buildIncreasingSequence() {
+        Stack&lt;Integer&gt; stack = new Stack&lt;Integer&gt;();
+        for (int i = 0; i &lt; nums.length; i++) {
+            while (!stack.isEmpty() &amp;&amp; nums[i] &lt;= nums[stack.peek()]) {
+                int k = stack.pop();
+                smallerToRight[k] = nums[i];
+            }
+            if (!stack.isEmpty()) {
+                smallerToLeft[i] = nums[stack.peek()];
+            }
+            stack.push(i);
+        }
+    }
+
+    private void buildDecreasingSequence() {
+        Stack&lt;Integer&gt; stack = new Stack&lt;Integer&gt;();
+        for (int i = 0; i &lt; nums.length; i++) {
+            while (!stack.isEmpty() &amp;&amp; nums[i] &gt;= nums[stack.peek()]) {
+                int k = stack.pop();
+                largerToRight[k] = nums[i];
+            }
+            if (!stack.isEmpty()) {
+                largerToLeft[i] = nums[stack.peek()];
+            }
+            stack.push(i);
+        }
+    }
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: FindNextSmallerLarger</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>stack.pop()</code> returning 'k' represent?</div>
+              <div class="quiz-answer">The <span class="cloze">index</span> of the element being resolved options.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Why do we store indices instead of values?</div>
+              <div class="quiz-answer">To calculate <span class="cloze">distance/ranges</span> later if needed.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. What pattern is <code>nums[i] &lt;= nums[stack.peek()]</code>?</div>
+              <div class="quiz-answer"><span class="cloze">Monotonic Increasing Stack</span> (popping larger/equal elements to maintain order).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Next Greater Element I" data-leetcode="https://leetcode.com/problems/next-greater-element-i/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Next Greater Element I</h2>
+            <p>Find the first greater element to the right for each nums1 element in nums2.</p>
+            <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+    Stack&lt;Integer&gt;  stack = new Stack&lt;Integer&gt;();
+    Map&lt;Integer, Integer&gt; mapping = new HashMap&lt;Integer, Integer&gt;();
+    for(int i=0; i&lt;nums2.length; i++) {
+        while(!stack.isEmpty() &amp;&amp; nums2[i] &gt; nums2[stack.peek()]) {
+            mapping.put(nums2[stack.pop()], nums2[i]);
+        }
+        stack.push(i);
+    }
+    int[] answer = new int[nums1.length];
+    for(int i=0;i&lt;nums1.length;i++) {
+        answer[i] = mapping.containsKey(nums1[i]) ? mapping.get(nums1[i]) : -1;
+    }
+    return answer;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Next Greater Element I</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What data structure maps the result?</div>
+              <div class="quiz-answer"><span class="cloze">HashMap</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The stack stores values here. Why?</div>
+              <div class="quiz-answer">Because <span class="cloze">indices aren't needed</span> for mapping values directly.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Time complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N + M)</span> where N and M are array lengths.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Next Greater Element II" data-leetcode="https://leetcode.com/problems/next-greater-element-ii/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Next Greater Element II</h2>
+            <p>Next greater number in a circular array.</p>
+            <pre><code class="language-java">public int[] nextGreaterElement(int[] nums1) {
+    Stack&lt;Integer&gt; stack = new Stack&lt;Integer&gt;();
+    int[] answer = new int[nums1.length];
+    Arrays.fill(answer, -1);
+    int N = nums1.length;
+    for (int i = 0; i &lt; (nums1.length * 2); i++) {
+        while (!stack.isEmpty() &amp;&amp; nums1[i % N] &gt; nums1[stack.peek()]) {
+            answer[stack.pop()] = nums1[i % N];
+        }
+        stack.push(i % N);
+    }
+    return answer;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Next Greater Element II</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. How is circularity handled?</div>
+              <div class="quiz-answer">Looping to <span class="cloze">2 * N</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What does <code>i % N</code> do?</div>
+              <div class="quiz-answer">Maps <span class="cloze">extended index to original</span>.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why initialize <code>answer</code> with -1?</div>
+              <div class="quiz-answer">Default if <span class="cloze">no greater element exists</span>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Online stock span" data-leetcode="https://leetcode.com/problems/online-stock-span/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Online Stock Span</h2>
+            <p>Span = consecutive days with price less than or equal to today.</p>
+            <pre><code class="language-java">public class OnlineStockSpan {
+    Stack&lt;int[]&gt; stack = new Stack&lt;int[]&gt;();
+
+    public int next(int price) {
+        int smallerPrices = 1;
+        while (!stack.isEmpty() &amp;&amp; stack.peek()[1] &lt;= price) {
+            int[] indexedPrice = stack.pop();
+            smallerPrices += indexedPrice[0];
+        }
+        int[] indexPrice = new int[]{smallerPrices, price};
+        stack.push(indexPrice);
+        return smallerPrices;
+    }
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Online Stock Span</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does the stack store?</div>
+              <div class="quiz-answer">Pairs of <span class="cloze">{count, price}</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Why add <code>smallerPrices</code> to the current count?</div>
+              <div class="quiz-answer">To <span class="cloze">merge spans</span> of popped elements.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Is this online or offline?</div>
+              <div class="quiz-answer"><span class="cloze">Online</span> (stream processing).</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Daily Temperatures" data-leetcode="https://leetcode.com/problems/daily-temperatures/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Daily Temperatures</h2>
+            <pre><code class="language-java">public int[] dailyTemperatures(int[] temperatures) {
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+    int[] counter = new int[temperatures.length];
+    Arrays.fill(counter, 0);
+    stack.push(0);
+    for (int i = 1; i &lt; temperatures.length; i++) {
+        while (!stack.isEmpty() &amp;&amp; temperatures[i] &gt; temperatures[stack.peek()]) {
+            int oldI = stack.pop();
+            counter[oldI] = i - oldI;
+        }
+        stack.push(i);
+    }
+    return counter;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Daily Temperatures</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>i - oldI</code> represent?</div>
+              <div class="quiz-answer"><span class="cloze">Days until warmer temperature</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What Stack property is used?</div>
+              <div class="quiz-answer"><span class="cloze">Monotonic Decreasing</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. What if the stack is not empty at the end?</div>
+              <div class="quiz-answer"><span class="cloze">Remaining days have no warmer future</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="132 Pattern" data-leetcode="https://leetcode.com/problems/132-pattern/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>132 Pattern</h2>
+            <pre><code class="language-java">public boolean find132pattern(int[] nums) {
+    if (nums.length &lt; 3) return false;
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+    int[] min = new int[nums.length];
+    min[0] = nums[0];
+    for (int i = 1; i &lt; nums.length; i++)
+        min[i] = Math.min(min[i - 1], nums[i]);
+    for (int j = nums.length - 1; j &gt;= 0; j--) {
+        if (nums[j] &gt; min[j]) {
+            while (!stack.isEmpty() &amp;&amp; stack.peek() &lt;= min[j]) stack.pop();
+            if (!stack.isEmpty() &amp;&amp; stack.peek() &lt; nums[j]) return true;
+            stack.push(nums[j]);
+        }
+    }
+    return false;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: 132 Pattern</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. What does <code>min[j]</code> represent?</div>
+              <div class="quiz-answer"><span class="cloze">Minimum value to the left of j</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The stack represents which number in 1-3-2?</div>
+              <div class="quiz-answer">The <span class="cloze">'3' (peak)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. We iterate backwards. Why?</div>
+              <div class="quiz-answer">To find the <span class="cloze">'2' (intermediate value)</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Shortest unsorted subarray" data-leetcode="https://leetcode.com/problems/shortest-unsorted-continuous-subarray/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <!-- fixed -->
+            <h2>Shortest Unsorted Continuous Subarray</h2>
+            <pre><code class="language-java">public int findUnsortedSubarray(int[] nums) {
+    if (nums.length &lt;= 1) return 0;
+    Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+    int left = nums.length;
+    for (int i = 0; i &lt; nums.length; i++) {
+        while (!stack.isEmpty() &amp;&amp; nums[i] &lt; nums[stack.peek()]) {
+            left = Math.min(left, stack.pop());
+        }
+        stack.push(i);
+    }
+
+    int right = -1;
+    for (int i = nums.length - 1; i &gt; -1; i--) {
+        while (!stack.isEmpty() &amp;&amp; nums[i] &gt; nums[stack.peek()]) {
+            right = Math.max(right, stack.pop());
+        }
+        stack.push(i);
+    }
+    return left &lt; right ? (right - left) + 1 : 0;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Shortest Unsorted Subarray</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. The left boundary is found when?</div>
+              <div class="quiz-answer">A <span class="cloze">smaller element pops a larger one</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. The right boundary is found when?</div>
+              <div class="quiz-answer">A <span class="cloze">larger element pops a smaller one (reverse)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why sort comparisons?</div>
+              <div class="quiz-answer">To find correct bounds in <span class="cloze">O(N)</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Best Time to Buy/Sell II" data-leetcode="https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Best Time to Buy and Sell Stock II</h2>
+            <pre><code class="language-java">public int maxProfit(int[] prices) {
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+    int profit = 0;
+    for (int i = 0; i &lt; prices.length; i++) {
+        while (!stack.isEmpty() &amp;&amp; prices[stack.peek()] &lt; prices[i]) {
+            profit += prices[i] - prices[stack.pop()];
+            break;
+        }
+        stack.push(i);
+    }
+    return profit;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Best Time to Buy/Sell II</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. This approach is similar to?</div>
+              <div class="quiz-answer">Finding all <span class="cloze">ascending slopes</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Can we do this without a stack?</div>
+              <div class="quiz-answer"><span class="cloze">Yes</span>, just sum positive differences</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. The stack ensures we capture?</div>
+              <div class="quiz-answer"><span class="cloze">Consecutive increasing prices</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Largest Rectangle monotonic python" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Monotonic Stack (Python)</h2>
+            <pre><code class="language-python">class Solution:
+    def largestRectangleArea(self, heights: List[int]) -&gt; int:
+        stack = [-1]
+        max_area = 0
+        for i in range(len(heights)):
+            while stack[-1] != -1 and heights[stack[-1]] &gt;= heights[i]:
+                current_height = heights[stack.pop()]
+                current_width = i - stack[-1] - 1
+                max_area = max(max_area, current_height * current_width)
+            stack.append(i)
+
+        while stack[-1] != -1:
+            current_height = heights[stack.pop()]
+            current_width = len(heights) - stack[-1] - 1
+            max_area = max(max_area, current_height * current_width)
+        return max_area
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (Monotonic Stack)</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. Time complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. What does the stack store?</div>
+              <div class="quiz-answer"><span class="cloze">Indices</span> of increasing heights.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Why keep -1 in the stack?</div>
+              <div class="quiz-answer">It acts as a <span class="cloze">sentinel</span> to compute widths safely.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Largest Rectangle brute 2" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Divide and Conquer</h2>
+            <pre><code class="language-java">public class Solution {
+    public int calculateArea(int[] heights, int start, int end) {
+        if (start &gt; end) return 0;
+        int minindex = start;
+        for (int i = start; i &lt;= end; i++)
+            if (heights[minindex] &gt; heights[i])
+                minindex = i;
+        return Math.max(heights[minindex] * (end - start + 1),
+                        Math.max(calculateArea(heights, start, minindex - 1),
+                                 calculateArea(heights, minindex + 1, end)));
+    }
+
+    public int largestRectangleArea(int[] heights) {
+        return calculateArea(heights, 0, heights.length - 1);
+    }
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (DnC)</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. Average complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N log N)</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. Worst case complexity?</div>
+              <div class="quiz-answer"><span class="cloze">O(N^2)</span> (sorted array)</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. Key strategy?</div>
+              <div class="quiz-answer">Find min bar, <span class="cloze">split left and right</span>.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Largest Rectangle monotonic" data-leetcode="https://leetcode.com/problems/largest-rectangle-in-histogram/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Largest Rectangle in Histogram - Monotonic Stack</h2>
+            <pre><code class="language-java">public int largestRectangleArea(int[] heights) {
+    Deque&lt;Integer&gt; stack = new ArrayDeque&lt;&gt;();
+    stack.push(-1);
+    int length = heights.length;
+    int maxArea = 0;
+    for (int i = 0; i &lt; length; i++) {
+        while ((stack.peek() != -1) &amp;&amp; (heights[stack.peek()] &gt;= heights[i])) {
+            int currentHeight = heights[stack.pop()];
+            int currentWidth = i - stack.peek() - 1;
+            maxArea = Math.max(maxArea, currentHeight * currentWidth);
+        }
+        stack.push(i);
+    }
+    while (stack.peek() != -1) {
+        int currentHeight = heights[stack.pop()];
+        int currentWidth = length - stack.peek() - 1;
+        maxArea = Math.max(maxArea, currentHeight * currentWidth);
+    }
+    return maxArea;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Largest Rectangle (Monotonic)</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: Time complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span> - each element pushed/popped once.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Space complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span> - stack size.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Sentinel role?</div>
+                <div class="quiz-answer">Avoid <span class="cloze">empty checks</span> for left boundary.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Popped element role?</div>
+                <div class="quiz-answer">Height of the <span class="cloze">candidate rectangle</span>.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
+            <div class="quiz-panel">
+              <div class="quiz-question">5. Loop condition</div>
+              <pre><code>while ((stack.peek() != -1) &amp;&amp; <span class="cloze">(heights[stack.peek()] &gt;= heights[i])</span>) {</code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">6. Get height</div>
+              <pre><code>int currentHeight = <span class="cloze">heights[stack.pop()];</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">7. Get width</div>
+              <pre><code>int currentWidth = <span class="cloze">i - stack.peek() - 1;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Update Area</div>
+              <pre><code>maxArea = <span class="cloze">Math.max(maxArea, currentHeight * currentWidth);</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Trapping Rain Water" data-leetcode="https://leetcode.com/problems/trapping-rain-water/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Trapping Rain Water</h2>
+            <pre><code class="language-java">public int trap(int[] height) {
+    if (height == null || height.length == 0) return 0;
+    int ans = 0, current = 0;
+    Stack&lt;Integer&gt; st = new Stack&lt;&gt;();
+    while (current &lt; height.length) {
+        while (!st.isEmpty() &amp;&amp; height[current] &gt; height[st.peek()]) {
+            int top = st.pop();
+            if (st.isEmpty()) break;
+            int distance = current - st.peek() - 1;
+            int bounded_height = Math.min(height[current], height[st.peek()]) - height[top];
+            ans += distance * bounded_height;
+        }
+        st.push(current++);
+    }
+    return ans;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Trapping Rain Water</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: What is bounded_height?</div>
+                <div class="quiz-answer">Height of water <span class="cloze">above current block</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Why use stack?</div>
+                <div class="quiz-answer">To find <span class="cloze">boundaries of valleys</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Time Complexity?</div>
+                <div class="quiz-answer"><span class="cloze">O(N)</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Edge case empty stack?</div>
+                <div class="quiz-answer"><span class="cloze">Break</span> (no left boundary to trap water).</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
+            <div class="quiz-panel">
+              <div class="quiz-question">5. While loop condition</div>
+              <pre><code>while (!st.isEmpty() &amp;&amp; <span class="cloze">height[current] &gt; height[st.peek()]</span>) {</code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">6. Get top element</div>
+              <pre><code>int top = <span class="cloze">st.pop();</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">7. Calculate distance</div>
+              <pre><code>int distance = <span class="cloze">current - st.peek() - 1;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Calculate value</div>
+              <pre><code>int bounded_height = <span class="cloze">Math.min(height[current], height[st.peek()]) - height[top];</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Steps to make non-decreasing" data-leetcode="https://leetcode.com/problems/steps-to-make-array-non-decreasing/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Steps to Make Array Non-decreasing</h2>
+            <pre><code class="language-java">public int totalSteps(int[] nums) {
+    int n = nums.length - 1;
+    Stack&lt;Integer&gt; s = new Stack&lt;Integer&gt;();
+    int[] dp = new int[nums.length];
+    int res = 0;
+    for (int i = n; i &gt;= 0; i--) {
+        while (!s.isEmpty() &amp;&amp; nums[s.peek()] &lt; nums[i]) {
+            dp[i] = Math.max(++dp[i], dp[s.pop()]);
+            res = Math.max(res, dp[i]);
+        }
+        s.push(i);
+    }
+    return res;
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Steps to Make Non-decreasing</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: dp[i] meaning?</div>
+                <div class="quiz-answer">Max steps to <span class="cloze">remove elements</span> starting at i.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Stack stores?</div>
+                <div class="quiz-answer"><span class="cloze">Indices</span> of elements.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Iteration direction?</div>
+                <div class="quiz-answer"><span class="cloze">Backwards</span> (from n-1 to 0).</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: Why Math.max?</div>
+                <div class="quiz-answer">Must wait for <span class="cloze">all smaller elements</span> to pop.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
+            <div class="quiz-panel">
+              <div class="quiz-question">5. Loop condition</div>
+              <pre><code>while (!s.isEmpty() &amp;&amp; <span class="cloze">nums[s.peek()] &lt; nums[i]</span>) {</code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">6. DP update</div>
+              <pre><code>dp[i] = Math.max(<span class="cloze">++dp[i], dp[s.pop()]</span>);</code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">7. Result update</div>
+              <pre><code>res = <span class="cloze">Math.max(res, dp[i]);</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Push to stack</div>
+              <pre><code>s.push(<span class="cloze">i</span>);</code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Sum of Subarray Minimums" data-leetcode="https://leetcode.com/problems/sum-of-subarray-minimums/">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Sum of Subarray Minimums</h2>
+            <p>
+              Find NSE and PSE for each element, then sum A[i] * left[i] * right[i].
+              Use a monotonic increasing stack with the &gt;= comparison to handle duplicates.
+            </p>
+            <pre><code class="language-java">class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        int MOD = 1000000007;
+        Stack&lt;Integer&gt; stack = new Stack&lt;&gt;();
+        long sumOfMinimums = 0;
+
+        for (int i = 0; i &lt;= arr.length; i++) {
+            while (!stack.empty() &amp;&amp; (i == arr.length || arr[stack.peek()] &gt;= arr[i])) {
+                int mid = stack.pop();
+                int leftBoundary = stack.empty() ? -1 : stack.peek();
+                int rightBoundary = i;
+                long count = (long) (mid - leftBoundary) * (rightBoundary - mid) % MOD;
+                sumOfMinimums += (count * arr[mid]) % MOD;
+                sumOfMinimums %= MOD;
+            }
+            stack.push(i);
+        }
+        return (int) (sumOfMinimums);
+    }
+}
+</code></pre>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Sum of Subarray Minimums</h2>
+            <div class="grid-2">
+              <div class="quiz-panel">
+                <div class="quiz-question">1. Concept: PLE/NLE?</div>
+                <div class="quiz-answer">Previous/Next <span class="cloze">Less Element</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">2. Concept: Subarray count?</div>
+                <div class="quiz-answer"><span class="cloze">(mid - left) * (right - mid)</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">3. Concept: Why Modulo?</div>
+                <div class="quiz-answer">Prevent <span class="cloze">integer overflow</span>.</div>
+              </div>
+              <div class="quiz-panel">
+                <div class="quiz-question">4. Concept: &gt;= vs &gt;?</div>
+                <div class="quiz-answer">Avoid <span class="cloze">double counting</span> duplicates.</div>
+              </div>
+            </div>
+            <h3>Code Cloze</h3>
+            <div class="quiz-panel">
+              <div class="quiz-question">5. Loop with sentinel</div>
+              <pre><code>while (!stack.empty() &amp;&amp; <span class="cloze">(i == arr.length || arr[stack.peek()] &gt;= arr[i])</span>) {</code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">6. Get mid</div>
+              <pre><code>int mid = <span class="cloze">stack.pop();</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">7. Calc contribution</div>
+              <pre><code>long count = <span class="cloze">(long) (mid - leftBoundary) * (rightBoundary - mid) % MOD;</span></code></pre>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">8. Update sum</div>
+              <pre><code>sumOfMinimums += <span class="cloze">(count * arr[mid]) % MOD;</span></code></pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Python template">
+        <div class="tab-container">
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="code">Code</button>
+            <button class="tab-btn" data-tab="quiz">Quiz</button>
+          </div>
+          <div class="tab-content active" data-content="code">
+            <h2>Python template for NGE (monotonic decreasing)</h2>
+            <pre><code class="language-python">def next_greater(nums):
+    n = len(nums)
+    ans = [-1] * n
+    stack = []  # indices, values are decreasing
+    for i, val in enumerate(nums):
+        while stack and val &gt; nums[stack[-1]]:
+            ans[stack.pop()] = val
+        stack.append(i)
+    return ans
+</code></pre>
+            <div class="note">For NSE, flip the comparison. For duplicates use &gt;= or &lt;= as needed.</div>
+          </div>
+          <div class="tab-content" data-content="quiz">
+            <h2>Quiz: Python Template</h2>
+            <div class="quiz-panel">
+              <div class="quiz-question">1. <code>stack[-1]</code> is equivalent to Java's?</div>
+              <div class="quiz-answer"><span class="cloze">stack.peek()</span></div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">2. <code>enumerate</code> provides?</div>
+              <div class="quiz-answer"><span class="cloze">index and value</span> pair.</div>
+            </div>
+            <div class="quiz-panel">
+              <div class="quiz-question">3. List initialization <code>[-1] * n</code> is?</div>
+              <div class="quiz-answer"><span class="cloze">O(N)</span> time/space operation.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Anki and follow-up">
+        <h2>Anki and follow-up</h2>
+        <ul>
+          <li>Follow-up: 25_bits_binary_anki Tricks (see repo root file).</li>
+          <li>How to create Anki from this markdown file:</li>
+        </ul>
+        <pre><code>mdanki 17_monotonic_stack.md 17_monotonic_stack.apkg --deck "Mohan::CodeInterview::LeetCode::Pattern::Monotonic_stack"
+mdanki 17_monotonic_stack.md Monotonic.apkg --deck "Mohan::CodeInterview::LeetCode::Pattern::17_Monotonic"
+</code></pre>
+      </section>
+
+      <section class="slide" data-title="Resources">
+        <h2>Monotonic Stack references</h2>
+        <div class="links">
+          <ul>
+            <li><a href="https://github.com/mohanmca/CodingChallenges/blob/master/src/md/coding_patterns/17_monotonic_stack.md">Traceback URL</a></li>
+            <li><a href="https://leetcode.com/discuss/study-guide/2347639/a-comprehensive-guide-and-template-for-monotonic-stack-based-problems">LeetCode - comprehensive guide</a></li>
+            <li><a href="https://replit.com/@RogerNadal/MonotonicStack?v=1">RogerNadal Replit</a></li>
+            <li><a href="https://codeforces.com/submissions/rogernadal">RogerNadal CodeForces</a></li>
+            <li><a href="https://labuladong.gitbook.io/algo-en/ii.-data-structure/monotonicstack">Monotonic Stack (labuladong)</a></li>
+            <li><a href="https://medium.com/techtofreedom/algorithms-for-interview-2-monotonic-stack-462251689da8">Medium: algorithms for interview</a></li>
+            <li><a href="https://helloacm.com/the-monotone-stack-implementation-in-python/">Monotone stack in Python</a></li>
+            <li><a href="https://medium.com/@vishnuvardhan623/monotonic-stack-e9dcc4fa8c3e">Medium: monotonic stack</a></li>
+            <li><a href="https://github.com/mohanmca/CodingChallenges/blob/master/src/main/java/leedcode/monotonic/FindNextSmallerLarger.java">Practiced Code</a></li>
+            <li><a href="https://www.youtube.com/watch?v=m4hvxzLoN_I">Monotonic Video</a></li>
+            <li><a href="https://github.com/mohanmca/CodingChallenges/blob/master/src/main/java/leetcode/educative/monotonic_stack/MonotonicStack.java">MonotonicStack.java</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="slide" data-title="Wrap up">
+        <h2>Wrap-up</h2>
+        <ul>
+          <li>Monotonic stacks compress subsequences and expose nearest greater/smaller boundaries.</li>
+          <li>Popping encodes the exact range where an element is dominant.</li>
+          <li>Most classic problems reduce to choosing MDS or MIS and deciding scan direction.</li>
+        </ul>
+        <div class="note">
+          Ready to test? Use the Start Quiz button to launch the 100+ question practice set.
+        </div>
+      </section>
+    </main>
+
+    <footer class="hud footer">
+      <div class="progress" aria-hidden="true">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="hint">Space: next | Shift+Space or Left Arrow: prev | Home/End: jump | Progress saved locally and in cookies</div>
+    </footer>
+  </div>
+
+  <script src="assets/monotonic-stack.js" defer></script>
+</body>
+</html>

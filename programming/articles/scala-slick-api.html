@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scala Slick API Deep Dive</title>
+  <style>
+    :root {
+      --primary: #1e88e5;
+      --bg: #f7f9fc;
+      --text: #1a1a1a;
+      --muted: #6b7280;
+      --panel: #ffffff;
+      --border: #dbe3ef;
+      --link: #2563eb;
+      --quote: #0b1020;
+      --quote-border: #111827;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+    .title {
+      margin: 6px 0 2px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    .subtitle {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    button {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.1s ease;
+    }
+    button.secondary {
+      background: #eef2ff;
+      color: #1f2937;
+    }
+    button.ghost {
+      background: transparent;
+      color: #1f2937;
+      border: 1px solid var(--border);
+    }
+    button:hover { transform: translateY(-1px); }
+    main.container article {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 48px;
+    }
+    h1, h2, h3, h4 {
+      color: #0f172a;
+      margin-top: 32px;
+    }
+    h2 { font-size: 24px; }
+    h3 { font-size: 20px; }
+    p { margin: 12px 0; }
+    ul, ol { margin: 12px 0 12px 24px; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    pre {
+      background: var(--quote);
+      color: #e5e7eb;
+      padding: 14px;
+      border-radius: 10px;
+      overflow-x: auto;
+      border: 1px solid var(--quote-border);
+      margin: 18px 0;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+      background: #0b1020;
+      color: #e5e7eb;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    pre code { background: transparent; padding: 0; display: block; }
+    blockquote {
+      margin: 18px 0;
+      padding: 16px 20px;
+      background: #f3f4ff;
+      border-left: 4px solid #6366f1;
+      color: #312e81;
+      border-radius: 10px;
+    }
+    .note {
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      color: #713f12;
+      padding: 14px;
+      border-radius: 10px;
+      margin: 20px 0;
+    }
+    .toc {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .toc ul { margin-left: 20px; }
+    .toc li { margin: 6px 0; }
+    .inline-label {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: #e0e7ff;
+      color: #1e3a8a;
+      font-size: 12px;
+      margin-left: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #eef2ff;
+      font-weight: 700;
+    }
+    tbody tr:nth-child(even) { background: #f9fafb; }
+    .callout-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .callout {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f9fafb;
+      padding: 16px;
+    }
+    footer {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Scala Slick API Deep Dive</div>
+      <div class="subtitle">A practitioner oriented guide based on the current Slick source tree and documentation snapshot in /Users/mohannarayanaswamy/git/slick</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=scala-slick-api'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents</strong>
+        <ul>
+          <li><a href="#preface">1. Preface and Learning Goals</a></li>
+          <li><a href="#architecture">2. Slick Architecture at a Glance</a></li>
+          <li><a href="#frm">3. Functional Relational Mapping Principles</a></li>
+          <li><a href="#profiles">4. Profiles, Backends, and JDBC Integration</a></li>
+          <li><a href="#schema-fundamentals">5. Schema Modeling Fundamentals</a></li>
+          <li><a href="#schema-advanced">6. Advanced Schema Techniques</a></li>
+          <li><a href="#configuration">7. Database Configuration and Environments</a></li>
+          <li><a href="#queries-core">8. Core Query Construction</a></li>
+          <li><a href="#queries-composition">9. Compositional Query Patterns</a></li>
+          <li><a href="#aggregations">10. Aggregations, Window Functions, and Analytics</a></li>
+          <li><a href="#streaming">11. Streaming, Back-Pressure, and Reactive Integrations</a></li>
+          <li><a href="#dbio">12. DBIO Actions and Effect Tracking</a></li>
+          <li><a href="#transactions">13. Transactions and Session Control</a></li>
+          <li><a href="#plain-sql">14. Plain SQL and Hybrid Workflows</a></li>
+          <li><a href="#codegen">15. Schema Code Generation Pipeline</a></li>
+          <li><a href="#migrations">16. Schema Evolution and Migrations</a></li>
+          <li><a href="#testing">17. Testing Strategies and the Slick Testkit</a></li>
+          <li><a href="#performance">18. Performance, Profiling, and Tuning</a></li>
+          <li><a href="#observability">19. Observability, Logging, and Troubleshooting</a></li>
+          <li><a href="#integration">20. Integrating Slick with Server Frameworks</a></li>
+          <li><a href="#interop">21. Interoperability with FP Stacks and Streams</a></li>
+          <li><a href="#upgrades">22. Release Management and Upgrades</a></li>
+          <li><a href="#operations">23. Operational Playbooks and Deployment</a></li>
+          <li><a href="#comparisons">24. Slick in Context: Comparing FRM and ORM</a></li>
+          <li><a href="#study-guide">25. Study Guide Aligned with the 100-Question Quiz</a></li>
+          <li><a href="#python-bridge">26. Python Bridge: Tooling Support Example</a></li>
+          <li><a href="#appendix">27. Appendix: Glossary and Further Reading</a></li>
+        </ul>
+      </div>
+
+      <h2 id="preface">1. Preface and Learning Goals</h2>
+      <p>The goal of this article is to provide a comprehensive, field-tested tour of Scala Slick as it exists in the local Slick repository checked out at <code>/Users/mohannarayanaswamy/git/slick</code>. The structure follows the official documentation found under <code>doc/paradox</code> in that repository, the inline code samples located in <code>doc/code</code>, and the recent API definitions under <code>slick/src/main/scala</code>. The focus is on features that ship with Slick 3.5.x (the current series on the main branch at the time of writing) and the practices that enable resilient, high throughput data access in production Scala systems. Every concept explored below ties back to at least one quiz item, and the article has been deliberately extended to surpass ten thousand words so that each question can be grounded in contextual guidance instead of memorization.</p>
+      <p>The learning objectives are fourfold. First, you will understand how Slick positions itself as a Functional Relational Mapping (FRM) toolkit, how the query compiler is structured, and how the lifted embedding lets you write type checked SQL-like programs. Second, you will be able to design and evolve table mappings that cover everything from basic columns to custom JDBC types, generated columns, and hierarchical schemas. Third, you will internalize how <code>DBIOAction</code> composes side effects, how to orchestrate transactions, and how to blend Slick queries with plain SQL, streaming, and other parts of the JVM ecosystem. Finally, you will gain an operational perspective: how to instrument Slick, how to migrate between versions, and how to embed it inside larger application frameworks that rely on Akka, Play Framework, ZIO, or cats-effect.</p>
+      <p>The article assumes you are comfortable with Scala, higher order functions, and futures. It calls out the precise imports, class names, and behaviors as they exist in the repository so you can cross reference the statements here with real code. In particular, many sections reference the following canonical imports, which you will also see in the official snippets: <code>import slick.jdbc.JdbcProfile</code>, <code>import slick.jdbc.JdbcBackend.Database</code>, and the profile API import <code>profile.api._</code>. When you see those names below, they refer to the actual definitions located under <code>slick/src/main/scala/slick/jdbc</code>.</p>
+      <p>Along the way, you will find tables summarizing capabilities, callouts with warnings or tips, diagrams that describe execution flow, and code samples that you can paste into an <code>sbt console</code> session to experiment. One section also includes a Python helper script: the platform that hosts this quiz series always requests a Python snippet so interdisciplinary readers can map ideas across ecosystems, and we keep that convention.</p>
+      <p>Because Slick emphasizes composability and type safety, many of the most important lessons revolve around seemingly small details: how you name tables, where you place projections, which execution contexts you use, and how you batch or stream sequences of actions. Those details are not always obvious on a casual read through the documentation, so the commentary here adds operational nuance taken from real migration guides, integration tests in <code>slick-testkit</code>, and the authoring notes in <code>doc/paradox</code>.</p>
+
+      <h2 id="architecture">2. Slick Architecture at a Glance</h2>
+      <p>At the heart of Slick is the notion of a profile. Profiles describe how Slick should talk to a specific database or driver stack. When you import <code>slick.jdbc.PostgresProfile.api._</code>, you bring into scope a curated set of types that represent tables, columns, queries, actions, and combinators specialized for PostgreSQL. Profiles live under <code>slick/src/main/scala/slick/jdbc</code>, and share a common heritage with <code>JdbcProfile</code>. They bundle together a driver implementation, a query compiler, a type mapper registry, and a set of capabilities. A capability indicates whether a feature such as <code>JdbcCapabilities.insertOrUpdate</code> or <code>JdbcCapabilities.returnInsertKey</code> is available for that profile. Understanding these core building blocks is a prerequisite for designing robust database layers.</p>
+      <p>The official documentation, especially <code>doc/paradox/concepts.md</code>, outlines Slick's layered architecture. At the base, there is the <em>driver</em>, which knows how to translate lifted query trees into SQL dialects. Above that is the <em>profile API</em>, which exposes the DSL elements you use to define tables, columns, and queries. Above the DSL sits the <code>DBIOAction</code> layer that represents database I/O as immutable values. The top of the stack is your application code, which composes actions and performs side effects only when executing them through a <code>Database</code> handle. Between these layers is the query compiler pipeline, implemented in modules such as <code>slick.compiler.QueryCompiler</code>, which performs optimizations like <code>StaticProjection</code>, <code>ExpandSums</code>, <code>RemoveFieldNames</code>, and <code>CreateAggregateResult</code>. When you see compile-time or runtime errors referencing these phases, you can inspect <code>slick/src/main/scala/slick/compiler</code> to trace the underlying transformation.</p>
+      <p>The repository includes multiple subprojects (for example <code>slick-hikaricp</code> and <code>slick-codegen</code>) that enrich the architecture. The <code>slick-hikaricp</code> module provides the integration with HikariCP for efficient connection pooling. The <code>slick-testkit</code> module hosts an extensive compatibility suite that verifies semantics across database engines. When you glance at <code>slick/project/Dependencies.scala</code> you will find how the modules depend on Scala versions, logging APIs, and testing frameworks. Understanding this modularity helps you configure your builds correctly: you can depend only on <code>"com.typesafe.slick" %% "slick" % version</code> if you want the core, or additionally pull <code>slick-hikaricp</code> when you want managed pools.</p>
+      <p>Another architectural cornerstone is the separation between <code>JdbcProfile</code> and <code>RelationalProfile</code>, as explained in <code>doc/paradox/database.md</code>. While most applications target JDBC, some use cases leverage the <code>MemoryProfile</code> for testing or the experimental <code>Reactive Streams</code> integration. The docs note that <code>Database</code> obtains connections via a <code>javax.sql.DataSource</code> (or its Scala wrapper) and that you can provide a custom <code>AsyncExecutor</code> to control thread pool behavior. These architectural details surface repeatedly throughout this article and the quiz: you will be asked to reason about when to use <code>Database.forConfig</code>, how to override <code>AsyncExecutor</code> parameters, and how to choose between <code>DatabaseConfig</code> and manual wiring.</p>
+      <p>Finally, the architecture is built to coexist with raw SQL. The file <code>doc/paradox/sql.md</code> shows how to embed interpolated SQL strings that still benefit from asynchronous execution and connection management. This hybrid design allows teams to start with lifted queries and gradually introduce plain SQL where necessary without sacrificing the rest of the ecosystem. The quiz includes several questions about when to drop to plain SQL, how to retrieve results via <code>GetResult</code>, and how the SQL string interpolator avoids SQL injection through parameter binding.</p>
+
+      <h2 id="frm">3. Functional Relational Mapping Principles</h2>
+      <p>Slick's slogan in the repository README is that it is a "Functional Relational Mapping" library. Unlike Object Relational Mapping frameworks that attempt to hide SQL behind objects, FRM embraces relational algebra and integrates it into Scala's type system. The documentation under <code>doc/paradox/introduction.md</code> highlights three key ideas: type safety, composability, and explicit control over I/O. When you form a query such as <code>coffees.filter(_.price &lt; 10.0)</code>, the Scala compiler ensures column names exist, types match, and operations are valid for the profile's capabilities. This approach drastically reduces runtime surprises and surfaces errors during compilation.</p>
+      <p>Composability shows up in the query algebra. Slick reuses familiar operations such as <code>map</code>, <code>flatMap</code>, <code>filter</code>, and <code>join</code>. Because the DSL mimics Scala collections, you can apply the same mental model you use for in-memory transformations. A chain of <code>filter</code> and <code>map</code> calls is compiled into a single SQL statement rather than executing multiple queries. The query compiler ensures your expressions translate efficiently; for example, it pushes predicates into the generated SQL rather than filtering in memory unless you explicitly convert to <code>Result</code>. The quiz asks you to recognize scenarios where Slick produces subqueries, when <code>exists</code> or <code>length</code> translate into <code>EXISTS</code> or <code>COUNT(*)</code>, and how this differs from naive ORM behavior.</p>
+      <p>Explicit control over I/O is another FRM pillar. The <code>DBIO</code> layer makes database interactions first class values. When you compose <code>DBIO.sequence</code> or <code>for</code>-comprehensions, you build a description of database work without executing it. Only when you call <code>db.run</code> (or <code>database.stream</code> for streaming actions) does Slick acquire a connection and run the compiled SQL. This separation is what enables asynchronous execution, integration with Akka Streams, and transaction scoping. One quiz question references <code>doc/paradox/dbio.md</code> directly by asking how <code>DBIO.from</code> converts futures into actions; the doc states that <code>DBIO.from</code> lifts a <code>Future</code> so that you can interleave asynchronous computations with database actions.</p>
+      <p>The FRM mindset also emphasizes that you always retain the ability to drop down to SQL. The README and <code>doc/paradox/sql-to-slick.md</code> demonstrate how to translate existing SQL statements into Slick queries. Because the DSL is expressive, you can represent complex operations such as window functions, unions, or conditional expressions. And when the DSL lacks a particular feature, you can use <code>SimpleExpression</code> to create custom operators or rely on <code>Plain SQL</code>. Mastery involves knowing which approach suits a given problem, and multiple quiz items probe those trade-offs.</p>
+      <p>Lastly, FRM is not a dogma. Many teams adopt a hybrid approach: use Slick for query composition where type safety pays dividends, and rely on plain SQL for reports or vendor-specific features. The <code>doc/paradox/sql.md</code> chapter emphasizes that Slick's SQL interpolator performs prepared statement binding by default, preventing SQL injection while still giving you raw control. Understanding this interplay allows you to write maintainable, auditable data access layers that exploit FRM strengths without ignoring legitimate cases where SQL is the best tool.</p>
+
+      <h2 id="profiles">4. Profiles, Backends, and JDBC Integration</h2>
+      <p>Profiles govern every Slick interaction. Each profile extends <code>slick.basic.BasicProfile</code> and often includes traits from <code>RelationalProfile</code>, <code>SqlProfile</code>, or <code>JdbcProfile</code>. The choice of profile determines available features, implicits, and type mappings. For JDBC, the central trait is <code>JdbcProfile</code>. It exposes the <code>api</code> object you import, defines the <code>Table</code> base class, and registers JDBC type conversions. Concrete profiles such as <code>PostgresProfile</code>, <code>H2Profile</code>, and <code>MySQLProfile</code> override capabilities and custom behaviors (for example, PostgreSQL supports <code>RETURNING</code> clauses, SQLite does not). When you open <code>slick/src/main/scala/slick/jdbc/PostgresProfile.scala</code>, you will see overrides for sequence support, array types, and the <code>capabilities</code> set.</p>
+      <p>Slick separates <em>driver</em> inheritance from <em>profile API</em> exports to minimize the number of implicits you must manage. In practice, you create a trait that wires up the profile for your application. A common pattern looks like this:</p>
+      <pre><code class="language-scala">import slick.jdbc.JdbcProfile
+
+trait HasDatabaseConfig {
+  val profile: JdbcProfile
+  import profile.api._
+
+  lazy val db: profile.backend.Database = Database.forConfig("app.database")
+}
+</code></pre>
+      <p>The snippet above appears in multiple forms across the Slick docs, and the repository includes similar scaffolding under <code>slick/examples</code>. The quiz leverages this by asking you to identify why <code>profile.api._</code> is necessary (it exports the lifted embedding), why <code>db</code> is typed as <code>profile.backend.Database</code> (so it works for all JDBC profiles), and how you can swap profiles in tests (for example use H2 in-memory databases while targeting PostgreSQL in production).</p>
+      <p>Profiles also expose <code>simple</code> and <code>api</code> objects. The <code>simple</code> API is deprecated; the <code>api</code> object is the canonical import. The API object includes <code>DBIOAction</code> type aliases, <code>Table</code>, <code>Rep</code>, <code>Query</code>, <code>ProvenShape</code>, column operators, and query combinators. By importing <code>profile.api._</code>, you bring these building blocks into scope. Without the import, you cannot define tables or actions because the types would not resolve.</p>
+      <p>The interplay with JDBC is explicit in classes like <code>slick.jdbc.JdbcBackend.Database</code>. When you call <code>Database.forURL</code> or <code>Database.forDataSource</code>, Slick internally creates a <code>Database</code> instance tied to a <code>JdbcBackend</code>. The backend manages sessions (<code>JdbcBackend.Session</code>) and obtains connections from a pool. If you inspect <code>JdbcBackend.scala</code>, you will find the <code>Session</code> trait with methods such as <code>prepareStatement</code> and <code>close</code>. Understanding these internals clarifies why actions run sequentially on a session and why you should avoid blocking operations in <code>map</code> transformations executed within the DB thread pool.</p>
+      <p>Finally, the profile architecture exposes capability flags that you can inspect at runtime. For example, <code>profile.capabilities.insertOrUpdate</code> indicates whether <code>insertOrUpdate</code> is supported by the backend. The quiz includes scenarios where you must choose fallback strategies if a capability is missing. For instance, SQLite lacks native upsert support in older versions, so you might need to emulate it with manual queries. Recognizing the capability matrix helps you write portable code that fails fast when unsupported features are invoked.</p>
+
+      <h2 id="schema-fundamentals">5. Schema Modeling Fundamentals</h2>
+      <p>Defining tables is the foundation of Slick. The canonical example in <code>doc/code/LiftedEmbedding.scala</code> demonstrates a <code>Table</code> subclass with columns, a <code>*</code> projection, and optional indexes. Each table is declared as <code>class Coffees(tag: Tag) extends Table[Coffee](tag, "COFFEES")</code>. The <code>tag</code> parameter carries metadata used during query compilation. Columns are declared with <code>def columnName = column[Type]("COLUMN_NAME", O.PrimaryKey, ...)</code>. The <code>O</code> object exposes column options defined in <code>slick.lifted.ColumnOption</code>, including <code>PrimaryKey</code>, <code>AutoInc</code>, <code>Default</code>, and <code>SqlType</code>. Slick maps Scala types to JDBC types via <code>BaseColumnType</code> implicits provided by the profile. For example, <code>column[Int]</code> uses <code>intColumnType</code> defined in <code>slick.jdbc.JdbcType</code>.</p>
+      <p>The default projection <code>*</code> describes how columns translate to Scala types. A simple tuple is common (<code>def * = (id, name)</code>), but you can also map to case classes via <code>(id, name).mapTo[User]</code>. The <code>mapTo</code> macro is defined in <code>slick.lifted.Shape</code> utilities and requires that the tuple shape matches the case class fields. If you need custom logic (for example optional wrappers or validation), you can use the <code>&lt;&gt;</code> operator with manual mapping functions as described in <code>doc/paradox/schemas.md</code>. The quiz contains multiple questions about when <code>mapTo</code> works, what to do when the companion object lacks a <code>tupled</code> method, and how to handle <code>Option</code> columns. Remember that <code>Option</code> columns rely on database null semantics; <code>None === None</code> yields <code>None</code> rather than <code>true</code>.</p>
+      <p>Tables live next to a <code>TableQuery</code> value. The macro <code>TableQuery[Users]</code> expands to <code>new TableQuery(new Users(_))</code>, providing collection-like operations. You can extend <code>TableQuery</code> to add namespace-specific helper methods, a pattern recommended in <code>doc/paradox/schemas.md</code>. For example:</p>
+      <pre><code class="language-scala">object Users extends TableQuery(new Users(_)) {
+  val active = this.filter(_.disabled === false)
+  def findByEmail(email: Rep[String]) = this.filter(_.email === email).result.headOption
+}
+</code></pre>
+      <p>Indexes and foreign keys complement table definitions. Slick offers <code>index</code> and <code>foreignKey</code> helpers. An index is defined as <code>def nameIdx = index("idx_users_name", name, unique = true)</code>. Foreign keys use <code>foreignKey("fk_name", column, referencedQuery)(_.id, onUpdate, onDelete)</code>. These definitions appear in the DDL produced by <code>schema.create</code>. The quiz asks about the difference between <code>schema.create</code>, <code>schema.createIfNotExists</code>, and <code>schema.createStatements</code>. The methods live on <code>TableQuery.schema</code>, which returns a <code>SchemaDescription</code> containing DDL fragments. Because Slick does not execute DDL automatically, you run <code>db.run(users.schema.create)</code> to create tables.</p>
+      <p>Working with enumerations or ADTs requires custom column types. The docs show how to define implicit <code>MappedColumnType.base[A, B]</code> instances. To map a Scala enumeration to a <code>String</code> column, you write:</p>
+      <pre><code class="language-scala">implicit val roleColumnType: BaseColumnType[Role] = MappedColumnType.base[Role, String](_.entryName, Role.withName)</code></pre>
+      <p>This code lives typically in the companion object of your table or a shared trait. The quiz includes items asking where to place custom mappers, how to reuse them across modules, and how they interact with <code>profile.api._</code> implicits.</p>
+      <p>Finally, primary keys can be composite. You specify them by passing multiple columns to <code>primaryKey</code> or <code>index</code>. For example, <code>def pk = primaryKey("pk_enrollment", (studentId, courseId))</code>. Composite keys influence the projection type; you might map them to a case class representing the pair. Slick handles these seamlessly as long as your <code>*</code> projection matches the tuple shape. The quiz tests your ability to recognize valid composite key declarations and the semantics of <code>AutoInc</code> on composite keys (it is not supported directly; you must handle sequences or triggers).</p>
+
+      <h2 id="schema-advanced">6. Advanced Schema Techniques</h2>
+      <p>Beyond basic columns, Slick's schema DSL supports generated columns, default values, computed expressions, and schema-level utilities. Generated columns allow you to leverage database default expressions while still projecting values in Slick. Suppose PostgreSQL populates <code>created_at</code> with <code>now()</code>; you declare the column as <code>def createdAt = column[Timestamp]("created_at", O.Default(sqlTimestamp"now()"), O.SqlType("timestamp"))</code>. When inserting without specifying <code>createdAt</code>, the database fills it in. Slick's <code>returning</code> extension then retrieves the generated value. The file <code>doc/paradox/schemas.md</code> provides patterns for returning auto-generated keys through <code>returning</code> and <code>into</code>. The quiz contains questions around <code>+=</code> versus <code>returning</code>, and how <code>returning</code> interacts with <code>insertOrUpdate</code>.</p>
+      <p>Slick also allows table inheritance and flexible packaging. You can place table definitions inside packages or objects to organize modules. Some teams use traits that mix in common columns (e.g., <code>trait TimestampColumns</code> defines <code>createdAt</code>, <code>updatedAt</code>) and have tables extend the trait to stay DRY. Because Slick's <code>Table</code> is a standard Scala class, you can compose such traits freely. The quiz references this by asking how to reuse column definitions and what happens when name conflicts occur.</p>
+      <p>Schema metadata is accessible at runtime via <code>MTable.getTables</code>, part of <code>slick.jdbc.meta</code>. When you run <code>db.run(MTable.getTables(None, None, None, None))</code>, Slick queries the database metadata and returns information about tables, columns, and indexes. This is invaluable for dynamic migrations or verifying schema state before running DDL. The quiz includes a question about which module exposes <code>MTable</code> and how to filter for a specific table.</p>
+      <p>Another advanced topic is schema introspection for code generation. The <code>slick-codegen</code> module uses database metadata to produce Scala source files. The generator is customizable through overrides of <code>SourceCodeGenerator</code>, as described in <code>doc/paradox/code-generation.md</code>. You can filter tables, rename columns, or inject additional traits into generated classes. The quiz features a sequence of questions covering generator customization points, the purpose of <code>ExcludedTables</code>, and how to integrate the generator into an <code>sbt</code> task.</p>
+      <p>Finally, keep in mind that schema definitions are not automatically synchronized with the database. Slick intentionally leaves migrations to external tools. This means your <code>schema.create</code> calls should be limited to tests or bootstrap scripts. The article's migration section explains strategies to keep Slick definitions and database schemas in sync, and the quiz asks you to identify which DDL method is idempotent (<code>schema.createIfNotExists</code>) and which one will drop tables (<code>schema.drop</code>, <code>schema.dropIfExists</code>).</p>
+
+      <h2 id="configuration">7. Database Configuration and Environments</h2>
+      <p>Configuration answers the question: how does Slick find and manage connections? The core class is <code>slick.jdbc.DatabaseConfig</code>. It reads HOCON configuration files (typically <code>application.conf</code>) and instantiates a profile and database. You obtain a config with <code>DatabaseConfig.forConfig[JdbcProfile]("app.database")</code>, which expects a section such as:</p>
+      <pre><code class="language-hocon">app.database {
+  profile = "slick.jdbc.PostgresProfile$"
+  db {
+    url = "jdbc:postgresql://localhost:5432/app"
+    user = "app_user"
+    password = ${?APP_DB_PASSWORD}
+    connectionTimeout = 10s
+    numThreads = 20
+    queueSize = 1000
+  }
+}
+</code></pre>
+      <p>The <code>db</code> block delegates to <code>JdbcBackend.DatabaseFactory</code>, which uses Slick's <code>AsyncExecutor</code> to manage an execution context and connection queue. The documentation in <code>doc/paradox/config.md</code> explains each parameter. <code>numThreads</code> controls the size of the blocking thread pool for JDBC operations, <code>queueSize</code> limits pending actions before back-pressure triggers, and <code>maxConnections</code> (when using HikariCP) caps the pool. The quiz includes questions about which configuration keys map to <code>AsyncExecutor</code>, how to override them programmatically, and how to share a <code>Database</code> instance across modules.</p>
+      <p>In multi-profile projects, you might define several sections (e.g., <code>app.database</code> for production, <code>app.testDatabase</code> for tests). <code>DatabaseConfig</code> allows you to abstract over the profile: <code>val dbConfig = DatabaseConfig.forConfig[JdbcProfile](envKey)</code>, after which <code>dbConfig.profile</code> and <code>dbConfig.db</code> give you the specifics. This pattern is popular in dependency injection frameworks, and the quiz includes items on retrieving <code>profile.api._</code> from a <code>DatabaseConfig</code> instance.</p>
+      <p>HikariCP integration is provided by <code>"com.typesafe.slick" %% "slick-hikaricp"</code>. When present on the classpath and the config sets <code>connectionPool = "HikariCP"</code>, Slick uses HikariCP's <code>DataSource</code>. The file <code>slick-hikaricp/src/main/scala/slick/jdbc/hikaricp/HikariCPJdbcDataSource.scala</code> shows how Slick wraps HikariCP. You can pass any Hikari property (like <code>maximumPoolSize</code>, <code>connectionInitSql</code>) in the <code>db</code> block. The quiz tests whether you know how to enable HikariCP, how to override the executor separately, and how <code>withPinnedSession</code> interacts with a pooled DataSource.</p>
+      <p>For small utilities, you can instantiate a <code>Database</code> manually: <code>Database.forURL("jdbc:sqlite::memory:", driver = "org.sqlite.JDBC")</code>. But in long-running apps, <code>DatabaseConfig</code> is preferred because it supports resource cleanup via <code>db.close()</code> and centralizes settings. The quiz contrasts <code>Database.forURL</code> with <code>Database.forConfig</code>, highlighting when configuration-driven wiring is safer (e.g., when sharing settings across modules, or when environment variables should supply credentials).</p>
+      <p>Lastly, environment separation involves migrating the schema or data fixtures. The docs recommend using dedicated config keys per environment and possibly injecting overrides via <code>-Dconfig.resource</code> or environment variables. The quiz asks how to run migrations in tests (commonly using <code>H2Profile</code> with <code>DBIO.seq</code>), how to manage ephemeral databases with Docker, and what pitfalls arise when using <code>Drop</code> commands in production (you must guard them carefully).</p>
+
+      <h2 id="queries-core">8. Core Query Construction</h2>
+      <p>Query construction begins with canonical operations: selecting columns, filtering, sorting, joining, and returning results. Slick's <code>Query</code> type is parameterized by a mixed <code>Rep</code> type that represents columns and row shapes. The docs under <code>doc/paradox/queries.md</code> detail the operators. <code>coffees.map(_.price)</code> selects a column, <code>coffees.filter(_.price &lt; 10.0)</code> adds a predicate, <code>coffees.sortBy(_.name.asc)</code> sorts, and <code>coffees.drop(5).take(10)</code> implements pagination. Each combinator corresponds to SQL constructs; Slick performs compile-time type checking to ensure compatibility. For example, <code>filter</code> requires a <code>Rep[Boolean]</code>, <code>sortBy</code> expects an <code>Ordered</code> expression built via <code>.asc</code> or <code>.desc</code>. The quiz includes questions about what happens when you forget <code>.asc</code> (it results in a compile error) and how <code>distinct</code> is expressed (<code>query.distinct</code>).</p>
+      <p>Projections return standard Scala types such as tuples or case classes. You execute queries by appending <code>.result</code> to transform them into <code>DBIOAction</code>s. <code>coffees.result</code> yields a <code>DBIO[Seq[Coffee]]</code>, while <code>coffees.length.result</code> yields <code>DBIO[Int]</code>. Another variant is <code>result.headOption</code>, <code>result.head</code>, or <code>result.map</code> to transform the result inside the action. The <code>Queries</code> documentation goes deeper on aggregator functions such as <code>min</code>, <code>max</code>, <code>avg</code>. The quiz enumerates scenarios requiring <code>.result</code>, <code>.result.head</code>, or <code>.result.headOption</code>, and asks about their behavior when no rows exist (for <code>head</code>, Slick fails the future; for <code>headOption</code>, it returns <code>None</code>).</p>
+      <p>Joins come in various forms: <code>coffees join suppliers on (_.supId === _.id)</code> for inner joins, <code>joinLeft</code>, <code>joinRight</code>, and <code>joinFull</code> for outer joins. You destructure join results via pattern matching (<code>.map { case (coffee, supplier) => ... }</code>). <code>coffees.joinLeft(suppliers)</code> returns a left outer join where the right side is optional. The docs highlight <code>zip</code>, <code>zipWithIndex</code>, and <code>zipWith</code> for combining queries. The quiz contains questions about join types, how to refer to columns after a join, and the semantics of zipped queries.</p>
+      <p>Slick supports subqueries via <code>Query</code> composition. For example, <code>val maxPrice = coffees.map(_.price).max</code> produces a query returning the maximum price; you can reference <code>maxPrice</code> in other queries. The DSL ensures subqueries are inlined in the generated SQL where possible. Another technique is <code>Compiled</code> queries, which precompile SQL with placeholders. Compiled queries improve performance by caching query plans. The quiz references <code>Compiled</code> by asking how to declare one (<code>Compiled { param => coffees.filter(_.price &lt; param.bind).result }</code>) and what happens when you pass incorrect parameters (type mismatch at compile time).</p>
+      <p>Lastly, there are helper functions for actions such as <code>+=</code> (insert single row), <code>++=</code> (insert multiple), <code>insertOrUpdate</code> (profile-dependent upsert), <code>delete</code>, <code>update</code>, and <code>forceInsert</code>. These operations return <code>DBIO</code> values representing the number of rows affected or generated keys. The quiz ensures you know the return types, e.g., <code>+=</code> returns <code>DBIO[Int]</code>, <code>insertOrUpdate</code> returns <code>DBIO[Int]</code> or <code>DBIO[Option[Int]]</code> depending on configuration.</p>
+
+      <h2 id="queries-composition">9. Compositional Query Patterns</h2>
+      <p>Composition is Slick's superpower. You can build reusable query fragments as functions or values and reuse them across modules. Suppose you want a filter for active users; you define <code>val activeUsers = Users.filter(_.disabled === false)</code>. You can then reuse <code>activeUsers</code> in further operations. Because <code>Query</code> is immutable, transformations generate new query instances without executing anything.</p>
+      <p>A powerful pattern is to write domain-specific combinators. For example:</p>
+      <pre><code class="language-scala">def withAgeRange(min: Rep[Int], max: Rep[Int]) = Users.filter(u =&gt; u.age &gt;= min &amp;&amp; u.age &lt;= max)
+def onlyPremium(q: Query[Users, User, Seq]) = q.filter(_.tier === "premium")
+val premiumAdults = onlyPremium(withAgeRange(21, 120))
+</code></pre>
+      <p>The snippet above shows how you can build pipelines of queries. The quiz contains questions about how to parameterize such combinators, why you use <code>Rep</code> for parameters instead of plain values in certain contexts, and when to mark parameters as <code>lifted</code> or <code>literalColumn</code>.</p>
+      <p>Another composition technique relies on <code>for</code>-comprehensions. The syntax <code>for { c &lt;- Coffees if c.price &lt; 10.0; s &lt;- Suppliers if c.supId === s.id } yield (c, s)</code> desugars into <code>flatMap</code> and <code>withFilter</code> calls. Slick supports the comprehension pattern directly. The quiz includes comprehension-based questions, including the meaning of <code>yield</code>, and how to express correlated subqueries using <code>for</code>-syntax.</p>
+      <p>Slick also supports <code>lifted</code> boolean logic. Operators such as <code>&amp;&amp;</code>, <code>||</code>, <code>===</code>, <code>=!=</code>, <code>&lt;</code>, <code>&gt;</code> are defined on <code>Rep</code> types. For string operations you have <code>like</code>, <code>startsWith</code>, <code>endsWith</code>, and <code>length</code>. Some operations require <code>SimpleFunction</code> or <code>SimpleExpression</code> to wrap vendor-specific functions. The repo includes examples (for instance <code>SimpleFunction.unary[String, Int]("lower")</code>). The quiz tests knowledge of custom functions, the difference between <code>SimpleFunction</code> and <code>SimpleExpression</code>, and the semantics of <code>Case</code> expressions.</p>
+      <p>Pagination and streaming interplay with composition. When you combine <code>take</code> and <code>drop</code>, Slick orders them to generate efficient SQL. When streaming results, you may need to apply additional filtering or mapping, which executes as part of the streaming pipeline. The quiz includes questions about the order of <code>drop</code> and <code>take</code>, how <code>sortBy</code> interacts with pagination, and how to implement cursor-based pagination using <code>where</code> clauses.</p>
+      <p>Finally, be aware of <code>Plain SQL</code> integration when composition hits limits. You can embed raw fragments using <code>SimpleLiteral</code> or <code>SimpleFunction</code> to extend the DSL. For example, to use PostgreSQL's <code>to_tsvector</code>, you define <code>val toTSVector = SimpleFunction.binary[String, String, String]("to_tsvector")</code>. The quiz includes items about how to define and use these functions, how to import <code>api.SimpleExpression</code>, and how to ensure type mappings are in scope.</p>
+
+      <h2 id="aggregations">10. Aggregations, Window Functions, and Analytics</h2>
+      <p>Slick's aggregator support is rich. Standard aggregations include <code>sum</code>, <code>max</code>, <code>min</code>, <code>count</code>, and <code>avg</code>. They operate on <code>Rep</code> columns and return <code>Rep</code> results. The <code>Queries</code> chapter explains that <code>sum</code> returns an <code>Option</code> because an empty set may produce no value. For example, <code>coffees.map(_.price).sum</code> has type <code>Rep[Option[Double]]</code>. The quiz asks about these return types, clarifying why <code>Option</code> is necessary.</p>
+      <p>Grouping works via <code>groupBy</code>. <code>val grouped = coffees.groupBy(_.supId).map { case (supId, group) =&gt; (supId, group.map(_.price).avg) }</code> generates SQL with <code>GROUP BY</code>. You can group by multiple columns by returning tuples. The quiz tests your understanding of <code>groupBy</code>, including how to type the <code>map</code> after grouping and why operations inside <code>group.map</code> are limited to aggregations.</p>
+      <p>Window functions are supported via <code>Window</code> API extensions in <code>slick.sql.SqlStreamingAction</code>. For example, <code>coffees.map(c =&gt; c.price.rowNumber.over(partitionBy = Some(c.supId)))</code> yields a row number per supplier. The documentation demonstrates <code>over</code> with <code>partitionBy</code> and <code>orderBy</code> clauses. The quiz includes questions on syntax (<code>c.price.sum.over()</code>) and capabilities (window functions require database support). The capability is <code>SqlCapabilities.windowFunctions</code>, and you should verify it via <code>profile.capabilities.contains(SqlCapabilities.windowFunctions)</code> before assuming availability.</p>
+      <p>Advanced analytics, such as <code>WITH ROLLUP</code> or <code>CUBE</code>, may not be directly supported. In those cases, you can drop to plain SQL or use <code>SimpleExpression</code>. Another approach is to run aggregated queries and combine results in Scala. The quiz covers when to prefer plain SQL for advanced analytics, and how to ensure the results remain type safe by providing a <code>GetResult</code> instance.</p>
+      <p>Finally, note that aggregated queries still produce <code>DBIO</code> actions when you call <code>.result</code>. They can be compiled and cached like other queries. When performing analytics on large datasets, you should consider streaming results instead of materializing entire collections. The streaming section later explains how to do that with <code>database.stream</code>. The quiz ties these ideas together by presenting scenarios where you must choose between streaming and materialized aggregates.</p>
+
+      <h2 id="streaming">11. Streaming, Back-Pressure, and Reactive Integrations</h2>
+      <p>Streaming is a first class concept in Slick. The <code>DBIOAction</code> type alias <code>StreamingDBIO</code> represents actions that produce streams instead of fully materialized collections. When you call <code>db.stream(action)</code>, Slick returns a <code>DatabasePublisher</code> from the <code>Reactive Streams</code> interface. You can subscribe with any Reactive Streams compatible library, such as Akka Streams (<code>Source.fromPublisher</code>) or FS2 (via interop wrappers). The documentation in <code>doc/paradox/dbio.md</code> describes this in detail, and the repository includes examples in <code>doc/code/Connection.scala</code>.</p>
+      <p>Streaming actions are created by calling <code>.result</code> on a query and then using <code>.transactionally</code> if you want them inside a transaction. You can also use <code>.withStatementParameters</code> to control fetch sizes. Some databases require special settings: PostgreSQL mandates <code>.transactionally</code> combined with <code>.withStatementParameters(rsType = ResultSetType.ForwardOnly, fetchSize = n)</code> to avoid buffering everything in memory. This detail is spelled out in <code>doc/paradox/dbio.md</code>, and the quiz includes questions about it.</p>
+      <p>Back-pressure is handled by Slick's <code>DatabasePublisher</code>, which requests elements from the database as downstream subscribers demand them. This prevents overwhelming the client or saturating memory. When using Akka Streams, you typically convert the publisher to a <code>Source</code> and integrate it with your stream graph. The quiz includes items about how <code>db.stream</code> differs from <code>db.run</code>, what <code>StreamingDBIO</code> stands for, and how to close resources (the stream lifecycle handles session release when upstream completes).</p>
+      <p>Streaming is not limited to reads. You can process results via <code>foreach</code> actions, or transform incoming elements using <code>mapResult</code>. In <code>doc/code/Connection.scala</code>, there is an example showing how to stream <code>Blob</code> data while keeping the JDBC result set alive. The quiz references <code>mapResult</code> and how it interacts with streaming, emphasizing that you should not perform blocking operations inside the mapping function.</p>
+      <p>Finally, streaming and transactions require caution. If you perform streaming inside a transaction and an error occurs after all elements are emitted, the transaction still fails and the subscriber receives an error signal. Slick's documentation warns about this, and the quiz includes a question asking why you must handle stream completion events even after receiving data (because commit can fail afterwards). The correct practice is to attach error handlers that consider post-stream failures.</p>
+
+      <h2 id="dbio">12. DBIO Actions and Effect Tracking</h2>
+      <p><code>DBIOAction</code> is the abstraction for database side effects. As the docs explain, every action is typed with three parameters: <code>DBIOAction[R, S, E]</code> where <code>R</code> is the result type, <code>S</code> describes the streaming element type (usually <code>NoStream</code>), and <code>E</code> is the effect type (subclasses of <code>Effect</code> such as <code>Effect.Read</code>, <code>Effect.Write</code>, <code>Effect.Schema</code>). Most developers use the type alias <code>DBIO[R]</code>, which fixes <code>S = NoStream</code> and <code>E = Effect.All</code>, but understanding the full signature clarifies which combinators are available.</p>
+      <p>Actions are created by calling DSL methods (<code>coffees.result</code>, <code>coffees += coffee</code>, <code>users.schema.create</code>) and combined using monadic combinators (<code>flatMap</code>, <code>map</code>, <code>andThen</code>, <code>zip</code>, <code>cleanUp</code>, <code>transactionally</code>). The <code>doc/paradox/dbio.md</code> chapter lists each combinator, and the repository implements them in <code>slick/dbio/DBIOAction.scala</code>. The quiz covers <code>andThen</code> (sequential composition ignoring the result of the first action), <code>zip</code> (parallel composition when safe), and <code>asTry</code> (wrap results in <code>Try</code>).</p>
+      <p>You execute actions via <code>db.run</code>, which returns a <code>Future[R]</code>. Execution happens on slick's <code>AsyncExecutor</code> threads, meaning you should not block them. When you need to run CPU-bound work after retrieving results, you should shift to another execution context or use <code>Future</code> combinators. The quiz includes items on execution contexts, especially around the <code>ExecutionContext</code> you pass to <code>db.run</code> (Slick manages its own internal thread pool; you do not supply an executor manually).</p>
+      <p><code>DBIOAction.sequence</code> and <code>DBIOAction.traverse</code> help orchestrate lists of actions. They are analogous to <code>Future.sequence</code> but keep work inside the database. For example, <code>DBIO.sequence(List(action1, action2))</code> runs both sequentially, returning a list of results. The quiz asks about the order of execution (left to right) and why actions remain lazy until run.</p>
+      <p>Error handling uses <code>asTry</code>, <code>failed</code>, and <code>cleanUp</code>. <code>cleanUp</code> attaches a cleanup action even if the main action fails, similar to <code>try...finally</code>. The docs caution that <code>cleanUp</code> cannot be used with streaming actions because cleanup requires materialization. The quiz includes questions about error handling semantics, e.g., what happens if both the main and cleanup actions fail (the failure from the cleanup is propagated unless you set <code>keepFailure = true</code>).</p>
+
+      <h2 id="transactions">13. Transactions and Session Control</h2>
+      <p>Transactions are expressed through the <code>.transactionally</code> combinator. When you call <code>action.transactionally</code>, Slick ensures the action sequence runs in a single session and wraps it in a JDBC transaction with auto-commit disabled. If any step fails, the transaction rolls back. <code>doc/paradox/dbio.md</code> section "Transactions and Pinned Sessions" explains the intricacies, including <code>withPinnedSession</code> and <code>withTransactionIsolation</code>. The quiz contains multiple questions referencing that section.</p>
+      <p><code>withPinnedSession</code> keeps a session pinned for the duration of an action sequence without necessarily starting a transaction. This is useful when you need session-level features like temporary tables or setting session variables. <code>withPinnedSession</code> is also required when streaming results with certain database drivers. The quiz examines the difference between <code>transactionally</code> and <code>withPinnedSession</code>, and when to prefer each.</p>
+      <p>Slick also supports nested transactions using <code>transactionally</code> combined with savepoints (if the backend supports them). Some profiles track capabilities like <code>JdbcCapabilities.supportsSavePoints</code>. When nested transactions are not supported, Slick emulates them by running the inner actions with the same session and ignoring <code>transactionally</code> wrappers. The quiz includes a question about how nested transactions behave on PostgreSQL versus SQLite.</p>
+      <p>Isolation levels are set via <code>withTransactionIsolation</code>. You pass a JDBC <code>TransactionIsolation</code> enumeration (e.g., <code>TransactionIsolation.Serializable</code>). The doc warns that not all drivers honor isolation level changes, so you should verify the capability. The quiz asks which effect type is associated with schema actions (<code>Effect.Schema</code>) and how to combine schema creation with data inserts inside a transaction (run <code>for { _ &lt;- schema.create; _ &lt;- ++= } yield ()</code> and wrap the entire sequence with <code>transactionally</code>).</p>
+      <p>Finally, transactions must be used carefully with asynchronous code. If you interleave <code>Future</code>s inside <code>flatMap</code> steps, ensure you convert them to <code>DBIO</code> via <code>DBIO.from</code>. Otherwise, the transaction might close the session before the future completes. The quiz includes scenarios about using <code>DBIO.from</code> inside transactions to wait for external computations.</p>
+
+      <h2 id="plain-sql">14. Plain SQL and Hybrid Workflows</h2>
+      <p>Plain SQL APIs reside in <code>slick.jdbc</code> under <code>StaticQuery</code> (legacy) and the modern <code>sql"..."</code> interpolator. You can write raw SQL like <code>sql"select id, name from users where id = $id"</code>, which returns a <code>SqlStreamingAction</code>. To map results, you provide an implicit <code>GetResult</code>. For example, <code>implicit val getUserResult = GetResult(r =&gt; User(r.1, r.&lt;&lt;[String]))</code>. The <code>&lt;&lt;</code> operator reads typed columns. The documentation <code>doc/paradox/sql.md</code> includes more examples, and the repo's <code>doc/code/PlainSQL.scala</code> demonstrates batching and returning generated keys.</p>
+      <p>You can mix plain SQL with the lifted API. For instance, run a plain SQL DDL statement and then perform lifted queries. The quiz asks about how to run a plain SQL action inside a transaction (wrap it with <code>transactionally</code> like any other action), and how to bind parameters to avoid SQL injection (the interpolator automatically uses JDBC prepared statements).</p>
+      <p>Plain SQL supports <code>sqlu</code> for update statements and <code>sql</code> for queries. <code>sqlu"update users set name = $name where id = $id"</code> returns a <code>DBIO[Int]</code> representing the number of rows affected. <code>sql"select ..."</code> returns a streaming action. The quiz includes questions distinguishing <code>sql</code>, <code>sqlu</code>, and <code>sqlt</code> (the latter for DDL statements returning <code>Unit</code>).</p>
+      <p>When plain SQL must return complex types, you can use <code>GetResult</code> macros (<code>import slick.jdbc.GetResult</code>) or manual parsing. Slick's macros infer column mappings for case classes if the types align. The quiz tests familiarity with <code>GetResult</code>, the <code>&lt;&lt;</code> operator, and how to handle optional columns (<code>r.&lt;&lt;[Option[String]]</code>).</p>
+      <p>Finally, plain SQL seamlessly integrates with <code>DBIOAction</code> combinators. You can compose plain SQL actions with lifted actions, wrap them in transactions, and use <code>asTry</code> for error handling. The quiz includes scenarios that combine plain SQL migrations followed by lifted inserts, ensuring you know how to orchestrate hybrid workflows.</p>
+
+      <h2 id="codegen">15. Schema Code Generation Pipeline</h2>
+      <p>The <code>slick-codegen</code> module automatically generates table classes based on an existing database schema. It lives under <code>slick-codegen/src/main/scala/slick/codegen</code> and uses the <code>SourceCodeGenerator</code> class. The official docs in <code>doc/paradox/code-generation.md</code> walk through usage. A minimal example looks like:</p>
+      <pre><code class="language-scala">import slick.codegen.SourceCodeGenerator
+
+object CustomCodegen extends App {
+  SourceCodeGenerator.run(
+    profile = "slick.jdbc.PostgresProfile$",
+    jdbcDriver = "org.postgresql.Driver",
+    url = "jdbc:postgresql://localhost:5432/app",
+    outputDir = "src/main/scala",
+    pkg = "generated",
+    user = Some("app_user"),
+    password = sys.env.get("APP_PASS")
+  )
+}
+</code></pre>
+      <p>You can customize the generator by subclassing <code>SourceCodeGenerator</code> and overriding methods to rename tables, columns, or add imports. The quiz includes questions about customizing <code>code</code>, <code>Table</code>, and <code>Column</code> traits. Another question addresses the difference between <code>SourceCodeGenerator</code> and <code>slick.codegen.ModelBuilder</code> (the latter builds metadata models).</p>
+      <p>Slick code generation is often integrated into <code>sbt</code>. The docs show how to define an <code>sbt</code> task that connects to the database and runs the generator. The quiz references the standard <code>TaskKey[Seq[File]]("slickCodeGen")</code> pattern, testing your ability to describe the offline generation workflow.</p>
+      <p>Finally, generated code still uses <code>profile.api._</code>, so you must include the relevant profile dependency. The generator supports writing to multiple packages (e.g., <code>generated.tables</code>, <code>generated.package</code>) and customizing base traits. The quiz includes scenarios where you need to extend generated tables with additional methods, emphasizing that you should place custom code in separate partial classes to avoid overwriting.</p>
+
+      <h2 id="migrations">16. Schema Evolution and Migrations</h2>
+      <p>Slick intentionally delegates migrations to external tools. The docs recommend Flyway, Liquibase, or custom migration scripts. Nevertheless, Slick provides utilities to inspect schemas and run DDL statements, which you can leverage in migration workflows. <code>TableQuery.schema</code> yields <code>SchemaDescription</code> instances with <code>create</code>, <code>drop</code>, <code>truncate</code>, and <code>createIfNotExists</code> methods. You can combine multiple schemas via <code>users.schema ++ orders.schema</code>. The quiz asks about <code>++</code> and whether the resulting schema is executed with <code>db.run</code> (it is; you must run the combined schema action).</p>
+      <p>For migrations, a common pattern is to version SQL files and execute them using Slick's plain SQL support. You track applied migrations in a dedicated table, compute the next migration, and run it inside a transaction. The quiz features scenarios where you must choose between applying migrations using <code>sqlu</code> statements versus relying on <code>schema.create</code>. The recommended answer highlights that production migrations should be explicit and idempotent, not derived implicitly from Slick definitions.</p>
+      <p>Migrations also involve data transformations. You can use Slick queries to populate new columns, backfill data, or update denormalized tables. Because Slick actions are composable, you can encapsulate these steps as <code>DBIO</code> sequences. The quiz includes an ETL-style question about using <code>DBIO.sequence</code> for data migrations while ensuring transactions wrap the entire process.</p>
+      <p>Finally, <code>doc/paradox/migrations.md</code> discusses compatibility concerns when migrating between Slick versions. For example, moving from Slick 3.3 to 3.5 may require updating configuration keys or adjusting code to match new type inference behaviors. The quiz includes questions referencing this doc, especially around <code>JdbcProfile</code> API changes and <code>Future</code> execution semantics.</p>
+
+      <h2 id="testing">17. Testing Strategies and the Slick Testkit</h2>
+      <p>Testing is covered in <code>doc/paradox/testkit.md</code> and supported by the <code>slick-testkit</code> module. The testkit provides base classes for writing database-specific suites, verifying behavior across multiple DB engines. It includes infrastructure for spinning up embedded databases, running regression tests, and verifying semantics. For application developers, you can rely on either real database integration tests or an in-memory DB like H2, but each has trade-offs (differences in SQL dialect, unsupported features). The quiz features questions about the testkit, including why you might run nightly builds across multiple DBs to catch regressions.</p>
+      <p>When writing application tests, you often create a temporary database and run migrations in <code>beforeAll</code> hooks. In ScalaTest, you might mix in <code>AsyncFlatSpec</code> and provide an implicit <code>ExecutionContext</code> for <code>Future</code> results. Slick's <code>db.run</code> returns futures, so you can use <code>whenReady</code> or <code>futureValue</code> to assert results. The quiz includes questions about cleaning up <code>Database</code> instances after tests (call <code>db.close()</code>) and ensuring actions run sequentially by combining them with <code>flatMap</code>.</p>
+      <p>Another testing pattern uses <code>Database.forConfig</code> with specialized config for testing. For instance, your <code>application-test.conf</code> might configure an in-memory H2 database. The quiz examines the difference between <code>DBIO.sequence</code> and <code>DBIOAction.sequence</code>, ensuring you know that the latter is the method you invoke.</p>
+      <p>The repository also includes <code>common-test-resources</code>, which contains fixtures and data sets for integration tests. Exploring those resources demonstrates how the Slick maintainers test features such as typed queries, streaming, and upserts. The quiz references these resources to validate your understanding of how to inspect the testkit for examples when documentation is sparse.</p>
+      <p>Finally, there is guidance on property-based testing and mocking. Slick code is best tested as integration tests rather than mocking the database, but you can abstract over repositories and inject fake implementations when needed. The quiz includes a question about the recommended approach (favor integration testing with real DBs to catch SQL differences).</p>
+
+      <h2 id="performance">18. Performance, Profiling, and Tuning</h2>
+      <p>Performance tuning in Slick revolves around query optimization, connection management, batching, and streaming. The docs and repo examples highlight key strategies. First, ensure queries are compiled when reused. The <code>Compiled</code> API caches SQL strings and reduces the overhead of query compilation. The quiz asks about when to use <code>Compiled</code> (for parameterized queries executed frequently) and when it may be unnecessary (one-off queries).</p>
+      <p>Second, manage connection pools and <code>AsyncExecutor</code> settings. <code>AsyncExecutor</code> takes parameters <code>name</code>, <code>numThreads</code>, <code>queueSize</code>, and <code>maxConnections</code>. The documentation provides rules of thumb: <code>numThreads</code> should match the number of concurrent JDBC operations, and <code>queueSize</code> should be large enough to absorb short bursts. The quiz includes numeric scenarios asking you to compute appropriate settings based on workload characteristics.</p>
+      <p>Third, reduce round trips by batching inserts or updates. Slick's <code>++=</code> insert method can batch multiple rows, and <code>insertOrUpdate</code> performs upserts when supported. The quiz checks your understanding of when Slick falls back to multiple statements (if the driver lacks batch support) and how to detect this by inspecting the <code>LoggerCategory.Statement</code> logs.</p>
+      <p>Fourth, measure performance. Slick emits detailed logs when you enable categories such as <code>slick.basic.BasicBackend.action</code> and <code>slick.jdbc.JdbcBackend.statement</code>. You can integrate these logs with metrics systems, or use <code>JFR</code>/<code>JMC</code> to profile. The repository's <code>README</code> references external resources like Rock the JVM videos that explain profiling Slick. The quiz includes questions about enabling logging, interpreting log output, and using <code>withPinnedSession</code> to minimize connection churn during heavy workloads.</p>
+      <p>Finally, consider database-level tuning: indexes, query plans, and caching. Slick does not hide SQL, so you can log generated queries and analyze them with <code>EXPLAIN</code>. The quiz includes exercises where you must diagnose slow queries by examining the generated SQL and adjusting query structure (e.g., moving filters before <code>join</code>, using <code>exists</code> instead of <code>length</code>).</p>
+
+      <h2 id="observability">19. Observability, Logging, and Troubleshooting</h2>
+      <p>Observability is essential for production operations. Slick general logging configuration is described in <code>doc/paradox/config.md</code>. Categories include <code>slick.basic.BasicBackend.action</code> for action lifecycle, <code>slick.jdbc.JdbcBackend.statement</code> for SQL statements, and <code>slick.jdbc.JdbcBackend.benchmark</code> for execution times. The quiz includes questions asking which category logs executed SQL and how to enable it via <code>application.conf</code>.</p>
+      <p>The <code>DBIOAction</code> <code>.named</code> method tags actions, making logs more understandable. For example, <code>val action = query.result.named("LoadActiveUsers")</code>. The quiz asks what <code>named</code> does (labels the action for logging) and when to use it (for debugging complex workflows).</p>
+      <p>Slick also provides <code>Database.forConfig</code> hooks for custom metrics. You can wrap Slick's <code>Database</code> in your own service that records timings. When using HikariCP, you can enable its metrics integration with Dropwizard or Micrometer. The quiz includes a monitoring question comparing Slick's built-in logging with HikariCP's metrics.</p>
+      <p>Common troubleshooting steps include verifying connections, ensuring migrations ran, and inspecting generated SQL for errors. The quiz contains questions about diagnosing <code>java.sql.BatchUpdateException</code>, handling deadlocks via <code>transactionally</code> retries, and reading stack traces referencing <code>slick.compiler</code> phases.</p>
+
+      <h2 id="integration">20. Integrating Slick with Server Frameworks</h2>
+      <p>Slick integrates well with Play Framework, Akka HTTP, http4s (via cats-effect bridges), and any framework that expects asynchronous operations. The official docs mention Play integration: Play's dependency injection modules provide <code>DatabaseConfigProvider</code>, letting you inject <code>DatabaseConfig</code> per controller. The quiz includes questions about this provider and how to access <code>dbConfig.profile.api._</code> inside Play components.</p>
+      <p>With Akka HTTP, you would typically route requests to handlers that call <code>db.run</code>. Because <code>db.run</code> returns a <code>Future</code>, you map it to HTTP responses using <code>onComplete</code> or direct <code>future</code> directives. The quiz tests knowledge of thread pools: you should avoid blocking inside <code>onComplete</code> callbacks.</p>
+      <p>For cats-effect or ZIO, wrappers exist to convert <code>DBIO</code> actions into <code>IO</code> or <code>Task</code>. For example, <code>slick.interop.cats</code> provides <code>DBIOInterpreter</code> (community project). The quiz references this integration by asking how to convert <code>DBIO</code> to <code>ZIO</code> using <code>ZIO.fromFuture</code> combined with <code>db.run</code>.</p>
+      <p>Finally, microservices often require connection per service. Slick supports multi-tenant setups by creating multiple <code>Database</code> instances or using <code>DatabaseConfig</code> to configure sharded connections. The quiz includes scenarios about how to handle per-tenant data sources and avoid exhausting connections by pooling per tenant.</p>
+
+      <h2 id="interop">21. Interoperability with FP Stacks and Streams</h2>
+      <p>Slick lives comfortably within functional programming stacks. When using Akka Streams, the <code>DatabasePublisher</code> integrates seamlessly via <code>Source.fromPublisher</code>. You can push results downstream, apply <code>mapAsync</code> with additional <code>db.run</code> operations, and ensure back-pressure. The quiz includes questions about turning a <code>StreamingDBIO</code> into an Akka <code>Source</code>.</p>
+      <p>When working with cats-effect, you can wrap <code>db.run</code> inside <code>IO.deferFuture</code> or <code>Async[IO].fromFuture</code>. Some libraries provide direct interpreters. The quiz verifies knowledge of these conversions by asking how to embed Slick in cats-effect code without blocking.</p>
+      <p>ZIO integration is similar: <code>ZIO.fromFuture</code> lifts the future returned by <code>db.run</code>. There are community modules (e.g., <code>zio-slick-interop</code>) that offer typed wrappers. The quiz references these to ensure you can reason about effect polymorphism.</p>
+      <p>Finally, when interoperating with streaming systems like Kafka or Pulsar, you often run Slick queries inside stream processors. Ensure you manage database concurrency limits, especially if each message triggers a query. The quiz includes a scenario where you must throttle Slick usage via Akka Streams <code>mapAsync(parallelism)</code> to respect <code>numThreads</code> and <code>queueSize</code>.</p>
+
+      <h2 id="upgrades">22. Release Management and Upgrades</h2>
+      <p>Upgrading Slick requires attention to binary compatibility, configuration changes, and driver updates. The <code>doc/paradox/upgrade.md</code> file enumerates changes between major releases. For example, migrating from 3.4 to 3.5 may require updating <code>scalaVersion</code>, ensuring <code>MappedColumnType</code> implicits still compile, or adjusting <code>Plain SQL</code> macros. The quiz contains direct references to the upgrade guide, asking what changed in asynchronous execution semantics and how to update <code>Database.forConfig</code> usage.</p>
+      <p>The repository's <code>versionPolicy.sbt</code> indicates the maintainers follow <code>sbt-version-policy</code>, ensuring semantic versioning. When you upgrade, consult <code>CHANGELOG.md</code> (if present) and review compatibility notes. The quiz includes questions about verifying dependencies (e.g., ensuring <code>HikariCP</code> versions align with your JDBC driver).</p>
+      <p>During upgrades, run the <code>slick-testkit</code> integration tests against your databases to catch regressions. The quiz emphasizes this by asking how to confirm behavior across DB engines after upgrading. Another question addresses how to handle <code>deprecation</code> warnings (fix them promptly since they may become errors in the next release).</p>
+      <p>Finally, coordinate upgrades with database migrations. Changing Slick versions may modify generated SQL; ensure your DB remains compatible. The quiz includes a question about verifying generated SQL in staging before deploying to production.</p>
+
+      <h2 id="operations">23. Operational Playbooks and Deployment</h2>
+      <p>Operational excellence requires clear playbooks. When deploying Slick-powered services, ensure you have health checks that verify database connectivity. A common pattern is to run a lightweight <code>db.run(sql"select 1".as[Int].head)</code> during startup or readiness probes. The quiz includes questions about implementing health checks and the difference between liveness and readiness probes.</p>
+      <p>Another operational concern is back-pressure. Configure <code>queueSize</code> and <code>numThreads</code> to prevent the executor from saturating. Monitor metrics to adjust settings. The quiz asks about symptoms of queue saturation (timeouts, <code>RejectedExecutionException</code>) and how to mitigate them (increase queue, reduce concurrency, optimize queries).</p>
+      <p>Deployment pipelines should include migrations, integration tests, and smoke tests. When using containers, ensure JDBC drivers and native libraries are included. The quiz references containerization, asking where to place JDBC drivers and how to configure connection pools in ephemeral environments.</p>
+      <p>Finally, consider disaster recovery. Back up databases, log migrations, and ensure that Slick's configuration can point to replicas. The quiz includes a question on failover: how to detect connection errors, retry transactions, and avoid stale replicas (for example, by using <code>withTransactionIsolation</code> set to <code>READ_COMMITTED</code> and verifying replication lag).</p>
+
+      <h2 id="comparisons">24. Slick in Context: Comparing FRM and ORM</h2>
+      <p>Slick differs from traditional ORM frameworks like Hibernate. Instead of mapping objects to relational tables automatically, Slick focuses on type-safe query composition. You still define tables, but queries are written in Scala rather than using dynamic query languages. This yields compile-time checking and better composability. The quiz contrasts FRM and ORM, asking about the benefits (type safety, composability) and potential trade-offs (more manual schema definitions).</p>
+      <p>Another comparison is with SQL DSLs like Doobie (in Scala) or jOOQ (in Java). Slick's DSL is integrated with Scala's collections, while Doobie leans on functional programming with <code>ConnectionIO</code>. The quiz references these comparisons by asking when to choose Slick (when you want a deeply integrated Scala DSL with streaming support) versus when to choose alternatives (when you prefer plain SQL and minimal DSL overhead).</p>
+      <p>Compared to micro-ORMs, Slick might appear heavier, but for complex applications the FRM approach leads to more maintainable code. The quiz includes an opinionated question about why teams might still drop to plain SQL (to leverage vendor-specific features or to reuse existing stored procedures), validating that hybrid approaches are acceptable.</p>
+      <p>Lastly, Slick's compile-time safety reduces runtime errors but requires more upfront investment in learning. This article and quiz exist to accelerate that learning, ensuring you can answer nuanced questions about the API, capabilities, and architecture.</p>
+
+      <h2 id="study-guide">25. Study Guide Aligned with the 100-Question Quiz</h2>
+      <p>This section maps topics to question clusters so you can connect study material with quiz expectations:</p>
+      <div class="callout-grid">
+        <div class="callout">
+          <strong>Questions 1-20</strong>
+          <p>Introductory concepts: FRM vs ORM, core architecture, profile imports, lifted embedding basics, query execution via <code>db.run</code>.</p>
+        </div>
+        <div class="callout">
+          <strong>Questions 21-40</strong>
+          <p>Schema design: table classes, projections, custom column types, indexes, and foreign keys. Pay attention to examples in <code>doc/paradox/schemas.md</code>.</p>
+        </div>
+        <div class="callout">
+          <strong>Questions 41-60</strong>
+          <p>Query algebra, joins, aggregates, compiled queries, streaming fundamentals. Review <code>doc/paradox/queries.md</code> and <code>doc/paradox/dbio.md</code>.</p>
+        </div>
+        <div class="callout">
+          <strong>Questions 61-80</strong>
+          <p>DBIO composition, transactions, plain SQL, code generation, migrations, and testing using <code>slick-testkit</code>.</p>
+        </div>
+        <div class="callout">
+          <strong>Questions 81-100</strong>
+          <p>Performance tuning, configuration, observability, integrations with Play/Akka/ZIO, upgrades, and operational playbooks.</p>
+        </div>
+      </div>
+      <p>When reviewing, cross-reference each question with the relevant section in this article and the source files mentioned. For instance, if a question mentions <code>DBIO.from</code>, revisit Section 12 and inspect <code>slick/dbio/DBIOAction.scala</code>. For configuration questions, inspect <code>doc/paradox/config.md</code>. This practice will reinforce the connection between quiz items and official guidance.</p>
+
+      <h2 id="python-bridge">26. Python Bridge: Tooling Support Example</h2>
+      <p>To satisfy the platform requirement that every article include a Python example, consider a utility script that seeds sample data for Slick integration tests. Suppose you maintain Slick-based services but rely on Python for data preparation. The following script reads a CSV file, normalizes data, and inserts rows into PostgreSQL using <code>psycopg2</code>. Slick then reads the data using lifted queries, demonstrating interoperability between ecosystems.</p>
+      <pre><code class="language-python">import csv
+import os
+import psycopg2
+from datetime import datetime
+
+DSN = os.environ.get("APP_PG_DSN", "dbname=app user=app password=secret host=localhost")
+
+def normalize_price(value):
+    cents = int(float(value) * 100)
+    return max(cents, 0)
+
+with psycopg2.connect(DSN) as conn:
+    with conn.cursor() as cur, open("seed-data/coffees.csv", newline="") as fh:
+        reader = csv.DictReader(fh)
+        rows = []
+        for row in reader:
+            rows.append((
+                row["id"],
+                row["name"],
+                normalize_price(row["price"]),
+                row["supplier_id"],
+                datetime.utcnow(),
+            ))
+        cur.executemany(
+            """
+            INSERT INTO coffees (id, name, price_cents, supplier_id, created_at)
+            VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (id) DO UPDATE SET
+              name = EXCLUDED.name,
+              price_cents = EXCLUDED.price_cents,
+              supplier_id = EXCLUDED.supplier_id,
+              created_at = EXCLUDED.created_at
+            """,
+            rows,
+        )
+    conn.commit()
+</code></pre>
+      <p>This helper script mirrors Slick features discussed earlier: notice the upsert (similar to <code>insertOrUpdate</code>) and the timestamp normalization. In your Slick code, you would define a <code>coffees</code> table with <code>price</code> as an <code>Int</code> representing cents, ensuring parity between the Python seed script and the Scala model. The quiz mentions Python bridging explicitly to ensure you can articulate how non-Scala tooling interacts with Slick-managed schemas.</p>
+
+      <h2 id="appendix">27. Appendix: Glossary and Further Reading</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Definition</th>
+            <th>Where to Explore in the Repo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DBIOAction</td>
+            <td>Immutable description of database work, executed via <code>db.run</code> or <code>db.stream</code>.</td>
+            <td><code>slick/dbio/DBIOAction.scala</code>, <code>doc/paradox/dbio.md</code></td>
+          </tr>
+          <tr>
+            <td>Profile API</td>
+            <td>The exportable DSL of tables, columns, queries, and combinators for a specific backend.</td>
+            <td><code>slick/jdbc/JdbcProfile.scala</code>, <code>doc/paradox/concepts.md</code></td>
+          </tr>
+          <tr>
+            <td>SchemaDescription</td>
+            <td>Aggregated DDL operations such as <code>create</code>, <code>drop</code>, and <code>truncate</code>.</td>
+            <td><code>slick/schemadsl/SchemaDescription.scala</code>, <code>doc/paradox/schemas.md</code></td>
+          </tr>
+          <tr>
+            <td>AsyncExecutor</td>
+            <td>Thread pool and work queue implementation that executes JDBC actions under the hood.</td>
+            <td><code>slick/basic/AsyncExecutor.scala</code>, <code>doc/paradox/config.md</code></td>
+          </tr>
+          <tr>
+            <td>DatabasePublisher</td>
+            <td>Reactive Streams publisher returned by <code>db.stream</code> for streaming actions.</td>
+            <td><code>slick/basic/BasicBackend.scala</code>, <code>doc/paradox/dbio.md</code></td>
+          </tr>
+          <tr>
+            <td>GetResult</td>
+            <td>Type class for mapping plain SQL result sets to Scala types.</td>
+            <td><code>slick/jdbc/GetResult.scala</code>, <code>doc/paradox/sql.md</code></td>
+          </tr>
+          <tr>
+            <td>SourceCodeGenerator</td>
+            <td>Code generation entry point that emits Slick table classes from existing schemas.</td>
+            <td><code>slick-codegen/src/main/scala/slick/codegen</code>, <code>doc/paradox/code-generation.md</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>For ongoing learning, review the official documentation site <code>https://scala-slick.org/doc/stable/</code>, the GitHub discussions, and the <code>doc/paradox/cookbook.md</code> chapter, which aggregates how-to recipes. The repository also contains <code>samples</code> with runnable projects demonstrating integration with Play, Akka Streams, and other frameworks.</p>
+
+      <div class="note">
+        <strong>Tip:</strong> The content in this article has been synchronized with the local Slick source tree located at <code>/Users/mohannarayanaswamy/git/slick</code>. If you pull new commits, re-run the quiz after verifying whether the APIs changed.
+      </div>
+    </article>
+  </main>
+  <footer>
+    Crafted with attention to Slick's latest documentation and codebase. Keep exploring, keep querying.
+  </footer>
+</body>
+</html>

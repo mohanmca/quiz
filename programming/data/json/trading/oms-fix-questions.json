@@ -1,0 +1,652 @@
+[
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q1",
+        "title": "**OMS Core Concept - Order Lifecycle**\n\nWhich of the following best describes the standard order lifecycle in an Order Management System?",
+        "choices": [
+            "New → Partially Filled → Filled → Cancelled",
+            "New → Pending → Filled → Cancelled → Rejected",
+            "New → Acknowledged → Rejected → Expired → Filled",
+            "Received → Queued → Completed → Archived"
+        ],
+        "correctAnswer": "New → Partially Filled → Filled → Cancelled"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q2",
+        "title": "**OMS - Role of Matching Engine**\n\nWhat is the main responsibility of the matching engine in an exchange OMS?",
+        "choices": [
+            "Store historical trade data",
+            "Match buy and sell orders based on price-time priority",
+            "Manage FIX connectivity",
+            "Perform risk checks on incoming orders"
+        ],
+        "correctAnswer": "Match buy and sell orders based on price-time priority"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q3",
+        "title": "**OMS Design - Risk Checks**\n\nWhich type of risk check is typically performed *before* routing an order to the exchange?",
+        "choices": [
+            "Position limits check",
+            "Trade confirmation check",
+            "Settlement reconciliation",
+            "Post-trade allocation"
+        ],
+        "correctAnswer": "Position limits check"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q4",
+        "title": "**OMS Persistence - Order Storage**\n\nWhich storage system is best suited for persisting order events with guaranteed recovery after failure?",
+        "choices": [
+            "In-memory cache only",
+            "Relational database with transaction logs",
+            "Key-value store without durability",
+            "File-based logging only"
+        ],
+        "correctAnswer": "Relational database with transaction logs"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q5",
+        "title": "**OMS Workflow - Order Routing**\n\nWhen a broker OMS routes an order to multiple exchanges for best execution, this process is called:",
+        "choices": [
+            "Order fragmentation",
+            "Smart Order Routing (SOR)",
+            "Latency arbitrage",
+            "Order aggregation"
+        ],
+        "correctAnswer": "Smart Order Routing (SOR)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q6",
+        "title": "**OMS Architecture - Event Sourcing**\n\nIn an event-sourced OMS, what is the primary benefit of storing order events rather than current state?",
+        "choices": [
+            "Faster query performance",
+            "Complete audit trail and ability to replay state",
+            "Reduced storage requirements",
+            "Simplified database schema"
+        ],
+        "correctAnswer": "Complete audit trail and ability to replay state"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q7",
+        "title": "**OMS Performance - Latency Optimization**\n\nWhich technique is most effective for reducing order processing latency in a high-frequency trading OMS?",
+        "choices": [
+            "Using interpreted languages",
+            "Memory-mapped files and lock-free data structures",
+            "Database normalization",
+            "Synchronous logging to disk"
+        ],
+        "correctAnswer": "Memory-mapped files and lock-free data structures"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q8",
+        "title": "**OMS Design - Order Book Management**\n\nIn an OMS order book, what data structure is typically used to maintain price levels for efficient matching?",
+        "choices": [
+            "Linked List",
+            "Binary Heap",
+            "Red-Black Tree or Skip List",
+            "Hash Table"
+        ],
+        "correctAnswer": "Red-Black Tree or Skip List"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q9",
+        "title": "**OMS Risk Management - Pre-Trade Checks**\n\nWhich of the following is NOT typically a pre-trade risk check in an OMS?",
+        "choices": [
+            "Credit limit validation",
+            "Position concentration limits",
+            "Trade settlement timing",
+            "Maximum order size limits"
+        ],
+        "correctAnswer": "Trade settlement timing"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q10",
+        "title": "**OMS Concurrency - Thread Safety**\n\nWhen multiple threads access order data simultaneously, which pattern best ensures data consistency?",
+        "choices": [
+            "Global locks on all operations",
+            "Single-threaded event loop with message passing",
+            "Optimistic concurrency control",
+            "Thread-local storage only"
+        ],
+        "correctAnswer": "Single-threaded event loop with message passing"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q11",
+        "title": "**OMS Scalability - Horizontal Scaling**\n\nWhen horizontally scaling an OMS across multiple servers, what is the biggest challenge?",
+        "choices": [
+            "Load balancing HTTP requests",
+            "Maintaining order sequence and state consistency",
+            "Database connection pooling",
+            "User interface responsiveness"
+        ],
+        "correctAnswer": "Maintaining order sequence and state consistency"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q12",
+        "title": "**OMS Monitoring - System Health**\n\nWhich metric is most critical for monitoring OMS performance in production?",
+        "choices": [
+            "CPU utilization percentage",
+            "Order processing latency (99th percentile)",
+            "Database connection count",
+            "Memory usage in MB"
+        ],
+        "correctAnswer": "Order processing latency (99th percentile)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q13",
+        "title": "**OMS Recovery - Disaster Recovery**\n\nIn case of primary OMS failure, what is the most important factor for rapid failover?",
+        "choices": [
+            "Hardware specifications of backup server",
+            "Real-time replication of order state and position data",
+            "Network bandwidth between sites",
+            "User notification systems"
+        ],
+        "correctAnswer": "Real-time replication of order state and position data"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q14",
+        "title": "**OMS Integration - Market Data**\n\nHow should an OMS handle market data feeds for real-time pricing?",
+        "choices": [
+            "Poll exchanges every second for price updates",
+            "Subscribe to multicast UDP feeds with conflation",
+            "Query REST APIs on demand",
+            "Use WebSocket connections with manual reconnection"
+        ],
+        "correctAnswer": "Subscribe to multicast UDP feeds with conflation"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q15",
+        "title": "**OMS Design - Order Validation**\n\nAt which layer should business rule validation (e.g., trading hours, instrument eligibility) occur?",
+        "choices": [
+            "Database triggers",
+            "Application service layer before persistence",
+            "Exchange gateway after routing",
+            "Client-side JavaScript validation only"
+        ],
+        "correctAnswer": "Application service layer before persistence"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q16",
+        "title": "**OMS State Management - CQRS Pattern**\n\nIn a CQRS-based OMS, what is the primary advantage of separating read and write models?",
+        "choices": [
+            "Simplified database schema design",
+            "Independent scaling of query and command operations",
+            "Reduced development complexity",
+            "Automatic data backup"
+        ],
+        "correctAnswer": "Independent scaling of query and command operations"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q17",
+        "title": "**OMS Testing - Load Testing**\n\nWhen load testing an OMS, which scenario best simulates real trading conditions?",
+        "choices": [
+            "Constant rate of identical orders",
+            "Burst patterns with varying order types and sizes",
+            "Single large order per minute",
+            "Random order timing with no correlation"
+        ],
+        "correctAnswer": "Burst patterns with varying order types and sizes"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q18",
+        "title": "**OMS Security - Order Authentication**\n\nWhich method provides the strongest security for order submission in an OMS?",
+        "choices": [
+            "API keys in HTTP headers",
+            "Digital signatures with certificate-based authentication",
+            "Username/password over HTTPS",
+            "IP address whitelisting only"
+        ],
+        "correctAnswer": "Digital signatures with certificate-based authentication"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q19",
+        "title": "**OMS Configuration - Parameter Management**\n\nHow should trading parameters (like risk limits) be managed in a production OMS?",
+        "choices": [
+            "Hardcoded in application binaries",
+            "External configuration with hot-reload capability",
+            "Database stored procedures only",
+            "Environment variables requiring restart"
+        ],
+        "correctAnswer": "External configuration with hot-reload capability"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q20",
+        "title": "**OMS Deployment - Blue-Green Deployment**\n\nWhen deploying OMS updates using blue-green deployment, what is the critical consideration?",
+        "choices": [
+            "Network load balancer configuration",
+            "Maintaining order sequence continuity during switch",
+            "Database migration scripts",
+            "User interface compatibility"
+        ],
+        "correctAnswer": "Maintaining order sequence continuity during switch"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q21",
+        "title": "**OMS Analytics - Trade Cost Analysis**\n\nWhich metric is most important for evaluating execution quality in an OMS?",
+        "choices": [
+            "Total number of trades executed",
+            "Volume-weighted average price (VWAP) comparison",
+            "System uptime percentage",
+            "Database query response time"
+        ],
+        "correctAnswer": "Volume-weighted average price (VWAP) comparison"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q22",
+        "title": "**OMS Compliance - Regulatory Reporting**\n\nFor regulatory compliance, which order data must be retained by an OMS?",
+        "choices": [
+            "Only executed trades",
+            "All order events including modifications and cancellations",
+            "End-of-day positions only",
+            "Aggregated volume data"
+        ],
+        "correctAnswer": "All order events including modifications and cancellations"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q23",
+        "title": "**OMS Error Handling - Circuit Breaker**\n\nWhen should an OMS implement a circuit breaker pattern?",
+        "choices": [
+            "During normal market hours only",
+            "When downstream exchange connectivity fails repeatedly",
+            "For database connection pooling",
+            "During user authentication failures"
+        ],
+        "correctAnswer": "When downstream exchange connectivity fails repeatedly"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q24",
+        "title": "**OMS Memory Management - Object Pooling**\n\nWhy is object pooling particularly important in high-frequency OMS implementations?",
+        "choices": [
+            "To reduce memory usage",
+            "To minimize garbage collection pauses",
+            "To improve code readability",
+            "To simplify debugging"
+        ],
+        "correctAnswer": "To minimize garbage collection pauses"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q25",
+        "title": "**OMS Microservices - Service Boundaries**\n\nIn a microservices-based OMS architecture, how should services be bounded?",
+        "choices": [
+            "By programming language used",
+            "By business capability (order management, risk, execution)",
+            "By database table structure",
+            "By team organization"
+        ],
+        "correctAnswer": "By business capability (order management, risk, execution)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q26",
+        "title": "**FIX Basics - Tag 35**\n\nIn FIX protocol, what does Tag 35 represent?",
+        "choices": [
+            "Message Type",
+            "Order Quantity",
+            "Price",
+            "Execution ID"
+        ],
+        "correctAnswer": "Message Type"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q27",
+        "title": "**FIX Sessions - Heartbeat**\n\nWhat is the purpose of the Heartbeat (MsgType=0) in FIX sessions?",
+        "choices": [
+            "Confirm trade execution",
+            "Keep the TCP connection alive and detect disconnections",
+            "Acknowledge an order cancel",
+            "Reset sequence numbers"
+        ],
+        "correctAnswer": "Keep the TCP connection alive and detect disconnections"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q28",
+        "title": "**FIX Connectivity - Session Layer**\n\nWhich of the following is responsible for maintaining FIX sequence numbers?",
+        "choices": [
+            "Application Layer",
+            "Session Layer",
+            "Transport Layer",
+            "Presentation Layer"
+        ],
+        "correctAnswer": "Session Layer"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q29",
+        "title": "**FIX Orders - New Order Single (D)**\n\nWhich FIX message is used to submit a new order?",
+        "choices": [
+            "MsgType=F (Order Cancel)",
+            "MsgType=8 (Execution Report)",
+            "MsgType=D (New Order Single)",
+            "MsgType=G (Cancel/Replace)"
+        ],
+        "correctAnswer": "MsgType=D (New Order Single)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q30",
+        "title": "**FIX Recovery - Resend Request (2)**\n\nWhen a counterparty detects a gap in sequence numbers, which FIX message is sent?",
+        "choices": [
+            "MsgType=2 (Resend Request)",
+            "MsgType=1 (Test Request)",
+            "MsgType=4 (Sequence Reset)",
+            "MsgType=5 (Logout)"
+        ],
+        "correctAnswer": "MsgType=2 (Resend Request)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q31",
+        "title": "**FIX Tags - ClOrdID (Tag 11)**\n\nWhat is the purpose of ClOrdID (Tag 11) in FIX messages?",
+        "choices": [
+            "Exchange-generated order ID",
+            "Client-generated unique identifier for the order",
+            "Order quantity",
+            "Order type specification"
+        ],
+        "correctAnswer": "Client-generated unique identifier for the order"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q32",
+        "title": "**FIX Session Management - Logon (A)**\n\nWhich fields are mandatory in a FIX Logon (MsgType=A) message?",
+        "choices": [
+            "Username and Password only",
+            "EncryptMethod and HeartBtInt",
+            "SenderCompID and TargetCompID only",
+            "ResetSeqNumFlag only"
+        ],
+        "correctAnswer": "EncryptMethod and HeartBtInt"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q33",
+        "title": "**FIX Execution Report - ExecType**\n\nIn an Execution Report (MsgType=8), what does ExecType=F indicate?",
+        "choices": [
+            "New order acknowledgment",
+            "Trade execution",
+            "Order cancellation",
+            "Order rejection"
+        ],
+        "correctAnswer": "Trade execution"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q34",
+        "title": "**FIX Version - FIX 4.4 vs 5.0**\n\nWhat is a major difference between FIX 4.4 and FIX 5.0?",
+        "choices": [
+            "Message framing format",
+            "Component block structure and repeating groups",
+            "TCP connection handling",
+            "Sequence number management"
+        ],
+        "correctAnswer": "Component block structure and repeating groups"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q35",
+        "title": "**FIX Error Handling - Reject (3)**\n\nWhen is a Reject (MsgType=3) message sent in FIX protocol?",
+        "choices": [
+            "When an order is cancelled by the exchange",
+            "When a message has invalid format or missing required fields",
+            "When market is closed",
+            "When heartbeat interval expires"
+        ],
+        "correctAnswer": "When a message has invalid format or missing required fields"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q36",
+        "title": "**FIX Order Types - TimeInForce (Tag 59)**\n\nWhat does TimeInForce=IOC (Immediate or Cancel) mean?",
+        "choices": [
+            "Order valid until end of day",
+            "Order must be filled immediately or cancelled",
+            "Order valid until manually cancelled",
+            "Order valid for the current trading session"
+        ],
+        "correctAnswer": "Order must be filled immediately or cancelled"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q37",
+        "title": "**FIX Sequence Reset - GapFill Flag**\n\nWhat is the purpose of the GapFill flag in a Sequence Reset (MsgType=4) message?",
+        "choices": [
+            "Indicates administrative message not requiring processing",
+            "Resets sequence numbers to 1",
+            "Requests message retransmission",
+            "Indicates end of session"
+        ],
+        "correctAnswer": "Indicates administrative message not requiring processing"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q38",
+        "title": "**FIX Market Data - Snapshot (W)**\n\nIn a Market Data Snapshot (MsgType=W), what does MDEntryType=0 represent?",
+        "choices": [
+            "Trade price",
+            "Bid price",
+            "Offer/Ask price",
+            "Volume"
+        ],
+        "correctAnswer": "Bid price"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q39",
+        "title": "**FIX Checksum - Tag 10**\n\nHow is the FIX message checksum (Tag 10) calculated?",
+        "choices": [
+            "MD5 hash of entire message",
+            "Sum of ASCII values of all characters modulo 256",
+            "CRC32 of message body",
+            "SHA-1 hash of header fields"
+        ],
+        "correctAnswer": "Sum of ASCII values of all characters modulo 256"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q40",
+        "title": "**FIX Business Reject - BusinessRejectReason**\n\nWhen would BusinessRejectReason=5 (Value is incorrect) be used?",
+        "choices": [
+            "Message format is invalid",
+            "Required field is missing",
+            "Field value doesn't conform to business rules",
+            "Sequence number is wrong"
+        ],
+        "correctAnswer": "Field value doesn't conform to business rules"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q41",
+        "title": "**FIX Multi-leg Orders - Component Blocks**\n\nHow are multi-leg orders represented in FIX 5.0?",
+        "choices": [
+            "Separate messages for each leg",
+            "Using instrument component blocks within a single message",
+            "JSON arrays within tag values",
+            "Binary encoded leg data"
+        ],
+        "correctAnswer": "Using instrument component blocks within a single message"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q42",
+        "title": "**FIX Transport - TCP Keep-Alive**\n\nWhy is TCP keep-alive not sufficient for FIX session management?",
+        "choices": [
+            "TCP keep-alive is too slow to detect network issues",
+            "FIX requires application-level heartbeats for business logic",
+            "TCP keep-alive doesn't work with firewalls",
+            "FIX protocol doesn't support TCP keep-alive"
+        ],
+        "correctAnswer": "FIX requires application-level heartbeats for business logic"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q43",
+        "title": "**FIX Security - Message Encryption**\n\nWhich encryption method is commonly used for FIX message payload?",
+        "choices": [
+            "Built-in FIX encryption (EncryptMethod=1)",
+            "TLS/SSL at transport layer",
+            "Field-level AES encryption",
+            "Base64 encoding"
+        ],
+        "correctAnswer": "TLS/SSL at transport layer"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q44",
+        "title": "**FIX Performance - Message Parsing**\n\nFor high-performance FIX parsing, which approach is most efficient?",
+        "choices": [
+            "DOM-based XML parsing",
+            "In-place parsing without string copies",
+            "Regular expression matching",
+            "JSON conversion first"
+        ],
+        "correctAnswer": "In-place parsing without string copies"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q45",
+        "title": "**FIX Testing - Certification**\n\nWhat is typically required for FIX connectivity certification with exchanges?",
+        "choices": [
+            "Performance benchmarking only",
+            "Functional testing of all supported message types and scenarios",
+            "Security penetration testing",
+            "User interface validation"
+        ],
+        "correctAnswer": "Functional testing of all supported message types and scenarios"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q46",
+        "title": "**FIX Drop Copy - Solicited vs Unsolicited**\n\nWhat is the difference between solicited and unsolicited drop copy in FIX?",
+        "choices": [
+            "Encryption level used",
+            "Whether client requested the execution report",
+            "Message priority level",
+            "Network protocol used"
+        ],
+        "correctAnswer": "Whether client requested the execution report"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q47",
+        "title": "**FIX Allocation - Allocation Report (AS)**\n\nWhen is an Allocation Report (MsgType=AS) message used?",
+        "choices": [
+            "To request order status",
+            "To report post-trade allocation of executions to sub-accounts",
+            "To cancel an existing order",
+            "To update order price"
+        ],
+        "correctAnswer": "To report post-trade allocation of executions to sub-accounts"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q48",
+        "title": "**FIX Venue Routing - ExDestination (Tag 100)**\n\nWhat is the purpose of ExDestination (Tag 100) in FIX orders?",
+        "choices": [
+            "Client account identifier",
+            "Specific exchange or ECN for order routing",
+            "Order expiration time",
+            "Settlement instructions"
+        ],
+        "correctAnswer": "Specific exchange or ECN for order routing"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q49",
+        "title": "**FIX Disaster Recovery - Sequence Number Gaps**\n\nAfter a system restart, how should large sequence number gaps be handled?",
+        "choices": [
+            "Reset sequences to 1 and restart",
+            "Request resend of all missing messages",
+            "Use Sequence Reset with GapFill for administrative messages",
+            "Ignore the gap and continue"
+        ],
+        "correctAnswer": "Use Sequence Reset with GapFill for administrative messages"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q50",
+        "title": "**FIX Latency - Message Timestamps**\n\nWhich timestamp is most critical for measuring end-to-end order latency?",
+        "choices": [
+            "TransactTime (Tag 60) when order was created",
+            "SendingTime (Tag 52) when message was sent",
+            "Difference between order creation and execution report receipt",
+            "OrigSendingTime (Tag 122) for retransmitted messages"
+        ],
+        "correctAnswer": "Difference between order creation and execution report receipt"
+    }
+]

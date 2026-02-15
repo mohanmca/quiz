@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Android API 101 for Kotlin Developers - Slides</title>
+<style>
+    :root {
+      --bg1: #f5f3ef;
+      --bg2: #e7f0f8;
+      --ink: #1f2a37;
+      --muted: #5f6b7a;
+      --accent: #0b74de;
+      --accent-2: #0f766e;
+      --card: #ffffff;
+      --card-border: #d7e1ee;
+      --code-bg: #101827;
+      --code-ink: #e2e8f0;
+      --shadow: rgba(20, 45, 80, 0.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(11, 116, 222, 0.12), transparent 40%),
+        radial-gradient(circle at 88% 12%, rgba(15, 118, 110, 0.12), transparent 38%),
+        linear-gradient(140deg, var(--bg1), var(--bg2));
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, "Times New Roman", serif;
+      min-height: 100vh;
+    }
+    .deck {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .hud {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(215, 225, 238, 0.9);
+    }
+    .hud.footer {
+      border-top: 1px solid rgba(215, 225, 238, 0.9);
+      border-bottom: none;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-size: 13px;
+      color: var(--accent);
+    }
+    .slide-title {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ink);
+      margin-left: 12px;
+    }
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+    }
+    .hud-btn {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .hud-btn.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+    .hud-btn:active { transform: translateY(1px); }
+    .slides {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 24px 18px 8px;
+    }
+    .slide {
+      width: min(980px, 94vw);
+      max-height: calc(100vh - 180px);
+      padding: 28px 30px;
+      border-radius: 22px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 22px 60px var(--shadow);
+      display: none;
+      overflow: auto;
+      position: relative;
+      animation: fadeIn 0.45s ease;
+    }
+    .slide.active { display: block; }
+    .slide h1, .slide h2, .slide h3, .slide h4 {
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      margin: 0 0 12px;
+    }
+    .slide h1 { font-size: 30px; }
+    .slide h2 { font-size: 22px; }
+    .slide p { line-height: 1.6; margin: 10px 0; }
+    .slide ul { margin: 10px 0 0 16px; line-height: 1.6; }
+    .slide li { margin-bottom: 6px; }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(11, 116, 222, 0.12);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .note {
+      background: rgba(11, 116, 222, 0.08);
+      border-left: 4px solid var(--accent);
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin-top: 12px;
+    }
+    pre {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      padding: 12px 14px;
+      border-radius: 12px;
+      overflow-x: auto;
+      border: 1px solid #1f2937;
+      line-height: 1.4;
+      margin: 12px 0;
+    }
+    code {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95em;
+    }
+    .progress {
+      flex: 1;
+      height: 10px;
+      background: rgba(31, 41, 51, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.2s ease;
+    }
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 720px) {
+      .slide { padding: 20px; max-height: calc(100vh - 200px); }
+      .hud { padding: 10px 12px; }
+      .slide h1 { font-size: 24px; }
+      .slide h2 { font-size: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide { animation: none; }
+      .hud-btn { transition: none; }
+      .progress-bar { transition: none; }
+    }
+  
+    .quiz {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(15, 118, 110, 0.08);
+      border: 1px dashed rgba(15, 118, 110, 0.35);
+    }
+    .quiz strong {
+      font-family: "Trebuchet MS", "Gill Sans MT", "Lucida Sans", sans-serif;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--accent-2);
+    }
+    .memory-hook {
+      margin-top: 10px;
+      font-style: italic;
+      color: var(--muted);
+    }
+</style>
+</head>
+<body>
+<div class="deck">
+<header class="hud">
+<div style="display:flex; align-items:center; gap:10px;">
+<span class="brand">Android API 101</span>
+<span class="slide-title" id="slide-title">Intro</span>
+</div>
+<div class="hud-right">
+<span id="slide-indicator">1 / 1</span>
+<span id="progress-label">Progress: 0 / 0 (0%)</span>
+<button class="hud-btn secondary" id="prev-btn" type="button">Prev</button>
+<button class="hud-btn" id="next-btn" type="button">Next</button>
+<button class="hud-btn" id="quiz-btn" type="button">Start Quiz</button>
+</div>
+</header>
+<main class="slides" id="slides">
+<section class="slide active" data-title="Intro">
+<span class="pill">Presentation</span>
+<h1>Android API 101 for Kotlin Developers</h1>
+<p>151 battle-tested APIs and classes to ship truck-driver workflows faster</p>
+<div class="note">
+          Press <strong>Space</strong> to move forward. Use <strong>Shift + Space</strong> or <strong>Left Arrow</strong> to move back.
+          Your position is stored using local storage and cookies.
+        </div>
+<pre><code class="language-kotlin">val sendIntent = Intent().apply {
+action = Intent.ACTION_SEND
+type = "text/plain"
+putExtra(Intent.EXTRA_TEXT, textMessage)
+}
+startActivity(sendIntent)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Intro unlock for this workflow?</li><li>Where would you wire Intro to avoid regressions?</li><li>What state should Intro own or observe?</li></ul></div><div class="memory-hook">Memory hook: Intro -&gt; 151 battle-tested APIs and classes to ship truck-driver workflows faster</div></section>
+<section class="slide" data-title="1. Core Lifecycle">
+<span class="pill">Section 1</span>
+<h2>1. Core Lifecycle</h2><p>Lay down guardrails around Activities, Fragments, and lifecycle owners so developers can wire Kotlin features quickly without losing state.</p><pre><code class="language-kotlin">class CameraComponent : LifecycleObserver {
+...
+@OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+fun initializeCamera() {
+if (camera == null) {
+getCamera()
+}
+}</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 1. Core Lifecycle unlock for this workflow?</li><li>Where would you wire 1. Core Lifecycle to avoid regressions?</li><li>What state should 1. Core Lifecycle own or observe?</li></ul></div><div class="memory-hook">Memory hook: 1. Core Lifecycle -&gt; Lay down guardrails around Activities, Fragments, and lifecycle owners so...</div></section>
+<section class="slide" data-title="Application">
+<h2>Application</h2>
+<p>Central entry point that initializes global dependencies before any Activity runs.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Application with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public
+class
+Application</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Application unlock for this workflow?</li><li>Where would you wire Application to avoid regressions?</li><li>What state should Application own or observe?</li></ul></div><div class="memory-hook">Memory hook: Application -&gt; Central entry point that initializes global dependencies before any Activity...</div></section>
+<section class="slide" data-title="Context">
+<h2>Context</h2>
+<p>Handle to application and system services required to inflate layouts, access resources, and obtain managers quickly.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Context with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+Context</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Context unlock for this workflow?</li><li>Where would you wire Context to avoid regressions?</li><li>What state should Context own or observe?</li></ul></div><div class="memory-hook">Memory hook: Context -&gt; Handle to application and system services required to inflate layouts,...</div></section>
+<section class="slide" data-title="Intent">
+<h2>Intent</h2>
+<p>Message object used to request an activity, service, or broadcast and ferry typed extras.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Intent with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public
+class
+Intent</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Intent unlock for this workflow?</li><li>Where would you wire Intent to avoid regressions?</li><li>What state should Intent own or observe?</li></ul></div><div class="memory-hook">Memory hook: Intent -&gt; Message object used to request an activity, service, or broadcast...</div></section>
+<section class="slide" data-title="Bundle">
+<h2>Bundle</h2>
+<p>Key-value container that carries primitive or Parcelable state across process recreation boundaries.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Bundle with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public
+final
+class
+Bundle</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Bundle unlock for this workflow?</li><li>Where would you wire Bundle to avoid regressions?</li><li>What state should Bundle own or observe?</li></ul></div><div class="memory-hook">Memory hook: Bundle -&gt; Key-value container that carries primitive or Parcelable state across process...</div></section>
+<section class="slide" data-title="Activity">
+<h2>Activity</h2>
+<p>UI entry point responsible for window setup, permission dialogs, and lifecycle-aware resource management.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Activity with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public class Activity extends ApplicationContext {
+protected void onCreate(Bundle savedInstanceState);
+protected void onStart();
+protected void onRestart();
+protected void onResume();
+protected void onPause();
+protected void onStop();
+protected void onDestroy();</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Activity unlock for this workflow?</li><li>Where would you wire Activity to avoid regressions?</li><li>What state should Activity own or observe?</li></ul></div><div class="memory-hook">Memory hook: Activity -&gt; UI entry point responsible for window setup, permission dialogs, and...</div></section>
+<section class="slide" data-title="Fragment">
+<h2>Fragment</h2>
+<p>Modular UI/controller component seated inside activities to keep screens composable and testable.</p>
+<div class="note"><strong>Speed Focus:</strong> pair Fragment with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">import androidx.biometric.AuthenticationRequest import
+androidx.biometric.AuthenticationRequest.Biometric import
+androidx.biometric.AuthenticationRequest.Companion.biometricRequest import
+androidx.biometric.AuthenticationResult import
+androidx.biometric.PromptContentItemBulletedText import
+androidx.biometric.registerForAuthenticationResult import
+androidx.fragment.app.Fragment class MyFragmentForCredentialOnlyAuth:
+Fragment() { val requestAuthentication= registerForAuthenticationResult {</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Fragment unlock for this workflow?</li><li>Where would you wire Fragment to avoid regressions?</li><li>What state should Fragment own or observe?</li></ul></div><div class="memory-hook">Memory hook: Fragment -&gt; Modular UI/controller component seated inside activities to keep screens composable...</div></section>
+<section class="slide" data-title="ComponentActivity">
+<h2>ComponentActivity</h2>
+<p>Base class that fuses Jetpack lifecycle + ViewModel owners for modern Kotlin-first screens.</p>
+<div class="note"><strong>Speed Focus:</strong> pair ComponentActivity with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public class ComponentActivity extends Activity implements LifecycleOwner, ContextAware, ViewModelStoreOwner, HasDefault</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ComponentActivity unlock for this workflow?</li><li>Where would you wire ComponentActivity to avoid regressions?</li><li>What state should ComponentActivity own or observe?</li></ul></div><div class="memory-hook">Memory hook: ComponentActivity -&gt; Base class that fuses Jetpack lifecycle + ViewModel owners for...</div></section>
+<section class="slide" data-title="FragmentManager">
+<h2>FragmentManager</h2>
+<p>Coordinator that attaches, detaches, and restores fragments plus the navigation back stack.</p>
+<div class="note"><strong>Speed Focus:</strong> pair FragmentManager with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">publicfinalvoidFragmentManagerKt.transaction(@NonNull FragmentManagerreceiver,booleannow,booleanallowS</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does FragmentManager unlock for this workflow?</li><li>Where would you wire FragmentManager to avoid regressions?</li><li>What state should FragmentManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: FragmentManager -&gt; Coordinator that attaches, detaches, and restores fragments plus the navigation...</div></section>
+<section class="slide" data-title="ViewModel">
+<h2>ViewModel</h2>
+<p>Lifecycle-aware holder for screen state and business logic that survives configuration changes.</p>
+<div class="note"><strong>Speed Focus:</strong> pair ViewModel with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">class UserActivity : ComponentActivity {    private val viewModel by viewModels&lt;UserViewModel&gt;()    override fun onCreat</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ViewModel unlock for this workflow?</li><li>Where would you wire ViewModel to avoid regressions?</li><li>What state should ViewModel own or observe?</li></ul></div><div class="memory-hook">Memory hook: ViewModel -&gt; Lifecycle-aware holder for screen state and business logic that survives...</div></section>
+<section class="slide" data-title="SavedStateHandle">
+<h2>SavedStateHandle</h2>
+<p>Key-value store automatically scoped to a ViewModel for persisting user input quickly.</p>
+<div class="note"><strong>Speed Focus:</strong> pair SavedStateHandle with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">import androidx.lifecycle.serialization.saved
+@Serializable data class User(val id: Int, val name: String)
+class ProfileViewModel(savedStateHandle: SavedStateHandle) : ViewModel() {
+val user by savedStateHandle.saved(key = "bar") { User(123, "foo") }
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SavedStateHandle unlock for this workflow?</li><li>Where would you wire SavedStateHandle to avoid regressions?</li><li>What state should SavedStateHandle own or observe?</li></ul></div><div class="memory-hook">Memory hook: SavedStateHandle -&gt; Key-value store automatically scoped to a ViewModel for persisting user...</div></section>
+<section class="slide" data-title="LifecycleOwner">
+<h2>LifecycleOwner</h2>
+<p>Interface implemented by Activities, Fragments, and Compose hosts so observers can watch state changes.</p>
+<div class="note"><strong>Speed Focus:</strong> pair LifecycleOwner with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">defaultfinal@NonNull R&lt;RextendsObject&gt; WithLifecycleStateKt.withStateAtLeast(@NonNull LifecycleOwnerreceiver,</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LifecycleOwner unlock for this workflow?</li><li>Where would you wire LifecycleOwner to avoid regressions?</li><li>What state should LifecycleOwner own or observe?</li></ul></div><div class="memory-hook">Memory hook: LifecycleOwner -&gt; Interface implemented by Activities, Fragments, and Compose hosts so observers...</div></section>
+<section class="slide" data-title="DefaultLifecycleObserver">
+<h2>DefaultLifecycleObserver</h2>
+<p>Convenient observer with typed callbacks (onCreate, onStart, etc.) for hooking into hosts without reflection.</p>
+<div class="note"><strong>Speed Focus:</strong> pair DefaultLifecycleObserver with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public interface DefaultLifecycleObserver extends LifecycleObserver</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does DefaultLifecycleObserver unlock for this workflow?</li><li>Where would you wire DefaultLifecycleObserver to avoid regressions?</li><li>What state should DefaultLifecycleObserver own or observe?</li></ul></div><div class="memory-hook">Memory hook: DefaultLifecycleObserver -&gt; Convenient observer with typed callbacks (onCreate, onStart, etc.) for hooking...</div></section>
+<section class="slide" data-title="ProcessLifecycleOwner">
+<h2>ProcessLifecycleOwner</h2>
+<p>Singleton that reports when the entire app enters foreground or background.</p>
+<div class="note"><strong>Speed Focus:</strong> pair ProcessLifecycleOwner with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public final class ProcessLifecycleOwner implements LifecycleOwner</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ProcessLifecycleOwner unlock for this workflow?</li><li>Where would you wire ProcessLifecycleOwner to avoid regressions?</li><li>What state should ProcessLifecycleOwner own or observe?</li></ul></div><div class="memory-hook">Memory hook: ProcessLifecycleOwner -&gt; Singleton that reports when the entire app enters foreground or...</div></section>
+<section class="slide" data-title="LiveData">
+<h2>LiveData</h2>
+<p>Observable data holder that only notifies active lifecycle owners on the main thread.</p>
+<div class="note"><strong>Speed Focus:</strong> pair LiveData with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">liveData.postValue("a");
+liveData.setValue("b");</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LiveData unlock for this workflow?</li><li>Where would you wire LiveData to avoid regressions?</li><li>What state should LiveData own or observe?</li></ul></div><div class="memory-hook">Memory hook: LiveData -&gt; Observable data holder that only notifies active lifecycle owners on...</div></section>
+<section class="slide" data-title="MutableLiveData">
+<h2>MutableLiveData</h2>
+<p>Mutable variant of LiveData for pushing UI updates from repositories, ViewModels, or services.</p>
+<div class="note"><strong>Speed Focus:</strong> pair MutableLiveData with ViewModel + SavedStateHandle to reload screens instantly after rotation.</div>
+<pre><code class="language-kotlin">public class MutableLiveData&lt;T&gt; extends LiveData</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MutableLiveData unlock for this workflow?</li><li>Where would you wire MutableLiveData to avoid regressions?</li><li>What state should MutableLiveData own or observe?</li></ul></div><div class="memory-hook">Memory hook: MutableLiveData -&gt; Mutable variant of LiveData for pushing UI updates from repositories,...</div></section>
+<section class="slide" data-title="2. Kotlin Concurrency">
+<span class="pill">Section 2</span>
+<h2>2. Kotlin Concurrency</h2><p>Coroutines, scopes, and Flow primitives keep network calls, sensor sampling, and uploads responsive.</p><pre><code class="language-kotlin">suspend fun greet() {
+println("Hello world from a suspending function")
+}</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 2. Kotlin Concurrency unlock for this workflow?</li><li>Where would you wire 2. Kotlin Concurrency to avoid regressions?</li><li>What state should 2. Kotlin Concurrency own or observe?</li></ul></div><div class="memory-hook">Memory hook: 2. Kotlin Concurrency -&gt; Coroutines, scopes, and Flow primitives keep network calls, sensor sampling,...</div></section>
+<section class="slide" data-title="CoroutineScope">
+<h2>CoroutineScope</h2>
+<p>Structured concurrency boundary that launches jobs tied to lifecycle-aware cancellation.</p>
+<div class="note"><strong>Speed Focus:</strong> use CoroutineScope to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">import kotlinx.coroutines.*
+//sampleStart
+suspend fun main() {
+coroutineScope {
+launchAll()
+}
+}
+fun CoroutineScope.launchAll() { // this: CoroutineScope</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does CoroutineScope unlock for this workflow?</li><li>Where would you wire CoroutineScope to avoid regressions?</li><li>What state should CoroutineScope own or observe?</li></ul></div><div class="memory-hook">Memory hook: CoroutineScope -&gt; Structured concurrency boundary that launches jobs tied to lifecycle-aware cancellation.</div></section>
+<section class="slide" data-title="SupervisorJob">
+<h2>SupervisorJob</h2>
+<p>Parent job that keeps sibling coroutines alive even if one fails.</p>
+<div class="note"><strong>Speed Focus:</strong> use SupervisorJob to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">import kotlinx.coroutines.*
+fun main() = runBlocking {
+//sampleStart
+val job = launch {
+val child = launch {
+try {
+delay(Long.MAX_VALUE)
+} finally {</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SupervisorJob unlock for this workflow?</li><li>Where would you wire SupervisorJob to avoid regressions?</li><li>What state should SupervisorJob own or observe?</li></ul></div><div class="memory-hook">Memory hook: SupervisorJob -&gt; Parent job that keeps sibling coroutines alive even if one...</div></section>
+<section class="slide" data-title="Dispatchers.Main">
+<h2>Dispatchers.Main</h2>
+<p>Main-thread dispatcher for UI work, composition, and LiveData bridging.</p>
+<div class="note"><strong>Speed Focus:</strong> use Dispatchers.Main to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">launch(Dispatchers.Main) {
+updateResults()
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Dispatchers.Main unlock for this workflow?</li><li>Where would you wire Dispatchers.Main to avoid regressions?</li><li>What state should Dispatchers.Main own or observe?</li></ul></div><div class="memory-hook">Memory hook: Dispatchers.Main -&gt; Main-thread dispatcher for UI work, composition, and LiveData bridging.</div></section>
+<section class="slide" data-title="Dispatchers.IO">
+<h2>Dispatchers.IO</h2>
+<p>Thread pool optimized for disk and network operations without starving the main loop.</p>
+<div class="note"><strong>Speed Focus:</strong> use Dispatchers.IO to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">import java.nio.file.*
+import java.nio.charset.*
+import kotlinx.coroutines.*
+import java.io.*
+// Defines a coroutine scope that uses the UI thread
+class ScreenWithFileContents(private val scope: CoroutineScope) {
+fun displayFile(path: Path) {
+scope.launch {</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Dispatchers.IO unlock for this workflow?</li><li>Where would you wire Dispatchers.IO to avoid regressions?</li><li>What state should Dispatchers.IO own or observe?</li></ul></div><div class="memory-hook">Memory hook: Dispatchers.IO -&gt; Thread pool optimized for disk and network operations without starving...</div></section>
+<section class="slide" data-title="viewModelScope">
+<h2>viewModelScope</h2>
+<p>Auto-created CoroutineScope tied to each ViewModel for fire-and-forget background work.</p>
+<div class="note"><strong>Speed Focus:</strong> use viewModelScope to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">valViewModel.viewModelScope:CoroutineScope</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does viewModelScope unlock for this workflow?</li><li>Where would you wire viewModelScope to avoid regressions?</li><li>What state should viewModelScope own or observe?</li></ul></div><div class="memory-hook">Memory hook: viewModelScope -&gt; Auto-created CoroutineScope tied to each ViewModel for fire-and-forget background work.</div></section>
+<section class="slide" data-title="lifecycleScope">
+<h2>lifecycleScope</h2>
+<p>CoroutineScope bound to LifecycleOwners, ideal for collecting Flow from UI layers.</p>
+<div class="note"><strong>Speed Focus:</strong> use lifecycleScope to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">class MyActivity : AppCompatActivity() {    override fun onCreate(savedInstanceState: Bundle?) {        /* ... */       </code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does lifecycleScope unlock for this workflow?</li><li>Where would you wire lifecycleScope to avoid regressions?</li><li>What state should lifecycleScope own or observe?</li></ul></div><div class="memory-hook">Memory hook: lifecycleScope -&gt; CoroutineScope bound to LifecycleOwners, ideal for collecting Flow from UI...</div></section>
+<section class="slide" data-title="MutableStateFlow">
+<h2>MutableStateFlow</h2>
+<p>Hot Flow that stores the latest value and emits updates to collectors instantly.</p>
+<div class="note"><strong>Speed Focus:</strong> use MutableStateFlow to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">MutableStateFlow(value)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MutableStateFlow unlock for this workflow?</li><li>Where would you wire MutableStateFlow to avoid regressions?</li><li>What state should MutableStateFlow own or observe?</li></ul></div><div class="memory-hook">Memory hook: MutableStateFlow -&gt; Hot Flow that stores the latest value and emits updates...</div></section>
+<section class="slide" data-title="StateFlow">
+<h2>StateFlow</h2>
+<p>Read-only Flow counterpart for exposing immutable state to Compose or LiveData bridges.</p>
+<div class="note"><strong>Speed Focus:</strong> use StateFlow to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">// MutableStateFlow(initialValue) is a shared flow with the following parameters:val shared = MutableSharedFlow(    repl</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does StateFlow unlock for this workflow?</li><li>Where would you wire StateFlow to avoid regressions?</li><li>What state should StateFlow own or observe?</li></ul></div><div class="memory-hook">Memory hook: StateFlow -&gt; Read-only Flow counterpart for exposing immutable state to Compose or...</div></section>
+<section class="slide" data-title="SharedFlow">
+<h2>SharedFlow</h2>
+<p>Broadcast Flow for fan-out events such as analytics pings or navigation commands.</p>
+<div class="note"><strong>Speed Focus:</strong> use SharedFlow to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">SharedFlow</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SharedFlow unlock for this workflow?</li><li>Where would you wire SharedFlow to avoid regressions?</li><li>What state should SharedFlow own or observe?</li></ul></div><div class="memory-hook">Memory hook: SharedFlow -&gt; Broadcast Flow for fan-out events such as analytics pings or...</div></section>
+<section class="slide" data-title="Channel">
+<h2>Channel</h2>
+<p>Coroutine-friendly queue for one-off tasks or streaming sensor samples with back-pressure.</p>
+<div class="note"><strong>Speed Focus:</strong> use Channel to cancel stale requests and keep UIs snapping between tabs.</div>
+<pre><code class="language-kotlin">import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.*
+fun main() = runBlocking {
+//sampleStart
+val channel = Channel&lt;Int&gt;()
+launch {
+// this might be heavy CPU-consuming computation or async logic,
+// we'll just send five squares</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Channel unlock for this workflow?</li><li>Where would you wire Channel to avoid regressions?</li><li>What state should Channel own or observe?</li></ul></div><div class="memory-hook">Memory hook: Channel -&gt; Coroutine-friendly queue for one-off tasks or streaming sensor samples with...</div></section>
+<section class="slide" data-title="3. Compose Basics">
+<span class="pill">Section 3</span>
+<h2>3. Compose Basics</h2><p>Compose primitives get the UI on screen faster with less XML and instant previews.</p><pre><code class="language-kotlin">import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
+class MainActivity : ComponentActivity() {
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+setContent {</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 3. Compose Basics unlock for this workflow?</li><li>Where would you wire 3. Compose Basics to avoid regressions?</li><li>What state should 3. Compose Basics own or observe?</li></ul></div><div class="memory-hook">Memory hook: 3. Compose Basics -&gt; Compose primitives get the UI on screen faster with less...</div></section>
+<section class="slide" data-title="Composable">
+<h2>Composable</h2>
+<p>Annotation describing a function that contributes UI to the Compose tree.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Composable shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+@Composable
+fun App(user: User) {
+CompositionLocalProvider(ActiveUser provides user) { SomeScreen() }
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Composable unlock for this workflow?</li><li>Where would you wire Composable to avoid regressions?</li><li>What state should Composable own or observe?</li></ul></div><div class="memory-hook">Memory hook: Composable -&gt; Annotation describing a function that contributes UI to the Compose...</div></section>
+<section class="slide" data-title="Modifier">
+<h2>Modifier</h2>
+<p>Fluent object for sizing, padding, gesture detection, and semantics adjustments in Compose.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Modifier shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.animation.core.animateFloatAsState import
+androidx.compose.animation.core.tween import
+androidx.compose.foundation.background import
+androidx.compose.foundation.layout.Column import
+androidx.compose.foundation.layout.size import
+androidx.compose.material.Button import
+androidx.compose.material.LocalContentColor import
+androidx.compose.material.Text import</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Modifier unlock for this workflow?</li><li>Where would you wire Modifier to avoid regressions?</li><li>What state should Modifier own or observe?</li></ul></div><div class="memory-hook">Memory hook: Modifier -&gt; Fluent object for sizing, padding, gesture detection, and semantics adjustments...</div></section>
+<section class="slide" data-title="remember">
+<h2>remember</h2>
+<p>Utility that stores objects in composition so expensive work runs once per recomposition group.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by remember shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.State
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+for (element in elements) {
+val selected by key(element.id, parentId) { remember { mutableStateOf(false) } }
+ListItem(item = element, selected = selected)
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does remember unlock for this workflow?</li><li>Where would you wire remember to avoid regressions?</li><li>What state should remember own or observe?</li></ul></div><div class="memory-hook">Memory hook: remember -&gt; Utility that stores objects in composition so expensive work runs...</div></section>
+<section class="slide" data-title="rememberSaveable">
+<h2>rememberSaveable</h2>
+<p>State saver that persists values across activity recreation using Parcelables or Saver objects.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by rememberSaveable shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.saveable.rememberSaveable
+val list = rememberSaveable { mutableListOf&lt;Int&gt;() }</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does rememberSaveable unlock for this workflow?</li><li>Where would you wire rememberSaveable to avoid regressions?</li><li>What state should rememberSaveable own or observe?</li></ul></div><div class="memory-hook">Memory hook: rememberSaveable -&gt; State saver that persists values across activity recreation using Parcelables...</div></section>
+<section class="slide" data-title="MutableState">
+<h2>MutableState</h2>
+<p>Backed property delegate whose changes trigger recomposition of dependent Composables.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by MutableState shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.State
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+for (element in elements) {
+val selected by key(element.id, parentId) { remember { mutableStateOf(false) } }
+ListItem(item = element, selected = selected)
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MutableState unlock for this workflow?</li><li>Where would you wire MutableState to avoid regressions?</li><li>What state should MutableState own or observe?</li></ul></div><div class="memory-hook">Memory hook: MutableState -&gt; Backed property delegate whose changes trigger recomposition of dependent Composables.</div></section>
+<section class="slide" data-title="State">
+<h2>State</h2>
+<p>Read-only wrapper around MutableState for exposing immutable views of UI state.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by State shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.State
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+for (element in elements) {
+val selected by key(element.id, parentId) { remember { mutableStateOf(false) } }
+ListItem(item = element, selected = selected)
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does State unlock for this workflow?</li><li>Where would you wire State to avoid regressions?</li><li>What state should State own or observe?</li></ul></div><div class="memory-hook">Memory hook: State -&gt; Read-only wrapper around MutableState for exposing immutable views of UI...</div></section>
+<section class="slide" data-title="LaunchedEffect">
+<h2>LaunchedEffect</h2>
+<p>Coroutine launcher that reacts to key changes and runs suspend functions without leaking.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by LaunchedEffect shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+@Composable
+fun NotificationHost(state: NotificationState, onTimeout: (Notification) -&gt; Unit) {
+val currentOnTimeout by rememberUpdatedState(onTimeout)
+state.currentNotification?.let { currentNotification -&gt;</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LaunchedEffect unlock for this workflow?</li><li>Where would you wire LaunchedEffect to avoid regressions?</li><li>What state should LaunchedEffect own or observe?</li></ul></div><div class="memory-hook">Memory hook: LaunchedEffect -&gt; Coroutine launcher that reacts to key changes and runs suspend...</div></section>
+<section class="slide" data-title="rememberCoroutineScope">
+<h2>rememberCoroutineScope</h2>
+<p>Shortcut for grabbing a scope tied to the current composition.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by rememberCoroutineScope shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">@ComposableinlinefunrememberCoroutineScope(crossinlinegetContext:@DisallowComposableCalls () -&gt; CoroutineContext
+EmptyCoroutineContext
+}):CoroutineScope</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does rememberCoroutineScope unlock for this workflow?</li><li>Where would you wire rememberCoroutineScope to avoid regressions?</li><li>What state should rememberCoroutineScope own or observe?</li></ul></div><div class="memory-hook">Memory hook: rememberCoroutineScope -&gt; Shortcut for grabbing a scope tied to the current composition.</div></section>
+<section class="slide" data-title="SideEffect">
+<h2>SideEffect</h2>
+<p>Hook to perform thread-safe, synchronous work (like imperatively updating a map camera) post-draw.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by SideEffect shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">@Composable@NonRestartableComposable@ExplicitGroupsComposablefunSideEffect(effect:() -&gt; Unit):Unit</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SideEffect unlock for this workflow?</li><li>Where would you wire SideEffect to avoid regressions?</li><li>What state should SideEffect own or observe?</li></ul></div><div class="memory-hook">Memory hook: SideEffect -&gt; Hook to perform thread-safe, synchronous work (like imperatively updating a...</div></section>
+<section class="slide" data-title="Scaffold">
+<h2>Scaffold</h2>
+<p>High-level layout that wires top bars, FABs, snackbars, and body content consistently.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Scaffold shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.clickable import
+androidx.compose.foundation.lazy.LazyColumn import
+androidx.compose.material.BackdropScaffold import
+androidx.compose.material.BackdropValue import androidx.compose.material.Icon
+import androidx.compose.material.IconButton import
+androidx.compose.material.ListItem import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar import
+androidx.compose.material.icons.Icons import</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Scaffold unlock for this workflow?</li><li>Where would you wire Scaffold to avoid regressions?</li><li>What state should Scaffold own or observe?</li></ul></div><div class="memory-hook">Memory hook: Scaffold -&gt; High-level layout that wires top bars, FABs, snackbars, and body...</div></section>
+<section class="slide" data-title="TopAppBar">
+<h2>TopAppBar</h2>
+<p>Material component implementing a toolbar with icons, titles, and scroll behaviors.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by TopAppBar shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.clickable import
+androidx.compose.foundation.lazy.LazyColumn import
+androidx.compose.material.BackdropScaffold import
+androidx.compose.material.BackdropValue import androidx.compose.material.Icon
+import androidx.compose.material.IconButton import
+androidx.compose.material.ListItem import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar import
+androidx.compose.material.icons.Icons import</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does TopAppBar unlock for this workflow?</li><li>Where would you wire TopAppBar to avoid regressions?</li><li>What state should TopAppBar own or observe?</li></ul></div><div class="memory-hook">Memory hook: TopAppBar -&gt; Material component implementing a toolbar with icons, titles, and scroll...</div></section>
+<section class="slide" data-title="NavigationRail">
+<h2>NavigationRail</h2>
+<p>Vertical navigation component optimized for tablets and desktop-style layouts.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by NavigationRail shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.material.Button
+import androidx.compose.material.Text
+Button(onClick = { /* Do something! */ }) { Text("Button") }</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavigationRail unlock for this workflow?</li><li>Where would you wire NavigationRail to avoid regressions?</li><li>What state should NavigationRail own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavigationRail -&gt; Vertical navigation component optimized for tablets and desktop-style layouts.</div></section>
+<section class="slide" data-title="SnackbarHost">
+<h2>SnackbarHost</h2>
+<p>Composable responsible for queuing and rendering snackbars triggered by ScaffoldState.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by SnackbarHost shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">@ComposablefunBackdropScaffold(appBar:@Composable () -&gt; Unit,backLayerContent:@Composable () -&gt; Unit,fron</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SnackbarHost unlock for this workflow?</li><li>Where would you wire SnackbarHost to avoid regressions?</li><li>What state should SnackbarHost own or observe?</li></ul></div><div class="memory-hook">Memory hook: SnackbarHost -&gt; Composable responsible for queuing and rendering snackbars triggered by ScaffoldState.</div></section>
+<section class="slide" data-title="Text">
+<h2>Text</h2>
+<p>Composable text primitive honoring typography, color, and accessibility scaling.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Text shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.material.Button
+import androidx.compose.material.Text
+Button(onClick = { /* Do something! */ }) { Text("Button") }</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Text unlock for this workflow?</li><li>Where would you wire Text to avoid regressions?</li><li>What state should Text own or observe?</li></ul></div><div class="memory-hook">Memory hook: Text -&gt; Composable text primitive honoring typography, color, and accessibility scaling.</div></section>
+<section class="slide" data-title="Icon">
+<h2>Icon</h2>
+<p>Composable wrapper for vector and bitmap assets with automatic tinting.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Icon shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+ExtendedFloatingActionButton(
+icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Icon unlock for this workflow?</li><li>Where would you wire Icon to avoid regressions?</li><li>What state should Icon own or observe?</li></ul></div><div class="memory-hook">Memory hook: Icon -&gt; Composable wrapper for vector and bitmap assets with automatic tinting.</div></section>
+<section class="slide" data-title="Button">
+<h2>Button</h2>
+<p>Clickable Material surface for primary actions with ripple, elevation, and disabled states.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Button shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.layout.Column import
+androidx.compose.foundation.layout.Row import
+androidx.compose.foundation.layout.Spacer import
+androidx.compose.foundation.layout.fillMaxSize import
+androidx.compose.foundation.layout.fillMaxWidth import
+androidx.compose.foundation.layout.height import
+androidx.compose.foundation.layout.padding import
+androidx.compose.foundation.lazy.LazyColumn import</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Button unlock for this workflow?</li><li>Where would you wire Button to avoid regressions?</li><li>What state should Button own or observe?</li></ul></div><div class="memory-hook">Memory hook: Button -&gt; Clickable Material surface for primary actions with ripple, elevation, and...</div></section>
+<section class="slide" data-title="OutlinedTextField">
+<h2>OutlinedTextField</h2>
+<p>Input component with validation states, leading icons, and IME action hooks.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by OutlinedTextField shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">import androidx.compose.material.Button
+import androidx.compose.material.Text
+Button(onClick = { /* Do something! */ }) { Text("Button") }</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does OutlinedTextField unlock for this workflow?</li><li>Where would you wire OutlinedTextField to avoid regressions?</li><li>What state should OutlinedTextField own or observe?</li></ul></div><div class="memory-hook">Memory hook: OutlinedTextField -&gt; Input component with validation states, leading icons, and IME action...</div></section>
+<section class="slide" data-title="Card">
+<h2>Card</h2>
+<p>Container with elevation and rounded corners for grouping related driver data.</p>
+<div class="note"><strong>Speed Focus:</strong> compose previews powered by Card shave minutes off each UI iteration.</div>
+<pre><code class="language-kotlin">@ExperimentalMaterialApi@Composable@NonRestartableComposablefunCard(onClick:() -&gt; Unit,modifier:Modifier = Mo</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Card unlock for this workflow?</li><li>Where would you wire Card to avoid regressions?</li><li>What state should Card own or observe?</li></ul></div><div class="memory-hook">Memory hook: Card -&gt; Container with elevation and rounded corners for grouping related driver...</div></section>
+<section class="slide" data-title="4. Compose Layout &amp; Animation">
+<span class="pill">Section 4</span>
+<h2>4. Compose Layout &amp; Animation</h2><p>Layout and animation APIs turn telemetry into readable dashboards without frame drops.</p><pre><code class="language-kotlin">@Composable
+fun ArtistCard() {
+Text("Alfred Sisley")
+Text("3 minutes ago")
+}LayoutBasicsSnippets.kt</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 4. Compose Layout &amp; Animation unlock for this workflow?</li><li>Where would you wire 4. Compose Layout &amp; Animation to avoid regressions?</li><li>What state should 4. Compose Layout &amp; Animation own or observe?</li></ul></div><div class="memory-hook">Memory hook: 4. Compose Layout &amp; Animation -&gt; Layout and animation APIs turn telemetry into readable dashboards without...</div></section>
+<section class="slide" data-title="LazyColumn">
+<h2>LazyColumn</h2>
+<p>Highly optimized vertical list that composes items on demand.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to LazyColumn so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">@ComposablefunLazyColumn(modifier:Modifier = Modifier,state:LazyListState = rememberLazyListState(),conte</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LazyColumn unlock for this workflow?</li><li>Where would you wire LazyColumn to avoid regressions?</li><li>What state should LazyColumn own or observe?</li></ul></div><div class="memory-hook">Memory hook: LazyColumn -&gt; Highly optimized vertical list that composes items on demand.</div></section>
+<section class="slide" data-title="LazyRow">
+<h2>LazyRow</h2>
+<p>Horizontal list ideal for chip carousels or fleet card scrollers.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to LazyRow so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Text
+val itemsList = (0..5).toList()
+val itemsIndexedList = listOf("A", "B", "C")
+LazyRow {
+items(itemsList) { Text("Item is $it") }</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LazyRow unlock for this workflow?</li><li>Where would you wire LazyRow to avoid regressions?</li><li>What state should LazyRow own or observe?</li></ul></div><div class="memory-hook">Memory hook: LazyRow -&gt; Horizontal list ideal for chip carousels or fleet card scrollers.</div></section>
+<section class="slide" data-title="LazyVerticalGrid">
+<h2>LazyVerticalGrid</h2>
+<p>Two-dimensional grid for dashboards, filters, or feature shelves.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to LazyVerticalGrid so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LazyVerticalGrid unlock for this workflow?</li><li>Where would you wire LazyVerticalGrid to avoid regressions?</li><li>What state should LazyVerticalGrid own or observe?</li></ul></div><div class="memory-hook">Memory hook: LazyVerticalGrid -&gt; Two-dimensional grid for dashboards, filters, or feature shelves.</div></section>
+<section class="slide" data-title="FlowRow">
+<h2>FlowRow</h2>
+<p>Responsive row that wraps items to the next line when width is constrained.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to FlowRow so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does FlowRow unlock for this workflow?</li><li>Where would you wire FlowRow to avoid regressions?</li><li>What state should FlowRow own or observe?</li></ul></div><div class="memory-hook">Memory hook: FlowRow -&gt; Responsive row that wraps items to the next line when...</div></section>
+<section class="slide" data-title="ConstraintLayout (Compose)">
+<h2>ConstraintLayout (Compose)</h2>
+<p>Constraint-based Compose layout for intricate alignments without nested Rows/Columns.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to ConstraintLayout (Compose) so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">ConstraintLayout(Modifier.fillMaxSize()) {    val (textRef, imageRef) = createRefs()    Text(        modifier = Modifier</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ConstraintLayout (Compose) unlock for this workflow?</li><li>Where would you wire ConstraintLayout (Compose) to avoid regressions?</li><li>What state should ConstraintLayout (Compose) own or observe?</li></ul></div><div class="memory-hook">Memory hook: ConstraintLayout (Compose) -&gt; Constraint-based Compose layout for intricate alignments without nested Rows/Columns.</div></section>
+<section class="slide" data-title="MotionLayout (Compose)">
+<h2>MotionLayout (Compose)</h2>
+<p>Animation-aware constraint system for gestures, transitions, and sensor-driven layouts.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to MotionLayout (Compose) so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">ConstraintLayout(Modifier.fillMaxSize()) {    val (textRef, imageRef) = createRefs()    Text(        modifier = Modifier</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MotionLayout (Compose) unlock for this workflow?</li><li>Where would you wire MotionLayout (Compose) to avoid regressions?</li><li>What state should MotionLayout (Compose) own or observe?</li></ul></div><div class="memory-hook">Memory hook: MotionLayout (Compose) -&gt; Animation-aware constraint system for gestures, transitions, and sensor-driven layouts.</div></section>
+<section class="slide" data-title="AnimatedVisibility">
+<h2>AnimatedVisibility</h2>
+<p>Utility that fades/expands content when boolean state toggles.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to AnimatedVisibility so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.animation.AnimatedContent import
+androidx.compose.animation.AnimatedVisibility import
+androidx.compose.animation.SharedTransitionLayout import
+androidx.compose.animation.SharedTransitionScope import
+androidx.compose.animation.SharedTransitionScope.SharedContentState import
+androidx.compose.foundation.Image import
+androidx.compose.foundation.background import
+androidx.compose.foundation.clickable import</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does AnimatedVisibility unlock for this workflow?</li><li>Where would you wire AnimatedVisibility to avoid regressions?</li><li>What state should AnimatedVisibility own or observe?</li></ul></div><div class="memory-hook">Memory hook: AnimatedVisibility -&gt; Utility that fades/expands content when boolean state toggles.</div></section>
+<section class="slide" data-title="Crossfade">
+<h2>Crossfade</h2>
+<p>Transition API swapping between two composables with cross-fade animation.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to Crossfade so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.animation.Crossfade
+import androidx.compose.material.Text
+Crossfade(targetState = "A") { screen -&gt;
+when (screen) {
+"A" -&gt; Text("Page A")
+"B" -&gt; Text("Page B")
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Crossfade unlock for this workflow?</li><li>Where would you wire Crossfade to avoid regressions?</li><li>What state should Crossfade own or observe?</li></ul></div><div class="memory-hook">Memory hook: Crossfade -&gt; Transition API swapping between two composables with cross-fade animation.</div></section>
+<section class="slide" data-title="AnimatedContent">
+<h2>AnimatedContent</h2>
+<p>Animates size and content changes when target state mutates.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to AnimatedContent so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">@Composablefun&lt;S:Any?&gt; AnimatedContent(targetState:S,modifier:Modifier = Modifier,transitionSpec:Anima
+(fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+scaleIn(initialScale = 0.92f, animationSpec = tween(220, delayMillis = 90)))
+.togetherWith(fadeOut(animationSpec = tween(90)))
+},contentAlignment:Alignment = Alignment.TopStart,label:String = "AnimatedContent",contentKey:(targetStat</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does AnimatedContent unlock for this workflow?</li><li>Where would you wire AnimatedContent to avoid regressions?</li><li>What state should AnimatedContent own or observe?</li></ul></div><div class="memory-hook">Memory hook: AnimatedContent -&gt; Animates size and content changes when target state mutates.</div></section>
+<section class="slide" data-title="rememberInfiniteTransition">
+<h2>rememberInfiniteTransition</h2>
+<p>Creates time-based animations (pulses, shimmer) without manual coroutine plumbing.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to rememberInfiniteTransition so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.animation.Crossfade
+import androidx.compose.material.Text
+Crossfade(targetState = "A") { screen -&gt;
+when (screen) {
+"A" -&gt; Text("Page A")
+"B" -&gt; Text("Page B")
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does rememberInfiniteTransition unlock for this workflow?</li><li>Where would you wire rememberInfiniteTransition to avoid regressions?</li><li>What state should rememberInfiniteTransition own or observe?</li></ul></div><div class="memory-hook">Memory hook: rememberInfiniteTransition -&gt; Creates time-based animations (pulses, shimmer) without manual coroutine plumbing.</div></section>
+<section class="slide" data-title="Canvas (Compose)">
+<h2>Canvas (Compose)</h2>
+<p>Low-level drawing surface for charts, maps, and sensor visualizations.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to Canvas (Compose) so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+val dark = isSystemInDarkTheme()</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Canvas (Compose) unlock for this workflow?</li><li>Where would you wire Canvas (Compose) to avoid regressions?</li><li>What state should Canvas (Compose) own or observe?</li></ul></div><div class="memory-hook">Memory hook: Canvas (Compose) -&gt; Low-level drawing surface for charts, maps, and sensor visualizations.</div></section>
+<section class="slide" data-title="Dialog (Compose)">
+<h2>Dialog (Compose)</h2>
+<p>Composable modal window supporting custom content and lifecycle-aware dismissal.</p>
+<div class="note"><strong>Speed Focus:</strong> connect sensor state to Dialog (Compose) so motion feels purposeful, not gimmicky.</div>
+<pre><code class="language-kotlin">@ComposablefunDialog(onDismissRequest:() -&gt; Unit,properties:DialogProperties = DialogProperties(),content</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Dialog (Compose) unlock for this workflow?</li><li>Where would you wire Dialog (Compose) to avoid regressions?</li><li>What state should Dialog (Compose) own or observe?</li></ul></div><div class="memory-hook">Memory hook: Dialog (Compose) -&gt; Composable modal window supporting custom content and lifecycle-aware dismissal.</div></section>
+<section class="slide" data-title="5. View System &amp; Material">
+<span class="pill">Section 5</span>
+<h2>5. View System &amp; Material</h2><p>Legacy view components still matter for hybrid stacks, so keep a curated toolkit ready.</p><pre><code class="language-kotlin">class MainActivity : AppCompatActivity() {
+override fun onCreate(savedInstanceState: Bundle?) {
+super.onCreate(savedInstanceState)
+setContentView(R.layout.activity_main)
+val dataset = arrayOf("January", "February", "March")
+val customAdapter = CustomAdapter(dataset)
+val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+recyclerView.layoutManager = LinearLayoutManager(this)</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 5. View System &amp; Material unlock for this workflow?</li><li>Where would you wire 5. View System &amp; Material to avoid regressions?</li><li>What state should 5. View System &amp; Material own or observe?</li></ul></div><div class="memory-hook">Memory hook: 5. View System &amp; Material -&gt; Legacy view components still matter for hybrid stacks, so keep...</div></section>
+<section class="slide" data-title="RecyclerView">
+<h2>RecyclerView</h2>
+<p>Flexible list container that reuses child views for efficient scrolling.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap RecyclerView behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">@IntDef(flag=true,value=)@Retention(value=RetentionPolicy.SOURCE)public annotation RecyclerView.ItemAnimator.Adap</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does RecyclerView unlock for this workflow?</li><li>Where would you wire RecyclerView to avoid regressions?</li><li>What state should RecyclerView own or observe?</li></ul></div><div class="memory-hook">Memory hook: RecyclerView -&gt; Flexible list container that reuses child views for efficient scrolling.</div></section>
+<section class="slide" data-title="ListAdapter">
+<h2>ListAdapter</h2>
+<p>RecyclerView adapter with DiffUtil support baked in for painless updates.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap ListAdapter behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">@Dao interface UserDao { @Query("SELECT * FROM user ORDER BY lastName ASC")
+public abstract LiveData&lt;List&lt;User&gt;&gt; usersByLastName(); } class MyViewModel
+extends ViewModel { public final LiveData&lt;List&lt;User&gt;&gt; usersList; public
+MyViewModel(UserDao userDao) { usersList= userDao.usersByLastName(); } } class
+MyActivity extends AppCompatActivity { @Override public void onCreate(Bundle
+savedState) { super.onCreate(savedState); MyViewModel viewModel= new
+ViewModelProvider(this).get(MyViewModel.class); RecyclerView recyclerView=
+findViewById(R.id.user_list); UserAdapter&lt;User&gt; adapter= new UserAdapter();</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ListAdapter unlock for this workflow?</li><li>Where would you wire ListAdapter to avoid regressions?</li><li>What state should ListAdapter own or observe?</li></ul></div><div class="memory-hook">Memory hook: ListAdapter -&gt; RecyclerView adapter with DiffUtil support baked in for painless updates.</div></section>
+<section class="slide" data-title="DiffUtil">
+<h2>DiffUtil</h2>
+<p>Utility that computes list diffs on background threads for smooth UI refreshes.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap DiffUtil behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">publicstatic@NonNull DiffUtil.DiffResultcalculateDiff(@NonNull DiffUtil.Callbackcb,booleandetectMoves)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does DiffUtil unlock for this workflow?</li><li>Where would you wire DiffUtil to avoid regressions?</li><li>What state should DiffUtil own or observe?</li></ul></div><div class="memory-hook">Memory hook: DiffUtil -&gt; Utility that computes list diffs on background threads for smooth...</div></section>
+<section class="slide" data-title="ViewBinding">
+<h2>ViewBinding</h2>
+<p>Generated binding classes that replace findViewById with type-safe accessors.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap ViewBinding behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">android {
+...
+buildFeatures {
+viewBinding true
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ViewBinding unlock for this workflow?</li><li>Where would you wire ViewBinding to avoid regressions?</li><li>What state should ViewBinding own or observe?</li></ul></div><div class="memory-hook">Memory hook: ViewBinding -&gt; Generated binding classes that replace findViewById with type-safe accessors.</div></section>
+<section class="slide" data-title="DataBindingUtil">
+<h2>DataBindingUtil</h2>
+<p>Helper for inflating databound layouts and binding ViewModels declaratively.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap DataBindingUtil behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">findViewById&lt;TextView&gt;(R.id.sample_text).apply {
+text = viewModel.userName
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does DataBindingUtil unlock for this workflow?</li><li>Where would you wire DataBindingUtil to avoid regressions?</li><li>What state should DataBindingUtil own or observe?</li></ul></div><div class="memory-hook">Memory hook: DataBindingUtil -&gt; Helper for inflating databound layouts and binding ViewModels declaratively.</div></section>
+<section class="slide" data-title="ConstraintLayout">
+<h2>ConstraintLayout</h2>
+<p>Powerful XML layout enabling flat hierarchies with constraint chains.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap ConstraintLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">&lt;androidx.constraintlayout.widget.ConstraintLayout ...&gt;
+&lt;Button android:id="@+id/button" ...
+app:layout_constraintHorizontal_bias="0.3"
+app:layout_constraintLeft_toLeftOf="parent"
+app:layout_constraintRight_toRightOf="parent"/&gt;
+&lt;/&gt;</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ConstraintLayout unlock for this workflow?</li><li>Where would you wire ConstraintLayout to avoid regressions?</li><li>What state should ConstraintLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: ConstraintLayout -&gt; Powerful XML layout enabling flat hierarchies with constraint chains.</div></section>
+<section class="slide" data-title="MotionLayout">
+<h2>MotionLayout</h2>
+<p>ConstraintLayout extension for rich transitions driven by keyframes or progress values.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap MotionLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">publicMotionLayout(@NonNull Contextcontext,@Nullable AttributeSetattrs,intdefStyleAttr)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MotionLayout unlock for this workflow?</li><li>Where would you wire MotionLayout to avoid regressions?</li><li>What state should MotionLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: MotionLayout -&gt; ConstraintLayout extension for rich transitions driven by keyframes or progress...</div></section>
+<section class="slide" data-title="CoordinatorLayout">
+<h2>CoordinatorLayout</h2>
+<p>Layout that coordinates scroll behaviors between child views like AppBar + RecyclerView.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap CoordinatorLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">publicCoordinatorLayout(@NonNull Contextcontext,@Nullable AttributeSetattrs,@AttrRes intdefStyleAttr)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does CoordinatorLayout unlock for this workflow?</li><li>Where would you wire CoordinatorLayout to avoid regressions?</li><li>What state should CoordinatorLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: CoordinatorLayout -&gt; Layout that coordinates scroll behaviors between child views like AppBar...</div></section>
+<section class="slide" data-title="AppBarLayout">
+<h2>AppBarLayout</h2>
+<p>Toolbar container that collapses/expands based on nested scrolling child input.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap AppBarLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">&lt;androidx.coordinatorlayout.widget.CoordinatorLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"&gt;
+&lt;androidx.core.widget.NestedScrollView
+android:layout_width="match_parent"
+android:layout_height="match_parent"</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does AppBarLayout unlock for this workflow?</li><li>Where would you wire AppBarLayout to avoid regressions?</li><li>What state should AppBarLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: AppBarLayout -&gt; Toolbar container that collapses/expands based on nested scrolling child input.</div></section>
+<section class="slide" data-title="NestedScrollView">
+<h2>NestedScrollView</h2>
+<p>ScrollView variant that participates in nested scrolling with CoordinatorLayout.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap NestedScrollView behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">public class NestedScrollView extends FrameLayout implements NestedScrollingParent3, NestedScrollingChild3, ScrollingVie</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NestedScrollView unlock for this workflow?</li><li>Where would you wire NestedScrollView to avoid regressions?</li><li>What state should NestedScrollView own or observe?</li></ul></div><div class="memory-hook">Memory hook: NestedScrollView -&gt; ScrollView variant that participates in nested scrolling with CoordinatorLayout.</div></section>
+<section class="slide" data-title="ViewPager2">
+<h2>ViewPager2</h2>
+<p>Widget for swiping between fragments or views with RecyclerView under the hood.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap ViewPager2 behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">@RequiresApi(value=21)publicViewPager2(@NonNull Contextcontext,@Nullable AttributeSetattrs,intdefStyle</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ViewPager2 unlock for this workflow?</li><li>Where would you wire ViewPager2 to avoid regressions?</li><li>What state should ViewPager2 own or observe?</li></ul></div><div class="memory-hook">Memory hook: ViewPager2 -&gt; Widget for swiping between fragments or views with RecyclerView under...</div></section>
+<section class="slide" data-title="TabLayout">
+<h2>TabLayout</h2>
+<p>Material tabs component that syncs with ViewPager2 or Compose nav destinations.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap TabLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">TabLayout tabLayout = ...;
+tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does TabLayout unlock for this workflow?</li><li>Where would you wire TabLayout to avoid regressions?</li><li>What state should TabLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: TabLayout -&gt; Material tabs component that syncs with ViewPager2 or Compose nav...</div></section>
+<section class="slide" data-title="SwipeRefreshLayout">
+<h2>SwipeRefreshLayout</h2>
+<p>Layout wrapper providing pull-to-refresh affordances with Compose interop.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap SwipeRefreshLayout behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">public class SwipeRefreshLayout extends ViewGroup implements NestedScrollingParent3, NestedScrollingParent2, NestedScrol</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SwipeRefreshLayout unlock for this workflow?</li><li>Where would you wire SwipeRefreshLayout to avoid regressions?</li><li>What state should SwipeRefreshLayout own or observe?</li></ul></div><div class="memory-hook">Memory hook: SwipeRefreshLayout -&gt; Layout wrapper providing pull-to-refresh affordances with Compose interop.</div></section>
+<section class="slide" data-title="MaterialToolbar">
+<h2>MaterialToolbar</h2>
+<p>Material Components implementation of Toolbar with menu, navigation, and color theming.</p>
+<div class="note"><strong>Speed Focus:</strong> wrap MaterialToolbar behind adapters so classic layouts coexist with Compose.</div>
+<pre><code class="language-kotlin">&lt;com.google.android.material.appbar.MaterialToolbar
+android:layout_width="match_parent"
+android:layout_height="wrap_content"/&gt;</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MaterialToolbar unlock for this workflow?</li><li>Where would you wire MaterialToolbar to avoid regressions?</li><li>What state should MaterialToolbar own or observe?</li></ul></div><div class="memory-hook">Memory hook: MaterialToolbar -&gt; Material Components implementation of Toolbar with menu, navigation, and color...</div></section>
+<section class="slide" data-title="6. Navigation &amp; DI">
+<span class="pill">Section 6</span>
+<h2>6. Navigation &amp; DI</h2><p>Navigation and Hilt remove boilerplate when wiring modules, permissions, and deep links.</p><pre><code class="language-kotlin">plugins {
+// Kotlin serialization plugin for type safe routes and navigation arguments
+id 'org.jetbrains.kotlin.plugin.serialization' version '2.0.21'
+}
+dependencies {
+def nav_version = "2.9.6"
+// Jetpack Compose Integration
+implementation "androidx.navigation:navigation-compose:$nav_version"</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 6. Navigation &amp; DI unlock for this workflow?</li><li>Where would you wire 6. Navigation &amp; DI to avoid regressions?</li><li>What state should 6. Navigation &amp; DI own or observe?</li></ul></div><div class="memory-hook">Memory hook: 6. Navigation &amp; DI -&gt; Navigation and Hilt remove boilerplate when wiring modules, permissions, and...</div></section>
+<section class="slide" data-title="NavController">
+<h2>NavController</h2>
+<p>Central navigation orchestrator handling back stack, deep links, and arguments.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through NavController so routes stay predictable.</div>
+<pre><code class="language-kotlin">publicfinal@NonNull NavGraphNavControllerKt.createGraph(@NonNull NavControllerreceiver,@NonNull KClass&lt;@NonN</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavController unlock for this workflow?</li><li>Where would you wire NavController to avoid regressions?</li><li>What state should NavController own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavController -&gt; Central navigation orchestrator handling back stack, deep links, and arguments.</div></section>
+<section class="slide" data-title="NavHostFragment">
+<h2>NavHostFragment</h2>
+<p>Fragment that hosts composables or views defined inside a nav graph.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through NavHostFragment so routes stay predictable.</div>
+<pre><code class="language-kotlin">&lt;androidx.drawerlayout.widget.DrawerLayout    xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="h</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavHostFragment unlock for this workflow?</li><li>Where would you wire NavHostFragment to avoid regressions?</li><li>What state should NavHostFragment own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavHostFragment -&gt; Fragment that hosts composables or views defined inside a nav...</div></section>
+<section class="slide" data-title="NavGraphBuilder">
+<h2>NavGraphBuilder</h2>
+<p>DSL entry point for declaring composable or fragment destinations in Kotlin.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through NavGraphBuilder so routes stay predictable.</div>
+<pre><code class="language-kotlin">publicfinalvoid&lt;TextendsObject&gt; NavGraphBuilderKt.navigation(@NonNull NavGraphBuilderreceiver,@NonNull KCl</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavGraphBuilder unlock for this workflow?</li><li>Where would you wire NavGraphBuilder to avoid regressions?</li><li>What state should NavGraphBuilder own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavGraphBuilder -&gt; DSL entry point for declaring composable or fragment destinations in...</div></section>
+<section class="slide" data-title="NavOptions">
+<h2>NavOptions</h2>
+<p>Configuration object for animations, popUpTo rules, and launchSingleTop semantics.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through NavOptions so routes stay predictable.</div>
+<pre><code class="language-kotlin">public final class NavOptions.Builder</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavOptions unlock for this workflow?</li><li>Where would you wire NavOptions to avoid regressions?</li><li>What state should NavOptions own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavOptions -&gt; Configuration object for animations, popUpTo rules, and launchSingleTop semantics.</div></section>
+<section class="slide" data-title="NavDeepLinkBuilder">
+<h2>NavDeepLinkBuilder</h2>
+<p>Builder that constructs PendingIntents which open destinations with arguments prefilled.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through NavDeepLinkBuilder so routes stay predictable.</div>
+<pre><code class="language-kotlin">navDeepLinkBuilder   .setGraph(R.navigation.nav_graph)   .addDestination(R.id.start_destination, null)   .addDestination</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NavDeepLinkBuilder unlock for this workflow?</li><li>Where would you wire NavDeepLinkBuilder to avoid regressions?</li><li>What state should NavDeepLinkBuilder own or observe?</li></ul></div><div class="memory-hook">Memory hook: NavDeepLinkBuilder -&gt; Builder that constructs PendingIntents which open destinations with arguments prefilled.</div></section>
+<section class="slide" data-title="HiltAndroidApp">
+<h2>HiltAndroidApp</h2>
+<p>Annotation that triggers Hilt code generation for Application subclasses.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through HiltAndroidApp so routes stay predictable.</div>
+<pre><code class="language-kotlin">@HiltAndroidApp
+public final class FooApplication extends Application {
+@Inject Foo foo;
+@Override
+public void onCreate() {
+super.onCreate();  // The foo field is injected in super.onCreate()
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does HiltAndroidApp unlock for this workflow?</li><li>Where would you wire HiltAndroidApp to avoid regressions?</li><li>What state should HiltAndroidApp own or observe?</li></ul></div><div class="memory-hook">Memory hook: HiltAndroidApp -&gt; Annotation that triggers Hilt code generation for Application subclasses.</div></section>
+<section class="slide" data-title="AndroidEntryPoint">
+<h2>AndroidEntryPoint</h2>
+<p>Annotation marking Activities, Fragments, or Services as Hilt injection targets.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through AndroidEntryPoint so routes stay predictable.</div>
+<pre><code class="language-kotlin">@AndroidEntryPoint
+public final class FooActivity extends FragmentActivity {
+@Inject Foo foo;
+@Override
+public void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);  // The foo field is injected in super.onCreate()
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does AndroidEntryPoint unlock for this workflow?</li><li>Where would you wire AndroidEntryPoint to avoid regressions?</li><li>What state should AndroidEntryPoint own or observe?</li></ul></div><div class="memory-hook">Memory hook: AndroidEntryPoint -&gt; Annotation marking Activities, Fragments, or Services as Hilt injection targets.</div></section>
+<section class="slide" data-title="HiltViewModel">
+<h2>HiltViewModel</h2>
+<p>Annotation hooking a ViewModel into the Hilt graph with @Inject constructors.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through HiltViewModel so routes stay predictable.</div>
+<pre><code class="language-kotlin">@HiltViewModel
+public class DonutViewModel extends ViewModel {
+@Inject
+public DonutViewModel(SavedStateHandle handle, RecipeRepository repository) {
+// ...
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does HiltViewModel unlock for this workflow?</li><li>Where would you wire HiltViewModel to avoid regressions?</li><li>What state should HiltViewModel own or observe?</li></ul></div><div class="memory-hook">Memory hook: HiltViewModel -&gt; Annotation hooking a ViewModel into the Hilt graph with @Inject...</div></section>
+<section class="slide" data-title="EntryPointAccessors">
+<h2>EntryPointAccessors</h2>
+<p>Utility for fetching Hilt bindings from classes that cannot use @AndroidEntryPoint.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through EntryPointAccessors so routes stay predictable.</div>
+<pre><code class="language-kotlin">class ExampleContentProvider: ContentProvider() {
+...
+override fun query(...): Cursor {
+val appContext = context?.applicationContext ?: throw IllegalStateException()
+val hiltEntryPoint =
+EntryPointAccessors.fromApplication(appContext, ExampleContentProviderEntryPoint::class.java)
+val analyticsService = hiltEntryPoint.analyticsService()
+...</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does EntryPointAccessors unlock for this workflow?</li><li>Where would you wire EntryPointAccessors to avoid regressions?</li><li>What state should EntryPointAccessors own or observe?</li></ul></div><div class="memory-hook">Memory hook: EntryPointAccessors -&gt; Utility for fetching Hilt bindings from classes that cannot use...</div></section>
+<section class="slide" data-title="SingletonComponent">
+<h2>SingletonComponent</h2>
+<p>Default Hilt component scope for app-wide singletons.</p>
+<div class="note"><strong>Speed Focus:</strong> drive feature toggles through SingletonComponent so routes stay predictable.</div>
+<pre><code class="language-kotlin">class ExampleContentProvider : ContentProvider() {
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface ExampleContentProviderEntryPoint {
+fun analyticsService(): AnalyticsService
+}
+...
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SingletonComponent unlock for this workflow?</li><li>Where would you wire SingletonComponent to avoid regressions?</li><li>What state should SingletonComponent own or observe?</li></ul></div><div class="memory-hook">Memory hook: SingletonComponent -&gt; Default Hilt component scope for app-wide singletons.</div></section>
+<section class="slide" data-title="7. Data &amp; Storage">
+<span class="pill">Section 7</span>
+<h2>7. Data &amp; Storage</h2><p>Modern driver apps juggle offline data, config, and paged manifests-Room + DataStore speed things up.</p><pre><code class="language-kotlin">dependencies {
+// Preferences DataStore (SharedPreferences like APIs)
+implementation "androidx.datastore:datastore-preferences:1.2.0"
+// Alternatively - without an Android dependency.
+implementation "androidx.datastore:datastore-preferences-core:1.2.0"
+}</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 7. Data &amp; Storage unlock for this workflow?</li><li>Where would you wire 7. Data &amp; Storage to avoid regressions?</li><li>What state should 7. Data &amp; Storage own or observe?</li></ul></div><div class="memory-hook">Memory hook: 7. Data &amp; Storage -&gt; Modern driver apps juggle offline data, config, and paged manifests-Room...</div></section>
+<section class="slide" data-title="RoomDatabase">
+<h2>RoomDatabase</h2>
+<p>Abstract base class tying DAOs together and configuring migrations for Room.</p>
+<div class="note"><strong>Speed Focus:</strong> combine RoomDatabase with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">publicfinal@NonNull Flow&lt;@NonNull Set&lt;@NonNull String&gt;&gt;RoomDatabaseKt.invalidationTrackerFlow(@NonNull RoomDataba</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does RoomDatabase unlock for this workflow?</li><li>Where would you wire RoomDatabase to avoid regressions?</li><li>What state should RoomDatabase own or observe?</li></ul></div><div class="memory-hook">Memory hook: RoomDatabase -&gt; Abstract base class tying DAOs together and configuring migrations for...</div></section>
+<section class="slide" data-title="Room">
+<h2>Room</h2>
+<p>ORM abstraction that generates SQL and type-safe DAO implementations.</p>
+<div class="note"><strong>Speed Focus:</strong> combine Room with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public@NonNull RoomINSTANCE</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Room unlock for this workflow?</li><li>Where would you wire Room to avoid regressions?</li><li>What state should Room own or observe?</li></ul></div><div class="memory-hook">Memory hook: Room -&gt; ORM abstraction that generates SQL and type-safe DAO implementations.</div></section>
+<section class="slide" data-title="Entity">
+<h2>Entity</h2>
+<p>Annotation describing a Room table schema tied to Kotlin data classes.</p>
+<div class="note"><strong>Speed Focus:</strong> combine Entity with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">abstract@NonNull List&lt;@NonNull Entity&gt;getChildren()</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Entity unlock for this workflow?</li><li>Where would you wire Entity to avoid regressions?</li><li>What state should Entity own or observe?</li></ul></div><div class="memory-hook">Memory hook: Entity -&gt; Annotation describing a Room table schema tied to Kotlin data...</div></section>
+<section class="slide" data-title="Dao">
+<h2>Dao</h2>
+<p>Interface whose annotated methods perform type-safe SQL queries and updates.</p>
+<div class="note"><strong>Speed Focus:</strong> combine Dao with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">@Target(allowedTargets=[AnnotationTarget.CLASS])@Retention(value=AnnotationRetention.BINARY)public annotation Dao</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Dao unlock for this workflow?</li><li>Where would you wire Dao to avoid regressions?</li><li>What state should Dao own or observe?</li></ul></div><div class="memory-hook">Memory hook: Dao -&gt; Interface whose annotated methods perform type-safe SQL queries and updates.</div></section>
+<section class="slide" data-title="Transaction">
+<h2>Transaction</h2>
+<p>Annotation ensuring multi-query methods run atomically.</p>
+<div class="note"><strong>Speed Focus:</strong> combine Transaction with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">@Daoabstract class SongDao {    @Insert    abstract fun insert(song: Song)    @Delete    abstract fun delete(song: Song)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Transaction unlock for this workflow?</li><li>Where would you wire Transaction to avoid regressions?</li><li>What state should Transaction own or observe?</li></ul></div><div class="memory-hook">Memory hook: Transaction -&gt; Annotation ensuring multi-query methods run atomically.</div></section>
+<section class="slide" data-title="PagingSource">
+<h2>PagingSource</h2>
+<p>Data source that loads pages of results for infinite scroll experiences.</p>
+<div class="note"><strong>Speed Focus:</strong> combine PagingSource with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">import androidx.paging.PagingSource import
+androidx.paging.PagingSource.LoadResult import androidx.paging.PagingState /**
+* Sample page-keyed PagingSource, which uses Int page number to load pages. *
+* Loads Items from network requests via Retrofit to a backend service. * *
+Note that the key type is Int, since we're using page number to load a page.
+*/ class MyPagingSource(val myBackend: MyBackendService): PagingSource&lt;Int,
+Item&gt;() { override suspend fun load(params: LoadParams&lt;Int&gt;): LoadResult&lt;Int,
+Item&gt; { // Retrofit calls that return the body type throw either IOException</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PagingSource unlock for this workflow?</li><li>Where would you wire PagingSource to avoid regressions?</li><li>What state should PagingSource own or observe?</li></ul></div><div class="memory-hook">Memory hook: PagingSource -&gt; Data source that loads pages of results for infinite scroll...</div></section>
+<section class="slide" data-title="PagingData">
+<h2>PagingData</h2>
+<p>Immutable stream of paged items consumed by Paging adapters or Compose.</p>
+<div class="note"><strong>Speed Focus:</strong> combine PagingData with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">/* * Create letter separators in an alphabetically sorted list. * * For example, if the input is: *     "apple", "aprico</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PagingData unlock for this workflow?</li><li>Where would you wire PagingData to avoid regressions?</li><li>What state should PagingData own or observe?</li></ul></div><div class="memory-hook">Memory hook: PagingData -&gt; Immutable stream of paged items consumed by Paging adapters or...</div></section>
+<section class="slide" data-title="Pager">
+<h2>Pager</h2>
+<p>Helper that coordinates PagingSource creation, config, and Flow emission.</p>
+<div class="note"><strong>Speed Focus:</strong> combine Pager with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">@ExperimentalPagingApipublic&lt;KeyextendsObject,ValueextendsObject&gt; Pager(@NonNull PagingConfigconfig,Keyi</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Pager unlock for this workflow?</li><li>Where would you wire Pager to avoid regressions?</li><li>What state should Pager own or observe?</li></ul></div><div class="memory-hook">Memory hook: Pager -&gt; Helper that coordinates PagingSource creation, config, and Flow emission.</div></section>
+<section class="slide" data-title="RemoteMediator">
+<h2>RemoteMediator</h2>
+<p>Component syncing network + database to keep Paging layers fresh.</p>
+<div class="note"><strong>Speed Focus:</strong> combine RemoteMediator with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">import androidx.paging.ExperimentalPagingApi import androidx.paging.LoadType
+import androidx.paging.PagingState import androidx.paging.RemoteMediator
+import androidx.paging.samples.shared.ExampleBackendService import
+androidx.paging.samples.shared.RemoteKey import
+androidx.paging.samples.shared.RoomDb import
+androidx.paging.samples.shared.User import androidx.room.withTransaction /** *
+Sample RemoteMediator for a DB + Network based PagingData stream, which
+triggers network * requests to fetch additional items when a user scrolls to</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does RemoteMediator unlock for this workflow?</li><li>Where would you wire RemoteMediator to avoid regressions?</li><li>What state should RemoteMediator own or observe?</li></ul></div><div class="memory-hook">Memory hook: RemoteMediator -&gt; Component syncing network + database to keep Paging layers fresh.</div></section>
+<section class="slide" data-title="DataStore">
+<h2>DataStore</h2>
+<p>Coroutines-first key-value store replacing SharedPreferences with predictable I/O.</p>
+<div class="note"><strong>Speed Focus:</strong> combine DataStore with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public interface DataStore&lt;TextendsObject&gt;</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does DataStore unlock for this workflow?</li><li>Where would you wire DataStore to avoid regressions?</li><li>What state should DataStore own or observe?</li></ul></div><div class="memory-hook">Memory hook: DataStore -&gt; Coroutines-first key-value store replacing SharedPreferences with predictable I/O.</div></section>
+<section class="slide" data-title="PreferencesDataStoreFactory">
+<h2>PreferencesDataStoreFactory</h2>
+<p>Factory for building preference DataStore instances from Context.</p>
+<div class="note"><strong>Speed Focus:</strong> combine PreferencesDataStoreFactory with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">dependencies {
+// Preferences DataStore (SharedPreferences like APIs)
+implementation "androidx.datastore:datastore-preferences:1.2.0"
+// Alternatively - without an Android dependency.
+implementation "androidx.datastore:datastore-preferences-core:1.2.0"
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PreferencesDataStoreFactory unlock for this workflow?</li><li>Where would you wire PreferencesDataStoreFactory to avoid regressions?</li><li>What state should PreferencesDataStoreFactory own or observe?</li></ul></div><div class="memory-hook">Memory hook: PreferencesDataStoreFactory -&gt; Factory for building preference DataStore instances from Context.</div></section>
+<section class="slide" data-title="ProtoDataStore">
+<h2>ProtoDataStore</h2>
+<p>Typed DataStore powered by Protocol Buffers for structured config/state.</p>
+<div class="note"><strong>Speed Focus:</strong> combine ProtoDataStore with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">val context = LocalContext.current
+val coroutineScope = rememberCoroutineScope()
+val protoDataStore = remember(context) { ProtoDataStore(context) }
+// Display counter value.
+val exampleCounter by protoDataStore.counterFlow()
+.collectAsState(initial = 0, coroutineScope.coroutineContext)
+Text(
+text = "Counter $exampleCounter",</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ProtoDataStore unlock for this workflow?</li><li>Where would you wire ProtoDataStore to avoid regressions?</li><li>What state should ProtoDataStore own or observe?</li></ul></div><div class="memory-hook">Memory hook: ProtoDataStore -&gt; Typed DataStore powered by Protocol Buffers for structured config/state.</div></section>
+<section class="slide" data-title="SharedPreferences">
+<h2>SharedPreferences</h2>
+<p>Legacy key-value store still handy for small synchronous flags.</p>
+<div class="note"><strong>Speed Focus:</strong> combine SharedPreferences with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public
+interface
+SharedPreferences</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SharedPreferences unlock for this workflow?</li><li>Where would you wire SharedPreferences to avoid regressions?</li><li>What state should SharedPreferences own or observe?</li></ul></div><div class="memory-hook">Memory hook: SharedPreferences -&gt; Legacy key-value store still handy for small synchronous flags.</div></section>
+<section class="slide" data-title="EncryptedSharedPreferences">
+<h2>EncryptedSharedPreferences</h2>
+<p>Drop-in SharedPreferences replacement that encrypts keys + values transparently.</p>
+<div class="note"><strong>Speed Focus:</strong> combine EncryptedSharedPreferences with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">MasterKey masterKey = new MasterKey.Builder(context)
+.setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+.build();
+SharedPreferences sharedPreferences = EncryptedSharedPreferences.create(
+context,
+"secret_shared_prefs",
+masterKey,
+EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does EncryptedSharedPreferences unlock for this workflow?</li><li>Where would you wire EncryptedSharedPreferences to avoid regressions?</li><li>What state should EncryptedSharedPreferences own or observe?</li></ul></div><div class="memory-hook">Memory hook: EncryptedSharedPreferences -&gt; Drop-in SharedPreferences replacement that encrypts keys + values transparently.</div></section>
+<section class="slide" data-title="SQLiteOpenHelper">
+<h2>SQLiteOpenHelper</h2>
+<p>Helper for managing custom SQLite schemas without Room.</p>
+<div class="note"><strong>Speed Focus:</strong> combine SQLiteOpenHelper with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+SQLiteOpenHelper</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SQLiteOpenHelper unlock for this workflow?</li><li>Where would you wire SQLiteOpenHelper to avoid regressions?</li><li>What state should SQLiteOpenHelper own or observe?</li></ul></div><div class="memory-hook">Memory hook: SQLiteOpenHelper -&gt; Helper for managing custom SQLite schemas without Room.</div></section>
+<section class="slide" data-title="ContentResolver">
+<h2>ContentResolver</h2>
+<p>Facade for querying ContentProviders and observing cursor changes.</p>
+<div class="note"><strong>Speed Focus:</strong> combine ContentResolver with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+ContentResolver</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ContentResolver unlock for this workflow?</li><li>Where would you wire ContentResolver to avoid regressions?</li><li>What state should ContentResolver own or observe?</li></ul></div><div class="memory-hook">Memory hook: ContentResolver -&gt; Facade for querying ContentProviders and observing cursor changes.</div></section>
+<section class="slide" data-title="FileProvider">
+<h2>FileProvider</h2>
+<p>ContentProvider that shares app-private files via secure content URIs.</p>
+<div class="note"><strong>Speed Focus:</strong> combine FileProvider with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">&lt;manifest&gt;
+...
+&lt;application&gt;
+...
+&lt;provider
+android:name="com.sample.MyFileProvider"
+android:authorities="com.mydomain.fileprovider"
+android:exported="false"</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does FileProvider unlock for this workflow?</li><li>Where would you wire FileProvider to avoid regressions?</li><li>What state should FileProvider own or observe?</li></ul></div><div class="memory-hook">Memory hook: FileProvider -&gt; ContentProvider that shares app-private files via secure content URIs.</div></section>
+<section class="slide" data-title="MediaStore">
+<h2>MediaStore</h2>
+<p>Indexed media provider for photos, audio, and downloads.</p>
+<div class="note"><strong>Speed Focus:</strong> combine MediaStore with Flow to stream data straight into UI without middle layers.</div>
+<pre><code class="language-kotlin">public
+final
+class
+MediaStore</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MediaStore unlock for this workflow?</li><li>Where would you wire MediaStore to avoid regressions?</li><li>What state should MediaStore own or observe?</li></ul></div><div class="memory-hook">Memory hook: MediaStore -&gt; Indexed media provider for photos, audio, and downloads.</div></section>
+<section class="slide" data-title="8. Networking &amp; Serialization">
+<span class="pill">Section 8</span>
+<h2>8. Networking &amp; Serialization</h2><p>HTTP clients and JSON tools turn REST feeds into Kotlin models quickly.</p><pre><code class="language-kotlin">// The singleton HTTP client.
+public final OkHttpClient client = new OkHttpClient();</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 8. Networking &amp; Serialization unlock for this workflow?</li><li>Where would you wire 8. Networking &amp; Serialization to avoid regressions?</li><li>What state should 8. Networking &amp; Serialization own or observe?</li></ul></div><div class="memory-hook">Memory hook: 8. Networking &amp; Serialization -&gt; HTTP clients and JSON tools turn REST feeds into Kotlin...</div></section>
+<section class="slide" data-title="Retrofit">
+<h2>Retrofit</h2>
+<p>Declarative HTTP client that turns annotated interfaces into suspend functions.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on Retrofit for plumbing.</div>
+<pre><code class="language-kotlin">public final class Retrofit
+extends java.lang.Object</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Retrofit unlock for this workflow?</li><li>Where would you wire Retrofit to avoid regressions?</li><li>What state should Retrofit own or observe?</li></ul></div><div class="memory-hook">Memory hook: Retrofit -&gt; Declarative HTTP client that turns annotated interfaces into suspend functions.</div></section>
+<section class="slide" data-title="OkHttpClient">
+<h2>OkHttpClient</h2>
+<p>Low-level HTTP stack powering Retrofit with interceptors and connection pooling.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on OkHttpClient for plumbing.</div>
+<pre><code class="language-kotlin">public class OkHttpClient
+extends Object
+implements Cloneable, Call.Factory, WebSocket.Factory</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does OkHttpClient unlock for this workflow?</li><li>Where would you wire OkHttpClient to avoid regressions?</li><li>What state should OkHttpClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: OkHttpClient -&gt; Low-level HTTP stack powering Retrofit with interceptors and connection pooling.</div></section>
+<section class="slide" data-title="HttpLoggingInterceptor">
+<h2>HttpLoggingInterceptor</h2>
+<p>OkHttp interceptor that logs request/response data for debugging.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on HttpLoggingInterceptor for plumbing.</div>
+<pre><code class="language-kotlin">public final class HttpLoggingInterceptor
+extends java.lang.Object
+implements Interceptor</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does HttpLoggingInterceptor unlock for this workflow?</li><li>Where would you wire HttpLoggingInterceptor to avoid regressions?</li><li>What state should HttpLoggingInterceptor own or observe?</li></ul></div><div class="memory-hook">Memory hook: HttpLoggingInterceptor -&gt; OkHttp interceptor that logs request/response data for debugging.</div></section>
+<section class="slide" data-title="WebSocket">
+<h2>WebSocket</h2>
+<p>Duplex socket built into OkHttp for live location or messaging streams.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on WebSocket for plumbing.</div>
+<pre><code class="language-kotlin">public interface WebSocket</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does WebSocket unlock for this workflow?</li><li>Where would you wire WebSocket to avoid regressions?</li><li>What state should WebSocket own or observe?</li></ul></div><div class="memory-hook">Memory hook: WebSocket -&gt; Duplex socket built into OkHttp for live location or messaging...</div></section>
+<section class="slide" data-title="Moshi">
+<h2>Moshi</h2>
+<p>JSON serialization library with Kotlin code gen and adapters.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on Moshi for plumbing.</div>
+<pre><code class="language-kotlin">public final class Moshi
+extends Object</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Moshi unlock for this workflow?</li><li>Where would you wire Moshi to avoid regressions?</li><li>What state should Moshi own or observe?</li></ul></div><div class="memory-hook">Memory hook: Moshi -&gt; JSON serialization library with Kotlin code gen and adapters.</div></section>
+<section class="slide" data-title="Gson">
+<h2>Gson</h2>
+<p>Google's JSON library still useful for dynamic payloads or legacy APIs.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on Gson for plumbing.</div>
+<pre><code class="language-kotlin">dependencies {
+implementation 'com.google.code.gson:gson:2.13.2'
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Gson unlock for this workflow?</li><li>Where would you wire Gson to avoid regressions?</li><li>What state should Gson own or observe?</li></ul></div><div class="memory-hook">Memory hook: Gson -&gt; Google's JSON library still useful for dynamic payloads or legacy...</div></section>
+<section class="slide" data-title="KtorClient">
+<h2>KtorClient</h2>
+<p>Multiplatform coroutine-based HTTP client for shared Kotlin modules.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on KtorClient for plumbing.</div>
+<pre><code class="language-kotlin">val response = client.get("https://google.com/search") {    url {        parameter("q", "REST API with Ktor")    }}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does KtorClient unlock for this workflow?</li><li>Where would you wire KtorClient to avoid regressions?</li><li>What state should KtorClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: KtorClient -&gt; Multiplatform coroutine-based HTTP client for shared Kotlin modules.</div></section>
+<section class="slide" data-title="JsonAdapter">
+<h2>JsonAdapter</h2>
+<p>Moshi adapter class customizing how specific models serialize.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on JsonAdapter for plumbing.</div>
+<pre><code class="language-kotlin">public abstract class JsonAdapter&lt;T&gt;
+extends Object</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does JsonAdapter unlock for this workflow?</li><li>Where would you wire JsonAdapter to avoid regressions?</li><li>What state should JsonAdapter own or observe?</li></ul></div><div class="memory-hook">Memory hook: JsonAdapter -&gt; Moshi adapter class customizing how specific models serialize.</div></section>
+<section class="slide" data-title="SerializedName">
+<h2>SerializedName</h2>
+<p>Gson annotation mapping JSON fields to Kotlin property names.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on SerializedName for plumbing.</div>
+<pre><code class="language-kotlin">private class SomeObject {
+@SerializedName("custom_naming") private final String someField;
+private final String someOtherField;
+public SomeObject(String a, String b) {
+this.someField = a;
+this.someOtherField = b;
+}
+}</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SerializedName unlock for this workflow?</li><li>Where would you wire SerializedName to avoid regressions?</li><li>What state should SerializedName own or observe?</li></ul></div><div class="memory-hook">Memory hook: SerializedName -&gt; Gson annotation mapping JSON fields to Kotlin property names.</div></section>
+<section class="slide" data-title="MultipartBody">
+<h2>MultipartBody</h2>
+<p>OkHttp payload builder for file uploads such as proof-of-delivery images.</p>
+<div class="note"><strong>Speed Focus:</strong> keep Retrofit interfaces skinny by leaning on MultipartBody for plumbing.</div>
+<pre><code class="language-kotlin">public final class MultipartBody
+extends RequestBody</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does MultipartBody unlock for this workflow?</li><li>Where would you wire MultipartBody to avoid regressions?</li><li>What state should MultipartBody own or observe?</li></ul></div><div class="memory-hook">Memory hook: MultipartBody -&gt; OkHttp payload builder for file uploads such as proof-of-delivery images.</div></section>
+<section class="slide" data-title="9. Permissions &amp; Security">
+<span class="pill">Section 9</span>
+<h2>9. Permissions &amp; Security</h2><p>Permission and crypto APIs keep sensitive freight data safe while minimizing user friction.</p><pre><code class="language-kotlin">&lt;!-- Recommended for Android 9 (API level 28) and lower. --&gt;
+&lt;!-- Required for Android 10 (API level 29) and higher. --&gt;
+&lt;service
+android:name="MyNavigationService"
+android:foregroundServiceType="location" ... &gt;
+&lt;!-- Any inner elements go here. --&gt;
+&lt;/service&gt;</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 9. Permissions &amp; Security unlock for this workflow?</li><li>Where would you wire 9. Permissions &amp; Security to avoid regressions?</li><li>What state should 9. Permissions &amp; Security own or observe?</li></ul></div><div class="memory-hook">Memory hook: 9. Permissions &amp; Security -&gt; Permission and crypto APIs keep sensitive freight data safe while...</div></section>
+<section class="slide" data-title="ActivityResultLauncher">
+<h2>ActivityResultLauncher</h2>
+<p>Lifecycle-aware launcher for requesting permissions or intents without onActivityResult.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around ActivityResultLauncher.</div>
+<pre><code class="language-kotlin">publicfinalvoidActivityResultLauncherKt.launch(@NonNull ActivityResultLauncher&lt;Void&gt;receiver,ActivityOptions</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ActivityResultLauncher unlock for this workflow?</li><li>Where would you wire ActivityResultLauncher to avoid regressions?</li><li>What state should ActivityResultLauncher own or observe?</li></ul></div><div class="memory-hook">Memory hook: ActivityResultLauncher -&gt; Lifecycle-aware launcher for requesting permissions or intents without onActivityResult.</div></section>
+<section class="slide" data-title="ActivityResultContracts">
+<h2>ActivityResultContracts</h2>
+<p>Set of ready-made contracts (RequestPermission, TakePicture, etc.) for ActivityResultLauncher.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around ActivityResultContracts.</div>
+<pre><code class="language-kotlin">public static class ActivityResultContracts.PickVisualMedia.ImageAndVideo implements ActivityResultContracts.PickVisualM</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ActivityResultContracts unlock for this workflow?</li><li>Where would you wire ActivityResultContracts to avoid regressions?</li><li>What state should ActivityResultContracts own or observe?</li></ul></div><div class="memory-hook">Memory hook: ActivityResultContracts -&gt; Set of ready-made contracts (RequestPermission, TakePicture, etc.) for ActivityResultLauncher.</div></section>
+<section class="slide" data-title="PermissionChecker">
+<h2>PermissionChecker</h2>
+<p>Utility that reports permission grant state even from services.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around PermissionChecker.</div>
+<pre><code class="language-kotlin">public final class PermissionChecker</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PermissionChecker unlock for this workflow?</li><li>Where would you wire PermissionChecker to avoid regressions?</li><li>What state should PermissionChecker own or observe?</li></ul></div><div class="memory-hook">Memory hook: PermissionChecker -&gt; Utility that reports permission grant state even from services.</div></section>
+<section class="slide" data-title="BiometricPrompt">
+<h2>BiometricPrompt</h2>
+<p>High-level API for fingerprint, face, or device credential auth flows.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around BiometricPrompt.</div>
+<pre><code class="language-kotlin">publicBiometricPrompt(@NonNull FragmentActivityactivity,@NonNull Executorexecutor,@NonNull BiometricPromp</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does BiometricPrompt unlock for this workflow?</li><li>Where would you wire BiometricPrompt to avoid regressions?</li><li>What state should BiometricPrompt own or observe?</li></ul></div><div class="memory-hook">Memory hook: BiometricPrompt -&gt; High-level API for fingerprint, face, or device credential auth flows.</div></section>
+<section class="slide" data-title="CryptoObject">
+<h2>CryptoObject</h2>
+<p>Wrapper for Cipher/Signature when using BiometricPrompt crypto modes.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around CryptoObject.</div>
+<pre><code class="language-kotlin">@RequiresApi(value=Build.VERSION_CODES.TIRAMISU)publicCryptoObject(@NonNull PresentationSessionpresentationSession)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does CryptoObject unlock for this workflow?</li><li>Where would you wire CryptoObject to avoid regressions?</li><li>What state should CryptoObject own or observe?</li></ul></div><div class="memory-hook">Memory hook: CryptoObject -&gt; Wrapper for Cipher/Signature when using BiometricPrompt crypto modes.</div></section>
+<section class="slide" data-title="KeyStore">
+<h2>KeyStore</h2>
+<p>Secure storage for cryptographic keys bound to hardware when available.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around KeyStore.</div>
+<pre><code class="language-kotlin">// get keystore password
+char[] password = getPassword();
+// probe the keystore file and load the keystore entries
+KeyStore ks = KeyStore.getInstance(new File("keyStoreName"), password);</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does KeyStore unlock for this workflow?</li><li>Where would you wire KeyStore to avoid regressions?</li><li>What state should KeyStore own or observe?</li></ul></div><div class="memory-hook">Memory hook: KeyStore -&gt; Secure storage for cryptographic keys bound to hardware when available.</div></section>
+<section class="slide" data-title="KeyGenParameterSpec">
+<h2>KeyGenParameterSpec</h2>
+<p>Builder specifying key properties (purposes, digests, user auth).</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around KeyGenParameterSpec.</div>
+<pre><code class="language-kotlin">public
+final
+class
+KeyGenParameterSpec</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does KeyGenParameterSpec unlock for this workflow?</li><li>Where would you wire KeyGenParameterSpec to avoid regressions?</li><li>What state should KeyGenParameterSpec own or observe?</li></ul></div><div class="memory-hook">Memory hook: KeyGenParameterSpec -&gt; Builder specifying key properties (purposes, digests, user auth).</div></section>
+<section class="slide" data-title="Cipher">
+<h2>Cipher</h2>
+<p>JCA class performing symmetric encryption/decryption for secure payloads.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around Cipher.</div>
+<pre><code class="language-kotlin">public
+class
+Cipher</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Cipher unlock for this workflow?</li><li>Where would you wire Cipher to avoid regressions?</li><li>What state should Cipher own or observe?</li></ul></div><div class="memory-hook">Memory hook: Cipher -&gt; JCA class performing symmetric encryption/decryption for secure payloads.</div></section>
+<section class="slide" data-title="Signature">
+<h2>Signature</h2>
+<p>JCA class that signs data with asymmetric keys for attestation.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around Signature.</div>
+<pre><code class="language-kotlin">public
+class
+Signature</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Signature unlock for this workflow?</li><li>Where would you wire Signature to avoid regressions?</li><li>What state should Signature own or observe?</li></ul></div><div class="memory-hook">Memory hook: Signature -&gt; JCA class that signs data with asymmetric keys for attestation.</div></section>
+<section class="slide" data-title="SafetyNetClient">
+<h2>SafetyNetClient</h2>
+<p>API for device attestation and Play Protect integrity verdicts.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around SafetyNetClient.</div>
+<pre><code class="language-kotlin">SafetyNetApi.AttestationResponse</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SafetyNetClient unlock for this workflow?</li><li>Where would you wire SafetyNetClient to avoid regressions?</li><li>What state should SafetyNetClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: SafetyNetClient -&gt; API for device attestation and Play Protect integrity verdicts.</div></section>
+<section class="slide" data-title="IdentityCredential">
+<h2>IdentityCredential</h2>
+<p>API for secure documents (mobile IDs) stored on modern devices.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around IdentityCredential.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+IdentityCredential</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does IdentityCredential unlock for this workflow?</li><li>Where would you wire IdentityCredential to avoid regressions?</li><li>What state should IdentityCredential own or observe?</li></ul></div><div class="memory-hook">Memory hook: IdentityCredential -&gt; API for secure documents (mobile IDs) stored on modern devices.</div></section>
+<section class="slide" data-title="DevicePolicyManager">
+<h2>DevicePolicyManager</h2>
+<p>Administrator API controlling lock task, kiosk, and security policies.</p>
+<div class="note"><strong>Speed Focus:</strong> script repeatable permission flows by centralizing them around DevicePolicyManager.</div>
+<pre><code class="language-kotlin">public
+class
+DevicePolicyManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does DevicePolicyManager unlock for this workflow?</li><li>Where would you wire DevicePolicyManager to avoid regressions?</li><li>What state should DevicePolicyManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: DevicePolicyManager -&gt; Administrator API controlling lock task, kiosk, and security policies.</div></section>
+<section class="slide" data-title="10. Location &amp; Sensors">
+<span class="pill">Section 10</span>
+<h2>10. Location &amp; Sensors</h2><p>Location, Bluetooth, and telephony APIs feed dispatch decisions in real time.</p><pre><code class="language-kotlin">override fun onResume() {
+super.onResume()
+if (requestingLocationUpdates) startLocationUpdates()
+}
+private fun startLocationUpdates() {
+fusedLocationClient.requestLocationUpdates(locationRequest,
+locationCallback,
+Looper.getMainLooper())</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 10. Location &amp; Sensors unlock for this workflow?</li><li>Where would you wire 10. Location &amp; Sensors to avoid regressions?</li><li>What state should 10. Location &amp; Sensors own or observe?</li></ul></div><div class="memory-hook">Memory hook: 10. Location &amp; Sensors -&gt; Location, Bluetooth, and telephony APIs feed dispatch decisions in real...</div></section>
+<section class="slide" data-title="SensorManager">
+<h2>SensorManager</h2>
+<p>System service that enumerates sensors and registers listeners efficiently.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through SensorManager everywhere.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+SensorManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SensorManager unlock for this workflow?</li><li>Where would you wire SensorManager to avoid regressions?</li><li>What state should SensorManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: SensorManager -&gt; System service that enumerates sensors and registers listeners efficiently.</div></section>
+<section class="slide" data-title="Sensor">
+<h2>Sensor</h2>
+<p>Hardware or virtual sensor descriptor describing type, range, and accuracy.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through Sensor everywhere.</div>
+<pre><code class="language-kotlin">public
+final
+class
+Sensor</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Sensor unlock for this workflow?</li><li>Where would you wire Sensor to avoid regressions?</li><li>What state should Sensor own or observe?</li></ul></div><div class="memory-hook">Memory hook: Sensor -&gt; Hardware or virtual sensor descriptor describing type, range, and accuracy.</div></section>
+<section class="slide" data-title="SensorEvent">
+<h2>SensorEvent</h2>
+<p>Data payload delivered to listeners with timestamped readings.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through SensorEvent everywhere.</div>
+<pre><code class="language-kotlin">public
+class
+SensorEvent</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SensorEvent unlock for this workflow?</li><li>Where would you wire SensorEvent to avoid regressions?</li><li>What state should SensorEvent own or observe?</li></ul></div><div class="memory-hook">Memory hook: SensorEvent -&gt; Data payload delivered to listeners with timestamped readings.</div></section>
+<section class="slide" data-title="SensorEventListener">
+<h2>SensorEventListener</h2>
+<p>Interface receiving sensor events and handling accuracy changes.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through SensorEventListener everywhere.</div>
+<pre><code class="language-kotlin">public
+interface
+SensorEventListener</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SensorEventListener unlock for this workflow?</li><li>Where would you wire SensorEventListener to avoid regressions?</li><li>What state should SensorEventListener own or observe?</li></ul></div><div class="memory-hook">Memory hook: SensorEventListener -&gt; Interface receiving sensor events and handling accuracy changes.</div></section>
+<section class="slide" data-title="LocationManager">
+<h2>LocationManager</h2>
+<p>System service for GNSS, network, and passive providers.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through LocationManager everywhere.</div>
+<pre><code class="language-kotlin">public
+class
+LocationManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LocationManager unlock for this workflow?</li><li>Where would you wire LocationManager to avoid regressions?</li><li>What state should LocationManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: LocationManager -&gt; System service for GNSS, network, and passive providers.</div></section>
+<section class="slide" data-title="LocationRequest">
+<h2>LocationRequest</h2>
+<p>Configuration object describing update interval, displacement, and priority.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through LocationRequest everywhere.</div>
+<pre><code class="language-kotlin">LocationRequest.Builder.setMinUpdateIntervalMillis(long)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LocationRequest unlock for this workflow?</li><li>Where would you wire LocationRequest to avoid regressions?</li><li>What state should LocationRequest own or observe?</li></ul></div><div class="memory-hook">Memory hook: LocationRequest -&gt; Configuration object describing update interval, displacement, and priority.</div></section>
+<section class="slide" data-title="FusedLocationProviderClient">
+<h2>FusedLocationProviderClient</h2>
+<p>Google Play services client combining GPS, Wi-Fi, and cell signals.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through FusedLocationProviderClient everywhere.</div>
+<pre><code class="language-kotlin">FusedOrientationProviderClient.requestOrientationUpdates(DeviceOrientationRequest,
+Executor, DeviceOrientationListener)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does FusedLocationProviderClient unlock for this workflow?</li><li>Where would you wire FusedLocationProviderClient to avoid regressions?</li><li>What state should FusedLocationProviderClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: FusedLocationProviderClient -&gt; Google Play services client combining GPS, Wi-Fi, and cell signals.</div></section>
+<section class="slide" data-title="LocationServices">
+<h2>LocationServices</h2>
+<p>Entry point for fused location, geofencing, and settings clients.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through LocationServices everywhere.</div>
+<pre><code class="language-kotlin">GoogleApiClient.Builder.addApi(Api)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does LocationServices unlock for this workflow?</li><li>Where would you wire LocationServices to avoid regressions?</li><li>What state should LocationServices own or observe?</li></ul></div><div class="memory-hook">Memory hook: LocationServices -&gt; Entry point for fused location, geofencing, and settings clients.</div></section>
+<section class="slide" data-title="GeofencingClient">
+<h2>GeofencingClient</h2>
+<p>API for registering enter/exit/dwell triggers around important areas.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through GeofencingClient everywhere.</div>
+<pre><code class="language-kotlin">GeofencingClient</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does GeofencingClient unlock for this workflow?</li><li>Where would you wire GeofencingClient to avoid regressions?</li><li>What state should GeofencingClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: GeofencingClient -&gt; API for registering enter/exit/dwell triggers around important areas.</div></section>
+<section class="slide" data-title="Geofence">
+<h2>Geofence</h2>
+<p>Geo boundary definition with radius, transitions, and loitering delay.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through Geofence everywhere.</div>
+<pre><code class="language-kotlin">Geofence.Builder.setLoiteringDelay(int)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Geofence unlock for this workflow?</li><li>Where would you wire Geofence to avoid regressions?</li><li>What state should Geofence own or observe?</li></ul></div><div class="memory-hook">Memory hook: Geofence -&gt; Geo boundary definition with radius, transitions, and loitering delay.</div></section>
+<section class="slide" data-title="SettingsClient">
+<h2>SettingsClient</h2>
+<p>Checker that ensures location settings match app requirements before requesting updates.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through SettingsClient everywhere.</div>
+<pre><code class="language-kotlin">Task&lt;LocationSettingsResponse&gt; result =
+LocationServices.getSettingsClient(this).checkLocationSettings(builder.build());</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does SettingsClient unlock for this workflow?</li><li>Where would you wire SettingsClient to avoid regressions?</li><li>What state should SettingsClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: SettingsClient -&gt; Checker that ensures location settings match app requirements before requesting...</div></section>
+<section class="slide" data-title="ActivityRecognitionClient">
+<h2>ActivityRecognitionClient</h2>
+<p>Client delivering IN_VEHICLE/ON_BICYCLE/STILL transitions via Play services.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through ActivityRecognitionClient everywhere.</div>
+<pre><code class="language-kotlin">requestActivityTransitionUpdates(ActivityTransitionRequest, PendingIntent)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ActivityRecognitionClient unlock for this workflow?</li><li>Where would you wire ActivityRecognitionClient to avoid regressions?</li><li>What state should ActivityRecognitionClient own or observe?</li></ul></div><div class="memory-hook">Memory hook: ActivityRecognitionClient -&gt; Client delivering IN_VEHICLE/ON_BICYCLE/STILL transitions via Play services.</div></section>
+<section class="slide" data-title="ActivityTransitionRequest">
+<h2>ActivityTransitionRequest</h2>
+<p>Batch request describing activity enter/exit pairs monitored by ActivityRecognitionClient.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through ActivityTransitionRequest everywhere.</div>
+<pre><code class="language-kotlin">ActivityTransitionRequest</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ActivityTransitionRequest unlock for this workflow?</li><li>Where would you wire ActivityTransitionRequest to avoid regressions?</li><li>What state should ActivityTransitionRequest own or observe?</li></ul></div><div class="memory-hook">Memory hook: ActivityTransitionRequest -&gt; Batch request describing activity enter/exit pairs monitored by ActivityRecognitionClient.</div></section>
+<section class="slide" data-title="BluetoothAdapter">
+<h2>BluetoothAdapter</h2>
+<p>Entry point for classic Bluetooth discovery, pairing, and enablement state.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through BluetoothAdapter everywhere.</div>
+<pre><code class="language-kotlin">public
+final
+class
+BluetoothAdapter</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does BluetoothAdapter unlock for this workflow?</li><li>Where would you wire BluetoothAdapter to avoid regressions?</li><li>What state should BluetoothAdapter own or observe?</li></ul></div><div class="memory-hook">Memory hook: BluetoothAdapter -&gt; Entry point for classic Bluetooth discovery, pairing, and enablement state.</div></section>
+<section class="slide" data-title="BluetoothDevice">
+<h2>BluetoothDevice</h2>
+<p>Concrete device handle for initiating connections or bonding.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through BluetoothDevice everywhere.</div>
+<pre><code class="language-kotlin">public
+final
+class
+BluetoothDevice</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does BluetoothDevice unlock for this workflow?</li><li>Where would you wire BluetoothDevice to avoid regressions?</li><li>What state should BluetoothDevice own or observe?</li></ul></div><div class="memory-hook">Memory hook: BluetoothDevice -&gt; Concrete device handle for initiating connections or bonding.</div></section>
+<section class="slide" data-title="BluetoothLeScanner">
+<h2>BluetoothLeScanner</h2>
+<p>BLE scanning API delivering ScanResult callbacks on worker threads.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through BluetoothLeScanner everywhere.</div>
+<pre><code class="language-kotlin">public
+final
+class
+BluetoothLeScanner</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does BluetoothLeScanner unlock for this workflow?</li><li>Where would you wire BluetoothLeScanner to avoid regressions?</li><li>What state should BluetoothLeScanner own or observe?</li></ul></div><div class="memory-hook">Memory hook: BluetoothLeScanner -&gt; BLE scanning API delivering ScanResult callbacks on worker threads.</div></section>
+<section class="slide" data-title="TelephonyManager">
+<h2>TelephonyManager</h2>
+<p>Service exposing cellular network identity, signal strength, and SIM state.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through TelephonyManager everywhere.</div>
+<pre><code class="language-kotlin">public
+class
+TelephonyManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does TelephonyManager unlock for this workflow?</li><li>Where would you wire TelephonyManager to avoid regressions?</li><li>What state should TelephonyManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: TelephonyManager -&gt; Service exposing cellular network identity, signal strength, and SIM state.</div></section>
+<section class="slide" data-title="PowerManager">
+<h2>PowerManager</h2>
+<p>Service reporting interactive/doze state plus APIs to request temporary wake locks.</p>
+<div class="note"><strong>Speed Focus:</strong> calibrate sampling intervals once and push them through PowerManager everywhere.</div>
+<pre><code class="language-kotlin">public
+final
+class
+PowerManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PowerManager unlock for this workflow?</li><li>Where would you wire PowerManager to avoid regressions?</li><li>What state should PowerManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: PowerManager -&gt; Service reporting interactive/doze state plus APIs to request temporary wake...</div></section>
+<section class="slide" data-title="11. Background Work &amp; System">
+<span class="pill">Section 11</span>
+<h2>11. Background Work &amp; System</h2><p>Schedulers and notifications keep telemetry alive even when the activity is gone.</p><pre><code class="language-kotlin">WorkRequest myWorkRequest = ...
+WorkManager.getInstance(myContext).enqueue(myWorkRequest);</code></pre>
+<div class="quiz"><strong>Quick Check</strong><ul><li>What does 11. Background Work &amp; System unlock for this workflow?</li><li>Where would you wire 11. Background Work &amp; System to avoid regressions?</li><li>What state should 11. Background Work &amp; System own or observe?</li></ul></div><div class="memory-hook">Memory hook: 11. Background Work &amp; System -&gt; Schedulers and notifications keep telemetry alive even when the activity...</div></section>
+<section class="slide" data-title="WorkManager">
+<h2>WorkManager</h2>
+<p>Jetpack scheduler guaranteeing deferrable work with constraint support.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with WorkManager so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">WorkRequest request1 = new OneTimeWorkRequest.Builder(FooWorker.class).build();WorkRequest request2 = new OneTimeWorkReq</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does WorkManager unlock for this workflow?</li><li>Where would you wire WorkManager to avoid regressions?</li><li>What state should WorkManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: WorkManager -&gt; Jetpack scheduler guaranteeing deferrable work with constraint support.</div></section>
+<section class="slide" data-title="OneTimeWorkRequest">
+<h2>OneTimeWorkRequest</h2>
+<p>WorkRequest subtype for single execution tasks.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with OneTimeWorkRequest so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">publicstaticfinal@NonNull List&lt;@NonNull OneTimeWorkRequest&gt;from(@NonNull List&lt;@NonNull Class&lt;@NonNull ListenableWork</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does OneTimeWorkRequest unlock for this workflow?</li><li>Where would you wire OneTimeWorkRequest to avoid regressions?</li><li>What state should OneTimeWorkRequest own or observe?</li></ul></div><div class="memory-hook">Memory hook: OneTimeWorkRequest -&gt; WorkRequest subtype for single execution tasks.</div></section>
+<section class="slide" data-title="PeriodicWorkRequest">
+<h2>PeriodicWorkRequest</h2>
+<p>WorkRequest subtype for repeated execution with flex windows.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with PeriodicWorkRequest so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public final class PeriodicWorkRequest.Builder extends WorkRequest.Builder</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PeriodicWorkRequest unlock for this workflow?</li><li>Where would you wire PeriodicWorkRequest to avoid regressions?</li><li>What state should PeriodicWorkRequest own or observe?</li></ul></div><div class="memory-hook">Memory hook: PeriodicWorkRequest -&gt; WorkRequest subtype for repeated execution with flex windows.</div></section>
+<section class="slide" data-title="Constraints">
+<h2>Constraints</h2>
+<p>Object describing required network, battery, idle, or storage conditions for WorkRequests.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with Constraints so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">@Ignore@RequiresApi(value=24)publicConstraints(@NonNull NetworkTyperequiredNetworkType,booleanrequiresCharg</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Constraints unlock for this workflow?</li><li>Where would you wire Constraints to avoid regressions?</li><li>What state should Constraints own or observe?</li></ul></div><div class="memory-hook">Memory hook: Constraints -&gt; Object describing required network, battery, idle, or storage conditions for...</div></section>
+<section class="slide" data-title="Worker">
+<h2>Worker</h2>
+<p>Base class whose doWork() runs off the main thread.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with Worker so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">publicWorker(@NonNull Contextcontext,@NonNull WorkerParametersworkerParams)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does Worker unlock for this workflow?</li><li>Where would you wire Worker to avoid regressions?</li><li>What state should Worker own or observe?</li></ul></div><div class="memory-hook">Memory hook: Worker -&gt; Base class whose doWork() runs off the main thread.</div></section>
+<section class="slide" data-title="CoroutineWorker">
+<h2>CoroutineWorker</h2>
+<p>Worker variant exposing suspend doWork for structured concurrency.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with CoroutineWorker so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">publicCoroutineWorker(@NonNull ContextappContext,@NonNull WorkerParametersparams)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does CoroutineWorker unlock for this workflow?</li><li>Where would you wire CoroutineWorker to avoid regressions?</li><li>What state should CoroutineWorker own or observe?</li></ul></div><div class="memory-hook">Memory hook: CoroutineWorker -&gt; Worker variant exposing suspend doWork for structured concurrency.</div></section>
+<section class="slide" data-title="ListenableWorker">
+<h2>ListenableWorker</h2>
+<p>Extensible Worker allowing callback-based async APIs.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with ListenableWorker so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">publicListenableWorker(@NonNull ContextappContext,@NonNull WorkerParametersworkerParams)</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does ListenableWorker unlock for this workflow?</li><li>Where would you wire ListenableWorker to avoid regressions?</li><li>What state should ListenableWorker own or observe?</li></ul></div><div class="memory-hook">Memory hook: ListenableWorker -&gt; Extensible Worker allowing callback-based async APIs.</div></section>
+<section class="slide" data-title="JobScheduler">
+<h2>JobScheduler</h2>
+<p>System-level API for OS-managed background jobs on API 21+.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with JobScheduler so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+abstract
+class
+JobScheduler</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does JobScheduler unlock for this workflow?</li><li>Where would you wire JobScheduler to avoid regressions?</li><li>What state should JobScheduler own or observe?</li></ul></div><div class="memory-hook">Memory hook: JobScheduler -&gt; System-level API for OS-managed background jobs on API 21+.</div></section>
+<section class="slide" data-title="JobInfo">
+<h2>JobInfo</h2>
+<p>Configuration blob describing requirements for JobScheduler jobs.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with JobInfo so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+class
+JobInfo</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does JobInfo unlock for this workflow?</li><li>Where would you wire JobInfo to avoid regressions?</li><li>What state should JobInfo own or observe?</li></ul></div><div class="memory-hook">Memory hook: JobInfo -&gt; Configuration blob describing requirements for JobScheduler jobs.</div></section>
+<section class="slide" data-title="AlarmManager">
+<h2>AlarmManager</h2>
+<p>Scheduler for exact or inexact alarms that wake apps at specific times.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with AlarmManager so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+class
+AlarmManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does AlarmManager unlock for this workflow?</li><li>Where would you wire AlarmManager to avoid regressions?</li><li>What state should AlarmManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: AlarmManager -&gt; Scheduler for exact or inexact alarms that wake apps at...</div></section>
+<section class="slide" data-title="PendingIntent">
+<h2>PendingIntent</h2>
+<p>Token granting other apps permission to execute pre-defined work as if from you.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with PendingIntent so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+final
+class
+PendingIntent</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does PendingIntent unlock for this workflow?</li><li>Where would you wire PendingIntent to avoid regressions?</li><li>What state should PendingIntent own or observe?</li></ul></div><div class="memory-hook">Memory hook: PendingIntent -&gt; Token granting other apps permission to execute pre-defined work as...</div></section>
+<section class="slide" data-title="NotificationChannel">
+<h2>NotificationChannel</h2>
+<p>Required grouping for notifications on Android 8+ with importance + sound control.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with NotificationChannel so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+final
+class
+NotificationChannel</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NotificationChannel unlock for this workflow?</li><li>Where would you wire NotificationChannel to avoid regressions?</li><li>What state should NotificationChannel own or observe?</li></ul></div><div class="memory-hook">Memory hook: NotificationChannel -&gt; Required grouping for notifications on Android 8+ with importance +...</div></section>
+<section class="slide" data-title="NotificationCompat">
+<h2>NotificationCompat</h2>
+<p>Support library builder to craft backwards-compatible notifications quickly.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with NotificationCompat so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">NotificationCompat.Builder myBuilder = (build your Notification as normal);
+myBuilder.getExtras().putString(EXTRA_AUDIO_CONTENTS_URI, myAudioUri.toString());</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does NotificationCompat unlock for this workflow?</li><li>Where would you wire NotificationCompat to avoid regressions?</li><li>What state should NotificationCompat own or observe?</li></ul></div><div class="memory-hook">Memory hook: NotificationCompat -&gt; Support library builder to craft backwards-compatible notifications quickly.</div></section>
+<section class="slide" data-title="BatteryManager">
+<h2>BatteryManager</h2>
+<p>API exposing charge level, health, and energy counters for diagnostics.</p>
+<div class="note"><strong>Speed Focus:</strong> gate your uploads with BatteryManager so jobs never block UI sessions.</div>
+<pre><code class="language-kotlin">public
+class
+BatteryManager</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does BatteryManager unlock for this workflow?</li><li>Where would you wire BatteryManager to avoid regressions?</li><li>What state should BatteryManager own or observe?</li></ul></div><div class="memory-hook">Memory hook: BatteryManager -&gt; API exposing charge level, health, and energy counters for diagnostics.</div></section>
+<section class="slide" data-title="12. Build Faster Checklist">
+<span class="pill">Section 12</span>
+<h2>12. Build Faster Checklist</h2><p>Pin this checklist next to your Kanban board. Every bullet links back to at least one API above:</p><ul>
+<li>Bootstrap features with Hilt modules, Nav graphs, and WorkManager chains before you pixel-polish.</li>
+<li>Model every network or sensor feed as a Flow so Compose and RecyclerView stay in sync.</li>
+<li>Record lifecycle, location, and job status into DataStore or Room so QA can replay bugs.</li>
+<li>Automate permission flows via ActivityResultLauncher and choreograph results inside Scaffold snackbars.</li>
+<li>Validate background behavior weekly using WorkManager inspection, dumpsys, and the quiz attached to this article.</li>
+</ul>
+<pre><code class="language-kotlin">WorkRequest myWorkRequest = ...
+WorkManager.getInstance(myContext).enqueue(myWorkRequest);</code></pre><div class="quiz"><strong>Quick Check</strong><ul><li>What does 12. Build Faster Checklist unlock for this workflow?</li><li>Where would you wire 12. Build Faster Checklist to avoid regressions?</li><li>What state should 12. Build Faster Checklist own or observe?</li></ul></div><div class="memory-hook">Memory hook: 12. Build Faster Checklist -&gt; Pin this checklist next to your Kanban board. Every bullet...</div></section>
+</main>
+<footer class="hud footer">
+<div aria-hidden="true" class="progress">
+<div class="progress-bar" id="progress-bar"></div>
+</div>
+<div class="hint">Space: next | Shift+Space or Left Arrow: prev | Home/End: jump | Progress saved locally and in cookies</div>
+</footer>
+</div>
+<script defer="" src="assets/android-api-101-slides/slides.js"></script>
+</body>
+</html>

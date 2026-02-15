@@ -1,0 +1,503 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PostgreSQL PSQL, EXPLAIN & Automation</title>
+  <style>:root{--primary:#1e88e5;--bg:#f7f9fc;--text:#1a1a1a;--muted:#6b7280}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}.container{max-width:980px;margin:0 auto;padding:16px}.title{margin:6px 0 2px;font-size:24px;font-weight:800}.subtitle{margin:0 0 12px;color:var(--muted)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}button.secondary{background:#eef2ff;color:#1f2937}button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}h2{margin-top:20px}h3{margin-top:16px}pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}.tok-kw{color:#93c5fd}.tok-str{color:#a7f3d0}.tok-com{color:#9ca3af;font-style:italic}.tok-num{color:#fcd34d}.tok-builtin{color:#fca5a5}.tip{background:#ecfdf5;border:1px solid #10b98133;color:#065f46;padding:12px;border-radius:10px}.note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}.toc a{color:#2563eb;text-decoration:none}</style>
+  <script>function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;')}function H(src){if(!src)return'';const K=[];const keep=h=>(K.push(h),`@@H${K.length-1}@@`);src=src.replace(/'{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3}/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/#.*/g,m=>keep(`<span class='tok-com'>${E(m)}</span>`));let html=E(src);const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),"<span class='tok-kw'>$1</span>");const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),"<span class='tok-builtin'>$1</span>");html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,"<span class='tok-num'>$&</span>");return html.replace(/@@H(\d+)@@/g,(m,i)=>K[Number(i)])}function apply(){document.querySelectorAll('pre code.language-python').forEach(el=>el.innerHTML=H(el.textContent||''))}window.addEventListener('DOMContentLoaded',apply)</script>
+</head><body>
+  <header><div class="container">
+    <div class="title">PostgreSQL PSQL, EXPLAIN & Automation</div>
+    <div class="subtitle">Fluent psql usage, EXPLAIN/ANALYZE, index comparisons, tuning, and safe scripting</div>
+    <div class="toolbar">
+      <button class="secondary" onclick="window.location.href='../index.html?id=postgres-psql-explain-tuning-automation'">Start Quiz</button>
+      <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+    </div>
+  </div></header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents</strong>
+      <ul>
+        <li><a href="#psql">1. PSQL Command Fluency</a></li>
+        <li><a href="#explain">2. Reading EXPLAIN Plans</a></li>
+        <li><a href="#compare">3. Index Before/After Comparison</a></li>
+        <li><a href="#tuning">4. Performance Tuning via EXPLAIN ANALYZE</a></li>
+        <li><a href="#automation">5. Scripting & Automation with Bash + psql</a></li>
+        <li><a href="#errors">6. Error Handling in SQL Scripts</a></li>
+        <li><a href="#internals">7. Query Planning Internals</a></li>
+        <li><a href="#multi">8. Multi-SQL Analysis</a></li>
+        <li><a href="#scenarios">Scenarios</a></li>
+        <li><a href="#exercises">10. Practice Exercises</a></li>
+        <li><a href="#interview">11. Tricks for Interviews</a></li>
+        <li><a href="#intuition">12. Intuition: Indexing & Tuning</a></li>
+        <li><a href="#pitfalls">13. Practical Tips & Pitfalls</a></li>
+      </ul>
+    </div>
+
+    <h2 id="psql">1. PSQL Command Fluency</h2>
+    <p>For scripting: prefer <code>-A -t -q</code> (unaligned, tuples-only, quiet) with <code>-c</code> or <code>-f</code>. Disable the pager inside scripts with <code>\\pset pager off</code>. Parameterize inputs with <code>-v</code>.</p>
+    <pre><code class="language-python"># Typical flags used in automation
+cmd = "psql -h $HOST -U $USER -d $DB -A -t -q -v schema=myapp -c 'SELECT current_database()'"
+print(cmd)
+</code></pre>
+
+    <h2 id="explain">2. Reading EXPLAIN Plans</h2>
+    <p>Start with <code>EXPLAIN (ANALYZE, BUFFERS)</code>. Compare <em>Actual Rows</em> vs <em>Plan Rows</em> for misestimation. Look for <em>Rows Removed by Filter</em> and buffer hits/reads to identify I/O hot spots.</p>
+    <h3>EXPLAIN Options & Formats</h3>
+    <ul>
+      <li><code>EXPLAIN</code>: shows the estimated plan without executing the query.</li>
+      <li><code>ANALYZE</code>: executes the query and shows actual runtime and row counts; required for <code>BUFFERS</code>.</li>
+      <li><code>BUFFERS</code>: reports shared/local/temp hits and reads; only with <code>ANALYZE</code>.</li>
+      <li><code>TIMING OFF</code>: still executes and counts rows but skips per-node timing overhead.</li>
+      <li><code>VERBOSE</code>: shows additional details like output (target) columns.</li>
+      <li><code>COSTS OFF</code>: hides estimated startup/total cost, rows, and width fields.</li>
+      <li><code>SUMMARY</code>: includes planning and execution time totals.</li>
+      <li><code>SETTINGS</code>: lists GUC settings that affected planning/execution.</li>
+      <li><code>FORMAT JSON</code>: returns a JSON array with one object containing the <code>Plan</code> tree.</li>
+    </ul>
+    <h3>Key Fields to Read</h3>
+    <ul>
+      <li><strong>rows</strong> (estimate): predicted number of rows output by a node (text format).</li>
+      <li><strong>Actual Rows</strong>: actual tuples processed/output (only with <code>ANALYZE</code>).</li>
+      <li><strong>startup cost</strong> vs <strong>total cost</strong>: abstract units estimating cost to produce first row vs all rows.</li>
+      <li><strong>Shared Hit/Read Blocks</strong>: buffer cache hits vs disk reads (with <code>BUFFERS</code>).</li>
+    </ul>
+
+    <h3>Cheat Sheet: Common EXPLAIN Invocations</h3>
+    <pre><code class="language-python"># Estimated plan only (no execution)
+print("EXPLAIN SELECT ...;")
+
+# Full runtime + I/O stats (most common during tuning)
+print("EXPLAIN (ANALYZE, BUFFERS) SELECT ...;")
+
+# Same, but reduce overhead of per-node timers
+print("EXPLAIN (ANALYZE, BUFFERS, TIMING OFF) SELECT ...;")
+
+# Machine-readable for tooling
+print("EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) SELECT ...;")
+
+# More detail on outputs and settings that influenced planning
+print("EXPLAIN (VERBOSE, SETTINGS) SELECT ...;")
+
+# Hide costs if they distract during interviews or reviews
+print("EXPLAIN (COSTS OFF) SELECT ...;")
+</code></pre>
+
+    <h3>EXPLAIN Options Reference (Quick Table)</h3>
+    <table>
+      <thead><tr><th>Option</th><th>Purpose</th><th>Requires ANALYZE?</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>ANALYZE</code></td><td>Execute query and show actuals</td><td>—</td><td>Enables Actual Rows/Time fields</td></tr>
+        <tr><td><code>BUFFERS</code></td><td>Show buffer hits/reads</td><td>Yes</td><td>Reports Shared/Local/Temp blocks</td></tr>
+        <tr><td><code>TIMING OFF</code></td><td>Skip per-node timers</td><td>Yes</td><td>Still executes and counts rows</td></tr>
+        <tr><td><code>VERBOSE</code></td><td>Extra detail</td><td>No</td><td>Includes output (target) columns</td></tr>
+        <tr><td><code>COSTS OFF</code></td><td>Hide cost/rows/width</td><td>No</td><td>Useful for reviews/interviews</td></tr>
+        <tr><td><code>SUMMARY</code></td><td>Show totals</td><td>No</td><td>Planning and execution times</td></tr>
+        <tr><td><code>SETTINGS</code></td><td>Show GUC diffs</td><td>No</td><td>Settings affecting planning</td></tr>
+        <tr><td><code>FORMAT JSON</code></td><td>Machine-readable</td><td>No</td><td>Returns array with <code>Plan</code> tree</td></tr>
+      </tbody>
+    </table>
+    <pre><code class="language-python"># Parse EXPLAIN JSON and extract hot nodes
+import json
+
+def load_plan(path: str):
+    with open(path) as f:
+        return json.load(f)[0]['Plan']  # psql EXPLAIN (FORMAT JSON)
+
+def walk(plan, fn):
+    fn(plan)
+    if isinstance(plan.get('Plans'), list):
+        for p in plan['Plans']:
+            walk(p, fn)
+
+hot = []
+plan = load_plan('plan.json')
+
+def collect(p):
+    actual = p.get('Actual Rows')
+    planned = p.get('Plan Rows')
+    if actual is not None and planned:
+        bias = abs(actual - planned) / max(1, planned)
+        if bias > 1.0:
+            hot.append((p.get('Node Type'), planned, actual, p.get('Relation Name')))
+
+walk(plan, collect)
+for node in hot:
+    print(node)
+</code></pre>
+
+    <h2 id="compare">3. Index Before/After Comparison</h2>
+    <p>Compare <em>runtime</em>, <em>rows</em>, and <em>buffers</em> using <code>EXPLAIN (ANALYZE, BUFFERS)</code> before and after index creation. Use identical plans and parameters and run several times to warm caches.</p>
+    <pre><code class="language-python">import subprocess, shlex, json
+
+PSQL = "psql -A -t -q -X -d $DB -U $USER -h $HOST"
+QUERY = "SELECT * FROM orders o JOIN customers c USING (customer_id) WHERE c.country = 'DE' AND o.created_at &gt; now() - interval '30 days'"
+
+EXPLAIN = f"EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) {QUERY}"
+
+def run_once(sql: str) -> dict:
+    cmd = f"{PSQL} -c {shlex.quote(sql)}"
+    out = subprocess.check_output(cmd, shell=True, text=True)
+    plan = json.loads(out)[0]['Plan']
+    return plan
+
+# Record N timings (before index), create index, record N timings (after)
+</code></pre>
+
+    <h2 id="tuning">4. Performance Tuning via EXPLAIN ANALYZE</h2>
+    <p>Use the cost model wisely: <code>random_page_cost</code> vs <code>seq_page_cost</code>, <code>effective_cache_size</code> for cache heuristics, and <code>work_mem</code> for hash/sort memory. Validate with <code>EXPLAIN (ANALYZE, BUFFERS)</code> and avoid blindly raising memory.</p>
+    <pre><code class="language-python"># Simple diff between two EXPLAIN JSONs (before.json vs after.json)
+import json
+from typing import Any
+
+def summarize(plan: Any) -> tuple:
+    return (
+        plan.get('Node Type'),
+        plan.get('Actual Total Time'),
+        plan.get('Actual Rows'),
+        plan.get('Shared Read Blocks'),
+        plan.get('Shared Hit Blocks'),
+    )
+
+b = json.load(open('before.json'))[0]['Plan']
+A = json.load(open('after.json'))[0]['Plan']
+print('Before:', summarize(b))
+print('After :', summarize(A))
+</code></pre>
+
+    <h2 id="automation">5. Scripting & Automation with Bash + psql</h2>
+    <p>Use <code>-A -t -q</code> for parseable output, <code>\\timing on</code> for timing, and Bash loops to stabilize measurements. Keep credentials in <code>.pgpass</code> or <code>PGPASSWORD</code>. Use <code>set -euo pipefail</code>.</p>
+    <pre><code class="language-python"># Emitting a Bash runner from Python (for documentation)
+print(r"""
+#!/usr/bin/env bash
+set -euo pipefail
+psql -X -q -A -t -v ON_ERROR_STOP=1 -c "\\timing on"
+for i in {1..5}; do
+  psql -X -q -A -t -c "EXPLAIN (ANALYZE, BUFFERS) SELECT count(*) FROM big WHERE k BETWEEN 10 AND 20" | tee -a timings.txt
+done
+""")
+</code></pre>
+
+    <h2 id="errors">6. Error Handling in SQL Scripts</h2>
+    <p>Wrap critical DDL/DML in transactions. In pl/pgSQL, use <code>BEGIN ... EXCEPTION ... END</code>. For psql, set <code>ON_ERROR_STOP=1</code> to abort on error.</p>
+    <pre><code class="language-python"># Example: transactional migration with guard checks (DDL simplified for brevity)
+MIGRATION = r"""
+BEGIN;
+  -- guard: table must exist
+  DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_class WHERE relname = 'orders') THEN
+      RAISE EXCEPTION 'orders does not exist';
+    END IF;
+  END $$;
+
+  CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_orders_country_created
+    ON orders(country, created_at DESC);
+COMMIT;
+"""
+print(MIGRATION)
+</code></pre>
+
+    <h2 id="internals">7. Query Planning Internals</h2>
+    <p>Planner explores alternatives and chooses the lowest estimated cost plan. Join strategies: Nested Loop (good for selective inner index lookups), Hash Join (large equi-joins), Merge Join (sorted inputs). Parallel plans are bound by <code>max_parallel_workers</code> and <code>max_parallel_workers_per_gather</code>.</p>
+
+    <h2 id="multi">8. Multi-SQL Analysis</h2>
+    <p>When you must analyze and optimize many SQLs, standardize the workflow so you target the highest-impact queries and produce stable comparisons.</p>
+    <h3>Prioritize with pg_stat_statements</h3>
+    <pre><code class="language-python"># Top templates by total time and mean time
+sql = """
+SELECT queryid, calls, round(total_time)::int AS total_ms,
+       round(mean_time,2) AS mean_ms, rows
+FROM pg_stat_statements
+ORDER BY total_time DESC
+LIMIT 50;
+"""
+print(sql)
+</code></pre>
+    <div class="tip">Work at the template level using <em>queryid</em> so improvements benefit all occurrences of the same query shape.</div>
+    <h3>Batch EXPLAIN across many queries</h3>
+    <pre><code class="language-python"># Produce EXPLAIN ANALYZE JSON lines for each query (plans.jsonl)
+print(r"""
+#!/usr/bin/env bash
+set -euo pipefail
+psql -X -q -A -t -v ON_ERROR_STOP=1 -c "\\timing on" >/dev/null
+while IFS= read -r q; do
+  [[ -z "$q" ]] && continue
+  psql -X -q -A -t -c "EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) ${q}" >> plans.jsonl
+  echo >> plans.jsonl
+done < queries.sql
+""")
+</code></pre>
+    <h3>Extract and rank hot spots</h3>
+    <pre><code class="language-python"># Parse plans.jsonl and rank by Actual Total Time and I/O
+import json
+scores = []
+for line in open('plans.jsonl'):
+    line=line.strip()
+    if not line:
+        continue
+    plan = json.loads(line)[0]['Plan']
+    t = plan.get('Actual Total Time', 0.0)
+    readb = plan.get('Shared Read Blocks', 0) or 0
+    hitb  = plan.get('Shared Hit Blocks', 0) or 0
+    scores.append((t, readb, hitb, plan.get('Node Type')))
+
+for t, rb, hb, node in sorted(scores, key=lambda x: (-x[0], -x[1]))[:20]:
+    print(f"time={t:.2f}ms reads={rb} hits={hb} node={node}")
+</code></pre>
+    <h3>Stabilize and compare</h3>
+    <ul>
+      <li>Warm caches and reduce noise: run each query 3–5 times; compare medians.</li>
+      <li>Fix bind values or use PREPARE; keep parameters constant between before/after.</li>
+      <li>Keep baselines: save <code>before.json</code>/<code>after.json</code> per query.</li>
+      <li>Triage by total runtime to focus on the biggest wins first.</li>
+    </ul>
+    <h3>Template-oriented improvements</h3>
+    <ul>
+      <li>Design indexes (covering, partial, multi-column) that serve multiple templates.</li>
+      <li>Add extended statistics for common correlated predicates used across queries.</li>
+      <li>Eliminate N+1 patterns by pushing work into set-based joins/subqueries.</li>
+    </ul>
+
+    <h2 id="stats-details">9. Planner Statistics & Extended Stats</h2>
+    <p>The planner relies on per-column and extended statistics to estimate selectivity and row counts.</p>
+    <h3>Refreshing and Tuning Stats</h3>
+    <ul>
+      <li><code>ANALYZE</code> updates statistics for tables; autovacuum runs it based on <code>autovacuum_analyze_threshold</code> and <code>autovacuum_analyze_scale_factor</code>.</li>
+      <li><code>default_statistics_target</code> controls sample detail globally; higher values improve estimates on skewed data at the cost of longer ANALYZE and larger catalogs.</li>
+      <li>Per-column override: <code>ALTER TABLE t ALTER COLUMN col SET STATISTICS 100;</code></li>
+    </ul>
+    <h3>What Per-Column Stats Include</h3>
+    <ul>
+      <li>MCV (most common values) with frequencies.</li>
+      <li>Histogram bounds for distribution shape.</li>
+      <li>Null fraction.</li>
+      <li>Correlation with physical order (affects scan choices).</li>
+      <li>ndistinct (distinct count estimate).</li>
+    </ul>
+    <h3>Extended Statistics Across Columns</h3>
+    <ul>
+      <li>Create across-column stats to capture correlations and joint distinct counts:</li>
+    </ul>
+    <pre><code class="language-python">print("CREATE STATISTICS s (dependencies, mcv, ndistinct) ON a,b FROM t;")
+print("ANALYZE t;")
+</code></pre>
+    <p>These help with correlated predicates and common value combinations (e.g., country+state).</p>
+
+    <h3>PostgreSQL 16+ Notes</h3>
+    <ul>
+      <li><strong>pg_stat_io (PG16):</strong> use alongside <code>EXPLAIN (BUFFERS)</code> to relate buffer hits/reads with backend and OS-level I/O activity per backend/type.</li>
+      <li><strong>Index bloat & maintenance:</strong> prefer <code>REINDEX CONCURRENTLY</code> for production to rebuild bloated B-Tree indexes with minimal locking; measure using <code>pg_relation_size</code> and extensions like <code>pgstattuple</code>.</li>
+      <li><strong>Partial indexes for sparse columns:</strong> if a column is mostly NULL (or rows filtered by status), a partial index can drastically reduce size and improve performance.</li>
+      <li><strong>Index advisors:</strong> tools can suggest indexes, but always validate with <code>EXPLAIN (ANALYZE, BUFFERS)</code>, pg_stat_statements deltas, and workload traces before adopting.</li>
+      <li><strong>Internals references:</strong> for deep dive into B-Tree structure (pages, splits, vacuum interaction), see PostgreSQL source READMEs under <code>src/backend/access/*</code> (nbtree, gin, brin) and PGCon “Index Internals”.</li>
+    </ul>
+
+    <h4>pg_stat_io quick examples (PG16)</h4>
+    <pre><code class="language-python"># Backend I/O summary (by context and type)
+print("""
+SELECT backend_type, context, io_object, io_context,
+       reads, read_time, writes, write_time
+FROM pg_stat_io
+ORDER BY read_time DESC
+LIMIT 20;
+""")
+
+# Correlate a heavy query with high reads: run EXPLAIN (ANALYZE, BUFFERS),
+# then check pg_stat_io deltas in the same session to confirm I/O pressure.
+</code></pre>
+
+    <h4>Profiling workflow: pg_stat_statements + pg_stat_io (PG16)</h4>
+    <ol>
+      <li>Enable pg_stat_statements; reset stats: <code>SELECT pg_stat_statements_reset();</code> Optionally snapshot pg_stat_io.</li>
+      <li>Run candidate query N times with fixed parameters.</li>
+      <li>Collect EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) for a representative run.</li>
+      <li>Read <code>pg_stat_statements</code> deltas and <code>pg_stat_io</code> to confirm CPU vs I/O profile.</li>
+    </ol>
+    <pre><code class="language-python"># SQL snippets to glue the workflow
+print("SELECT pg_stat_statements_reset();")
+
+# Run your query N times (from app or psql), then:
+print(r"""
+SELECT queryid, calls, total_time, mean_time, rows
+FROM pg_stat_statements
+ORDER BY total_time DESC
+LIMIT 10;
+""")
+
+print(r"""
+SELECT backend_type, context, io_object, io_context,
+       reads, read_time, writes, write_time
+FROM pg_stat_io
+ORDER BY read_time DESC
+LIMIT 20;
+""")
+</code></pre>
+
+    <h3>Long‑Term Tracking: Store Plans in a Table</h3>
+    <p>Persist EXPLAIN JSON for trending across runs and releases. The batch script writes <code>plans.jsonl</code> and <code>queries.txt</code>; ingest them into tables for analysis.</p>
+    <h4>1) Create storage tables</h4>
+    <pre><code class="language-python"># Enable pgcrypto (for gen_random_uuid) if you want UUIDs
+print("CREATE EXTENSION IF NOT EXISTS pgcrypto;")
+
+print(r"""
+CREATE TABLE IF NOT EXISTS explain_runs (
+  run_label text PRIMARY KEY,
+  created_at timestamptz DEFAULT now(),
+  note text
+);
+
+CREATE TABLE IF NOT EXISTS explain_plans (
+  run_label text REFERENCES explain_runs(run_label) ON DELETE CASCADE,
+  seq int,
+  captured_at timestamptz DEFAULT now(),
+  plan jsonb NOT NULL,   -- the 'Plan' object (root node) from EXPLAIN JSON
+  query text,
+  PRIMARY KEY (run_label, seq)
+);
+CREATE INDEX IF NOT EXISTS explain_plans_plan_gin ON explain_plans USING gin (plan);
+""")
+</code></pre>
+    <h4>2) Stage batch outputs</h4>
+    <pre><code class="language-python"># Staging tables for raw files
+print(r"""
+CREATE TEMP TABLE staging_plans(raw text);
+CREATE TEMP TABLE staging_queries(line text);
+\copy staging_plans(raw)   FROM '/absolute/path/to/run-X/plans.jsonl'
+\copy staging_queries(line) FROM '/absolute/path/to/run-X/queries.txt'
+""")
+</code></pre>
+    <h4>3) Insert into explain_runs and explain_plans</h4>
+    <pre><code class="language-python"># Choose a run label (e.g., ts or release tag) and insert
+print("\n-- Set your run label")
+print("-- \set run_label '2025-09-10T10:00Z'  -- in psql, then use :run_label below")
+
+print(r"""
+INSERT INTO explain_runs(run_label, note)
+VALUES (:run_label, 'batch import')
+ON CONFLICT DO NOTHING;
+
+WITH p AS (
+  SELECT row_number() OVER (ORDER BY ctid) AS seq,
+         (raw::jsonb)->0->'Plan' AS plan
+  FROM staging_plans
+  WHERE length(trim(raw)) > 0
+), q AS (
+  SELECT row_number() OVER (ORDER BY ctid) AS seq,
+         regexp_replace(line, '^[0-9]+\s+', '') AS query
+  FROM staging_queries
+)
+INSERT INTO explain_plans(run_label, seq, plan, query)
+SELECT :run_label, p.seq, p.plan, q.query
+FROM p LEFT JOIN q USING (seq)
+ON CONFLICT DO NOTHING;
+""")
+</code></pre>
+    <h4>4) Example queries for trending</h4>
+    <pre><code class="language-python"># Top root nodes by time within a run
+print(r"""
+SELECT seq,
+       plan->>'Node Type'     AS root_node,
+       (plan->>'Actual Total Time')::numeric AS total_ms,
+       left(coalesce(query,''), 80) AS q
+FROM explain_plans
+WHERE run_label = :run_label
+ORDER BY total_ms DESC
+LIMIT 20;
+""")
+
+# Find plans where estimated rows are way off at the root
+print(r"""
+SELECT seq,
+       (plan->>'Plan Rows')::numeric AS est_rows,
+       (plan->>'Actual Rows')::numeric AS act_rows,
+       (CASE WHEN (plan->>'Plan Rows')::numeric > 0
+             THEN abs((plan->>'Actual Rows')::numeric - (plan->>'Plan Rows')::numeric)
+                  /(plan->>'Plan Rows')::numeric
+             ELSE NULL END) AS rel_error,
+       left(coalesce(query,''), 80) AS q
+FROM explain_plans
+WHERE run_label = :run_label
+ORDER BY rel_error DESC NULLS LAST
+LIMIT 20;
+""")
+</code></pre>
+
+    <h3>Companion Scripts</h3>
+    <ul>
+      <li><strong>Single-query profiling:</strong> <code>programming/simple/pg16-profiling.sql</code> with wrapper <code>programming/simple/pg16-profiling.sh</code>
+        <br>Usage: <code>HOST=localhost DB=mydb USER=myuser ./programming/simple/pg16-profiling.sh "SELECT ..." 5</code>
+      </li>
+      <li><strong>Batch EXPLAIN JSONL:</strong> <code>programming/simple/pg16-batch-explain.sh</code>
+        <br>Usage: <code>HOST=localhost DB=mydb USER=myuser ./programming/simple/pg16-batch-explain.sh path/to/queries.sql out/runs 3</code>
+        <br>Creates a timestamped folder with <code>plans.jsonl</code>, <code>plan_*.json</code>, <code>queries.txt</code>, and stats snapshots ready for ingestion.
+      </li>
+    </ul>
+
+    <h2 id="scenarios">Scenarios</h2>
+    <h3>Scenario A: Compare index before/after</h3>
+    <ol>
+      <li>Record <code>EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)</code> N times and save as <code>before.json</code>.</li>
+      <li>Create the index in a transaction or on staging.</li>
+      <li>Record the same plan N times and save as <code>after.json</code>.</li>
+      <li>Diff runtime and buffers; check for cardinality improvements.</li>
+    </ol>
+    <h3>Scenario B: Parameterized psql with variables</h3>
+    <pre><code class="language-python"># Using -v to pass variables
+print("psql -X -q -A -t -v schema=myapp -c 'SELECT quote_ident(:schema)'")
+</code></pre>
+    <div class="note">This article covers all quiz areas: psql flags, EXPLAIN plan reading, index comparison methodology, tuning with the cost-based optimizer, scripting & automation, error handling, and planner internals.</div>
+  </article></main>
+    
+  <main class="container"><article>
+    <h2 id="exercises">10. Practice Exercises</h2>
+    <ol>
+      <li>Collect top queries: enable <code>pg_stat_statements</code>, then export top 20 by <em>total_time</em>.</li>
+      <li>Generate baselines: run <code>EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)</code> 5× per query; save medians.</li>
+      <li>Design an index: pick one hot query and propose a covering or partial index; justify column order.</li>
+      <li>Add extended stats: for correlated predicates, <code>CREATE STATISTICS</code> + <code>ANALYZE</code>; compare estimates.</li>
+      <li>Stability check: repeat with <code>TIMING OFF</code> to see overhead differences.</li>
+    </ol>
+    <pre><code class="language-python"># Skeleton: batch EXPLAIN with medians per query
+import json, statistics as stats, subprocess, shlex
+QUERIES = ["SELECT ...", "SELECT ... WHERE a = $1 AND b &gt; $2"]
+PSQL = "psql -X -q -A -t"
+def explain_json(q):
+    sql = f"EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON) {q}"
+    out = subprocess.check_output(f"{PSQL} -c {shlex.quote(sql)}", shell=True, text=True)
+    return json.loads(out)[0]['Plan']
+def median_time(q, n=5):
+    times = [explain_json(q).get('Actual Total Time', 0.0) for _ in range(n)]
+    return stats.median(times)
+for q in QUERIES:
+    print(q[:60], '... median_ms=', median_time(q))
+</code></pre>
+
+    <h2 id="interview">11. Tricks for Interviews</h2>
+    <ul>
+      <li><strong>EXPLAIN vs ANALYZE:</strong> EXPLAIN shows estimates only; ANALYZE runs the query and enables BUFFERS.</li>
+      <li><strong>Startup vs total cost:</strong> first row vs all rows (abstract units).</li>
+      <li><strong>Index‑only scans:</strong> require all columns in index and visibility map bits set.</li>
+      <li><strong>Extended stats:</strong> <code>CREATE STATISTICS s (dependencies, mcv, ndistinct) ON a,b FROM t;</code>, then <code>ANALYZE</code>.</li>
+      <li><strong>psql fluency:</strong> <code>-A -t -q</code>, <code>\pset pager off</code>, <code>-v name=val</code>, <code>-1</code> for atomic multi-file runs.</li>
+      <li><strong>Plan toggles:</strong> <code>SET enable_hashjoin = off;</code> to test alternatives.</li>
+      <li><strong>Stability:</strong> <code>\timing on</code> + median of 3–5 runs; avoid cold-cache bias.</li>
+    </ul>
+
+    <h2 id="intuition">12. Intuition: Indexing & Tuning</h2>
+    <ul>
+      <li><strong>Cardinality first:</strong> reason about how many rows each predicate returns; misestimation explains odd plans.</li>
+      <li><strong>Index order:</strong> equality columns first, then range; match join keys and common filters.</li>
+      <li><strong>Covering indexes:</strong> add SELECT columns to avoid heap fetches where feasible.</li>
+      <li><strong>Partial indexes:</strong> target hot subsets (e.g., recent data or non-null/status) to shrink size and cost.</li>
+      <li><strong>Correlation:</strong> high correlation suggests seq scan or BRIN may be competitive for range queries.</li>
+      <li><strong>Cost model:</strong> tune only after verifying I/O vs CPU characteristics; avoid global tweaks to fix one query.</li>
+      <li><strong>Template mindset:</strong> prefer changes that help many query shapes (indexes/stats) over one-offs.</li>
+    </ul>
+
+    <h2 id="pitfalls">13. Practical Tips & Pitfalls</h2>
+    <ul>
+      <li><strong>Don’t trust costs alone:</strong> always confirm with <code>ANALYZE, BUFFERS</code> and Actual Rows.</li>
+      <li><strong>Beware cold runs:</strong> compare warmed runs; note Shared Read vs Hit Blocks.</li>
+      <li><strong>DDL safety:</strong> use transactions, <code>ON_ERROR_STOP</code>, and CONCURRENTLY when appropriate.</li>
+      <li><strong>Many small indexes:</strong> write overhead and planner confusion—be deliberate and measure.</li>
+      <li><strong>Remember ANALYZE:</strong> after big loads or schema changes; adjust <code>default_statistics_target</code> as needed.</li>
+      <li><strong>Work_mem:</strong> raising too high per session can exhaust RAM with parallel joins/sorts.</li>
+      <li><strong>EXPLAIN ANALYZE on DML:</strong> runs the change—wrap in a transaction and rollback if needed.</li>
+    </ul>
+  </article></main>
+</body></html>

@@ -1,0 +1,262 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "Implement Trie (Prefix Tree): Design a trie with insert, search, and startsWith operations.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n    \n    def insert(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n    \n    def search(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return node.is_end_of_word\n    \n    def startsWith(self, prefix):\n        node = self.root\n        for char in prefix:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return True\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n    \n    def insert(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n    \n    def search(self, word):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return node.is_end_of_word\n    \n    def startsWith(self, prefix):\n        node = self.root\n        for char in prefix:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return True\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "Word Search II: Given a 2D board and a list of words, find all words in the board using a Trie.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.word = None\n\ndef findWords(board, words):\n    # Build Trie\n    root = TrieNode()\n    for word in words:\n        node = root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.word = word\n    \n    result = []\n    \n    def dfs(i, j, node):\n        if node.word:\n            result.append(node.word)\n            node.word = None  # Avoid duplicates\n        \n        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):\n            return\n        \n        char = board[i][j]\n        if char not in node.children:\n            return\n        \n        board[i][j] = '#'  # Mark as visited\n        next_node = node.children[char]\n        \n        dfs(i+1, j, next_node)\n        dfs(i-1, j, next_node)\n        dfs(i, j+1, next_node)\n        dfs(i, j-1, next_node)\n        \n        board[i][j] = char  # Restore\n    \n    for i in range(len(board)):\n        for j in range(len(board[0])):\n            dfs(i, j, root)\n    \n    return result\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.word = None\n\ndef findWords(board, words):\n    # Build Trie\n    root = TrieNode()\n    for word in words:\n        node = root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.word = word\n    \n    result = []\n    \n    def dfs(i, j, node):\n        if node.word:\n            result.append(node.word)\n            node.word = None  # Avoid duplicates\n        \n        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):\n            return\n        \n        char = board[i][j]\n        if char not in node.children:\n            return\n        \n        board[i][j] = '#'  # Mark as visited\n        next_node = node.children[char]\n        \n        dfs(i+1, j, next_node)\n        dfs(i-1, j, next_node)\n        dfs(i, j+1, next_node)\n        dfs(i, j-1, next_node)\n        \n        board[i][j] = char  # Restore\n    \n    for i in range(len(board)):\n        for j in range(len(board[0])):\n            dfs(i, j, root)\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "Replace Words: Replace words in a sentence with their shortest root from a dictionary using Trie.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_word = False\n\ndef replaceWords(dictionary, sentence):\n    # Build Trie\n    root = TrieNode()\n    for word in dictionary:\n        node = root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_word = True\n    \n    def findRoot(word):\n        node = root\n        prefix = \"\"\n        for char in word:\n            if char not in node.children:\n                return word\n            node = node.children[char]\n            prefix += char\n            if node.is_word:\n                return prefix\n        return word\n    \n    words = sentence.split()\n    return \" \".join(findRoot(word) for word in words)\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_word = False\n\ndef replaceWords(dictionary, sentence):\n    # Build Trie\n    root = TrieNode()\n    for word in dictionary:\n        node = root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_word = True\n    \n    def findRoot(word):\n        node = root\n        prefix = \"\"\n        for char in word:\n            if char not in node.children:\n                return word\n            node = node.children[char]\n            prefix += char\n            if node.is_word:\n                return prefix\n        return word\n    \n    words = sentence.split()\n    return \" \".join(findRoot(word) for word in words)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "Longest Common Prefix: Find the longest common prefix string amongst an array of strings.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef longestCommonPrefix(strs):\n    if not strs:\n        return \"\"\n    \n    # Find minimum length\n    min_len = min(len(s) for s in strs)\n    \n    for i in range(min_len):\n        char = strs[0][i]\n        for j in range(1, len(strs)):\n            if strs[j][i] != char:\n                return strs[0][:i]\n    \n    return strs[0][:min_len]\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef longestCommonPrefix(strs):\n    if not strs:\n        return \"\"\n    \n    # Find minimum length\n    min_len = min(len(s) for s in strs)\n    \n    for i in range(min_len):\n        char = strs[0][i]\n        for j in range(1, len(strs)):\n            if strs[j][i] != char:\n                return strs[0][:i]\n    \n    return strs[0][:min_len]\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "Group Anagrams: Group anagrams together from an array of strings.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nfrom collections import defaultdict\n\ndef groupAnagrams(strs):\n    anagram_map = defaultdict(list)\n    \n    for s in strs:\n        # Sort the string to get the key\n        key = ''.join(sorted(s))\n        anagram_map[key].append(s)\n    \n    return list(anagram_map.values())\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nfrom collections import defaultdict\n\ndef groupAnagrams(strs):\n    anagram_map = defaultdict(list)\n    \n    for s in strs:\n        # Sort the string to get the key\n        key = ''.join(sorted(s))\n        anagram_map[key].append(s)\n    \n    return list(anagram_map.values())\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "Longest Substring Without Repeating Characters: Find length of longest substring without repeating characters.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef lengthOfLongestSubstring(s):\n    char_set = set()\n    left = 0\n    max_length = 0\n    \n    for right in range(len(s)):\n        while s[right] in char_set:\n            char_set.remove(s[left])\n            left += 1\n        \n        char_set.add(s[right])\n        max_length = max(max_length, right - left + 1)\n    \n    return max_length\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef lengthOfLongestSubstring(s):\n    char_set = set()\n    left = 0\n    max_length = 0\n    \n    for right in range(len(s)):\n        while s[right] in char_set:\n            char_set.remove(s[left])\n            left += 1\n        \n        char_set.add(s[right])\n        max_length = max(max_length, right - left + 1)\n    \n    return max_length\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "Valid Anagram: Determine if two strings are anagrams of each other.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nfrom collections import Counter\n\ndef isAnagram(s, t):\n    return Counter(s) == Counter(t)\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nfrom collections import Counter\n\ndef isAnagram(s, t):\n    return Counter(s) == Counter(t)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "4Sum: Find all unique quadruplets that sum to target using hash map optimization.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef fourSum(nums, target):\n    nums.sort()\n    result = []\n    n = len(nums)\n    \n    for i in range(n - 3):\n        if i > 0 and nums[i] == nums[i - 1]:\n            continue\n        \n        for j in range(i + 1, n - 2):\n            if j > i + 1 and nums[j] == nums[j - 1]:\n                continue\n            \n            left, right = j + 1, n - 1\n            \n            while left < right:\n                current_sum = nums[i] + nums[j] + nums[left] + nums[right]\n                \n                if current_sum == target:\n                    result.append([nums[i], nums[j], nums[left], nums[right]])\n                    \n                    while left < right and nums[left] == nums[left + 1]:\n                        left += 1\n                    while left < right and nums[right] == nums[right - 1]:\n                        right -= 1\n                    \n                    left += 1\n                    right -= 1\n                elif current_sum < target:\n                    left += 1\n                else:\n                    right -= 1\n    \n    return result\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef fourSum(nums, target):\n    nums.sort()\n    result = []\n    n = len(nums)\n    \n    for i in range(n - 3):\n        if i > 0 and nums[i] == nums[i - 1]:\n            continue\n        \n        for j in range(i + 1, n - 2):\n            if j > i + 1 and nums[j] == nums[j - 1]:\n                continue\n            \n            left, right = j + 1, n - 1\n            \n            while left < right:\n                current_sum = nums[i] + nums[j] + nums[left] + nums[right]\n                \n                if current_sum == target:\n                    result.append([nums[i], nums[j], nums[left], nums[right]])\n                    \n                    while left < right and nums[left] == nums[left + 1]:\n                        left += 1\n                    while left < right and nums[right] == nums[right - 1]:\n                        right -= 1\n                    \n                    left += 1\n                    right -= 1\n                elif current_sum < target:\n                    left += 1\n                else:\n                    right -= 1\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "Top K Frequent Elements: Find k most frequent elements using hash map and heap.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nimport heapq\nfrom collections import Counter\n\ndef topKFrequent(nums, k):\n    count = Counter(nums)\n    return heapq.nlargest(k, count.keys(), key=count.get)\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nimport heapq\nfrom collections import Counter\n\ndef topKFrequent(nums, k):\n    count = Counter(nums)\n    return heapq.nlargest(k, count.keys(), key=count.get)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "LRU Cache: Design and implement Least Recently Used cache using hash map and doubly linked list.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass Node:\n    def __init__(self, key=0, val=0):\n        self.key = key\n        self.val = val\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}\n        \n        # Create dummy head and tail\n        self.head = Node()\n        self.tail = Node()\n        self.head.next = self.tail\n        self.tail.prev = self.head\n    \n    def _add_node(self, node):\n        # Add node right after head\n        node.prev = self.head\n        node.next = self.head.next\n        \n        self.head.next.prev = node\n        self.head.next = node\n    \n    def _remove_node(self, node):\n        # Remove an existing node\n        prev_node = node.prev\n        next_node = node.next\n        \n        prev_node.next = next_node\n        next_node.prev = prev_node\n    \n    def _move_to_head(self, node):\n        # Move node to head\n        self._remove_node(node)\n        self._add_node(node)\n    \n    def _pop_tail(self):\n        # Pop last node\n        last_node = self.tail.prev\n        self._remove_node(last_node)\n        return last_node\n    \n    def get(self, key):\n        node = self.cache.get(key)\n        \n        if node:\n            # Move to head\n            self._move_to_head(node)\n            return node.val\n        \n        return -1\n    \n    def put(self, key, value):\n        node = self.cache.get(key)\n        \n        if node:\n            # Update value and move to head\n            node.val = value\n            self._move_to_head(node)\n        else:\n            new_node = Node(key, value)\n            \n            if len(self.cache) >= self.capacity:\n                # Remove from tail\n                tail = self._pop_tail()\n                del self.cache[tail.key]\n            \n            self.cache[key] = new_node\n            self._add_node(new_node)\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass Node:\n    def __init__(self, key=0, val=0):\n        self.key = key\n        self.val = val\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.capacity = capacity\n        self.cache = {}\n        \n        # Create dummy head and tail\n        self.head = Node()\n        self.tail = Node()\n        self.head.next = self.tail\n        self.tail.prev = self.head\n    \n    def _add_node(self, node):\n        # Add node right after head\n        node.prev = self.head\n        node.next = self.head.next\n        \n        self.head.next.prev = node\n        self.head.next = node\n    \n    def _remove_node(self, node):\n        # Remove an existing node\n        prev_node = node.prev\n        next_node = node.next\n        \n        prev_node.next = next_node\n        next_node.prev = prev_node\n    \n    def _move_to_head(self, node):\n        # Move node to head\n        self._remove_node(node)\n        self._add_node(node)\n    \n    def _pop_tail(self):\n        # Pop last node\n        last_node = self.tail.prev\n        self._remove_node(last_node)\n        return last_node\n    \n    def get(self, key):\n        node = self.cache.get(key)\n        \n        if node:\n            # Move to head\n            self._move_to_head(node)\n            return node.val\n        \n        return -1\n    \n    def put(self, key, value):\n        node = self.cache.get(key)\n        \n        if node:\n            # Update value and move to head\n            node.val = value\n            self._move_to_head(node)\n        else:\n            new_node = Node(key, value)\n            \n            if len(self.cache) >= self.capacity:\n                # Remove from tail\n                tail = self._pop_tail()\n                del self.cache[tail.key]\n            \n            self.cache[key] = new_node\n            self._add_node(new_node)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "Design Circular Queue: Implement circular queue with fixed size using circular buffer.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass MyCircularQueue:\n    def __init__(self, k):\n        self.queue = [0] * k\n        self.head = 0\n        self.count = 0\n        self.capacity = k\n    \n    def enQueue(self, value):\n        if self.count == self.capacity:\n            return False\n        \n        self.queue[(self.head + self.count) % self.capacity] = value\n        self.count += 1\n        return True\n    \n    def deQueue(self):\n        if self.count == 0:\n            return False\n        \n        self.head = (self.head + 1) % self.capacity\n        self.count -= 1\n        return True\n    \n    def Front(self):\n        if self.count == 0:\n            return -1\n        return self.queue[self.head]\n    \n    def Rear(self):\n        if self.count == 0:\n            return -1\n        tail = (self.head + self.count - 1) % self.capacity\n        return self.queue[tail]\n    \n    def isEmpty(self):\n        return self.count == 0\n    \n    def isFull(self):\n        return self.count == self.capacity\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass MyCircularQueue:\n    def __init__(self, k):\n        self.queue = [0] * k\n        self.head = 0\n        self.count = 0\n        self.capacity = k\n    \n    def enQueue(self, value):\n        if self.count == self.capacity:\n            return False\n        \n        self.queue[(self.head + self.count) % self.capacity] = value\n        self.count += 1\n        return True\n    \n    def deQueue(self):\n        if self.count == 0:\n            return False\n        \n        self.head = (self.head + 1) % self.capacity\n        self.count -= 1\n        return True\n    \n    def Front(self):\n        if self.count == 0:\n            return -1\n        return self.queue[self.head]\n    \n    def Rear(self):\n        if self.count == 0:\n            return -1\n        tail = (self.head + self.count - 1) % self.capacity\n        return self.queue[tail]\n    \n    def isEmpty(self):\n        return self.count == 0\n    \n    def isFull(self):\n        return self.count == self.capacity\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "Design Circular Deque: Implement circular double-ended queue with circular buffer.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass MyCircularDeque:\n    def __init__(self, k):\n        self.buffer = [0] * k\n        self.head = 0\n        self.size = 0\n        self.capacity = k\n    \n    def insertFront(self, value):\n        if self.size == self.capacity:\n            return False\n        \n        self.head = (self.head - 1) % self.capacity\n        self.buffer[self.head] = value\n        self.size += 1\n        return True\n    \n    def insertLast(self, value):\n        if self.size == self.capacity:\n            return False\n        \n        tail = (self.head + self.size) % self.capacity\n        self.buffer[tail] = value\n        self.size += 1\n        return True\n    \n    def deleteFront(self):\n        if self.size == 0:\n            return False\n        \n        self.head = (self.head + 1) % self.capacity\n        self.size -= 1\n        return True\n    \n    def deleteLast(self):\n        if self.size == 0:\n            return False\n        \n        self.size -= 1\n        return True\n    \n    def getFront(self):\n        if self.size == 0:\n            return -1\n        return self.buffer[self.head]\n    \n    def getRear(self):\n        if self.size == 0:\n            return -1\n        tail = (self.head + self.size - 1) % self.capacity\n        return self.buffer[tail]\n    \n    def isEmpty(self):\n        return self.size == 0\n    \n    def isFull(self):\n        return self.size == self.capacity\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass MyCircularDeque:\n    def __init__(self, k):\n        self.buffer = [0] * k\n        self.head = 0\n        self.size = 0\n        self.capacity = k\n    \n    def insertFront(self, value):\n        if self.size == self.capacity:\n            return False\n        \n        self.head = (self.head - 1) % self.capacity\n        self.buffer[self.head] = value\n        self.size += 1\n        return True\n    \n    def insertLast(self, value):\n        if self.size == self.capacity:\n            return False\n        \n        tail = (self.head + self.size) % self.capacity\n        self.buffer[tail] = value\n        self.size += 1\n        return True\n    \n    def deleteFront(self):\n        if self.size == 0:\n            return False\n        \n        self.head = (self.head + 1) % self.capacity\n        self.size -= 1\n        return True\n    \n    def deleteLast(self):\n        if self.size == 0:\n            return False\n        \n        self.size -= 1\n        return True\n    \n    def getFront(self):\n        if self.size == 0:\n            return -1\n        return self.buffer[self.head]\n    \n    def getRear(self):\n        if self.size == 0:\n            return -1\n        tail = (self.head + self.size - 1) % self.capacity\n        return self.buffer[tail]\n    \n    def isEmpty(self):\n        return self.size == 0\n    \n    def isFull(self):\n        return self.size == self.capacity\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "Next Greater Element II: Find next greater element for each element in circular array using monotonic stack.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef nextGreaterElements(nums):\n    n = len(nums)\n    result = [-1] * n\n    stack = []\n    \n    # Process the array twice to handle circular nature\n    for i in range(2 * n):\n        while stack and nums[stack[-1]] < nums[i % n]:\n            result[stack.pop()] = nums[i % n]\n        \n        if i < n:\n            stack.append(i)\n    \n    return result\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef nextGreaterElements(nums):\n    n = len(nums)\n    result = [-1] * n\n    stack = []\n    \n    # Process the array twice to handle circular nature\n    for i in range(2 * n):\n        while stack and nums[stack[-1]] < nums[i % n]:\n            result[stack.pop()] = nums[i % n]\n        \n        if i < n:\n            stack.append(i)\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "Daily Temperatures: Find number of days until warmer temperature using monotonic stack.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef dailyTemperatures(temperatures):\n    result = [0] * len(temperatures)\n    stack = []  # Store indices\n    \n    for i, temp in enumerate(temperatures):\n        while stack and temperatures[stack[-1]] < temp:\n            prev_index = stack.pop()\n            result[prev_index] = i - prev_index\n        \n        stack.append(i)\n    \n    return result\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef dailyTemperatures(temperatures):\n    result = [0] * len(temperatures)\n    stack = []  # Store indices\n    \n    for i, temp in enumerate(temperatures):\n        while stack and temperatures[stack[-1]] < temp:\n            prev_index = stack.pop()\n            result[prev_index] = i - prev_index\n        \n        stack.append(i)\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "Largest Rectangle in Histogram: Find largest rectangle area using monotonic stack.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\ndef largestRectangleArea(heights):\n    stack = []\n    max_area = 0\n    heights.append(0)  # Add sentinel\n    \n    for i, h in enumerate(heights):\n        while stack and heights[stack[-1]] > h:\n            height = heights[stack.pop()]\n            width = i if not stack else i - stack[-1] - 1\n            max_area = max(max_area, height * width)\n        \n        stack.append(i)\n    \n    return max_area\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\ndef largestRectangleArea(heights):\n    stack = []\n    max_area = 0\n    heights.append(0)  # Add sentinel\n    \n    for i, h in enumerate(heights):\n        while stack and heights[stack[-1]] > h:\n            height = heights[stack.pop()]\n            width = i if not stack else i - stack[-1] - 1\n            max_area = max(max_area, height * width)\n        \n        stack.append(i)\n    \n    return max_area\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "Number of Islands: Count connected components using Union-Find (Disjoint Set Union).",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n        self.count = n\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])  # Path compression\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py:\n            return\n        \n        # Union by rank\n        if self.rank[px] < self.rank[py]:\n            px, py = py, px\n        \n        self.parent[py] = px\n        if self.rank[px] == self.rank[py]:\n            self.rank[px] += 1\n        \n        self.count -= 1\n\ndef numIslands(grid):\n    if not grid or not grid[0]:\n        return 0\n    \n    m, n = len(grid), len(grid[0])\n    \n    # Count water cells initially\n    water_count = sum(row.count('0') for row in grid)\n    \n    uf = UnionFind(m * n)\n    uf.count -= water_count\n    \n    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    \n    for i in range(m):\n        for j in range(n):\n            if grid[i][j] == '1':\n                for di, dj in directions:\n                    ni, nj = i + di, j + dj\n                    if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1':\n                        uf.union(i * n + j, ni * n + nj)\n    \n    return uf.count\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n        self.count = n\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])  # Path compression\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py:\n            return\n        \n        # Union by rank\n        if self.rank[px] < self.rank[py]:\n            px, py = py, px\n        \n        self.parent[py] = px\n        if self.rank[px] == self.rank[py]:\n            self.rank[px] += 1\n        \n        self.count -= 1\n\ndef numIslands(grid):\n    if not grid or not grid[0]:\n        return 0\n    \n    m, n = len(grid), len(grid[0])\n    \n    # Count water cells initially\n    water_count = sum(row.count('0') for row in grid)\n    \n    uf = UnionFind(m * n)\n    uf.count -= water_count\n    \n    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    \n    for i in range(m):\n        for j in range(n):\n            if grid[i][j] == '1':\n                for di, dj in directions:\n                    ni, nj = i + di, j + dj\n                    if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == '1':\n                        uf.union(i * n + j, ni * n + nj)\n    \n    return uf.count\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "Friend Circles: Count number of friend circles using Union-Find.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.count = n\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n            self.count -= 1\n\ndef findCircleNum(isConnected):\n    n = len(isConnected)\n    uf = UnionFind(n)\n    \n    for i in range(n):\n        for j in range(i + 1, n):\n            if isConnected[i][j] == 1:\n                uf.union(i, j)\n    \n    return uf.count\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.count = n\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n            self.count -= 1\n\ndef findCircleNum(isConnected):\n    n = len(isConnected)\n    uf = UnionFind(n)\n    \n    for i in range(n):\n        for j in range(i + 1, n):\n            if isConnected[i][j] == 1:\n                uf.union(i, j)\n    \n    return uf.count\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "Accounts Merge: Merge accounts with common emails using Union-Find.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nfrom collections import defaultdict\n\nclass UnionFind:\n    def __init__(self):\n        self.parent = {}\n    \n    def find(self, x):\n        if x not in self.parent:\n            self.parent[x] = x\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n\ndef accountsMerge(accounts):\n    uf = UnionFind()\n    email_to_name = {}\n    \n    # Union emails in the same account\n    for account in accounts:\n        name = account[0]\n        first_email = account[1]\n        \n        for email in account[1:]:\n            email_to_name[email] = name\n            uf.union(first_email, email)\n    \n    # Group emails by root parent\n    email_groups = defaultdict(list)\n    for email in email_to_name:\n        root = uf.find(email)\n        email_groups[root].append(email)\n    \n    # Create result\n    result = []\n    for emails in email_groups.values():\n        name = email_to_name[emails[0]]\n        result.append([name] + sorted(emails))\n    \n    return result\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nfrom collections import defaultdict\n\nclass UnionFind:\n    def __init__(self):\n        self.parent = {}\n    \n    def find(self, x):\n        if x not in self.parent:\n            self.parent[x] = x\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n\ndef accountsMerge(accounts):\n    uf = UnionFind()\n    email_to_name = {}\n    \n    # Union emails in the same account\n    for account in accounts:\n        name = account[0]\n        first_email = account[1]\n        \n        for email in account[1:]:\n            email_to_name[email] = name\n            uf.union(first_email, email)\n    \n    # Group emails by root parent\n    email_groups = defaultdict(list)\n    for email in email_to_name:\n        root = uf.find(email)\n        email_groups[root].append(email)\n    \n    # Create result\n    result = []\n    for emails in email_groups.values():\n        name = email_to_name[emails[0]]\n        result.append([name] + sorted(emails))\n    \n    return result\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "Redundant Connection: Find the redundant edge in a graph using Union-Find.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n + 1))\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py:\n            return False  # Already connected\n        self.parent[px] = py\n        return True\n\ndef findRedundantConnection(edges):\n    n = len(edges)\n    uf = UnionFind(n)\n    \n    for u, v in edges:\n        if not uf.union(u, v):\n            return [u, v]\n    \n    return []\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n + 1))\n    \n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py:\n            return False  # Already connected\n        self.parent[px] = py\n        return True\n\ndef findRedundantConnection(edges):\n    n = len(edges)\n    uf = UnionFind(n)\n    \n    for u, v in edges:\n        if not uf.union(u, v):\n            return [u, v]\n    \n    return []\n```"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "Most Stones Removed: Find maximum stones that can be removed using Union-Find on coordinates.",
+        "questionType": "source-code",
+        "choices": [
+            "```python\nclass UnionFind:\n    def __init__(self):\n        self.parent = {}\n        self.count = 0\n    \n    def find(self, x):\n        if x not in self.parent:\n            self.parent[x] = x\n            self.count += 1\n        \n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n            self.count -= 1\n\ndef removeStones(stones):\n    uf = UnionFind()\n    \n    for x, y in stones:\n        # Union row and column indices\n        # Use different ranges to avoid collision\n        uf.union(x, y + 10000)\n    \n    return len(stones) - uf.count\n```",
+            "NA1",
+            "NA2",
+            "NA3"
+        ],
+        "correctAnswer": "```python\nclass UnionFind:\n    def __init__(self):\n        self.parent = {}\n        self.count = 0\n    \n    def find(self, x):\n        if x not in self.parent:\n            self.parent[x] = x\n            self.count += 1\n        \n        if self.parent[x] != x:\n            self.parent[x] = self.find(self.parent[x])\n        return self.parent[x]\n    \n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px != py:\n            self.parent[px] = py\n            self.count -= 1\n\ndef removeStones(stones):\n    uf = UnionFind()\n    \n    for x, y in stones:\n        # Union row and column indices\n        # Use different ranges to avoid collision\n        uf.union(x, y + 10000)\n    \n    return len(stones) - uf.count\n```"
+    }
+]

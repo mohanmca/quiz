@@ -1,0 +1,482 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "What is a Kafka broker?",
+        "choices": [
+            "A server that stores and serves Kafka messages, managing topics and partitions",
+            "A client application that produces messages",
+            "A tool for monitoring Kafka clusters",
+            "A configuration file for Kafka settings"
+        ],
+        "correctAnswer": "A server that stores and serves Kafka messages, managing topics and partitions"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "What is the role of a broker in a Kafka cluster?",
+        "choices": [
+            "To receive, store, and serve messages while participating in cluster coordination",
+            "To only route messages between producers and consumers",
+            "To compile and validate message schemas",
+            "To encrypt and decrypt message content"
+        ],
+        "correctAnswer": "To receive, store, and serve messages while participating in cluster coordination"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "How does Kafka identify brokers within a cluster?",
+        "choices": [
+            "Each broker has a unique broker.id configured in server.properties",
+            "Brokers are identified by their IP addresses only",
+            "Brokers use randomly generated UUIDs",
+            "Brokers are identified by their hostname"
+        ],
+        "correctAnswer": "Each broker has a unique broker.id configured in server.properties"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What happens when a broker joins a Kafka cluster?",
+        "choices": [
+            "It registers itself with ZooKeeper and participates in partition leadership elections",
+            "It automatically becomes the cluster coordinator",
+            "It downloads all existing messages from other brokers",
+            "It creates backup copies of all topics"
+        ],
+        "correctAnswer": "It registers itself with ZooKeeper and participates in partition leadership elections"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "What is a partition leader in Kafka?",
+        "choices": [
+            "The broker responsible for handling all reads and writes for a specific partition",
+            "The broker with the most available storage space",
+            "The broker that was started first in the cluster",
+            "The broker with the highest broker.id"
+        ],
+        "correctAnswer": "The broker responsible for handling all reads and writes for a specific partition"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "How does Kafka elect a partition leader?",
+        "choices": [
+            "ZooKeeper coordinates leader election using the In-Sync Replica (ISR) list",
+            "The broker with the most CPU resources becomes the leader",
+            "Leaders are manually assigned by administrators",
+            "The first broker to claim leadership becomes the leader"
+        ],
+        "correctAnswer": "ZooKeeper coordinates leader election using the In-Sync Replica (ISR) list"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "What happens when a partition leader fails?",
+        "choices": [
+            "A new leader is elected from the In-Sync Replicas (ISR) list",
+            "The partition becomes unavailable until manual intervention",
+            "All messages in the partition are lost",
+            "The partition is automatically deleted"
+        ],
+        "correctAnswer": "A new leader is elected from the In-Sync Replicas (ISR) list"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What is the preferred replica in Kafka?",
+        "choices": [
+            "The first replica in the replica assignment list, preferred to be the leader",
+            "The replica with the most available disk space",
+            "The replica on the broker with the lowest latency",
+            "The replica that was created most recently"
+        ],
+        "correctAnswer": "The first replica in the replica assignment list, preferred to be the leader"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "What does message durability mean in Kafka?",
+        "choices": [
+            "Messages are persisted to disk and replicated across multiple brokers",
+            "Messages are kept in memory for faster access",
+            "Messages are automatically compressed",
+            "Messages are encrypted before storage"
+        ],
+        "correctAnswer": "Messages are persisted to disk and replicated across multiple brokers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "Which configuration controls message durability in Kafka?",
+        "choices": [
+            "The replication factor and min.insync.replicas settings",
+            "The batch.size and linger.ms settings",
+            "The buffer.memory and max.request.size settings",
+            "The compression.type and cleanup.policy settings"
+        ],
+        "correctAnswer": "The replication factor and min.insync.replicas settings"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "What is the purpose of the commit log in Kafka?",
+        "choices": [
+            "To provide an immutable, ordered sequence of messages stored on disk",
+            "To track which consumers have read which messages",
+            "To store broker configuration changes",
+            "To log error messages and warnings"
+        ],
+        "correctAnswer": "To provide an immutable, ordered sequence of messages stored on disk"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "How does Kafka ensure message reliability with the acks configuration?",
+        "choices": [
+            "acks=all ensures the leader waits for acknowledgment from all in-sync replicas",
+            "acks=1 ensures messages are never lost",
+            "acks=0 provides the highest reliability",
+            "acks setting only affects consumer acknowledgments"
+        ],
+        "correctAnswer": "acks=all ensures the leader waits for acknowledgment from all in-sync replicas"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "What is broker failover in Kafka?",
+        "choices": [
+            "The automatic reassignment of partition leadership when a broker becomes unavailable",
+            "The manual process of replacing a failed broker",
+            "The backup and restore process for broker data",
+            "The load balancing of messages across brokers"
+        ],
+        "correctAnswer": "The automatic reassignment of partition leadership when a broker becomes unavailable"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "How quickly can Kafka detect broker failure?",
+        "choices": [
+            "Based on session.timeout.ms and heartbeat.interval.ms configurations",
+            "Instantly when the network connection drops",
+            "Only when a client tries to connect to the failed broker",
+            "After a fixed 30-second timeout period"
+        ],
+        "correctAnswer": "Based on session.timeout.ms and heartbeat.interval.ms configurations"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "What happens to consumer groups when a broker fails?",
+        "choices": [
+            "Consumer rebalancing occurs to reassign partitions from the failed broker",
+            "All consumers in affected groups are disconnected permanently",
+            "Consumer groups are automatically deleted",
+            "Consumers continue reading from cached messages"
+        ],
+        "correctAnswer": "Consumer rebalancing occurs to reassign partitions from the failed broker"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What is unclean leader election in Kafka?",
+        "choices": [
+            "Allowing out-of-sync replicas to become leaders, potentially causing data loss",
+            "Electing a leader without ZooKeeper coordination",
+            "Manually forcing a specific broker to become the leader",
+            "Electing multiple leaders for the same partition"
+        ],
+        "correctAnswer": "Allowing out-of-sync replicas to become leaders, potentially causing data loss"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "Does Kafka use an in-memory message queue?",
+        "choices": [
+            "No, Kafka stores messages in persistent log files on disk with OS page cache",
+            "Yes, all messages are stored in RAM for fastest access",
+            "Only for temporary buffering during high throughput",
+            "Only for messages smaller than 1KB"
+        ],
+        "correctAnswer": "No, Kafka stores messages in persistent log files on disk with OS page cache"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "How does Kafka achieve high performance without in-memory queues?",
+        "choices": [
+            "By leveraging OS page cache and sequential disk I/O patterns",
+            "By compressing all messages before storage",
+            "By using SSD drives exclusively",
+            "By limiting message size to improve performance"
+        ],
+        "correctAnswer": "By leveraging OS page cache and sequential disk I/O patterns"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "What is the role of the OS page cache in Kafka performance?",
+        "choices": [
+            "It caches frequently accessed log segments in memory for fast reads",
+            "It manages network connections between brokers",
+            "It handles message compression and decompression",
+            "It stores consumer offset information"
+        ],
+        "correctAnswer": "It caches frequently accessed log segments in memory for fast reads"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "Why does Kafka prefer disk-based storage over in-memory queues?",
+        "choices": [
+            "For durability, larger storage capacity, and to avoid data loss on restarts",
+            "Because memory is always slower than disk",
+            "To reduce CPU usage",
+            "To simplify the codebase"
+        ],
+        "correctAnswer": "For durability, larger storage capacity, and to avoid data loss on restarts"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "What does acks=0 mean for a Kafka producer?",
+        "choices": [
+            "The producer doesn't wait for any acknowledgment from the broker",
+            "The producer waits for acknowledgment from all replicas",
+            "The producer waits for acknowledgment from the leader only",
+            "The producer disables message sending"
+        ],
+        "correctAnswer": "The producer doesn't wait for any acknowledgment from the broker"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What does acks=1 guarantee in Kafka?",
+        "choices": [
+            "The leader broker has written the message to its local log",
+            "All replicas have received and acknowledged the message",
+            "The message has been consumed by at least one consumer",
+            "The message has been compressed and stored"
+        ],
+        "correctAnswer": "The leader broker has written the message to its local log"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "What is the strongest durability guarantee in Kafka?",
+        "choices": [
+            "acks=all (or acks=-1) with min.insync.replicas > 1",
+            "acks=0 with high replication factor",
+            "acks=1 with compression enabled",
+            "Using synchronous replication"
+        ],
+        "correctAnswer": "acks=all (or acks=-1) with min.insync.replicas > 1"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What happens if min.insync.replicas requirement cannot be met?",
+        "choices": [
+            "The producer receives a NotEnoughReplicasException",
+            "The message is automatically replicated to more brokers",
+            "The message is stored with reduced durability",
+            "The partition becomes read-only"
+        ],
+        "correctAnswer": "The producer receives a NotEnoughReplicasException"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "What is a quorum in the context of Kafka?",
+        "choices": [
+            "A majority of replicas that must acknowledge a write for it to be committed",
+            "The minimum number of brokers needed to start a cluster",
+            "The maximum number of consumers in a consumer group",
+            "The optimal batch size for message production"
+        ],
+        "correctAnswer": "A majority of replicas that must acknowledge a write for it to be committed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q26",
+        "title": "How does min.insync.replicas relate to quorum in Kafka?",
+        "choices": [
+            "It defines the minimum number of in-sync replicas required for a write to succeed",
+            "It sets the maximum replication factor for topics",
+            "It determines the consumer group size",
+            "It controls the number of partition leaders"
+        ],
+        "correctAnswer": "It defines the minimum number of in-sync replicas required for a write to succeed"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q27",
+        "title": "In KRaft mode (Kafka without ZooKeeper), what implements quorum-based consensus?",
+        "choices": [
+            "The Raft consensus algorithm implemented in Kafka controllers",
+            "A modified version of ZooKeeper embedded in brokers",
+            "A gossip protocol between all brokers",
+            "HTTP-based voting between partition leaders"
+        ],
+        "correctAnswer": "The Raft consensus algorithm implemented in Kafka controllers"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q28",
+        "title": "What is the recommended min.insync.replicas setting for a replication factor of 3?",
+        "choices": [
+            "2 (to tolerate one replica failure while maintaining durability)",
+            "1 (to maximize availability)",
+            "3 (to ensure all replicas are always in sync)",
+            "0 (to disable the requirement)"
+        ],
+        "correctAnswer": "2 (to tolerate one replica failure while maintaining durability)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q29",
+        "title": "What is the Group Coordinator in Kafka?",
+        "choices": [
+            "A broker responsible for managing consumer group membership and partition assignments",
+            "A separate service that manages all Kafka topics",
+            "A tool for monitoring consumer lag",
+            "A component that handles producer acknowledgments"
+        ],
+        "correctAnswer": "A broker responsible for managing consumer group membership and partition assignments"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q30",
+        "title": "How is the Group Coordinator selected for a consumer group?",
+        "choices": [
+            "Based on a hash of the group ID mapped to a partition of the __consumer_offsets topic",
+            "The broker with the lowest ID becomes the coordinator",
+            "The first broker that receives a consumer request",
+            "Randomly selected from available brokers"
+        ],
+        "correctAnswer": "Based on a hash of the group ID mapped to a partition of the __consumer_offsets topic"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q31",
+        "title": "What responsibilities does the Group Coordinator have?",
+        "choices": [
+            "Managing group membership, triggering rebalances, and storing consumer offsets",
+            "Routing messages between producers and consumers",
+            "Monitoring broker health and performance",
+            "Creating and deleting topics automatically"
+        ],
+        "correctAnswer": "Managing group membership, triggering rebalances, and storing consumer offsets"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q32",
+        "title": "What is consumer rebalancing in Kafka?",
+        "choices": [
+            "The process of reassigning partitions among consumers when group membership changes",
+            "The automatic scaling of consumer instances",
+            "The load balancing of messages across topics",
+            "The synchronization of consumer offsets"
+        ],
+        "correctAnswer": "The process of reassigning partitions among consumers when group membership changes"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q33",
+        "title": "What are the different broker roles in a Kafka cluster?",
+        "choices": [
+            "Controller, Leader, Follower, and Group Coordinator roles",
+            "Primary, Secondary, and Backup roles",
+            "Master, Slave, and Standby roles",
+            "Producer, Consumer, and Broker roles"
+        ],
+        "correctAnswer": "Controller, Leader, Follower, and Group Coordinator roles"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q34",
+        "title": "What is the Controller role in Kafka?",
+        "choices": [
+            "The broker responsible for cluster metadata management and partition leader election",
+            "The broker that handles all consumer requests",
+            "The broker with the highest throughput",
+            "The broker that manages topic creation only"
+        ],
+        "correctAnswer": "The broker responsible for cluster metadata management and partition leader election"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q35",
+        "title": "How is the Kafka Controller elected?",
+        "choices": [
+            "The first broker to register in ZooKeeper's /controller path becomes the controller",
+            "The broker with the highest broker.id becomes the controller",
+            "Controllers are manually assigned by administrators",
+            "All brokers serve as controllers simultaneously"
+        ],
+        "correctAnswer": "The first broker to register in ZooKeeper's /controller path becomes the controller"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q36",
+        "title": "What happens when the Kafka Controller fails?",
+        "choices": [
+            "Another broker automatically becomes the new controller through ZooKeeper election",
+            "The cluster becomes unavailable until manual intervention",
+            "All partition leaders are reassigned randomly",
+            "The cluster continues without a controller"
+        ],
+        "correctAnswer": "Another broker automatically becomes the new controller through ZooKeeper election"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q37",
+        "title": "What is the difference between a Leader and Follower replica?",
+        "choices": [
+            "Leaders handle all reads/writes, Followers only replicate data from the leader",
+            "Leaders store metadata, Followers store actual messages",
+            "Leaders are on faster hardware, Followers are on slower hardware",
+            "Leaders handle producers, Followers handle consumers"
+        ],
+        "correctAnswer": "Leaders handle all reads/writes, Followers only replicate data from the leader"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q38",
+        "title": "Can a broker have multiple roles simultaneously?",
+        "choices": [
+            "Yes, a broker can be a Controller, Leader for some partitions, and Follower for others",
+            "No, each broker can only have one role at a time",
+            "Only Controller and Leader roles can be combined",
+            "Only during cluster startup phase"
+        ],
+        "correctAnswer": "Yes, a broker can be a Controller, Leader for some partitions, and Follower for others"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q39",
+        "title": "What is the In-Sync Replica (ISR) list?",
+        "choices": [
+            "The set of replicas that are caught up with the partition leader",
+            "A list of all replicas across all partitions",
+            "The configuration list of preferred replica assignments",
+            "A backup list of replicas stored in ZooKeeper"
+        ],
+        "correctAnswer": "The set of replicas that are caught up with the partition leader"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q40",
+        "title": "What determines if a replica is considered in-sync?",
+        "choices": [
+            "The replica lag is within replica.lag.time.max.ms of the leader",
+            "The replica has the same number of messages as the leader",
+            "The replica is on the same physical server as the leader",
+            "The replica was started at the same time as the leader"
+        ],
+        "correctAnswer": "The replica lag is within replica.lag.time.max.ms of the leader"
+    }
+]

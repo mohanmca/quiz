@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Deep Dive — Memory Ownership & RAII</title>
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f8fafc; --text:#0f172a; --muted:#64748b; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:10; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .title { font-weight:800; font-size: 24px; margin: 4px 0; }
+    .subtitle { color: var(--muted); margin-bottom: 8px; }
+    .toolbar { display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#e2efff; color:#0f172a; }
+    button.ghost { background:transparent; color:#0f172a; border:1px solid #e2e8f0; }
+    main.container article { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; }
+    h2 { margin-top:22px; }
+    h3 { margin-top:16px; }
+    p { line-height:1.7; }
+    table { width:100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { border:1px solid #e2e8f0; padding:8px; text-align:left; vertical-align:top; }
+    th { background:#f1f5f9; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; border:1px solid #111827; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .ascii { white-space: pre; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:10px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">C++ Deep Dive — Memory Ownership & RAII</div>
+      <div class="subtitle">unique_ptr, shared_ptr, weak_ptr, cycles, aliasing, custom deleters, Rule of Zero</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../../index.html?id=cpp-advanced-value-lifetimes'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../cpp-value-lifetimes-ownership-templates-concurrency.html'">Back to Overview</button>
+        <button onclick="window.location.href='../../data/anki/cpp-advanced.csv'">Download Anki CSV</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>1. Ownership at a Glance</h2>
+      <table>
+        <thead><tr><th>Tool</th><th>Ownership</th><th>Notes</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td>unique_ptr&lt;T&gt;</td><td>Sole</td><td>Movable, not copyable; custom deleter in type</td><td>Exclusive resources</td></tr>
+          <tr><td>shared_ptr&lt;T&gt;</td><td>Shared</td><td>Ref-counted; use make_shared; beware cycles</td><td>Shared ownership</td></tr>
+          <tr><td>weak_ptr&lt;T&gt;</td><td>Observation</td><td>lock() to access; breaks cycles</td><td>Back-pointers/caches</td></tr>
+          <tr><td>raw T*</td><td>Borrowed</td><td>No ownership; don’t delete</td><td>Non-owning parameters</td></tr>
+        </tbody>
+      </table>
+
+      <h2>2. RAII Patterns</h2>
+      <ul>
+        <li>Rule of Zero: compose types with RAII members; no manual special members.</li>
+        <li>Rule of Five: when directly owning resources, define/maybe default dtor, copy/move ctor/assign.</li>
+        <li>Noexcept move enables container optimizations.</li>
+      </ul>
+
+      <h2>2.1 Rules: Zero / Three / Five (and the “Seven” question)</h2>
+      <table>
+        <thead><tr><th>Rule</th><th>What it means</th><th>When to apply</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Rule of Zero</td>
+            <td>Do not write special members (dtor/copy/move); own resources via RAII members that manage themselves.</td>
+            <td>High-level types composed of std::string, std::vector, smart pointers, etc.</td>
+            <td>Best default. Yields simple, exception-safe code.</td>
+          </tr>
+          <tr>
+            <td>Rule of Three</td>
+            <td>If you define any of: destructor, copy constructor, copy assignment — you probably need all three.</td>
+            <td>Pre‑C++11 guidance; still useful to reason about copy‑managed resources.</td>
+            <td>Signals manual resource management (raw owning pointers, file handles, etc.).</td>
+          </tr>
+          <tr>
+            <td>Rule of Five</td>
+            <td>In C++11+, add move constructor and move assignment to the Rule of Three set.</td>
+            <td>Types that directly own resources and benefit from moving.</td>
+            <td>Prefer =default when semantics are correct; consider noexcept on moves.</td>
+          </tr>
+          <tr>
+            <td>About a “Rule of Seven”</td>
+            <td>Not a standard C++ guideline; occasionally used informally to add swap/compare or other ops.</td>
+            <td>Stick to Zero/Three/Five. Provide <code>swap</code> and comparisons when appropriate.</td>
+            <td>Over‑specifying “rules” can obscure the core guidance above.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>3. Cycles & Aliasing</h2>
+      <ul>
+        <li>Break cycles with weak_ptr on back-edges.</li>
+        <li>Aliasing shared_ptr shares control block but holds distinct pointer—ensure pointee outlives alias target.</li>
+      </ul>
+
+      <h2>4. Custom Deleters</h2>
+      <ul>
+        <li>Prefer function objects for stateful deleters.</li>
+        <li>For FILE*: unique_ptr&lt;FILE, int(*)(FILE*)&gt; with fclose wrapper, or a functor type.</li>
+      </ul>
+
+      <h2>5. Diagnostics</h2>
+      <ul>
+        <li>Use ASan/TSan; clang-tidy modernize-* fixes; leak sanitizer.</li>
+        <li>Instrument constructors/moves to validate invariants for moved-from states.</li>
+      </ul>
+    </article>
+  </main>
+</body>
+</html>

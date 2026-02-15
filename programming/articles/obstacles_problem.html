@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Block Placement Queries (LeetCode 3161) — Interactive BIT Tutorial</title>
+<style>
+  :root{
+    --bg:#0f172a;            /* slate-900 */
+    --panel:#0b2530;         /* deep aqua/greenish */
+    --panel-2:#10333f;
+    --accent:#22c1b4;        /* aqua */
+    --accent-2:#7dd3fc;      /* sky-aqua */
+    --muted:#94a3b8;         /* slate-400 */
+    --text:#e2e8f0;          /* slate-200 */
+    --ok:#10b981;            /* green */
+    --warn:#f59e0b;          /* amber */
+    --bad:#ef4444;           /* red */
+    --shadow:0 10px 30px rgba(0,0,0,0.35);
+    --radius:18px;
+  }
+  html,body{margin:0;padding:0;background:linear-gradient(135deg, #0d1b24 0%, #0f172a 100%);color:var(--text);font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";}
+  .wrap{max-width:1200px;margin:30px auto;padding:0 18px 60px;}
+  .hero{
+    background:linear-gradient(180deg, rgba(34,193,180,0.15), rgba(16,51,63,0.15));
+    border:1px solid rgba(125,211,252,0.2);
+    border-radius:var(--radius);
+    padding:28px 24px;
+    box-shadow:var(--shadow);
+  }
+  .title{font-size:clamp(24px, 3vw, 40px);font-weight:800;letter-spacing:0.4px;margin:0 0 10px;}
+  .subtitle{color:var(--muted);margin:0 0 12px;font-size:clamp(14px,1.6vw,18px)}
+  .chip{display:inline-block;background:rgba(34,193,180,0.1);border:1px solid rgba(34,193,180,0.35);color:var(--accent);padding:6px 10px;border-radius:999px;font-size:12px;margin-right:8px}
+  .kbd{border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:12px}
+  .tabs{margin-top:22px;display:flex;gap:8px;flex-wrap:wrap}
+  .tab-btn{
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid rgba(125,211,252,0.18);
+    color:var(--text);
+    padding:10px 14px;border-radius:12px;cursor:pointer;
+    transition:transform .12s ease, background .2s ease, border-color .2s ease;
+  }
+  .tab-btn:hover{transform:translateY(-2px);border-color:rgba(34,193,180,0.6)}
+  .tab-btn.active{outline:2px solid var(--accent);}
+  .panel{
+    margin-top:16px;padding:20px;border-radius:var(--radius);
+    background:linear-gradient(180deg, rgba(16,51,63,0.4), rgba(11,37,48,0.55));
+    border:1px solid rgba(125,211,252,0.16);
+    box-shadow:var(--shadow);
+    display:none;
+  }
+  .panel.active{display:block}
+  h2{margin:8px 0 12px;font-size:24px}
+  h3{margin:20px 0 10px;font-size:18px;color:var(--accent)}
+  p{line-height:1.6;color:#dbeafe}
+  code,.code{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:2px 6px;border-radius:6px;
+    font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:13px;color:#e0f2fe
+  }
+  pre{white-space:pre-wrap;word-break:break-word;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:14px;border-radius:12px;color:#e0f2fe}
+  .grid{display:grid;gap:16px}
+  .grid.two{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .callout{background:rgba(16,51,63,0.65);border-left:4px solid var(--accent);padding:12px 14px;border-radius:10px}
+  .badge{display:inline-block;background:rgba(125,211,252,0.18);border:1px solid rgba(125,211,252,0.32);color:#a5f3fc;padding:3px 8px;border-radius:999px;font-size:12px}
+  .btn{
+    background:linear-gradient(180deg, #1f635e, #0f524d);color:white;border:none;padding:10px 14px;border-radius:12px;
+    cursor:pointer;box-shadow:var(--shadow);transition:transform .1s ease, opacity .2s ease
+  }
+  .btn:hover{transform:translateY(-2px);opacity:.95}
+  .ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)}
+  details{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);padding:10px 12px;border-radius:10px}
+  summary{cursor:pointer}
+  .quiz-card{background:linear-gradient(180deg, rgba(34,193,180,0.08), rgba(16,51,63,0.35));border:1px solid rgba(125,211,252,0.18);border-radius:14px;padding:14px;margin:10px 0}
+  .options{display:grid;gap:8px;margin-top:8px}
+  .option{display:flex;gap:10px;align-items:flex-start;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);padding:8px;border-radius:10px}
+  .result{margin-top:8px;font-weight:700}
+  .score{font-size:18px;margin-top:12px}
+  .sticky-actions{position:sticky;bottom:10px;display:flex;gap:10px;justify-content:flex-end}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+  .pill{display:inline-block;margin:2px 6px 2px 0;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);font-size:12px}
+  .table{width:100%;border-collapse:collapse;margin-top:10px}
+  .table th,.table td{border:1px solid rgba(255,255,255,0.12);padding:8px;text-align:left}
+  .kbdrow{margin-top:12px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="chip">Interactive</div>
+      <div class="chip">Aqua / Green / Grey</div>
+      <div class="chip">Self-Study</div>
+      <h1 class="title">Block Placement Queries (LeetCode 3161) — Fenwick (BIT) Masterclass</h1>
+      <p class="subtitle">
+        Learn how to model shrinking gaps with a reverse pass and track <span class="badge">prefix maxima</span> using a Fenwick Tree.
+        Includes a gentle BIT refresher (sum → max → min), step-by-step walkthrough, and <b>40 MCQ quizzes</b>.
+      </p>
+      <div class="kbdrow">
+        <span class="pill"><span class="kbd">j</span>/<span class="kbd">k</span> switch tabs</span>
+        <span class="pill"><span class="kbd">g</span> grade quiz</span>
+        <span class="pill"><span class="kbd">r</span> reset quiz</span>
+      </div>
+      <div class="tabs" id="tabs"></div>
+    </section>
+
+    <!-- Panels -->
+    <section id="panel-overview" class="panel active">
+      <h2>Overview</h2>
+      <div class="grid two">
+        <div>
+          <h3>Problem</h3>
+          <p>We have an infinite number line starting at 0. Two query types:</p>
+          <ul>
+            <li><b>Type 1:</b> place an obstacle at <code>x</code></li>
+            <li><b>Type 2:</b> can a block of length <code>sz</code> fit entirely in <code>[0, x]</code> without crossing obstacles (touching is fine)?</li>
+          </ul>
+          <div class="callout">
+            As obstacles are added over time, gaps <i>shrink</i>. Answering online is tough. So we process queries <b>in reverse</b>: obstacles are removed, and gaps only <i>grow</i>.
+          </div>
+        </div>
+        <div>
+          <h3>Core Trick</h3>
+          <p>Maintain a <b>Fenwick Tree</b> that stores the <b>maximum gap length</b> among consecutive obstacles for every prefix <code>[0..x]</code>. When removing an obstacle at <code>x</code> in reverse, its neighbors merge into a larger gap. We update the BIT with this new (larger) gap.</p>
+          <p>For a query <code>(2, x, sz)</code> we check:</p>
+          <ul>
+            <li>the gap ending at <code>x</code> (distance to previous obstacle), or</li>
+            <li>the <b>max gap</b> entirely within <code>[0, x]</code> from the BIT.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-bit-basics" class="panel">
+      <h2>Fenwick Tree (BIT) Basics</h2>
+      <p>A Fenwick Tree stores aggregated information for prefixes using index arithmetic based on the lowest set bit (LSB).</p>
+      <div class="grid two">
+        <div>
+          <h3>Classic Sum BIT</h3>
+          <pre><code class="language-py"># Add v at index i (0-indexed)
+while i &lt; n:
+    bit[i] += v
+    i = i | (i + 1)  # jump to next bucket
+
+# Sum over [0..r]
+s = 0
+while r &gt;= 0:
+    s += bit[r]
+    r = (r &amp; (r + 1)) - 1  # move to parent</code></pre>
+        </div>
+        <div>
+          <h3>Why it Works</h3>
+          <p>Every index's bucket length equals its LSB (in 1-indexed form). Update propagates to all buckets covering that index. Query walks parent buckets to compose the prefix.</p>
+          <table class="table">
+            <thead><tr><th>i (0-idx)</th><th>1-idx</th><th>LSB</th><th>Bucket size</th></tr></thead>
+            <tbody>
+              <tr><td>0</td><td>1</td><td>1</td><td>1</td></tr>
+              <tr><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+              <tr><td>2</td><td>3</td><td>1</td><td>1</td></tr>
+              <tr><td>3</td><td>4</td><td>4</td><td>4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <details><summary>Index transforms (0-indexed)</summary>
+        <ul>
+          <li><code>next(i) = i | (i + 1)</code></li>
+          <li><code>parent(i) = (i &amp; (i + 1)) - 1</code></li>
+        </ul>
+      </details>
+    </section>
+
+    <section id="panel-bit-max-simple" class="panel">
+      <h2>Topic: Using BIT to Track Simple Prefix Maximum (No Problem Context)</h2>
+      <p>We can repurpose a Fenwick Tree to store prefix maxima instead of sums.</p>
+      <div class="grid two">
+        <div>
+<pre><code class="language-py">n = 8
+bit = [0]*n
+
+def update_max(i, val):
+    while i &lt; n:
+        bit[i] = max(bit[i], val)
+        i = i | (i + 1)
+
+def query_max(r):
+    ans = float('-inf')
+    while r &gt;= 0:
+        ans = max(ans, bit[r])
+        r = (r &amp; (r + 1)) - 1
+    return ans
+
+# Example: values [5,1,4,3,2,9,0,6]
+# Suppose we update index with its value as candidate for prefix max.
+vals = [5,1,4,3,2,9,0,6]
+for i, v in enumerate(vals):
+    update_max(i, v)
+
+print(query_max(0)) # 5
+print(query_max(5)) # 9
+print(query_max(7)) # 9</code></pre>
+        </div>
+        <div>
+          <h3>Notes</h3>
+          <ul>
+            <li>Monotonicity helps: we only ever take <code>max()</code>.</li>
+            <li>Supports incremental updates and fast prefix max queries.</li>
+            <li>To support range max queries over arbitrary <code>[L, R]</code>, you generally need more structure (e.g., segment tree) or tricks (difference arrays + prefix).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-bit-variants" class="panel">
+      <h2>BIT Variants: Max, Min, and Bitwise-AND</h2>
+      <div class="grid two">
+        <div>
+          <h3>Prefix Max BIT</h3>
+          <p>Exactly what we use in this problem: store the best (max) candidate per bucket, query via <code>max()</code> across parent buckets.</p>
+        </div>
+        <div>
+          <h3>Prefix Min BIT</h3>
+          <p>Initialize with <code>+∞</code>, and replace <code>max</code> by <code>min</code> in both <code>update</code> and <code>query</code>. Useful for maintaining running minima.</p>
+        </div>
+      </div>
+      <div class="grid two">
+        <div>
+          <h3>Bitwise-AND BIT (prefix)</h3>
+          <p>Store bitwise-AND over the bucket’s contributing range. Replace aggregation with <code>a &amp; b</code>. Identity is all 1s (e.g., <code>(1&lt;&lt;30)-1</code>).</p>
+        </div>
+        <div>
+          <h3>When to Prefer Segment Tree</h3>
+          <p>If you need non-prefix queries (arbitrary intervals) with commutative ops (max/min/AND), a segment tree is often simpler and more general than trying to twist a BIT.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-3161" class="panel">
+      <h2>LeetCode 3161 — Step-by-Step</h2>
+      <ol>
+        <li>Collect all obstacle positions (from Type 1 queries) and add sentinel <code>0</code>. Sort them → <code>blocks</code>.</li>
+        <li>For each consecutive pair in <code>blocks</code>, compute gap and <code>update(right, gap)</code> into a Prefix-Max BIT.</li>
+        <li>Process queries in reverse:
+          <ul>
+            <li>Type 1 (forward add) ⇒ reverse remove: merge neighbors <code>prev</code> and <code>next</code>, compute new gap, <code>update(next, new_gap)</code>, delete the obstacle from <code>blocks</code>.</li>
+            <li>Type 2 (check): 
+              <ul>
+                <li>Find <code>pos = lower_bound(blocks, x)</code>.</li>
+                <li><b>Candidate A:</b> <code>left_gap = x - blocks[pos-1]</code>.</li>
+                <li><b>Candidate B:</b> <code>max_gap = get_max(x)</code> from BIT.</li>
+                <li>Answer = <code>(left_gap ≥ sz) or (max_gap ≥ sz)</code>.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ol>
+      <div class="callout"><b>Complexity:</b> each step is <code>O(log n)</code>; total <code>O(n log n)</code>.</div>
+      <details><summary>Dry Run (Example 2)</summary>
+        <p class="mono">Queries: [[1,7],[2,7,6],[1,2],[2,7,5],[2,7,6]]</p>
+        <ul>
+          <li>Initial blocks with sentinel: {0,2,7}. BIT gaps: at 2→2, at 7→5.</li>
+          <li>Reverse process:
+            <ul>
+              <li>Q5 (2,7,6): left=7-2=5, max≤7 is 5 ⇒ False</li>
+              <li>Q4 (2,7,5): True</li>
+              <li>Q3 (1,2) remove 2 ⇒ merge 0–7 gap=7, update(7,7)</li>
+              <li>Q2 (2,7,6): left=7-0=7 or max=7 ⇒ True</li>
+              <li>Q1 (1,7) remove 7 ⇒ done</li>
+            </ul>
+          </li>
+        </ul>
+      </details>
+    </section>
+
+    <section id="panel-code" class="panel">
+      <h2>Teaching-Style Python Solution</h2>
+<pre><code class="language-py">from bisect import bisect_left
+from typing import List
+
+class Solution:
+    def getResults(self, queries: List[List[int]]) -> List[bool]:
+        # Reverse processing + Fenwick (BIT) storing prefix maxima of gap lengths.
+        bit_size = min(50000, 3 * len(queries)) + 1
+        bit = [0] * bit_size
+
+        def update(i: int, v: int):
+            while i &lt; bit_size:
+                bit[i] = max(bit[i], v)
+                i = i | (i + 1)
+
+        def get_max(r: int) -> int:
+            ans = 0
+            while r &gt;= 0:
+                ans = max(ans, bit[r])
+                r = (r &amp; (r + 1)) - 1
+            return ans
+
+        blocks = [0] + sorted(x for t, x, *rest in queries if t == 1)
+
+        for i in range(1, len(blocks)):
+            left, right = blocks[i-1], blocks[i]
+            update(right, right - left)
+
+        res_rev = []
+        for q in reversed(queries):
+            t, x, *rest = q
+            if t == 1:
+                p = bisect_left(blocks, x)
+                if p + 1 &lt; len(blocks):
+                    new_gap = blocks[p+1] - blocks[p-1]
+                    update(blocks[p+1], new_gap)
+                del blocks[p]
+            else:
+                sz = rest[0]
+                p = bisect_left(blocks, x)
+                left_gap = x - blocks[p-1]
+                any_prefix_gap = get_max(x)
+                res_rev.append(left_gap &gt;= sz or any_prefix_gap &gt;= sz)
+
+        return list(reversed(res_rev))</code></pre>
+    </section>
+
+    <section id="panel-quiz" class="panel">
+      <h2>Quizzes — 40 Multiple Choice</h2>
+      <p>Test your understanding. Click “Grade All” to see score, or reveal per-question.</p>
+      <div id="quiz-container"></div>
+      <div class="sticky-actions">
+        <button class="btn" onclick="gradeQuiz()" title="g">Grade All</button>
+        <button class="btn" onclick="resetQuiz()" title="r">Reset</button>
+      </div>
+      <div id="score" class="score"></div>
+    </section>
+
+    <section id="panel-cheats" class="panel">
+      <h2>Cheat-Sheet</h2>
+      <div class="grid two">
+        <div>
+<pre><code>0-index BIT transforms:
+  next(i)   = i | (i + 1)
+  parent(i) = (i &amp; (i + 1)) - 1
+
+Classic sum:
+  update(i, v): while i &lt; n: bit[i] += v; i = next(i)
+  query(r):    s=0; while r &gt;= 0: s+=bit[r]; r = parent(r)
+
+Max/min:
+  Replace + with max/min; initialize with -inf/+inf
+</code></pre>
+        </div>
+        <div>
+<pre><code>3161 Playbook:
+  1) Collect all obstacles + 0; sort → blocks
+  2) Prefill BIT with gaps (right - left) at index = right
+  3) Reverse:
+     - t=1: remove x → merge neighbors, update(next, new_gap)
+     - t=2: pos=lower_bound(x)
+            left_gap = x - blocks[pos-1]
+            best = get_max(x)
+            ans = left_gap ≥ sz or best ≥ sz
+</code></pre>
+        </div>
+      </div>
+    </section>
+  </div>
+
+<script>
+// ---------- Tabs ----------
+const TABS = [
+  { id: "overview", label: "Overview" },
+  { id: "bit-basics", label: "BIT Basics" },
+  { id: "bit-max-simple", label: "BIT: Simple Prefix Max" },
+  { id: "bit-variants", label: "BIT Variants (Min/Max/AND)" },
+  { id: "3161", label: "3161 Tutorial" },
+  { id: "code", label: "Code (Python)" },
+  { id: "quiz", label: "Quizzes (40 MCQ)" },
+  { id: "cheats", label: "Cheat-Sheet" },
+];
+
+const tabsEl = document.getElementById("tabs");
+TABS.forEach((t, idx) => {
+  const btn = document.createElement("button");
+  btn.className = "tab-btn" + (idx === 0 ? " active" : "");
+  btn.textContent = t.label;
+  btn.dataset.target = "panel-" + t.id;
+  btn.addEventListener("click", () => activate(t.id));
+  tabsEl.appendChild(btn);
+});
+
+function activate(id){
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.target === "panel-"+id));
+  document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === "panel-"+id));
+}
+document.addEventListener("keydown", (e) => {
+  const order = TABS.map(t => t.id);
+  const activeIdx = order.findIndex(id => document.getElementById("panel-"+id).classList.contains("active"));
+  if (e.key === "j"){ // next
+    const next = (activeIdx + 1) % order.length;
+    activate(order[next]);
+  } else if (e.key === "k"){ // prev
+    const prev = (activeIdx - 1 + order.length) % order.length;
+    activate(order[prev]);
+  } else if (e.key === "g"){
+    gradeQuiz();
+  } else if (e.key === "r"){
+    resetQuiz();
+  }
+});
+
+// ---------- Quiz Bank (40 MCQ) ----------
+const QUIZ = [
+  {q:"What data structure is used in this solution to maintain prefix aggregates efficiently?", opts:["Segment Tree","Fenwick Tree (BIT)","Trie","Deque"], a:1},
+  {q:"Why are queries processed in reverse?", opts:["To avoid sorting","Because forward needs extra space","So gaps expand (monotonic) when removing obstacles","To reduce memory by half"], a:2},
+  {q:"In 0-indexed BIT, the parent index of i is:", opts:["i & (i-1)","i - (i & -i)","(i & (i+1)) - 1","i ^ (i+1)"], a:2},
+  {q:"In 0-indexed BIT, the 'next' index for update from i is:", opts:["i + 1","i | (i + 1)","i & (i - 1)","(i & (i+1)) - 1"], a:1},
+  {q:"What does the BIT store in this problem?", opts:["Sum of values","Minimum prefix","Maximum gap length up to index","Number of obstacles"], a:2},
+  {q:"Time complexity per update/query on BIT:", opts:["O(1)","O(log n)","O(n)","O(log^2 n)"], a:1},
+  {q:"Sentinel obstacle used is at:", opts:["x = -∞","x = 0","x = 1","x = max(x)"], a:1},
+  {q:"For query (2,x,sz), one candidate is the gap:", opts:["x to next obstacle","prev obstacle to next obstacle","x to previous obstacle","0 to x"], a:2},
+  {q:"The other candidate comes from:", opts:["Segment tree query","Hash map","BIT get_max(x)","Union-Find"], a:2},
+  {q:"What happens when removing an obstacle at x in reverse?", opts:["Gaps shrink","Neighbors split","Neighbors merge to form larger gap","No change"], a:2},
+  {q:"BIT identity for max aggregation should start from:", opts:["0","-∞","+∞","1"], a:1},
+  {q:"BIT identity for min aggregation should start from:", opts:["0","-∞","+∞","1"], a:2},
+  {q:"Which is true about BIT vs Segment Tree?", opts:["BIT always supports arbitrary range queries","Segment Tree is more flexible for general ranges","BIT is faster by big-O","Both are identical"], a:1},
+  {q:"In this problem, the initial BIT is seeded by:", opts:["All zeros","Random values","Gaps between consecutive obstacles","Positions of queries"], a:2},
+  {q:"lower_bound(blocks, x) returns:", opts:["Index of last element < x","First position ≥ x","First position > x","Index of exact x or -1"], a:1},
+  {q:"When we update after removing x, we call update at index:", opts:["prev","x","next","0"], a:2},
+  {q:"Main advantage of reverse processing here:", opts:["No need to sort blocks","Monotone updates (max only increases)","Avoids using extra memory","Parallelizable"], a:1},
+  {q:"What is stored at bit[i] (conceptually)?", opts:["A single element","Value for exact i","Best aggregate for a bucket covering i","Cumulative sum only"], a:2},
+  {q:"For prefix max query get_max(r), we combine:", opts:["Children buckets","Random nodes","Parent buckets covering [0..r]","Only bit[r]"], a:2},
+  {q:"The LSB trick is used to:", opts:["Find medians","Navigate buckets in BIT","Hash collisions","Rebalance heaps"], a:1},
+  {q:"If obstacles are added forward, gaps:", opts:["Expand","Shrink","Stay same","Random"], a:1},
+  {q:"In reverse, removing an obstacle makes gaps:", opts:["Expand or equal","Shrink only","Alternate","Undefined"], a:0},
+  {q:"BIT update path length is proportional to:", opts:["#bits set in i","log2(n)","sqrt(n)","n"], a:1},
+  {q:"To support prefix MIN with BIT, replace max with:", opts:["sum","min","product","xor"], a:1},
+  {q:"Bitwise-AND BIT uses identity:", opts:["0","-1","All ones mask","NaN"], a:2},
+  {q:"In Python version, blocks is a:", opts:["heap","sorted list (managed via bisect)","unordered set","deque"], a:1},
+  {q:"erase in Python version is implemented by:", opts:["pop(0)","remove(x)","del blocks[pos]","clear()"], a:2},
+  {q:"For candidate A (left_gap), we compute:", opts:["blocks[pos] - x","x - blocks[pos-1]","blocks[pos+1] - x","x - 0"], a:1},
+  {q:"get_max(x) returns:", opts:["Max gap anywhere","Max gap fully ≤ x","Min gap ≤ x","#obstacles ≤ x"], a:1},
+  {q:"Memory bound for bit array here:", opts:["3*n + 1 (clamped to 50000)","n","x_max","2*n"], a:0},
+  {q:"Which is NOT a property of BIT?", opts:["Logarithmic update/query","Supports prefix aggregates","Requires 2D array","Simple implementation"], a:2},
+  {q:"If two gaps are 2 and 5 up to x, get_max(x) is:", opts:["2","5","7","depends on parity"], a:1},
+  {q:"The term LSB stands for:", opts:["Least Significant Bucket","Last Significant Bit","Least Significant Bit","Local Segment Base"], a:2},
+  {q:"For 1-indexed BIT, bucket length equals:", opts:["Index","LSB(index)","MSB(index)","Index parity"], a:1},
+  {q:"Prefix AND is:", opts:["Associative & commutative","Not associative","Non-commutative","Requires sorting"], a:0},
+  {q:"To query [L..R] with only prefix structure, one can:", opts:["Use two prefix queries","It is impossible","Sort first","Use queue"], a:0},
+  {q:"Replacing + with max in BIT requires:", opts:["No change in traversal","Different parents","O(n) per op","Bitset"], a:0},
+  {q:"In reverse, after deleting x, we must:", opts:["insert x again","update merged gap at next","shrink BIT","rebuild whole BIT"], a:1},
+  {q:"The sentinel 0 ensures:", opts:["There’s always a left boundary","No right boundary","Smaller memory","Faster sort"], a:0},
+  {q:"Overall complexity for n queries:", opts:["O(n)","O(n log n)","O(n log^2 n)","O(n^2)"], a:1}
+];
+
+function renderQuiz(){
+  const qc = document.getElementById("quiz-container");
+  qc.innerHTML = "";
+  QUIZ.forEach((item, idx) => {
+    const card = document.createElement("div");
+    card.className = "quiz-card";
+    const q = document.createElement("div");
+    q.innerHTML = `<b>Q${idx+1}.</b> ${item.q}`;
+    card.appendChild(q);
+
+    const opts = document.createElement("div");
+    opts.className = "options";
+    item.opts.forEach((text, i) => {
+      const id = `q${idx}_o${i}`;
+      const row = document.createElement("label");
+      row.className = "option";
+      row.innerHTML = `<input type="radio" name="q${idx}" value="${i}" /> ${text}`;
+      opts.appendChild(row);
+    });
+    card.appendChild(opts);
+
+    const reveal = document.createElement("button");
+    reveal.className = "btn";
+    reveal.textContent = "Reveal";
+    reveal.addEventListener("click", () => {
+      const res = card.querySelector(".result") || document.createElement("div");
+      res.className = "result";
+      const sel = card.querySelector("input[type=radio]:checked");
+      const correct = item.a;
+      if(!sel){
+        res.innerHTML = `<span class="warn">Select an option.</span>`;
+      } else {
+        const chosen = parseInt(sel.value,10);
+        if (chosen === correct) res.innerHTML = `<span class="ok">Correct!</span>`;
+        else res.innerHTML = `<span class="bad">Incorrect.</span> Correct answer: <b>${String.fromCharCode(65+correct)}</b>`;
+      }
+      card.appendChild(res);
+    });
+    card.appendChild(reveal);
+
+    qc.appendChild(card);
+  });
+}
+renderQuiz();
+
+function gradeQuiz(){
+  let correct = 0, total = QUIZ.length;
+  const cards = [...document.querySelectorAll(".quiz-card")];
+  cards.forEach((card, idx) => {
+    const sel = card.querySelector("input[type=radio]:checked");
+    const res = card.querySelector(".result") || document.createElement("div");
+    res.className = "result";
+    const ans = QUIZ[idx].a;
+    if(sel && parseInt(sel.value,10) === ans){
+      correct++;
+      res.innerHTML = `<span class="ok">Correct</span>`;
+    }else{
+      res.innerHTML = `<span class="bad">Incorrect</span> Correct: <b>${String.fromCharCode(65+ans)}</b>`;
+    }
+    card.appendChild(res);
+  });
+  document.getElementById("score").textContent = `Score: ${correct} / ${total}`;
+}
+
+function resetQuiz(){
+  document.getElementById("score").textContent = "";
+  renderQuiz();
+}
+</script>
+</body>
+</html>

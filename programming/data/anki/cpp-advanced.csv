@@ -1,0 +1,246 @@
+Front,Back
+Define lvalue.,Expression with persistent identity; addressable.
+Define prvalue.,Pure rvalue; temporary materializes (C++17+) when needed.
+Define xvalue.,Expiring glvalue (e.g., result of std::move).
+When does const T& extend lifetime?,When bound directly to a temporary; lasts to ref's scope.
+Can T& bind to temporary?,No (non-const lvalue ref cannot bind to temporary).
+What does std::move do?,Casts to rvalue to enable move; doesn’t move by itself.
+When write a move ctor?,When owning resources or default move is wrong/disabled.
+noexcept on move: why?,Enables container optimizations; prefer moving over copying.
+RVO vs NRVO.,RVO: direct temporary elision; NRVO: named return object elision.
+Guaranteed elision in C++17.,Certain prvalue returns construct directly; no copy/move.
+Dangling reference example.,Returning reference to local; capturing local by ref across threads.
+Rule of Zero.,Rely on RAII members; no manual special members.
+Rule of Five.,If you define one of dtor/copy/move, consider defining the rest.
+unique_ptr semantics.,Sole ownership; movable, not copyable.
+shared_ptr semantics.,Reference counting; shared ownership.
+weak_ptr purpose.,Observe without ownership; break cycles.
+Aliasing shared_ptr.,Shares control block but different pointer; careful with lifetime.
+make_unique vs new.,Prefer make_unique; exception safety and clarity.
+make_shared benefit.,Single allocation for object + control block.
+Custom deleter in unique_ptr.,Deleter type is part of unique_ptr type.
+Partial specialization allowed?,For class/alias/variable templates; not function templates.
+SFINAE.,Substitution failure is not an error; enables overload removal.
+Concepts.,Declarative constraints with clearer diagnostics.
+requires clause.,Attaches constraints to templates/overloads.
+Parameter packs.,Variadics; expanded with fold expressions.
+Fold expressions.,(pack op ...), (... op pack), etc. for reductions.
+typename keyword.,Disambiguates dependent type names.
+template keyword.,Disambiguates dependent template member call.
+CRTP.,Static polymorphism via derived passing itself to base.
+constexpr.,Compile-time evaluation when arguments permit.
+Object slicing.,Assigning derived to base by value loses derived state.
+override.,Marks overriding virtual; catches mismatches.
+final.,Prevents further overriding/derivation.
+Virtual inheritance.,Share one base subobject in diamond.
+Pure virtual destructor.,Must be defined; allows abstract base with virtual dtor.
+Placement new.,Construct object into pre-allocated memory.
+Pointer arithmetic rule.,Only within same array/object; UB otherwise.
+Const-correctness.,Express immutability; const methods promise no observable mutation.
+mutable member.,Allows modification in const member functions.
+const_cast usage.,Only remove constness when original object is non-const.
+volatile is for.,Memory-mapped I/O, signal handlers; not thread safety.
+std::variant vs union.,variant is type-safe tagged union with visitation.
+Alignment tools.,alignas, alignof to control/query alignment.
+Exception basic guarantee.,No leaks; object remains usable, maybe changed.
+Strong guarantee.,Operation succeeds or has no effect.
+nothrow guarantee.,Operation never throws.
+noexcept on functions.,Declares function will not throw; affects codegen.
+Destructor exceptions.,Avoid; can std::terminate during unwinding.
+std::optional.,Represents presence/absence without error details.
+expected-like.,Value-or-error transport without exceptions.
+Lambda captures.,By value/by ref; init-capture; move capture.
+Ranges.,Lazy views pipelines; keep owners alive.
+Coroutines basics.,co_await/co_yield/co_return; promise/awaitable types.
+Coroutine lifetime.,Frame lives until completion or cancellation.
+Modules.,Reduce header inclusion, improve build times and ODR.
+Happens-before.,Order relation established via synchronization.
+Data race.,Two unsynchronized conflicting accesses → undefined behavior.
+Atomics orders.,relaxed, acquire, release, acq_rel, seq_cst.
+Fences.,Establish ordering across atomic operations.
+CAS ABA issue.,Value flips A→B→A; pointer tagging/counters help.
+thread_local.,Per-thread storage for state.
+ODR.,One Definition Rule; no multiple definitions across program.
+Name mangling.,Encodes function signatures in symbol names.
+Templates in headers.,Definition required where used; or explicit instantiation.
+Inline variables.,C++17 feature to avoid multiple definitions.
+Linker multiple definition.,Often from violating ODR.
+Header guards.,#pragma once or include guards to prevent double inclusion.
+Copy elision scenario.,Returning prvalue constructs directly in caller storage.
+Move from const.,Binds to const rvalue → copy, not move.
+Move self-assignment.,Guard or handle idempotently in move assignment.
+Swap + noexcept.,Provide noexcept swap for strong guarantee with containers.
+Iterator invalidation.,Know when insert/erase reallocate; depends on container.
+Small buffer optimization.,Some std::string impls; not guaranteed; affects moves/copies.
+Aliasing rules.,Strict aliasing; use std::byte/char casts when needed.
+Alignment pitfalls.,Over-aligning types on stack; ABI constraints.
+Vtable layout.,Implementation-defined; virtual call via vptr.
+Final overrider.,Dynamic type’s most-derived override wins.
+Multiple inheritance cast.,Use dynamic_cast for safe downcasts across diamonds.
+New/delete pairing.,Use correct form (new[] with delete[], etc.).
+Exception neutrality.,Functions should not hide/translate unexpectedly.
+noexcept false positives.,Beware library calls that may throw; document guarantees.
+Promise/future.,Channel for result propagation across threads.
+async policies.,Launch policy can defer or spawn thread.
+Deadlock avoidance.,Lock ordering, try_lock, scoped_lock.
+Condition variable.,Wait with predicate in loop; spurious wakeups.
+Relaxed atomics.,No ordering; only atomicity.
+Acquire/Release.,Visibility and ordering across threads.
+Seq_cst.,Total order on all seq_cst ops.
+Memory model UB.,Races → UB; test with TSAN.
+Copy elision and exceptions.,Elision can occur even if copying/moving could throw.
+Return local by value.,Safe; copy elision/move will apply; not dangling.
+Return local by reference.,Dangling; do not do this.
+Lambda dangling capture.,Capturing by ref to local used after scope ends → UB.
+std::ref use.,To wrap references for storage/passing to generic code.
+Perfect forwarding.,template<typename T> f(T&&) with std::forward<T>.
+Forwarding ref vs rvalue ref.,T&& in template parameter is forwarding ref; otherwise rvalue ref.
+Decay trap.,auto decays to value; preserves no reference/const.
+ADL.,Argument-dependent lookup may find functions in arg’s namespaces.
+Hidden friends.,Define operators as friends for better ADL.
+EBO.,Empty Base Optimization may remove empty base overhead.
+Type erasure.,std::function/any; pimpl idiom to hide impl.
+Pimpl benefits.,Stable ABI, faster builds, reduced includes.
+Rule of Three.,If dtor/copy ctor/copy assign; define all three.
+Allocator-aware types.,Containers support custom allocators.
+Span.,std::span non-owning view; beware dangling.
+String_view.,Non-owning; ensure source outlives view.
+View pipeline dangers.,Dangling when source is temporary.
+Inline namespaces.,Versioning trick to manage ABI.
+Visibility attributes.,Control symbol exports in shared libs.
+constexpr containers.,Limited pre-C++20; more possible with constexpr allocation proposals.
+Static initialization order fiasco.,Avoid globals across TUs; use function-local statics.
+Immediate functions (C++20).,consteval forces compile-time evaluation.
+Designated initializers.,C++20 aggregate field initialization by name (limited).
+Aggregate initialization.,Brace-init for aggregates; no user-provided ctors.
+Narrowing conversions.,List-init forbids narrowing.
+Init-order of members.,In class: declared order, not ctor order.
+Deleted functions.,= delete to ban overloads/conversions.
+Defaulted specials.,= default when semantics are correct.
+Tristate bool via variant.,Use variant or enum for richer states.
+std::byte.,Byte type for raw memory operations.
+Monomorphic lambdas.,Unnamed type; convertible to function pointer if no captures.
+Captured lambdas in std::function.,Type erase cost; small buffer optimizations apply sometimes.
+Coroutine allocator.,Custom allocator for coroutine frames.
+Stop token.,std::jthread + stop_token for cooperative cancel.
+Barrier/latch.,C++20 thread coordination primitives.
+Reference collapsing rule?,& wins over && resulting in T&
+Forwarding reference occurs when?,T&& with template type deduction
+std::move_if_noexcept purpose?,Prefer move if noexcept else copy
+Materialization conversion?,prvalues materialize a temporary object as needed (C++17)
+Lifetime extension not for?,Temporary bound to const T&& local
+int&& parameter binds to?,rvalues/xvalues (not lvalues)
+Prefer rvalue overload when?,Argument is xvalue via std::move
+Return by value of local (C++17)?,Usually elided; constructs directly
+Returning reference to local?,Dangling; undefined behavior
+Lambda ref capture across async?,May dangle if outlives scope
+unique_ptr for arrays?,use unique_ptr<T[]>
+shared_ptr use_count safety?,Reads okay, modifications atomic in control block
+enable_shared_from_this needs?,Object owned by shared_ptr (e.g., make_shared)
+Break shared_ptr cycle?,Use weak_ptr on back-edges
+Aliasing shared_ptr shares?,Control block but different pointer
+RAII with exceptions?,Destructors run during unwinding
+FILE* custom deleter?,fclose
+Function template partial specialization?,Not allowed; use overloading
+Detect idiom?,SFINAE-based trait detection
+requires-expression?,Compile-time well-formedness check
+Dependent type name?,Use typename to disambiguate
+Dependent member template call?,Use template disambiguator
+CRTP pattern?,struct D : Base<D>
+constexpr if?,Compile-time branching
+CTAD?,Class Template Argument Deduction
+Deduction guides?,Customize CTAD
+Slicing scenario?,Vector<Base> of Derived by value loses state
+Deleting via base pointer?,Base must have virtual destructor
+override?,Ensures method overrides a base virtual
+final (class)?,Prevents further inheritance
+dynamic_cast needs?,Polymorphic base
+Virtual inheritance?,Single shared base in diamond
+Placement new pairing?,Call destructor then free original storage
+Overload operator new?,Custom allocation strategies
+Strict aliasing?,Only certain related types may alias safely
+reinterpret_cast risk?,UB if aliasing/alignment violated
+Bit-fields pitfall?,Impl-defined layout, endianness concerns
+alignas?,Specify minimum alignment
+union active member?,Only one active; reading others UB (with exceptions)
+std::launder?,Access to new object after placement new
+Exception neutrality?,Let exceptions propagate; maintain guarantees
+noexcept operator?,Compile-time bool if expression can throw
+throw() spec?,Deprecated; use noexcept
+Copy-and-swap?,Achieve strong exception guarantee in assignment
+expected-like?,Value-or-error transport (no exceptions)
+Lambda [=]?,Capture used names by value (and this by value in C++20)
+mutable lambda effect?,Allows modifying captured copies
+Generic lambda param?,auto
+Ranges views?,Lazy pipelines over underlying ranges
+Ranges dangling?,Views over temporaries can dangle
+Coroutine keywords?,co_return, co_yield, co_await
+Promise type role?,Defines coroutine behavior/return
+Modules export?,Exports declarations from module interface
+Header units?,Standard headers as modules
+Happens-before?,Ordering/visibility via synchronization
+Data race?,Conflicting unsynchronized accesses with a write → UB
+Release sequence?,Release store followed by RMWs on same object
+atomic_flag?,Simplest atomic; test_and_set/clear
+False sharing?,Threads modify data on same cache line → slowdown
+condvar wait pattern?,Wait in loop with predicate
+std::async policy?,May defer until get() if deferred
+future::get?,Blocks until ready; rethrows
+promise/future?,Channel for results/exceptions
+unique_lock vs lock_guard?,unique_lock movable/defer; lock_guard simple RAII
+ODR violation?,Multiple definitions across TUs
+Inline variable?,Single definition across TUs
+static in headers?,Separate instance per TU
+extern "C"?,C linkage (no name mangling)
+#pragma once?,Widely supported, non-standard; guards are portable
+Explicit instantiation?,Compile templates in .cpp explicitly
+pimpl benefits?,Stable ABI, faster builds
+Name mangling?,Encodes signatures for overloading
+ADL surprise?,Unexpected overload picks if unconstrained
+Hidden friend?,Operators as friends aid ADL
+std::move on const?,Produces const rvalue → typically copies
+Self-move assignment?,Handle gracefully or guard
+Vector reallocation?,Move if noexcept; else copy
+std::string SBO?,Small buffer optimization in some impls
+std::span?,Non-owning view; beware dangling
+string_view?,Non-owning; source must outlive view
+Over-aligned allocation?,Use aligned new/delete or custom allocators
+dynamic_cast across diamond?,Virtual inheritance recommended
+Virtual base init order?,Most-derived ctor initializes virtual bases
+noexcept(false) move?,Containers may copy instead of move
+hash specialization ODR?,Only one specialization per program
+no_unique_address?,Space elision for empty members
+atomic<T*> fetch_add?,Adds sizeof(T)
+memory_order_relaxed?,Atomicity only; no ordering
+seq_cst?,Single total order of seq_cst ops
+release fence?,Publish prior writes before subsequent ops
+acquire fence?,Subsequent ops see prior published writes
+Hazard pointers?,Lock-free reclamation technique
+is_lock_free()?,Check if atomic is lock-free
+packaged_task?,Callable + future mechanism
+scoped_lock?,Locks multiple mutexes without deadlock
+Inline function ODR?,Multiple identical defs allowed across TUs
+Header-only templates?,Definitions in headers; each TU instantiates
+Suppress ADL?,Qualify calls or wrap in namespaces
+vector<bool>?,Bit-packed proxy, not real bool&
+emplace vs insert?,emplace constructs in place; insert uses copies/moves
+Strong typedef?,Wrapper + explicit for new type safety
+std::any?,Type-erased value + RTTI
+std::visit?,Visitor or overload set handles all alternatives
+Monostate?,std::monostate as first alternative of variant
+optional vs variant?,variant+monostate for tristate; optional for presence/absence
+std::exchange?,Move-then-assign helper
+Spaceship operator?,Synthesizes comparisons in many cases
+Comparison category?,Based on member-wise categories
+Designated initializers?,Aggregates only (with constraints)
+Aggregate requires?,No user-provided ctors; public non-static data members
+erase-remove idiom?,remove + container erase to actually erase
+transient string_view?,Viewing temp string result causes dangling
+constexpr ctor rules?,Must meet constexpr constraints (pre C++20: no throws)
+noexcept & strong guarantee?,noexcept on move/swap helps strong guarantee
+constexpr virtual?,Limited; virtual dispatch is runtime
+[[nodiscard]]?,Warn if result ignored
+optional::emplace?,Destroy then construct in place
+vector growth?,Typically geometric
+emplace_back?,Construct element in place
+jthread vs thread?,Automatic join and stop_token support

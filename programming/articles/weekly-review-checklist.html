@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Review Checklist — Printable</title>
+  <style>
+    :root { --text:#111827; }
+    * { box-sizing:border-box; }
+    body { margin:24px; font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); }
+    h1 { margin:0 0 8px; font-size:20px; }
+    h2 { margin:14px 0 6px; font-size:16px; }
+    .grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    .card { border:1px solid #d1d5db; border-radius:8px; padding:10px; }
+    .item { display:flex; gap:8px; align-items:flex-start; }
+    .small { color:#6b7280; font-size: 12px; }
+    @media print {
+      body { margin: 8mm; }
+      .no-print { display:none; }
+    }
+  </style>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      // Auto-open print dialog so users can Save as PDF
+      setTimeout(() => window.print(), 300);
+    });
+  </script>
+</head>
+<body>
+  <div class="no-print" style="margin-bottom:8px; display:flex; gap:8px; align-items:center;">
+    <button onclick="window.print()" style="padding:8px 10px; border-radius:8px; border:1px solid #d1d5db; background:#f3f4f6; cursor:pointer;">Print / Save as PDF</button>
+    <a href="self-improvement-psychology.html" style="text-decoration:none; color:#2563eb;">Back to Article</a>
+  </div>
+  <h1>Weekly Review Checklist</h1>
+  <div class="grid">
+    <div class="card">
+      <h2>1. Wins & Momentum</h2>
+      <label class="item"><input type="checkbox"> Logged at least 5 micro‑commits (2‑minute wins)</label>
+      <label class="item"><input type="checkbox"> Captured 3 biggest wins and why they worked</label>
+      <label class="item"><input type="checkbox"> Identified one skill upgraded (mastery experience)</label>
+    </div>
+    <div class="card">
+      <h2>2. Focus & Deep Work</h2>
+      <label class="item"><input type="checkbox"> Scheduled 3–5 focus blocks (25–50 min each)</label>
+      <label class="item"><input type="checkbox"> Batched email/meetings to reduce residue</label>
+      <label class="item"><input type="checkbox"> Defined a single goal per block + first step</label>
+    </div>
+    <div class="card">
+      <h2>3. Procrastination Breakers</h2>
+      <label class="item"><input type="checkbox"> Used 2‑minute rule to start hard tasks</label>
+      <label class="item"><input type="checkbox"> Added immediate reward for starts</label>
+      <label class="item"><input type="checkbox"> Set a precommitment (blocker, body‑double)</label>
+    </div>
+    <div class="card">
+      <h2>4. Kaizen (1% Gains)</h2>
+      <label class="item"><input type="checkbox"> Logged one tiny improvement per day</label>
+      <label class="item"><input type="checkbox"> Promoted one practice; pruned one friction</label>
+      <label class="item"><input type="checkbox"> Wrote a habit stack: After I X, I will Y</label>
+    </div>
+    <div class="card">
+      <h2>5. Getting Things Done</h2>
+      <label class="item"><input type="checkbox"> Wrote DoD for each major task</label>
+      <label class="item"><input type="checkbox"> Closed loops: moved tasks to clear “done”</label>
+      <label class="item"><input type="checkbox"> Timeboxed work; reflected 2 minutes per box</label>
+    </div>
+    <div class="card">
+      <h2>6. Confidence & Mindset</h2>
+      <label class="item"><input type="checkbox"> Reframed at least 2 setbacks as “not yet”</label>
+      <label class="item"><input type="checkbox"> Practiced self‑compassion after a miss</label>
+      <label class="item"><input type="checkbox"> Chose one escalating challenge next week</label>
+    </div>
+    <div class="card">
+      <h2>7. Active Listening</h2>
+      <label class="item"><input type="checkbox"> Used paraphrase + “Did I get that right?”</label>
+      <label class="item"><input type="checkbox"> Closed conversations with owners + timelines</label>
+      <label class="item"><input type="checkbox"> Noted one relationship strengthened (relatedness)</label>
+    </div>
+    <div class="card">
+      <h2>8. Next Week Snapshot <span class="small">(one line each)</span></h2>
+      <label class="item"><input type="checkbox"> Top outcome (important, non‑urgent)</label>
+      <label class="item"><input type="checkbox"> First focus block + first action</label>
+      <label class="item"><input type="checkbox"> One kaizen target</label>
+    </div>
+  </div>
+</body>
+</html>
+

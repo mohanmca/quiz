@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetCode Medium Problems - Python Solutions</title>
+  <style>
+    :root { --primary:#1e88e5; --bg:#f7f9fc; --text:#1a1a1a; --muted:#6b7280; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+    .container{max-width:980px;margin:0 auto;padding:16px}
+    .title{margin:6px 0 2px;font-size:24px;font-weight:800}
+    .subtitle{margin:0 0 12px;color:var(--muted)}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.secondary{background:#eef2ff;color:#1f2937} button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}
+    main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}
+    h2{margin-top:20px} h3{margin-top:16px} p{line-height:1.6} ul{margin-top:8px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}
+    pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}
+    pre code{display:block;background:transparent;padding:0}
+    .tok-kw{color:#93c5fd}.tok-str{color:#a7f3d0}.tok-com{color:#9ca3af;font-style:italic}.tok-num{color:#fcd34d}.tok-builtin{color:#fca5a5}
+    .note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}
+    .tip{background:#ecfdf5;border:1px solid #10b98133;color:#065f46;padding:12px;border-radius:10px}
+    .toc a{color:#2563eb;text-decoration:none}
+  </style>
+  <script>
+    function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+    function highlightPython(src){if(!src)return'';const H=[];const keep=h=>(H.push(h),`@@H${H.length-1}@@`);
+      src=src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g,m=>keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+      src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class="tok-str">${escapeHtml(m)}</span>`));
+      src=src.replace(/#.*/g,m=>keep(`<span class="tok-com">${escapeHtml(m)}</span>`));
+      let html=escapeHtml(src);
+      const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];
+      html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),'<span class="tok-kw">$1</span>');
+      const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];
+      html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),'<span class="tok-builtin">$1</span>');
+      html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,'<span class="tok-num">$&</span>');
+      return html.replace(/@@H(\d+)@@/g,(m,i)=>H[Number(i)]);
+    }
+    function applySyntax(){document.querySelectorAll('pre code.language-python').forEach(el=>{el.innerHTML=highlightPython(el.textContent||'')});}
+    window.addEventListener('DOMContentLoaded',applySyntax);
+  </script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">LeetCode Medium Problems - Python Solutions</div>
+      <div class="subtitle">Patterns: binary search, two pointers, sliding window, merge intervals, monotonic stack, prefix sum, heap, union-find, BFS/DFS, topological sort</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=leetcode-medium-python'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents:</strong>
+      <ul>
+        <li><a href="#overview">1. Overview</a></li>
+        <li><a href="#order">2. Order of Code</a></li>
+        <li><a href="#binary">3. Binary Search</a></li>
+        <li><a href="#twoptr">4. Two Pointers</a></li>
+        <li><a href="#window">5. Sliding Window</a></li>
+        <li><a href="#merge">6. Merge Intervals</a></li>
+        <li><a href="#mono">7. Monotonic Stack</a></li>
+        <li><a href="#prefix">8. Prefix Sum + Capacity Burning</a></li>
+        <li><a href="#heap">9. Heap / Top-K</a></li>
+        <li><a href="#uf">10. Union-Find</a></li>
+        <li><a href="#bfs">11. BFS Level Order</a></li>
+        <li><a href="#topo">12. Topological Sort (DAG)</a></li>
+        <li><a href="#arraytricks">13. Array Tricks</a></li>
+        <li><a href="#divine">14. Daily Divine (Habits & Naming)</a></li>
+        <li><a href="#mistakes">15. Common Mistakes</a></li>
+        <li><a href="#combo">16. Combinatorics & Off-by-One</a></li>
+      </ul>
+    </div>
+    <h2 id="overview">1. Overview</h2>
+    <p>This article summarizes common solutions for medium-level problems by reusable patterns. Each example is clean, iterative Python suitable for interviews.</p>
+    <h3>Pattern → Problem Index (Try These First)</h3>
+    <ul>
+      <li><strong>Sliding Window:</strong> strings/arrays with “longest/shortest/at most K/without repeating” (e.g., longest substring without repeat, at most K distinct, min window).</li>
+      <li><strong>Two Pointers:</strong> sorted arrays, pair/sum/closest problems, partitioning; choose when inputs are sorted or can be sorted.</li>
+      <li><strong>Merge Intervals:</strong> calendar/meeting rooms, insert/merge intervals, summary ranges, non-overlapping scheduling.</li>
+      <li><strong>Monotonic Stack:</strong> next greater element, daily temperatures, stock span, largest rectangle in histogram.</li>
+      <li><strong>Prefix Sum + Hash:</strong> subarray sum equals K, equal 0s/1s, divisible by K, range counts; when subarray sums are involved.</li>
+      <li><strong>Heap / Top-K:</strong> k most frequent, kth largest, merge k sorted lists/arrays, streaming medians.</li>
+      <li><strong>Binary Search (value or answer):</strong> search in rotated array, first bad version, capacity to ship, min speed to eat bananas; when function is monotonic.</li>
+      <li><strong>BFS:</strong> shortest path on unweighted grid/graph, level-order traversals, islands with step counts.</li>
+      <li><strong>Union-Find:</strong> number of islands (static), accounts merge, redundant connection, connectivity queries.</li>
+      <li><strong>Topological Sort:</strong> course schedule, build/package ordering, prerequisite dependency resolution in DAGs.</li>
+    </ul>
+    <h2 id="order">2. Order of Code (Template Mindset)</h2>
+    <ul>
+      <li><strong>Binary Search:</strong> init lo/hi → while lo ≤ hi → mid → pick side → maintain invariant.</li>
+      <li><strong>Two Pointers:</strong> sort/init → l/r → move one pointer per rule → update answer.</li>
+      <li><strong>Sliding Window:</strong> expand right → while invalid shrink left → update best.</li>
+      <li><strong>Monotonic Stack:</strong> iterate → while violates pop and compute → push.</li>
+      <li><strong>Prefix Sum / Hash:</strong> maintain running sum/map → query/update per step.</li>
+    </ul>
+    <h2 id="binary">3. Binary Search (Leftmost/Rightmost)</h2>
+    <pre><code class="language-python">def lower_bound(a, x):  # first idx with a[i] >= x
+    lo, hi = 0, len(a)-1
+    ans = len(a)
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if a[mid] >= x:
+            ans = mid; hi = mid-1
+        else:
+            lo = mid+1
+    return ans
+
+def upper_bound(a, x):  # first idx with a[i] > x
+    lo, hi = 0, len(a)-1
+    ans = len(a)
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if a[mid] > x:
+            ans = mid; hi = mid-1
+        else:
+            lo = mid+1
+    return ans
+    </code></pre>
+    <h2 id="twoptr">4. Two Pointers</h2>
+    <pre><code class="language-python">def two_sum_sorted(a, target):
+    i, j = 0, len(a)-1
+    while i < j:
+        s = a[i] + a[j]
+        if s == target: return [i, j]
+        if s < target: i += 1
+        else: j -= 1
+    return []
+    </code></pre>
+    <h2 id="stack">2. Stack Pattern</h2>
+    <p>Use a stack to match opening/closing delimiters or to keep candidates that may be invalidated later.</p>
+    <pre><code class="language-python">def valid_parentheses(s: str) -> bool:
+    pairs = {')': '(', ']': '[', '}': '{'}
+    st = []
+    for ch in s:
+        if ch in pairs:
+            if not st or st.pop() != pairs[ch]:
+                return False
+        else:
+            st.append(ch)
+    return not st
+    </code></pre>
+    <h2 id="window">5. Sliding Window</h2>
+    <p>Grow/shrink a window while maintaining an O(1) check that determines whether to advance left.</p>
+    <pre><code class="language-python">def longest_substring_no_repeat(s: str) -> int:
+    seen = set(); left = 0; best = 0
+    for right, ch in enumerate(s):
+        while ch in seen:
+            seen.remove(s[left]); left += 1
+        seen.add(ch)
+        best = max(best, right - left + 1)
+    return best
+    </code></pre>
+    <h2 id="merge">6. Merge Intervals</h2>
+    <pre><code class="language-python">def merge_intervals(iv):
+    iv.sort()
+    out = []
+    for s, e in iv:
+        if not out or s > out[-1][1]:
+            out.append([s, e])
+        else:
+            out[-1][1] = max(out[-1][1], e)
+    return out
+    </code></pre>
+
+    <h2 id="mono">7. Monotonic Stack</h2>
+    <pre><code class="language-python">def next_greater(nums):
+    res = [-1]*len(nums)
+    st = []  # indices, decreasing stack by value
+    for i, x in enumerate(nums):
+        while st and nums[st[-1]] < x:
+            res[st.pop()] = x
+        st.append(i)
+    return res
+    </code></pre>
+
+    <h2 id="prefix">8. Prefix Sum</h2>
+    <p>Prefix sums turn many range questions into simple lookups. A classic interview task counts subarrays whose sum equals <code>k</code> using a hash map of prefix frequencies.</p>
+    <pre><code class="language-python"># count subarrays with sum == k
+def subarray_sum(nums, k):
+    from collections import defaultdict
+    cnt = defaultdict(int); cnt[0] = 1
+    run = ans = 0
+    for x in nums:
+        run += x
+        ans += cnt[run - k]
+        cnt[run] += 1
+    return ans
+    </code></pre>
+
+    <h3 id="prefix-capacity">Capacity Burning Difference Array</h3>
+    <p>Range-update problems such as <em>Car Pooling</em> benefit from the difference-array flavour of prefix sums. We mark passenger deltas at each stop and "burn" remaining capacity as we scan the timeline—dropping to a negative value means we over-booked the car.</p>
+    <pre><code class="language-python">from typing import List
+
+def can_carpool(trips: List[List[int]], capacity: int) -> bool:
+    diff = [0] * 1001  # net passenger change at each stop
+    for passengers, start, end in trips:
+        diff[start] += passengers
+        diff[end] -= passengers
+
+    remaining = capacity
+    for delta in diff:
+        remaining -= delta  # subtract pickups, add drop-offs
+        if remaining < 0:
+            return False
+    return True
+    </code></pre>
+
+    <h2 id="heap">9. Heap / Top-K</h2>
+    <p>Use <code>heapq.nlargest</code> with a key function based on a <code>Counter</code> for top-k frequent elements.</p>
+    <pre><code class="language-python">from collections import Counter
+import heapq
+
+def top_k_frequent(nums, k):
+    freq = Counter(nums)
+    return heapq.nlargest(k, freq.keys(), key=freq.get)
+    </code></pre>
+    <h2 id="uf">10. Union-Find</h2>
+    <pre><code class="language-python">class DSU:
+    def __init__(self, n):
+        self.p = list(range(n)); self.r = [0]*n
+    def find(self, x):
+        while self.p[x] != x:
+            self.p[x] = self.p[self.p[x]]
+            x = self.p[x]
+        return x
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra == rb: return False
+        if self.r[ra] < self.r[rb]: ra, rb = rb, ra
+        self.p[rb] = ra
+        if self.r[ra] == self.r[rb]: self.r[ra] += 1
+        return True
+    </code></pre>
+
+    <h2 id="bfs">11. BFS Level Order</h2>
+    <p>Level-order traversal uses a queue and processes each level’s breadth before moving on.</p>
+    <pre><code class="language-python">from collections import deque
+
+def level_order(root):
+    if not root: return []
+    out, q = [], deque([root])
+    while q:
+        n = len(q); level = []
+        for _ in range(n):
+            node = q.popleft()
+            level.append(node.val)
+            if node.left: q.append(node.left)
+            if node.right: q.append(node.right)
+        out.append(level)
+    return out
+    </code></pre>
+    <h2 id="topo">12. Topological Sort (DAG)</h2>
+    <p>Detect whether all courses can be completed by Kahn’s algorithm (BFS on in-degrees).</p>
+    <pre><code class="language-python">from collections import defaultdict, deque
+
+def can_finish(num_courses, prerequisites):
+    g = defaultdict(list)
+    indeg = [0]*num_courses
+    for a, b in prerequisites:
+        g[b].append(a); indeg[a] += 1
+    q = deque([i for i in range(num_courses) if indeg[i]==0])
+    done = 0
+    while q:
+        u = q.popleft(); done += 1
+        for v in g[u]:
+            indeg[v] -= 1
+            if indeg[v]==0: q.append(v)
+    return done == num_courses
+    </code></pre>
+    <h2 id="arraytricks">13. Array Tricks</h2>
+    <ul>
+      <li><strong>Counts:</strong> subarrays = n*(n+1)//2; pairs nC2 = n*(n-1)//2; subsets = 2**n.</li>
+      <li><strong>Between bounds:</strong> exclusive count R-L-1; inclusive R-L+1.</li>
+      <li><strong>Circular array:</strong> next = (i+1)%n; prev = (i-1+n)%n; circular prefix via doubling.</li>
+      <li><strong>Content-as-index:</strong> use sign marking on 1..n arrays for duplicates/missing.</li>
+    </ul>
+    <pre><code class="language-python"># Circular prefix sum by doubling
+def circular_prefix(nums):
+    n = len(nums)
+    ps = [0]*(2*n+1)
+    for i in range(2*n):
+        ps[i+1] = ps[i] + nums[i % n]
+    return ps
+
+# Boyer–Moore Majority Vote
+def majority_element(nums):
+    count = 0; cand = None
+    for x in nums:
+        if count == 0: cand = x
+        count += 1 if x == cand else -1
+    return cand
+
+# Rotate array k steps using 3 reversals (in-place)
+def rotate(nums, k):
+    k %= len(nums)
+    def rev(i, j):
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1
+    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)
+
+# Find duplicates using sign marking (1..n domain)
+def find_duplicates(nums):
+    res = []
+    for x in nums:
+        i = abs(x) - 1
+        if nums[i] < 0: res.append(abs(x))
+        nums[i] = -nums[i]
+    return res
+
+# Product of array except self (O(1) extra)
+def product_except_self(nums):
+    n = len(nums); ans = [1]*n
+    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]
+    r = 1
+    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]
+    return ans
+
+# Summary ranges (merge consecutive)
+def summary_ranges(nums):
+    res = []; i = 0
+    while i < len(nums):
+        j = i
+        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1
+        res.append(str(nums[i]) if i==j else f"{nums[i]}->{nums[j]}")
+        i = j+1
+    return res
+    </code></pre>
+
+    <h2 id="divine">14. Daily Divine (Habits & Naming)</h2>
+    <ul>
+      <li><strong>Big-O practice:</strong> quiz regularly; know typical costs per pattern.</li>
+      <li><strong>Names as DSL:</strong> prefer <em>lo/hi</em>, <em>left/right</em>, <em>rank/parent</em> over i/j/k.</li>
+      <li><strong>Odd partitions:</strong> when splitting odds/evens, use ceil with <code>(n+1)//2</code>.</li>
+      <li><strong>Loop wisdom:</strong> the last line of the loop influences the next iteration condition—connect them.</li>
+      <li><strong>DSU practice:</strong> path compression + union by rank; keep a minimal DSU handy.</li>
+    </ul>
+
+    <h2 id="mistakes">15. Common Mistakes</h2>
+    <ul>
+      <li><strong>Off-by-one on slices:</strong> deleting last 4 chars in Python: <code>s = s[:-4]</code>.</li>
+      <li><strong>Inclusive vs exclusive:</strong> window length is <code>R-L+1</code>; don’t use <code>R-L</code>.</li>
+      <li><strong>Binary search exits:</strong> use tested lower/upper-bound templates; don’t hand-roll variants mid-interview.</li>
+      <li><strong>Rotate array:</strong> verify <code>k %= n</code> and segment boundaries.</li>
+    </ul>
+
+    <h2 id="combo">16. Combinatorics & Off-by-One</h2>
+    <ul>
+      <li><strong>Inclusive vs exclusive:</strong> window [L,R] length is R-L+1. Update after shrinking.</li>
+      <li><strong>Lower/upper bound:</strong> leftmost ≥ x vs first > x. Count of x in sorted = ub(x)-lb(x).</li>
+      <li><strong>Prefix sums:</strong> subarray [i..j] = pref[j]-pref[i-1]; define pref[0]=0 to avoid underflow.</li>
+      <li><strong>nCk sanity:</strong> pairs nC2 = n*(n-1)//2, triplets nC3 = n*(n-1)*(n-2)//6.</li>
+      <li><strong>Grid bounds:</strong> check 0 ≤ r < R and 0 ≤ c < C before access.</li>
+    </ul>
+    <div class="note">Emphasize order: decide invariants first; each iteration maintains them. This reduces off-by-one errors.</div>
+  </article></main>
+</body>
+</html>

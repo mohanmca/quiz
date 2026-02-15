@@ -1,0 +1,218 @@
+[
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q1",
+        "title": "**Stack Pattern - Valid Parentheses with Multiple Types**\\n\\nGiven a string containing '(', ')', '{', '}', '[' and ']', determine if the input string is valid. Opening brackets must be closed by the same type of brackets and in the correct order.\\n\\n**Example:** `s = \"([{}])\"` → `True`\\n\\n**What is the optimal Python solution?**",
+        "choices": [
+            "```python\\ndef isValid(s):\\n    stack = []\\n    mapping = {')': '(', '}': '{', ']': '['}\\n    \\n    for char in s:\\n        if char in mapping:\\n            if not stack or stack.pop() != mapping[char]:\\n                return False\\n        else:\\n            stack.append(char)\\n    \\n    return not stack\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef isValid(s):\\n    stack = []\\n    mapping = {')': '(', '}': '{', ']': '['}\\n    \\n    for char in s:\\n        if char in mapping:\\n            if not stack or stack.pop() != mapping[char]:\\n                return False\\n        else:\\n            stack.append(char)\\n    \\n    return not stack\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q2",
+        "title": "**Sliding Window Pattern - Longest Substring Without Repeating Characters**\\n\\nGiven a string `s`, find the length of the longest substring without repeating characters.\\n\\n**Example:** `s = \"abcabcbb\"` → `3` (\"abc\")\\n\\n**What is the optimal Python solution using sliding window?**",
+        "choices": [
+            "```python\\ndef lengthOfLongestSubstring(s):\\n    char_set = set()\\n    left = 0\\n    max_length = 0\\n    \\n    for right in range(len(s)):\\n        while s[right] in char_set:\\n            char_set.remove(s[left])\\n            left += 1\\n        \\n        char_set.add(s[right])\\n        max_length = max(max_length, right - left + 1)\\n    \\n    return max_length\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef lengthOfLongestSubstring(s):\\n    char_set = set()\\n    left = 0\\n    max_length = 0\\n    \\n    for right in range(len(s)):\\n        while s[right] in char_set:\\n            char_set.remove(s[left])\\n            left += 1\\n        \\n        char_set.add(s[right])\\n        max_length = max(max_length, right - left + 1)\\n    \\n    return max_length\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q3",
+        "title": "**Heap Pattern - Top K Frequent Elements**\\n\\nGiven an integer array `nums` and an integer `k`, return the `k` most frequent elements.\\n\\n**Example:** `nums = [1,1,1,2,2,3], k = 2` → `[1,2]`\\n\\n**What is the optimal Python solution using heap?**",
+        "choices": [
+            "```python\\nimport heapq\\nfrom collections import Counter\\n\\ndef topKFrequent(nums, k):\\n    count = Counter(nums)\\n    return heapq.nlargest(k, count.keys(), key=count.get)\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nimport heapq\\nfrom collections import Counter\\n\\ndef topKFrequent(nums, k):\\n    count = Counter(nums)\\n    return heapq.nlargest(k, count.keys(), key=count.get)\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q4",
+        "title": "**Tree Pattern - Binary Tree Level Order Traversal**\\n\\nGiven the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level).\\n\\n**Example:** `[3,9,20,null,null,15,7]` → `[[3],[9,20],[15,7]]`\\n\\n**What is the optimal Python solution?**",
+        "choices": [
+            "```python\\nfrom collections import deque\\n\\ndef levelOrder(root):\\n    if not root:\\n        return []\\n    \\n    result = []\\n    queue = deque([root])\\n    \\n    while queue:\\n        level_size = len(queue)\\n        current_level = []\\n        \\n        for _ in range(level_size):\\n            node = queue.popleft()\\n            current_level.append(node.val)\\n            \\n            if node.left:\\n                queue.append(node.left)\\n            if node.right:\\n                queue.append(node.right)\\n        \\n        result.append(current_level)\\n    \\n    return result\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom collections import deque\\n\\ndef levelOrder(root):\\n    if not root:\\n        return []\\n    \\n    result = []\\n    queue = deque([root])\\n    \\n    while queue:\\n        level_size = len(queue)\\n        current_level = []\\n        \\n        for _ in range(level_size):\\n            node = queue.popleft()\\n            current_level.append(node.val)\\n            \\n            if node.left:\\n                queue.append(node.left)\\n            if node.right:\\n                queue.append(node.right)\\n        \\n        result.append(current_level)\\n    \\n    return result\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q5",
+        "title": "**DAG Pattern - Course Schedule**\\n\\nThere are `numCourses` courses labeled from 0 to `numCourses - 1`. Given prerequisites array where `prerequisites[i] = [ai, bi]` indicates you must take course `bi` first to take course `ai`. Return `true` if you can finish all courses.\\n\\n**Example:** `numCourses = 2, prerequisites = [[1,0]]` → `true`\\n\\n**What is the optimal Python solution using topological sort?**",
+        "choices": [
+            "```python\\nfrom collections import defaultdict, deque\\n\\ndef canFinish(numCourses, prerequisites):\\n    graph = defaultdict(list)\\n    indegree = [0] * numCourses\\n    \\n    for course, prereq in prerequisites:\\n        graph[prereq].append(course)\\n        indegree[course] += 1\\n    \\n    queue = deque([i for i in range(numCourses) if indegree[i] == 0])\\n    completed = 0\\n    \\n    while queue:\\n        current = queue.popleft()\\n        completed += 1\\n        \\n        for neighbor in graph[current]:\\n            indegree[neighbor] -= 1\\n            if indegree[neighbor] == 0:\\n                queue.append(neighbor)\\n    \\n    return completed == numCourses\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom collections import defaultdict, deque\\n\\ndef canFinish(numCourses, prerequisites):\\n    graph = defaultdict(list)\\n    indegree = [0] * numCourses\\n    \\n    for course, prereq in prerequisites:\\n        graph[prereq].append(course)\\n        indegree[course] += 1\\n    \\n    queue = deque([i for i in range(numCourses) if indegree[i] == 0])\\n    completed = 0\\n    \\n    while queue:\\n        current = queue.popleft()\\n        completed += 1\\n        \\n        for neighbor in graph[current]:\\n            indegree[neighbor] -= 1\\n            if indegree[neighbor] == 0:\\n                queue.append(neighbor)\\n    \\n    return completed == numCourses\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q6",
+        "title": "Binary Search — Leftmost and Rightmost (lower_bound / upper_bound)\\n\\nGiven a sorted array `a` and value `x`, implement functions to find the first index with `a[i] >= x` and the first index with `a[i] > x`. Return `len(a)` if not found.",
+        "choices": [
+            "```python\\ndef lower_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] >= x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n\\ndef upper_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] > x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef lower_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] >= x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n\\ndef upper_bound(a, x):\\n    lo, hi = 0, len(a)-1\\n    ans = len(a)\\n    while lo <= hi:\\n        mid = (lo+hi)//2\\n        if a[mid] > x:\\n            ans = mid; hi = mid-1\\n        else:\\n            lo = mid+1\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q7",
+        "title": "Two Pointers — Two Sum (sorted array)\\n\\nReturn indices `i, j` (0-indexed) such that `a[i]+a[j]==target`.",
+        "choices": [
+            "```python\\ndef two_sum_sorted(a, target):\\n    i, j = 0, len(a)-1\\n    while i < j:\\n        s = a[i] + a[j]\\n        if s == target: return [i, j]\\n        if s < target: i += 1\\n        else: j -= 1\\n    return []\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef two_sum_sorted(a, target):\\n    i, j = 0, len(a)-1\\n    while i < j:\\n        s = a[i] + a[j]\\n        if s == target: return [i, j]\\n        if s < target: i += 1\\n        else: j -= 1\\n    return []\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q8",
+        "title": "Merge Intervals — Consolidate Overlaps\\n\\nGiven list of intervals `[s,e]`, merge overlapping intervals.",
+        "choices": [
+            "```python\\ndef merge_intervals(iv):\\n    iv.sort()\\n    out = []\\n    for s, e in iv:\\n        if not out or s > out[-1][1]:\\n            out.append([s, e])\\n        else:\\n            out[-1][1] = max(out[-1][1], e)\\n    return out\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef merge_intervals(iv):\\n    iv.sort()\\n    out = []\\n    for s, e in iv:\\n        if not out or s > out[-1][1]:\\n            out.append([s, e])\\n        else:\\n            out[-1][1] = max(out[-1][1], e)\\n    return out\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q9",
+        "title": "Monotonic Stack — Next Greater Element (single pass)",
+        "choices": [
+            "```python\\ndef next_greater(nums):\\n    res = [-1]*len(nums)\\n    st = []\\n    for i, x in enumerate(nums):\\n        while st and nums[st[-1]] < x:\\n            res[st.pop()] = x\\n        st.append(i)\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef next_greater(nums):\\n    res = [-1]*len(nums)\\n    st = []\\n    for i, x in enumerate(nums):\\n        while st and nums[st[-1]] < x:\\n            res[st.pop()] = x\\n        st.append(i)\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q10",
+        "title": "Prefix Sum — Count Subarrays with Sum == k",
+        "choices": [
+            "```python\\nfrom collections import defaultdict\\n\\ndef subarray_sum(nums, k):\\n    cnt = defaultdict(int); cnt[0] = 1\\n    run = ans = 0\\n    for x in nums:\\n        run += x\\n        ans += cnt[run - k]\\n        cnt[run] += 1\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom collections import defaultdict\\n\\ndef subarray_sum(nums, k):\\n    cnt = defaultdict(int); cnt[0] = 1\\n    run = ans = 0\\n    for x in nums:\\n        run += x\\n        ans += cnt[run - k]\\n        cnt[run] += 1\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q10b",
+        "title": "Prefix Sum Variant — Car Pooling Capacity Burning (difference array)",
+        "choices": [
+            "```python\\nfrom typing import List\\n\\n\\ndef can_carpool(trips: List[List[int]], capacity: int) -> bool:\\n    diff = [0] * 1001\\n    for passengers, start, end in trips:\\n        diff[start] += passengers\\n        diff[end] -= passengers\\n\\n    remaining = capacity\\n    for delta in diff:\\n        remaining -= delta\\n        if remaining < 0:\\n            return False\\n    return True\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nfrom typing import List\\n\\n\\ndef can_carpool(trips: List[List[int]], capacity: int) -> bool:\\n    diff = [0] * 1001\\n    for passengers, start, end in trips:\\n        diff[start] += passengers\\n        diff[end] -= passengers\\n\\n    remaining = capacity\\n    for delta in diff:\\n        remaining -= delta\\n        if remaining < 0:\\n            return False\\n    return True\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q11",
+        "title": "Union-Find — Path Compression + Union by Rank (minimal)",
+        "choices": [
+            "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\nclass DSU:\\n    def __init__(self, n):\\n        self.p = list(range(n)); self.r = [0]*n\\n    def find(self, x):\\n        while self.p[x] != x:\\n            self.p[x] = self.p[self.p[x]]\\n            x = self.p[x]\\n        return x\\n    def union(self, a, b):\\n        ra, rb = self.find(a), self.find(b)\\n        if ra == rb: return False\\n        if self.r[ra] < self.r[rb]: ra, rb = rb, ra\\n        self.p[rb] = ra\\n        if self.r[ra] == self.r[rb]: self.r[ra] += 1\\n        return True\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q13",
+        "title": "Majority Element — Boyer–Moore Vote (O(n), O(1))",
+        "choices": [
+            "```python\\ndef majority_element(nums):\\n    count = 0; cand = None\\n    for x in nums:\\n        if count == 0: cand = x\\n        count += 1 if x == cand else -1\\n    return cand\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef majority_element(nums):\\n    count = 0; cand = None\\n    for x in nums:\\n        if count == 0: cand = x\\n        count += 1 if x == cand else -1\\n    return cand\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q14",
+        "title": "Rotate Array — Three-Reversal Method (in-place)",
+        "choices": [
+            "```python\\ndef rotate(nums, k):\\n    k %= len(nums)\\n    def rev(i, j):\\n        while i < j:\\n            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1\\n    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef rotate(nums, k):\\n    k %= len(nums)\\n    def rev(i, j):\\n        while i < j:\\n            nums[i], nums[j] = nums[j], nums[i]; i += 1; j -= 1\\n    rev(0, len(nums)-1); rev(0, k-1); rev(k, len(nums)-1)\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q15",
+        "title": "Find Duplicates — Content-as-Index Sign Trick (1..n)",
+        "choices": [
+            "```python\\ndef find_duplicates(nums):\\n    res = []\\n    for x in nums:\\n        i = abs(x) - 1\\n        if nums[i] < 0: res.append(abs(x))\\n        nums[i] = -nums[i]\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef find_duplicates(nums):\\n    res = []\\n    for x in nums:\\n        i = abs(x) - 1\\n        if nums[i] < 0: res.append(abs(x))\\n        nums[i] = -nums[i]\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q16",
+        "title": "Product of Array Except Self — Two Passes (O(1) extra)",
+        "choices": [
+            "```python\\ndef product_except_self(nums):\\n    n = len(nums); ans = [1]*n\\n    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]\\n    r = 1\\n    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]\\n    return ans\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef product_except_self(nums):\\n    n = len(nums); ans = [1]*n\\n    for i in range(1, n): ans[i] = ans[i-1]*nums[i-1]\\n    r = 1\\n    for i in range(n-1, -1, -1): ans[i] *= r; r *= nums[i]\\n    return ans\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q17",
+        "title": "Summary Ranges — Merge Consecutive Values",
+        "choices": [
+            "```python\\ndef summary_ranges(nums):\\n    res = []; i = 0\\n    while i < len(nums):\\n        j = i\\n        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1\\n        res.append(str(nums[i]) if i==j else f\\\"{nums[i]}->{nums[j]}\\\")\\n        i = j+1\\n    return res\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef summary_ranges(nums):\\n    res = []; i = 0\\n    while i < len(nums):\\n        j = i\\n        while j+1 < len(nums) and nums[j+1] == nums[j]+1: j += 1\\n        res.append(str(nums[i]) if i==j else f\\\"{nums[i]}->{nums[j]}\\\")\\n        i = j+1\\n    return res\\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q18",
+        "title": "Circular Array — Next/Prev Index Helpers",
+        "choices": [
+            "```python\\ndef next_idx(i, n): return (i+1) % n\\n\\ndef prev_idx(i, n): return (i-1 + n) % n\\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\\ndef next_idx(i, n): return (i+1) % n\\n\\ndef prev_idx(i, n): return (i-1 + n) % n\\n```"
+    }
+]

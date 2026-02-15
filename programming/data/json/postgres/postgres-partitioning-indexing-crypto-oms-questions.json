@@ -1,0 +1,977 @@
+[
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q1",
+    "title": "Why does the crypto OMS favor PostgreSQL 17 partitioning features?",
+    "choices": [
+      "Because PostgreSQL 17 removes WAL",
+      "To align partition pruning with trading lifecycle while using improved attach/detach operations",
+      "So it can store JSON documents without indexes",
+      "Because PostgreSQL 17 disables autovacuum"
+    ],
+    "correctAnswer": "To align partition pruning with trading lifecycle while using improved attach/detach operations",
+    "explanation": "The article highlights that PostgreSQL 17 improves detach/attach and pruning, which the OMS needs for lifecycle-aligned partitions."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q2",
+    "title": "Which OMS tables are identified as primary fact tables needing heavy partitioning?",
+    "choices": [
+      "users, venues, audit_logs",
+      "orders, fills, positions, account_snapshots",
+      "roles, grants, networks",
+      "currencies, fees, configs"
+    ],
+    "correctAnswer": "orders, fills, positions, account_snapshots",
+    "explanation": "The scenario calls out these four fact tables as partitioning priorities."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q3",
+    "title": "What is the main partition key for the orders table design?",
+    "choices": [
+      "instrument_id",
+      "account_id",
+      "trading_date",
+      "venue_id"
+    ],
+    "correctAnswer": "trading_date",
+    "explanation": "Orders are range partitioned by trading_date as described in the modeling section."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q4",
+    "title": "Why does the OMS hash partition daily order leaves by instrument_group?",
+    "choices": [
+      "To encrypt data at rest",
+      "To distribute load for hot instruments and enable parallel index builds",
+      "To avoid foreign keys",
+      "To consolidate indexes into a single file"
+    ],
+    "correctAnswer": "To distribute load for hot instruments and enable parallel index builds",
+    "explanation": "Hash partitions keep each leaf small and isolate hot instruments like BTC futures."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q5",
+    "title": "What retention-driven benefit comes from daily leaf partitions?",
+    "choices": [
+      "Ability to clone replicas instantly",
+      "Detaching and archiving a single trading day quickly",
+      "Eliminating WAL generation",
+      "Avoiding ANALYZE runs"
+    ],
+    "correctAnswer": "Detaching and archiving a single trading day quickly",
+    "explanation": "Daily leaves allow fast detach/archive operations aligned with retention."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q6",
+    "title": "Which partitioning method matches discrete values such as venue_id?",
+    "choices": [
+      "Range",
+      "List",
+      "Hash",
+      "GiST"
+    ],
+    "correctAnswer": "List",
+    "explanation": "List partitioning handles discrete value groupings like venue_id."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q7",
+    "title": "When combining range and hash partitions, where is the hash declared?",
+    "choices": [
+      "On the root table only",
+      "On the daily partition child that is itself partitioned",
+      "On the default partition",
+      "On the primary key definition"
+    ],
+    "correctAnswer": "On the daily partition child that is itself partitioned",
+    "explanation": "The article shows monthly partitions range partitioned and daily partitions hash partitioned on instrument_group."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q8",
+    "title": "What unique property distinguishes leaf partitions?",
+    "choices": [
+      "They hold no data but only constraints",
+      "They own the physical storage and contain tuples",
+      "They cannot have indexes",
+      "They automatically vacuum themselves"
+    ],
+    "correctAnswer": "They own the physical storage and contain tuples",
+    "explanation": "Only leaf partitions contain data tuples; root/intermediate tables are metadata shells."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q9",
+    "title": "Which statement about intermediate partitions is accurate?",
+    "choices": [
+      "They are mandatory for all partitioned tables",
+      "They group leaves to enable hierarchical pruning and bulk maintenance",
+      "They can store rows directly",
+      "They require separate schemas"
+    ],
+    "correctAnswer": "They group leaves to enable hierarchical pruning and bulk maintenance",
+    "explanation": "Intermediate partitions group leaves (e.g., monthly) to manage operations collectively."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q10",
+    "title": "Why is pre-creating partitions recommended?",
+    "choices": [
+      "To avoid hitting the default partition during trading bursts",
+      "To disable autovacuum entirely",
+      "To merge indexes automatically",
+      "To allow read replicas to write"
+    ],
+    "correctAnswer": "To avoid hitting the default partition during trading bursts",
+    "explanation": "Pre-creating ensures inserts find the correct partition and prevents default-table overflow."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q11",
+    "title": "Which SQL command sequence rotates partitions daily in the runbook?",
+    "choices": [
+      "Detach, truncate, reboot",
+      "Create next partitions, detach expired ones, analyze new leaves",
+      "Drop indexes, rebuild tables, vacuum full",
+      "Reindex root, disable triggers, enable triggers"
+    ],
+    "correctAnswer": "Create next partitions, detach expired ones, analyze new leaves",
+    "explanation": "The maintenance cadence involves those three steps in order."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q12",
+    "title": "What is the consequence of creating a partitioned index on a table with thousands of existing leaves?",
+    "choices": [
+      "No additional cost",
+      "PostgreSQL builds sub-indexes for every leaf, which can be expensive",
+      "Indexes are deferred until new partitions are created",
+      "The index is stored only on the root"
+    ],
+    "correctAnswer": "PostgreSQL builds sub-indexes for every leaf, which can be expensive",
+    "explanation": "Partitioned indexes spawn sub-indexes on each leaf immediately."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q13",
+    "title": "Which index type is recommended for compliance queries spanning long time ranges with minimal storage?",
+    "choices": [
+      "B-tree",
+      "BRIN",
+      "GIN",
+      "SP-GiST"
+    ],
+    "correctAnswer": "BRIN",
+    "explanation": "BRIN indexes are compact and efficient for append-only time-correlated data."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q14",
+    "title": "What condition must unique partitioned indexes satisfy?",
+    "choices": [
+      "They cannot include partition keys",
+      "They must include the partition key columns",
+      "They auto-create triggers",
+      "They must be DESC"
+    ],
+    "correctAnswer": "They must include the partition key columns",
+    "explanation": "Uniqueness must incorporate partition bounds to remain valid across partitions."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q15",
+    "title": "How do local indexes differ from partitioned indexes?",
+    "choices": [
+      "Local indexes apply to every partition automatically",
+      "Local indexes are created per leaf and can be rebuilt in isolation",
+      "Local indexes disable constraint checks",
+      "Local indexes always use BRIN"
+    ],
+    "correctAnswer": "Local indexes are created per leaf and can be rebuilt in isolation",
+    "explanation": "Local indexes sit on individual leaves, giving operational flexibility."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q16",
+    "title": "Which function automates creation of month/day/hash partitions?",
+    "choices": [
+      "oms.run_index_build_queue",
+      "oms.create_trading_day_partitions",
+      "pg_partman.attach_partition",
+      "pg_repack.rebuild"
+    ],
+    "correctAnswer": "oms.create_trading_day_partitions",
+    "explanation": "The utility function shown builds month, day, and hash partitions for trading days."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q17",
+    "title": "What does the oms.create_trading_day_partitions function optionally add when p_where_clause is provided?",
+    "choices": [
+      "A materialized view",
+      "A partial index with the provided WHERE clause",
+      "A trigger on the root table",
+      "A replication slot"
+    ],
+    "correctAnswer": "A partial index with the provided WHERE clause",
+    "explanation": "The function appends the WHERE clause to index creation for partial coverage."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q18",
+    "title": "Which queue table column stores index build errors?",
+    "choices": [
+      "leaf_table",
+      "status",
+      "error_message",
+      "sql_template"
+    ],
+    "correctAnswer": "error_message",
+    "explanation": "The index_build_queue table tracks SQLERRM in error_message when failures occur."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q19",
+    "title": "Why does the index build queue use FOR UPDATE SKIP LOCKED?",
+    "choices": [
+      "To guarantee serial execution",
+      "To allow multiple workers to pick different pending jobs without blocking",
+      "To disable autovacuum",
+      "To ensure deadlocks occur"
+    ],
+    "correctAnswer": "To allow multiple workers to pick different pending jobs without blocking",
+    "explanation": "SKIP LOCKED lets workers claim jobs concurrently without conflict."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q20",
+    "title": "What lock level does CREATE INDEX CONCURRENTLY avoid taking?",
+    "choices": [
+      "Access Share",
+      "Access Exclusive",
+      "Row Share",
+      "Share"
+    ],
+    "correctAnswer": "Access Exclusive",
+    "explanation": "Concurrent index builds avoid Access Exclusive locking that would block writers."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q21",
+    "title": "Which lock timeout strategy does the article recommend for DDL sessions?",
+    "choices": [
+      "Disable timeouts",
+      "Set lock_timeout to a conservative value like 5s",
+      "Rely on statement_timeout only",
+      "Set lock_timeout to zero"
+    ],
+    "correctAnswer": "Set lock_timeout to a conservative value like 5s",
+    "explanation": "DDL scripts should fail fast rather than block traders, so a small lock_timeout is advised."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q22",
+    "title": "When should FOR UPDATE SKIP LOCKED be used in the OMS?",
+    "choices": [
+      "When only reads occur",
+      "When queue workers must avoid rows already locked by peers",
+      "When rebuilding indexes",
+      "When attaching partitions"
+    ],
+    "correctAnswer": "When queue workers must avoid rows already locked by peers",
+    "explanation": "SKIP LOCKED suits ingestion or settlement workers that need to avoid contention."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q23",
+    "title": "Which monitoring view surfaces progress of concurrent index builds?",
+    "choices": [
+      "pg_stat_statements",
+      "pg_stat_progress_create_index",
+      "pg_replication_slots",
+      "pg_locks"
+    ],
+    "correctAnswer": "pg_stat_progress_create_index",
+    "explanation": "This view tracks concurrent index build stages and percentages."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q24",
+    "title": "What does the oms.partition_health function report?",
+    "choices": [
+      "Replication slot lag per partition",
+      "Leaf names, size, vacuum/analyze timestamps, and detach status",
+      "Application errors",
+      "Network latency"
+    ],
+    "correctAnswer": "Leaf names, size, vacuum/analyze timestamps, and detach status",
+    "explanation": "The function returns per-leaf stats including size and vacuum history."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q25",
+    "title": "Which metric indicates autovacuum may be falling behind on a partition?",
+    "choices": [
+      "relpages of zero",
+      "dead tuples exceeding 10% of tuples for that leaf",
+      "index relkind = 'i'",
+      "tablespace name"
+    ],
+    "correctAnswer": "dead tuples exceeding 10% of tuples for that leaf",
+    "explanation": "The checklist flags dead tuples &gt;10% as a warning sign."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q26",
+    "title": "Why is runtime partition pruning important when using prepared statements?",
+    "choices": [
+      "It renames partitions",
+      "It allows the planner to drop irrelevant partitions once parameter values are known",
+      "It disables query caching",
+      "It forces sequential scans"
+    ],
+    "correctAnswer": "It allows the planner to drop irrelevant partitions once parameter values are known",
+    "explanation": "Runtime pruning ensures prepared queries can still prune based on parameters."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q27",
+    "title": "What extended statistics combination is suggested for orders?",
+    "choices": [
+      "(event_timestamp, wal_lsn)",
+      "(venue_id, instrument_group)",
+      "(account_id, hash)",
+      "(user_id, password_hash)"
+    ],
+    "correctAnswer": "(venue_id, instrument_group)",
+    "explanation": "The planner section advises extended stats on correlated columns like venue_id and instrument_group."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q28",
+    "title": "Which PostgreSQL settings enable partitionwise operations for analytics?",
+    "choices": [
+      "enable_nestloop",
+      "enable_partitionwise_join and enable_partitionwise_aggregate",
+      "shared_buffers",
+      "wal_level = minimal"
+    ],
+    "correctAnswer": "enable_partitionwise_join and enable_partitionwise_aggregate",
+    "explanation": "The planner section recommends enabling these for per-partition joins and aggregates."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q29",
+    "title": "In chaos drills, why intentionally cancel CREATE INDEX CONCURRENTLY?",
+    "choices": [
+      "To corrupt data",
+      "To confirm automation reschedules the job and handles partial builds",
+      "To reduce WAL",
+      "To test CHECKPOINT"
+    ],
+    "correctAnswer": "To confirm automation reschedules the job and handles partial builds",
+    "explanation": "Chaos drills ensure failure handling works, such as resuming index builds."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q30",
+    "title": "What is the recommended duration for dual-write validation when migrating fills?",
+    "choices": [
+      "A few seconds",
+      "48 hours of clean dual writes",
+      "One minute",
+      "No dual-write period"
+    ],
+    "correctAnswer": "48 hours of clean dual writes",
+    "explanation": "The case study suggests keeping dual writes for 48 hours before cutover."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q31",
+    "title": "Which step ensures fill backfill preserves clustering?",
+    "choices": [
+      "Using random ordering",
+      "Ordering by trading_date during INSERT ... SELECT",
+      "Detaching partitions first",
+      "Setting synchronous_commit to off"
+    ],
+    "correctAnswer": "Ordering by trading_date during INSERT ... SELECT",
+    "explanation": "The backfill is run ordered by trading_date to maintain clustering and BRIN efficacy."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q32",
+    "title": "What autovacuum configuration is applied to newly partitioned fills?",
+    "choices": [
+      "Disable autovacuum",
+      "Set autovacuum_vacuum_scale_factor to 0.01 and analyze scale factor to 0.005",
+      "Increase full_page_writes",
+      "Set maintenance_work_mem to zero"
+    ],
+    "correctAnswer": "Set autovacuum_vacuum_scale_factor to 0.01 and analyze scale factor to 0.005",
+    "explanation": "The case study tunes autovacuum aggressively with these per-partition settings."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q33",
+    "title": "How does the governance section ensure partition detachments are auditable?",
+    "choices": [
+      "By disabling logging",
+      "By recording audit log entries with operator, timestamp, and archive digest",
+      "By storing data in temp tables",
+      "By emailing DBAs manually"
+    ],
+    "correctAnswer": "By recording audit log entries with operator, timestamp, and archive digest",
+    "explanation": "Compliance demands detailed logs for each detach/archive operation."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q34",
+    "title": "Why store DDL definitions in Git?",
+    "choices": [
+      "To enable automatic VACUUM",
+      "To enforce policy-as-code and change review",
+      "To encrypt data",
+      "To disable failover"
+    ],
+    "correctAnswer": "To enforce policy-as-code and change review",
+    "explanation": "Governance best practice is to version DDL, enabling reviews and consistency."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q35",
+    "title": "Which tooling step compares partition layouts across clusters?",
+    "choices": [
+      "Comparing pg_partition_tree exports stored as JSON",
+      "Running VACUUM FULL",
+      "Applying pg_repack",
+      "Setting log_min_duration_statement"
+    ],
+    "correctAnswer": "Comparing pg_partition_tree exports stored as JSON",
+    "explanation": "Tooling includes nightly catalog snapshots of partition trees to detect drift."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q36",
+    "title": "What triggers a paging alert in the self-healing daemon?",
+    "choices": [
+      "Missing partition creation by 23:55 UTC",
+      "Index size exceeding 1 MB",
+      "Any SELECT query",
+      "Presence of temporary tables"
+    ],
+    "correctAnswer": "Missing partition creation by 23:55 UTC",
+    "explanation": "Tooling monitors for uncreated partitions and pages if they are missing late in the day."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q37",
+    "title": "Which benchmarking metric helps predict replica lag?",
+    "choices": [
+      "Number of roles",
+      "WAL volume generated during partition operations",
+      "Default statistics target",
+      "autovacuum_naptime"
+    ],
+    "correctAnswer": "WAL volume generated during partition operations",
+    "explanation": "Capacity planning tracks WAL volume to understand replication lag risk."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q38",
+    "title": "What fillfactor is suggested for hot partitions to reduce page splits?",
+    "choices": [
+      "50",
+      "70",
+      "90",
+      "100"
+    ],
+    "correctAnswer": "90",
+    "explanation": "Hot partitions use fillfactor 90 to leave space for updates."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q39",
+    "title": "Which action helps maintain archival partition density?",
+    "choices": [
+      "Set fillfactor to 100 on archival partitions",
+      "Disable autovacuum",
+      "Use random_page_cost=1",
+      "Drop all indexes"
+    ],
+    "correctAnswer": "Set fillfactor to 100 on archival partitions",
+    "explanation": "The article recommends maximizing density on cold partitions with fillfactor 100."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q40",
+    "title": "How many hash shards per day does the OMS target for order partitions?",
+    "choices": [
+      "2",
+      "4",
+      "8",
+      "32"
+    ],
+    "correctAnswer": "8",
+    "explanation": "The default function parameter and description reference 8 hash partitions per day."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q41",
+    "title": "Why is instrument_group used as the hash key instead of instrument_id?",
+    "choices": [
+      "Because instrument_id is not available",
+      "To group correlated instruments and isolate hot markets",
+      "To hide instrument names",
+      "To avoid creating indexes"
+    ],
+    "correctAnswer": "To group correlated instruments and isolate hot markets",
+    "explanation": "Grouping correlated instruments keeps shards balanced and isolates hot instruments."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q42",
+    "title": "Which PostgreSQL 17 feature simplifies referencing partitioned primary keys?",
+    "choices": [
+      "Logical decoding slots",
+      "Improved foreign key support for partitioned parents",
+      "Streaming replication",
+      "pg_dump"
+    ],
+    "correctAnswer": "Improved foreign key support for partitioned parents",
+    "explanation": "PostgreSQL 17 improves foreign key support referencing partitioned tables."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q43",
+    "title": "What does the Python automation script log for each partition creation attempt?",
+    "choices": [
+      "Only errors",
+      "A message with the table name and date being ensured",
+      "Nothing",
+      "All WAL records"
+    ],
+    "correctAnswer": "A message with the table name and date being ensured",
+    "explanation": "The logging call prints the table and target day while provisioning."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q44",
+    "title": "Which library does the Python script use for async database access?",
+    "choices": [
+      "asyncpg",
+      "psycopg",
+      "sqlalchemy",
+      "pg8000"
+    ],
+    "correctAnswer": "psycopg",
+    "explanation": "The script imports psycopg (v3) for asynchronous operations."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q45",
+    "title": "Why does the index queue store SQL templates instead of literal commands?",
+    "choices": [
+      "To reduce disk space",
+      "To format commands per leaf at execution time and keep queue generic",
+      "To encrypt SQL",
+      "To avoid using parameters"
+    ],
+    "correctAnswer": "To format commands per leaf at execution time and keep queue generic",
+    "explanation": "sql_template is formatted when executed so the queue can be reused across leaves."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q46",
+    "title": "What statement ensures invalid concurrent indexes are removed before retry?",
+    "choices": [
+      "DROP INDEX",
+      "DROP INDEX CONCURRENTLY",
+      "TRUNCATE INDEX",
+      "RESET INDEX"
+    ],
+    "correctAnswer": "DROP INDEX CONCURRENTLY",
+    "explanation": "Rollback guidance says to drop invalid indexes concurrently before rerunning."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q47",
+    "title": "When ATTACH PARTITION fails mid-validation, what should you check?",
+    "choices": [
+      "Whether logical decoding is enabled",
+      "Whether the child table remains standalone with relkind 'r'",
+      "Whether pg_hba.conf changed",
+      "Whether autovacuum is paused"
+    ],
+    "correctAnswer": "Whether the child table remains standalone with relkind 'r'",
+    "explanation": "The article advises verifying relkind and retrying attach after resolving conflicts."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q48",
+    "title": "What tool combination handles catastrophic recovery?",
+    "choices": [
+      "pg_dump only",
+      "Point-in-time recovery plus partition-level logical backups",
+      "Manual CSV exports",
+      "File system copy"
+    ],
+    "correctAnswer": "Point-in-time recovery plus partition-level logical backups",
+    "explanation": "Rollback section recommends PITR and logical backups per partition."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q49",
+    "title": "Which catalog view reveals lock waiters for OMS partitions?",
+    "choices": [
+      "pg_stat_bgwriter",
+      "pg_locks",
+      "pg_stat_database",
+      "pg_stat_user_indexes"
+    ],
+    "correctAnswer": "pg_locks",
+    "explanation": "The appendix shows querying pg_locks filtering for partition names."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q50",
+    "title": "Which command lists all partitions for a parent table?",
+    "choices": [
+      "SELECT * FROM pg_partition_tree('oms.orders');",
+      "VACUUM (VERBOSE);",
+      "SHOW ALL;",
+      "SELECT * FROM pg_roles;"
+    ],
+    "correctAnswer": "SELECT * FROM pg_partition_tree('oms.orders');",
+    "explanation": "The appendix highlights pg_partition_tree for enumerating partitions."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q51",
+    "title": "What parameter does the OMS function default to for number of hash partitions?",
+    "choices": [
+      "4",
+      "8",
+      "12",
+      "16"
+    ],
+    "correctAnswer": "8",
+    "explanation": "p_hash_parts defaults to 8 in the function signature."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q52",
+    "title": "Which partition naming pattern encodes region for compliance?",
+    "choices": [
+      "orders_2024",
+      "orders_regionless",
+      "orders_apac_2024_05_01_p3",
+      "orders_misc"
+    ],
+    "correctAnswer": "orders_apac_2024_05_01_p3",
+    "explanation": "Governance suggests including region codes like apac in partition names."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q53",
+    "title": "Why is statement_timeout alone insufficient for DDL safety?",
+    "choices": [
+      "Because statement_timeout is ignored",
+      "Because DDL could wait on locks indefinitely without lock_timeout",
+      "Because DDL never blocks",
+      "Because it causes autovacuum to stop"
+    ],
+    "correctAnswer": "Because DDL could wait on locks indefinitely without lock_timeout",
+    "explanation": "Lock timeout ensures DDL aborts if it cannot acquire locks quickly."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q54",
+    "title": "Which SQL option lets GIN indexes avoid deferred maintenance during bulk loads?",
+    "choices": [
+      "SET enable_seqscan = off",
+      "SET fastupdate = off",
+      "SET synchronous_commit = off",
+      "SET jit = off"
+    ],
+    "correctAnswer": "SET fastupdate = off",
+    "explanation": "The article suggests turning fastupdate off for GIN indexes during bulk loads."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q55",
+    "title": "What does the OMS monitoring view oms.v_index_progress expose besides phase?",
+    "choices": [
+      "Only username",
+      "Percentage done, lockers, and block counts",
+      "Network latency",
+      "Operating system metrics"
+    ],
+    "correctAnswer": "Percentage done, lockers, and block counts",
+    "explanation": "The view selects pct_done, lockers, and block metrics from pg_stat_progress_create_index."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q56",
+    "title": "How are audit-ready partition detachments performed?",
+    "choices": [
+      "By dropping tables",
+      "By detaching from hot schema and attaching to archival tablespace",
+      "By truncating data",
+      "By toggling triggers"
+    ],
+    "correctAnswer": "By detaching from hot schema and attaching to archival tablespace",
+    "explanation": "Archive operations detach from OMS schema and attach to archival tablespace for compliance."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q57",
+    "title": "Why is data sovereignty mentioned in the governance section?",
+    "choices": [
+      "To justify disabling WAL",
+      "To explain partition naming and tablespaces per region",
+      "To describe indexing algorithms",
+      "To promote file system snapshots"
+    ],
+    "correctAnswer": "To explain partition naming and tablespaces per region",
+    "explanation": "The section ties region-specific partitions and tablespaces to sovereignty rules."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q58",
+    "title": "Which practice reduces risk during failover when partitions are attaching?",
+    "choices": [
+      "Ignoring replication",
+      "Ensuring subscribers receive new partitions before publishers",
+      "Disabling synchronous replication",
+      "Dropping indexes"
+    ],
+    "correctAnswer": "Ensuring subscribers receive new partitions before publishers",
+    "explanation": "Replication guidance says create partitions on subscribers first to avoid conflicts."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q59",
+    "title": "What is the purpose of the JSON parameter p_hash_range in create_trading_day_partitions?",
+    "choices": [
+      "To configure WAL size",
+      "To describe sub-sub partition policy like hash buckets",
+      "To enable text search",
+      "To specify autovacuum workers"
+    ],
+    "correctAnswer": "To describe sub-sub partition policy like hash buckets",
+    "explanation": "The JSON argument documents hash configuration for extensibility."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q60",
+    "title": "Which plan stability tool is suggested only for special cases?",
+    "choices": [
+      "pg_hint_plan",
+      "pg_repack",
+      "pg_basebackup",
+      "pgbench"
+    ],
+    "correctAnswer": "pg_hint_plan",
+    "explanation": "The planner section mentions pg_hint_plan for pinning plans sparingly."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q61",
+    "title": "Why should ANALYZE be run on new partitions immediately?",
+    "choices": [
+      "To reset WAL",
+      "To provide planner statistics before queries hit the data",
+      "To drop indexes",
+      "To disable pruning"
+    ],
+    "correctAnswer": "To provide planner statistics before queries hit the data",
+    "explanation": "Rotation checklist includes ANALYZE to prime stats for the planner."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q62",
+    "title": "Which Postgres view is exported nightly for drift detection?",
+    "choices": [
+      "pg_stat_archiver",
+      "pg_partition_tree",
+      "pg_prepared_statements",
+      "pg_file_settings"
+    ],
+    "correctAnswer": "pg_partition_tree",
+    "explanation": "Tooling exports pg_partition_tree output to JSON for drift checks."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q63",
+    "title": "What is a key success metric for the fills migration backfill?",
+    "choices": [
+      "Number of temporary tables",
+      "Matching COUNT(*) per trading day and venue",
+      "Total number of schemas",
+      "Number of background workers"
+    ],
+    "correctAnswer": "Matching COUNT(*) per trading day and venue",
+    "explanation": "Migration validation compares counts per day and venue between old and new tables."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q64",
+    "title": "How does the OMS ensure queries benefit from partition pruning during load tests?",
+    "choices": [
+      "By disabling statistics",
+      "By monitoring pg_stat_statements and verifying pruned plans",
+      "By turning off autovacuum",
+      "By dropping indexes"
+    ],
+    "correctAnswer": "By monitoring pg_stat_statements and verifying pruned plans",
+    "explanation": "Chaos testing involves verifying query plans via pg_stat_statements and pruning."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q65",
+    "title": "What maintenance activity should happen nightly on latest leaves?",
+    "choices": [
+      "VACUUM (ANALYZE)",
+      "REINDEX CONCURRENTLY",
+      "TRUNCATE",
+      "DROP PARTITION"
+    ],
+    "correctAnswer": "VACUUM (ANALYZE)",
+    "explanation": "Checklist recommends nightly VACUUM (ANALYZE) on hot leaves."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q66",
+    "title": "Which setting should be tuned when partition pruning seems ineffective due to parameterized queries?",
+    "choices": [
+      "enable_seqscan",
+      "plan_cache_mode to force_generic_plan",
+      "work_mem",
+      "autovacuum_vacuum_cost_delay"
+    ],
+    "correctAnswer": "plan_cache_mode to force_generic_plan",
+    "explanation": "Switching plan_cache_mode can force replanning to regain pruning benefit."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q67",
+    "title": "What does the governance section say about triggers for schema changes?",
+    "choices": [
+      "They should be ignored",
+      "Runbooks must include rollback scripts alongside migrations",
+      "Triggers replace indexes",
+      "DDL should never be reviewed"
+    ],
+    "correctAnswer": "Runbooks must include rollback scripts alongside migrations",
+    "explanation": "Governance demands every change include documented rollback steps."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q68",
+    "title": "Which locking mode is associated with ALTER TABLE ... ATTACH PARTITION?",
+    "choices": [
+      "ROW SHARE",
+      "ACCESS EXCLUSIVE",
+      "SHARE UPDATE EXCLUSIVE",
+      "ACCESS SHARE"
+    ],
+    "correctAnswer": "SHARE UPDATE EXCLUSIVE",
+    "explanation": "The lock section notes ATTACH PARTITION takes SHARE UPDATE EXCLUSIVE locks."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q69",
+    "title": "Why maintain partition-level logical dumps in addition to physical backups?",
+    "choices": [
+      "To speed up sequential scans",
+      "To satisfy compliance exports and selective restores",
+      "To disable PITR",
+      "To shrink WAL"
+    ],
+    "correctAnswer": "To satisfy compliance exports and selective restores",
+    "explanation": "Recovery guidance stresses logical dumps for compliance and targeted restores."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q70",
+    "title": "What does the closing checklist say about retention policies?",
+    "choices": [
+      "They are optional",
+      "Continuously align retention windows with legal requirements and archive partitions",
+      "Always keep all partitions forever",
+      "Rely on autovacuum to delete data"
+    ],
+    "correctAnswer": "Continuously align retention windows with legal requirements and archive partitions",
+    "explanation": "Checklist emphasizes aligning partition retention with legal mandates."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q71",
+    "title": "Which Python function enqueues index builds after listing leaves?",
+    "choices": [
+      "provision_partitions",
+      "enqueue_index_jobs",
+      "main",
+      "ensure_indexes"
+    ],
+    "correctAnswer": "enqueue_index_jobs",
+    "explanation": "The Python script defines enqueue_index_jobs to populate the index queue."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q72",
+    "title": "Why is plan measurement repeated quarterly?",
+    "choices": [
+      "Because trading patterns evolve and assumptions must be revisited",
+      "Because PostgreSQL upgrades require it",
+      "Because backups expire",
+      "Because autovacuum resets"
+    ],
+    "correctAnswer": "Because trading patterns evolve and assumptions must be revisited",
+    "explanation": "The conclusion urges quarterly reassessment as workloads change."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q73",
+    "title": "Which SQL command attaches an archived partition back to analytics schema in the appendix?",
+    "choices": [
+      "ALTER TABLE ... ATTACH PARTITION ... FOR VALUES ...",
+      "CREATE TABLE AS",
+      "VACUUM FREEZE",
+      "DROP TABLE"
+    ],
+    "correctAnswer": "ALTER TABLE ... ATTACH PARTITION ... FOR VALUES ...",
+    "explanation": "Appendix shows detaching then attaching partitions using ALTER TABLE ... ATTACH PARTITION."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q74",
+    "title": "What does the compliance section recommend regarding checksum validation?",
+    "choices": [
+      "Disable pg_checksums",
+      "Use pg_checksums to verify base backups and detect tampering",
+      "Ignore checksums",
+      "Replace with CRC32"
+    ],
+    "correctAnswer": "Use pg_checksums to verify base backups and detect tampering",
+    "explanation": "Governance calls for pg_checksums validations to prove data integrity."
+  },
+  {
+    "type": "radiogroup",
+    "name": "oms_part_q75",
+    "title": "How does the article suggest handling uniqueness on venue_fill_ref without partition keys?",
+    "choices": [
+      "Use a global unique index",
+      "Maintain a separate lookup table or trigger per venue",
+      "Disable uniqueness",
+      "Rely on SERIAL"
+    ],
+    "correctAnswer": "Maintain a separate lookup table or trigger per venue",
+    "explanation": "FAQ explains you must enforce uniqueness via trigger or lookup since partitioned unique indexes must include partition keys."
+  }
+]

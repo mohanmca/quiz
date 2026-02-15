@@ -1,0 +1,199 @@
+[
+    {
+        "id": "log-2025-10-23-python-hashing",
+        "date": "2025-10-23",
+        "title": "Python Hashing Practice \u2014 Strings and Lists",
+        "category": "python",
+        "mood": "curious",
+        "tags": [
+            "python",
+            "hashing",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nToday I practiced hashing built-in types in Python while revisiting LeetCode 49 \"Group Anagrams\" (https://leetcode.com/problems/group-anagrams/) and noted the behaviour differences between immutable and mutable containers.\n\n- Strings are immutable, so they work directly with Python's `hash`.\n- Lists must be converted to an immutable representation before hashing.\n- Dictionaries need a deterministic ordering; turning `.items()` into a sorted tuple makes them hashable.\n\n```python\nfrom typing import Iterable\n\ndef hash_text_and_list(text: str, items: Iterable[str]) -> tuple[int, int]:\n    \"\"\"Return the hash for the string and a list of strings.\"\"\"\n    text_hash = hash(text)\n    items_hash = hash(tuple(items))\n    return text_hash, items_hash\n\nlabel = \"python hashing practice\"\nfeatures = [\"hash\", \"string\", \"list\"]\nprint(hash_text_and_list(label, features))\n```\n\n**Extras:** Captured an anagram-friendly hash that buckets strings with the same character multiset\u2014the same idea used to key groups in the LeetCode exercise.\n\n```python\nfrom collections import Counter\n\ndef anagram_hash(s: str) -> int:\n    counts = Counter(s)\n    items = tuple(sorted(counts.items()))\n    return hash(items)\n```\n\n**Bonus:** Hashing a dictionary after freezing it into a tuple.\n\n```python\ndef hash_dict(data: dict[str, int]) -> int:\n    frozen = tuple(sorted(data.items()))  # make ordering deterministic\n    return hash(frozen)\n\nprint(hash_dict({\"a\": 1, \"b\": 2}))\n```\n\n**Reflection:** Converting lists to tuples keeps ordering intact, and I should avoid hashing mutable structures directly so downstream code does not accidentally rely on a mutable key."
+    },
+    {
+        "id": "log-2025-10-23-python-defaultdict-anagrams",
+        "date": "2025-10-23",
+        "title": "Grouping Anagrams with collections.defaultdict",
+        "category": "python",
+        "mood": "motivated",
+        "tags": [
+            "python",
+            "defaultdict",
+            "anagrams",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nExplored why `collections.defaultdict(list)` is a natural fit when solving LeetCode 49 \"Group Anagrams\"; it keeps bucket creation implicit and the code focused on the transformation logic.\n\n- `defaultdict(list)` avoids repetitive `if key not in dict` checks.\n- Using a sorted tuple of characters as the key collapses anagrams into the same bucket.\n- Returning `list(r.values())` exposes just the grouped words, hiding the hashing key implementation detail.\n\n```python\nfrom collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        buckets = defaultdict(list)\n        for word in strs:\n            signature = tuple(sorted(word))\n            buckets[signature].append(word)\n        return list(buckets.values())\n```\n\n**Reflection:** Letting the dictionary auto-initialize removes the mental overhead of bookkeeping, so I can focus on choosing stable keys (like tuples) that make anagrams fall into place."
+    },
+    {
+        "id": "log-2025-10-24-python-postfix",
+        "date": "2025-10-24",
+        "title": "Python Postfix Sweep for Product Exclusion",
+        "category": "python",
+        "mood": "focused",
+        "tags": [
+            "python",
+            "arrays",
+            "prefix-postfix",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nPracticed building postfix accumulators to complement prefix sums when scanning arrays from the end. The technique keeps constant extra space for problems like LeetCode 238 (Product of Array Except Self).\n\n- Prefix handles the running product up to index `i`; postfix captures the product to the right.\n- Multiplying both views in-place avoids division and works with zeros.\n\n```python\npostfix = 1\nfor i in range(N-1, -1, -1):\n    n = nums[i]\n    result[i] *= postfix\n    postfix = postfix * n\n```\n\n**Reflection:** Pairing a prefix pass with this backward sweep produces the final answers in two linear scans, and storing the interim postfix in a scalar keeps memory overhead minimal."
+    },
+    {
+        "id": "log-2025-10-24-python-reverse-iteration",
+        "date": "2025-10-24",
+        "title": "Reverse Array Iteration With Index",
+        "category": "python",
+        "mood": "thoughtful",
+        "tags": [
+            "python",
+            "arrays",
+            "iteration",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nReviewed patterns for walking an array from the end while keeping the current index handy. Helpful when pairing with prefix/postfix tricks or when consuming two pointers from opposite sides.\n\n- `range(len(nums) - 1, -1, -1)` keeps the index explicit without materializing a copy.\n- `reversed(range(len(nums)))` expresses the same idea if I want the forward slice syntax.\n- Enumerating the reversed view needs a small offset fix to recover the original index.\n- `zip(range(len(nums) - 1, -1, -1), reversed(nums))` keeps the index/value pair aligned without recomputing an offset.\n- `enumerate(nums[::-1], start=0)` offers a compact slice-based option when a temporary reversed copy is acceptable.\n\n```python\nfor idx in range(len(nums) - 1, -1, -1):\n    val = nums[idx]\n    process(idx, val)\n\nfor offset, val in enumerate(reversed(nums)):\n    idx = len(nums) - 1 - offset\n    process(idx, val)\n\nfor idx, val in zip(range(len(nums) - 1, -1, -1), reversed(nums)):\n    process(idx, val)\n\nfor offset, val in enumerate(nums[::-1], start=0):\n    idx = len(nums) - 1 - offset\n    process(idx, val)\n```\n\n**Reflection:** Choosing the countdown `range` keeps the code terse and avoids building intermediate lists, but knowing the enumerate, zip, and slice options helps when I want both the forward and backward perspectives in one loop."
+    },
+    {
+        "id": "log-2025-10-24-python-on-hash",
+        "date": "2025-10-24",
+        "title": "Trading Sorting For O(n) With Hash Lookups",
+        "category": "python",
+        "mood": "determined",
+        "tags": [
+            "python",
+            "hash",
+            "arrays",
+            "patterns",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nCaptured the reminder that many problems begging for sorting can fall to an O(n) scan if I lean on constant-time hash lookups instead. Longest consecutive sequence is a textbook example.\n\n- Sorting costs O(n log n); a set gives O(1) expected membership tests once I ingest the array.\n- Only expand streaks from numbers that do not have a predecessor, keeping the scan linear.\n- Update the running best length on the fly while walking each streak with the hash lookups.\n\n```python\nclass Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        s = set(nums)\n        maxcount = 0\n        for num in nums:\n            if num - 1 not in s:\n                count = 1\n                while num + 1 in s:\n                    count += 1\n                    num += 1\n                maxcount = max(maxcount, count)\n        return maxcount\n```\n\n**Reflection:** Hash-based passes keep the work proportional to the input size while still covering every streak; it is a good first check whenever my instinct reaches for `sorted()`."
+    },
+    {
+        "id": "log-2025-10-25-python-valid-palindrome",
+        "date": "2025-10-25",
+        "title": "Two-Pointer Valid Palindrome Safety Checks",
+        "category": "python",
+        "mood": "confident",
+        "tags": [
+            "python",
+            "two-pointers",
+            "strings",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nSolved LeetCode 125 \"Valid Palindrome\" to drill pointer safety when skipping punctuation and spaces.\n\n- Lowercasing once keeps comparisons case-insensitive without extra work.\n- `str.isalnum()` handles the alphanumeric filter, so the loop never touches punctuation.\n- Guarding lines 6, 8, and 10 with `i < j` keeps both indices in range before advancing or comparing.\n\n```python\nclass Solution:\n    def isPalindrome(self, s: str) -> bool:\n        i, j = 0, len(s) - 1\n        s = s.lower()\n        while i < j:\n            while i < j and not s[i].isalnum():\n                i += 1\n            while i < j and not s[j].isalnum():\n                j -= 1\n            if i < j and (s[i] != s[j]):\n                return False\n            i += 1\n            j -= 1\n        return True\n```\n\n**Reflection:** The `i < j` guardrails prevent out-of-bounds lookups when a string is mostly symbols; the pointers only compare characters after both have landed on valid alphanumerics."
+    },
+    {
+        "id": "log-2025-10-25-python-division-trunc",
+        "date": "2025-10-25",
+        "title": "Division Rounding: trunc vs floor",
+        "category": "python",
+        "mood": "reflective",
+        "tags": [
+            "python",
+            "math",
+            "division",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nCaptured a reminder that Python exposes multiple \"round toward zero\" options and they do not behave identically to floor division.\n\n- `math.trunc(x)` drops the fractional part toward zero, so `math.trunc(-1.2)` returns `-1` while `math.floor(-1.2)` returns `-2`.\n- Floor division `a // b` follows floor semantics and matches `math.floor(a / b)` for positive `b`, so negatives step further from zero.\n- `int(a / b)` first performs true division and then truncates, making it equivalent to `math.trunc(a / b)` rather than `a // b`.\n\n```python\nimport math\n\nprint(math.trunc(-7 / 2))  # -3\nprint((-7) // 2)           # -4\nprint(int(-7 / 2))         # -3\nprint(math.floor(-7 / 2))  # -4\n```\n\n**Reflection:** When I need LeetCode-style truncation toward zero (e.g., reversing integers), I should call `math.trunc` or rely on `int(a / b)`; using `//` would bias negative results downward."
+    },
+    {
+        "id": "log-2025-10-26-python-three-sum-anchors",
+        "date": "2025-10-26",
+        "title": "ThreeSum Anchor Range Guard",
+        "category": "python",
+        "mood": "alert",
+        "tags": [
+            "python",
+            "arrays",
+            "three-sum",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nRevisited LeetCode 15 \"3Sum\" and tripped over the outer anchor loop when the array only has three elements. Writing `for i in range(0, n-2)` skipped the lone valid anchor because the stop bound is exclusive.\n\n- Always bail out early with `if n < 3: return []` so the loop never runs on undersized inputs.\n- Use `range(0, n - 2 + 1)` (or the plainer `range(n - 2 + 1)`) so the last anchor executes even when `n` is exactly three.\n- Sorting still matters to dedupe anchors and to run the two-pointer sweep safely.\n\n```python\ndef threeSum(nums: list[int]) -> list[list[int]]:\n    nums.sort()\n    n = len(nums)\n    if n < 3:\n        return []\n    triplets: list[list[int]] = []\n    for i in range(0, n - 2 + 1):\n        if i > 0 and nums[i] == nums[i - 1]:\n            continue\n        left, right = i + 1, n - 1\n        while left < right:\n            total = nums[i] + nums[left] + nums[right]\n            if total == 0:\n                triplets.append([nums[i], nums[left], nums[right]])\n                left += 1\n                right -= 1\n            elif total < 0:\n                left += 1\n            else:\n                right -= 1\n    return triplets\n```\n\n**Reflection:** Being explicit about the inclusive range keeps the anchor loop aligned with the minimal viable input; otherwise the triple-pointer scan never even starts when `n == 3`."
+    },
+    {
+        "id": "log-2025-10-26-python-loop-guard-recheck",
+        "date": "2025-10-26",
+        "title": "Loop Guard Rechecked Next Iteration",
+        "category": "python",
+        "mood": "thoughtful",
+        "tags": [
+            "python",
+            "arrays",
+            "patterns",
+            "three-sum",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nNamed a small defensive pattern while tuning the same ThreeSum solution: \"loop guard rechecked next iteration\". Every pointer move re-validates the `left < right` guard before touching array slots.\n\n- After incrementing or decrementing a pointer, immediately iterate and let the `while left < right` test rerun before dereferencing.\n- The habit prevents out-of-bounds access when duplicates trigger multiple pointer shifts in succession.\n- Works hand-in-hand with duplicate skipping blocks that march pointers forward until values change.\n\n```python\nwhile left < right:\n    total = nums[i] + nums[left] + nums[right]\n    if total == 0:\n        triplets.append([nums[i], nums[left], nums[right]])\n        left += 1\n        right -= 1\n        while left < right and nums[left] == nums[left - 1]:\n            left += 1\n        while left < right and nums[right] == nums[right + 1]:\n            right -= 1\n    elif total < 0:\n        left += 1\n    else:\n        right -= 1\n```\n\n**Reflection:** Letting the loop condition police every iteration keeps the code honest\u2014each pointer move rechecks the guard before any new array access, which stops the casual increment/decrement mistakes from sneaking past review."
+    },
+    {
+        "id": "log-2025-10-26-python-max-water",
+        "date": "2025-10-26",
+        "title": "Max Water Container Two-Pointer Justification",
+        "category": "python",
+        "mood": "confident",
+        "tags": [
+            "python",
+            "two-pointers",
+            "arrays",
+            "max-water",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\\nReviewed why the classic LeetCode 11 \"Container With Most Water\" solution can stick to a two-pointer sweep without missing the optimal area\u2014even though it only checks O(n) candidate pairs.\\n\\n- Start with the widest container (`l = 0`, `r = n - 1`) and track the best area as pointers move inward.\\n- The container height is clamped by the shorter wall; call its height `L`. If we move the taller pointer inward, the width shrinks while the limiting height fails to improve, so the area cannot grow.\\n- Therefore always shift the pointer pointing to the shorter wall; that is the only move that might raise the binding height.\\n\\n```python\\ndef maxArea(heights: list[int]) -> int: \\n    l, r = 0, len(heights) - 1\\n    best = 0\\n    while l < r:\\n        h = min(heights[l], heights[r])\\n        best = max(best, h * (r - l))\\n        if heights[l] <= heights[r]:\\n            l += 1\\n        else:\\n            r -= 1\\n    return best\\n```\\n\\n**Why it works:**\\nWith `L \u2264 R`, the current height cap is `L`. Moving the right pointer from `r` to `r'` tightens the width: `(r' - l) < (r - l)`. The new height is `min(L, heights[r'])`, which never exceeds `L`. The new area is bounded by `L * (r' - l)`, strictly less than the previous `L * (r - l)`. No gain is possible, so the only hopeful move is to advance the shorter side and hunt for a taller wall that could offset the smaller width."
+    },
+    {
+        "id": "log-2025-10-26-python-stack-shadowing",
+        "date": "2025-10-26",
+        "title": "Python Set Literals and Stack Name Shadowing",
+        "category": "python",
+        "mood": "cautious",
+        "tags": [
+            "python",
+            "syntax",
+            "stacks",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nCaptured two caution flags from recent Python stack-manipulation drills: literal set syntax and silent variable shadowing.\n\n- Use curly braces for literal sets (`symbols = {'*', '-', '+', '/'}`); wrapping the items in brackets creates a list, and passing them to `set()` later throws away the intent in sample snippets.\n- Avoid naming a stack `s` when a method parameter is also called `s`; reusing the identifier hides the outer reference and silently mutates the wrong object.\n\n```python\ndef simplify(s: list[str]) -> list[str]:\n    symbols = {'*', '-', '+', '/'}\n    stack: list[str] = []\n    for token in s:\n        if token in symbols:\n            stack.append(token)\n        else:\n            stack.append(token.upper())\n    return stack\n```\n\n**Reflection:** Explicit, non-overlapping names keep call-site arguments intact, and remembering the `{...}` literal form for sets saves me from accidentally building a list or tuple and wondering why membership checks slowed down."
+    },
+    {
+        "id": "log-2025-11-03-sliding-window-deque",
+        "date": "2025-11-03",
+        "title": "Sliding Window Maximum Needs a Deque",
+        "category": "python",
+        "mood": "reflective",
+        "tags": [
+            "python",
+            "sliding-window",
+            "deque",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nRevisited LeetCode 239 \"Sliding Window Maximum\" to test whether a stack-only design works for window tracking.\n\n- Storing candidates in a stack fails when the window slides left because we need O(1) access to the front of the structure.\n- Using a deque keeps the front as the maximum and supports popleft when the index ages out.\n- Each element enters and leaves the deque once, maintaining O(n) time with O(k) extra space.\n\n```python\nfrom collections import deque\nfrom typing import List\n\nclass Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        window = deque()\n        output = []\n        for i, value in enumerate(nums):\n            while window and window[0][1] <= i - k:\n                window.popleft()\n            while window and window[-1][0] < value:\n                window.pop()\n            window.append((value, i))\n            if i + 1 >= k:\n                output.append(window[0][0])\n        return output\n```\n\n**Reflection:** I should reserve stacks for problems with strictly LIFO semantics; sliding windows demand a deque so I can prune both ends without rebuilding state."
+    },
+    {
+        "id": "log-2025-11-03-python-truthy-or",
+        "date": "2025-11-03",
+        "title": "Truthiness Makes Python's `or` a Handy Fallback",
+        "category": "python",
+        "mood": "insightful",
+        "tags": [
+            "python",
+            "boolean-logic",
+            "linked-lists",
+            "journal",
+            "daily-log"
+        ],
+        "content": "### Context\nWhile wiring two sorted linked lists together, I kept writing `result.next = list1 if list1 else list2` and realised Python's `or` captures the same intent. Because `or` returns the first truthy operand, the line can shrink to `result.next = list1 or list2` without losing readability.\n\n- `or` short-circuits: it evaluates the left operand, and if it's truthy, that value is returned immediately.\n- For linked lists, any non-None node is truthy, so `list1 or list2` yields whichever list still has nodes without extra branching.\n- This mirrors other Pythonic idioms like `value = cache.get(key) or expensive_lookup(key)` where a falsy cache hit (e.g., `None`) intentionally falls through.\n\n```python\nif list1 and list2 and list1.val <= list2.val:\n    result.next = list1\nelse:\n    result.next = list1 or list2  # whichever list still has nodes\n```\n\n**Reflection:** Remembering that `or` returns an operand (not merely `True`/`False`) keeps my list merges concise, but I still need to guard cases where falsy-but-valid values (like `0`) could short-circuit unexpectedly."
+    }
+]

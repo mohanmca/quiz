@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apache Flink: Stream Processing from First Principles</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #fff; color: #1a1a2e; overflow: hidden; height: 100vh; }
+.progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #0066cc, #00aaff); z-index: 100; transition: width 0.3s; }
+.slide-counter { position: fixed; top: 12px; right: 20px; font-size: 14px; color: #666; z-index: 100; font-weight: 500; }
+.nav-buttons { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: flex; gap: 8px; }
+.nav-buttons button { padding: 8px 18px; border: 1px solid #ccc; background: #fff; color: #333; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+.nav-buttons button:hover { background: #0066cc; color: #fff; border-color: #0066cc; }
+.nav-buttons button:disabled { opacity: 0.3; cursor: default; background: #fff; color: #333; }
+.slide-container { width: 100vw; height: 100vh; overflow-y: auto; padding: 40px 60px 80px; }
+.slide { display: none; max-width: 1000px; margin: 0 auto; }
+.slide.active { display: block; }
+.slide h1 { font-size: 32px; color: #0a1628; margin-bottom: 10px; border-bottom: 3px solid #0066cc; padding-bottom: 8px; }
+.slide h2 { font-size: 24px; color: #0a1628; margin: 20px 0 10px; }
+.slide h3 { font-size: 18px; color: #333; margin: 16px 0 8px; }
+.slide p { font-size: 16px; line-height: 1.7; margin: 8px 0; color: #333; }
+.slide ul, .slide ol { margin: 8px 0 8px 24px; line-height: 1.8; }
+.slide li { font-size: 15px; color: #444; margin: 4px 0; }
+.module-tag { display: inline-block; background: #e8f0fe; color: #0066cc; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+pre.code-block { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin: 12px 0; overflow-x: auto; font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace; font-size: 13px; line-height: 1.6; white-space: pre; }
+.kw { color: #0033b3; font-weight: 600; }
+.str { color: #067d17; }
+.cm { color: #8c8c8c; font-style: italic; }
+.tp { color: #9e4a00; }
+.num { color: #1750eb; }
+.ann { color: #9e880d; }
+.diagram { background: #fafbfc; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin: 16px 0; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 13px; line-height: 1.5; white-space: pre; overflow-x: auto; }
+.highlight-box { background: #fff8e1; border-left: 4px solid #ffa000; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+.info-box { background: #e8f0fe; border-left: 4px solid #0066cc; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+.trivia-box { background: #f3e8fd; border-left: 4px solid #7c3aed; padding: 12px 16px; margin: 12px 0; border-radius: 0 6px 6px 0; }
+table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+th { background: #f0f4f8; padding: 10px 12px; text-align: left; border: 1px solid #dde; font-weight: 600; color: #0a1628; }
+td { padding: 8px 12px; border: 1px solid #dde; color: #444; }
+tr:nth-child(even) { background: #fafbfc; }
+.quiz-section { background: #f0f7ff; border: 1px solid #b3d4fc; border-radius: 8px; padding: 16px; margin: 20px 0; }
+.quiz-section h3 { color: #0066cc; margin: 0 0 10px; font-size: 15px; }
+.quiz-option { display: block; padding: 8px 12px; margin: 4px 0; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.15s; background: #fff; }
+.quiz-option:hover { border-color: #0066cc; background: #f0f7ff; }
+.quiz-option.selected { border-color: #0066cc; background: #e0eeff; }
+.quiz-option.correct { border-color: #2e7d32; background: #e8f5e9; color: #2e7d32; }
+.quiz-option.wrong { border-color: #c62828; background: #fbe9e7; color: #c62828; }
+.quiz-btn { display: inline-block; margin-top: 8px; padding: 6px 20px; background: #0066cc; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+.quiz-btn:hover { background: #0052a3; }
+.quiz-btn:disabled { opacity: 0.4; cursor: default; }
+.quiz-feedback { margin-top: 8px; padding: 8px 12px; border-radius: 6px; font-size: 13px; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.quiz-feedback.wrong { background: #fbe9e7; color: #c62828; border: 1px solid #ef9a9a; }
+.title-slide { text-align: center; padding-top: 80px; }
+.title-slide h1 { font-size: 42px; border: none; margin-bottom: 16px; color: #0a1628; }
+.title-slide .subtitle { font-size: 20px; color: #555; margin-bottom: 40px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 12px 0; }
+.failed-section { background: #fff3e0; border: 2px solid #ff9800; border-radius: 8px; padding: 20px; margin: 20px 0; }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-counter" id="slideCounter"></div>
+<div class="nav-buttons">
+  <button id="prevBtn" onclick="navigate(-1)">&larr; Prev</button>
+  <button id="nextBtn" onclick="navigate(1)">Next &rarr;</button>
+</div>
+
+<div class="slide-container">
+
+<!-- ============ SLIDE 1: TITLE ============ -->
+<div class="slide title-slide" id="slide-0">
+  <div class="module-tag">Workshop</div>
+  <h1>Apache Flink</h1>
+  <p class="subtitle">Stream Processing from First Principles</p>
+  <p style="font-size:16px; color:#666; margin-top:20px;">A hands-on workshop built from the official Flink 1.20 streaming examples</p>
+  <div style="margin-top:40px; text-align:left; max-width:600px; margin-left:auto; margin-right:auto;">
+    <h3 style="margin-bottom:12px;">Workshop Modules</h3>
+    <table>
+      <tr><td><strong>1.</strong> Foundations</td><td>DataStream API, execution model</td></tr>
+      <tr><td><strong>2.</strong> Sources &amp; Sinks</td><td>FileSource, KafkaSource, FileSink</td></tr>
+      <tr><td><strong>3.</strong> Transformations</td><td>map, flatMap, keyBy, Async I/O</td></tr>
+      <tr><td><strong>4.</strong> Windowing</td><td>Tumbling, sliding, session, global</td></tr>
+      <tr><td><strong>5.</strong> Time &amp; Watermarks</td><td>Event time, watermark strategies</td></tr>
+      <tr><td><strong>6.</strong> State &amp; Fault Tolerance</td><td>Keyed state, checkpointing, backends</td></tr>
+      <tr><td><strong>7.</strong> Joins &amp; Iterations</td><td>Window joins, interval joins</td></tr>
+      <tr><td><strong>8.</strong> AWS MSK &amp; Production</td><td>IAM auth, cross-account, monitoring</td></tr>
+      <tr><td><strong>9.</strong> Trivia &amp; Wrap-up</td><td>Fun facts, comparison, resources</td></tr>
+    </table>
+  </div>
+  <div class="quiz-section" style="max-width:600px; margin:30px auto 0;">
+    <h3>Quick Start Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What does "Flink" mean in German?</p>
+    <div class="quiz-options" data-correct="1" data-slide="0">
+      <label class="quiz-option" data-idx="0">Fast/Nimble</label>
+      <label class="quiz-option" data-idx="1">Stream</label>
+      <label class="quiz-option" data-idx="2">Link</label>
+      <label class="quiz-option" data-idx="3">Data</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 2: WHAT IS STREAM PROCESSING ============ -->
+<div class="slide" id="slide-1">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>What is Stream Processing?</h1>
+  <div class="two-col">
+    <div>
+      <h3>Batch Processing</h3>
+      <p>Process a <strong>finite, bounded</strong> dataset all at once. Input is fully available before processing starts.</p>
+      <div class="diagram">┌──────────┐    ┌──────────┐    ┌──────┐
+│  Files   │───▶│  Process │───▶│Result│
+│ (finite) │    │  (once)  │    │      │
+└──────────┘    └──────────┘    └──────┘</div>
+      <p><em>Examples: nightly ETL, monthly reports, training ML models</em></p>
+    </div>
+    <div>
+      <h3>Stream Processing</h3>
+      <p>Process <strong>unbounded, continuous</strong> data as it arrives. No "end" to the input.</p>
+      <div class="diagram">∞ Events ─────▶ ┌──────────┐ ─────▶ ∞ Output
+  (never       │  Process │      (continuous
+   ending)     │ (always) │       updates)
+               └──────────┘</div>
+      <p><em>Examples: fraud detection, stock tickers, click analytics, IoT sensors</em></p>
+    </div>
+  </div>
+  <div class="highlight-box">
+    <strong>Key Insight:</strong> Batch is a special case of streaming — bounded data is just an unbounded stream that eventually ends. Flink unifies both models.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which processing model handles unbounded data naturally?</p>
+    <div class="quiz-options" data-correct="1" data-slide="1">
+      <label class="quiz-option" data-idx="0">Batch processing</label>
+      <label class="quiz-option" data-idx="1">Stream processing</label>
+      <label class="quiz-option" data-idx="2">Both equally</label>
+      <label class="quiz-option" data-idx="3">Neither — you need a database</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 3: WHY FLINK ============ -->
+<div class="slide" id="slide-2">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>Why Apache Flink?</h1>
+  <table>
+    <tr><th>Capability</th><th>Flink</th><th>Spark Streaming</th><th>Kafka Streams</th></tr>
+    <tr><td>Processing Model</td><td><strong>True streaming</strong></td><td>Micro-batch</td><td>True streaming</td></tr>
+    <tr><td>Latency</td><td><strong>Milliseconds</strong></td><td>Seconds</td><td>Milliseconds</td></tr>
+    <tr><td>Exactly-Once</td><td><strong>End-to-end</strong></td><td>End-to-end</td><td>Within Kafka</td></tr>
+    <tr><td>State Size</td><td><strong>Terabytes (RocksDB)</strong></td><td>Limited</td><td>Limited</td></tr>
+    <tr><td>Event Time</td><td><strong>Native support</strong></td><td>Supported</td><td>Supported</td></tr>
+    <tr><td>Batch + Stream</td><td><strong>Unified API</strong></td><td>Separate APIs</td><td>Stream only</td></tr>
+    <tr><td>Deployment</td><td>Standalone/K8s/YARN</td><td>Standalone/K8s/YARN</td><td>Library (embedded)</td></tr>
+  </table>
+  <div class="info-box">
+    <strong>Flink's killer features:</strong> True event-time processing, exactly-once state consistency, millisecond latency, and the ability to handle terabytes of state with RocksDB. Used by Alibaba (4B+ events/sec), Netflix, Uber, Pinterest, Spotify.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What semantic guarantee does Flink provide end-to-end with Kafka?</p>
+    <div class="quiz-options" data-correct="0" data-slide="2">
+      <label class="quiz-option" data-idx="0">Exactly-once</label>
+      <label class="quiz-option" data-idx="1">At-most-once</label>
+      <label class="quiz-option" data-idx="2">At-least-once</label>
+      <label class="quiz-option" data-idx="3">Best-effort delivery</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 4: ARCHITECTURE ============ -->
+<div class="slide" id="slide-3">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>Flink Cluster Architecture</h1>
+  <div class="diagram">                    ┌─────────────────────────────────────────────┐
+                    │              CLIENT (CLI / REST)             │
+                    │       Submits JobGraph to JobManager         │
+                    └───────────────────┬─────────────────────────┘
+                                        │
+                    ┌───────────────────▼─────────────────────────┐
+                    │              JOB MANAGER                     │
+                    │  ┌───────────────┐  ┌────────────────────┐  │
+                    │  │  Dispatcher   │  │  ResourceManager   │  │
+                    │  │ (receives     │  │  (manages slots,   │  │
+                    │  │  job graphs)  │  │   requests TMs)    │  │
+                    │  └───────────────┘  └────────────────────┘  │
+                    │  ┌──────────────────────────────────────┐   │
+                    │  │     Checkpoint Coordinator            │   │
+                    │  │  (triggers &amp; tracks checkpoints)      │   │
+                    │  └──────────────────────────────────────┘   │
+                    └──────┬─────────────────────┬────────────────┘
+                           │                     │
+                ┌──────────▼──────────┐ ┌────────▼────────────┐
+                │   TASK MANAGER 1    │ │   TASK MANAGER 2    │
+                │  ┌────┐┌────┐┌────┐│ │ ┌────┐┌────┐┌────┐  │
+                │  │Slot││Slot││Slot││ │ │Slot││Slot││Slot│  │
+                │  │ 1  ││ 2  ││ 3  ││ │ │ 1  ││ 2  ││ 3 │  │
+                │  └────┘└────┘└────┘│ │ └────┘└────┘└────┘  │
+                │   JVM process      │ │   JVM process        │
+                └─────────────────────┘ └─────────────────────┘</div>
+  <ul>
+    <li><strong>JobManager:</strong> Coordinates execution, manages checkpoints, handles failure recovery</li>
+    <li><strong>TaskManagers:</strong> Worker processes that execute tasks in <strong>task slots</strong></li>
+    <li><strong>Task Slots:</strong> Fixed memory/CPU share of a TaskManager — controls parallelism capacity</li>
+    <li><strong>Checkpoint Coordinator:</strong> Triggers periodic snapshots of all operator state</li>
+  </ul>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which component triggers and coordinates distributed checkpoints?</p>
+    <div class="quiz-options" data-correct="2" data-slide="3">
+      <label class="quiz-option" data-idx="0">ResourceManager</label>
+      <label class="quiz-option" data-idx="1">Dispatcher</label>
+      <label class="quiz-option" data-idx="2">Checkpoint Coordinator</label>
+      <label class="quiz-option" data-idx="3">TaskManager</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 5: EXECUTION MODEL ============ -->
+<div class="slide" id="slide-4">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>Execution Model</h1>
+  <p>Flink transforms your code into a <strong>dataflow graph</strong> that gets optimized and deployed across TaskManagers.</p>
+  <div class="diagram">  Your Code (API)       Logical Plan          Physical Execution
+  ─────────────       ────────────          ──────────────────
+  source.flatMap()     StreamGraph    ──▶    Source[0] ─chain─▶ FlatMap[0] ──▶ Sum[0] ──▶ Sink
+     .keyBy()              │                 Source[1] ─chain─▶ FlatMap[1] ──▶ Sum[1] ──┘
+     .sum()            JobGraph       ──▶       (parallelism = 2)
+     .print()              │
+                     ExecutionGraph   ──▶    Deployed across TaskManager slots</div>
+  <h3>Key Concepts</h3>
+  <ul>
+    <li><strong>Operator Chaining:</strong> Consecutive operators with the same parallelism are fused into one task, eliminating serialization overhead between them</li>
+    <li><strong>Parallelism:</strong> Each operator can run N parallel instances (subtasks)</li>
+    <li><strong>keyBy() introduces a network shuffle</strong> — data is hash-partitioned to ensure same keys land on same subtask</li>
+    <li><strong>Execution Modes:</strong> STREAMING (continuous), BATCH (optimized for bounded), AUTOMATIC (Flink decides)</li>
+  </ul>
+  <div class="trivia-box">
+    <strong>Trivia:</strong> Flink was the first framework to truly unify batch and stream processing under a single runtime. The DataStream API can run in both BATCH and STREAMING mode since Flink 1.12.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What is the primary benefit of operator chaining?</p>
+    <div class="quiz-options" data-correct="0" data-slide="4">
+      <label class="quiz-option" data-idx="0">Reduces serialization and thread-switching overhead</label>
+      <label class="quiz-option" data-idx="1">Increases parallelism automatically</label>
+      <label class="quiz-option" data-idx="2">Enables checkpointing</label>
+      <label class="quiz-option" data-idx="3">Provides exactly-once guarantees</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 6: DATASTREAM API ============ -->
+<div class="slide" id="slide-5">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>The DataStream API</h1>
+  <p>Flink's core abstraction is the <strong>DataStream&lt;T&gt;</strong> — a distributed collection of elements of type T.</p>
+  <div class="diagram">  DataStream&lt;String&gt;
+       │
+       │  .flatMap(tokenizer)
+       ▼
+  DataStream&lt;Tuple2&lt;String,Integer&gt;&gt;
+       │
+       │  .keyBy(value -&gt; value.f0)
+       ▼
+  KeyedStream&lt;Tuple2&lt;String,Integer&gt;, String&gt;
+       │
+       │  .window(TumblingEventTimeWindows.of(...))
+       ▼
+  WindowedStream&lt;Tuple2&lt;String,Integer&gt;, String, TimeWindow&gt;
+       │
+       │  .sum(1)
+       ▼
+  DataStream&lt;Tuple2&lt;String,Integer&gt;&gt;</div>
+  <h3>Type Hierarchy</h3>
+  <table>
+    <tr><th>Type</th><th>Created By</th><th>Enables</th></tr>
+    <tr><td><code>DataStream&lt;T&gt;</code></td><td>Source, transform</td><td>map, flatMap, filter, keyBy, union, connect</td></tr>
+    <tr><td><code>KeyedStream&lt;T,K&gt;</code></td><td>keyBy()</td><td>Keyed state, keyed windows, reduce, sum</td></tr>
+    <tr><td><code>WindowedStream&lt;T,K,W&gt;</code></td><td>window()</td><td>Window functions: reduce, aggregate, apply, process</td></tr>
+    <tr><td><code>SingleOutputStreamOperator&lt;T&gt;</code></td><td>Most transforms</td><td>Side outputs, name, UID, parallelism</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What does keyBy() return?</p>
+    <div class="quiz-options" data-correct="1" data-slide="5">
+      <label class="quiz-option" data-idx="0">WindowedStream</label>
+      <label class="quiz-option" data-idx="1">KeyedStream</label>
+      <label class="quiz-option" data-idx="2">DataStream</label>
+      <label class="quiz-option" data-idx="3">ConnectedStreams</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 7: STREAM EXECUTION ENV ============ -->
+<div class="slide" id="slide-6">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>StreamExecutionEnvironment</h1>
+  <p>The <strong>entry point</strong> for every Flink streaming job. From <code>WordCount.java</code>:</p>
+  <pre class="code-block"><span class="cm">// The main entry point to building a Flink application</span>
+<span class="kw">final</span> <span class="tp">StreamExecutionEnvironment</span> env =
+    <span class="tp">StreamExecutionEnvironment</span>.getExecutionEnvironment();
+
+<span class="cm">// Set runtime mode: BATCH, STREAMING, or AUTOMATIC</span>
+<span class="cm">// AUTOMATIC: Flink chooses BATCH if all sources are bounded, else STREAMING</span>
+env.setRuntimeMode(params.getExecutionMode());
+
+<span class="cm">// Make parameters visible in the Flink Web UI</span>
+env.getConfig().setGlobalJobParameters(params);
+
+<span class="cm">// ... define your pipeline (source → transform → sink) ...</span>
+
+<span class="cm">// IMPORTANT: Nothing executes until this call!</span>
+<span class="cm">// The entire DAG is built lazily, then submitted as a JobGraph</span>
+env.execute(<span class="str">"WordCount"</span>);</pre>
+  <div class="highlight-box">
+    <strong>Lazy Evaluation:</strong> Flink builds the entire dataflow graph in memory as you chain operations. No data flows until <code>env.execute()</code> is called. This allows Flink to optimize the graph before execution.
+  </div>
+  <h3>Three Execution Modes</h3>
+  <table>
+    <tr><th>Mode</th><th>When</th><th>Behavior</th></tr>
+    <tr><td>STREAMING</td><td>Unbounded data</td><td>Continuous processing, incremental updates</td></tr>
+    <tr><td>BATCH</td><td>Bounded data</td><td>Optimized scheduling, sort-based shuffle, one final result</td></tr>
+    <tr><td>AUTOMATIC</td><td>Either</td><td>Flink picks BATCH if all sources bounded, else STREAMING</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">When is the Flink job actually submitted for execution?</p>
+    <div class="quiz-options" data-correct="2" data-slide="6">
+      <label class="quiz-option" data-idx="0">When operators are defined</label>
+      <label class="quiz-option" data-idx="1">When sources are created</label>
+      <label class="quiz-option" data-idx="2">When env.execute() is called</label>
+      <label class="quiz-option" data-idx="3">When sinks are added</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 8: WORDCOUNT ============ -->
+<div class="slide" id="slide-7">
+  <div class="module-tag">Module 1 &mdash; Foundations</div>
+  <h1>Your First Flink Job: WordCount</h1>
+  <p>The classic "Hello World" of stream processing. From <code>WordCount.java</code>:</p>
+  <pre class="code-block"><span class="tp">DataStream</span>&lt;<span class="tp">Tuple2</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>&gt;&gt; counts =
+    text.flatMap(<span class="kw">new</span> Tokenizer())     <span class="cm">// "hello world" → [("hello",1), ("world",1)]</span>
+        .name(<span class="str">"tokenizer"</span>)
+        .keyBy(value -&gt; value.f0)      <span class="cm">// Group by word (the first field)</span>
+        .sum(<span class="num">1</span>)                         <span class="cm">// Sum the count (the second field)</span>
+        .name(<span class="str">"counter"</span>);</pre>
+  <h3>The Tokenizer (FlatMapFunction)</h3>
+  <pre class="code-block"><span class="kw">public static final class</span> <span class="tp">Tokenizer</span>
+        <span class="kw">implements</span> <span class="tp">FlatMapFunction</span>&lt;<span class="tp">String</span>, <span class="tp">Tuple2</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>&gt;&gt; {
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> flatMap(<span class="tp">String</span> value, <span class="tp">Collector</span>&lt;<span class="tp">Tuple2</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>&gt;&gt; out) {
+        <span class="tp">String</span>[] tokens = value.toLowerCase().split(<span class="str">"\\W+"</span>);
+        <span class="kw">for</span> (<span class="tp">String</span> token : tokens) {
+            <span class="kw">if</span> (token.length() &gt; <span class="num">0</span>) {
+                out.collect(<span class="kw">new</span> <span class="tp">Tuple2</span>&lt;&gt;(token, <span class="num">1</span>));
+            }
+        }
+    }
+}</pre>
+  <div class="diagram">  "Hello World Hello" ──▶ flatMap ──▶ ("hello",1),("world",1),("hello",1)
+                                          │
+                                     keyBy(f0)
+                                          │
+                           ┌──────────────┼──────────────┐
+                           ▼                             ▼
+                    key="hello"                    key="world"
+                    ("hello",1)                    ("world",1)
+                    ("hello",1)
+                           │                             │
+                        sum(1)                        sum(1)
+                           │                             │
+                           ▼                             ▼
+                    ("hello",2)                    ("world",1)</div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What does <code>keyBy(value -&gt; value.f0)</code> do in WordCount?</p>
+    <div class="quiz-options" data-correct="0" data-slide="7">
+      <label class="quiz-option" data-idx="0">Groups tuples by the word (first field) so same words go to same partition</label>
+      <label class="quiz-option" data-idx="1">Sorts tuples alphabetically by word</label>
+      <label class="quiz-option" data-idx="2">Filters empty words</label>
+      <label class="quiz-option" data-idx="3">Counts word frequency directly</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 9: SOURCES ============ -->
+<div class="slide" id="slide-8">
+  <div class="module-tag">Module 2 &mdash; Sources &amp; Sinks</div>
+  <h1>Source Types</h1>
+  <p>Flink 1.20 uses the unified <strong>Source API (FLIP-27)</strong>. Three main source types from the examples:</p>
+  <h3>1. FileSource (from WordCount.java)</h3>
+  <pre class="code-block"><span class="tp">FileSource</span>.<span class="tp">FileSourceBuilder</span>&lt;<span class="tp">String</span>&gt; builder =
+    <span class="tp">FileSource</span>.forRecordStreamFormat(
+        <span class="kw">new</span> <span class="tp">TextLineInputFormat</span>(), params.getInputs().get());
+
+<span class="cm">// Continuous file discovery (turns bounded into unbounded!)</span>
+params.getDiscoveryInterval().ifPresent(builder::monitorContinuously);
+
+text = env.fromSource(builder.build(), <span class="tp">WatermarkStrategy</span>.noWatermarks(), <span class="str">"file-input"</span>);</pre>
+  <h3>2. DataGeneratorSource (from AsyncIOExample.java)</h3>
+  <pre class="code-block"><span class="tp">DataGeneratorSource</span>&lt;<span class="tp">Integer</span>&gt; source = <span class="kw">new</span> <span class="tp">DataGeneratorSource</span>&lt;&gt;(
+    <span class="tp">Long</span>::intValue,                          <span class="cm">// GeneratorFunction</span>
+    <span class="tp">Integer</span>.MAX_VALUE,                        <span class="cm">// max records</span>
+    <span class="tp">RateLimiterStrategy</span>.perSecond(<span class="num">100</span>),       <span class="cm">// rate limit</span>
+    <span class="tp">Types</span>.INT);                               <span class="cm">// type info</span></pre>
+  <h3>3. KafkaSource (from StateMachineExample.java)</h3>
+  <pre class="code-block"><span class="tp">KafkaSource</span>&lt;<span class="tp">Event</span>&gt; source = <span class="tp">KafkaSource</span>.&lt;<span class="tp">Event</span>&gt;builder()
+    .setBootstrapServers(brokers)
+    .setGroupId(<span class="str">"stateMachineExample"</span>)
+    .setTopics(kafkaTopic)
+    .setDeserializer(<span class="tp">KafkaRecordDeserializationSchema</span>.valueOnly(
+        <span class="kw">new</span> <span class="tp">EventDeSerializationSchema</span>()))
+    .setStartingOffsets(<span class="tp">OffsetsInitializer</span>.latest())
+    .build();</pre>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which source type supports continuous file directory monitoring?</p>
+    <div class="quiz-options" data-correct="0" data-slide="8">
+      <label class="quiz-option" data-idx="0">FileSource with monitorContinuously()</label>
+      <label class="quiz-option" data-idx="1">DataGeneratorSource</label>
+      <label class="quiz-option" data-idx="2">KafkaSource</label>
+      <label class="quiz-option" data-idx="3">SocketSource</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 10: WATERMARKS ============ -->
+<div class="slide" id="slide-9">
+  <div class="module-tag">Module 2 &mdash; Sources &amp; Sinks</div>
+  <h1>Watermark Strategies</h1>
+  <p>Watermarks tell Flink how far event-time has progressed. Three built-in strategies:</p>
+  <table>
+    <tr><th>Strategy</th><th>Use When</th><th>Example</th></tr>
+    <tr><td><code>noWatermarks()</code></td><td>No event-time processing needed</td><td>Processing-time only jobs</td></tr>
+    <tr><td><code>forMonotonousTimestamps()</code></td><td>Events arrive in perfect timestamp order</td><td>Single-partition Kafka, sorted files</td></tr>
+    <tr><td><code>forBoundedOutOfOrderness(Duration)</code></td><td>Events may arrive slightly out of order</td><td>Multi-partition Kafka, distributed sources</td></tr>
+  </table>
+  <h3>From TopSpeedWindowing.java</h3>
+  <pre class="code-block">carData.assignTimestampsAndWatermarks(
+    <span class="tp">WatermarkStrategy</span>
+        .&lt;<span class="tp">Tuple4</span>&lt;<span class="tp">Integer</span>, <span class="tp">Integer</span>, <span class="tp">Double</span>, <span class="tp">Long</span>&gt;&gt;forMonotonousTimestamps()
+        .withTimestampAssigner((car, ts) -&gt; car.f3)  <span class="cm">// extract timestamp from field f3</span>
+)</pre>
+  <h3>From WindowJoin.java — Custom Watermark Strategy</h3>
+  <pre class="code-block"><span class="kw">private static class</span> <span class="tp">IngestionTimeWatermarkStrategy</span>&lt;T&gt; <span class="kw">implements</span> <span class="tp">WatermarkStrategy</span>&lt;T&gt; {
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="tp">WatermarkGenerator</span>&lt;T&gt; createWatermarkGenerator(...) {
+        <span class="kw">return new</span> <span class="tp">AscendingTimestampsWatermarks</span>&lt;&gt;();
+    }
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="tp">TimestampAssigner</span>&lt;T&gt; createTimestampAssigner(...) {
+        <span class="kw">return</span> (event, timestamp) -&gt; <span class="tp">System</span>.currentTimeMillis(); <span class="cm">// ingestion time</span>
+    }
+}</pre>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which watermark strategy should you use when events arrive in perfect timestamp order?</p>
+    <div class="quiz-options" data-correct="1" data-slide="9">
+      <label class="quiz-option" data-idx="0">noWatermarks()</label>
+      <label class="quiz-option" data-idx="1">forMonotonousTimestamps()</label>
+      <label class="quiz-option" data-idx="2">forBoundedOutOfOrderness()</label>
+      <label class="quiz-option" data-idx="3">Custom WatermarkGenerator</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 11: SINKS ============ -->
+<div class="slide" id="slide-10">
+  <div class="module-tag">Module 2 &mdash; Sources &amp; Sinks</div>
+  <h1>Sink Types &amp; Rolling Policies</h1>
+  <h3>FileSink with Rolling Policy (from StateMachineExample.java)</h3>
+  <pre class="code-block">alerts.sinkTo(
+    <span class="tp">FileSink</span>.&lt;<span class="tp">Alert</span>&gt;forRowFormat(
+            <span class="kw">new</span> <span class="tp">Path</span>(outputFile), <span class="kw">new</span> <span class="tp">SimpleStringEncoder</span>&lt;&gt;())
+        .withRollingPolicy(
+            <span class="tp">DefaultRollingPolicy</span>.builder()
+                .withMaxPartSize(<span class="tp">MemorySize</span>.ofMebiBytes(<span class="num">1</span>))    <span class="cm">// roll at 1 MB</span>
+                .withRolloverInterval(<span class="tp">Duration</span>.ofSeconds(<span class="num">10</span>))  <span class="cm">// or every 10s</span>
+                .build())
+        .build())
+    .setParallelism(<span class="num">1</span>)      <span class="cm">// single writer</span>
+    .name(<span class="str">"output"</span>);</pre>
+  <h3>print() Sink — Quick Debugging</h3>
+  <pre class="code-block">topSpeeds.print();              <span class="cm">// writes to stdout with subtask prefix</span>
+joinedStream.print().setParallelism(<span class="num">1</span>);  <span class="cm">// single-threaded print</span></pre>
+  <div class="info-box">
+    <strong>File Lifecycle:</strong> FileSink writes to <em>in-progress</em> part files → on checkpoint, they become <em>pending</em> → on checkpoint confirmation, they become <em>committed</em>. This ensures exactly-once file output.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What determines when a FileSink creates a new output file?</p>
+    <div class="quiz-options" data-correct="0" data-slide="10">
+      <label class="quiz-option" data-idx="0">The rolling policy (size or time thresholds)</label>
+      <label class="quiz-option" data-idx="1">The operator parallelism</label>
+      <label class="quiz-option" data-idx="2">The checkpoint interval</label>
+      <label class="quiz-option" data-idx="3">The window size</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 12: AWS MSK SOURCE ============ -->
+<div class="slide" id="slide-11">
+  <div class="module-tag">Module 2 &mdash; Sources &amp; Sinks</div>
+  <h1>AWS MSK as a Kafka Source</h1>
+  <p>Building on the StateMachineExample's KafkaSource — with MSK IAM authentication for cross-account access:</p>
+  <pre class="code-block"><span class="tp">KafkaSource</span>&lt;<span class="tp">Event</span>&gt; source = <span class="tp">KafkaSource</span>.&lt;<span class="tp">Event</span>&gt;builder()
+    .setBootstrapServers(
+        <span class="str">"b-1.msk-cluster.kafka.us-east-1.amazonaws.com:9094,"</span> +
+        <span class="str">"b-2.msk-cluster.kafka.us-east-1.amazonaws.com:9094"</span>)
+    .setGroupId(<span class="str">"flink-consumer-group"</span>)
+    .setTopics(<span class="str">"staging.topic.flink.poc.source"</span>)
+    .setDeserializer(
+        <span class="tp">KafkaRecordDeserializationSchema</span>.valueOnly(deserializer))
+    .setStartingOffsets(<span class="tp">OffsetsInitializer</span>.latest())
+    <span class="cm">// MSK IAM Authentication</span>
+    .setProperty(<span class="str">"security.protocol"</span>, <span class="str">"SASL_SSL"</span>)
+    .setProperty(<span class="str">"sasl.mechanism"</span>, <span class="str">"AWS_MSK_IAM"</span>)
+    .setProperty(<span class="str">"sasl.jaas.config"</span>,
+        <span class="str">"software.amazon.msk.auth.iam.IAMLoginModule required;"</span>)
+    .setProperty(<span class="str">"sasl.client.callback.handler.class"</span>,
+        <span class="str">"software.amazon.msk.auth.iam.IAMClientCallbackHandler"</span>)
+    .build();</pre>
+  <div class="highlight-box">
+    <strong>Cross-Account Access:</strong> Requires <code>aws-msk-iam-auth</code> library (e.g., v2.3.4). The IAM role assumed by Flink must have <code>kafka-cluster:*</code> permissions on the target MSK cluster. Cross-account access uses VPC Peering or AWS PrivateLink.
+  </div>
+  <h3>Offset Initializers</h3>
+  <table>
+    <tr><th>Initializer</th><th>Behavior</th></tr>
+    <tr><td><code>OffsetsInitializer.latest()</code></td><td>Start from newest messages</td></tr>
+    <tr><td><code>OffsetsInitializer.earliest()</code></td><td>Start from beginning</td></tr>
+    <tr><td><code>OffsetsInitializer.committedOffsets()</code></td><td>Resume from last committed</td></tr>
+    <tr><td><code>OffsetsInitializer.timestamp(ts)</code></td><td>Start from specific time</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What authentication library does AWS MSK IAM auth require?</p>
+    <div class="quiz-options" data-correct="0" data-slide="11">
+      <label class="quiz-option" data-idx="0">aws-msk-iam-auth</label>
+      <label class="quiz-option" data-idx="1">spring-kafka-security</label>
+      <label class="quiz-option" data-idx="2">kafka-sasl-auth</label>
+      <label class="quiz-option" data-idx="3">aws-sdk-kafka</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 13: BASIC TRANSFORMS ============ -->
+<div class="slide" id="slide-12">
+  <div class="module-tag">Module 3 &mdash; Transformations</div>
+  <h1>Basic Transforms: map, flatMap, filter</h1>
+  <div class="two-col">
+    <div>
+      <h3>map() — 1:1 transform</h3>
+      <p>From <code>TopSpeedWindowing.java</code>:</p>
+      <pre class="code-block"><span class="kw">private static class</span> <span class="tp">ParseCarData</span>
+  <span class="kw">extends</span> <span class="tp">RichMapFunction</span>&lt;<span class="tp">String</span>,
+    <span class="tp">Tuple4</span>&lt;<span class="tp">Integer</span>,<span class="tp">Integer</span>,<span class="tp">Double</span>,<span class="tp">Long</span>&gt;&gt; {
+
+  <span class="ann">@Override</span>
+  <span class="kw">public</span> <span class="tp">Tuple4</span>&lt;...&gt; map(<span class="tp">String</span> record) {
+    <span class="tp">String</span> raw = record.substring(
+        <span class="num">1</span>, record.length() - <span class="num">1</span>);
+    <span class="tp">String</span>[] d = raw.split(<span class="str">","</span>);
+    <span class="kw">return new</span> <span class="tp">Tuple4</span>&lt;&gt;(
+      <span class="tp">Integer</span>.valueOf(d[<span class="num">0</span>]),
+      <span class="tp">Integer</span>.valueOf(d[<span class="num">1</span>]),
+      <span class="tp">Double</span>.valueOf(d[<span class="num">2</span>]),
+      <span class="tp">Long</span>.valueOf(d[<span class="num">3</span>]));
+  }
+}</pre>
+    </div>
+    <div>
+      <h3>flatMap() — 1:N transform</h3>
+      <p>From <code>WordCount.java</code>:</p>
+      <pre class="code-block"><span class="kw">public void</span> flatMap(
+    <span class="tp">String</span> value,
+    <span class="tp">Collector</span>&lt;<span class="tp">Tuple2</span>&lt;<span class="tp">String</span>,<span class="tp">Integer</span>&gt;&gt; out) {
+
+  <span class="tp">String</span>[] tokens =
+    value.toLowerCase()
+         .split(<span class="str">"\\W+"</span>);
+
+  <span class="kw">for</span> (<span class="tp">String</span> token : tokens) {
+    <span class="kw">if</span> (token.length() &gt; <span class="num">0</span>) {
+      out.collect(
+        <span class="kw">new</span> <span class="tp">Tuple2</span>&lt;&gt;(token, <span class="num">1</span>));
+    }
+  }
+}</pre>
+    </div>
+  </div>
+  <div class="diagram">  map:     Input ──▶ [1 element] ──▶ Output      (always 1 output per input)
+  flatMap: Input ──▶ [0..N elements] ──▶ Output  (zero, one, or many outputs)
+  filter:  Input ──▶ [0 or 1 element] ──▶ Output (keeps or drops)</div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which transformation can emit zero, one, or multiple elements per input?</p>
+    <div class="quiz-options" data-correct="1" data-slide="12">
+      <label class="quiz-option" data-idx="0">map()</label>
+      <label class="quiz-option" data-idx="1">flatMap()</label>
+      <label class="quiz-option" data-idx="2">filter()</label>
+      <label class="quiz-option" data-idx="3">keyBy()</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 14: KEYBY ============ -->
+<div class="slide" id="slide-13">
+  <div class="module-tag">Module 3 &mdash; Transformations</div>
+  <h1>keyBy() — Logical Partitioning</h1>
+  <p>keyBy() hash-partitions the stream so all elements with the same key land on the same subtask. From <code>StateMachineExample.java</code>:</p>
+  <pre class="code-block"><span class="tp">DataStream</span>&lt;<span class="tp">Alert</span>&gt; alerts = events
+    .keyBy(<span class="tp">Event</span>::sourceAddress)       <span class="cm">// partition by IP address</span>
+    .flatMap(<span class="kw">new</span> <span class="tp">StateMachineMapper</span>()); <span class="cm">// per-key state machine</span></pre>
+  <div class="diagram">  Input Stream (mixed keys):
+    [IP-A, evt1] [IP-B, evt1] [IP-A, evt2] [IP-C, evt1] [IP-B, evt2]
+
+                        │  keyBy(Event::sourceAddress)  │
+                        ▼                               ▼
+
+    Subtask 0 (hash=0):                Subtask 1 (hash=1):
+    ┌─────────────────────────┐        ┌─────────────────────────┐
+    │ [IP-A, evt1]            │        │ [IP-B, evt1]            │
+    │ [IP-A, evt2]            │        │ [IP-B, evt2]            │
+    │ [IP-C, evt1]            │        │                         │
+    │                         │        │                         │
+    │ ValueState per key:     │        │ ValueState per key:     │
+    │   IP-A → State.S2      │        │   IP-B → State.S1      │
+    │   IP-C → State.Initial │        │                         │
+    └─────────────────────────┘        └─────────────────────────┘</pre>
+  <div class="info-box">
+    <strong>Why it matters:</strong> keyBy() enables <em>keyed state</em>. Each key has its own isolated state (ValueState, ListState, etc.). Without keyBy(), you cannot use keyed state or keyed windows.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What happens if you use a key with high cardinality skew (e.g., 90% of events have the same key)?</p>
+    <div class="quiz-options" data-correct="0" data-slide="13">
+      <label class="quiz-option" data-idx="0">Some subtasks get much more data than others (data skew)</label>
+      <label class="quiz-option" data-idx="1">The job fails with a SkewException</label>
+      <label class="quiz-option" data-idx="2">Flink automatically rebalances keys across subtasks</label>
+      <label class="quiz-option" data-idx="3">Flink creates more partitions for the hot key</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 15: AGGREGATIONS ============ -->
+<div class="slide" id="slide-14">
+  <div class="module-tag">Module 3 &mdash; Transformations</div>
+  <h1>Aggregations: sum, reduce, maxBy</h1>
+  <h3>sum() from WordCount.java</h3>
+  <pre class="code-block">text.flatMap(<span class="kw">new</span> Tokenizer()).keyBy(v -&gt; v.f0).<span class="kw">sum</span>(<span class="num">1</span>);
+<span class="cm">// Incrementally sums field at index 1 for each key</span></pre>
+  <h3>maxBy() from TopSpeedWindowing.java</h3>
+  <pre class="code-block">carData.keyBy(value -&gt; value.f0)
+    .window(<span class="tp">GlobalWindows</span>.create())
+    .evictor(...)
+    .trigger(...)
+    .<span class="kw">maxBy</span>(<span class="num">1</span>);  <span class="cm">// returns the FULL tuple with the max speed (field 1)</span></pre>
+  <h3>Aggregation Types</h3>
+  <table>
+    <tr><th>Method</th><th>Returns</th><th>State</th></tr>
+    <tr><td><code>sum(field)</code></td><td>Running sum of the specified field</td><td>Keeps current sum</td></tr>
+    <tr><td><code>min(field)</code></td><td>Tuple with min value in field (other fields from first record)</td><td>Keeps current min</td></tr>
+    <tr><td><code>max(field)</code></td><td>Tuple with max value in field (other fields from first record)</td><td>Keeps current max</td></tr>
+    <tr><td><code>minBy(field)</code></td><td><strong>Entire tuple</strong> that has the minimum value</td><td>Keeps full min record</td></tr>
+    <tr><td><code>maxBy(field)</code></td><td><strong>Entire tuple</strong> that has the maximum value</td><td>Keeps full max record</td></tr>
+    <tr><td><code>reduce(fn)</code></td><td>Custom incremental aggregation</td><td>Keeps accumulator</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What is the difference between max() and maxBy()?</p>
+    <div class="quiz-options" data-correct="0" data-slide="14">
+      <label class="quiz-option" data-idx="0">maxBy() returns the full element with the max value; max() only updates the max field</label>
+      <label class="quiz-option" data-idx="1">They are identical</label>
+      <label class="quiz-option" data-idx="2">max() is faster</label>
+      <label class="quiz-option" data-idx="3">maxBy() works only with Tuples</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 16: ASYNC IO ============ -->
+<div class="slide" id="slide-15">
+  <div class="module-tag">Module 3 &mdash; Transformations</div>
+  <h1>Async I/O — Non-Blocking External Calls</h1>
+  <p>From <code>AsyncIOExample.java</code>: Enriching streams with external data without blocking the pipeline.</p>
+  <pre class="code-block"><span class="kw">private static class</span> <span class="tp">SampleAsyncFunction</span>
+        <span class="kw">extends</span> <span class="tp">RichAsyncFunction</span>&lt;<span class="tp">Integer</span>, <span class="tp">String</span>&gt; {
+    <span class="kw">private transient</span> <span class="tp">AsyncClient</span> client;
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> open(<span class="tp">OpenContext</span> ctx) { client = <span class="kw">new</span> <span class="tp">AsyncClient</span>(); }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> asyncInvoke(<span class="tp">Integer</span> input, <span class="tp">ResultFuture</span>&lt;<span class="tp">String</span>&gt; resultFuture) {
+        client.query(input).whenComplete((response, error) -&gt; {
+            <span class="kw">if</span> (response != <span class="kw">null</span>)
+                resultFuture.complete(<span class="tp">Collections</span>.singletonList(response));
+            <span class="kw">else</span>
+                resultFuture.completeExceptionally(error);
+        });
+    }
+}</pre>
+  <h3>Two Wait Modes</h3>
+  <pre class="code-block"><span class="cm">// Ordered: output preserves input order (safer but slower)</span>
+<span class="tp">AsyncDataStream</span>.orderedWait(inputStream, function, <span class="num">10000</span>, <span class="tp">TimeUnit</span>.MILLISECONDS, <span class="num">20</span>);
+
+<span class="cm">// Unordered: results emitted as they complete (higher throughput)</span>
+<span class="tp">AsyncDataStream</span>.unorderedWait(inputStream, function, <span class="num">10000</span>, <span class="tp">TimeUnit</span>.MILLISECONDS, <span class="num">20</span>);
+<span class="cm">//                                                    timeout  unit              capacity</span></pre>
+  <div class="diagram">  Synchronous I/O:          Async I/O:
+  ┌──┐ ┌──┐ ┌──┐ ┌──┐      ┌──┐ ┌──┐ ┌──┐ ┌──┐
+  │E1│ │W │ │E2│ │W │      │E1│ │E2│ │E3│ │E4│  ← process concurrently
+  └──┘ └──┘ └──┘ └──┘      └──┘ └──┘ └──┘ └──┘
+  ────────────────▶ time    ──────▶ time
+  (sequential, slow)        (parallel, fast)</div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">In <code>AsyncDataStream.orderedWait</code>, what does "ordered" mean?</p>
+    <div class="quiz-options" data-correct="0" data-slide="15">
+      <label class="quiz-option" data-idx="0">Output order matches the original input order</label>
+      <label class="quiz-option" data-idx="1">Requests are sent one at a time sequentially</label>
+      <label class="quiz-option" data-idx="2">Results are sorted by value</label>
+      <label class="quiz-option" data-idx="3">Timeouts are processed in order</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 17: WHY WINDOWS ============ -->
+<div class="slide" id="slide-16">
+  <div class="module-tag">Module 4 &mdash; Windowing</div>
+  <h1>Why Windows?</h1>
+  <p>On an <strong>unbounded stream</strong>, aggregations like "count all words" or "average speed" would never produce a result — the stream never ends! Windows create <strong>finite chunks</strong> for computation.</p>
+  <div class="diagram">  Unbounded Stream:   ──▶ e1 ──▶ e2 ──▶ e3 ──▶ e4 ──▶ e5 ──▶ e6 ──▶ ...
+                                                                        (never ends!)
+
+  With Windows:       |──── W1 ────|──── W2 ────|──── W3 ────| ...
+                       e1, e2, e3    e4, e5       e6
+                       sum = 6       sum = 9      sum = 6
+                       ▼             ▼             ▼
+                      emit          emit          emit</div>
+  <h3>Window Lifecycle</h3>
+  <div class="diagram">  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────┐
+  │ Assigner │───▶│ Trigger  │───▶│ Evictor  │───▶│ Window   │───▶│ Emit │
+  │ (which   │    │ (when to │    │(optional:│    │ Function │    │      │
+  │  window) │    │  fire)   │    │ remove)  │    │(compute) │    │      │
+  └──────────┘    └──────────┘    └──────────┘    └──────────┘    └──────┘</div>
+  <h3>Window Types in Flink Examples</h3>
+  <table>
+    <tr><th>Type</th><th>Example File</th><th>Use Case</th></tr>
+    <tr><td>Tumbling</td><td>WindowJoin, SocketWindowWordCount</td><td>Fixed-size, non-overlapping</td></tr>
+    <tr><td>Sliding</td><td>GroupedProcessingTimeWindow</td><td>Overlapping windows</td></tr>
+    <tr><td>Session</td><td>SessionWindowing</td><td>Gap-based, variable size</td></tr>
+    <tr><td>Global</td><td>TopSpeedWindowing</td><td>Custom trigger-based</td></tr>
+    <tr><td>Count</td><td>WindowWordCount</td><td>Element-count based</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Why are windows necessary for aggregations on unbounded streams?</p>
+    <div class="quiz-options" data-correct="0" data-slide="16">
+      <label class="quiz-option" data-idx="0">To create finite chunks so aggregations can produce results</label>
+      <label class="quiz-option" data-idx="1">To improve performance</label>
+      <label class="quiz-option" data-idx="2">To enable parallelism</label>
+      <label class="quiz-option" data-idx="3">To support exactly-once semantics</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 18: TUMBLING WINDOWS ============ -->
+<div class="slide" id="slide-17">
+  <div class="module-tag">Module 4 &mdash; Windowing</div>
+  <h1>Tumbling Windows</h1>
+  <p>Fixed-size, <strong>non-overlapping</strong> windows. Every element belongs to exactly one window.</p>
+  <div class="diagram">  Timeline:  0s        2s        4s        6s        8s
+             |─── W1 ──|─── W2 ──|─── W3 ──|─── W4 ──|
+             * *  *      *  *       * * * *     *
+             3 events    2 events   4 events    1 event</div>
+  <h3>From WindowJoin.java</h3>
+  <pre class="code-block">grades.join(salaries)
+    .where(<span class="kw">new</span> <span class="tp">NameKeySelector</span>())
+    .equalTo(<span class="kw">new</span> <span class="tp">NameKeySelector</span>())
+    .window(<span class="tp">TumblingEventTimeWindows</span>.of(<span class="tp">Duration</span>.ofMillis(windowSize)))
+    .apply(<span class="kw">new</span> <span class="tp">JoinFunction</span>&lt;...&gt;() {
+        <span class="kw">public</span> <span class="tp">Tuple3</span>&lt;...&gt; join(<span class="tp">Tuple2</span>&lt;...&gt; first, <span class="tp">Tuple2</span>&lt;...&gt; second) {
+            <span class="kw">return new</span> <span class="tp">Tuple3</span>&lt;&gt;(first.f0, first.f1, second.f1);
+        }
+    });</pre>
+  <h3>Tumbling Window Variants</h3>
+  <table>
+    <tr><th>Class</th><th>Time Semantic</th></tr>
+    <tr><td><code>TumblingEventTimeWindows.of(Duration)</code></td><td>Event time — requires watermarks</td></tr>
+    <tr><td><code>TumblingProcessingTimeWindows.of(Duration)</code></td><td>Processing time — wall clock</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">How many windows does each element belong to in a tumbling window?</p>
+    <div class="quiz-options" data-correct="0" data-slide="17">
+      <label class="quiz-option" data-idx="0">Exactly one</label>
+      <label class="quiz-option" data-idx="1">At least one</label>
+      <label class="quiz-option" data-idx="2">Zero or one</label>
+      <label class="quiz-option" data-idx="3">Multiple</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 19: SESSION WINDOWS ============ -->
+<div class="slide" id="slide-18">
+  <div class="module-tag">Module 4 &mdash; Windowing</div>
+  <h1>Session Windows</h1>
+  <p>Dynamic windows based on <strong>activity gaps</strong>. A new window starts after a period of inactivity. From <code>SessionWindowing.java</code>:</p>
+  <pre class="code-block">source.keyBy(value -&gt; value.f0)
+    .window(<span class="tp">EventTimeSessionWindows</span>.withGap(<span class="tp">Duration</span>.ofMillis(<span class="num">3</span>)))
+    .sum(<span class="num">2</span>);</pre>
+  <h3>Session Example Data</h3>
+  <pre class="code-block">input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"a"</span>, <span class="num">1L</span>, <span class="num">1</span>));   <span class="cm">// key=a, time=1</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"b"</span>, <span class="num">1L</span>, <span class="num">1</span>));   <span class="cm">// key=b, time=1</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"b"</span>, <span class="num">3L</span>, <span class="num">1</span>));   <span class="cm">// key=b, time=3  (gap &lt; 3ms, same session)</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"b"</span>, <span class="num">5L</span>, <span class="num">1</span>));   <span class="cm">// key=b, time=5  (gap &lt; 3ms, same session)</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"c"</span>, <span class="num">6L</span>, <span class="num">1</span>));   <span class="cm">// key=c, time=6</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"a"</span>, <span class="num">10L</span>, <span class="num">1</span>));  <span class="cm">// key=a, time=10 (gap &gt; 3ms, NEW session)</span>
+input.add(<span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(<span class="str">"c"</span>, <span class="num">11L</span>, <span class="num">1</span>));  <span class="cm">// key=c, time=11 (gap &gt; 3ms, NEW session)</span></pre>
+  <div class="diagram">  Key "a":  [1] ──────────── gap 9ms ──────────── [10]
+            └── session 1 ──┘                    └── session 2 ──┘
+            sum=1                                 sum=1
+
+  Key "b":  [1] ── [3] ── [5]
+            └───── session 1 ─────┘   (gaps &lt; 3ms → one session)
+            sum=3
+
+  Key "c":  [6] ──────── gap 5ms ──────── [11]
+            └── session 1 ──┘              └── session 2 ──┘
+            sum=1                          sum=1</div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What determines when a session window closes?</p>
+    <div class="quiz-options" data-correct="0" data-slide="18">
+      <label class="quiz-option" data-idx="0">A gap in events exceeding the configured threshold</label>
+      <label class="quiz-option" data-idx="1">A fixed time interval</label>
+      <label class="quiz-option" data-idx="2">A count of elements</label>
+      <label class="quiz-option" data-idx="3">An explicit close signal</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 20: GLOBAL WINDOWS & TRIGGERS ============ -->
+<div class="slide" id="slide-19">
+  <div class="module-tag">Module 4 &mdash; Windowing</div>
+  <h1>Global Windows &amp; Custom Triggers</h1>
+  <p>From <code>TopSpeedWindowing.java</code> — the most advanced windowing example:</p>
+  <pre class="code-block">carData.assignTimestampsAndWatermarks(
+        <span class="tp">WatermarkStrategy</span>.&lt;...&gt;forMonotonousTimestamps()
+            .withTimestampAssigner((car, ts) -&gt; car.f3))
+    .keyBy(value -&gt; value.f0)         <span class="cm">// partition by car ID</span>
+    .window(<span class="tp">GlobalWindows</span>.create())    <span class="cm">// ONE window per key (never closes!)</span>
+    .evictor(<span class="tp">TimeEvictor</span>.of(<span class="tp">Duration</span>.ofSeconds(<span class="num">10</span>)))  <span class="cm">// keep last 10s</span>
+    .trigger(<span class="tp">DeltaTrigger</span>.of(
+        <span class="num">50</span>,                              <span class="cm">// fire when distance changes by 50m</span>
+        <span class="kw">new</span> <span class="tp">DeltaFunction</span>&lt;...&gt;() {
+            <span class="kw">public double</span> getDelta(old, <span class="kw">new</span>) {
+                <span class="kw">return</span> newDataPoint.f2 - oldDataPoint.f2; <span class="cm">// distance delta</span>
+            }
+        },
+        serializer))
+    .maxBy(<span class="num">1</span>);                          <span class="cm">// return car with max speed</span></pre>
+  <div class="info-box">
+    <strong>How it works:</strong><br>
+    1. <strong>GlobalWindows</strong> — single window per key, never auto-fires<br>
+    2. <strong>DeltaTrigger</strong> — fires when distance changes by 50 meters<br>
+    3. <strong>TimeEvictor</strong> — only keeps data from the last 10 seconds<br>
+    4. <strong>maxBy(1)</strong> — emits the tuple with the highest speed in the retained window
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What happens if you use GlobalWindows without a custom trigger?</p>
+    <div class="quiz-options" data-correct="0" data-slide="19">
+      <label class="quiz-option" data-idx="0">The window never fires (no results emitted)</label>
+      <label class="quiz-option" data-idx="1">The window fires on every element</label>
+      <label class="quiz-option" data-idx="2">The window fires on each watermark</label>
+      <label class="quiz-option" data-idx="3">The job fails at compile time</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 21: EVENT TIME ============ -->
+<div class="slide" id="slide-20">
+  <div class="module-tag">Module 5 &mdash; Time &amp; Watermarks</div>
+  <h1>Event Time vs Processing Time</h1>
+  <div class="diagram">  Event occurs     Enters Flink      Flink processes
+  (real world)     (source)           (operator)
+       │                │                   │
+       ▼                ▼                   ▼
+   Event Time      Ingestion Time     Processing Time
+   (in the data)   (system clock      (system clock
+                    at source)         at operator)</div>
+  <table>
+    <tr><th>Time Semantic</th><th>Deterministic?</th><th>Handles Late Data?</th><th>Use Case</th></tr>
+    <tr><td><strong>Event Time</strong></td><td>Yes (replay gives same results)</td><td>Yes (watermarks)</td><td>Production, analytics</td></tr>
+    <tr><td><strong>Processing Time</strong></td><td>No (depends on machine speed)</td><td>No</td><td>Low-latency, approximate</td></tr>
+    <tr><td><strong>Ingestion Time</strong></td><td>No (but more stable than processing)</td><td>Partial</td><td>Legacy compatibility</td></tr>
+  </table>
+  <h3>From WindowJoin.java — Ingestion Time Strategy</h3>
+  <pre class="code-block"><span class="kw">private static class</span> <span class="tp">IngestionTimeWatermarkStrategy</span>&lt;T&gt;
+        <span class="kw">implements</span> <span class="tp">WatermarkStrategy</span>&lt;T&gt; {
+    <span class="ann">@Override</span>
+    <span class="kw">public</span> <span class="tp">TimestampAssigner</span>&lt;T&gt; createTimestampAssigner(...) {
+        <span class="kw">return</span> (event, timestamp) -&gt; <span class="tp">System</span>.currentTimeMillis();
+        <span class="cm">// Uses wall clock as event timestamp → ingestion time semantics</span>
+    }
+}</pre>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which time semantic gives deterministic results when replaying data?</p>
+    <div class="quiz-options" data-correct="0" data-slide="20">
+      <label class="quiz-option" data-idx="0">Event time</label>
+      <label class="quiz-option" data-idx="1">Processing time</label>
+      <label class="quiz-option" data-idx="2">Ingestion time</label>
+      <label class="quiz-option" data-idx="3">Wall clock time</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 22: WATERMARKS DEEP DIVE ============ -->
+<div class="slide" id="slide-21">
+  <div class="module-tag">Module 5 &mdash; Time &amp; Watermarks</div>
+  <h1>Watermarks Deep Dive</h1>
+  <p>Watermarks are special markers that flow through the stream declaring: <strong>"No events with timestamp &le; W will arrive after this point."</strong></p>
+  <div class="diagram">  Stream:  [t=3] [t=1] [t=5]  W(5)  [t=7] [t=6]  W(7)
+                                │                   │
+                       "All events ≤ 5    "All events ≤ 7
+                        have arrived"      have arrived"
+                                │                   │
+                        Window[0-5] fires    Window[5-10] can fire</div>
+  <h3>Watermark Propagation in Parallel</h3>
+  <div class="diagram">  Source[0]:  ──── events ──── W(5) ──── events ──── W(8) ────
+                                  \                      \
+                                   ▼                      ▼
+  Operator:  current watermark = min(W_source0, W_source1)
+                                   ▲                      ▲
+                                  /                      /
+  Source[1]:  ──── events ──── W(3) ──── events ──── W(7) ────
+
+  After first watermarks:  operator W = min(5, 3) = 3
+  After second watermarks: operator W = min(8, 7) = 7</div>
+  <div class="highlight-box">
+    <strong>Key Rule:</strong> An operator's watermark = <code>min(watermark)</code> across all its input channels. This ensures correctness: we only advance event-time when ALL inputs have progressed past that point.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">How does Flink compute the watermark when a task has multiple input channels?</p>
+    <div class="quiz-options" data-correct="0" data-slide="21">
+      <label class="quiz-option" data-idx="0">Minimum watermark across all channels</label>
+      <label class="quiz-option" data-idx="1">Maximum watermark across all channels</label>
+      <label class="quiz-option" data-idx="2">Average watermark</label>
+      <label class="quiz-option" data-idx="3">Latest received watermark</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 23: KEYED STATE ============ -->
+<div class="slide" id="slide-22">
+  <div class="module-tag">Module 6 &mdash; State &amp; Fault Tolerance</div>
+  <h1>Keyed State — ValueState in Action</h1>
+  <p>The heart of stateful stream processing. From <code>StateMachineExample.java</code>:</p>
+  <pre class="code-block"><span class="kw">static class</span> <span class="tp">StateMachineMapper</span> <span class="kw">extends</span> <span class="tp">RichFlatMapFunction</span>&lt;<span class="tp">Event</span>, <span class="tp">Alert</span>&gt; {
+
+    <span class="kw">private</span> <span class="tp">ValueState</span>&lt;<span class="tp">State</span>&gt; currentState;    <span class="cm">// per-key state handle</span>
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> open(<span class="tp">OpenContext</span> ctx) {
+        <span class="cm">// Register state — scoped to current key automatically</span>
+        currentState = getRuntimeContext().getState(
+            <span class="kw">new</span> <span class="tp">ValueStateDescriptor</span>&lt;&gt;(<span class="str">"state"</span>, <span class="tp">State</span>.<span class="kw">class</span>));
+    }
+
+    <span class="ann">@Override</span>
+    <span class="kw">public void</span> flatMap(<span class="tp">Event</span> evt, <span class="tp">Collector</span>&lt;<span class="tp">Alert</span>&gt; out) <span class="kw">throws</span> <span class="tp">Exception</span> {
+        <span class="tp">State</span> state = currentState.value();       <span class="cm">// read state for THIS key</span>
+        <span class="kw">if</span> (state == <span class="kw">null</span>) state = <span class="tp">State</span>.Initial;  <span class="cm">// first event for this key</span>
+
+        <span class="tp">State</span> nextState = state.transition(evt.type());
+
+        <span class="kw">if</span> (nextState == <span class="tp">State</span>.InvalidTransition) {
+            out.collect(<span class="kw">new</span> <span class="tp">Alert</span>(evt.sourceAddress(), state, evt.type()));
+        } <span class="kw">else if</span> (nextState.isTerminal()) {
+            currentState.clear();                  <span class="cm">// cleanup state</span>
+        } <span class="kw">else</span> {
+            currentState.update(nextState);         <span class="cm">// save new state</span>
+        }
+    }
+}</pre>
+  <h3>State Types</h3>
+  <table>
+    <tr><th>Type</th><th>Stores</th><th>Access Pattern</th></tr>
+    <tr><td><code>ValueState&lt;T&gt;</code></td><td>Single value per key</td><td>value(), update(T), clear()</td></tr>
+    <tr><td><code>ListState&lt;T&gt;</code></td><td>List of values per key</td><td>get(), add(T), update(List), clear()</td></tr>
+    <tr><td><code>MapState&lt;K,V&gt;</code></td><td>Map per key</td><td>get(K), put(K,V), entries(), clear()</td></tr>
+    <tr><td><code>ReducingState&lt;T&gt;</code></td><td>Reduced value per key</td><td>get(), add(T) [auto-reduces]</td></tr>
+    <tr><td><code>AggregatingState&lt;IN,OUT&gt;</code></td><td>Aggregated value</td><td>get(), add(IN) [auto-aggregates]</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">In StateMachineMapper, when is <code>currentState.clear()</code> called?</p>
+    <div class="quiz-options" data-correct="1" data-slide="22">
+      <label class="quiz-option" data-idx="0">On every event</label>
+      <label class="quiz-option" data-idx="1">When a terminal state is reached</label>
+      <label class="quiz-option" data-idx="2">When an invalid transition occurs</label>
+      <label class="quiz-option" data-idx="3">During checkpointing</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 24: CHECKPOINTING ============ -->
+<div class="slide" id="slide-23">
+  <div class="module-tag">Module 6 &mdash; State &amp; Fault Tolerance</div>
+  <h1>Checkpointing &amp; State Backends</h1>
+  <p>From <code>StateMachineExample.java</code>:</p>
+  <pre class="code-block"><span class="cm">// Enable periodic checkpointing every 2 seconds</span>
+env.enableCheckpointing(<span class="num">2000L</span>);
+
+<span class="cm">// HashMapStateBackend (production, heap-based)</span>
+configuration.set(<span class="tp">StateBackendOptions</span>.STATE_BACKEND, <span class="str">"hashmap"</span>);
+configuration.set(<span class="tp">CheckpointingOptions</span>.CHECKPOINT_STORAGE, <span class="str">"filesystem"</span>);
+configuration.set(<span class="tp">CheckpointingOptions</span>.CHECKPOINTS_DIRECTORY, checkpointDir);
+
+<span class="cm">// RocksDB (for terabytes of state)</span>
+configuration.set(<span class="tp">StateBackendOptions</span>.STATE_BACKEND,
+    <span class="str">"org.apache.flink.contrib.streaming.state.EmbeddedRocksDBStateBackendFactory"</span>);
+configuration.set(<span class="tp">CheckpointingOptions</span>.INCREMENTAL_CHECKPOINTS, <span class="kw">true</span>);</pre>
+  <h3>Checkpoint Barrier Flow (Chandy-Lamport)</h3>
+  <div class="diagram">  Source ────▶ [data] [data] [barrier-n] [data] [data] ────▶ Map
+                                    │                              │
+                              triggers snapshot                triggers snapshot
+                                    │                              │
+                                    ▼                              ▼
+                           ┌──────────────────────────────────────────┐
+                           │        Checkpoint Storage (S3/HDFS)      │
+                           │  source-offsets | operator-state | ...   │
+                           └──────────────────────────────────────────┘</div>
+  <h3>State Backends Comparison</h3>
+  <table>
+    <tr><th>Backend</th><th>State Size</th><th>Speed</th><th>Incremental CP</th><th>Use Case</th></tr>
+    <tr><td>Memory</td><td>Small (MB)</td><td>Fastest</td><td>No</td><td>Development only</td></tr>
+    <tr><td>HashMapStateBackend</td><td>Medium (GB)</td><td>Fast (heap)</td><td>No</td><td>Production (fits in memory)</td></tr>
+    <tr><td>RocksDB</td><td>Large (TB)</td><td>Slower (disk)</td><td><strong>Yes</strong></td><td>Production (large state)</td></tr>
+  </table>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which state backend supports incremental checkpoints?</p>
+    <div class="quiz-options" data-correct="2" data-slide="23">
+      <label class="quiz-option" data-idx="0">Memory</label>
+      <label class="quiz-option" data-idx="1">HashMapStateBackend</label>
+      <label class="quiz-option" data-idx="2">RocksDB</label>
+      <label class="quiz-option" data-idx="3">All of them</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 25: WINDOW JOINS ============ -->
+<div class="slide" id="slide-24">
+  <div class="module-tag">Module 7 &mdash; Joins</div>
+  <h1>Window Joins — Joining Two Streams</h1>
+  <p>From <code>WindowJoin.java</code> — join student grades with salaries by name:</p>
+  <pre class="code-block"><span class="kw">public static</span> <span class="tp">DataStream</span>&lt;<span class="tp">Tuple3</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>, <span class="tp">Integer</span>&gt;&gt; runWindowJoin(
+        <span class="tp">DataStream</span>&lt;<span class="tp">Tuple2</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>&gt;&gt; grades,
+        <span class="tp">DataStream</span>&lt;<span class="tp">Tuple2</span>&lt;<span class="tp">String</span>, <span class="tp">Integer</span>&gt;&gt; salaries,
+        <span class="kw">long</span> windowSize) {
+
+    <span class="kw">return</span> grades.join(salaries)
+        .where(<span class="kw">new</span> <span class="tp">NameKeySelector</span>())      <span class="cm">// join key from grades</span>
+        .equalTo(<span class="kw">new</span> <span class="tp">NameKeySelector</span>())    <span class="cm">// join key from salaries</span>
+        .window(<span class="tp">TumblingEventTimeWindows</span>.of(<span class="tp">Duration</span>.ofMillis(windowSize)))
+        .apply((first, second) -&gt;
+            <span class="kw">new</span> <span class="tp">Tuple3</span>&lt;&gt;(first.f0, first.f1, second.f1));
+            <span class="cm">// (name, grade, salary)</span>
+}</pre>
+  <div class="diagram">  Grades Stream:    ("Alice",85) ("Bob",72) ("Alice",90) ("Bob",88)
+  Salaries Stream:  ("Alice",5000) ("Bob",4500)
+
+                    │  join ON name WITHIN window  │
+                    ▼                              ▼
+
+  Window [0-2s]:
+    Alice: (85, 5000) → ("Alice", 85, 5000)
+           (90, 5000) → ("Alice", 90, 5000)
+    Bob:   (72, 4500) → ("Bob", 72, 4500)
+           (88, 4500) → ("Bob", 88, 4500)</div>
+  <div class="info-box">
+    <strong>Join Semantics:</strong> Window joins are <em>inner joins</em> — only matching pairs within the same window produce output. For outer join semantics, use <code>coGroup()</code> instead.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What type of join does <code>stream1.join(stream2)</code> perform in Flink?</p>
+    <div class="quiz-options" data-correct="1" data-slide="24">
+      <label class="quiz-option" data-idx="0">Outer join (all records from both sides)</label>
+      <label class="quiz-option" data-idx="1">Inner join (only matching pairs)</label>
+      <label class="quiz-option" data-idx="2">Left join (all from left, matching from right)</label>
+      <label class="quiz-option" data-idx="3">Cross join (cartesian product)</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 26: KAFKA-TO-KAFKA PIPELINE ============ -->
+<div class="slide" id="slide-25">
+  <div class="module-tag">Module 8 &mdash; AWS MSK &amp; Production</div>
+  <h1>Kafka-to-Kafka Pipeline Pattern</h1>
+  <p>The canonical Flink production pattern: read from one Kafka topic, process, write to another.</p>
+  <div class="diagram">  Account A (Source)                  Flink Cluster                Account B (Sink)
+  ┌─────────────────┐              ┌──────────────────┐          ┌──────────────────┐
+  │   AWS MSK        │              │                  │          │   AWS MSK         │
+  │                  │   consume    │  ┌──────────┐   │  produce │                   │
+  │ staging.topic.   │─────────────▶│  │ Process  │   │─────────▶│ dcm.gemini.       │
+  │ flink.poc.source │   SASL_SSL   │  │ (NoOp /  │   │ SASL_SSL│ messages          │
+  │                  │   IAM Auth   │  │ transform)│   │ IAM Auth│                   │
+  │ Bootstrap:       │              │  └──────────┘   │          │ Bootstrap:        │
+  │ b-1.raptor-msk-  │              │                  │          │ b-1.iam.clearing- │
+  │ qa100:9094       │              │  Checkpoints ──▶ S3        │ house:14001       │
+  └─────────────────┘              └──────────────────┘          └──────────────────┘
+                                          │
+                                     VPC Peering /
+                                     PrivateLink</div>
+  <h3>Cross-Account Configuration</h3>
+  <pre class="code-block"><span class="cm">// Source (Account A) - standard SASL_SSL</span>
+sourceProps.put(<span class="str">"security.protocol"</span>, <span class="str">"SASL_SSL"</span>);
+sourceProps.put(<span class="str">"sasl.mechanism"</span>, <span class="str">"AWS_MSK_IAM"</span>);
+
+<span class="cm">// Sink (Account B) - cross-account IAM role</span>
+sinkProps.put(<span class="str">"security.protocol"</span>, <span class="str">"SASL_SSL"</span>);
+sinkProps.put(<span class="str">"sasl.mechanism"</span>, <span class="str">"AWS_MSK_IAM"</span>);
+sinkProps.put(<span class="str">"sasl.jaas.config"</span>,
+    <span class="str">"software.amazon.msk.auth.iam.IAMLoginModule required "</span> +
+    <span class="str">"awsStsRegion=\"us-east-1\" "</span> +
+    <span class="str">"awsRoleArn=\"arn:aws:iam::ACCOUNT_B:role/msk-cross-account\";"</span>);</pre>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What network mechanism enables cross-account MSK access between two AWS accounts?</p>
+    <div class="quiz-options" data-correct="1" data-slide="25">
+      <label class="quiz-option" data-idx="0">Public internet endpoints</label>
+      <label class="quiz-option" data-idx="1">VPC Peering or AWS PrivateLink</label>
+      <label class="quiz-option" data-idx="2">AWS Direct Connect only</label>
+      <label class="quiz-option" data-idx="3">S3 bucket as intermediary</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 27: FLINK TRIVIA ============ -->
+<div class="slide" id="slide-26">
+  <div class="module-tag">Module 9 &mdash; Trivia &amp; Wrap-Up</div>
+  <h1>Flink Trivia — 10 Fun Facts</h1>
+  <div class="trivia-box">
+    <strong>1.</strong> "Flink" means <strong>"quick" or "nimble"</strong> in German.
+  </div>
+  <div class="trivia-box">
+    <strong>2.</strong> Started in 2010 as the <strong>Stratosphere project</strong> at TU Berlin. Donated to Apache in 2014.
+  </div>
+  <div class="trivia-box">
+    <strong>3.</strong> Flink's logo is a <strong>red squirrel</strong> (Eichh&ouml;rnchen in German) — because squirrels are quick and nimble!
+  </div>
+  <div class="trivia-box">
+    <strong>4.</strong> Alibaba processes <strong>4+ billion events per second</strong> using Flink during Singles' Day (11.11).
+  </div>
+  <div class="trivia-box">
+    <strong>5.</strong> Flink was the <strong>first framework to truly unify</strong> batch and stream processing under one runtime.
+  </div>
+  <div class="trivia-box">
+    <strong>6.</strong> The RocksDB state backend can handle <strong>terabytes of state</strong> per TaskManager.
+  </div>
+  <div class="trivia-box">
+    <strong>7.</strong> Flink SQL lets you run <strong>streaming SQL queries without writing Java</strong> code.
+  </div>
+  <div class="trivia-box">
+    <strong>8.</strong> Netflix uses Flink for <strong>real-time A/B test analytics</strong> and data mesh infrastructure.
+  </div>
+  <div class="trivia-box">
+    <strong>9.</strong> Flink's checkpoint algorithm is based on the <strong>Chandy-Lamport distributed snapshot</strong> algorithm (1985).
+  </div>
+  <div class="trivia-box">
+    <strong>10.</strong> The Flink community has <strong>1,500+ contributors</strong> and is one of the most active Apache projects.
+  </div>
+  <div class="quiz-section">
+    <h3>Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">What university did Flink originate from?</p>
+    <div class="quiz-options" data-correct="2" data-slide="26">
+      <label class="quiz-option" data-idx="0">MIT</label>
+      <label class="quiz-option" data-idx="1">Stanford</label>
+      <label class="quiz-option" data-idx="2">TU Berlin</label>
+      <label class="quiz-option" data-idx="3">ETH Zurich</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+<!-- ============ SLIDE 28: SUMMARY & RESOURCES ============ -->
+<div class="slide" id="slide-27">
+  <div class="module-tag">Summary</div>
+  <h1>Workshop Summary &amp; Next Steps</h1>
+  <h3>What We Covered</h3>
+  <table>
+    <tr><th>Module</th><th>Key Concepts</th><th>Example Files</th></tr>
+    <tr><td>Foundations</td><td>DataStream API, execution model, lazy evaluation</td><td>WordCount.java</td></tr>
+    <tr><td>Sources &amp; Sinks</td><td>FileSource, KafkaSource, FileSink, MSK IAM</td><td>StateMachineExample.java</td></tr>
+    <tr><td>Transforms</td><td>map, flatMap, keyBy, Async I/O</td><td>AsyncIOExample.java</td></tr>
+    <tr><td>Windowing</td><td>Tumbling, session, global, triggers, evictors</td><td>TopSpeedWindowing.java, SessionWindowing.java</td></tr>
+    <tr><td>Time</td><td>Event time vs processing time, watermarks</td><td>WindowJoin.java</td></tr>
+    <tr><td>State</td><td>ValueState, state backends, checkpointing</td><td>StateMachineExample.java</td></tr>
+    <tr><td>Joins</td><td>Window joins, KeySelector, JoinFunction</td><td>WindowJoin.java</td></tr>
+    <tr><td>AWS MSK</td><td>IAM auth, cross-account, Kafka-to-Kafka</td><td>—</td></tr>
+  </table>
+  <h3>Take the Quizzes!</h3>
+  <ul>
+    <li><strong>Architecture Quiz</strong> — 100 questions on Flink internals (flink-architecture-quiz.html)</li>
+    <li><strong>Streaming &amp; State API Quiz</strong> — 100 questions on the DataStream API (flink-streaming-state-quiz.html)</li>
+  </ul>
+  <h3>Source Code Reference</h3>
+  <p><code>flink-examples-streaming/src/main/java/org/apache/flink/streaming/examples/</code></p>
+  <ul>
+    <li><code>wordcount/WordCount.java</code> — Basic pipeline</li>
+    <li><code>statemachine/StateMachineExample.java</code> — State + Kafka + Checkpointing</li>
+    <li><code>windowing/TopSpeedWindowing.java</code> — Advanced windowing</li>
+    <li><code>windowing/SessionWindowing.java</code> — Session windows</li>
+    <li><code>join/WindowJoin.java</code> — Stream joins</li>
+    <li><code>async/AsyncIOExample.java</code> — Non-blocking I/O</li>
+  </ul>
+  <div class="quiz-section">
+    <h3>Final Quiz</h3>
+    <p style="font-size:14px; margin-bottom:8px;">Which Flink example demonstrates keyed state with ValueState, Kafka integration, and checkpoint configuration?</p>
+    <div class="quiz-options" data-correct="2" data-slide="27">
+      <label class="quiz-option" data-idx="0">WordCount.java</label>
+      <label class="quiz-option" data-idx="1">TopSpeedWindowing.java</label>
+      <label class="quiz-option" data-idx="2">StateMachineExample.java</label>
+      <label class="quiz-option" data-idx="3">AsyncIOExample.java</label>
+    </div>
+    <button class="quiz-btn" onclick="checkQuiz(this)">Check</button>
+    <div class="quiz-feedback"></div>
+  </div>
+</div>
+
+</div><!-- end slide-container -->
+
+<script>
+// ==================== STATE ====================
+const TOTAL_SLIDES = 28;
+let currentSlide = parseInt(localStorage.getItem('flink-ws-slide') || '0');
+let quizResults = JSON.parse(localStorage.getItem('flink-ws-quiz') || '{}');
+let failedQuestions = JSON.parse(localStorage.getItem('flink-ws-failed') || '[]');
+
+// ==================== QUIZ SHUFFLING ====================
+function shuffleQuizOptions() {
+  document.querySelectorAll('.quiz-options').forEach(container => {
+    const correct = parseInt(container.dataset.correct);
+    const options = Array.from(container.children);
+    const correctText = options[correct].textContent;
+    // Fisher-Yates shuffle
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      container.appendChild(options[j]);
+    }
+    // Update correct index and reassign data-idx to match new positions
+    const shuffled = Array.from(container.children);
+    shuffled.forEach((opt, idx) => {
+      opt.dataset.idx = idx;
+      if (opt.textContent === correctText) container.dataset.correct = idx;
+    });
+  });
+}
+
+// ==================== NAVIGATION ====================
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const slide = document.getElementById('slide-' + n);
+  if (slide) slide.classList.add('active');
+  currentSlide = n;
+  localStorage.setItem('flink-ws-slide', n);
+  document.getElementById('progressBar').style.width = ((n + 1) / TOTAL_SLIDES * 100) + '%';
+  document.getElementById('slideCounter').textContent = (n + 1) + ' / ' + TOTAL_SLIDES;
+  document.getElementById('prevBtn').disabled = n === 0;
+  document.getElementById('nextBtn').disabled = n === TOTAL_SLIDES - 1;
+  // Scroll to top
+  document.querySelector('.slide-container').scrollTop = 0;
+}
+
+function navigate(dir) {
+  const next = currentSlide + dir;
+  if (next >= 0 && next < TOTAL_SLIDES) showSlide(next);
+}
+
+// ==================== QUIZ ====================
+function checkQuiz(btn) {
+  const section = btn.closest('.quiz-section');
+  const container = section.querySelector('.quiz-options');
+  const selected = container.querySelector('.quiz-option.selected');
+  const feedback = section.querySelector('.quiz-feedback');
+  if (!selected) return;
+
+  const correct = parseInt(container.dataset.correct);
+  const slideIdx = container.dataset.slide;
+  const selectedIdx = parseInt(selected.dataset.idx);
+  const allOptions = container.querySelectorAll('.quiz-option');
+
+  btn.disabled = true;
+  allOptions.forEach(o => { o.style.pointerEvents = 'none'; });
+
+  if (selectedIdx === correct) {
+    selected.classList.add('correct');
+    feedback.textContent = 'Correct!';
+    feedback.className = 'quiz-feedback show correct';
+    quizResults[slideIdx] = true;
+    // Auto-advance after 1.2s
+    setTimeout(() => navigate(1), 1200);
+  } else {
+    selected.classList.add('wrong');
+    allOptions[correct].classList.add('correct');
+    feedback.textContent = 'Incorrect. The correct answer is highlighted.';
+    feedback.className = 'quiz-feedback show wrong';
+    quizResults[slideIdx] = false;
+    if (!failedQuestions.includes(slideIdx)) failedQuestions.push(slideIdx);
+  }
+  localStorage.setItem('flink-ws-quiz', JSON.stringify(quizResults));
+  localStorage.setItem('flink-ws-failed', JSON.stringify(failedQuestions));
+}
+
+// Option selection
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('quiz-option')) {
+    const container = e.target.closest('.quiz-options');
+    container.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+    e.target.classList.add('selected');
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); navigate(1); }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navigate(-1); }
+  if (e.key >= '1' && e.key <= '4') {
+    const slide = document.getElementById('slide-' + currentSlide);
+    if (!slide) return;
+    const options = slide.querySelectorAll('.quiz-option');
+    const idx = parseInt(e.key) - 1;
+    if (options[idx]) { options[idx].click(); }
+  }
+  if (e.key === 'Enter') {
+    const slide = document.getElementById('slide-' + currentSlide);
+    if (!slide) return;
+    const btn = slide.querySelector('.quiz-btn:not([disabled])');
+    if (btn) btn.click();
+  }
+});
+
+// ==================== INIT ====================
+shuffleQuizOptions();
+showSlide(currentSlide);
+</script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

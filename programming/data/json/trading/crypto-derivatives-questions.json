@@ -1,0 +1,602 @@
+[
+  {
+    "id": 1,
+    "question": "What is the default maximum leverage offered by Gemini for derivatives trading?",
+    "options": [
+      "10x",
+      "20x",
+      "50x",
+      "100x"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to Gemini's documentation, the default maximum leverage is 20x, which can be increased by the customer at any time."
+  },
+  {
+    "id": 2,
+    "question": "How often are funding payments calculated and paid in Gemini perpetuals?",
+    "options": [
+      "Every 8 hours",
+      "Every hour",
+      "Every 4 hours",
+      "Daily"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Funding payments are calculated and paid hourly on Gemini perpetuals."
+  },
+  {
+    "id": 3,
+    "question": "What price model is used to calculate profit and loss (P&L) in Gemini perpetuals?",
+    "options": [
+      "Last trade price model",
+      "Average price model",
+      "FIFO price model",
+      "LIFO price model"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Gemini uses an average price model where every trade contributing to a current position is used to calculate the average price, which is then compared to the current Mark Price."
+  },
+  {
+    "id": 4,
+    "question": "What triggers the liquidation process in Gemini derivatives?",
+    "options": [
+      "When account leverage exceeds 100x",
+      "When Mark Price falls below Index Price",
+      "When Margin Assets Value falls below Margin Maintenance Limit",
+      "When funding rate becomes negative"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Liquidation is triggered when the Margin Assets Value of the account falls below the Margin Maintenance Limit."
+  },
+  {
+    "id": 5,
+    "question": "What is the liquidation fee charged by Gemini?",
+    "options": [
+      "0.1%",
+      "0.25%",
+      "0.5%",
+      "1.0%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Any liquidation orders that are executed are charged a Liquidation Fee of 0.5%, with no other trading fees charged."
+  },
+  {
+    "id": 6,
+    "question": "What happens first in the Gemini liquidation process?",
+    "options": [
+      "Positions are immediately closed",
+      "All existing open orders are cancelled",
+      "Margin call is issued",
+      "Insurance fund takes over"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The first step in the liquidation process is to cancel all existing open orders. If this action brings the Margin Assets Value above the Margin Maintenance Limit, the liquidation process stops."
+  },
+  {
+    "id": 7,
+    "question": "How is the Funding Amount calculated in Gemini perpetuals?",
+    "options": [
+      "Using the difference between bid and ask prices",
+      "Using the Time-Weighted Average Price (TWAP) of Perpetual Price less Spot Price, divided by 24",
+      "Using the overnight interest rate",
+      "Using the volatility index"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Funding Amount is calculated using the Time-Weighted Average Price (TWAP) of the Perpetual Price less the Spot Price, divided by 24 since funding payments are made every hour."
+  },
+  {
+    "id": 8,
+    "question": "What percentage of the position size is liquidated first in a Gemini liquidation order?",
+    "options": [
+      "25%",
+      "50%",
+      "75%",
+      "100%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "An Immediate-Or-Cancel order is sent at the Zero Price for 50% of the position size. However, if the position size is smaller than $10,000 notional, then 100% of the position size is sent."
+  },
+  {
+    "id": 9,
+    "question": "In what currency are funding payments made and received on Gemini?",
+    "options": [
+      "USD",
+      "BTC",
+      "ETH",
+      "GUSD"
+    ],
+    "correctAnswer": 3,
+    "explanation": "According to Gemini's documentation, funding payments are made and received in GUSD (Gemini USD)."
+  },
+  {
+    "id": 10,
+    "question": "What determines the amount of leverage available for a position?",
+    "options": [
+      "Account verification level",
+      "Position size",
+      "Market volatility",
+      "Time of day"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The amount of leverage that can be taken is a function of the position size. The larger the position size, the lower the amount of leverage made available."
+  },
+  {
+    "id": 11,
+    "question": "What is the minimum position size threshold below which 100% of the position is liquidated?",
+    "options": [
+      "$5,000 notional",
+      "$10,000 notional",
+      "$15,000 notional",
+      "$20,000 notional"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If the position size is smaller than $10,000 notional, then 100% of the position size will be sent in the liquidation order instead of the usual 50%."
+  },
+  {
+    "id": 12,
+    "question": "What is a perpetual contract?",
+    "options": [
+      "A futures contract with a fixed expiration date",
+      "A futures contract without an expiration date",
+      "An options contract with unlimited time to exercise",
+      "A spot trading contract"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A perpetual contract is a type of derivatives contract that doesn't have an expiration date, unlike traditional futures contracts."
+  },
+  {
+    "id": 13,
+    "question": "What happens if liquidation orders cannot be executed due to lack of liquidity?",
+    "options": [
+      "The liquidation is cancelled",
+      "Positions are passed to the Gemini Insurance Fund at Zero Price",
+      "The account is frozen",
+      "Manual intervention is required"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If liquidation orders cannot be executed due to lack of liquidity at the desired price, the positions are passed to the Gemini Insurance Fund at the Zero Price."
+  },
+  {
+    "id": 14,
+    "question": "What is the primary purpose of the funding mechanism in perpetuals?",
+    "options": [
+      "To generate revenue for the exchange",
+      "To ensure perpetual price remains tied to spot price",
+      "To compensate for market volatility",
+      "To provide liquidity to the market"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Perpetuals use a funding mechanism to help ensure that the perpetual price remains tied to the spot price."
+  },
+  {
+    "id": 15,
+    "question": "If a trader has a long position and the funding rate is positive, what happens?",
+    "options": [
+      "The trader receives funding",
+      "The trader pays funding",
+      "No funding exchange occurs",
+      "The position is automatically closed"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When the funding rate is positive, long position holders pay funding to short position holders, as the perpetual price is trading above the spot price."
+  },
+  {
+    "id": 16,
+    "question": "What is the Mark Price used for in derivatives trading?",
+    "options": [
+      "Setting the funding rate",
+      "Determining unrealized P&L and liquidation triggers",
+      "Calculating trading fees",
+      "Setting position limits"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Mark Price is compared to the average price to determine unrealized P&L and is also used for liquidation calculations."
+  },
+  {
+    "id": 17,
+    "question": "Can leverage be decreased if it results in insufficient margin?",
+    "options": [
+      "Yes, always",
+      "No, never",
+      "Only if there's enough Margin Assets Value to meet Initial Margin requirements",
+      "Only during market hours"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Leverage can be decreased only if the account has enough Margin Assets Value to adhere to the higher Initial Margin requirements that come with lower leverage."
+  },
+  {
+    "id": 18,
+    "question": "What determines the leverage curve for each perpetual product?",
+    "options": [
+      "Market volatility",
+      "Trading volume",
+      "Each product has its own specific leverage curve",
+      "User preference settings"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Each perpetual product has its own leverage curve that determines the size of the position that can be obtained with the available leverage."
+  },
+  {
+    "id": 19,
+    "question": "When funding payments are made, what determines the direction of payment?",
+    "options": [
+      "Market sentiment",
+      "Whether you're long or short and the sign of the funding rate",
+      "Trading volume",
+      "Time of day"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The direction of funding payment depends on whether you hold a long or short position and whether the funding rate is positive or negative."
+  },
+  {
+    "id": 20,
+    "question": "What is Auto-DeLeveraging (ADL)?",
+    "options": [
+      "Automatic position size reduction",
+      "A backup liquidation mechanism when the Insurance Fund cannot handle positions",
+      "Automatic leverage adjustment",
+      "Automatic profit taking"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Auto-DeLeveraging is run when the Insurance Fund is unable to accept liquidation orders, serving as a backup mechanism to maintain market stability."
+  },
+  {
+    "id": 21,
+    "question": "If a trader opens a 1 BTC long position at $50,000 with 10x leverage, how much margin is required?",
+    "options": [
+      "$5,000",
+      "$10,000",
+      "$50,000",
+      "$500"
+    ],
+    "correctAnswer": 0,
+    "explanation": "With 10x leverage, the margin required is 1/10th of the position value. Position value = 1 BTC × $50,000 = $50,000. Margin required = $50,000 ÷ 10 = $5,000."
+  },
+  {
+    "id": 22,
+    "question": "What happens to unrealized P&L when a position is completely closed?",
+    "options": [
+      "It remains unrealized",
+      "It becomes realized P&L minus applicable trading fees",
+      "It is cancelled out",
+      "It is added to the margin balance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When a position is completely closed at the Mark Price, the unrealized P&L becomes realized P&L, less any applicable trading fees."
+  },
+  {
+    "id": 23,
+    "question": "What is the Zero Price in the context of liquidation?",
+    "options": [
+      "The price at which liquidation orders are executed",
+      "The minimum price for a contract",
+      "The break-even price for a position",
+      "The funding rate calculation base"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Zero Price is the specific price at which liquidation orders are sent to close positions during the liquidation process."
+  },
+  {
+    "id": 24,
+    "question": "How does position size affect available leverage in Gemini derivatives?",
+    "options": [
+      "Larger positions get higher leverage",
+      "Position size doesn't affect leverage",
+      "Larger positions get lower leverage",
+      "Only affects leverage during high volatility"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The larger the position size, the lower the amount of leverage that is made available by Gemini to manage risk."
+  },
+  {
+    "id": 25,
+    "question": "If the funding rate is -0.01% and you hold a 2 BTC short position, what is your hourly funding?",
+    "options": [
+      "You pay 0.01% of position value",
+      "You receive 0.01% of position value",
+      "No funding exchange",
+      "You pay double the rate due to position size"
+    ],
+    "correctAnswer": 1,
+    "explanation": "With a negative funding rate, short positions receive funding. You would receive 0.01% of your position value (2 BTC × current BTC price × 0.01%)."
+  },
+  {
+    "id": 26,
+    "question": "What is the main difference between spot trading and derivatives trading?",
+    "options": [
+      "Spot requires full payment upfront while derivatives allow leverage",
+      "Spot is riskier than derivatives",
+      "Derivatives have no fees",
+      "Spot trading is only for institutions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In spot trading, you need to pay the full amount for the asset, while derivatives allow you to control larger positions with margin and leverage."
+  },
+  {
+    "id": 27,
+    "question": "What is a linear perpetual product?",
+    "options": [
+      "A product with linear fee structure",
+      "A perpetual where P&L is calculated linearly in the base currency",
+      "A product with fixed funding rates",
+      "A simplified version of perpetuals"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A linear perpetual is one where the profit and loss is calculated linearly in the base currency rather than the underlying asset."
+  },
+  {
+    "id": 28,
+    "question": "When might the liquidation process stop after cancelling open orders?",
+    "options": [
+      "Always stops after cancelling orders",
+      "When Margin Assets Value becomes greater than Margin Maintenance Limit",
+      "When market volatility is too high",
+      "Never stops until position is closed"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If cancelling open orders results in the Margin Assets Value being greater than the Margin Maintenance Limit, the liquidation process will stop."
+  },
+  {
+    "id": 29,
+    "question": "What is the purpose of the Gemini Insurance Fund?",
+    "options": [
+      "To insure user deposits",
+      "To handle positions when normal liquidation cannot occur",
+      "To provide trading bonuses",
+      "To cover exchange operational costs"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The Gemini Insurance Fund takes over positions when liquidation orders cannot be executed due to lack of liquidity at the desired price."
+  },
+  {
+    "id": 30,
+    "question": "If a 0.5 BTC position at $60,000 with 20x leverage moves to $66,000, what is the unrealized P&L?",
+    "options": [
+      "$3,000",
+      "$6,000",
+      "$1,500",
+      "$300"
+    ],
+    "correctAnswer": 0,
+    "explanation": "P&L = Position Size × (Current Price - Entry Price) = 0.5 BTC × ($66,000 - $60,000) = 0.5 × $6,000 = $3,000 profit."
+  },
+  {
+    "id": 31,
+    "question": "What type of order is used during the liquidation process?",
+    "options": [
+      "Limit Order",
+      "Market Order",
+      "Immediate-Or-Cancel Order",
+      "Stop-Loss Order"
+    ],
+    "correctAnswer": 2,
+    "explanation": "An Immediate-Or-Cancel order is sent at the Zero Price during the liquidation process."
+  },
+  {
+    "id": 32,
+    "question": "How frequently is the funding period calculated?",
+    "options": [
+      "From the first minute to the last minute of each hour",
+      "Every 30 minutes",
+      "Every 8 hours like traditional futures",
+      "Continuously throughout the day"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The funding period starts in the first minute of the hour until the end of the last minute in the hour."
+  },
+  {
+    "id": 33,
+    "question": "What determines priority in the Auto-DeLeveraging (ADL) process?",
+    "options": [
+      "Account size",
+      "Trading history",
+      "Profit level and leverage of positions",
+      "Random selection"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Priority in ADL is determined by the profitability and leverage of positions, with the most profitable and highly leveraged positions being prioritized."
+  },
+  {
+    "id": 34,
+    "question": "Can you hedge a perpetual position using spot crypto positions on Gemini?",
+    "options": [
+      "Yes, it's possible",
+      "No, not allowed",
+      "Only for institutional clients",
+      "Only during specific market hours"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Gemini allows users to hedge their perpetual positions using spot crypto positions."
+  },
+  {
+    "id": 35,
+    "question": "What happens if a liquidation order executes at a better price than the Zero Price?",
+    "options": [
+      "The exchange keeps the improvement",
+      "The improvement is kept by the account being liquidated",
+      "The improvement goes to the insurance fund",
+      "The improvement is distributed to all users"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If liquidation orders execute at a price better than the Zero Price, the improvement is kept by the account being liquidated."
+  },
+  {
+    "id": 36,
+    "question": "What is the relationship between leverage and margin requirements?",
+    "options": [
+      "Higher leverage requires more margin",
+      "Higher leverage requires less margin",
+      "Leverage doesn't affect margin",
+      "Only affects margin for large positions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Higher leverage allows you to control larger positions with less margin. For example, 20x leverage requires 5% margin while 10x leverage requires 10% margin."
+  },
+  {
+    "id": 37,
+    "question": "How are margin curves used in perpetual trading?",
+    "options": [
+      "To set funding rates",
+      "To determine position size limits based on leverage",
+      "To calculate trading fees",
+      "To set price limits"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Margin curves determine the size of the position that can be obtained with the leverage available for each perpetual product."
+  },
+  {
+    "id": 38,
+    "question": "What is Initial Margin in derivatives trading?",
+    "options": [
+      "The minimum account balance",
+      "The margin required to open a new position",
+      "The maintenance margin level",
+      "The maximum allowed margin"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Initial Margin is the amount of collateral required to open a new leveraged position."
+  },
+  {
+    "id": 39,
+    "question": "If you have $10,000 and want to open a $100,000 BTC position, what leverage do you need?",
+    "options": [
+      "5x",
+      "10x",
+      "20x",
+      "100x"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Leverage = Position Size ÷ Margin = $100,000 ÷ $10,000 = 10x leverage."
+  },
+  {
+    "id": 40,
+    "question": "What triggers a margin call in traditional trading vs liquidation in crypto derivatives?",
+    "options": [
+      "They are the same thing",
+      "Margin calls give time to add funds, liquidation is immediate",
+      "Liquidation only happens on weekends",
+      "Margin calls are only for spot trading"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Traditional margin calls give traders time to add funds, while crypto derivatives typically have automatic liquidation when margin maintenance levels are breached."
+  },
+  {
+    "id": 41,
+    "question": "What is the main risk of using high leverage in perpetual trading?",
+    "options": [
+      "Higher fees",
+      "Faster liquidation due to smaller price movements",
+      "Longer settlement times",
+      "Reduced profit potential"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Higher leverage means smaller adverse price movements can trigger liquidation, significantly increasing the risk of losing your entire margin."
+  },
+  {
+    "id": 42,
+    "question": "How does the Mark Price differ from the Last Trade Price?",
+    "options": [
+      "They are always the same",
+      "Mark Price is designed to avoid manipulation and is used for liquidations",
+      "Mark Price is always higher",
+      "Only the Last Trade Price matters"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Mark Price is calculated to prevent price manipulation and is used for margin calculations and liquidations, while Last Trade Price might be subject to manipulation."
+  },
+  {
+    "id": 43,
+    "question": "What happens to open orders when liquidation begins?",
+    "options": [
+      "They remain active",
+      "They are all cancelled immediately",
+      "They are converted to market orders",
+      "They are transferred to other users"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The first step in the liquidation process is to cancel all existing open orders."
+  },
+  {
+    "id": 44,
+    "question": "Can you increase your account leverage limit after opening positions?",
+    "options": [
+      "No, never",
+      "Yes, at any time",
+      "Only if positions are profitable",
+      "Only once per day"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Account leverage can be increased at any time by the customer, according to Gemini's documentation."
+  },
+  {
+    "id": 45,
+    "question": "What is the purpose of collateral haircuts in derivatives trading?",
+    "options": [
+      "To reduce trading fees",
+      "To account for price volatility and risk of different assets used as collateral",
+      "To increase leverage limits",
+      "To speed up transactions"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Collateral haircuts adjust the value of different assets used as margin to account for their volatility and liquidity risks."
+  },
+  {
+    "id": 46,
+    "question": "In a funding payment calculation, if the perpetual is trading above spot price, who pays?",
+    "options": [
+      "Short positions pay long positions",
+      "Long positions pay short positions",
+      "Everyone pays the exchange",
+      "No payments are made"
+    ],
+    "correctAnswer": 1,
+    "explanation": "When the perpetual trades above spot (positive funding rate), long positions pay short positions to bring the prices back in line."
+  },
+  {
+    "id": 47,
+    "question": "What is the difference between maker and taker fees in perpetual trading?",
+    "options": [
+      "No difference",
+      "Maker fees are for limit orders that add liquidity, taker fees are for orders that remove liquidity",
+      "Maker fees are higher",
+      "Taker fees only apply to large orders"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Maker fees apply to limit orders that add liquidity to the order book, while taker fees apply to market orders that remove liquidity."
+  },
+  {
+    "id": 48,
+    "question": "What does a negative maker fee mean?",
+    "options": [
+      "You owe extra fees",
+      "You receive a rebate for providing liquidity",
+      "The market is closed",
+      "Your order was rejected"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A negative maker fee means you receive a rebate for adding liquidity to the order book with your limit orders."
+  },
+  {
+    "id": 49,
+    "question": "How is effective leverage different from set account leverage?",
+    "options": [
+      "They are always the same",
+      "Effective leverage is based on actual position size relative to margin",
+      "Effective leverage is always lower",
+      "Set leverage is just for display"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Effective leverage is the actual leverage of your current positions (position value divided by margin), which may differ from your account's maximum leverage setting."
+  },
+  {
+    "id": 50,
+    "question": "What is the minimum notional threshold below which 100% of a position gets liquidated in one order?",
+    "options": [
+      "$5,000",
+      "$10,000",
+      "$15,000",
+      "$20,000"
+    ],
+    "correctAnswer": 1,
+    "explanation": "If the position size is smaller than $10,000 notional, then 100% of the position size will be liquidated in one order instead of the usual 50% increments."
+  }
+]

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntelliJ IDEA Code Navigation & Productivity</title>
+  <style>
+    :root { --primary:#2563eb; --bg:#f7f9fc; --text:#111827; --muted:#6b7280; }
+    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}
+    .container{max-width:980px;margin:0 auto;padding:16px}
+    .title{margin:6px 0 2px;font-size:24px;font-weight:800}
+    .subtitle{margin:0 0 12px;color:var(--muted)}
+    .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+    button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.secondary{background:#eef2ff;color:#1f2937} button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}
+    main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}
+    h2{margin-top:20px} h3{margin-top:16px} p{line-height:1.6} ul{margin-top:8px}
+    code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}
+    table{width:100%;border-collapse:collapse;margin:10px 0} th,td{border:1px solid #e5e7eb;padding:8px;text-align:left}
+    th{background:#f9fafb}
+    .note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}
+    .tip{background:#ecfdf5;border:1px solid #10b98133;color:#065f46;padding:12px;border-radius:10px}
+    .toc a{color:#2563eb;text-decoration:none}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">IntelliJ IDEA Code Navigation & Productivity</div>
+      <div class="subtitle">Navigation mastery (C++/Scala, Bazel), usages, hierarchies, Git annotate/blame, and power shortcuts</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=intellij-navigation-productivity'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+        <button class="ghost" onclick="window.location.href='intellij-navigation-cheatsheet.html'">Download Cheatsheet</button>
+      </div>
+    </div>
+  </header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents:</strong>
+      <ul>
+        <li><a href="#overview">1. Overview</a></li>
+        <li><a href="#search">2. Search Everywhere & Navigate</a></li>
+        <li><a href="#symbols">3. Declarations, Implementations, Types</a></li>
+        <li><a href="#usages">4. Find/Show Usages & Callers</a></li>
+        <li><a href="#hierarchy">5. Type/Method/Call Hierarchies</a></li>
+        <li><a href="#scala">6. Scala: Implicits, Traits, Extensions</a></li>
+        <li><a href="#cpp">7. C++: Headers/Sources, Symbols</a></li>
+        <li><a href="#git">8. Git: Annotate/Blame, Diff, Log</a></li>
+        <li><a href="#bazel">9. Bazel: Build/Run/Sync</a></li>
+        <li><a href="#improve">10. Improve Navigation Ability</a></li>
+        <li><a href="#menus">11. Menus & Keymaps (Latest IDEA)</a></li>
+        <li><a href="#memory">12. Memory Techniques</a></li>
+      </ul>
+    </div>
+
+    <h2 id="overview">1. Overview</h2>
+    <p>Mastering navigation in IntelliJ IDEA compounds developer speed. Focus on search-first workflows, usage/hierarchy views, and Git context. The examples assume Bazel projects in C++ and Scala with multiple implementations per symbol.</p>
+
+    <h2 id="search">2. Search Everywhere & Navigate</h2>
+    <ul>
+      <li><strong>Search Everywhere:</strong> <code>Shift Shift</code> — search files, classes, symbols, actions. Prefix with <code>/</code> to search actions.</li>
+      <li><strong>Go to Class:</strong> macOS <code>Cmd+O</code></li>
+      <li><strong>Go to File:</strong> macOS <code>Cmd+Shift+O</code></li>
+      <li><strong>Go to Symbol:</strong> macOS <code>Cmd+Alt+O</code></li>
+      <li><strong>Recent Files:</strong> macOS <code>Cmd+E</code></li>
+      <li><strong>Navigate Back/Forward:</strong> macOS <code>Cmd+[ / Cmd+]</code></li>
+      <li><strong>Last Edit Location:</strong> macOS <code>Cmd+Shift+Backspace</code></li>
+      <li><strong>File Structure popup:</strong> macOS <code>Cmd+F12</code></li>
+    </ul>
+
+    <h2 id="symbols">3. Declarations, Implementations, Types</h2>
+    <ul>
+      <li><strong>Go to Declaration/Definition:</strong> macOS <code>Cmd+B</code></li>
+      <li><strong>Go to Type Declaration:</strong> macOS <code>Cmd+Shift+B</code></li>
+      <li><strong>Go to Implementation(s):</strong> macOS <code>Cmd+Alt+B</code> (great when multiple impls exist)</li>
+      <li><strong>Super Method / Super Class:</strong> macOS <code>Cmd+U</code></li>
+      <li><strong>Quick Definition:</strong> macOS <code>Cmd+Shift+I</code></li>
+      <li><strong>Quick Documentation:</strong> macOS <code>F1</code></li>
+    </ul>
+
+    <h2 id="usages">4. Find/Show Usages & Callers</h2>
+    <ul>
+      <li><strong>Find Usages:</strong> macOS <code>Option+F7</code></li>
+      <li><strong>Show Usages (popup):</strong> macOS <code>Option+Cmd+F7</code></li>
+      <li><strong>Highlight Usages in File:</strong> macOS <code>Cmd+Shift+F7</code></li>
+      <li><strong>Find in Files:</strong> macOS <code>Cmd+Shift+F</code></li>
+      <li><strong>Replace in Files:</strong> macOS <code>Cmd+Shift+R</code></li>
+    </ul>
+
+    <h2 id="hierarchy">5. Type/Method/Call Hierarchies</h2>
+    <ul>
+      <li><strong>Type Hierarchy:</strong> macOS <code>Ctrl+H</code></li>
+      <li><strong>Method Hierarchy:</strong> macOS <code>Cmd+Shift+H</code></li>
+      <li><strong>Call Hierarchy:</strong> macOS <code>Ctrl+Alt+H</code></li>
+      <li>Use the hierarchy tool window filters (implementations only, callers only) to prune noise.</li>
+    </ul>
+
+    <h2 id="scala">6. Scala: Implicits, Traits, Extensions</h2>
+    <ul>
+      <li><strong>Show Implicit Hints/Conversions:</strong> View → Appearance → Show Implicit Hints; or toggle from the editor gutter.</li>
+      <li><strong>Implicit Parameters popup:</strong> hover the hint or use Quick Documentation on the call site.</li>
+      <li><strong>Go to Implementations of Trait:</strong> use <code>Cmd+Alt+B</code> on the trait name.</li>
+      <li><strong>Type Info:</strong> macOS <code>Cmd+Shift+P</code> (Scala type under cursor).</li>
+      <li><strong>Extensions/Typeclass patterns:</strong> prefer <em>Find Usages</em> + <em>Call Hierarchy</em> from the typeclass method to enumerate instances.</li>
+    </ul>
+
+    <h2 id="cpp">7. C++: Headers/Sources, Symbols</h2>
+    <ul>
+      <li><strong>Switch Header/Source:</strong> Navigate → Related Symbol (often <code>Cmd+Alt+Home</code> or via intention Alt+Enter).</li>
+      <li><strong>Symbol Navigation:</strong> prefer <em>Go to Symbol</em> for overloaded functions; then <em>Go to Implementations</em> to fan out across targets.</li>
+      <li><strong>Macro/Template instantiations:</strong> use Quick Documentation and <em>Show Usages</em> to locate specializations.</li>
+    </ul>
+
+    <h2 id="git">8. Git: Annotate/Blame, Diff, Log</h2>
+    <ul>
+      <li><strong>Annotate/Blame:</strong> right‑click gutter → Annotate; shows last commit per line. Use when understanding <em>why</em> code exists; jump to commit with Enter.</li>
+      <li><strong>Blame vs History:</strong> Blame for line‑level authorship; <em>Git → Show History</em> for file‑level evolution; <em>Git → Show Diff</em> to compare branches/tags.</li>
+      <li><strong>Use cases:</strong> regressions (who changed this line), style drifts (when did pattern change), risky refactors (follow across renames via History).</li>
+      <li><strong>Shortcut:</strong> open VCS popup: macOS <code>Ctrl+V</code> (Keymap dependent).</li>
+    </ul>
+
+    <h2 id="bazel">9. Bazel: Build/Run/Sync</h2>
+    <ul>
+      <li>With the Bazel plugin, use the Bazel tool window to <strong>Sync</strong> project and discover targets.</li>
+      <li><strong>Run Anything:</strong> <code>Cmd Cmd</code> — run bazel targets, tasks, and configs quickly.</li>
+      <li><strong>Context actions:</strong> Alt+Enter on BUILD files for quick fixes; use gutter run icons on rules where available.</li>
+    </ul>
+
+    <h2 id="improve">10. Improve Navigation Ability</h2>
+    <ul>
+      <li><strong>Daily 10-minute drills:</strong> pick a symbol and enumerate: declaration → type → implementations → usages → callers → commit.</li>
+      <li><strong>Reduce mouse:</strong> force yourself to reach features via shortcuts for a week; print the cheatsheet.</li>
+      <li><strong>Practice filters:</strong> in hierarchies/usages, toggle scope (project/test), library filters, and grouping options.</li>
+      <li><strong>Refine Search Everywhere:</strong> use action prefix <code>/</code> (e.g., <code>/Invalidate Caches</code>), and camelHumps in class/file search.</li>
+    </ul>
+
+    <h2 id="menus">11. Menus & Keymaps (Latest IDEA)</h2>
+    <table>
+      <thead><tr><th>Menu</th><th>Action</th><th>macOS</th></tr></thead>
+      <tbody>
+        <tr><td>Navigate</td><td>Class</td><td>Cmd+O</td></tr>
+        <tr><td>Navigate</td><td>File</td><td>Cmd+Shift+O</td></tr>
+        <tr><td>Navigate</td><td>Symbol</td><td>Cmd+Alt+O</td></tr>
+        <tr><td>Navigate</td><td>Back/Forward</td><td>Cmd+[ / Cmd+]</td></tr>
+        <tr><td>Navigate</td><td>Declaration</td><td>Cmd+B</td></tr>
+        <tr><td>Navigate</td><td>Type Declaration</td><td>Cmd+Shift+B</td></tr>
+        <tr><td>Navigate</td><td>Implementation(s)</td><td>Cmd+Alt+B</td></tr>
+        <tr><td>Navigate</td><td>Super Method</td><td>Cmd+U</td></tr>
+        <tr><td>Navigate</td><td>File Structure</td><td>Cmd+F12</td></tr>
+        <tr><td>Navigate</td><td>Last Edit Location</td><td>Cmd+Shift+Backspace</td></tr>
+        <tr><td>Code</td><td>Quick Definition</td><td>Cmd+Shift+I</td></tr>
+        <tr><td>Code</td><td>Quick Documentation</td><td>F1</td></tr>
+        <tr><td>Edit</td><td>Find in Files</td><td>Cmd+Shift+F</td></tr>
+        <tr><td>Edit</td><td>Replace in Files</td><td>Cmd+Shift+R</td></tr>
+        <tr><td>Code</td><td>Show Usages</td><td>Option+Cmd+F7</td></tr>
+        <tr><td>Code</td><td>Highlight Usages</td><td>Cmd+Shift+F7</td></tr>
+        <tr><td>Code</td><td>Find Usages</td><td>Option+F7</td></tr>
+        <tr><td>VCS</td><td>Annotate</td><td>Gutter → Annotate</td></tr>
+        <tr><td>VCS</td><td>Show History</td><td>Ctrl+V → Git</td></tr>
+        <tr><td>VCS</td><td>Show Diff</td><td>Ctrl+V → Git</td></tr>
+        <tr><td>Run</td><td>Run Anything</td><td>Cmd Cmd</td></tr>
+        <tr><td>View</td><td>Show Implicit Hints (Scala)</td><td>Menu</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">Keymaps vary by OS and customization. The defaults above reflect common mappings in recent IDEA versions; verify under Preferences/Settings → Keymap.</div>
+    
+    <h2 id="memory">12. Memory Techniques</h2>
+    <p>This section distills a cartoon-style mnemonic system and peg associations to memorize macOS IntelliJ shortcuts quickly and retain them under pressure.</p>
+
+    <h3>12.1 Core Modifier Keys as Characters</h3>
+    <p>Think of each modifier key as a cartoon character with a personality. When a shortcut combines keys, imagine the characters teaming up.</p>
+    <ul>
+      <li><strong>Ctrl (Control)</strong> → 🕴️ The Boss. Wants to control everything. If a shortcut has Ctrl, think: “I need the Boss to direct this.”</li>
+      <li><strong>Cmd (Command)</strong> → 🫡 The General. Commands an army, icon looks like a fort (⌘). If a shortcut has Cmd, imagine issuing a command.</li>
+      <li><strong>Option (Alt)</strong> → 🎭 The Trickster. Gives options or alternate paths. If you see Option, think: “I want an alternate version.”</li>
+      <li><strong>Shift</strong> → 🏋️ The Bodybuilder. Makes things bigger/stronger/uppercase. If Shift appears, think: “We’re going bigger or adding power.”</li>
+    </ul>
+
+    <h3>12.2 Funny Peg-Style Associations</h3>
+    <p>Glue IntelliJ actions onto these characters as short scenes:</p>
+    <ul>
+      <li><strong>Search Everywhere</strong> → <code>Cmd+Shift+A</code>: The General climbs on the Bodybuilder with a megaphone yelling, “Search everywhere!”</li>
+      <li><strong>Go to Class</strong> → <code>Cmd+O</code>: The General marches into class saying “O-kay cadets, Go to Class!”</li>
+      <li><strong>Go to File</strong> → <code>Cmd+Shift+O</code>: The General carries a huge O-shaped file cabinet on the Bodybuilder’s back.</li>
+      <li><strong>Navigate Back/Forward</strong> → <code>Cmd+[ / Cmd+]</code>: The General uses square-bracket “doors” to step back and forward in a hallway.</li>
+      <li><strong>Recent Files</strong> → <code>Cmd+E</code>: The General pops an Energy Drink (E) to recall recent work.</li>
+      <li><strong>Declaration</strong> → <code>Cmd+B</code>: Bounce a huge B‑ball onto code to jump to its declaration.</li>
+      <li><strong>Quick Fix</strong> → <code>Option+Enter</code>: The Trickster slams Enter, laughing “Surprise fix!”</li>
+      <li><strong>Search in Path</strong> → <code>Cmd+Shift+F</code>: Flashlight (F) while the Bodybuilder lifts the General to search the whole project.</li>
+      <li><strong>Rename</strong> → <code>Shift+F6</code>: The Bodybuilder flexes his six‑pack while announcing the new name.</li>
+    </ul>
+
+    <h3>12.3 How to Drill (Memory Pegging)</h3>
+    <ul>
+      <li><strong>Assign voices:</strong> Ctrl = angry boss; Cmd = military general; Option = sneaky joker; Shift = gym bro.</li>
+      <li><strong>Act scenes out:</strong> e.g., <code>Cmd+Shift+F</code> → General + Bodybuilder + Flashlight → Search in Path.</li>
+      <li><strong>Exaggerate:</strong> The sillier the scene, the stickier the memory trace.</li>
+    </ul>
+
+    <h3>12.4 Extra Retention Tips</h3>
+    <ul>
+      <li><strong>Spaced repetition:</strong> Make an Anki deck of your most-used 20 actions (front: “Find Usages”; back: <code>Option+F7</code> + your scene). Review 1–2 minutes daily.</li>
+      <li><strong>Chunk by workflow:</strong> Drill sequences, not isolated keys. Example: Declaration → Type → Implementations → Usages → Callers.</li>
+      <li><strong>Micro-drills in context:</strong> Before running tests, force using <code>Cmd+Shift+R</code> and <code>Cmd+Shift+F</code> instead of menus.</li>
+      <li><strong>Create visual pegs:</strong> Print the macOS cheatsheet and annotate with your scenes (emoji, doodles).</li>
+      <li><strong>Weekly review:</strong> Pick 5 new shortcuts; add pegs and enforce them during work for a week.</li>
+    </ul>
+
+    <div class="tip">Optional next step: convert this section into printable flashcards or an Anki package. If you’d like, I can generate a CSV deck for import with the macOS actions and peg scenes.</div>
+  </article></main>
+</body>
+</html>

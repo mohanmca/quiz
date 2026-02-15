@@ -1,0 +1,395 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Fenwick Tree (Binary Indexed Tree) Fundamentals</title>
+  <style>:root{--primary:#1e88e5;--bg:#f7f9fc;--text:#1a1a1a;--muted:#6b7280}*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}header{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10}.container{max-width:980px;margin:0 auto;padding:16px}.title{margin:6px 0 2px;font-size:24px;font-weight:800}.subtitle{margin:0 0 12px;color:var(--muted)}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}button{background:var(--primary);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}button.secondary{background:#eef2ff;color:#1f2937}button.ghost{background:transparent;color:#1f2937;border:1px solid #e5e7eb}main.container article{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px}h2{margin-top:20px}pre{background:#0b1020;color:#e5e7eb;padding:12px;border-radius:10px;overflow:auto;border:1px solid #111827}code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0b1020;color:#e5e7eb;padding:1px 4px;border-radius:4px}.tok-kw{color:#93c5fd}.tok-str{color:#a7f3d0}.tok-com{color:#9ca3af;font-style:italic}.tok-num{color:#fcd34d}.tok-builtin{color:#fca5a5}.note{background:#fefce8;border:1px solid #fde68a;color:#713f12;padding:12px;border-radius:10px}.toc a{color:#2563eb;text-decoration:none}</style>
+  <script>function E(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}function H(src){if(!src)return'';const K=[];const keep=h=>(K.push(h),`@@H${K.length-1}@@`);src=src.replace(/'{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3}/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g,m=>keep(`<span class='tok-str'>${E(m)}</span>`));src=src.replace(/#.*/g,m=>keep(`<span class='tok-com'>${E(m)}</span>`));let html=E(src);const KW=['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];html=html.replace(new RegExp(`\\b(${KW.join('|')})\\b`,'g'),"<span class='tok-kw'>$1</span>");const BI=['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];html=html.replace(new RegExp(`\\b(${BI.join('|')})\\b`,'g'),"<span class='tok-builtin'>$1</span>");html=html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g,"<span class='tok-num'>$&</span>");return html.replace(/@@H(\d+)@@/g,(m,i)=>K[Number(i)])}function apply(){document.querySelectorAll('pre code.language-python').forEach(el=>el.innerHTML=H(el.textContent||''))}window.addEventListener('DOMContentLoaded',apply)</script>
+</head><body>
+  <header><div class="container">
+    <div class="title">Fenwick Tree (Binary Indexed Tree) Fundamentals</div>
+    <div class="subtitle">Prefix sums with O(log n) updates and queries</div>
+    <div class="toolbar">
+      <button class="secondary" onclick="window.location.href='../index.html?id=fenwick-tree-fundamentals'">Start Quiz</button>
+      <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+    </div>
+  </div></header>
+  <main class="container"><article>
+    <div class="toc"><strong>Contents</strong>
+      <ul>
+        <li><a href="#overview">1. Overview & Mental Model</a></li>
+        <li><a href="#bits">2. Bit Trick: i & -i</a></li>
+        <li><a href="#api">3. Core API (Sum BIT)</a></li>
+        <li><a href="#variants">4. Variants & Extensions</a></li>
+        <li><a href="#kth">5. Order Statistics (find k-th)</a></li>
+        <li><a href="#compression">6. Coordinate Compression</a></li>
+      <li><a href="#patterns">7. LeetCode Patterns & Mappings</a></li>
+      <li><a href="#tips">8. Tips, Pitfalls, Complexity</a></li>
+      <li><a href="#assets">9. Diagram & Reference Code</a></li>
+      </ul>
+    </div>
+
+    <h2 id="overview">1. Overview & Mental Model</h2>
+    <p>
+      A Fenwick Tree (Binary Indexed Tree) stores partial prefix sums in an array so that both
+      point updates and prefix-sum queries run in O(log n). Think of overlaying a tree on top of an
+      array: index <code>i</code> stores the sum of the range <code>(i - LSB(i) + 1 .. i)</code>, where
+      <code>LSB(i) = i &amp; -i</code> is the lowest set bit of <code>i</code>.
+    </p>
+
+    <h2 id="bits">2. Bit Trick: i &amp; -i</h2>
+    <ul>
+      <li><code>i &amp; -i</code> isolates the lowest set bit of <code>i</code>.</li>
+      <li>Update: move upward with <code>i += i &amp; -i</code> to touch responsible buckets.</li>
+      <li>Query: move to parent with <code>i -= i &amp; -i</code> to accumulate covered buckets.</li>
+      <li>1-based indexing keeps the math simple and avoids zero cycles.</li>
+    </ul>
+
+    <h3>2.1 <code>i &amp; (i-1)</code> vs <code>i &amp; -i</code></h3>
+    <p>
+      These two expressions are related but do different things:
+    </p>
+    <h3>2.2 Memory Hook (Humorous)</h3>
+    <div class="note">
+      Fenwick's silly rhyme: <em>“AND the negative, quick!”</em> — if you see <code>i &amp; -i</code>, think
+      Fenwick. The “negative” is your giveaway among bit tricks. Imagine <code>i</code> stepping in gum; the
+      lowest sticky bit clings to your shoe. You can:
+      <ul>
+        <li><strong>Climb</strong> by adding the sticky bit: <code>i += i &amp; -i</code> (updates).</li>
+        <li><strong>Float to parent</strong> by peeling it off: <code>i = i &amp; (i-1)</code> (queries).</li>
+      </ul>
+      If it has a minus sign inside the <code>&amp;</code>, it’s almost certainly a Fenwick move.
+    </div>
+
+    <h3>2.3 Index Walkthrough Examples</h3>
+    <p>The internal tree uses 1-based indices. Below, assume <code>n = 16</code> and 1-based <code>i</code>.</p>
+    <h4>Update: “move upward” via <code>i += i &amp; -i</code></h4>
+    <ul>
+      <li>Start at <code>i = 6</code> (binary <code>0110</code>), <code>LSB(6)=2</code>. Touch <code>6</code> (covers <code>[5..6]</code>).</li>
+      <li>Next <code>i = 6 + 2 = 8</code> (binary <code>1000</code>), <code>LSB(8)=8</code>. Touch <code>8</code> (covers <code>[1..8]</code>).</li>
+      <li>Next <code>i = 8 + 8 = 16</code>, <code>LSB(16)=16</code>. Touch <code>16</code> (covers <code>[1..16]</code>).</li>
+      <li>Next <code>i = 16 + 16 = 32 &gt; n</code> ⇒ stop.</li>
+    </ul>
+    <p>
+      Intuition: you are “climbing” to all ancestors whose aggregated ranges include the original position.
+    </p>
+
+    <h4>Query: “move to parent” via <code>i -= i &amp; -i</code> (or <code>i = i &amp; (i-1)</code>)</h4>
+    <ul>
+      <li>Compute <code>prefix(13)</code>. Start <code>i = 13</code> (binary <code>1101</code>), <code>LSB(13)=1</code>. Add <code>BIT[13]</code> (covers <code>[13..13]</code>).</li>
+      <li>Parent <code>i = 13 - 1 = 12</code> (binary <code>1100</code>), <code>LSB(12)=4</code>. Add <code>BIT[12]</code> (covers <code>[9..12]</code>).</li>
+      <li>Parent <code>i = 12 - 4 = 8</code> (binary <code>1000</code>), <code>LSB(8)=8</code>. Add <code>BIT[8]</code> (covers <code>[1..8]</code>).</li>
+      <li>Parent <code>i = 8 - 8 = 0</code> ⇒ stop. Total is sum of these buckets.</li>
+    </ul>
+    <p>
+      Same path using <code>i = i &amp; (i-1)</code>: <code>13 → 12 → 8 → 0</code>.
+    </p>
+
+    <h3>2.4 Mathematical Relations</h3>
+    <p>Let <code>L = i &amp; -i</code> (the isolated lowest set bit). Then:</p>
+    <ul>
+      <li><strong>Clearing identity:</strong> <code>i &amp; (i-1) = i - L</code>. Proof sketch: subtracting <code>L</code> clears the lowest set bit and leaves higher bits unchanged; that is exactly what <code>i &amp; (i-1)</code> does.</li>
+      <li><strong>Partition of bits:</strong> <code>i = (i &amp; (i-1)) + (i &amp; -i)</code> and the two addends have no overlapping 1-bits.</li>
+      <li><strong>Two’s complement link:</strong> <code>-i = ~i + 1</code> ⇒ <code>i &amp; -i = i &amp; (~i + 1)</code> picks the lowest 1-bit.</li>
+      <li><strong>Trailing zeros:</strong> if <code>tz(i)</code> is the count of trailing zeros in binary, then <code>L = 1 &lt;&lt; tz(i)</code>.</li>
+    </ul>
+    <p>Example: <code>i = 12 (1100₂)</code>, <code>L = i &amp; -i = 4 (0100₂)</code>, so <code>i &amp; (i-1) = 12 - 4 = 8 (1000₂)</code>.</p>
+
+    <h3>2.5 LSB as Bucket Span and Update Step</h3>
+    <p>
+      <strong><code>i &amp; -i</code> → isolate lowest set bit (LSB)</strong>. This equals the bucket size (range span)
+      that index <code>i</code> is responsible for in the Fenwick array.
+    </p>
+    <pre><code class="language-python">i = 12   # 1100b
+lsb = i & -i  # 0100b = 4
+# Meaning: index 12 covers a block of size 4 ⇒ [9..12]
+    </code></pre>
+    <p>
+      That’s why <em>update ascends</em> with <code>i += i &amp; -i</code>: the LSB tells you “how far to jump upward in
+      the implicit tree” to the next bucket that also aggregates index <code>i</code>.
+    </p>
+    <pre><code class="language-python">while i <= n:
+    BIT[i] += delta
+    i += i & -i   # jump to next bucket that also covers index
+    </code></pre>
+    <ul>
+      <li><strong><code>i &amp; -i</code></strong>: isolates the lowest set bit (LSB) as a power-of-two mask. Example: <code>i=12 (1100b)</code> → <code>i &amp; -i = 4 (0100b)</code>. Used to compute bucket span and step size.</li>
+      <li><strong><code>i &amp; (i-1)</code></strong>: clears the lowest set bit. Example: <code>i=12 (1100b)</code> → <code>i &amp; (i-1) = 8 (1000b)</code>. Used to jump to parent by “dropping” the LSB.</li>
+    </ul>
+    <p>
+      For Fenwick query, both of the following parent moves are equivalent:
+    </p>
+    <pre><code class="language-python"># Using i -= i & -i (typical)
+s = 0
+while i > 0:
+    s += BIT[i]
+    i -= i & -i
+
+# Equivalent using i = i & (i-1)
+s = 0
+while i > 0:
+    s += BIT[i]
+    i = i & (i-1)
+    </code></pre>
+    <p>
+      Why it works: every index <code>i</code> covers a block of size <code>LSB(i)</code>, i.e., range
+      <code>(i - LSB(i) + 1 .. i)</code>. Moving to parent means removing that trailing block; clearing the
+      trailing 1-bit achieves exactly that. By iteratively dropping LSBs, you walk up the implicit tree.
+      Conversely, during updates, adding <code>LSB(i)</code> via <code>i += i &amp; -i</code> ascends to the next bucket
+      that also aggregates index <code>i</code>.
+    </p>
+
+    <h2 id="api">3. Core API (Sum BIT)</h2>
+    <pre><code class="language-python">class FenwickSum:
+    """Fenwick Tree for sums (1-based internal indexing).
+
+    Supports:
+      - add(i, delta): point update at 0-based i
+      - prefix(i): sum of [0..i] inclusive (0-based)
+      - range_sum(l, r): sum of [l..r] inclusive
+    """
+    def __init__(self, n: int):
+        self.n = n
+        self.t = [0] * (n + 1)
+
+    def add(self, i: int, delta: int) -> None:
+        i += 1  # shift to 1-based
+        while i <= self.n:
+            self.t[i] += delta
+            i += i & -i
+
+    def prefix(self, i: int) -> int:
+        i += 1
+        s = 0
+        while i > 0:
+            s += self.t[i]
+            i -= i & -i
+        return s
+
+    def range_sum(self, l: int, r: int) -> int:
+        if r < l:
+            return 0
+        return self.prefix(r) - (self.prefix(l - 1) if l > 0 else 0)
+
+    @classmethod
+    def build(cls, arr):
+        bit = cls(len(arr))
+        for i, v in enumerate(arr):
+            bit.add(i, v)
+        return bit
+    </code></pre>
+
+    <p>Build: O(n log n). Update and prefix query: O(log n). Space: O(n).</p>
+
+    <h2 id="variants">4. Variants & Extensions</h2>
+    <h3>4.1 Range Update, Point Query (RUPQ)</h3>
+    <p>
+      Maintain a Fenwick over a difference array D. To add <code>delta</code> on range [l..r]:
+      <code>add(l, +delta)</code>, <code>add(r+1, -delta)</code>. The point value at i is the prefix sum at i.
+    </p>
+    <pre><code class="language-python">class FenwickDiff:
+    def __init__(self, n: int):
+        self.ft = FenwickSum(n)
+        self.n = n
+
+    def range_add(self, l: int, r: int, delta: int) -> None:
+        self.ft.add(l, delta)
+        if r + 1 < self.n:
+            self.ft.add(r + 1, -delta)
+
+    def point_query(self, i: int) -> int:
+        return self.ft.prefix(i)
+    </code></pre>
+
+    <h3>4.2 Range Update, Range Query (RURQ) with Two BITs</h3>
+    <p>
+      Keep two Fenwicks B1 and B2. For range add (l..r, +delta):
+      B1.add(l, +delta), B1.add(r+1, -delta), B2.add(l, +delta*(l-1)), B2.add(r+1, -delta*r).
+      PrefixSum(x) = sum(B1, x) * x - sum(B2, x). RangeSum(l..r) = prefix(r) - prefix(l-1).
+    </p>
+    <pre><code class="language-python">class FenwickRURQ:
+    def __init__(self, n: int):
+        self.n = n
+        self.b1 = FenwickSum(n)
+        self.b2 = FenwickSum(n)
+
+    def _add(self, bit: FenwickSum, i: int, delta: int) -> None:
+        bit.add(i, delta)
+
+    def range_add(self, l: int, r: int, delta: int) -> None:
+        self._add(self.b1, l, +delta)
+        if r + 1 < self.n:
+            self._add(self.b1, r + 1, -delta)
+        self._add(self.b2, l, +delta * (l - 1))
+        if r + 1 < self.n:
+            self._add(self.b2, r + 1, -delta * r)
+
+    def _prefix(self, x: int) -> int:
+        return self.b1.prefix(x) * x - self.b2.prefix(x)
+
+    def range_sum(self, l: int, r: int) -> int:
+        if r < l:
+            return 0
+        return self._prefix(r) - (self._prefix(l - 1) if l > 0 else 0)
+    </code></pre>
+
+    <h3>4.3 2D Fenwick (Matrix sums)</h3>
+    <pre><code class="language-python">class Fenwick2D:
+    def __init__(self, rows: int, cols: int):
+        self.R, self.C = rows, cols
+        self.t = [[0] * (cols + 1) for _ in range(rows + 1)]
+
+    def add(self, r: int, c: int, delta: int) -> None:  # 0-based input
+        i = r + 1
+        while i <= self.R:
+            j = c + 1
+            while j <= self.C:
+                self.t[i][j] += delta
+                j += j & -j
+            i += i & -i
+
+    def prefix(self, r: int, c: int) -> int:  # sum of rectangle [0..r]x[0..c]
+        s = 0
+        i = r + 1
+        while i > 0:
+            j = c + 1
+            while j > 0:
+                s += self.t[i][j]
+                j -= j & -j
+            i -= i & -i
+        return s
+
+    def range_sum(self, r1: int, c1: int, r2: int, c2: int) -> int:
+        return (self.prefix(r2, c2)
+                - (self.prefix(r1 - 1, c2) if r1 > 0 else 0)
+                - (self.prefix(r2, c1 - 1) if c1 > 0 else 0)
+                + (self.prefix(r1 - 1, c1 - 1) if r1 > 0 and c1 > 0 else 0))
+    </code></pre>
+
+    <h3>4.4 Max/Fenwick for DP (prefix maximum)</h3>
+    <p>Replace sum with max to support prefix maximum queries in O(log n) for LIS-type DP.</p>
+    <pre><code class="language-python">class FenwickMax:
+    def __init__(self, n: int):
+        self.n = n
+        self.t = [0] * (n + 1)
+
+    def update_max(self, i: int, val: int) -> None:  # set t[j] = max(t[j], val)
+        i += 1
+        while i <= self.n:
+            if val > self.t[i]:
+                self.t[i] = val
+            i += i & -i
+
+    def prefix_max(self, i: int) -> int:
+        i += 1
+        res = 0
+        while i > 0:
+            if self.t[i] > res:
+                res = self.t[i]
+            i -= i & -i
+        return res
+    </code></pre>
+
+    <h2 id="kth">5. Order Statistics (find k-th)</h2>
+    <p>
+      If the Fenwick stores a frequency table, you can find the smallest index whose prefix sum
+      is at least <code>k</code> by binary lifting over implicit tree heights.
+    </p>
+    <pre><code class="language-python">def find_by_order(BIT, n, k):
+    """Return smallest index i (1-based) such that prefix(i) >= k. Assumes total >= k."""
+    idx = 0
+    bit = 1 << (n.bit_length() - 1)  # highest power of two <= n
+    while bit:
+        nxt = idx + bit
+        if nxt <= n and BIT[nxt] < k:
+            idx = nxt
+            k -= BIT[nxt]
+        bit >>= 1
+    return idx + 1  # 1-based index
+    </code></pre>
+
+    <h2 id="compression">6. Coordinate Compression</h2>
+    <p>
+      Use compression when values are large/non-contiguous. Replace values with ranks [0..m-1]
+      to index the BIT compactly.
+    </p>
+    <pre><code class="language-python">def compress(values):
+    uniq = sorted(set(values))
+    rank = {v: i for i, v in enumerate(uniq)}
+    return rank, uniq
+    </code></pre>
+
+    <h2 id="patterns">7. LeetCode Patterns & Mappings</h2>
+    <p>The following problems are classic BIT applications or have BIT-friendly solutions:</p>
+    <ul>
+      <li>307. Range Sum Query - Mutable — FenwickSum for point update + range sum.</li>
+      <li>308. Range Sum Query 2D - Mutable — Fenwick2D.</li>
+      <li>315. Count of Smaller Numbers After Self — sweep from right, count prefix; needs compression.</li>
+      <li>327. Count of Range Sum — prefix sums + compression; count counts in windows via BIT.</li>
+      <li>493. Reverse Pairs — similar to 327 with condition s[j] &lt; s[i]/2; compress and count.</li>
+      <li>1395. Count Number of Teams — counts smaller/greater on both sides via two BIT sweeps.</li>
+      <li>1409. Queries on a Permutation With Key — frequency/rank with find-by-order or positions with BIT.</li>
+      <li>1649. Create Sorted Array through Instructions — insert cost = min(#less, #greater); FenwickSum + compression.</li>
+      <li>1964. Longest Valid Obstacle Course at Each Position — FenwickMax over values for non-decreasing LIS.</li>
+      <li>2031. Count Subarrays With More Ones Than Zeros — transform to prefix sums and count ranges via BIT.</li>
+      <li>2179. Count Good Triplets in an Array — two passes with BIT for counts on left/right.</li>
+      <li>2193. Minimum Moves to Make Palindrome — BIT to track remaining positions and compute swaps.</li>
+      <li>2250. Count Rectangles Containing Each Point — sort by height, count widths via BIT.</li>
+      <li>2426. Number of Pairs Satisfying Inequality — like 327/493, offline with BIT.</li>
+      <li>2407, 2926. LIS II / Balanced subsequence sum — FenwickMax for DP over values.</li>
+      <li>2659. Make Array Empty — simulate removals; BIT for alive positions and rotations.</li>
+      <li>3109. Find the Index of Permutation — order-statistics on a binary array; find-by-order with BIT.</li>
+      <li>… and more (Skyline 218 typically uses sweep line + heap; BIT may help in alternative formulations).</li>
+    </ul>
+
+    <h3>Example: 315. Count of Smaller Numbers After Self</h3>
+    <pre><code class="language-python">def count_smaller(nums):
+    if not nums:
+        return []
+    rank, _ = compress(nums)
+    m = len(rank)
+    bit = FenwickSum(m)
+    res = [0] * len(nums)
+    for i in range(len(nums) - 1, -1, -1):
+        r = rank[nums[i]]
+        res[i] = bit.prefix(r - 1) if r > 0 else 0
+        bit.add(r, 1)
+    return res
+    </code></pre>
+
+    <h3>Example: 1649. Create Sorted Array through Instructions</h3>
+    <pre><code class="language-python">def create_sorted_array(instr):
+    MOD = 10**9 + 7
+    rank, uniq = compress(instr)
+    bit = FenwickSum(len(uniq))
+    cost = 0
+    for x in instr:
+        r = rank[x]
+        less = bit.prefix(r - 1) if r > 0 else 0
+        greater = bit.prefix(len(uniq) - 1) - bit.prefix(r)
+        cost = (cost + min(less, greater)) % MOD
+        bit.add(r, 1)
+    return cost
+    </code></pre>
+
+    <h2 id="tips">8. Tips, Pitfalls, Complexity</h2>
+    <ul>
+      <li>Indexing: store internally as 1-based; convert from/to 0-based at edges.</li>
+      <li>Bounds: guard <code>r+1 &lt; n</code> when doing difference updates.</li>
+      <li>Types: use Python int for sums; for max-DP, initialize with 0 or -inf as needed.</li>
+      <li>Build: naive O(n log n); there exists an O(n) treeify method but less common.</li>
+      <li>Choose BIT over segment tree when you only need prefix aggregations and simple updates; BIT is smaller and faster in practice.</li>
+      <li>2D BIT has higher constant factors; prefer when constraints allow and updates/queries are many.</li>
+    </ul>
+
+    <div class="note">This article now covers: core sums, range variants (RUPQ/RURQ), 2D, order statistics, prefix max for DP, coordinate compression, and mappings to common LeetCode BIT problems. The quiz has been updated to align with these topics.</div>
+  </article></main>
+  <main class="container"><article>
+    <h2 id="assets">9. Diagram & Reference Code</h2>
+    <p>Visual and code resources used in this article:</p>
+    <figure>
+      <img src="assets/images/fenwick_tree.jpg" alt="Fenwick Tree diagram" style="max-width:100%;border:1px solid #e5e7eb;border-radius:10px" />
+      <figcaption style="color:#6b7280">Fenwick Tree visualization (indices and covered ranges)</figcaption>
+    </figure>
+    <p>
+      Reference implementation (Python):
+      <a href="assets/code/Fenwick.py">assets/code/Fenwick.py</a>
+    </p>
+  </article></main>
+</body></html>

@@ -1,0 +1,477 @@
+[
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q1",
+        "title": "**What is a Fenwick Tree (Binary Indexed Tree)?**",
+        "choices": [
+            "A data structure for efficient prefix sum and update operations",
+            "A balanced binary search tree",
+            "A type of heap",
+            "A graph traversal algorithm"
+        ],
+        "correctAnswer": "A data structure for efficient prefix sum and update operations"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q2",
+        "title": "**What is the time complexity for update and getsum operations in a Fenwick Tree?**",
+        "choices": [
+            "O(log n)",
+            "O(n)",
+            "O(1)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(log n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q3",
+        "title": "**Python: Fenwick Tree - Update Operation**\n\nGiven a Fenwick Tree array `BIT` and index `i`, how do you update the value at index `i` by `delta`?",
+        "choices": [
+            "```python\ndef update(BIT, n, i, delta):\n    while i <= n:\n        BIT[i] += delta\n        i += i & -i\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\ndef update(BIT, n, i, delta):\n    while i <= n:\n        BIT[i] += delta\n        i += i & -i\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q4",
+        "title": "**Python: Fenwick Tree - GetSum Operation**\n\nGiven a Fenwick Tree array `BIT` and index `i`, how do you get the prefix sum up to index `i`?",
+        "choices": [
+            "```python\ndef getsum(BIT, i):\n    res = 0\n    while i > 0:\n        res += BIT[i]\n        i -= i & -i\n    return res\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\ndef getsum(BIT, i):\n    res = 0\n    while i > 0:\n        res += BIT[i]\n        i -= i & -i\n    return res\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q5",
+        "title": "**Which operation does Fenwick Tree NOT support efficiently?**",
+        "choices": [
+            "Range minimum query",
+            "Prefix sum query",
+            "Point update",
+            "Prefix sum update"
+        ],
+        "correctAnswer": "Range minimum query"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q6",
+        "title": "**What is the main advantage of Fenwick Tree over a naive prefix sum array?**",
+        "choices": [
+            "Efficient updates and queries",
+            "Less memory usage",
+            "Supports range minimum queries",
+            "No advantage"
+        ],
+        "correctAnswer": "Efficient updates and queries"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q7",
+        "title": "**Which binary operation is used to move to the next index in Fenwick Tree update?**",
+        "choices": [
+            "i += i & -i",
+            "i *= 2",
+            "i -= 1",
+            "i = i ^ 1"
+        ],
+        "correctAnswer": "i += i & -i"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q8",
+        "title": "**What does the expression `i & -i` compute for an integer i?**",
+        "choices": [
+            "The lowest set bit of i",
+            "The highest set bit of i",
+            "The number of set bits in i",
+            "The bitwise NOT of i"
+        ],
+        "correctAnswer": "The lowest set bit of i"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q9",
+        "title": "**Python: Fenwick Tree Initialization**\n\nHow do you initialize a Fenwick Tree for an array of size n?",
+        "choices": [
+            "```python\nBIT = [0] * (n + 1)\n```",
+            "BIT = [0] * n",
+            "BIT = [None] * (n + 1)",
+            "BIT = [1] * (n + 1)"
+        ],
+        "correctAnswer": "```python\nBIT = [0] * (n + 1)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q10",
+        "title": "**Python: Fenwick Tree - Build from Array**\n\nGiven an array `arr` of size n, how do you build the Fenwick Tree BIT?",
+        "choices": [
+            "```python\nBIT = [0] * (n + 1)\nfor i in range(n):\n    update(BIT, n, i + 1, arr[i])\n```",
+            "BIT = arr.copy()",
+            "BIT = [sum(arr[:i+1]) for i in range(n)]",
+            "BIT = [0] * n"
+        ],
+        "correctAnswer": "```python\nBIT = [0] * (n + 1)\nfor i in range(n):\n    update(BIT, n, i + 1, arr[i])\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q11",
+        "title": "**What is the space complexity of a Fenwick Tree for n elements?**",
+        "choices": [
+            "O(n)",
+            "O(log n)",
+            "O(1)",
+            "O(n log n)"
+        ],
+        "correctAnswer": "O(n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q12",
+        "title": "**Python: Fenwick Tree - Range Sum Query**\n\nHow do you compute the sum of elements from index l to r (inclusive) using Fenwick Tree BIT?",
+        "choices": [
+            "```python\nsum_lr = getsum(BIT, r) - getsum(BIT, l - 1)\n```",
+            "sum_lr = getsum(BIT, r) + getsum(BIT, l)",
+            "sum_lr = BIT[r] - BIT[l]",
+            "sum_lr = getsum(BIT, r - l)"
+        ],
+        "correctAnswer": "```python\nsum_lr = getsum(BIT, r) - getsum(BIT, l - 1)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q14",
+        "title": "**Python: Fenwick Tree - Find Index with Given Prefix Sum**\n\nGiven BIT and a prefix sum value, which code finds the smallest index with at least that sum?",
+        "choices": [
+            "```python\ndef find(BIT, n, target):\n    idx = 0\n    bitmask = 1 << (n.bit_length() - 1)\n    while bitmask != 0:\n        t_idx = idx + bitmask\n        if t_idx <= n and BIT[t_idx] < target:\n            idx = t_idx\n            target -= BIT[t_idx]\n        bitmask >>= 1\n    return idx + 1\n```",
+            "NA1",
+            "NA2"
+        ],
+        "correctAnswer": "```python\ndef find(BIT, n, target):\n    idx = 0\n    bitmask = 1 << (n.bit_length() - 1)\n    while bitmask != 0:\n        t_idx = idx + bitmask\n        if t_idx <= n and BIT[t_idx] < target:\n            idx = t_idx\n            target -= BIT[t_idx]\n        bitmask >>= 1\n    return idx + 1\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q15",
+        "title": "**True or False: Fenwick Tree can be used for dynamic range sum queries and point updates.**",
+        "choices": [
+            "True",
+            "False"
+        ],
+        "correctAnswer": "True"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q16",
+        "title": "**How does Fenwick Tree use binary representation to update and query efficiently?**",
+        "choices": [
+            "It uses the lowest set bit to jump to parent nodes",
+            "It uses the highest set bit to jump to child nodes",
+            "It ignores binary representation",
+            "It uses all bits for each operation"
+        ],
+        "correctAnswer": "It uses the lowest set bit to jump to parent nodes"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q17",
+        "title": "**What does each node in a Fenwick Tree store?**",
+        "choices": [
+            "The sum of a specific range of elements",
+            "The minimum value in a range",
+            "The maximum value in a range",
+            "The product of a range"
+        ],
+        "correctAnswer": "The sum of a specific range of elements"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q18",
+        "title": "**If you want to update index 7 in a Fenwick Tree, which indices will be affected?**",
+        "choices": [
+            "7, 8, 16, ...",
+            "7 only",
+            "All indices",
+            "None"
+        ],
+        "correctAnswer": "7, 8, 16, ..."
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q19",
+        "title": "**Why does Fenwick Tree use 1-based indexing?**",
+        "choices": [
+            "To simplify bit manipulation and parent/child calculation",
+            "To save memory",
+            "To match array indexing in Python",
+            "No reason"
+        ],
+        "correctAnswer": "To simplify bit manipulation and parent/child calculation"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q20",
+        "title": "**Which operation is performed when you subtract `i & -i` from index i in getsum?**",
+        "choices": [
+            "Move to parent node",
+            "Move to child node",
+            "Reset the index",
+            "Double the index"
+        ],
+        "correctAnswer": "Move to parent node"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q21",
+        "title": "**Python: Fenwick Tree - Initialization**\n\nWhat is the correct way to initialize a Fenwick Tree for an array of size n?",
+        "choices": [
+            "```python\nBIT = [0] * (n + 1)\n```",
+            "BIT = [0] * n",
+            "BIT = [None] * (n + 1)",
+            "BIT = [1] * (n + 1)"
+        ],
+        "correctAnswer": "```python\nBIT = [0] * (n + 1)\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q22",
+        "title": "**Python: Fenwick Tree - GetSum Function**\n\nWhich code correctly implements the getsum operation for index i?",
+        "choices": [
+            "```python\ndef getsum(BIT, i):\n    res = 0\n    while i > 0:\n        res += BIT[i]\n        i -= i & -i\n    return res\n```",
+            "def getsum(BIT, i):\n    return BIT[i]",
+            "def getsum(BIT, i):\n    res = 0\n    while i < len(BIT):\n        res += BIT[i]\n        i += 1\n    return res",
+            "def getsum(BIT, i):\n    return sum(BIT[:i+1])"
+        ],
+        "correctAnswer": "```python\ndef getsum(BIT, i):\n    res = 0\n    while i > 0:\n        res += BIT[i]\n        i -= i & -i\n    return res\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q23",
+        "title": "**Python: Fenwick Tree - Update Function**\n\nWhich code correctly updates index i by delta?",
+        "choices": [
+            "```python\ndef update(BIT, n, i, delta):\n    while i <= n:\n        BIT[i] += delta\n        i += i & -i\n```",
+            "def update(BIT, n, i, delta):\n    BIT[i] = delta",
+            "def update(BIT, n, i, delta):\n    while i > 0:\n        BIT[i] += delta\n        i -= i & -i",
+            "def update(BIT, n, i, delta):\n    BIT[i] += delta"
+        ],
+        "correctAnswer": "```python\ndef update(BIT, n, i, delta):\n    while i <= n:\n        BIT[i] += delta\n        i += i & -i\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q24",
+        "title": "**RUPQ: How to support Range Update, Point Query with a single Fenwick?**",
+        "choices": [
+            "Maintain BIT over the difference array; add(l,+d) and add(r+1,-d), point value is prefix(i)",
+            "Store segment minimums and lazy tags",
+            "Rebuild prefix sums after each range update",
+            "Use DFS over an explicit tree"
+        ],
+        "correctAnswer": "Maintain BIT over the difference array; add(l,+d) and add(r+1,-d), point value is prefix(i)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q25",
+        "title": "**RURQ with two BITs: what is the correct prefix formula?**",
+        "choices": [
+            "prefix(x) = sum(B1,x) * x - sum(B2,x)",
+            "prefix(x) = sum(B1,x) + sum(B2,x) * x",
+            "prefix(x) = sum(B1,x) - sum(B2,x) / x",
+            "prefix(x) = sum(B2,x)"
+        ],
+        "correctAnswer": "prefix(x) = sum(B1,x) * x - sum(B2,x)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q26",
+        "title": "**Python: 2D Fenwick update skeleton**",
+        "choices": [
+            "```python\n# add at (r,c) by delta (0-based input)\nri = r + 1\nwhile ri <= R:\n    ci = c + 1\n    while ci <= C:\n        T[ri][ci] += delta\n        ci += ci & -ci\n    ri += ri & -ri\n```",
+            "```python\nfor ri in range(r,R):\n    for ci in range(c,C):\n        T[ri][ci] += delta\n```",
+            "```python\nri = r\nwhile ri > 0: ri -= ri & -ri\n```"
+        ],
+        "correctAnswer": "```python\n# add at (r,c) by delta (0-based input)\nri = r + 1\nwhile ri <= R:\n    ci = c + 1\n    while ci <= C:\n        T[ri][ci] += delta\n        ci += ci & -ci\n    ri += ri & -ri\n```"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q27",
+        "title": "**Order statistics on a frequency BIT: what does the bitmask step do in find-by-order?**",
+        "choices": [
+            "Jumps by powers of two to probe candidate indices in O(log n)",
+            "Computes the lowest set bit",
+            "Counts set bits in a range",
+            "Sorts the tree levels"
+        ],
+        "correctAnswer": "Jumps by powers of two to probe candidate indices in O(log n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q28",
+        "title": "**When would you prefer a Fenwick Tree over a Segment Tree?**",
+        "choices": [
+            "When you only need prefix aggregations (sum/max) with point or simple range updates",
+            "When you need arbitrary range minimum queries with complex lazy propagation",
+            "When you need to support strings",
+            "Never"
+        ],
+        "correctAnswer": "When you only need prefix aggregations (sum/max) with point or simple range updates"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q29",
+        "title": "**Which problems map well to BIT patterns?**",
+        "choices": [
+            "Range Sum Query (Mutable), Count of Smaller After Self, Create Sorted Array through Instructions",
+            "Dijkstra's shortest path",
+            "Knuth–Morris–Pratt string matching",
+            "Union-Find connectivity"
+        ],
+        "correctAnswer": "Range Sum Query (Mutable), Count of Smaller After Self, Create Sorted Array through Instructions"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q30",
+        "title": "**Complexity: What is the time for a single 2D Fenwick update?**",
+        "choices": [
+            "O(log R * log C)",
+            "O(log(R+C))",
+            "O(1)",
+            "O(R + C)"
+        ],
+        "correctAnswer": "O(log R * log C)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q31",
+        "title": "**Counting inversions with BIT on array of size n has which complexity?**",
+        "choices": [
+            "O(n log n)",
+            "O(n)",
+            "O(log n)",
+            "O(n^2)"
+        ],
+        "correctAnswer": "O(n log n)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q32",
+        "title": "**Coordinate compression is necessary in which scenario for BIT?**",
+        "choices": [
+            "Values are large/non-contiguous and used as indices",
+            "Array length is prime",
+            "All values are small 0..n",
+            "You use 1-based indexing"
+        ],
+        "correctAnswer": "Values are large/non-contiguous and used as indices"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q33",
+        "title": "**What does the expression `i & (i-1)` do?**",
+        "choices": [
+            "Clears the lowest set bit of i",
+            "Isolates the lowest set bit of i",
+            "Sets the highest set bit of i",
+            "Flips all bits of i"
+        ],
+        "correctAnswer": "Clears the lowest set bit of i"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "source-code",
+        "name": "q34",
+        "title": "**Fenwick Query Equivalence**\\n\\nWhich two parent-step statements are equivalent in a Fenwick prefix-sum loop?",
+        "choices": [
+            "`i -= i & -i` and `i = i & (i-1)`",
+            "`i += i & -i` and `i = i & (i-1)`",
+            "`i ^= i & -i` and `i = i & (i-1)`",
+            "`i |= i & -i` and `i = i & (i-1)`"
+        ],
+        "correctAnswer": "`i -= i & -i` and `i = i & (i-1)`"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q35",
+        "title": "**Move upward (update path)**\\n\\nWith n=16 and 1-based indexing, which indices are touched when updating index i=6?",
+        "choices": [
+            "6, 8, 16",
+            "6, 7, 9, 13",
+            "6, 12, 24",
+            "5, 6, 10, 14"
+        ],
+        "correctAnswer": "6, 8, 16"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q36",
+        "title": "**Move to parent (query path)**\\n\\nComputing prefix(13) with 1-based indexing, which nodes are visited?",
+        "choices": [
+            "13, 12, 8, 0",
+            "13, 14, 16, 0",
+            "13, 9, 1, 0",
+            "13, 11, 7, 3"
+        ],
+        "correctAnswer": "13, 12, 8, 0"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q37",
+        "title": "**Identity**\\n\\nWhich identity is true for any nonzero integer i?",
+        "choices": [
+            "i & (i-1) = i - (i & -i)",
+            "i & (i-1) = i + (i & -i)",
+            "i & (i-1) = (i & -i)",
+            "i & -i = 0"
+        ],
+        "correctAnswer": "i & (i-1) = i - (i & -i)"
+    },
+    {
+        "type": "radiogroup",
+        "questionType": "concept",
+        "name": "q38",
+        "title": "**Partition identity**\\n\\nWhich equation partitions i into disjoint lowest-bit and the rest?",
+        "choices": [
+            "i = (i & (i-1)) + (i & -i)",
+            "i = (i | (i-1)) + (i & -i)",
+            "i = (i ^ (i-1)) + (i & -i)",
+            "i = (i & (i-1)) - (i & -i)"
+        ],
+        "correctAnswer": "i = (i & (i-1)) + (i & -i)"
+    }
+]

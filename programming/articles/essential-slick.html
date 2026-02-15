@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essential Slick — Field Guide</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --bg: #f8fafc;
+      --text: #111827;
+      --muted: #6b7280;
+      --panel: #ffffff;
+      --border: #d1d5db;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
+    header { background: var(--panel); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 5; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 28px; font-weight: 800; }
+    .subtitle { margin: 0; color: var(--muted); }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    button { padding: 10px 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; font-weight: 600; }
+    button.primary { background: var(--primary); color: #fff; }
+    button.secondary { background: #e0e7ff; color: #1e3a8a; }
+    button.ghost { background: transparent; color: #1f2937; border-color: var(--border); }
+    main article { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 24px 0 48px; }
+    h2 { margin-top: 32px; font-size: 24px; }
+    h3 { margin-top: 24px; font-size: 20px; }
+    p { line-height: 1.7; margin: 12px 0; }
+    ul { margin: 12px 0 12px 24px; }
+    pre { background: #0f172a; color: #f9fafb; padding: 14px; border-radius: 10px; overflow-x: auto; border: 1px solid #1f2937; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; }
+    pre code { background: transparent; }
+    blockquote { background: #eef2ff; border-left: 4px solid #4338ca; padding: 16px 18px; border-radius: 10px; margin: 20px 0; color: #1e1b4b; }
+    .toc { background: #f1f5f9; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; }
+    .toc ul { margin-left: 20px; }
+    .callout { border: 1px solid var(--border); border-radius: 10px; padding: 16px; background: #f9fafb; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid var(--border); padding: 10px; text-align: left; }
+    th { background: #e5e7eb; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Essential Slick — Field Guide</div>
+      <div class="subtitle">Practical notes distilled from “Essential Slick 3” (Underscore, 2019)</div>
+      <div class="toolbar">
+        <button class="primary" onclick="window.location.href='../index.html?id=essential-slick-3'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents</strong>
+        <ul>
+          <li><a href="#preface">1. Preface and How to Use This Companion</a></li>
+          <li><a href="#basics">2. Orientation and the Sequel Odyssey Project</a></li>
+          <li><a href="#console">3. Working Interactively with sbt and the REPL</a></li>
+          <li><a href="#selecting">4. Selecting Data with the Lifted API</a></li>
+          <li><a href="#modifying">5. Inserting, Updating, and Deleting Data</a></li>
+          <li><a href="#actions">6. Combining Actions, Transactions, and Error Handling</a></li>
+          <li><a href="#modelling">7. Data Modelling Patterns and Rich Column Types</a></li>
+          <li><a href="#joins">8. Joins, Zips, and Aggregations</a></li>
+          <li><a href="#plain-sql">9. Plain SQL Interoperability</a></li>
+          <li><a href="#workflow">10. Workflow Tips, Exercises, and Further Study</a></li>
+          <li><a href="#python">11. Python Bridge: Verifying Slick Seeds</a></li>
+        </ul>
+      </div>
+
+      <h2 id="preface">1. Preface and How to Use This Companion</h2>
+      <p><em>Essential Slick 3</em> is a hands-on workbook for learning the Scala Slick library. The printed book
+         starts with a pragmatic overview, explains how to stand up a working sample application, and then walks
+         through increasingly advanced topics: query composition, actions, joins, aggregations, and plain SQL fallbacks.
+         This companion article keeps the same chapter cadence so you can cross-reference every paragraph with the
+         source PDF (stored locally at <code>~/Downloads/essential-slick-3.pdf</code>).</p>
+      <p>The authors emphasize two key mindsets: first, treat Slick queries the way you treat Scala collections;
+         second, rely on compile-time feedback to guide your SQL modelling. To benefit from that promise you should
+         read code in a real project, run the sbt console frequently, and practice the exercises at the end of each
+         chapter. Every section below lifts crucial details, warnings, and exercises directly from the book and
+         annotates them with additional field notes gathered while reviewing the original material.</p>
+      <blockquote>
+        <strong>Reading tip:</strong> Keep the Slick scaladocs open at <code>slick/jdbc/JdbcProfile.scala</code> inside
+        the upstream source tree. The book references those types implicitly; browsing the code while reading makes the
+        abstractions less mysterious.
+      </blockquote>
+
+      <h2 id="basics">2. Orientation and the Sequel Odyssey Project</h2>
+      <p>Chapter&nbsp;1, “Basics”, uses a miniature application called <strong>Sequel Odyssey</strong> to walk through the full
+         lifecycle: declare table classes, wire configuration, create DDL, insert sample rows, and issue simple selects.
+         The workflow is intentionally vanilla so newcomers can focus on Slick’s abstractions instead of web frameworks
+         or HTTP layers.</p>
+      <p>Key takeaways from the chapter include:</p>
+      <ul>
+        <li><strong>Lifted embedding.</strong> Slick queries are first-class Scala expressions that compose with familiar
+            collection combinators (<code>map</code>, <code>flatMap</code>, <code>filter</code>, and for-comprehensions).
+            The REPL examples in the book show how the compiler prevents typos such as <code>coffees.map(_.prices)</code>.</li>
+        <li><strong>Minimal configuration.</strong> Use <code>application.conf</code> to specify the JDBC driver, URL,
+            and connection pool settings. The authors show both H2 and PostgreSQL variants, emphasising
+            <code>Database.forConfig</code> as a central entry point.</li>
+        <li><strong>Schema bootstrap.</strong> A <code>TableQuery</code> exposes a <code>schema</code> member. You run
+            <code>db.run(coffees.schema.create)</code> to build tables programmatically. Exercise 1.6 encourages readers to
+            clone the example project and perform these steps using their own dataset.</li>
+      </ul>
+      <p>The Sequel Odyssey walkthrough highlights a recurring pattern: define your tables in a dedicated package,
+         gather inserts and updates in a repository module, and wire database configuration in a separate trait so you
+         can swap profiles in tests.</p>
+
+      <h2 id="console">3. Working Interactively with sbt and the REPL</h2>
+      <p>Still in Chapter&nbsp;1, the authors dedicate multiple pages to the sbt console setup. They demonstrate how to
+         preload imports, seed example data, and verify your environment using the <code>sbt console</code> task. The
+         following scaffold mirrors what you see in the book:</p>
+      <pre><code class="language-scala">import slick.jdbc.H2Profile.api._
+import scala.concurrent.Await
+import scala.concurrent.duration._
+
+val db = Database.forConfig("odyssey")
+val coffees = TableQuery[Coffees]
+
+val actions = DBIO.seq(
+  coffees.schema.createIfNotExists,
+  coffees ++= Seq(
+    Coffee(1, "Latte", 250),
+    Coffee(2, "Cappuccino", 275)
+  ),
+  coffees.filter(_.price &lt; 300).result.map(println)
+)
+
+Await.result(db.run(actions), 5.seconds)
+      </code></pre>
+      <p>The chapter also clarifies why you should keep blocking calls (like <code>Await.result</code>) confined to toy settings
+         and swap to asynchronous orchestration in production. Another practical tip: load REPL helpers from
+         <code>project/Console.scala</code> so you can reuse imports without copy-pasting.</p>
+
+      <h2 id="selecting">4. Selecting Data with the Lifted API</h2>
+      <p>Chapter&nbsp;2 digs deep into select queries. It introduces the <code>Query</code> and <code>TableQuery</code> types, and explains
+         how Slick compiles Scala expressions into SQL. Highlights include:</p>
+      <ul>
+        <li><strong>Declarative filtering.</strong> Compose <code>filter</code>, <code>withFilter</code>, and <code>map</code> just like in
+            Scala collections. Remember that <code>===</code> is the equality operator for <code>Rep</code> values, while
+            <code>=!=</code> stands for inequality.</li>
+        <li><strong>Column expressions.</strong> The book covers numeric, string, and boolean operators (e.g.
+            <code>like</code>, <code>inSet</code>, <code>&lt;&lt;</code> for bit shifts) and shows how they map to SQL clauses.</li>
+        <li><strong>Result mapping.</strong> Use <code>map</code>, <code>sortBy</code>, <code>take</code>, and <code>drop</code> to transform queries
+            before materialising them. When you call <code>result</code>, Slick returns a <code>DBIO</code>; you then run it with
+            <code>db.run</code>.</li>
+      </ul>
+      <p>The chapter concludes with a suite of exercises prompting you to implement custom filters (such as “top 5 most
+         expensive coffees”), experiment with <code>exists</code> subqueries, and revisit SQL equivalents to ensure you can map
+         each Scala expression back to raw SQL when necessary.</p>
+
+      <h2 id="modifying">5. Inserting, Updating, and Deleting Data</h2>
+      <p>Chapter&nbsp;3 pivots to data modification. The authors draw parallels between mutating queries and their select
+         counterparts so you can reuse mental models:</p>
+      <ul>
+        <li><strong>Insertions.</strong> <code>coffees += Coffee(...)</code> for single rows; <code>++=</code> for batches. Use
+            <code>returning</code> to capture generated keys. The book presents an exercise where you insert new users and
+            synchronise the generated IDs with an in-memory cache.</li>
+        <li><strong>Updates.</strong> Build an update query by filtering a <code>TableQuery</code> and calling <code>map</code> to select columns
+            followed by <code>update</code>. If you need to change multiple columns at once, map to a tuple projection first.</li>
+        <li><strong>Deletes.</strong> Delete operations reuse the same filter semantics as selects. The authors emphasise
+            using transactions when updates and deletes must maintain invariants.</li>
+      </ul>
+      <p>A useful pattern from the chapter is to collect all mutation logic inside repository modules that return
+         <code>DBIO</code> values. That makes it straightforward to reuse the same building blocks in tests, transactions, or
+         scheduled jobs.</p>
+
+      <h2 id="actions">6. Combining Actions, Transactions, and Error Handling</h2>
+      <p>Chapter&nbsp;4 turns raw queries into executable workflows. Core concepts:</p>
+      <ul>
+        <li><strong>Action combinators.</strong> Use <code>DBIO.seq</code>, <code>andThen</code>, <code>zip</code>, and for-comprehensions to chain
+            multiple actions while staying inside the <code>DBIO</code> monad.</li>
+        <li><strong>Transactions.</strong> Wrap critical workflows in <code>.transactionally</code>. The book shows how to combine schema
+            creation, inserts, and verification inside a single action to guarantee atomicity.</li>
+        <li><strong>Error handling.</strong> Reach for <code>asTry</code>, <code>cleanUp</code>, and <code>withPinnedSession</code> (when streaming) to
+            manage failures gracefully.</li>
+      </ul>
+      <p>Exercises at the end of the chapter ask you to implement a transactional “create order” pipeline that updates
+         product inventory and inserts an audit record, demonstrating how to coordinate multiple tables seamlessly.</p>
+
+      <h2 id="modelling">7. Data Modelling Patterns and Rich Column Types</h2>
+      <p>Chapter&nbsp;5 expands the running example into a chat-style application, providing recipes for modelling richer
+         data:</p>
+      <ul>
+        <li><strong>Project structure.</strong> Group table definitions, repository objects, and service logic into separate
+            packages. A typical layout places table classes under <code>model</code>, queries under <code>repository</code>, and higher
+            level orchestration under <code>services</code>.</li>
+        <li><strong>Custom column types.</strong> Use <code>MappedColumnType.base</code> to persist enums, <code>java.time</code> types, or
+            domain-specific wrappers. The book provides an <code>Instant</code> example that converts to <code>Timestamp</code>.</li>
+        <li><strong>Optional values and foreign keys.</strong> Define <code>column[Option[T]]</code> for nullable columns and register
+            foreign keys with <code>foreignKey</code>/<code>index</code>. The authors demonstrate cascading deletes and referential
+            integrity checks using Slick’s DDL generation.</li>
+      </ul>
+      <p>The main takeaway is to keep domain objects small and composable. Instead of shoving business logic into case
+         classes, use Slick projections to assemble the exact shape each use case requires.</p>
+
+      <h2 id="joins">8. Joins, Zips, and Aggregations</h2>
+      <p>Chapter&nbsp;6 addresses complex read queries. Techniques highlighted in the book include:</p>
+      <ul>
+        <li><strong>Two join styles.</strong> Applicative joins rely on explicit <code>join</code>/<code>joinLeft</code>/<code>joinRight</code> methods, while
+            monadic joins leverage <code>flatMap</code> and for-comprehensions. The book walks through both so you can choose
+            whichever feels more natural per query.</li>
+        <li><strong>Outer joins and zips.</strong> Learn when to use <code>joinLeft</code> versus <code>zip</code>/<code>zipWith</code> (the latter create
+            position-based tuples when you know the data is aligned).</li>
+        <li><strong>Aggregations.</strong> <code>groupBy</code> combined with <code>map</code> exposes SQL <code>GROUP BY</code> semantics. Use projector
+            helpers like <code>map(_.price)</code> followed by <code>avg</code>, <code>sum</code>, <code>count</code>.</li>
+      </ul>
+      <p>An extended example in the chapter calculates message counts per user, filters by thresholds, and orders results.
+         The accompanying exercises challenge you to reimplement the logic using both join styles to ensure you
+         understand the trade-offs in readability and performance.</p>
+
+      <h2 id="plain-sql">9. Plain SQL Interoperability</h2>
+      <p>The final core chapter, Chapter&nbsp;7, demonstrates how to fall back to plain SQL without abandoning Slick’s
+         infrastructure. Essential points:</p>
+      <ul>
+        <li><strong>Interpolators.</strong> Use <code>sql"..."</code> for select queries (returning <code>SqlStreamingAction</code>) and <code>sqlu"..."</code>
+            for update/DDL statements. Interpolated parameters (<code>${value}</code>) are bound with prepared statements, so you
+            keep SQL injection protection.</li>
+        <li><strong>Custom readers.</strong> Provide <code>GetResult</code> instances to map result sets to domain types. The book shows how
+            to reuse case class constructors and handle optional columns.</li>
+        <li><strong>Hybrid workflows.</strong> You can mix lifted and plain SQL actions inside the same transaction by composing
+            their <code>DBIO</code> representations.</li>
+      </ul>
+      <p>The authors also mention practical debugging tips: enable <code>slick.jdbc.JdbcBackend.statement</code> logging to inspect
+         generated SQL; keep raw SQL snippets small and well-tested; and reach for plain SQL when the lifted DSL does not
+         expose a feature (e.g., vendor-specific window functions).</p>
+
+      <h2 id="workflow">10. Workflow Tips, Exercises, and Further Study</h2>
+      <p>Beyond the chapter-specific content, <em>Essential Slick 3</em> ends with a wrap-up section summarising the learning
+         path:</p>
+      <ul>
+        <li>Start with the Sequel Odyssey example to gain end-to-end familiarity.</li>
+        <li>Practice query composition and action sequencing until manipulating <code>DBIO</code> values feels natural.</li>
+        <li>Model richer schemas incrementally, introducing custom types, optional columns, and foreign keys as needed.</li>
+        <li>Advance to joins, aggregations, and plain SQL to cover the full spectrum of read/write workflows.</li>
+      </ul>
+      <p>The exercises scattered throughout the book encourage repetition: rework the sample application with your own
+         schema, load fixtures from CSV files, and write tests that verify the behaviour of each query. Treat those
+         exercises as a checklist while studying—completing all of them will make the accompanying quiz straightforward.</p>
+
+      <h2 id="python">11. Python Bridge: Verifying Slick Seeds</h2>
+      <p>While Slick is a Scala-first tool, mixed-language teams often rely on Python scripts for data preparation. The
+         snippet below mirrors the book’s data-seeding exercises by loading a CSV file of messages and inserting rows into
+         PostgreSQL. Running it immediately after a Slick migration helps validate that both stacks agree on the schema.</p>
+      <pre><code class="language-python">import csv
+import psycopg2
+from pathlib import Path
+
+DSN = "dbname=slick_odyssey user=odyssey password=odyssey host=localhost"
+CSV_PATH = Path("seed/messages.csv")
+
+with psycopg2.connect(DSN) as conn:
+    with conn.cursor() as cur:
+        with CSV_PATH.open() as fh:
+            reader = csv.DictReader(fh)
+            data = [(
+                row["id"],
+                row["sender"],
+                row["channel"],
+                row["content"],
+                row["created_at"],
+            ) for row in reader]
+        cur.executemany(
+            """
+            INSERT INTO chat_messages (id, sender, channel, content, created_at)
+            VALUES (%s, %s, %s, %s, %s)
+            ON CONFLICT (id) DO UPDATE
+              SET content = EXCLUDED.content,
+                  created_at = EXCLUDED.created_at
+            """,
+            data,
+        )
+    conn.commit()
+print(f"Seeded {len(data)} messages")
+      </code></pre>
+      <p>By mirroring Slick’s <code>insertOrUpdate</code> behaviour, this helper confirms that your PostgreSQL schema matches the
+         expectations defined in Scala. Use it as a regression test whenever you tweak table definitions or add new
+         columns.</p>
+
+      <p class="callout"><strong>Next steps:</strong> Work through the official exercises, then open the “Essential Slick 3” quiz to cement the material. The quiz mirrors the structure above, so you can jump between sections and questions fluidly.</p>
+    </article>
+  </main>
+</body>
+</html>

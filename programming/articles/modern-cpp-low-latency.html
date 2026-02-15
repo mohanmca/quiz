@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern C++ Low-Latency Toolkit (C++17 to C++23)</title>
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f7f9fc; --text:#0f172a; --muted:#64748b; --card:#ffffff; --line:#e5e7eb; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:var(--card); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 24px; font-weight: 800; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#e0f2fe; color:#0f172a; }
+    button.ghost { background:transparent; color:#0f172a; border:1px solid var(--line); }
+    main.container article { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+    h2 { margin-top: 20px; }
+    h3 { margin-top: 16px; }
+    p { line-height: 1.6; }
+    ul { margin-top: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#f1f5f9; color:#0f172a; padding: 1px 4px; border-radius:4px; white-space: pre; }
+    pre { background:#f8fafc; color:#0f172a; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid var(--line); white-space: pre; }
+    pre code { display:block; background:transparent; padding:0; white-space: pre; }
+    table { width:100%; border-collapse: collapse; margin: 12px 0; }
+    th, td { border:1px solid var(--line); padding:10px; text-align:left; }
+    th { background:#f3f4f6; font-weight:700; }
+    tbody tr:nth-child(even) { background:#fafafa; }
+    .diagram { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background:#f8fafc; border:1px solid var(--line); color:#0f172a; padding:12px; border-radius:10px; overflow-x:auto; white-space: pre; }
+    .tip { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; }
+    .note { background:#fefce8; border:1px solid #fde68a; color:#713f12; padding:12px; border-radius:10px; }
+    .muted { color: var(--muted); }
+    .toc a { color:#2563eb; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Modern C++ Low-Latency Toolkit (C++17 to C++23)</div>
+      <div class="subtitle">Allocator control, zero-cost abstractions, atomics, and practical systems patterns</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='modern-cpp-low-latency-slides.html'">View Slides</button>
+        <button class="secondary" onclick="window.location.href='../index.html?id=modern-cpp-low-latency'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents:</strong>
+        <ul>
+          <li><a href="#overview">1. Low-Latency Priorities</a></li>
+          <li><a href="#memory">2. Memory and Allocation Control</a></li>
+          <li><a href="#ownership">3. Ownership and Construction</a></li>
+          <li><a href="#zero">4. Zero-Cost Abstractions</a></li>
+          <li><a href="#concurrency">5. Concurrency and Atomics</a></li>
+          <li><a href="#layout">6. Data Layout and Cache Behavior</a></li>
+          <li><a href="#io">7. I/O and Parsing on Hot Paths</a></li>
+          <li><a href="#errors">8. Error Handling Without Exceptions</a></li>
+          <li><a href="#grpc">9. gRPC and SQL in Latency-Critical Services</a></li>
+          <li><a href="#compile">10. Build-Time and Iteration Tools</a></li>
+          <li><a href="#scenarios">11. Scenarios and Model Answers</a></li>
+          <li><a href="#quiz-code">12. Quiz Code Gallery</a></li>
+          <li><a href="#timeline">13. PR Timeline (gh)</a></li>
+        </ul>
+      </div>
+
+      <h2 id="overview">1. Low-Latency Priorities</h2>
+      <p>
+        Low-latency C++ is less about micro-optimizations and more about <strong>predictability</strong>:
+        avoid allocations in hot paths, minimize branch mispredictions, reduce cache misses, and keep
+        error handling explicit. Modern C++ provides a large set of tools to encode these decisions
+        directly in your APIs.
+      </p>
+
+      <h2 id="memory">2. Memory and Allocation Control</h2>
+      <p>Memory allocation is a top source of tail latency. Use <code>std::pmr</code> and pools to move allocation decisions out of hot paths.</p>
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Why it helps</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>std::pmr::memory_resource</code></td><td>Centralized allocation policy</td><td>Swap allocators without changing containers</td></tr>
+          <tr><td><code>std::pmr::monotonic_buffer_resource</code></td><td>Fast bump allocation</td><td>Deallocations are no-ops</td></tr>
+          <tr><td><code>std::byte</code></td><td>Type-safe raw memory</td><td>Prevents accidental arithmetic on bytes</td></tr>
+        </tbody>
+      </table>
+      <pre><code class="language-cpp">#include &lt;memory_resource&gt;
+#include &lt;vector&gt;
+
+std::byte arena[4096];
+std::pmr::monotonic_buffer_resource pool{arena, sizeof(arena)};
+std::pmr::vector&lt;int&gt; v{&amp;pool};
+// v now allocates from arena with predictable latency
+</code></pre>
+
+      <h2 id="ownership">3. Ownership and Construction</h2>
+      <ul>
+        <li><strong>Move semantics + copy elision:</strong> avoid copies and intermediate allocations.</li>
+        <li><strong>std::optional:</strong> explicit missing values instead of sentinels.</li>
+        <li><strong>std::variant:</strong> tagged union with predictable branching.</li>
+        <li><strong>std::unique_ptr:</strong> deterministic destruction without ref counting.</li>
+      </ul>
+
+      <h2 id="zero">4. Zero-Cost Abstractions</h2>
+      <p>Use the type system to move work to compile time and avoid runtime checks.</p>
+      <pre><code class="language-cpp">template &lt;typename T&gt;
+concept ByteLike = requires(T v) { sizeof(v) == 1; };
+
+template &lt;ByteLike T&gt;
+constexpr int parse_hex(T c) {
+  if constexpr (T{'0'} &lt;= c && c &lt;= T{'9'}) return int(c - T{'0'});
+  return 10 + int(c - T{'a'});
+}
+</code></pre>
+      <div class="note">Use <code>consteval</code> for compile-time only computation and <code>constinit</code> to prevent static init order issues.</div>
+
+      <h2 id="concurrency">5. Concurrency and Atomics</h2>
+      <p>For low-latency pipelines, atomics can outperform locks, but only with precise memory ordering.</p>
+      <table>
+        <thead>
+          <tr><th>Atomic feature</th><th>Use case</th><th>Latency impact</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>std::atomic_ref</code></td><td>Atomic ops on existing memory</td><td>Retrofitting atomics without refactor</td></tr>
+          <tr><td><code>memory_order_relaxed</code></td><td>Counters, stats</td><td>Minimal ordering cost</td></tr>
+          <tr><td><code>std::jthread</code></td><td>RAII thread lifecycle</td><td>Safe teardown without leaks</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="layout">6. Data Layout and Cache Behavior</h2>
+      <p>Keep data tight and predictable. Use <code>alignas</code> to separate cache lines and <code>[[no_unique_address]]</code> for empty members.</p>
+      <div class="diagram">SoA vs AoS (conceptual)
+
+AoS: [x,y,z][x,y,z][x,y,z]  (cache lines contain unused fields)
+SoA: [x,x,x,x][y,y,y,y][z,z,z,z]  (sequential access is cache-friendly)
+</div>
+      <ul>
+        <li><strong>std::span</strong> gives zero-copy views over arrays.</li>
+        <li><strong>std::bit_cast</strong> enables safe bit-level transforms for same-sized types.</li>
+      </ul>
+
+      <h2 id="io">7. I/O and Parsing on Hot Paths</h2>
+      <p>Use <code>from_chars</code> / <code>to_chars</code> for allocation-free parsing and formatting. Prefer <code>string_view</code> when lifetimes are controlled.</p>
+      <pre><code class="language-cpp">#include &lt;charconv&gt;
+
+int value = 0;
+auto result = std::from_chars(buf, buf + len, value);
+if (result.ec == std::errc{}) {
+  // value parsed without allocations or locale
+}
+</code></pre>
+      <p class="muted">Note: <code>std::format</code> can be compile-time checked, but formatting still happens at runtime.</p>
+
+      <h2 id="errors">8. Error Handling Without Exceptions</h2>
+      <p>Exceptions can create unpredictable latency spikes. <code>std::expected</code> provides explicit error paths.</p>
+      <pre><code class="language-cpp">std::expected&lt;Order, Error&gt; decode_order(std::span&lt;const std::byte&gt; payload);
+</code></pre>
+      <div class="tip">Use accurate <code>noexcept</code> to unlock better code generation and move optimizations.</div>
+
+      <h2 id="grpc">9. gRPC and SQL in Latency-Critical Services</h2>
+      <h3>gRPC</h3>
+      <ul>
+        <li>Reuse channels and stubs. Creating them per request adds latency.</li>
+        <li>Prefer async APIs with <code>CompletionQueue</code> for high-throughput pipelines.</li>
+      </ul>
+      <pre><code class="language-cpp">auto channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+MyService::Stub stub(channel);
+// Reuse stub for many requests
+</code></pre>
+      <h3>SQL</h3>
+      <ul>
+        <li>Use prepared statements to remove parse/plan overhead.</li>
+        <li>Bind parameters instead of building strings on every call.</li>
+      </ul>
+      <pre><code class="language-cpp">// Pseudocode
+stmt = conn.prepare("SELECT price FROM quotes WHERE id = $1");
+stmt.bind(order_id);
+row = stmt.exec_one();
+</code></pre>
+
+      <h2 id="compile">10. Build-Time and Iteration Tools</h2>
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>What it gives you</th><th>Latency relevance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Modules</td><td>Cleaner builds, faster iteration</td><td>Faster latency tuning cycles</td></tr>
+          <tr><td>Coroutines</td><td>Async without threads</td><td>Lower context switch overhead</td></tr>
+          <tr><td>flat_map / flat_set</td><td>Cache-friendly containers</td><td>Predictable traversal</td></tr>
+          <tr><td>Deducing this</td><td>Cleaner static polymorphism</td><td>Enables inlining</td></tr>
+          <tr><td>Static reflection (future)</td><td>Compile-time inspection</td><td>Zero-cost serialization</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Python micro-benchmark helper</h3>
+      <p>This Python harness can help measure per-iteration latency while you prototype algorithms.</p>
+      <pre><code class="language-python">import time
+
+def measure(fn, iters=100000):
+    start = time.perf_counter()
+    for _ in range(iters):
+        fn()
+    end = time.perf_counter()
+    return (end - start) / iters
+
+# Example usage
+lat = measure(lambda: (12345 * 67890) % 97)
+print(f"avg seconds per op: {lat:.9f}")
+</code></pre>
+
+      <h2 id="scenarios">11. Scenarios and Model Answers</h2>
+      <ol>
+        <li><strong>Hot-path parsing:</strong> Replace <code>std::stoi</code> with <code>from_chars</code> and return <code>std::expected</code> for errors.</li>
+        <li><strong>Allocator spikes:</strong> Move per-request allocations into a <code>pmr::monotonic_buffer_resource</code> and reset per request.</li>
+        <li><strong>Concurrency hot spots:</strong> Use <code>atomic_ref</code> for counters and keep memory ordering minimal but correct.</li>
+      </ol>
+
+      <h2 id="quiz-code">12. Quiz Code Gallery</h2>
+      <p>Each quiz slide includes a code snippet. This gallery mirrors the snippets so they render cleanly in the article.</p>
+      <div class="note">Tip: jump between quiz and article to review the same snippet and its concept.</div>
+      <!-- QUIZ_CODE_GALLERY_START -->
+<h3 id="q1">Q1</h3>
+<pre><code class="language-cpp">std::byte arena[1024];
+std::pmr::monotonic_buffer_resource pool{arena, sizeof(arena)};
+std::pmr::vector&lt;int&gt; v{&amp;pool};</code></pre>
+<h3 id="q2">Q2</h3>
+<pre><code class="language-cpp">std::pmr::monotonic_buffer_resource pool;
+std::pmr::polymorphic_allocator&lt;int&gt; alloc{&amp;pool};
+int* p = alloc.allocate(10);
+alloc.deallocate(p, 10);</code></pre>
+<h3 id="q3">Q3</h3>
+<pre><code class="language-cpp">struct MyRes : std::pmr::memory_resource {
+  void* do_allocate(size_t, size_t) override;
+  void do_deallocate(void*, size_t, size_t) override;
+  bool do_is_equal(const std::pmr::memory_resource&amp;) const noexcept override;
+};</code></pre>
+<h3 id="q4">Q4</h3>
+<pre><code class="language-cpp">std::pmr::unsynchronized_pool_resource pool;
+std::pmr::string s{&amp;pool};</code></pre>
+<h3 id="q5">Q5</h3>
+<pre><code class="language-cpp">std::byte b{0x3f};
+int x = std::to_integer&lt;int&gt;(b);</code></pre>
+<h3 id="q6">Q6</h3>
+<pre><code class="language-cpp">consteval auto make_table(){
+  std::array&lt;int,4&gt; a{1,2,3,4};
+  return a;
+}
+constexpr auto table = make_table();</code></pre>
+<h3 id="q7">Q7</h3>
+<pre><code class="language-cpp">std::string make(){ return std::string(&quot;x&quot;); }
+auto s = make();</code></pre>
+<h3 id="q8">Q8</h3>
+<pre><code class="language-cpp">std::optional&lt;int&gt; parse(std::string_view s){
+  if (s.empty()) return std::nullopt;
+  return 42;
+}</code></pre>
+<h3 id="q9">Q9</h3>
+<pre><code class="language-cpp">std::variant&lt;int, double&gt; v = 3.14;</code></pre>
+<h3 id="q10">Q10</h3>
+<pre><code class="language-cpp">auto p = std::make_unique&lt;Foo&gt;();</code></pre>
+<h3 id="q11">Q11</h3>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+int f(T v){
+  if constexpr (std::is_integral_v&lt;T&gt;) return v + 1;
+  else return 0;
+}</code></pre>
+<h3 id="q12">Q12</h3>
+<pre><code class="language-cpp">template &lt;typename T&gt;
+concept Addable = requires(T a, T b){ a + b; };</code></pre>
+<h3 id="q13">Q13</h3>
+<pre><code class="language-cpp">template &lt;typename D&gt;
+struct Base {
+  void log(){ static_cast&lt;D*&gt;(this)-&gt;impl(); }
+};
+struct X : Base&lt;X&gt; { void impl(){} };</code></pre>
+<h3 id="q14">Q14</h3>
+<pre><code class="language-cpp">constexpr int sum(){
+  int s = 0;
+  for (int i = 0; i &lt; 4; i++) s += i;
+  return s;
+}
+constexpr int v = sum();</code></pre>
+<h3 id="q15">Q15</h3>
+<pre><code class="language-cpp">consteval int twice(int x){ return x * 2; }
+constexpr int y = twice(3);</code></pre>
+<h3 id="q16">Q16</h3>
+<pre><code class="language-cpp">constinit int g_counter = 42;</code></pre>
+<h3 id="q17">Q17</h3>
+<pre><code class="language-cpp">struct Config { int n; };
+constexpr Config C{64};
+
+template &lt;Config Cfg&gt;
+struct Buf { char data[Cfg.n]; };
+
+Buf&lt;C&gt; b;</code></pre>
+<h3 id="q18">Q18</h3>
+<pre><code class="language-cpp">int counter = 0;
+std::atomic_ref&lt;int&gt; a(counter);
+a.fetch_add(1, std::memory_order_relaxed);</code></pre>
+<h3 id="q19">Q19</h3>
+<pre><code class="language-cpp">std::atomic&lt;int&gt; a{0};
+a.fetch_add(1, std::memory_order_relaxed);</code></pre>
+<h3 id="q20">Q20</h3>
+<pre><code class="language-cpp">// Writer
+payload = 42;
+flag.store(true, std::memory_order_release);
+
+// Reader
+while (!flag.load(std::memory_order_acquire)) {}
+use(payload);</code></pre>
+<h3 id="q21">Q21</h3>
+<pre><code class="language-cpp">std::jthread t([](std::stop_token st){
+  while (!st.stop_requested()) {
+    // work
+  }
+});</code></pre>
+<h3 id="q22">Q22</h3>
+<pre><code class="language-cpp">std::atomic&lt;size_t&gt; head{0};
+std::atomic&lt;size_t&gt; tail{0};</code></pre>
+<h3 id="q23">Q23</h3>
+<pre><code class="language-cpp">struct alignas(64) Slot { std::atomic&lt;int&gt; v; };</code></pre>
+<h3 id="q24">Q24</h3>
+<pre><code class="language-cpp">size_t a = alignof(std::max_align_t);</code></pre>
+<h3 id="q25">Q25</h3>
+<pre><code class="language-cpp">struct E{};
+struct S {
+  [[no_unique_address]] E e;
+  int x;
+};</code></pre>
+<h3 id="q26">Q26</h3>
+<pre><code class="language-cpp">void f(std::span&lt;const int&gt; s);
+std::vector&lt;int&gt; v;
+f(v);</code></pre>
+<h3 id="q27">Q27</h3>
+<pre><code class="language-cpp">uint32_t u = 0x3f800000;
+float f = std::bit_cast&lt;float&gt;(u);</code></pre>
+<h3 id="q28">Q28</h3>
+<pre><code class="language-cpp">struct AoS { float x, y, z; };
+std::vector&lt;AoS&gt; pts;</code></pre>
+<h3 id="q29">Q29</h3>
+<pre><code class="language-cpp">if (count == 0) [[unlikely]] {
+  log_empty();
+}</code></pre>
+<h3 id="q30">Q30</h3>
+<pre><code class="language-cpp">std::assume(ptr != nullptr);
+*ptr = 1;</code></pre>
+<h3 id="q31">Q31</h3>
+<pre><code class="language-cpp">switch (mode) {
+  case 0: fast(); break;
+  case 1: slow(); break;
+  default: std::unreachable();
+}</code></pre>
+<h3 id="q32">Q32</h3>
+<pre><code class="language-cpp">char buf[] = &quot;123&quot;;
+int value = 0;
+auto [ptr, ec] = std::from_chars(buf, buf + 3, value);</code></pre>
+<h3 id="q33">Q33</h3>
+<pre><code class="language-cpp">char out[32];
+auto [ptr, ec] = std::to_chars(out, out + 32, 12345);</code></pre>
+<h3 id="q34">Q34</h3>
+<pre><code class="language-cpp">std::string_view sv;
+{
+  std::string s = &quot;hi&quot;;
+  sv = s;
+}
+// use sv here</code></pre>
+<h3 id="q35">Q35</h3>
+<pre><code class="language-cpp">auto s = std::format(&quot;id {}&quot;, id);</code></pre>
+<h3 id="q36">Q36</h3>
+<pre><code class="language-cpp">std::expected&lt;int, Error&gt; r = parse();
+if (!r) return r.error();</code></pre>
+<h3 id="q37">Q37</h3>
+<pre><code class="language-cpp">struct X { X(X&amp;&amp;) noexcept; };
+std::vector&lt;X&gt; v;
+v.push_back(X{});</code></pre>
+<h3 id="q38">Q38</h3>
+<pre><code class="language-cpp">auto [id, price] = get_quote();</code></pre>
+<h3 id="q39">Q39</h3>
+<pre><code class="language-cpp">auto v = xs | std::views::filter(pred);</code></pre>
+<h3 id="q40">Q40</h3>
+<pre><code class="language-cpp">struct Order { int id; double px; };
+Order o{ .px = 10.5, .id = 7 };</code></pre>
+<h3 id="q41">Q41</h3>
+<pre><code class="language-cpp">import std;
+import mylib;</code></pre>
+<h3 id="q42">Q42</h3>
+<pre><code class="language-cpp">task&lt;int&gt; f(){
+  co_return 42;
+}</code></pre>
+<h3 id="q43">Q43</h3>
+<pre><code class="language-cpp">std::flat_map&lt;int,int&gt; m;
+m.insert({1, 2});</code></pre>
+<h3 id="q44">Q44</h3>
+<pre><code class="language-cpp">struct S {
+  int n;
+  auto size(this auto&amp;&amp; self){ return self.n; }
+};</code></pre>
+<h3 id="q45">Q45</h3>
+<pre><code class="language-cpp">std::print(&quot;{}&quot;, x);</code></pre>
+<h3 id="q46">Q46</h3>
+<pre><code class="language-cpp">std::pmr::string s{&amp;pool};
+s.append(&quot;abc&quot;);</code></pre>
+<h3 id="q47">Q47</h3>
+<pre><code class="language-cpp">std::pmr::unsynchronized_pool_resource pool;
+std::pmr::unordered_set&lt;int&gt; set{&amp;pool};</code></pre>
+<h3 id="q48">Q48</h3>
+<pre><code class="language-cpp">class CountingRes : public std::pmr::memory_resource {
+  size_t bytes = 0;
+  void* do_allocate(size_t n, size_t) override { bytes += n; return std::malloc(n); }
+  void do_deallocate(void* p, size_t, size_t) override { std::free(p); }
+  bool do_is_equal(const std::pmr::memory_resource&amp;) const noexcept override { return false; }
+};</code></pre>
+<h3 id="q49">Q49</h3>
+<pre><code class="language-cpp">std::byte* p = buffer;
+p += 16;</code></pre>
+<h3 id="q50">Q50</h3>
+<pre><code class="language-cpp">consteval auto make_ids(){
+  std::array&lt;int,3&gt; a{1,2,3};
+  return a;
+}
+constexpr auto ids = make_ids();</code></pre>
+<h3 id="q51">Q51</h3>
+<pre><code class="language-cpp">struct alignas(4) S { int v; };
+S s{0};
+std::atomic_ref&lt;int&gt; ar(s.v);</code></pre>
+<h3 id="q52">Q52</h3>
+<pre><code class="language-cpp">// Producer
+buffer[tail] = item;
+tail.store(next, std::memory_order_release);
+// Consumer
+size_t t = tail.load(std::memory_order_acquire);</code></pre>
+<h3 id="q53">Q53</h3>
+<pre><code class="language-cpp">std::jthread t([](std::stop_token st){ /* work */ });
+t.request_stop();</code></pre>
+<h3 id="q54">Q54</h3>
+<pre><code class="language-cpp">std::atomic&lt;int&gt; a{0};
+bool lf = a.is_lock_free();</code></pre>
+<h3 id="q55">Q55</h3>
+<pre><code class="language-cpp">struct Counters { std::atomic&lt;int&gt; a; std::atomic&lt;int&gt; b; };</code></pre>
+<h3 id="q56">Q56</h3>
+<pre><code class="language-cpp">struct alignas(64) Counter { std::atomic&lt;int&gt; v; };
+Counter c1, c2;</code></pre>
+<h3 id="q57">Q57</h3>
+<pre><code class="language-cpp">struct Noop { void operator()(int*) const {} };
+struct P {
+  [[no_unique_address]] Noop d;
+  int* p;
+};</code></pre>
+<h3 id="q58">Q58</h3>
+<pre><code class="language-cpp">int arr[4] = {1,2,3,4};
+std::span&lt;int&gt; s(arr);</code></pre>
+<h3 id="q59">Q59</h3>
+<pre><code class="language-cpp">std::span&lt;const std::byte&gt; s(buf, len);</code></pre>
+<h3 id="q60">Q60</h3>
+<pre><code class="language-cpp">float f = 1.0f;
+auto bits = std::bit_cast&lt;uint32_t&gt;(f);</code></pre>
+<h3 id="q61">Q61</h3>
+<pre><code class="language-cpp">struct SoA {
+  std::vector&lt;float&gt; x, y, z;
+};</code></pre>
+<h3 id="q62">Q62</h3>
+<pre><code class="language-cpp">if (fast_path()) [[likely]] {
+  handle_fast();
+}</code></pre>
+<h3 id="q63">Q63</h3>
+<pre><code class="language-cpp">if (!ptr) return;
+std::assume(ptr != nullptr);
+use(ptr);</code></pre>
+<h3 id="q64">Q64</h3>
+<pre><code class="language-cpp">[[noreturn]] void bad(){ std::unreachable(); }</code></pre>
+<h3 id="q65">Q65</h3>
+<pre><code class="language-cpp">auto [p, ec] = std::from_chars(buf, end, value);
+if (ec != std::errc{}) { /* handle error */ }</code></pre>
+<h3 id="q66">Q66</h3>
+<pre><code class="language-cpp">char out[2];
+auto [p, ec] = std::to_chars(out, out + 2, 1000);</code></pre>
+<h3 id="q67">Q67</h3>
+<pre><code class="language-cpp">void log(std::string_view sv);</code></pre>
+<h3 id="q68">Q68</h3>
+<pre><code class="language-cpp">auto s = std::format(&quot;price {}&quot;, price);</code></pre>
+<h3 id="q69">Q69</h3>
+<pre><code class="language-cpp">std::print(&quot;{}&quot;, msg);</code></pre>
+<h3 id="q70">Q70</h3>
+<pre><code class="language-cpp">std::expected&lt;Value, Error&gt; v = read();
+if (!v) return v.error();</code></pre>
+<h3 id="q71">Q71</h3>
+<pre><code class="language-cpp">struct T { T(T&amp;&amp;) noexcept; };
+std::vector&lt;T&gt; v;
+v.reserve(2);</code></pre>
+<h3 id="q72">Q72</h3>
+<pre><code class="language-cpp">for (auto&amp; [k, v] : map) { /* use k and v */ }</code></pre>
+<h3 id="q73">Q73</h3>
+<pre><code class="language-cpp">auto out = data
+  | std::views::transform(f)
+  | std::views::take(10);</code></pre>
+<h3 id="q74">Q74</h3>
+<pre><code class="language-cpp">struct Order { int id; double px; };
+Order o{ .id = 7, .px = 10.5 };</code></pre>
+<h3 id="q75">Q75</h3>
+<pre><code class="language-cpp">import mylib;</code></pre>
+<h3 id="q76">Q76</h3>
+<pre><code class="language-cpp">task&lt;&gt; handle(){
+  co_await socket.read();
+}</code></pre>
+<h3 id="q77">Q77</h3>
+<pre><code class="language-cpp">std::flat_set&lt;int&gt; s;
+s.insert(3);</code></pre>
+<h3 id="q78">Q78</h3>
+<pre><code class="language-cpp">struct S {
+  int n;
+  auto inc(this auto&amp;&amp; self){ return ++self.n; }
+};</code></pre>
+<h3 id="q79">Q79</h3>
+<pre><code class="language-cpp">auto s = std::format(&quot;{}&quot;, id);</code></pre>
+<h3 id="q80">Q80</h3>
+<pre><code class="language-cpp">auto channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+auto stub = Service::NewStub(channel);</code></pre>
+<h3 id="q81">Q81</h3>
+<pre><code class="language-cpp">grpc::CompletionQueue cq;
+// poll completion events</code></pre>
+<h3 id="q82">Q82</h3>
+<pre><code class="language-cpp">auto stream = stub-&gt;Stream(&amp;ctx);
+// send many messages on the same stream</code></pre>
+<h3 id="q83">Q83</h3>
+<pre><code class="language-cpp">auto stmt = conn.prepare(&quot;SELECT price FROM quotes WHERE id = ?&quot;);
+stmt.bind(id);</code></pre>
+<h3 id="q84">Q84</h3>
+<pre><code class="language-cpp">std::string q = &quot;SELECT ... WHERE id=&quot; + std::to_string(id);</code></pre>
+<h3 id="q85">Q85</h3>
+<pre><code class="language-cpp">conn.begin();
+// multiple updates
+conn.commit();</code></pre>
+<h3 id="q86">Q86</h3>
+<pre><code class="language-cpp">std::unordered_map&lt;int, Quote&gt; cache;
+if (auto it = cache.find(id); it != cache.end()) { return it-&gt;second; }</code></pre>
+<h3 id="q87">Q87</h3>
+<pre><code class="language-cpp">size_t next = (head + 1) &amp; (N - 1); // N is power of two</code></pre>
+<h3 id="q88">Q88</h3>
+<pre><code class="language-cpp">class Manager {};
+class OrderBook {};</code></pre>
+<h3 id="q89">Q89</h3>
+<pre><code class="language-cpp">static_assert(std::is_trivially_copyable_v&lt;T&gt;);</code></pre>
+<h3 id="q90">Q90</h3>
+<pre><code class="language-cpp">static_assert(std::is_standard_layout_v&lt;S&gt;);</code></pre>
+<h3 id="q91">Q91</h3>
+<pre><code class="language-cpp">static_assert(std::is_aggregate_v&lt;S&gt;);</code></pre>
+<h3 id="q92">Q92</h3>
+<pre><code class="language-cpp">struct alignas(64) X { int a; int b; };</code></pre>
+<h3 id="q93">Q93</h3>
+<pre><code class="language-cpp">constexpr auto table = []{
+  std::array&lt;int, 256&gt; t{};
+  for (int i = 0; i &lt; 256; i++) t[i] = i * i;
+  return t;
+}();</code></pre>
+<h3 id="q94">Q94</h3>
+<pre><code class="language-cpp">std::optional&lt;int&gt; opt;
+int v = opt.value_or(0);</code></pre>
+<h3 id="q95">Q95</h3>
+<pre><code class="language-cpp">std::variant&lt;int, double&gt; v;
+if (auto p = std::get_if&lt;int&gt;(&amp;v)) { /* use *p */ }</code></pre>
+<h3 id="q96">Q96</h3>
+<pre><code class="language-cpp">std::unique_ptr&lt;Foo, Deleter&gt; p;</code></pre>
+<h3 id="q97">Q97</h3>
+<pre><code class="language-cpp">auto p = std::shared_ptr&lt;Foo&gt;(new Foo);</code></pre>
+<h3 id="q98">Q98</h3>
+<pre><code class="language-cpp">std::string_view sv = line;
+std::from_chars(sv.data(), sv.data() + sv.size(), value);</code></pre>
+<h3 id="q99">Q99</h3>
+<pre><code class="language-cpp">auto start = std::chrono::steady_clock::now();
+// work</code></pre>
+<h3 id="q100">Q100</h3>
+<pre><code class="language-cpp">std::atomic&lt;int&gt; a{0};
+a.store(1, std::memory_order_seq_cst);</code></pre>
+
+
+      <h2 id="timeline">13. PR Timeline (gh)</h2>
+      <p class="muted">gh CLI scan on 2026-01-31 returned no PRs for this repository.</p>
+      <table>
+        <thead>
+          <tr><th>Date</th><th>PR</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2026-01-31</td><td>None</td><td>No PRs found</td><td>gh pr list --state all --limit 20</td></tr>
+        </tbody>
+      </table>
+    </article>
+  </main>
+</body>
+</html>

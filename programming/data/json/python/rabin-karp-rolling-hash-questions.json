@@ -1,0 +1,813 @@
+[
+  {
+    "title": "What is the main idea behind the Rabin–Karp string search algorithm?",
+    "choices": [
+      "Compare pattern to every window character-by-character",
+      "Use a rolling hash to compare numeric fingerprints first",
+      "Build a suffix array to search substrings",
+      "Use dynamic programming to compute edit distance"
+    ],
+    "correctAnswer": "Use a rolling hash to compare numeric fingerprints first"
+  },
+  {
+    "title": "Which property makes Rabin–Karp efficient on average?",
+    "choices": [
+      "Greedy window expansion",
+      "Amortized O(1) rolling hash update",
+      "Divide-and-conquer substring splitting",
+      "Prefix-function reuse"
+    ],
+    "correctAnswer": "Amortized O(1) rolling hash update"
+  },
+  {
+    "title": "Common polynomial rolling hash for s[0..m-1] is:",
+    "choices": [
+      "H = sum(s[i] * base^i) mod M",
+      "H = product(s[i] + base^i) mod M",
+      "H = xor(s[i] << i) mod M",
+      "H = sum(i * s[i]) mod M"
+    ],
+    "correctAnswer": "H = sum(s[i] * base^i) mod M"
+  },
+  {
+    "title": "Why use modulus M (large prime)?",
+    "choices": [
+      "Avoid overflow and spread hash values",
+      "Speed up bitwise operations",
+      "Guarantee collision-free hashing",
+      "Avoid need for base"
+    ],
+    "correctAnswer": "Avoid overflow and spread hash values"
+  },
+  {
+    "title": "Why use a base in polynomial hash?",
+    "choices": [
+      "Convert characters to ASCII",
+      "Weigh character positions differently",
+      "Make hashing commutative",
+      "Remove need for modulus"
+    ],
+    "correctAnswer": "Weigh character positions differently"
+  },
+  {
+    "title": "Good base for 'a'..'z' is:",
+    "choices": [
+      "2",
+      "26 or ~31",
+      "10",
+      "1000"
+    ],
+    "correctAnswer": "26 or ~31"
+  },
+  {
+    "title": "Good base for general bytes is:",
+    "choices": [
+      "26",
+      "128 or 256",
+      "10",
+      "7"
+    ],
+    "correctAnswer": "128 or 256"
+  },
+  {
+    "title": "Collision handling in Rabin–Karp:",
+    "choices": [
+      "Impossible",
+      "Verify candidate windows with exact compare",
+      "Modulus detects all collisions",
+      "Ignore because rare"
+    ],
+    "correctAnswer": "Verify candidate windows with exact compare"
+  },
+  {
+    "title": "Rolling update for right slide (length m):",
+    "choices": [
+      "H' = H + base^(m-1)*s_in - s_out",
+      "H' = (H - s_out*base^(m-1)) * base + s_in (mod M)",
+      "H' = H / base + s_in - s_out",
+      "H' = H xor s_out xor s_in"
+    ],
+    "correctAnswer": "H' = (H - s_out*base^(m-1)) * base + s_in (mod M)"
+  },
+  {
+    "title": "Handling negatives after subtraction under mod:",
+    "choices": [
+      "Ignore negatives",
+      "Add M before % M again",
+      "Multiply by base",
+      "Set to zero"
+    ],
+    "correctAnswer": "Add M before % M again"
+  },
+  {
+    "title": "Worst-case time for Rabin–Karp (n text, m pattern):",
+    "choices": [
+      "O(n)",
+      "O(n log n)",
+      "O(n + m)",
+      "O(nm) when many collisions"
+    ],
+    "correctAnswer": "O(nm) when many collisions"
+  },
+  {
+    "title": "Expected average-case for single pattern:",
+    "choices": [
+      "O(n/m)",
+      "O(n)",
+      "O(m)",
+      "O(log n)"
+    ],
+    "correctAnswer": "O(n)"
+  },
+  {
+    "title": "Why precompute base^(m-1) % M?",
+    "choices": [
+      "To quickly remove outgoing char contribution",
+      "To avoid computing modulus",
+      "To make base smaller",
+      "To increase collisions"
+    ],
+    "correctAnswer": "To quickly remove outgoing char contribution"
+  },
+  {
+    "title": "Typical character mapping is:",
+    "choices": [
+      "Direct Unicode code point only",
+      "ASCII or small offset like ord(c)-96",
+      "Random per character",
+      "Hash(\"char\")"
+    ],
+    "correctAnswer": "ASCII or small offset like ord(c)-96"
+  },
+  {
+    "title": "Good choices for modulus M:",
+    "choices": [
+      "Small composites like 1000",
+      "Large primes ~1e9+7 or 1e9+9",
+      "Always power of two",
+      "Zero (no modulus)"
+    ],
+    "correctAnswer": "Large primes ~1e9+7 or 1e9+9"
+  },
+  {
+    "title": "Double hashing means:",
+    "choices": [
+      "Two patterns with one hash",
+      "Two (base, M) pairs to reduce collisions",
+      "Hash each character twice",
+      "Use MD5 with polynomial hash"
+    ],
+    "correctAnswer": "Two (base, M) pairs to reduce collisions"
+  },
+  {
+    "title": "When is Rabin–Karp especially attractive?",
+    "choices": [
+      "Single pattern in collision-heavy text",
+      "Many patterns of same length against one text",
+      "Very small patterns only",
+      "Real-time streaming without hashing"
+    ],
+    "correctAnswer": "Many patterns of same length against one text"
+  },
+  {
+    "title": "Use-case best suited for Rabin–Karp:",
+    "choices": [
+      "Edit distance search",
+      "Plagiarism detection via shingles",
+      "Single exact find in editor",
+      "Approximate regex matching"
+    ],
+    "correctAnswer": "Plagiarism detection via shingles"
+  },
+  {
+    "title": "DNA k-mers mapping typically uses:",
+    "choices": [
+      "A→1, C→2, G→3, T→4 (base 5)",
+      "A→0, C→1, G→2, T→3 (base 4)",
+      "ASCII codes (base 256)",
+      "Random primes per nucleotide"
+    ],
+    "correctAnswer": "A→0, C→1, G→2, T→3 (base 4)"
+  },
+  {
+    "title": "Benefit of base-4 rolling hash for DNA k-mers:",
+    "choices": [
+      "No need to verify",
+      "O(1) window updates with tiny alphabet",
+      "Collision-free hashes",
+      "Better than KMP always"
+    ],
+    "correctAnswer": "O(1) window updates with tiny alphabet"
+  },
+  {
+    "title": "Multi-pattern with Rabin–Karp works best when:",
+    "choices": [
+      "Patterns have different lengths",
+      "Patterns have equal length",
+      "Text is shorter than patterns",
+      "Using no modulus"
+    ],
+    "correctAnswer": "Patterns have equal length"
+  },
+  {
+    "title": "KMP overall worst-case time for text n, pattern m:",
+    "choices": [
+      "O(nm)",
+      "O(n + m)",
+      "O(n log m)",
+      "O(m^2)"
+    ],
+    "correctAnswer": "O(n + m)"
+  },
+  {
+    "title": "Core KMP preprocessing builds:",
+    "choices": [
+      "Suffix array",
+      "Failure (LPS) table",
+      "Hash set of windows",
+      "Trie of patterns"
+    ],
+    "correctAnswer": "Failure (LPS) table"
+  },
+  {
+    "title": "KMP is typically preferred for:",
+    "choices": [
+      "One pattern against a large text",
+      "Many equal-length patterns",
+      "Approximate substring search",
+      "Plagiarism shingle matching"
+    ],
+    "correctAnswer": "One pattern against a large text"
+  },
+  {
+    "title": "Contrast: collisions in RK vs KMP:",
+    "choices": [
+      "Neither has collisions",
+      "Only RK can collide; KMP doesn't hash",
+      "Both may collide often",
+      "Only KMP collides"
+    ],
+    "correctAnswer": "Only RK can collide; KMP doesn't hash"
+  },
+  {
+    "title": "Comparing preprocessing cost:",
+    "choices": [
+      "RK: none; KMP: none",
+      "RK: powers/hash; KMP: LPS table",
+      "RK: suffix tree; KMP: suffix array",
+      "Both require Aho–Corasick"
+    ],
+    "correctAnswer": "RK: powers/hash; KMP: LPS table"
+  },
+  {
+    "title": "Memory comparison:",
+    "choices": [
+      "RK needs O(m) always; KMP O(1)",
+      "RK O(1) (plus optional sets); KMP O(m)",
+      "RK O(n); KMP O(n)",
+      "Both O(mn)"
+    ],
+    "correctAnswer": "RK O(1) (plus optional sets); KMP O(m)"
+  },
+  {
+    "title": "Why verify after RK hash match?",
+    "choices": [
+      "To handle negative numbers",
+      "To confirm true match due to possible collisions",
+      "To compute LPS",
+      "To remove need for modulus"
+    ],
+    "correctAnswer": "To confirm true match due to possible collisions"
+  },
+  {
+    "title": "Technique to further reduce RK collisions:",
+    "choices": [
+      "Use base 1",
+      "Use larger window only",
+      "Double hashing with independent (base, M)",
+      "Skip verification"
+    ],
+    "correctAnswer": "Double hashing with independent (base, M)"
+  },
+  {
+    "title": "Which algorithm handles many patterns with varying lengths best?",
+    "choices": [
+      "Single-pattern KMP",
+      "Rabin–Karp without hashing",
+      "Aho–Corasick automaton",
+      "Naïve nested loops"
+    ],
+    "correctAnswer": "Aho–Corasick automaton"
+  },
+  {
+    "title": "Property of addition under mod M:",
+    "choices": [
+      "(a+b)%M = a%M + b",
+      "(a+b)%M = ((a%M)+(b%M))%M",
+      "(a+b)%M = (a*b)%M",
+      "No property"
+    ],
+    "correctAnswer": "(a+b)%M = ((a%M)+(b%M))%M"
+  },
+  {
+    "title": "Safe modular subtraction in C++/Java:",
+    "choices": [
+      "(a-b)%M",
+      "((a%M)-(b%M))%M",
+      "((a%M)-(b%M)+M)%M",
+      "No need to adjust"
+    ],
+    "correctAnswer": "((a%M)-(b%M)+M)%M"
+  },
+  {
+    "title": "Python modular subtraction behavior:",
+    "choices": [
+      "May be negative",
+      "Always non-negative result",
+      "Depends on base",
+      "Undefined"
+    ],
+    "correctAnswer": "Always non-negative result"
+  },
+  {
+    "title": "Efficient exponentiation modulo in Python:",
+    "choices": [
+      "a**e % M (O(e))",
+      "pow(a,e,M) (O(log e))",
+      "loop multiply (O(e))",
+      "use sqrt"
+    ],
+    "correctAnswer": "pow(a,e,M) (O(log e))"
+  },
+  {
+    "title": "When does modular inverse a^{-1} (mod M) exist?",
+    "choices": [
+      "Always",
+      "Only when a is even",
+      "When gcd(a, M) = 1",
+      "Only for prime M"
+    ],
+    "correctAnswer": "When gcd(a, M) = 1"
+  },
+  {
+    "title": "Computing inverse under prime M uses:",
+    "choices": [
+      "Floyd–Warshall",
+      "Dijkstra",
+      "Fermat’s little theorem a^{M-2} % M",
+      "Karatsuba"
+    ],
+    "correctAnswer": "Fermat’s little theorem a^{M-2} % M"
+  },
+  {
+    "title": "Best reason to prefer 1e9+7 as modulus:",
+    "choices": [
+      "Power of two",
+      "Small and fast",
+      "Large prime, fits in 32/64-bit, well-tested",
+      "Random"
+    ],
+    "correctAnswer": "Large prime, fits in 32/64-bit, well-tested"
+  },
+  {
+    "title": "Avoiding overflow for (a*b)%M in C++:",
+    "choices": [
+      "Use 32-bit int",
+      "Use __int128 or long double tricks",
+      "Ignore overflow",
+      "Multiply by base"
+    ],
+    "correctAnswer": "Use __int128 or long double tricks"
+  },
+  {
+    "title": "Why normalize after subtraction in rolling hash?",
+    "choices": [
+      "To speed up",
+      "To avoid negative before next multiply",
+      "To change base",
+      "To avoid double hashing"
+    ],
+    "correctAnswer": "To avoid negative before next multiply"
+  },
+  {
+    "title": "Double hashing collision probability reduces because:",
+    "choices": [
+      "Hashes become longer by concatenation",
+      "Using two independent primes/bases makes joint collision extremely unlikely",
+      "We compare fewer characters",
+      "We skip modulus"
+    ],
+    "correctAnswer": "Using two independent primes/bases makes joint collision extremely unlikely"
+  },
+  {
+    "title": "Distributivity under mod:",
+    "choices": [
+      "(a+b)*c % M = (a*c + b*c) % M",
+      "(a+b)*c % M = (a*b) % M",
+      "Does not hold",
+      "Only for prime M"
+    ],
+    "correctAnswer": "(a+b)*c % M = (a*c + b*c) % M"
+  },
+  {
+    "title": "Congruence definition:",
+    "choices": [
+      "a ≡ b (mod M) iff a=b",
+      "a ≡ b (mod M) iff M | (a-b)",
+      "a ≡ b (mod M) iff a*b is even",
+      "No formal definition"
+    ],
+    "correctAnswer": "a ≡ b (mod M) iff M | (a-b)"
+  },
+  {
+    "title": "Valid residue representatives:",
+    "choices": [
+      "Any integers",
+      "Exactly [1..M]",
+      "Exactly [0..M-1] after reduction",
+      "Only primes"
+    ],
+    "correctAnswer": "Exactly [0..M-1] after reduction"
+  },
+  {
+    "title": "Modular division caution:",
+    "choices": [
+      "Always valid",
+      "Valid only when divisor is coprime with M",
+      "Only when M is composite",
+      "Never valid"
+    ],
+    "correctAnswer": "Valid only when divisor is coprime with M"
+  },
+  {
+    "title": "nCr mod prime p typical approach:",
+    "choices": [
+      "Recompute factorial each time",
+      "Use floating division",
+      "Precompute factorials and inverse factorials",
+      "No modulus needed"
+    ],
+    "correctAnswer": "Precompute factorials and inverse factorials"
+  },
+  {
+    "title": "Which pow call is correct in Python for mod exp:",
+    "choices": [
+      "pow(a,e) % M",
+      "pow(a,e,M)",
+      "a**e(M)",
+      "exp(a,e,M)"
+    ],
+    "correctAnswer": "pow(a,e,M)"
+  },
+  {
+    "title": "How many windows of length m exist in a text of length n?",
+    "choices": [
+      "n/m",
+      "n-m+1",
+      "n-m",
+      "n+m"
+    ],
+    "correctAnswer": "n-m+1"
+  },
+  {
+    "title": "In a rolling loop where i is the index of the new rightmost char, the correct start index is:",
+    "choices": [
+      "i-m",
+      "i-m+1",
+      "i+m",
+      "i+1"
+    ],
+    "correctAnswer": "i-m+1"
+  },
+  {
+    "title": "Approximate per-window collision probability with prime modulus M:",
+    "choices": [
+      "~1/M",
+      "~1/√M",
+      "~log M",
+      "0"
+    ],
+    "correctAnswer": "~1/M"
+  },
+  {
+    "title": "With independent moduli M1 and M2, joint collision probability per window is:",
+    "choices": [
+      "~1/(M1+M2)",
+      "~1/(M1·M2)",
+      "~1/min(M1,M2)",
+      "~1"
+    ],
+    "correctAnswer": "~1/(M1·M2)"
+  },
+  {
+    "title": "General guideline for choosing base b:",
+    "choices": [
+      "b should equal modulus M",
+      "b ≥ alphabet size and gcd(b,M)=1",
+      "b must be prime",
+      "b must be a power of two"
+    ],
+    "correctAnswer": "b ≥ alphabet size and gcd(b,M)=1"
+  },
+  {
+    "title": "Why avoid base b = 1 for polynomial rolling hash?",
+    "choices": [
+      "Too slow",
+      "No positional weighting leading to heavy collisions",
+      "Incompatible with primes",
+      "Overflow risk"
+    ],
+    "correctAnswer": "No positional weighting leading to heavy collisions"
+  },
+  {
+    "title": "Double hashing base choice best practice:",
+    "choices": [
+      "Use same base for both hashes",
+      "Use independent bases b1 != b2 with independent moduli",
+      "Use base=1 for second hash",
+      "Derive base2 from base1 by squaring"
+    ],
+    "correctAnswer": "Use independent bases b1 != b2 with independent moduli"
+  },
+  {
+    "title": "Why is b = 256 a practical choice for byte-oriented text?",
+    "choices": [
+      "Because 256 is prime",
+      "Matches alphabet size (0..255) and simplifies encoding",
+      "Maximizes collisions",
+      "Required by pow()"
+    ],
+    "correctAnswer": "Matches alphabet size (0..255) and simplifies encoding"
+  },
+  {
+    "title": "Why randomize base at runtime?",
+    "choices": [
+      "To speed up pow()",
+      "To reduce adversarial collision scenarios by varying parameters",
+      "To avoid precomputation",
+      "To prevent Unicode issues"
+    ],
+    "correctAnswer": "To reduce adversarial collision scenarios by varying parameters"
+  },
+  {
+    "title": "Should base b be less than modulus M?",
+    "choices": [
+      "No requirement",
+      "Prefer b < M to keep operations well-behaved under mod",
+      "b must equal M-1",
+      "b must divide M"
+    ],
+    "correctAnswer": "Prefer b < M to keep operations well-behaved under mod"
+  },
+  {
+    "title": "Which polynomial hash form matches left-to-right accumulation?",
+    "choices": [
+      "h = sum(s[i] * base^(m-1-i)) % M",
+      "h = sum(s[i] * base^i) % M",
+      "h = xor(s[i] << i) % M",
+      "h = product(s[i] + base^i) % M"
+    ],
+    "correctAnswer": "h = sum(s[i] * base^i) % M"
+  },
+  {
+    "title": "Given def poly_hash(arr, base, M): h=0; for x in arr: h=(h*base + x)%M; return h, what is poly_hash([1,2,3], base=10, M=1000)?",
+    "choices": [
+      "123",
+      "321",
+      "36",
+      "12"
+    ],
+    "correctAnswer": "123"
+  },
+  {
+    "title": "Select the equivalent recurrence for sum_{i=0..m-1} s[i]*base^i mod M",
+    "choices": [
+      "h = (h + s[i])*base % M",
+      "h = (h*base + s[i]) % M",
+      "h = (h + base*s[i]) without mod",
+      "h = (h/base + s[i]) % M"
+    ],
+    "correctAnswer": "h = (h*base + s[i]) % M"
+  },
+  {
+    "title": "Why pass base and M explicitly to poly_hash?",
+    "choices": [
+      "To avoid globals and ensure testability",
+      "Because Python requires it",
+      "To speed up Python loops",
+      "To avoid using pow()"
+    ],
+    "correctAnswer": "To avoid globals and ensure testability"
+  },
+  {
+    "title": "Which pair often minimizes collisions for byte data?",
+    "choices": [
+      "base=2, M=97",
+      "base=256, M≈1e9+7",
+      "base=10, M=1000",
+      "base=128, M=65536"
+    ],
+    "correctAnswer": "base=256, M≈1e9+7"
+  },
+  {
+    "title": "Purpose of modulus M in polynomial/rolling hash",
+    "choices": [
+      "Guarantee no collisions",
+      "Avoid overflow and keep values bounded",
+      "Make base unnecessary",
+      "Speed up I/O"
+    ],
+    "correctAnswer": "Avoid overflow and keep values bounded"
+  },
+  {
+    "title": "Pick the correct normalization after subtraction under mod M",
+    "choices": [
+      "h = (h - x) % M",
+      "h = ((h - x) + M) % M",
+      "h = abs(h - x) % M",
+      "h = (h - x + 1) % M"
+    ],
+    "correctAnswer": "h = ((h - x) + M) % M"
+  },
+  {
+    "title": "Compute (h - out*base^(m-1)) % M safely when h < out*base^(m-1)",
+    "choices": [
+      "h = (h - out*pow) % M works in Python",
+      "Must avoid % entirely",
+      "Add M before %, possibly multiple times",
+      "Use floating point"
+    ],
+    "correctAnswer": "Add M before %, possibly multiple times"
+  },
+  {
+    "title": "Which M is a good choice for 32-bit-safe hashing?",
+    "choices": [
+      "M=2^32",
+      "M=10^9+7",
+      "M=1009*1013",
+      "M=65536"
+    ],
+    "correctAnswer": "M=10^9+7"
+  },
+  {
+    "title": "Is base required if using modulus?",
+    "choices": [
+      "No, modulus replaces base",
+      "Yes, base encodes position weighting",
+      "Only in C/C++",
+      "Only if double hashing"
+    ],
+    "correctAnswer": "Yes, base encodes position weighting"
+  },
+  {
+    "title": "Rightward slide update (window length m): choose correct formula",
+    "choices": [
+      "h' = (h + s_in - s_out) % M",
+      "h' = (h - s_out*base^(m-1)) * base + s_in (mod M)",
+      "h' = h/base + s_in - s_out",
+      "h' = h xor s_out xor s_in"
+    ],
+    "correctAnswer": "h' = (h - s_out*base^(m-1)) * base + s_in (mod M)"
+  },
+  {
+    "title": "Order of operations for rolling update under mod M",
+    "choices": [
+      "multiply, add, subtract",
+      "subtract outgoing, multiply by base, add incoming",
+      "add incoming, multiply, subtract outgoing",
+      "doesn't matter"
+    ],
+    "correctAnswer": "subtract outgoing, multiply by base, add incoming"
+  },
+  {
+    "title": "Precompute which value for O(1) update?",
+    "choices": [
+      "base^m",
+      "base^(m-1) % M",
+      "sum s[i]",
+      "M/base"
+    ],
+    "correctAnswer": "base^(m-1) % M"
+  },
+  {
+    "title": "Given base=10, M=1000, m=3, window [1,2,3] with h=123, slide to include 4 and drop 1; what is new h?",
+    "choices": [
+      "234",
+      "124",
+      "120 + 4 = 124",
+      "(123 - 1*100)*10 + 4 = 114",
+      "(123 - 1*100)*10 + 4 = 240 + 4 = 244 (mod 1000)"
+    ],
+    "correctAnswer": "(123 - 1*100)*10 + 4 = 240 + 4 = 244 (mod 1000)"
+  },
+  {
+    "title": "Edge case: when h - out*pow < 0, best practice?",
+    "choices": [
+      "Let it go negative; Python handles it",
+      "Add k*M before % M",
+      "Clamp to zero",
+      "Switch to floats"
+    ],
+    "correctAnswer": "Add k*M before % M"
+  },
+  {
+    "title": "Unicode/bytes mapping for hashing: robust approach?",
+    "choices": [
+      "Use ord(c) directly or encode to bytes",
+      "Hash(str(c))",
+      "Use random per character",
+      "Use index in alphabet only"
+    ],
+    "correctAnswer": "Use ord(c) directly or encode to bytes"
+  },
+  {
+    "title": "Handling negative intermediate values in Python under mod",
+    "choices": [
+      "Python % already returns non-negative; still normalize after subtraction",
+      "No need to worry ever",
+      "Use abs()",
+      "Convert to float"
+    ],
+    "correctAnswer": "Python % already returns non-negative; still normalize after subtraction"
+  },
+  {
+    "title": "Window count for text length n and pattern length m",
+    "choices": [
+      "n/m",
+      "n - m + 1",
+      "m - n + 1",
+      "n + m"
+    ],
+    "correctAnswer": "n - m + 1"
+  },
+  {
+    "title": "Verification step purpose after hash match",
+    "choices": [
+      "To skip true matches",
+      "To confirm and eliminate collisions",
+      "To compute LPS",
+      "To rehash"
+    ],
+    "correctAnswer": "To confirm and eliminate collisions"
+  },
+  {
+    "title": "Choose the safe removal expression",
+    "choices": [
+      "h = (h - out*pow_m_1) % M",
+      "h = (h - (out*pow_m_1) % M + M) % M",
+      "h = h - out*pow_m_1",
+      "h = h ^ out"
+    ],
+    "correctAnswer": "h = (h - (out*pow_m_1) % M + M) % M"
+  },
+  {
+    "title": "Goal of double hashing in Rabin–Karp",
+    "choices": [
+      "Speed up multiplication",
+      "Reduce probability of collisions",
+      "Eliminate modulus",
+      "Allow variable window size"
+    ],
+    "correctAnswer": "Reduce probability of collisions"
+  },
+  {
+    "title": "Independent parameter pairs for double hashing",
+    "choices": [
+      "(base1,M1) and (base2,M2) with distinct primes",
+      "Same base and same M for both",
+      "One with no modulus",
+      "Use MD5 as second hash"
+    ],
+    "correctAnswer": "(base1,M1) and (base2,M2) with distinct primes"
+  },
+  {
+    "title": "Ordering of tests to confuse and verify implementation",
+    "choices": [
+      "Start with window update, then define poly_hash",
+      "Define and test poly_hash first, then rolling updates",
+      "Skip poly_hash; rely on updates only",
+      "Random order"
+    ],
+    "correctAnswer": "Define and test poly_hash first, then rolling updates"
+  },
+  {
+    "title": "Which bug does this catch: mixing left-to-right and right-to-left forms?",
+    "choices": [
+      "Off-by-one in window start",
+      "Base exponent direction mismatch",
+      "Missing verification step",
+      "Incorrect modulus size"
+    ],
+    "correctAnswer": "Base exponent direction mismatch"
+  },
+  {
+    "title": "Best practice for parameters in helpers",
+    "choices": [
+      "Use globals for base/M",
+      "Pass base and M explicitly to functions",
+      "Hardcode M=1e9+7",
+      "Infer base from alphabet"
+    ],
+    "correctAnswer": "Pass base and M explicitly to functions"
+  }
+]

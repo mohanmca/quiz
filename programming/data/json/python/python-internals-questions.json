@@ -1,0 +1,1582 @@
+[
+  {
+    "type": "radiogroup",
+    "name": "q1",
+    "title": "What is the Global Interpreter Lock (GIL) in CPython?",
+    "choices": [
+      "A lock that prevents multiple native threads from executing Python bytecodes simultaneously",
+      "A mechanism to optimize memory allocation",
+      "A lock for file I/O operations",
+      "A garbage collection algorithm"
+    ],
+    "correctAnswer": "A lock that prevents multiple native threads from executing Python bytecodes simultaneously"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2",
+    "title": "How does Python manage memory for objects?",
+    "choices": [
+      "Using reference counting and a cyclic garbage collector",
+      "Using a mark-and-sweep garbage collector only",
+      "Using manual memory management",
+      "Using a stack-based allocator"
+    ],
+    "correctAnswer": "Using reference counting and a cyclic garbage collector"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3",
+    "title": "What is the purpose of the __slots__ attribute in a Python class?",
+    "choices": [
+      "To define a fixed set of attributes to reduce memory usage",
+      "To enable multiple inheritance",
+      "To mark a class as abstract",
+      "To optimize method calls"
+    ],
+    "correctAnswer": "To define a fixed set of attributes to reduce memory usage"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q4",
+    "title": "What is the role of the PyObject structure in CPython?",
+    "choices": [
+      "It is the base structure for all Python objects",
+      "It handles file operations",
+      "It manages the GIL",
+      "It stores bytecode instructions"
+    ],
+    "correctAnswer": "It is the base structure for all Python objects"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q5",
+    "title": "How does Python store integers in CPython?",
+    "choices": [
+      "As fixed-size 32-bit integers",
+      "As variable-length objects for arbitrary precision",
+      "As 64-bit floating-point numbers",
+      "As strings internally"
+    ],
+    "correctAnswer": "As variable-length objects for arbitrary precision"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q6",
+    "title": "What is the purpose of the ob_refcnt field in a PyObject?",
+    "choices": [
+      "To track the reference count for garbage collection",
+      "To store the object's type",
+      "To manage thread synchronization",
+      "To cache method calls"
+    ],
+    "correctAnswer": "To track the reference count for garbage collection"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q7",
+    "title": "What happens when a Python object's reference count reaches zero?",
+    "choices": [
+      "It is immediately deallocated",
+      "It is moved to a secondary memory pool",
+      "It is marked for garbage collection later",
+      "It becomes immutable"
+    ],
+    "correctAnswer": "It is immediately deallocated"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q8",
+    "title": "What is the purpose of the interned string mechanism in Python?",
+    "choices": [
+      "To reuse immutable string objects for memory efficiency",
+      "To encrypt string data",
+      "To compress strings during storage",
+      "To enable string slicing"
+    ],
+    "correctAnswer": "To reuse immutable string objects for memory efficiency"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q9",
+    "title": "What is a Python bytecode?",
+    "choices": [
+      "Low-level instructions executed by the Python virtual machine",
+      "Source code written in C",
+      "A compressed form of Python scripts",
+      "A format for serializing objects"
+    ],
+    "correctAnswer": "Low-level instructions executed by the Python virtual machine"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q10",
+    "title": "How does Python's list resizing strategy work?",
+    "choices": [
+      "It doubles the capacity when full, with some over-allocation",
+      "It increases by a fixed size of 10 elements",
+      "It uses a linked list internally",
+      "It never resizes"
+    ],
+    "correctAnswer": "It doubles the capacity when full, with some over-allocation"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q11",
+    "title": "What is the role of the __dict__ attribute in Python objects?",
+    "choices": [
+      "It stores an object's attributes as a dictionary",
+      "It defines the object's methods",
+      "It manages memory allocation",
+      "It caches function calls"
+    ],
+    "correctAnswer": "It stores an object's attributes as a dictionary"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q12",
+    "title": "Why does Python use a cyclic garbage collector?",
+    "choices": [
+      "To handle reference cycles that reference counting cannot resolve",
+      "To optimize string interning",
+      "To manage thread locks",
+      "To compress memory usage"
+    ],
+    "correctAnswer": "To handle reference cycles that reference counting cannot resolve"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q13",
+    "title": "What is the difference between PyPy and CPython?",
+    "choices": [
+      "PyPy uses JIT compilation, while CPython is an interpreter",
+      "PyPy is written in C, while CPython is written in Python",
+      "PyPy is slower for numerical computations",
+      "PyPy does not support the GIL"
+    ],
+    "correctAnswer": "PyPy uses JIT compilation, while CPython is an interpreter"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q14",
+    "title": "What is the purpose of the __mro__ attribute in a Python class?",
+    "choices": [
+      "To define the method resolution order for multiple inheritance",
+      "To store the class's memory layout",
+      "To manage object serialization",
+      "To cache method results"
+    ],
+    "correctAnswer": "To define the method resolution order for multiple inheritance"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q15",
+    "title": "How does Python implement dictionary key hashing?",
+    "choices": [
+      "Using a hash function to map keys to indices in a hash table",
+      "Using a binary search tree",
+      "Using a linked list for key storage",
+      "Using a fixed-size array"
+    ],
+    "correctAnswer": "Using a hash function to map keys to indices in a hash table"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q16",
+    "title": "What is the small integer cache in CPython?",
+    "choices": [
+      "A cache of integers from -5 to 256 for performance",
+      "A cache for floating-point numbers",
+      "A cache for large integers",
+      "A cache for string objects"
+    ],
+    "correctAnswer": "A cache of integers from -5 to 256 for performance"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q17",
+    "title": "What is the purpose of the PyTypeObject structure?",
+    "choices": [
+      "To define the behavior and properties of a type in CPython",
+      "To manage memory allocation",
+      "To store bytecode",
+      "To handle file I/O"
+    ],
+    "correctAnswer": "To define the behavior and properties of a type in CPython"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q18",
+    "title": "How does Python handle function calls internally?",
+    "choices": [
+      "Using a stack-based virtual machine",
+      "Using direct C function calls",
+      "Using a queue-based scheduler",
+      "Using inline assembly"
+    ],
+    "correctAnswer": "Using a stack-based virtual machine"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q19",
+    "title": "What is the purpose of the __new__ method in Python?",
+    "choices": [
+      "To create a new instance of a class",
+      "To initialize an object's attributes",
+      "To delete an object",
+      "To copy an object"
+    ],
+    "correctAnswer": "To create a new instance of a class"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q20",
+    "title": "What happens during Python's import process?",
+    "choices": [
+      "The module is compiled to bytecode and executed",
+      "The module is linked to a C library",
+      "The module is copied to memory",
+      "The module is serialized"
+    ],
+    "correctAnswer": "The module is compiled to bytecode and executed"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q21",
+    "title": "What is the role of the PyFrameObject in CPython?",
+    "choices": [
+      "It represents the execution frame for a function call",
+      "It stores the object's attributes",
+      "It manages the GIL",
+      "It handles file operations"
+    ],
+    "correctAnswer": "It represents the execution frame for a function call"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q22",
+    "title": "Why are Python strings immutable?",
+    "choices": [
+      "To enable string interning and optimize memory",
+      "To prevent string slicing",
+      "To simplify garbage collection",
+      "To enforce type safety"
+    ],
+    "correctAnswer": "To enable string interning and optimize memory"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q23",
+    "title": "What is the purpose of the __init__ method in Python?",
+    "choices": [
+      "To initialize an object's attributes after creation",
+      "To create a new instance of a class",
+      "To define a class's method resolution order",
+      "To manage memory allocation"
+    ],
+    "correctAnswer": "To initialize an object's attributes after creation"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q24",
+    "title": "How does Python handle exceptions internally?",
+    "choices": [
+      "Using a stack of exception handlers in the frame object",
+      "Using a global exception table",
+      "Using a separate thread for exceptions",
+      "Using a file-based log"
+    ],
+    "correctAnswer": "Using a stack of exception handlers in the frame object"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q25",
+    "title": "What is the purpose of the PyEval_EvalFrameEx function in CPython?",
+    "choices": [
+      "To execute a frame's bytecode",
+      "To allocate memory for objects",
+      "To manage the GIL",
+      "To parse Python source code"
+    ],
+    "correctAnswer": "To execute a frame's bytecode"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q26",
+    "title": "What does sys.intern() do?",
+    "choices": [
+      "Interns a string to reuse a single object",
+      "Converts string to bytes",
+      "Encrypts a string",
+      "Caches f-strings only"
+    ],
+    "correctAnswer": "Interns a string to reuse a single object",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q27",
+    "title": "Where are imported modules cached?",
+    "choices": [
+      "sys.modules",
+      "__builtins__",
+      "site-packages",
+      "PYTHONPATH only"
+    ],
+    "correctAnswer": "sys.modules",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q28",
+    "title": "What is method binding in Python?",
+    "choices": [
+      "Functions become bound methods with self when accessed via instance",
+      "Attaching Java methods",
+      "Static linking at import",
+      "Inlining functions at compile time"
+    ],
+    "correctAnswer": "Functions become bound methods with self when accessed via instance",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q29",
+    "title": "Which hook intercepts every attribute access?",
+    "choices": [
+      "__getattribute__",
+      "__getattr__",
+      "__dir__",
+      "__init_subclass__"
+    ],
+    "correctAnswer": "__getattribute__",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q30",
+    "title": "Which hook is called only on missing attributes?",
+    "choices": [
+      "__getattr__",
+      "__getattribute__",
+      "__setattr__",
+      "__get__"
+    ],
+    "correctAnswer": "__getattr__",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q31",
+    "title": "Descriptor protocol includes which methods?",
+    "choices": [
+      "__get__, __set__, __delete__",
+      "__call__, __iter__",
+      "__enter__, __exit__",
+      "__await__, __anext__"
+    ],
+    "correctAnswer": "__get__, __set__, __delete__",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q32",
+    "title": "What does the GIL primarily protect?",
+    "choices": [
+      "Mutations of Python objects' reference counts",
+      "Open file handles",
+      "Network sockets",
+      "NumPy arrays"
+    ],
+    "correctAnswer": "Mutations of Python objects' reference counts",
+    "tags": [
+      "GIL",
+      "Threads"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q33",
+    "title": "Which module disassembles Python bytecode?",
+    "choices": [
+      "dis",
+      "inspect",
+      "opcode",
+      "marshal"
+    ],
+    "correctAnswer": "dis",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Serialization"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q34",
+    "title": "What is a code object?",
+    "choices": [
+      "Immutable object holding bytecode and metadata",
+      "AST node",
+      "C extension object",
+      "Thread object"
+    ],
+    "correctAnswer": "Immutable object holding bytecode and metadata",
+    "tags": [
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q35",
+    "title": "What does locals() return inside a function?",
+    "choices": [
+      "A snapshot dict of local variables",
+      "A live view updating automatically",
+      "The globals dict",
+      "Builtins dict"
+    ],
+    "correctAnswer": "A snapshot dict of local variables",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q36",
+    "title": "Which structure implements dictionaries in CPython 3.7+?",
+    "choices": [
+      "Compact array+hash table preserving insertion order",
+      "Red-black tree",
+      "Skip list",
+      "Linked list of buckets"
+    ],
+    "correctAnswer": "Compact array+hash table preserving insertion order",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q37",
+    "title": "Which is true about list over-allocation?",
+    "choices": [
+      "Lists allocate extra capacity to amortize appends",
+      "Lists never over-allocate",
+      "Capacity equals length always",
+      "Over-allocation applies only to tuples"
+    ],
+    "correctAnswer": "Lists allocate extra capacity to amortize appends",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q38",
+    "title": "What are cell variables?",
+    "choices": [
+      "Variables captured by closures",
+      "Global variables",
+      "Thread locals",
+      "Only class attributes"
+    ],
+    "correctAnswer": "Variables captured by closures",
+    "tags": [
+      "Scopes",
+      "Closures"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q39",
+    "title": "Which object stores function defaults and annotations?",
+    "choices": [
+      "function object",
+      "code object",
+      "frame object",
+      "module object"
+    ],
+    "correctAnswer": "function object",
+    "tags": [
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q40",
+    "title": "Which call path can bypass __getattribute__?",
+    "choices": [
+      "object.__getattribute__(obj, name)",
+      "getattr(obj, name)",
+      "obj.name",
+      "__getattr__"
+    ],
+    "correctAnswer": "object.__getattribute__(obj, name)",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q41",
+    "title": "MRO order is computed using which algorithm?",
+    "choices": [
+      "C3 linearization",
+      "Depth-first search",
+      "Breadth-first search",
+      "Topological sort of methods"
+    ],
+    "correctAnswer": "C3 linearization",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q42",
+    "title": "Which statement about tuples is correct?",
+    "choices": [
+      "Immutable, but can reference mutable items",
+      "Always stored inline",
+      "Have a __dict__",
+      "Support item assignment"
+    ],
+    "correctAnswer": "Immutable, but can reference mutable items",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q43",
+    "title": "Where are builtins resolved in name lookup?",
+    "choices": [
+      "After locals then globals",
+      "Before globals",
+      "Before locals",
+      "Only if __builtins__ imported"
+    ],
+    "correctAnswer": "After locals then globals",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q44",
+    "title": "What triggers cyclic GC collections?",
+    "choices": [
+      "Allocation thresholds per generation",
+      "On every refcount decrement",
+      "At interpreter start only",
+      "Manual only via gc.collect()"
+    ],
+    "correctAnswer": "Allocation thresholds per generation",
+    "tags": [
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q45",
+    "title": "Which is TRUE about generators?",
+    "choices": [
+      "They preserve frame state between yields",
+      "They run on separate threads",
+      "They copy locals at each yield",
+      "They cannot raise exceptions"
+    ],
+    "correctAnswer": "They preserve frame state between yields",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Async/Concurrency",
+      "Exceptions"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q46",
+    "title": "What does send() do on a generator?",
+    "choices": [
+      "Resumes and injects a value into the yield expression",
+      "Closes the generator",
+      "Returns next generator object",
+      "Creates a new frame"
+    ],
+    "correctAnswer": "Resumes and injects a value into the yield expression",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Async/Concurrency"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q47",
+    "title": "What is the effect of __slots__ on inheritance?",
+    "choices": [
+      "Subclasses need their own __slots__ to add fields",
+      "Slots automatically merge",
+      "Slots disable subclassing",
+      "Slots make instances hashable"
+    ],
+    "correctAnswer": "Subclasses need their own __slots__ to add fields",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Memory",
+      "Data Model"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q48",
+    "title": "What does sys.getrefcount(x) include?",
+    "choices": [
+      "A temporary reference from the function call",
+      "Only strong references excluding the call",
+      "Weak references",
+      "Cycle references only"
+    ],
+    "correctAnswer": "A temporary reference from the function call",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q49",
+    "title": "How are bound methods created?",
+    "choices": [
+      "Descriptor __get__ wraps function with instance",
+      "Copying the function object",
+      "Creating a new class",
+      "Using metaclass magic only"
+    ],
+    "correctAnswer": "Descriptor __get__ wraps function with instance",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q50",
+    "title": "Which object holds f_locals and f_globals?",
+    "choices": [
+      "frame object",
+      "code object",
+      "function object",
+      "module"
+    ],
+    "correctAnswer": "frame object",
+    "tags": [
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q51",
+    "title": "What is a weak reference?",
+    "choices": [
+      "Reference not increasing refcount",
+      "Thread-local reference",
+      "Reference pinned in cache",
+      "Reference across processes"
+    ],
+    "correctAnswer": "Reference not increasing refcount",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q52",
+    "title": "Which mapping stores module-global names at runtime?",
+    "choices": [
+      "module.__dict__",
+      "globals()",
+      "sys.modules cache",
+      "builtins.__dict__"
+    ],
+    "correctAnswer": "module.__dict__",
+    "tags": [
+      "Dict Internals",
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q53",
+    "title": "What is __slots__ main benefit?",
+    "choices": [
+      "Reduced per-instance memory and faster attribute access",
+      "Faster method dispatch",
+      "Thread safety",
+      "Copy-on-write semantics"
+    ],
+    "correctAnswer": "Reduced per-instance memory and faster attribute access",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Memory",
+      "Data Model"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q54",
+    "title": "Which is TRUE about bytes and bytearray?",
+    "choices": [
+      "bytes immutable, bytearray mutable",
+      "both immutable",
+      "both mutable",
+      "bytearray is view into bytes"
+    ],
+    "correctAnswer": "bytes immutable, bytearray mutable",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q55",
+    "title": "How does hash randomization affect dicts?",
+    "choices": [
+      "Prevents predictable collisions across processes",
+      "Disables hashing",
+      "Sorts dict keys",
+      "Forces rehash every lookup"
+    ],
+    "correctAnswer": "Prevents predictable collisions across processes",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q56",
+    "title": "What happens on del obj.attr?",
+    "choices": [
+      "__delete__ descriptor runs if present",
+      "Always removes from __dict__",
+      "Sets to None",
+      "Removes from class dict"
+    ],
+    "correctAnswer": "__delete__ descriptor runs if present",
+    "tags": [
+      "Dict Internals",
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q57",
+    "title": "What is the GIL implication on CPU-bound threads?",
+    "choices": [
+      "Python threads don’t run Python bytecodes truly in parallel",
+      "Threads always run in parallel",
+      "I/O-bound threads are blocked",
+      "Asyncio avoids the GIL"
+    ],
+    "correctAnswer": "Python threads don’t run Python bytecodes truly in parallel",
+    "tags": [
+      "GIL",
+      "Threads",
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q58",
+    "title": "How to share objects across processes efficiently?",
+    "choices": [
+      "multiprocessing shared memory / queues",
+      "Use threads",
+      "Use globals",
+      "sys.modules cache"
+    ],
+    "correctAnswer": "multiprocessing shared memory / queues",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q59",
+    "title": "What does functools.lru_cache use internally?",
+    "choices": [
+      "Dict + linked list for LRU order",
+      "Priority queue",
+      "Array ring buffer",
+      "SQLite"
+    ],
+    "correctAnswer": "Dict + linked list for LRU order",
+    "tags": [
+      "Dict Internals",
+      "Performance"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q60",
+    "title": "Which is TRUE about namedtuple/dataclass?",
+    "choices": [
+      "Both create lightweight classes; dataclass supports defaults and type hints",
+      "Both are mutable by default",
+      "namedtuple uses __slots__ automatically",
+      "dataclass always frozen"
+    ],
+    "correctAnswer": "Both create lightweight classes; dataclass supports defaults and type hints",
+    "tags": [
+      "Memory",
+      "Data Model"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q61",
+    "title": "What does nonlocal do?",
+    "choices": [
+      "Binds to nearest enclosing scope variable",
+      "Creates a global",
+      "Creates a new local",
+      "Binds builtins"
+    ],
+    "correctAnswer": "Binds to nearest enclosing scope variable",
+    "tags": [
+      "Scopes",
+      "Closures"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q62",
+    "title": "What does globals() return inside a function?",
+    "choices": [
+      "The module’s global namespace mapping",
+      "The frame’s locals",
+      "Builtins",
+      "Interpreter options"
+    ],
+    "correctAnswer": "The module’s global namespace mapping",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q63",
+    "title": "Which makes an object hashable?",
+    "choices": [
+      "Immutability + __hash__ and __eq__ consistency",
+      "Having an id only",
+      "__repr__ defined",
+      "Stored in a set"
+    ],
+    "correctAnswer": "Immutability + __hash__ and __eq__ consistency",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q64",
+    "title": "Which protocol powers context managers?",
+    "choices": [
+      "__enter__/__exit__",
+      "__aenter__/__aexit__",
+      "__get__/__set__",
+      "__iter__/__next__"
+    ],
+    "correctAnswer": "__enter__/__exit__",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q65",
+    "title": "What is marshal module used for?",
+    "choices": [
+      "Serialize code objects (internal use)",
+      "Pickle user objects",
+      "JSON encoding",
+      "CSV writing"
+    ],
+    "correctAnswer": "Serialize code objects (internal use)",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Serialization"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q66",
+    "title": "Which is TRUE about pickle?",
+    "choices": [
+      "Arbitrary code execution risk on load",
+      "Safe for untrusted data",
+      "Text-based only",
+      "Stores only primitives"
+    ],
+    "correctAnswer": "Arbitrary code execution risk on load",
+    "tags": [
+      "Serialization"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q67",
+    "title": "Method resolution looks where first?",
+    "choices": [
+      "Instance dict then class then MRO",
+      "Class then instance",
+      "Builtins first",
+      "Metaclass then super"
+    ],
+    "correctAnswer": "Instance dict then class then MRO",
+    "tags": [
+      "Dict Internals",
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q68",
+    "title": "What is super() doing?",
+    "choices": [
+      "Returns a proxy for next class in MRO",
+      "Skips to base class only",
+      "Calls metaclass methods",
+      "Inlines parent methods"
+    ],
+    "correctAnswer": "Returns a proxy for next class in MRO",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q69",
+    "title": "Which is TRUE about exceptions?",
+    "choices": [
+      "Exception instances carry traceback via __traceback__",
+      "Traceback stored only globally",
+      "Only type matters",
+      "They cannot be re-raised"
+    ],
+    "correctAnswer": "Exception instances carry traceback via __traceback__",
+    "tags": [
+      "Exceptions"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q70",
+    "title": "What is the core eval loop called in recent CPython?",
+    "choices": [
+      "_PyEval_EvalFrameDefault",
+      "PyRun_SimpleString",
+      "Py_Main",
+      "_PyEval_Execute"
+    ],
+    "correctAnswer": "_PyEval_EvalFrameDefault",
+    "tags": [
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q71",
+    "title": "What is vectorcall?",
+    "choices": [
+      "Fast calling convention avoiding tuple/dict creation",
+      "SIMD instruction set",
+      "Vector math library",
+      "Parallel map"
+    ],
+    "correctAnswer": "Fast calling convention avoiding tuple/dict creation",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Dict Internals",
+      "Performance"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q72",
+    "title": "Which is TRUE about dataclass(eq=True, frozen=True)?",
+    "choices": [
+      "Generates __eq__ and makes instances immutable",
+      "Only adds __repr__",
+      "Disables hashing",
+      "Adds slots automatically"
+    ],
+    "correctAnswer": "Generates __eq__ and makes instances immutable",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Memory",
+      "Data Model"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q73",
+    "title": "Which operation triggers dict resize?",
+    "choices": [
+      "Load factor threshold exceeded",
+      "Accessing non-existent key",
+      "Iterating keys",
+      "Sorting keys"
+    ],
+    "correctAnswer": "Load factor threshold exceeded",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q74",
+    "title": "What does sys.setrecursionlimit control?",
+    "choices": [
+      "Maximum Python call stack depth",
+      "C stack size",
+      "Generator recursion",
+      "Thread recursion only"
+    ],
+    "correctAnswer": "Maximum Python call stack depth",
+    "tags": [
+      "Async/Concurrency"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q75",
+    "title": "What are f_locals/f_globals types?",
+    "choices": [
+      "Mappings (dict-like)",
+      "Lists",
+      "Tuples",
+      "Arrays"
+    ],
+    "correctAnswer": "Mappings (dict-like)",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q76",
+    "title": "Which types are interned/cached by CPython typically?",
+    "choices": [
+      "Small ints, some strings, small tuples",
+      "All lists",
+      "All dicts",
+      "All floats"
+    ],
+    "correctAnswer": "Small ints, some strings, small tuples",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q77",
+    "title": "What is __prepare__ used for in metaclasses?",
+    "choices": [
+      "Provide a custom class namespace mapping",
+      "Hook into import",
+      "Allocate instances",
+      "Resolve MRO"
+    ],
+    "correctAnswer": "Provide a custom class namespace mapping",
+    "tags": [
+      "MRO/Lookup",
+      "Descriptors",
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q78",
+    "title": "Which statement about __hash__ and __eq__ is correct?",
+    "choices": [
+      "Equal objects must have equal hashes",
+      "Hashes must be unique",
+      "__eq__ ignored in sets",
+      "__hash__ unused in dicts"
+    ],
+    "correctAnswer": "Equal objects must have equal hashes",
+    "tags": [
+      "Dict Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q79",
+    "title": "How are attributes looked up on an instance?",
+    "choices": [
+      "instance.__dict__ → class dict (descriptors) → bases via MRO",
+      "class dict only",
+      "metaclass first",
+      "globals then builtins"
+    ],
+    "correctAnswer": "instance.__dict__ → class dict (descriptors) → bases via MRO",
+    "tags": [
+      "Dict Internals",
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q80",
+    "title": "What is a module spec (importlib.machinery.ModuleSpec)?",
+    "choices": [
+      "Metadata describing how to load a module",
+      "The module’s dict",
+      "Compiled bytecode",
+      "Site configuration"
+    ],
+    "correctAnswer": "Metadata describing how to load a module",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Dict Internals",
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q81",
+    "title": "Which is TRUE about __getstate__/__setstate__?",
+    "choices": [
+      "Customize pickling of instances",
+      "Control GC",
+      "Customize hashing",
+      "Control import hooks"
+    ],
+    "correctAnswer": "Customize pickling of instances",
+    "tags": [
+      "Serialization",
+      "Import System",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q82",
+    "title": "How do weakref callbacks run?",
+    "choices": [
+      "Invoked when the referent is about to be finalized",
+      "On every GC cycle",
+      "On attribute access",
+      "On import"
+    ],
+    "correctAnswer": "Invoked when the referent is about to be finalized",
+    "tags": [
+      "GC",
+      "Weakref",
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q83",
+    "title": "What is a frame back-reference?",
+    "choices": [
+      "f_back points to caller frame",
+      "Reference to globals",
+      "Reference to code object",
+      "Reference to module"
+    ],
+    "correctAnswer": "f_back points to caller frame",
+    "tags": [
+      "Bytecode",
+      "Frames"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q84",
+    "title": "Which describes import hooks?",
+    "choices": [
+      "Custom finders/loaders that participate in module loading",
+      "Hooks for GC",
+      "Thread hooks",
+      "Signal handlers"
+    ],
+    "correctAnswer": "Custom finders/loaders that participate in module loading",
+    "tags": [
+      "Import System",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q85",
+    "title": "What does gc.get_objects() return?",
+    "choices": [
+      "Tracked container objects",
+      "All objects including scalars",
+      "Only unreachable objects",
+      "Only modules"
+    ],
+    "correctAnswer": "Tracked container objects",
+    "tags": [
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q86",
+    "title": "Which is TRUE about comprehensions scope?",
+    "choices": [
+      "In Python 3, comprehensions have their own scope",
+      "They leak loop vars to outer scope",
+      "Same as generator scope",
+      "They run at import time only"
+    ],
+    "correctAnswer": "In Python 3, comprehensions have their own scope",
+    "tags": [
+      "Async/Concurrency",
+      "Scopes",
+      "Closures",
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q87",
+    "title": "What are coroutine objects backed by?",
+    "choices": [
+      "Frame objects similar to generators",
+      "Threads",
+      "Processes",
+      "Greenlets in C"
+    ],
+    "correctAnswer": "Frame objects similar to generators",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Async/Concurrency"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q88",
+    "title": "What does contextvars provide?",
+    "choices": [
+      "Context-local storage that works with asyncio",
+      "Thread-local only",
+      "Global config API",
+      "GC tuning"
+    ],
+    "correctAnswer": "Context-local storage that works with asyncio",
+    "tags": [
+      "Async/Concurrency",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q89",
+    "title": "How are attribute writes handled?",
+    "choices": [
+      "__setattr__ intercepts; descriptors with __set__ may handle writes",
+      "Always writes to __dict__",
+      "Writes forbidden for new-style classes",
+      "Metaclass handles writes"
+    ],
+    "correctAnswer": "__setattr__ intercepts; descriptors with __set__ may handle writes",
+    "tags": [
+      "Dict Internals",
+      "MRO/Lookup",
+      "Descriptors"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q90",
+    "title": "What is true about dataclass slots?",
+    "choices": [
+      "slots=True generates __slots__ entries",
+      "Slots forced by default",
+      "Slots remove hashing",
+      "Slots make class abstract"
+    ],
+    "correctAnswer": "slots=True generates __slots__ entries",
+    "tags": [
+      "Memory",
+      "Data Model"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q91",
+    "title": "How does __del__ affect GC?",
+    "choices": [
+      "Objects with __del__ in cycles need special handling",
+      "No effect",
+      "Speeds up collection",
+      "Disables reference counting"
+    ],
+    "correctAnswer": "Objects with __del__ in cycles need special handling",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q92",
+    "title": "Which is TRUE about sys.setswitchinterval()?",
+    "choices": [
+      "Sets thread check interval for switching",
+      "Controls signal interval",
+      "Controls GC interval",
+      "Controls import timeout"
+    ],
+    "correctAnswer": "Sets thread check interval for switching",
+    "tags": [
+      "Import System",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q93",
+    "title": "What are capsules (PyCapsule)?",
+    "choices": [
+      "Opaque C pointers wrapped for Python",
+      "Pickled objects",
+      "Marshalled code",
+      "Byte arrays"
+    ],
+    "correctAnswer": "Opaque C pointers wrapped for Python",
+    "tags": [
+      "Serialization",
+      "C-API"
+    ],
+    "difficulty": "Hard"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q94",
+    "title": "Which is TRUE about str vs bytes in Python 3?",
+    "choices": [
+      "str is Unicode text; bytes is raw 8-bit data",
+      "Both Unicode",
+      "Both bytes",
+      "str stores ASCII only"
+    ],
+    "correctAnswer": "str is Unicode text; bytes is raw 8-bit data",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q95",
+    "title": "What is import time execution?",
+    "choices": [
+      "Top-level module code runs at import",
+      "Code runs lazily on first call",
+      "Only annotations run",
+      "Only class bodies run"
+    ],
+    "correctAnswer": "Top-level module code runs at import",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q96",
+    "title": "How to inspect bytecode of a function f?",
+    "choices": [
+      "dis.dis(f)",
+      "inspect.getsource(f)",
+      "marshal.dumps(f)",
+      "help(f)"
+    ],
+    "correctAnswer": "dis.dis(f)",
+    "tags": [
+      "Bytecode",
+      "Frames",
+      "Serialization"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q97",
+    "title": "Which speeds up attribute access most?",
+    "choices": [
+      "Local variables referencing attributes outside loops",
+      "Using globals",
+      "Using getattr for each access",
+      "Using eval"
+    ],
+    "correctAnswer": "Local variables referencing attributes outside loops",
+    "tags": [
+      "Internals"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q98",
+    "title": "What is the main purpose of PEP 709 (specializing interpreter)?",
+    "choices": [
+      "Speed up CPython by specializing common ops at runtime",
+      "Remove the GIL",
+      "Add new syntax",
+      "Change garbage collector"
+    ],
+    "correctAnswer": "Speed up CPython by specializing common ops at runtime",
+    "tags": [
+      "GIL",
+      "Threads",
+      "GC"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q99",
+    "title": "Which statement about f-strings is correct?",
+    "choices": [
+      "Evaluated at runtime into str via expression formatting",
+      "Precompiled at import",
+      "Use repr only",
+      "Cannot call functions"
+    ],
+    "correctAnswer": "Evaluated at runtime into str via expression formatting",
+    "tags": [
+      "Import System"
+    ],
+    "difficulty": "Medium"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q100",
+    "title": "What does __reduce__ support?",
+    "choices": [
+      "Custom pickling protocol",
+      "Rich comparison",
+      "Iteration",
+      "Context mgmt"
+    ],
+    "correctAnswer": "Custom pickling protocol",
+    "tags": [
+      "Serialization"
+    ],
+    "difficulty": "Medium"
+  }
+]

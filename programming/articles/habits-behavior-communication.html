@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habits, Behavior, and Communication: A Practical Guide</title>
+  <style>
+    :root { --primary:#2563eb; --bg:#f7f9fc; --text:#111827; --muted:#6b7280; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e5e7eb; position:sticky; top:0; z-index:10; }
+    .container { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .title { margin: 6px 0 2px; font-size: 24px; font-weight: 800; }
+    .subtitle { margin: 0 0 12px; color: var(--muted); }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#eef2ff; color:#1f2937; }
+    button.ghost { background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
+    main.container article { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:18px; }
+    h2 { margin-top: 20px; }
+    h3 { margin-top: 16px; }
+    p { line-height: 1.6; }
+    ul { margin-top: 8px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background:#0b1020; color:#e5e7eb; padding: 1px 4px; border-radius:4px; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow-x:auto; border:1px solid #111827; }
+    pre code { display:block; background:transparent; padding:0; }
+    .tok-kw { color:#93c5fd; }
+    .tok-str { color:#a7f3d0; }
+    .tok-com { color:#9ca3af; font-style:italic; }
+    .tok-num { color:#fcd34d; }
+    .tok-builtin { color:#fca5a5; }
+    .tip { background:#ecfdf5; border:1px solid #10b98133; color:#065f46; padding:12px; border-radius:10px; }
+    .note { background:#fefce8; border:1px solid #fde68a; color:#713f12; padding:12px; border-radius:10px; }
+    .muted { color: var(--muted); }
+    .toc a { color:#2563eb; text-decoration:none; }
+    blockquote { border-left:4px solid #e5e7eb; margin:8px 0; padding:8px 12px; color:#374151; background:#fafafa; border-radius:8px; }
+    table { width:100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { border:1px solid #e5e7eb; padding:8px; text-align:left; }
+    th { background:#f3f4f6; }
+  </style>
+  <script>
+    function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;').replace(/'/g,'&#39;');}
+    function highlightPython(src){
+      if (!src) return '';
+      const holders = [];
+      const keep = (html) => { holders.push(html); return `@@H${holders.length-1}@@`; };
+      src = src.replace(/('{3}[\s\S]*?'{3}|"{3}[\s\S]*?"{3})/g, m => keep(`<span class=\"tok-str\">${escapeHtml(m)}</span>`));
+      src = src.replace(/'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"/g, m => keep(`<span class=\"tok-str\">${escapeHtml(m)}</span>`));
+      src = src.replace(/#.*/g, m => keep(`<span class=\"tok-com\">${escapeHtml(m)}</span>`));
+      let html = escapeHtml(src);
+      const KW = ['def','return','if','elif','else','for','while','in','not','and','or','class','import','from','as','try','except','finally','with','lambda','True','False','None','pass','break','continue','yield','global','nonlocal','assert','raise','del','is'];
+      html = html.replace(new RegExp(`\\b(${KW.join('|')})\\b`, 'g'), '<span class="tok-kw">$1</span>');
+      const BI = ['len','range','print','dict','list','set','tuple','int','str','float','bool','sum','min','max','sorted','enumerate','zip','map','filter'];
+      html = html.replace(new RegExp(`\\b(${BI.join('|')})\\b`, 'g'), '<span class="tok-builtin">$1</span>');
+      html = html.replace(/\b0x[0-9a-fA-F_]+\b|\b\d+(?:\.\d+)?\b/g, '<span class="tok-num">$&</span>');
+      html = html.replace(/@@H(\d+)@@/g, (m, i) => holders[Number(i)]);
+      return html;
+    }
+    function highlightAll(){
+      document.querySelectorAll('pre code.language-python').forEach(el => {
+        try { el.innerHTML = highlightPython(el.textContent || ''); } catch(e){}
+      });
+    }
+    window.addEventListener('DOMContentLoaded', highlightAll);
+  </script>
+  <meta name="description" content="Habits, behavior, and communication guide with quotes, diagrams, tables, and Python tools. Includes a 50+ question quiz and Anki CSV download.">
+  <meta name="keywords" content="habits, behavior, character, communication, word choice, quotes, bad habits, good habits, anki, quiz">
+  <link rel="prefetch" href="../data/anki/habits-behavior-communication.csv" as="fetch" crossorigin="anonymous">
+  <style>
+    .ascii { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; white-space: pre; background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:10px; }
+  </style>
+  </head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">Habits, Behavior, and Communication: A Practical Guide</div>
+      <div class="subtitle">Improve habits, thinking, behavior, and choice of words — with quotes, diagrams, tables, and Python helpers</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=habits-behavior-communication'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+        <button onclick="window.location.href='../data/anki/habits-behavior-communication.csv'">Download Anki CSV</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents:</strong>
+        <ul>
+          <li><a href="#foundations">1. Foundations: Habit, Behavior, Character</a></li>
+          <li><a href="#quotes-habits">2. Quotes on Habits</a></li>
+          <li><a href="#quotes-behavior">3. Quotes on Behavior</a></li>
+          <li><a href="#quotes-character">4. Quotes on Character</a></li>
+          <li><a href="#discard-bad">5. Discarding Bad Habits</a></li>
+          <li><a href="#cultivate-good">6. Cultivating Good Habits</a></li>
+          <li><a href="#words">7. Choice of Words (Communication)</a></li>
+          <li><a href="#nvc">8. Nonviolent Communication (NVC) & Empathy</a></li>
+          <li><a href="#goals">9. Goal Achievement: Science Tips & Tricks</a></li>
+          <li><a href="#diagrams">10. Diagrams & Tables</a></li>
+          <li><a href="#scenarios">11. Scenarios & Model Phrasing</a></li>
+          <li><a href="#anki">12. Anki CSV & Daily Review</a></li>
+          <li><a href="#followup">13. Follow-up Suggestions</a></li>
+        </ul>
+      </div>
+
+      <h2 id="foundations">1) Foundations: Habit, Behavior, Character</h2>
+      <ul>
+        <li><strong>Habit Loop:</strong> Cue → Routine → Reward (keep the cue, swap the routine, keep/adjust the reward).</li>
+        <li><strong>B=MAP (Fogg):</strong> Behavior happens when Motivation, Ability, and Prompt coincide. Lower friction first.</li>
+        <li><strong>Identity-Based Habits:</strong> “Every action is a vote for the type of person you wish to become.”</li>
+        <li><strong>Character:</strong> Accumulated consequence of your repeated decisions and behaviors, especially when unobserved.</li>
+      </ul>
+      <blockquote>“We are what we repeatedly do; excellence, then, is not an act but a habit.” — often attributed to Aristotle</blockquote>
+
+      <h2 id="quotes-habits">2) Multiple Quotes on Habits</h2>
+      <ul>
+        <li>“Motivation is what gets you started. Habit is what keeps you going.” — Jim Ryun</li>
+        <li>“First forget inspiration. Habit is more dependable.” — Octavia Butler</li>
+        <li>“Chains of habit are too light to be felt until they are too heavy to be broken.” — often attributed to Samuel Johnson</li>
+        <li>“Your habits will determine your future.” — often attributed to Jack Canfield</li>
+      </ul>
+
+      <h2 id="quotes-behavior">3) Multiple Quotes on Behavior</h2>
+      <ul>
+        <li>“Behavior is the mirror in which everyone shows their image.” — Goethe</li>
+        <li>“We are what we repeatedly do.” — often attributed to Aristotle</li>
+        <li>“What you do speaks so loudly that I cannot hear what you say.” — often attributed to Ralph Waldo Emerson</li>
+      </ul>
+
+      <h2 id="quotes-character">4) Multiple Quotes on Character</h2>
+      <ul>
+        <li>“Character is what you do when no one is watching.” — often attributed to John Wooden</li>
+        <li>“Sow a thought, reap an action; sow an action, reap a habit; sow a habit, reap a character; sow a character, reap a destiny.” — often attributed to Samuel Smiles/Charles Reade</li>
+        <li>“The measure of a man is what he does with power.” — Plato</li>
+      </ul>
+
+      <h2 id="discard-bad">5) Discarding Bad Habits</h2>
+      <ul>
+        <li><strong>Audit:</strong> List daily routines. Mark + (helps), – (hurts), ~ (neutral).</li>
+        <li><strong>Remove Cues:</strong> Out of sight: uninstall apps, grayscale phone, hide snacks, charge phone away from bed.</li>
+        <li><strong>Increase Friction:</strong> Add steps before the bad habit (logins, blockers, time locks, accountability).</li>
+        <li><strong>Swap Routine:</strong> Keep cue, insert a healthier routine, keep a similar reward (e.g., walk + water for energy).</li>
+        <li><strong>Never Miss Twice:</strong> Accept slips, reset next action immediately.</li>
+      </ul>
+
+      <h2 id="cultivate-good">6) Cultivating Good Habits</h2>
+      <ul>
+        <li><strong>Make it Obvious:</strong> Prepare environment: put book on pillow, guitar on stand, shoes at door.</li>
+        <li><strong>Make it Tiny:</strong> 2‑minute version to start (one push-up, one page, one sentence).</li>
+        <li><strong>Make it Attractive:</strong> Pair with music, tea, or a positive ritual; use habit stacking.</li>
+        <li><strong>Make it Satisfying:</strong> Visual streaks, checkmarks, small immediate rewards.</li>
+        <li><strong>Weekly Review:</strong> Promote what worked, prune what didn’t; iterate one variable at a time.</li>
+      </ul>
+
+      <h2 id="words">7) Choice of Words (Communication)</h2>
+      <p>Words shape outcomes. Prefer observable facts, shared goals, and clear requests.</p>
+      <table>
+        <thead><tr><th>Instead of</th><th>Try</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>You always mess this up.</td><td>In the last two reports, these two issues repeated. Can we pair to prevent them?</td><td>Specific, solution-oriented.</td></tr>
+          <tr><td>You don’t get it.</td><td>Help me understand your constraints, then we’ll choose next steps.</td><td>Curious, collaborative.</td></tr>
+          <tr><td>I can’t.</td><td>I don’t do that on weekdays; I can on Saturday.</td><td>Signals boundaries/identity.</td></tr>
+          <tr><td>But …</td><td>And …</td><td>Builds, not negates.</td></tr>
+          <tr><td>It’s your fault.</td><td>Here’s what I observed and the impact; can we align on a fix?</td><td>Focus on behavior and repair.</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="nvc">8) Nonviolent Communication (NVC) & Empathy</h2>
+      <p>NVC focuses on needs and collaborative problem solving. Pair it with active, empathic listening.</p>
+      <ul>
+        <li><strong>Four Components:</strong> Observation (without judgment) → Feeling → Need → Request (clear, doable, present-focused).</li>
+        <li><strong>Empathic Listening:</strong> Attend fully; paraphrase content; reflect feelings; ask open questions; withhold fixing/defending.</li>
+        <li><strong>Sample Scripts:</strong>
+          <br>• Observation: "In our last two sprints, the report was late by a day."
+          <br>• Feeling/Need: "I feel stressed because I need reliability."
+          <br>• Request: "Could we add a mid-sprint checkpoint and a 24h reminder?"
+        </li>
+        <li><strong>Boundaries with Care:</strong> "I don’t take meetings past 6pm; I’m available 9–5. Would 10am tomorrow work?"</li>
+        <li><strong>Empathy Blockers to Avoid:</strong> moralizing, unsolicited advice, rebuttal listening, story hijacking, diagnosing.</li>
+      </ul>
+      <blockquote>“What you do speaks so loudly that I cannot hear what you say.” — often attributed to Ralph Waldo Emerson</blockquote>
+
+      <h3>NVC Cheat‑Card</h3>
+      <table>
+        <thead><tr><th>Component</th><th>Ask Yourself</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>Observation</td><td>What did I see/hear (no labels)?</td><td>“In the last 2 sprints, the report arrived a day late.”</td></tr>
+          <tr><td>Feeling</td><td>What do I feel (not a thought)?</td><td>“I feel stressed/uncertain…”</td></tr>
+          <tr><td>Need</td><td>Which universal need is unmet?</td><td>“…because I need reliability/clarity.”</td></tr>
+          <tr><td>Request</td><td>What specific, doable ask now?</td><td>“Could we add a mid‑sprint checkpoint and a 24h reminder?”</td></tr>
+          <tr><td>Empathy</td><td>What might they feel/need?</td><td>“Sounds like you’re under timing pressure — did I get that right?”</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="goals">9) Goal Achievement: Science Tips & Tricks</h2>
+      <ul>
+        <li><strong>Implementation Intentions:</strong> If [cue], then I will [specific action]. Example: If it’s 7am and I finish coffee, I will read one page.</li>
+        <li><strong>WOOP (Oettingen):</strong> Wish → Outcome → Obstacle → Plan (If obstacle, then response). Use mental contrasting to surface real blockers.</li>
+        <li><strong>Precommitment:</strong> Create constraints that make the right action easy and the wrong action hard (blockers, social commitments, deposits).</li>
+        <li><strong>Temptation Bundling:</strong> Pair a should-do with a want-to (gym only with your favorite podcast).</li>
+        <li><strong>Fresh Start Effect:</strong> Use temporal landmarks (Mondays, birthdays) to reset identity and routines; schedule starts on these days.</li>
+        <li><strong>Planning Fallacy Antidotes:</strong> Break into sub-steps with DoD; add 30–50% time buffer; reference class-based estimates.</li>
+        <li><strong>Goal Shielding:</strong> Dedicate distraction-free blocks; silence notifications; prepare environment the night before.</li>
+      </ul>
+
+      <h2 id="diagrams">10) Diagrams & Tables</h2>
+      <h3>Habit Loop (ASCII)</h3>
+      <div class="ascii">Cue ──► Routine ──► Reward
+  ▲                     │
+  └───────────── Feedback ───────────┘
+      </div>
+      <h3>Fogg Model (B=MAP)</h3>
+      <div class="ascii">Behavior = Motivation × Ability × Prompt
+Low Ability → Raise to Easy → Add Prompt at right time
+      </div>
+      <h3>Habit Replacement Table</h3>
+      <table>
+        <thead><tr><th>Cue</th><th>Old Routine</th><th>New Routine</th><th>Reward</th></tr></thead>
+        <tbody>
+          <tr><td>3pm slump</td><td>Snack + scrolling</td><td>Walk + water + protein</td><td>Energy, mood</td></tr>
+          <tr><td>Bedtime</td><td>Phone in bed</td><td>Charge phone away, read 1 page</td><td>Wind‑down</td></tr>
+          <tr><td>After coffee</td><td>Inbox dive</td><td>Write 50 words first</td><td>Progress</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="scenarios">11) Scenarios & Model Phrasing</h2>
+      <ul>
+        <li><strong>Missed deadline:</strong> “Yesterday’s deliverable slipped. What blocked us? Let’s agree on two earlier checkpoints next time.”</li>
+        <li><strong>Late-night phone:</strong> Charge phone outside bedroom; read 1 page in bed.</li>
+        <li><strong>3pm slump:</strong> Replace snack+scroll with walk+water+protein.</li>
+        <li><strong>Disagreement:</strong> “I see it differently because … What would a good outcome look like for you?”</li>
+      </ul>
+
+      <h2 id="anki">12) Anki CSV & Daily Review</h2>
+      <p>Use the <a href="../data/anki/habits-behavior-communication.csv">Anki CSV</a> to drill key ideas daily. Import into Anki as Basic (Front/Back).</p>
+
+      <h2 id="followup">13) Follow-up Suggestions</h2>
+      <ul>
+        <li>Run a 7‑day habit audit; replace one habit end‑to‑end.</li>
+        <li>Install a website blocker and schedule 2× 45‑minute focus blocks daily.</li>
+        <li>Adopt “and” instead of “but” for one week in all emails.</li>
+        <li>Review weekly: what worked, what didn’t, one change for next week.</li>
+      </ul>
+
+      <div class="tip">Tip: Start tiny, make it obvious, and never miss twice. Words matter—choose ones that align people to shared goals.</div>
+    </article>
+  </main>
+</body>
+</html>

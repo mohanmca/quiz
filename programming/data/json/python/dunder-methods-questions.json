@@ -1,0 +1,302 @@
+[
+    {
+        "type": "radiogroup",
+        "name": "q1",
+        "title": "Which dunder method is called when you use the 'len()' function on an object?",
+        "choices": [
+            "__len__()",
+            "__length__()",
+            "__size__()",
+            "__count__()"
+        ],
+        "correctAnswer": "__len__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q2",
+        "title": "What is the difference between __str__() and __repr__()?",
+        "choices": [
+            "__str__() for user-friendly output, __repr__() for developer/debugging output",
+            "__str__() for debugging, __repr__() for users",
+            "They are identical in functionality",
+            "__str__() is faster than __repr__()"
+        ],
+        "correctAnswer": "__str__() for user-friendly output, __repr__() for developer/debugging output"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q3",
+        "title": "Which dunder method allows an object to be used in a 'with' statement as a context manager?",
+        "choices": [
+            "__enter__() and __exit__()",
+            "__with__() and __endwith__()",
+            "__start__() and __stop__()",
+            "__open__() and __close__()"
+        ],
+        "correctAnswer": "__enter__() and __exit__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q4",
+        "title": "What does the __call__() method allow you to do?",
+        "choices": [
+            "Make an object callable like a function",
+            "Call other methods within the class",
+            "Initialize the object",
+            "Delete the object"
+        ],
+        "correctAnswer": "Make an object callable like a function"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q5",
+        "title": "Which dunder method is used to customize object comparison with the '==' operator?",
+        "choices": [
+            "__eq__()",
+            "__equal__()",
+            "__compare__()",
+            "__same__()"
+        ],
+        "correctAnswer": "__eq__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q6",
+        "title": "What is the purpose of the __slots__ attribute in a class?",
+        "choices": [
+            "To restrict instance attributes and save memory",
+            "To define method slots for inheritance",
+            "To create private methods",
+            "To enable multiple inheritance"
+        ],
+        "correctAnswer": "To restrict instance attributes and save memory"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q7",
+        "title": "Which dunder method allows an object to be used with the 'in' operator?",
+        "choices": [
+            "__contains__()",
+            "__in__()",
+            "__has__()",
+            "__includes__()"
+        ],
+        "correctAnswer": "__contains__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q8",
+        "title": "What does __getitem__() enable for your custom class?",
+        "choices": [
+            "Indexing and slicing support (obj[key])",
+            "Getting class attributes",
+            "Method chaining",
+            "Property access"
+        ],
+        "correctAnswer": "Indexing and slicing support (obj[key])"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q9",
+        "title": "Which dunder method is called when an object is about to be garbage collected?",
+        "choices": [
+            "__del__()",
+            "__destroy__()",
+            "__finalize__()",
+            "__cleanup__()"
+        ],
+        "correctAnswer": "__del__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q10",
+        "title": "What is the purpose of __new__() method?",
+        "choices": [
+            "To create a new instance of the class (before __init__)",
+            "To initialize object attributes",
+            "To create new methods dynamically",
+            "To handle inheritance"
+        ],
+        "correctAnswer": "To create a new instance of the class (before __init__)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q11",
+        "title": "Which dunder method allows you to customize the '+' operator for your objects?",
+        "choices": [
+            "__add__()",
+            "__plus__()",
+            "__sum__()",
+            "__combine__()"
+        ],
+        "correctAnswer": "__add__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q12",
+        "title": "What does the __iter__() method enable?",
+        "choices": [
+            "Makes the object iterable in for loops",
+            "Iterates through object methods",
+            "Creates multiple instances",
+            "Enables method chaining"
+        ],
+        "correctAnswer": "Makes the object iterable in for loops"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q13",
+        "title": "Which dunder method is used to customize attribute access when an attribute is not found?",
+        "choices": [
+            "__getattr__()",
+            "__getattribute__()",
+            "__setattr__()",
+            "__hasattr__()"
+        ],
+        "correctAnswer": "__getattr__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q14",
+        "title": "What is the difference between __getattr__() and __getattribute__()?",
+        "choices": [
+            "__getattr__() is called only when attribute is not found, __getattribute__() is called for every attribute access",
+            "They are identical in functionality",
+            "__getattr__() is faster than __getattribute__()",
+            "__getattribute__() is deprecated"
+        ],
+        "correctAnswer": "__getattr__() is called only when attribute is not found, __getattribute__() is called for every attribute access"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q15",
+        "title": "Which dunder method allows comparison using the '<' operator?",
+        "choices": [
+            "__lt__()",
+            "__less__()",
+            "__smaller__()",
+            "__compare__()"
+        ],
+        "correctAnswer": "__lt__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q16",
+        "title": "What does __hash__() method determine?",
+        "choices": [
+            "Whether an object can be used as a dictionary key or in a set",
+            "The object's memory address",
+            "The object's string representation",
+            "The object's type hierarchy"
+        ],
+        "correctAnswer": "Whether an object can be used as a dictionary key or in a set"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q17",
+        "title": "Which dunder method is called when you use the 'bool()' function on an object?",
+        "choices": [
+            "__bool__() or __len__() as fallback",
+            "__true__()",
+            "__boolean__()",
+            "__is_true__()"
+        ],
+        "correctAnswer": "__bool__() or __len__() as fallback"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q18",
+        "title": "What is the purpose of __format__() method?",
+        "choices": [
+            "To customize string formatting with format() and f-strings",
+            "To format object for printing",
+            "To structure object data",
+            "To validate object state"
+        ],
+        "correctAnswer": "To customize string formatting with format() and f-strings"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q19",
+        "title": "Which dunder method allows reverse arithmetic operations (e.g., 5 + obj)?",
+        "choices": [
+            "__radd__()",
+            "__reverse_add__()",
+            "__add_reverse__()",
+            "__right_add__()"
+        ],
+        "correctAnswer": "__radd__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q20",
+        "title": "What does the @property decorator essentially replace?",
+        "choices": [
+            "Manual implementation of __get__, __set__, and __delete__ methods",
+            "__getattr__ and __setattr__ methods",
+            "__init__ and __new__ methods",
+            "__str__ and __repr__ methods"
+        ],
+        "correctAnswer": "Manual implementation of __get__, __set__, and __delete__ methods"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q21",
+        "title": "Which dunder method is used to support the 'next()' function in iterators?",
+        "choices": [
+            "__next__()",
+            "__iterate__()",
+            "__step__()",
+            "__advance__()"
+        ],
+        "correctAnswer": "__next__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q22",
+        "title": "What happens if you implement __eq__() but not __hash__()?",
+        "choices": [
+            "The object becomes unhashable (cannot be used in sets or as dict keys)",
+            "Python automatically generates a hash",
+            "The object uses memory address for hashing",
+            "Nothing changes in behavior"
+        ],
+        "correctAnswer": "The object becomes unhashable (cannot be used in sets or as dict keys)"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q23",
+        "title": "Which dunder method allows you to customize object copying with copy.copy()?",
+        "choices": [
+            "__copy__()",
+            "__clone__()",
+            "__duplicate__()",
+            "__replicate__()"
+        ],
+        "correctAnswer": "__copy__()"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q24",
+        "title": "What is the purpose of __metaclass__ attribute (or metaclass parameter in Python 3)?",
+        "choices": [
+            "To specify which metaclass should be used to create the class",
+            "To define class inheritance hierarchy",
+            "To set default values for class attributes",
+            "To enable multiple inheritance"
+        ],
+        "correctAnswer": "To specify which metaclass should be used to create the class"
+    },
+    {
+        "type": "radiogroup",
+        "name": "q25",
+        "title": "Which dunder method is called when you use the 'abs()' function on an object?",
+        "choices": [
+            "__abs__()",
+            "__absolute__()",
+            "__magnitude__()",
+            "__positive__()"
+        ],
+        "correctAnswer": "__abs__()"
+    }
+]

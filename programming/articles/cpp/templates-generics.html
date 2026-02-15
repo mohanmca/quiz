@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Deep Dive — Templates, SFINAE, Concepts</title>
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f8fafc; --text:#0f172a; --muted:#64748b; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:10; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .title { font-weight:800; font-size: 24px; margin: 4px 0; }
+    .subtitle { color: var(--muted); margin-bottom: 8px; }
+    .toolbar { display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#e2efff; color:#0f172a; }
+    button.ghost { background:transparent; color:#0f172a; border:1px solid #e2e8f0; }
+    main.container article { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; }
+    h2 { margin-top:22px; }
+    h3 { margin-top:16px; }
+    p { line-height:1.7; }
+    table { width:100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { border:1px solid #e2e8f0; padding:8px; text-align:left; vertical-align:top; }
+    th { background:#f1f5f9; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; border:1px solid #111827; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">C++ Deep Dive — Templates, SFINAE, Concepts</div>
+      <div class="subtitle">Specialization, detection, constraints, variadics, folds, dependent names, CRTP, constexpr meta</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../../index.html?id=cpp-advanced-value-lifetimes'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../cpp-value-lifetimes-ownership-templates-concurrency.html'">Back to Overview</button>
+        <button onclick="window.location.href='../../data/anki/cpp-advanced.csv'">Download Anki CSV</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <h2>1. Specialization & Overload</h2>
+      <ul>
+        <li>Function templates cannot be partially specialized — use overloads with constraints.</li>
+        <li>Class/alias/variable templates allow partial specialization.</li>
+      </ul>
+
+      <h2>2. SFINAE & Detection Idiom</h2>
+      <ul>
+        <li>Substitution failures remove candidates; do not error.</li>
+        <li>Use detection idiom or requires to test for expressions/types.</li>
+      </ul>
+
+      <h2>3. Concepts (C++20)</h2>
+      <ul>
+        <li>requires-clause clarifies intent and produces better diagnostics.</li>
+        <li>Constrain overloads to avoid ADL/ambiguity surprises.</li>
+      </ul>
+
+      <h2>4. Variadics & Fold Expressions</h2>
+      <ul>
+        <li>Packs and folds simplify reductions and forwarding.</li>
+        <li>Beware empty packs; provide identity elements.</li>
+      </ul>
+
+      <h2>5. Dependent Names</h2>
+      <ul>
+        <li>Use typename for dependent type names; template disambiguator for member templates.</li>
+        <li>Prefer this-> to access dependent base members.</li>
+      </ul>
+
+      <h2>6. CRTP & constexpr meta</h2>
+      <ul>
+        <li>CRTP provides static polymorphism/mixins; reduce virtual cost.</li>
+        <li>constexpr algorithms + type traits power compile-time decisions.</li>
+      </ul>
+    </article>
+  </main>
+</body>
+</html>
+

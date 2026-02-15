@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Value Categories, Lifetimes, Ownership, Templates, and Concurrency — Deep Guide</title>
+  <meta name="description" content="Comprehensive guide to modern C++: value categories, lifetimes, move semantics, RAII, smart pointers, templates/SFINAE/Concepts, object model, low-level features, error handling, modern features, concurrency, and build tooling. Includes cheat sheet and quiz.">
+  <style>
+    :root { --primary:#0ea5e9; --bg:#f8fafc; --text:#0f172a; --muted:#64748b; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--text); background:var(--bg); }
+    header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:10; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .title { font-weight:800; font-size: 24px; margin: 4px 0; }
+    .subtitle { color: var(--muted); margin-bottom: 8px; }
+    .toolbar { display:flex; gap:8px; flex-wrap: wrap; }
+    button { background: var(--primary); color: #fff; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    button.secondary { background:#e2efff; color:#0f172a; }
+    button.ghost { background:transparent; color:#0f172a; border:1px solid #e2e8f0; }
+    main.container article { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:18px; }
+    h2 { margin-top:22px; }
+    h3 { margin-top:16px; }
+    p { line-height:1.7; }
+    ul { margin-top:8px; }
+    table { width:100%; border-collapse: collapse; margin: 10px 0; }
+    th, td { border:1px solid #e2e8f0; padding:8px; text-align:left; vertical-align:top; }
+    th { background:#f1f5f9; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    pre { background:#0b1020; color:#e5e7eb; padding:12px; border-radius:10px; overflow:auto; border:1px solid #111827; }
+    .ascii { white-space: pre; background:#fff; border:1px solid #e2e8f0; border-radius:8px; padding:10px; }
+    .tip { background:#ecfeff; border:1px solid #06b6d433; color:#0c4a6e; padding:12px; border-radius:10px; }
+    .note { background:#fefce8; border:1px solid #fde68a; color:#713f12; padding:12px; border-radius:10px; }
+    .toc a { color:#0ea5e9; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="title">C++ Value Categories, Lifetimes, Ownership, Templates, and Concurrency — Deep Guide</div>
+      <div class="subtitle">A practical, modern C++ guide with cheat sheet, diagrams, and 200-question quiz + Anki deck</div>
+      <div class="toolbar">
+        <button class="secondary" onclick="window.location.href='../index.html?id=cpp-advanced-value-lifetimes'">Start Quiz</button>
+        <button class="ghost" onclick="window.location.href='../index.html'">Back to Quizzes</button>
+        <button onclick="window.location.href='../data/anki/cpp-advanced.csv'">Download Anki CSV</button>
+      </div>
+    </div>
+  </header>
+  <main class="container">
+    <article>
+      <div class="toc">
+        <strong>Contents</strong>
+        <ul>
+          <li><a href="#cheatsheet">Cheat Sheet</a></li>
+          <li><a href="#values">1. Value Categories & Lifetimes</a> — <a href="cpp/value-categories-lifetimes.html">Deep Dive</a></li>
+          <li><a href="#ownership">2. Memory Ownership Models</a> — <a href="cpp/memory-ownership-raii.html">Deep Dive</a></li>
+          <li><a href="#templates">3. Templates & Generics</a> — <a href="cpp/templates-generics.html">Deep Dive</a></li>
+          <li><a href="#object">4. Object Model & Polymorphism</a></li>
+          <li><a href="#lowlevel">5. Low-Level Language Features</a></li>
+          <li><a href="#errors">6. Error Handling</a></li>
+          <li><a href="#modern">7. Modern C++ Features</a></li>
+          <li><a href="#concurrency">8. Concurrency</a></li>
+          <li><a href="#build">9. Build/Tooling Complexity</a></li>
+        </ul>
+      </div>
+
+      <h2 id="cheatsheet">Cheat Sheet</h2>
+      <table>
+        <thead><tr><th>Topic</th><th>Key Rules</th><th>Pitfalls</th><th>Diagnostics</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Value Categories</td>
+            <td>
+              • lvalue: has identity; addressable; can bind to T&<br>
+              • prvalue: temporary; materializes object (C++17+); binds to const T& or T&&<br>
+              • xvalue: expiring glvalue; cast via std::move; binds to T&&
+            </td>
+            <td>Binding non-const lvalue ref to temporary; dangling refs; over-eager std::move</td>
+            <td>look at overload resolution, add explicit std::move where ownership transfers</td>
+          </tr>
+          <tr>
+            <td>Move Semantics</td>
+            <td>Implement move ctor/assign when owning resources; mark noexcept if possible</td>
+            <td>Self-move; double-free if not nulling; moving from const (disables move)</td>
+            <td>Use =default where correct; test moved-from invariants</td>
+          </tr>
+          <tr>
+            <td>Smart Pointers</td>
+            <td>unique_ptr for sole ownership; shared_ptr for shared; weak_ptr to break cycles</td>
+            <td>Aliasing ctor misuse; cycles with shared_ptr; custom deleter type in type</td>
+            <td>clang-tidy: modernize-use-..., sanitize leaks</td>
+          </tr>
+          <tr>
+            <td>RAII</td>
+            <td>Acquire in ctor, release in dtor; prefer scope-bound resource mgmt</td>
+            <td>Manual new/delete; missing virtual dtor in polymorphic base</td>
+            <td>Rule of Zero/Three/Five; valgrind/asan</td>
+          </tr>
+          <tr>
+            <td>Templates</td>
+            <td>Prefer Concepts to SFINAE; use requires/auto; minimize dependent-lookup footguns</td>
+            <td>Forgetting typename/template; ADL surprises; ODR/link errors</td>
+            <td>constrain overloads; use fold expressions; static_asserts</td>
+          </tr>
+          <tr>
+            <td>Exceptions</td>
+            <td>Basic/strong/nothrow guarantees; noexcept on moves/swaps</td>
+            <td>Throwing from destructors; exception-neutral code</td>
+            <td>ASAN/UBSAN; tests for strong guarantee paths</td>
+          </tr>
+          <tr>
+            <td>Concurrency</td>
+            <td>Happens-before; data race undefined; use atomics and consistent ordering</td>
+            <td>Data races; mixed acquire/release; ABA</td>
+            <td>TSAN; fences; memory_order docs</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="values">1) Value Categories & Object Lifetimes</h2>
+      <p>This section explains glvalue/prvalue/xvalue, how expressions bind to references, when materialization happens (C++17+), and how lifetime extension works for temporaries bound to const references.</p>
+      <ul>
+        <li>lvalue: has persistent identity (naming an object), can appear on the left of assignment; addressable.</li>
+        <li>prvalue: a pure rvalue; in C++17 materializes a temporary when needed.</li>
+        <li>xvalue: “expiring” glvalue; typically the result of std::move or returning by rvalue reference.</li>
+        <li>Binding rules: T& binds to lvalues; const T& binds to anything; T&& binds to rvalues/xvalues.</li>
+        <li>Lifetime extension: a temporary bound to const T& may live to the reference’s scope; not so for T&& local unless used in initializer of a const T& member, etc.</li>
+        <li>Dangling references: returned references to locals; capturing by reference in async lambdas; storing references to temporaries.</li>
+      </ul>
+      <div class="ascii">Value categories quick map
+expr name ─► lvalue (has identity)
+std::move(expr) ─► xvalue (expiring glvalue)
+42, make_T() ─► prvalue (temporary materializes)
+      </div>
+
+      <h2 id="ownership">2) Memory Ownership Models</h2>
+      <ul>
+        <li>unique_ptr: sole ownership; movable, not copyable; use make_unique; custom deleter part of type.</li>
+        <li>shared_ptr: shared ownership via reference counting; avoid cycles; prefer make_shared for single allocation.</li>
+        <li>weak_ptr: observes shared object without contributing to count; use lock() to get shared_ptr.</li>
+        <li>RAII: tie resources to object lifetime; ensure exception-safety.</li>
+        <li>Custom deleters: pass functor function; note deleter type affects unique_ptr type.</li>
+      </ul>
+
+      <h3>Rules Cheat‑Sheet: Zero / Three / Five (and “Seven”)</h3>
+      <table>
+        <thead><tr><th>Rule</th><th>Definition</th><th>Practical guidance</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Rule of Zero</td>
+            <td>Don’t write dtor/copy/move; rely on RAII members to manage resources.</td>
+            <td>Default choice for high‑level types; simplest and safest.</td>
+          </tr>
+          <tr>
+            <td>Rule of Three</td>
+            <td>Define dtor, copy ctor, copy assign together when owning manual resources.</td>
+            <td>Signals manual ownership; consider migrating to RAII members.</td>
+          </tr>
+          <tr>
+            <td>Rule of Five</td>
+            <td>Add move ctor and move assign (C++11+) when direct ownership benefits from moves.</td>
+            <td>Use =default where correct; prefer noexcept on moves; provide swap.</td>
+          </tr>
+          <tr>
+            <td>“Rule of Seven”</td>
+            <td>Not a standard rule; sometimes an informal extension including swap/compare.</td>
+            <td>Stick to Zero/Three/Five; add <code>swap</code> and comparisons as needed.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="templates">3) Templates & Generics</h2>
+      <ul>
+        <li>Specialization: full vs partial; partial for class templates only.</li>
+        <li>SFINAE: enable_if; detect idiom; prefer Concepts in C++20 for readability.</li>
+        <li>Concepts: requires clauses; constrain functions and types; diagnostics improve.</li>
+        <li>Variadic templates: parameter packs; fold expressions simplify reductions.</li>
+        <li>Dependent names: use typename and template disambiguators.</li>
+        <li>CRTP: static polymorphism without virtual cost; compile-time mixins.</li>
+        <li>constexpr metaprogramming: compute at compile time; integral_constant; type traits.</li>
+      </ul>
+
+      <h2 id="object">4) Object Model & Polymorphism</h2>
+      <ul>
+        <li>Slicing: assigning derived to base by value loses derived state; pass by reference/pointer.</li>
+        <li>Virtual dispatch: vtable per dynamic type; use override to avoid mismatches; final to stop override/derive.</li>
+        <li>Multiple inheritance: diamond with virtual inheritance to share single base subobject.</li>
+        <li>Pure virtual destructors must be defined; base needs virtual destructor for polymorphic deletion.</li>
+      </ul>
+
+      <h2 id="lowlevel">5) Low-Level Language Features</h2>
+      <ul>
+        <li>Manual memory: new/delete; placement new for in-place construction; match new/delete forms.</li>
+        <li>Pointer arithmetic: only within same array; random access iterators mimic arithmetic semantics.</li>
+        <li>Const-correctness: express intent; use mutable for logically mutable members; const_cast only to interface with APIs and when truly safe.</li>
+        <li>Volatile vs atomic: volatile is not for concurrency; use std::atomic and memory orders.</li>
+        <li>Bit-fields: layout and portability concerns; beware of alignment and endianness.</li>
+        <li>Alignment/padding: struct layout; alignas and alignof.</li>
+        <li>Union vs std::variant: variant is type-safe with visitation.</li>
+      </ul>
+
+      <h2 id="errors">6) Error Handling</h2>
+      <ul>
+        <li>Exceptions: stack unwinding; basic/strong/nothrow guarantees; noexcept signals and enables optimizations.</li>
+        <li>Alternatives: error codes, std::optional for absence, std::expected-like for value-or-error.</li>
+        <li>Destructor exceptions are dangerous; prefer nothrow destructors.</li>
+      </ul>
+
+      <h2 id="modern">7) Modern C++ Features</h2>
+      <ul>
+        <li>Lambdas: captures by value/ref; init-capture and move capture [x = std::move(y)].</li>
+        <li>Ranges: lazy pipelines; views::filter/transform; avoid dangling by keeping owners alive.</li>
+        <li>Coroutines: generators/async; promise types; co_yield/co_return; lifetime of frames.</li>
+        <li>Modules: reduce ODR, speed up builds; partitioning and export.</li>
+      </ul>
+
+      <h2 id="concurrency">8) Concurrency</h2>
+      <ul>
+        <li>Happens-before: synchronization via mutexes/atomics establishes ordering; data race is UB.</li>
+        <li>Threads and futures: std::thread, std::async; join/detach; promise/future channels.</li>
+        <li>Atomics: memory_order_relaxed/acq_rel/seq_cst; fences; CAS loops (ABA concerns).</li>
+        <li>Thread-local storage: thread_local for per-thread state.</li>
+      </ul>
+
+      <h2 id="build">9) Build/Tooling Complexity</h2>
+      <ul>
+        <li>Linker errors and ODR: multiple definitions; inline variables/functions; templates in headers.</li>
+        <li>Headers and include guards or #pragma once; avoid order dependencies.</li>
+        <li>ABI/name mangling: mixing compilers/standard library versions; visibility attributes.</li>
+        <li>Separate compilation of templates requires explicit instantiation or headers.</li>
+      </ul>
+
+      <div class="tip">Tip: Prefer the Rule of Zero—compose types from RAII members. Where you own a resource directly, implement the Rule of Five and consider noexcept moves to enable container optimizations.</div>
+    </article>
+  </main>
+</body>
+</html>

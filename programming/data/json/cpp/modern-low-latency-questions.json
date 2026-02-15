@@ -1,0 +1,1002 @@
+[
+  {
+    "title": "Q1. Consider the snippet:\n```cpp\nstd::byte arena[1024];\nstd::pmr::monotonic_buffer_resource pool{arena, sizeof(arena)};\nstd::pmr::vector<int> v{&pool};\n```\nWhere does v allocate its storage from?",
+    "choices": [
+      "The arena buffer",
+      "The system heap only",
+      "The stack frame of the caller",
+      "GPU device memory"
+    ],
+    "correctAnswer": "The arena buffer"
+  },
+  {
+    "title": "Q2. Consider the snippet:\n```cpp\nstd::pmr::monotonic_buffer_resource pool;\nstd::pmr::polymorphic_allocator<int> alloc{&pool};\nint* p = alloc.allocate(10);\nalloc.deallocate(p, 10);\n```\nWhat happens on deallocate?",
+    "choices": [
+      "It is a no-op until the resource is released",
+      "Memory is returned immediately to the OS",
+      "The allocation is moved to the stack",
+      "The pointer becomes owned by a shared_ptr"
+    ],
+    "correctAnswer": "It is a no-op until the resource is released"
+  },
+  {
+    "title": "Q3. Consider the snippet:\n```cpp\nstruct MyRes : std::pmr::memory_resource {\n  void* do_allocate(size_t, size_t) override;\n  void do_deallocate(void*, size_t, size_t) override;\n  bool do_is_equal(const std::pmr::memory_resource&) const noexcept override;\n};\n```\nWhat is the key benefit of a custom memory_resource?",
+    "choices": [
+      "Custom allocation policy without changing container types",
+      "Guaranteed lock-free allocations",
+      "Automatic garbage collection",
+      "Implicit reference counting"
+    ],
+    "correctAnswer": "Custom allocation policy without changing container types"
+  },
+  {
+    "title": "Q4. Consider the snippet:\n```cpp\nstd::pmr::unsynchronized_pool_resource pool;\nstd::pmr::string s{&pool};\n```\nWhen is unsynchronized_pool_resource a good fit?",
+    "choices": [
+      "Single-threaded allocation-heavy paths",
+      "Cross-process shared memory",
+      "GPU kernels only",
+      "When you need ref-counted strings"
+    ],
+    "correctAnswer": "Single-threaded allocation-heavy paths"
+  },
+  {
+    "title": "Q5. Consider the snippet:\n```cpp\nstd::byte b{0x3f};\nint x = std::to_integer<int>(b);\n```\nWhy prefer std::byte in low-level code?",
+    "choices": [
+      "Type-safe raw memory representation",
+      "Automatic arithmetic on bytes",
+      "Implicit string conversion",
+      "Guaranteed cache alignment"
+    ],
+    "correctAnswer": "Type-safe raw memory representation"
+  },
+  {
+    "title": "Q6. Consider the snippet:\n```cpp\nconsteval auto make_table(){\n  std::array<int,4> a{1,2,3,4};\n  return a;\n}\nconstexpr auto table = make_table();\n```\nWhen is make_table executed?",
+    "choices": [
+      "At compile time only",
+      "At runtime only",
+      "At program shutdown",
+      "On the first function call"
+    ],
+    "correctAnswer": "At compile time only"
+  },
+  {
+    "title": "Q7. Consider the snippet:\n```cpp\nstd::string make(){ return std::string(\"x\"); }\nauto s = make();\n```\nWhat optimization is likely here?",
+    "choices": [
+      "Copy elision avoids extra copies",
+      "A dynamic allocation is forced",
+      "The string is shared across threads",
+      "The function returns a reference"
+    ],
+    "correctAnswer": "Copy elision avoids extra copies"
+  },
+  {
+    "title": "Q8. Consider the snippet:\n```cpp\nstd::optional<int> parse(std::string_view s){\n  if (s.empty()) return std::nullopt;\n  return 42;\n}\n```\nWhat does std::nullopt represent?",
+    "choices": [
+      "No value present",
+      "An exception thrown",
+      "A shared ownership handle",
+      "A default value of zero"
+    ],
+    "correctAnswer": "No value present"
+  },
+  {
+    "title": "Q9. Consider the snippet:\n```cpp\nstd::variant<int, double> v = 3.14;\n```\nWhat does std::variant store at any time?",
+    "choices": [
+      "Exactly one of its alternatives",
+      "All alternatives at once",
+      "Only pointers to alternatives",
+      "A dynamically allocated union"
+    ],
+    "correctAnswer": "Exactly one of its alternatives"
+  },
+  {
+    "title": "Q10. Consider the snippet:\n```cpp\nauto p = std::make_unique<Foo>();\n```\nWhy is unique_ptr favored in hot paths?",
+    "choices": [
+      "Deterministic destruction without ref counting",
+      "Automatic deep copy on assignment",
+      "Implicit thread-safe sharing",
+      "Built-in pooling"
+    ],
+    "correctAnswer": "Deterministic destruction without ref counting"
+  },
+  {
+    "title": "Q11. Consider the snippet:\n```cpp\ntemplate <typename T>\nint f(T v){\n  if constexpr (std::is_integral_v<T>) return v + 1;\n  else return 0;\n}\n```\nWhat does if constexpr enable?",
+    "choices": [
+      "Compile-time branching",
+      "Runtime branch prediction",
+      "Automatic parallelization",
+      "Guaranteed heap allocation"
+    ],
+    "correctAnswer": "Compile-time branching"
+  },
+  {
+    "title": "Q12. Consider the snippet:\n```cpp\ntemplate <typename T>\nconcept Addable = requires(T a, T b){ a + b; };\n```\nIf a type does not satisfy Addable, what happens?",
+    "choices": [
+      "Compilation fails with a clear diagnostic",
+      "The program throws at runtime",
+      "The compiler inserts a fallback",
+      "The code becomes dynamic"
+    ],
+    "correctAnswer": "Compilation fails with a clear diagnostic"
+  },
+  {
+    "title": "Q13. Consider the snippet:\n```cpp\ntemplate <typename D>\nstruct Base {\n  void log(){ static_cast<D*>(this)->impl(); }\n};\nstruct X : Base<X> { void impl(){} };\n```\nThis pattern is known as:",
+    "choices": [
+      "CRTP for static polymorphism",
+      "Runtime polymorphism",
+      "Type erasure",
+      "Virtual interface inheritance"
+    ],
+    "correctAnswer": "CRTP for static polymorphism"
+  },
+  {
+    "title": "Q14. Consider the snippet:\n```cpp\nconstexpr int sum(){\n  int s = 0;\n  for (int i = 0; i < 4; i++) s += i;\n  return s;\n}\nconstexpr int v = sum();\n```\nWhen is sum evaluated?",
+    "choices": [
+      "At compile time (for v)",
+      "Always at runtime",
+      "Only on the first call",
+      "At program shutdown"
+    ],
+    "correctAnswer": "At compile time (for v)"
+  },
+  {
+    "title": "Q15. Consider the snippet:\n```cpp\nconsteval int twice(int x){ return x * 2; }\nconstexpr int y = twice(3);\n```\nWhat is true about twice?",
+    "choices": [
+      "It must be evaluated at compile time",
+      "It can only run on the heap",
+      "It is always inlined at runtime",
+      "It creates a coroutine"
+    ],
+    "correctAnswer": "It must be evaluated at compile time"
+  },
+  {
+    "title": "Q16. Consider the snippet:\n```cpp\nconstinit int g_counter = 42;\n```\nWhat does constinit guarantee?",
+    "choices": [
+      "Static initialization without order issues",
+      "Runtime initialization on first use",
+      "Thread-local storage",
+      "Constant folding of all uses"
+    ],
+    "correctAnswer": "Static initialization without order issues"
+  },
+  {
+    "title": "Q17. Consider the snippet:\n```cpp\nstruct Config { int n; };\nconstexpr Config C{64};\n\ntemplate <Config Cfg>\nstruct Buf { char data[Cfg.n]; };\n\nBuf<C> b;\n```\nWhat does the class-type NTTP enable?",
+    "choices": [
+      "Encoding configuration in the type",
+      "Runtime reflection",
+      "Automatic heap allocation",
+      "Implicit virtual dispatch"
+    ],
+    "correctAnswer": "Encoding configuration in the type"
+  },
+  {
+    "title": "Q18. Consider the snippet:\n```cpp\nint counter = 0;\nstd::atomic_ref<int> a(counter);\na.fetch_add(1, std::memory_order_relaxed);\n```\nWhat does atomic_ref provide here?",
+    "choices": [
+      "Atomic ops on existing memory",
+      "A lock around the int",
+      "Thread-local storage",
+      "Automatic hazard pointers"
+    ],
+    "correctAnswer": "Atomic ops on existing memory"
+  },
+  {
+    "title": "Q19. Consider the snippet:\n```cpp\nstd::atomic<int> a{0};\na.fetch_add(1, std::memory_order_relaxed);\n```\nWhat guarantee does memory_order_relaxed provide?",
+    "choices": [
+      "Atomicity without ordering guarantees",
+      "A total order across threads",
+      "Acquire-release synchronization",
+      "Sequential consistency"
+    ],
+    "correctAnswer": "Atomicity without ordering guarantees"
+  },
+  {
+    "title": "Q20. Consider the snippet:\n```cpp\n// Writer\npayload = 42;\nflag.store(true, std::memory_order_release);\n\n// Reader\nwhile (!flag.load(std::memory_order_acquire)) {}\nuse(payload);\n```\nWhat does the release/acquire pairing ensure?",
+    "choices": [
+      "payload is visible to the reader",
+      "The reader spins less",
+      "Atomic operations become lock-free",
+      "The compiler disables optimizations"
+    ],
+    "correctAnswer": "payload is visible to the reader"
+  },
+  {
+    "title": "Q21. Consider the snippet:\n```cpp\nstd::jthread t([](std::stop_token st){\n  while (!st.stop_requested()) {\n    // work\n  }\n});\n```\nWhat happens when t is destroyed?",
+    "choices": [
+      "It requests stop and joins",
+      "It detaches immediately",
+      "It throws an exception",
+      "It leaks the thread"
+    ],
+    "correctAnswer": "It requests stop and joins"
+  },
+  {
+    "title": "Q22. Consider the snippet:\n```cpp\nstd::atomic<size_t> head{0};\nstd::atomic<size_t> tail{0};\n```\nWhy are atomics used in a ring buffer?",
+    "choices": [
+      "Safe concurrent updates without locks",
+      "To enable garbage collection",
+      "To avoid cache lines",
+      "To allocate on the stack"
+    ],
+    "correctAnswer": "Safe concurrent updates without locks"
+  },
+  {
+    "title": "Q23. Consider the snippet:\n```cpp\nstruct alignas(64) Slot { std::atomic<int> v; };\n```\nWhat is a likely reason for alignas(64) here?",
+    "choices": [
+      "Reduce false sharing",
+      "Force dynamic allocation",
+      "Disable atomic operations",
+      "Enable exceptions"
+    ],
+    "correctAnswer": "Reduce false sharing"
+  },
+  {
+    "title": "Q24. Consider the snippet:\n```cpp\nsize_t a = alignof(std::max_align_t);\n```\nWhat does alignof return?",
+    "choices": [
+      "The alignment requirement of a type",
+      "The size of a type",
+      "The number of fields",
+      "The total cache lines used"
+    ],
+    "correctAnswer": "The alignment requirement of a type"
+  },
+  {
+    "title": "Q25. Consider the snippet:\n```cpp\nstruct E{};\nstruct S {\n  [[no_unique_address]] E e;\n  int x;\n};\n```\nWhat is the effect of [[no_unique_address]] here?",
+    "choices": [
+      "e may occupy no storage",
+      "e is placed on the heap",
+      "x becomes atomic",
+      "Padding is always increased"
+    ],
+    "correctAnswer": "e may occupy no storage"
+  },
+  {
+    "title": "Q26. Consider the snippet:\n```cpp\nvoid f(std::span<const int> s);\nstd::vector<int> v;\nf(v);\n```\nWhat is std::span in this context?",
+    "choices": [
+      "A non-owning view over contiguous data",
+      "An owning container",
+      "A lock-free queue",
+      "A polymorphic allocator"
+    ],
+    "correctAnswer": "A non-owning view over contiguous data"
+  },
+  {
+    "title": "Q27. Consider the snippet:\n```cpp\nuint32_t u = 0x3f800000;\nfloat f = std::bit_cast<float>(u);\n```\nWhat does std::bit_cast guarantee?",
+    "choices": [
+      "Bitwise reinterpretation between same-sized types",
+      "Runtime type checking",
+      "Endianness conversion",
+      "Heap allocation of the target"
+    ],
+    "correctAnswer": "Bitwise reinterpretation between same-sized types"
+  },
+  {
+    "title": "Q28. Consider the snippet:\n```cpp\nstruct AoS { float x, y, z; };\nstd::vector<AoS> pts;\n```\nIf you frequently scan only x values, which layout is better?",
+    "choices": [
+      "Structure of Arrays (SoA)",
+      "Array of Structures (AoS)",
+      "Linked list of AoS",
+      "Hash map of AoS"
+    ],
+    "correctAnswer": "Structure of Arrays (SoA)"
+  },
+  {
+    "title": "Q29. Consider the snippet:\n```cpp\nif (count == 0) [[unlikely]] {\n  log_empty();\n}\n```\nWhat is the purpose of [[unlikely]]?",
+    "choices": [
+      "Provide a branch prediction hint",
+      "Disable the branch",
+      "Force a runtime check",
+      "Guarantee lock-free behavior"
+    ],
+    "correctAnswer": "Provide a branch prediction hint"
+  },
+  {
+    "title": "Q30. Consider the snippet:\n```cpp\nstd::assume(ptr != nullptr);\n*ptr = 1;\n```\nWhat is the effect of std::assume?",
+    "choices": [
+      "Tells the optimizer an assumption is true",
+      "Performs a runtime null check",
+      "Allocates memory for ptr",
+      "Makes ptr atomic"
+    ],
+    "correctAnswer": "Tells the optimizer an assumption is true"
+  },
+  {
+    "title": "Q31. Consider the snippet:\n```cpp\nswitch (mode) {\n  case 0: fast(); break;\n  case 1: slow(); break;\n  default: std::unreachable();\n}\n```\nWhy call std::unreachable here?",
+    "choices": [
+      "Mark dead paths for optimization",
+      "Insert a mandatory runtime trap",
+      "Allocate memory for errors",
+      "Disable inlining"
+    ],
+    "correctAnswer": "Mark dead paths for optimization"
+  },
+  {
+    "title": "Q32. Consider the snippet:\n```cpp\nchar buf[] = \"123\";\nint value = 0;\nauto [ptr, ec] = std::from_chars(buf, buf + 3, value);\n```\nWhat is a key benefit of from_chars?",
+    "choices": [
+      "Allocation-free parsing",
+      "Locale-aware parsing by default",
+      "Guaranteed exceptions on errors",
+      "Always returns std::string"
+    ],
+    "correctAnswer": "Allocation-free parsing"
+  },
+  {
+    "title": "Q33. Consider the snippet:\n```cpp\nchar out[32];\nauto [ptr, ec] = std::to_chars(out, out + 32, 12345);\n```\nWhat does to_chars do?",
+    "choices": [
+      "Formats numbers into a user buffer without allocating",
+      "Allocates a std::string",
+      "Uses locale formatting",
+      "Requires iostreams"
+    ],
+    "correctAnswer": "Formats numbers into a user buffer without allocating"
+  },
+  {
+    "title": "Q34. Consider the snippet:\n```cpp\nstd::string_view sv;\n{\n  std::string s = \"hi\";\n  sv = s;\n}\n// use sv here\n```\nWhat is the issue with this code?",
+    "choices": [
+      "sv dangles after s is destroyed",
+      "sv forces a heap allocation",
+      "sv copies the string",
+      "sv is always null-terminated"
+    ],
+    "correctAnswer": "sv dangles after s is destroyed"
+  },
+  {
+    "title": "Q35. Consider the snippet:\n```cpp\nauto s = std::format(\"id {}\", id);\n```\nWhich statement is correct about std::format?",
+    "choices": [
+      "Formatting still happens at runtime",
+      "All formatting is compile-time only",
+      "It is always allocation-free",
+      "It replaces to_chars in hot paths"
+    ],
+    "correctAnswer": "Formatting still happens at runtime"
+  },
+  {
+    "title": "Q36. Consider the snippet:\n```cpp\nstd::expected<int, Error> r = parse();\nif (!r) return r.error();\n```\nWhat does std::expected enable?",
+    "choices": [
+      "Explicit error handling without exceptions",
+      "Implicit retries",
+      "Automatic logging",
+      "Thread-safe sharing"
+    ],
+    "correctAnswer": "Explicit error handling without exceptions"
+  },
+  {
+    "title": "Q37. Consider the snippet:\n```cpp\nstruct X { X(X&&) noexcept; };\nstd::vector<X> v;\nv.push_back(X{});\n```\nWhy mark move ctor noexcept here?",
+    "choices": [
+      "Allows vector to move on reallocation",
+      "Forces copy elision",
+      "Disables inlining",
+      "Guarantees lock-free moves"
+    ],
+    "correctAnswer": "Allows vector to move on reallocation"
+  },
+  {
+    "title": "Q38. Consider the snippet:\n```cpp\nauto [id, price] = get_quote();\n```\nWhat do structured bindings provide?",
+    "choices": [
+      "Decomposition into named variables",
+      "Automatic memory alignment",
+      "Thread creation",
+      "Runtime reflection"
+    ],
+    "correctAnswer": "Decomposition into named variables"
+  },
+  {
+    "title": "Q39. Consider the snippet:\n```cpp\nauto v = xs | std::views::filter(pred);\n```\nWhy are ranges useful in low-latency code?",
+    "choices": [
+      "Lazy views with minimal overhead",
+      "Forced allocations",
+      "Virtual dispatch",
+      "Implicit copies"
+    ],
+    "correctAnswer": "Lazy views with minimal overhead"
+  },
+  {
+    "title": "Q40. Consider the snippet:\n```cpp\nstruct Order { int id; double px; };\nOrder o{ .px = 10.5, .id = 7 };\n```\nWhat feature is used here?",
+    "choices": [
+      "Designated initializers",
+      "Aggregate inheritance",
+      "Runtime reflection",
+      "Type erasure"
+    ],
+    "correctAnswer": "Designated initializers"
+  },
+  {
+    "title": "Q41. Consider the snippet:\n```cpp\nimport std;\nimport mylib;\n```\nWhat is a main benefit of modules?",
+    "choices": [
+      "Faster builds and ODR hygiene",
+      "Automatic garbage collection",
+      "Runtime JIT compilation",
+      "Mandatory dynamic linking"
+    ],
+    "correctAnswer": "Faster builds and ODR hygiene"
+  },
+  {
+    "title": "Q42. Consider the snippet:\n```cpp\ntask<int> f(){\n  co_return 42;\n}\n```\nWhat does this enable?",
+    "choices": [
+      "Coroutine-based async without extra threads",
+      "Guaranteed parallelism",
+      "Automatic locking",
+      "Stackless recursion"
+    ],
+    "correctAnswer": "Coroutine-based async without extra threads"
+  },
+  {
+    "title": "Q43. Consider the snippet:\n```cpp\nstd::flat_map<int,int> m;\nm.insert({1, 2});\n```\nWhy choose flat_map in hot read paths?",
+    "choices": [
+      "Cache-friendly contiguous storage",
+      "Stable node pointers",
+      "O(1) insertion",
+      "Implicit thread safety"
+    ],
+    "correctAnswer": "Cache-friendly contiguous storage"
+  },
+  {
+    "title": "Q44. Consider the snippet:\n```cpp\nstruct S {\n  int n;\n  auto size(this auto&& self){ return self.n; }\n};\n```\nWhich feature does this use?",
+    "choices": [
+      "Deducing this",
+      "Virtual dispatch",
+      "Dynamic casting",
+      "Reflection"
+    ],
+    "correctAnswer": "Deducing this"
+  },
+  {
+    "title": "Q45. Consider the snippet:\n```cpp\nstd::print(\"{}\", x);\n```\nWhat is true about std::print in hot paths?",
+    "choices": [
+      "It is convenient but still I/O-heavy",
+      "It is allocation-free and always fast",
+      "It replaces logging systems",
+      "It is compile-time only"
+    ],
+    "correctAnswer": "It is convenient but still I/O-heavy"
+  },
+  {
+    "title": "Q46. Consider the snippet:\n```cpp\nstd::pmr::string s{&pool};\ns.append(\"abc\");\n```\nWhere does s allocate from?",
+    "choices": [
+      "The pmr pool resource",
+      "The global operator new only",
+      "Stack memory",
+      "The read-only data segment"
+    ],
+    "correctAnswer": "The pmr pool resource"
+  },
+  {
+    "title": "Q47. Consider the snippet:\n```cpp\nstd::pmr::unsynchronized_pool_resource pool;\nstd::pmr::unordered_set<int> set{&pool};\n```\nWhat does the pool help with?",
+    "choices": [
+      "Fast small allocations for node-based containers",
+      "Automatic garbage collection",
+      "Thread-safe sharing",
+      "Avoiding hash computations"
+    ],
+    "correctAnswer": "Fast small allocations for node-based containers"
+  },
+  {
+    "title": "Q48. Consider the snippet:\n```cpp\nclass CountingRes : public std::pmr::memory_resource {\n  size_t bytes = 0;\n  void* do_allocate(size_t n, size_t) override { bytes += n; return std::malloc(n); }\n  void do_deallocate(void* p, size_t, size_t) override { std::free(p); }\n  bool do_is_equal(const std::pmr::memory_resource&) const noexcept override { return false; }\n};\n```\nWhat is a typical use of this resource?",
+    "choices": [
+      "Track allocation volume",
+      "Enable exceptions",
+      "Guarantee lock-free",
+      "Auto-resize strings"
+    ],
+    "correctAnswer": "Track allocation volume"
+  },
+  {
+    "title": "Q49. Consider the snippet:\n```cpp\nstd::byte* p = buffer;\np += 16;\n```\nIs pointer arithmetic on std::byte* valid?",
+    "choices": [
+      "Yes, like unsigned char*",
+      "No, std::byte forbids arithmetic",
+      "Only with std::advance",
+      "Only in constexpr"
+    ],
+    "correctAnswer": "Yes, like unsigned char*"
+  },
+  {
+    "title": "Q50. Consider the snippet:\n```cpp\nconsteval auto make_ids(){\n  std::array<int,3> a{1,2,3};\n  return a;\n}\nconstexpr auto ids = make_ids();\n```\nWhat does this achieve?",
+    "choices": [
+      "Compile-time table construction",
+      "Runtime heap allocation",
+      "Thread-local storage",
+      "Dynamic linking"
+    ],
+    "correctAnswer": "Compile-time table construction"
+  },
+  {
+    "title": "Q51. Consider the snippet:\n```cpp\nstruct alignas(4) S { int v; };\nS s{0};\nstd::atomic_ref<int> ar(s.v);\n```\nWhat must be true for atomic_ref to be well-formed?",
+    "choices": [
+      "The referenced object must be suitably aligned",
+      "The object must be volatile",
+      "The object must be heap-allocated",
+      "The object must be constexpr"
+    ],
+    "correctAnswer": "The referenced object must be suitably aligned"
+  },
+  {
+    "title": "Q52. Consider the snippet:\n```cpp\n// Producer\nbuffer[tail] = item;\ntail.store(next, std::memory_order_release);\n// Consumer\nsize_t t = tail.load(std::memory_order_acquire);\n```\nWhy use release/acquire here?",
+    "choices": [
+      "Ensure the item is visible to the consumer",
+      "Make the buffer lock-free",
+      "Disable compiler optimizations",
+      "Avoid cache lines"
+    ],
+    "correctAnswer": "Ensure the item is visible to the consumer"
+  },
+  {
+    "title": "Q53. Consider the snippet:\n```cpp\nstd::jthread t([](std::stop_token st){ /* work */ });\nt.request_stop();\n```\nWhat does request_stop do?",
+    "choices": [
+      "Signals the stop_token; work must check it",
+      "Forces the thread to terminate immediately",
+      "Detaches the thread",
+      "Pauses the thread"
+    ],
+    "correctAnswer": "Signals the stop_token; work must check it"
+  },
+  {
+    "title": "Q54. Consider the snippet:\n```cpp\nstd::atomic<int> a{0};\nbool lf = a.is_lock_free();\n```\nWhat does is_lock_free indicate?",
+    "choices": [
+      "Whether atomic ops use locks internally",
+      "Whether the value is zero",
+      "Whether memory is aligned",
+      "Whether the type is trivially copyable"
+    ],
+    "correctAnswer": "Whether atomic ops use locks internally"
+  },
+  {
+    "title": "Q55. Consider the snippet:\n```cpp\nstruct Counters { std::atomic<int> a; std::atomic<int> b; };\n```\nWhat risk does this layout have?",
+    "choices": [
+      "False sharing between a and b",
+      "Guaranteed lock-free behavior",
+      "Automatic cache-line padding",
+      "Undefined alignment"
+    ],
+    "correctAnswer": "False sharing between a and b"
+  },
+  {
+    "title": "Q56. Consider the snippet:\n```cpp\nstruct alignas(64) Counter { std::atomic<int> v; };\nCounter c1, c2;\n```\nWhat is a likely goal here?",
+    "choices": [
+      "Separate counters onto cache lines",
+      "Force stack allocation",
+      "Disable atomicity",
+      "Enable RTTI"
+    ],
+    "correctAnswer": "Separate counters onto cache lines"
+  },
+  {
+    "title": "Q57. Consider the snippet:\n```cpp\nstruct Noop { void operator()(int*) const {} };\nstruct P {\n  [[no_unique_address]] Noop d;\n  int* p;\n};\n```\nWhy use no_unique_address with an empty deleter?",
+    "choices": [
+      "Avoid extra size overhead",
+      "Ensure heap allocation",
+      "Enable exceptions",
+      "Force dynamic dispatch"
+    ],
+    "correctAnswer": "Avoid extra size overhead"
+  },
+  {
+    "title": "Q58. Consider the snippet:\n```cpp\nint arr[4] = {1,2,3,4};\nstd::span<int> s(arr);\n```\nWhat does s represent?",
+    "choices": [
+      "A non-owning view of 4 ints",
+      "A heap-allocated copy",
+      "A thread-safe queue",
+      "A polymorphic allocator"
+    ],
+    "correctAnswer": "A non-owning view of 4 ints"
+  },
+  {
+    "title": "Q59. Consider the snippet:\n```cpp\nstd::span<const std::byte> s(buf, len);\n```\nWhat is the primary benefit of span here?",
+    "choices": [
+      "Zero-copy view over bytes",
+      "Automatic deep copy",
+      "Implicit null termination",
+      "Guaranteed cache alignment"
+    ],
+    "correctAnswer": "Zero-copy view over bytes"
+  },
+  {
+    "title": "Q60. Consider the snippet:\n```cpp\nfloat f = 1.0f;\nauto bits = std::bit_cast<uint32_t>(f);\n```\nWhat constraint applies to bit_cast?",
+    "choices": [
+      "Source and target must be same size and trivially copyable",
+      "Target must be a pointer",
+      "It only works for signed types",
+      "It performs endian conversion"
+    ],
+    "correctAnswer": "Source and target must be same size and trivially copyable"
+  },
+  {
+    "title": "Q61. Consider the snippet:\n```cpp\nstruct SoA {\n  std::vector<float> x, y, z;\n};\n```\nWhy can SoA be faster for scans?",
+    "choices": [
+      "Better cache locality for one field",
+      "Avoids branch prediction",
+      "Eliminates bounds checks",
+      "Guarantees lock-free access"
+    ],
+    "correctAnswer": "Better cache locality for one field"
+  },
+  {
+    "title": "Q62. Consider the snippet:\n```cpp\nif (fast_path()) [[likely]] {\n  handle_fast();\n}\n```\nHow should you treat [[likely]]?",
+    "choices": [
+      "As a hint, not a guarantee",
+      "As a hard requirement",
+      "As a runtime branch",
+      "As a lock"
+    ],
+    "correctAnswer": "As a hint, not a guarantee"
+  },
+  {
+    "title": "Q63. Consider the snippet:\n```cpp\nif (!ptr) return;\nstd::assume(ptr != nullptr);\nuse(ptr);\n```\nWhat does std::assume allow the compiler to do?",
+    "choices": [
+      "Elide redundant checks",
+      "Insert try/catch blocks",
+      "Allocate stack guards",
+      "Force runtime logging"
+    ],
+    "correctAnswer": "Elide redundant checks"
+  },
+  {
+    "title": "Q64. Consider the snippet:\n```cpp\n[[noreturn]] void bad(){ std::unreachable(); }\n```\nWhat happens if bad() is actually called?",
+    "choices": [
+      "Undefined behavior",
+      "A checked exception",
+      "A graceful return",
+      "A guaranteed trap"
+    ],
+    "correctAnswer": "Undefined behavior"
+  },
+  {
+    "title": "Q65. Consider the snippet:\n```cpp\nauto [p, ec] = std::from_chars(buf, end, value);\nif (ec != std::errc{}) { /* handle error */ }\n```\nWhat indicates parse failure?",
+    "choices": [
+      "ec != std::errc{}",
+      "p == buf",
+      "value == 0",
+      "errno != 0"
+    ],
+    "correctAnswer": "ec != std::errc{}"
+  },
+  {
+    "title": "Q66. Consider the snippet:\n```cpp\nchar out[2];\nauto [p, ec] = std::to_chars(out, out + 2, 1000);\n```\nWhat is the likely error code?",
+    "choices": [
+      "std::errc::value_too_large",
+      "std::errc::invalid_argument",
+      "std::errc::not_supported",
+      "std::errc::io_error"
+    ],
+    "correctAnswer": "std::errc::value_too_large"
+  },
+  {
+    "title": "Q67. Consider the snippet:\n```cpp\nvoid log(std::string_view sv);\n```\nWhy pass string_view here?",
+    "choices": [
+      "Avoid allocations; caller retains ownership",
+      "Guarantee null termination",
+      "Enable ref counting",
+      "Force copying"
+    ],
+    "correctAnswer": "Avoid allocations; caller retains ownership"
+  },
+  {
+    "title": "Q68. Consider the snippet:\n```cpp\nauto s = std::format(\"price {}\", price);\n```\nWhy avoid std::format in tight loops?",
+    "choices": [
+      "It can allocate and format at runtime",
+      "It forces exceptions on success",
+      "It is compile-time only",
+      "It disables inlining"
+    ],
+    "correctAnswer": "It can allocate and format at runtime"
+  },
+  {
+    "title": "Q69. Consider the snippet:\n```cpp\nstd::print(\"{}\", msg);\n```\nWhat is the key latency concern with std::print?",
+    "choices": [
+      "I/O dominates regardless of format",
+      "It always uses SIMD",
+      "It is constexpr-only",
+      "It is allocation-free"
+    ],
+    "correctAnswer": "I/O dominates regardless of format"
+  },
+  {
+    "title": "Q70. Consider the snippet:\n```cpp\nstd::expected<Value, Error> v = read();\nif (!v) return v.error();\n```\nWhat is the control flow style here?",
+    "choices": [
+      "Explicit branch on error",
+      "Exception-driven",
+      "Implicit retry",
+      "Garbage-collected"
+    ],
+    "correctAnswer": "Explicit branch on error"
+  },
+  {
+    "title": "Q71. Consider the snippet:\n```cpp\nstruct T { T(T&&) noexcept; };\nstd::vector<T> v;\nv.reserve(2);\n```\nWhy combine noexcept move with reserve?",
+    "choices": [
+      "Fewer reallocations and cheaper moves",
+      "More exceptions for errors",
+      "Guaranteed lock-free access",
+      "Automatic parallelization"
+    ],
+    "correctAnswer": "Fewer reallocations and cheaper moves"
+  },
+  {
+    "title": "Q72. Consider the snippet:\n```cpp\nfor (auto& [k, v] : map) { /* use k and v */ }\n```\nWhat does this avoid?",
+    "choices": [
+      "Manual pair.first and pair.second access",
+      "Map lookups",
+      "Dynamic allocation",
+      "Hashing"
+    ],
+    "correctAnswer": "Manual pair.first and pair.second access"
+  },
+  {
+    "title": "Q73. Consider the snippet:\n```cpp\nauto out = data\n  | std::views::transform(f)\n  | std::views::take(10);\n```\nWhat is produced by this pipeline?",
+    "choices": [
+      "A lazy view that computes on iteration",
+      "An eagerly allocated vector",
+      "A shared_ptr to data",
+      "A thread-safe queue"
+    ],
+    "correctAnswer": "A lazy view that computes on iteration"
+  },
+  {
+    "title": "Q74. Consider the snippet:\n```cpp\nstruct Order { int id; double px; };\nOrder o{ .id = 7, .px = 10.5 };\n```\nWhy can designated initializers help readability?",
+    "choices": [
+      "They name fields explicitly",
+      "They force heap allocation",
+      "They disable implicit conversions",
+      "They require RTTI"
+    ],
+    "correctAnswer": "They name fields explicitly"
+  },
+  {
+    "title": "Q75. Consider the snippet:\n```cpp\nimport mylib;\n```\nWhat does a module import replace?",
+    "choices": [
+      "Traditional include directives",
+      "The linker",
+      "The optimizer",
+      "The compiler"
+    ],
+    "correctAnswer": "Traditional include directives"
+  },
+  {
+    "title": "Q76. Consider the snippet:\n```cpp\ntask<> handle(){\n  co_await socket.read();\n}\n```\nWhat does co_await imply?",
+    "choices": [
+      "Suspension without blocking a thread",
+      "A mandatory new thread",
+      "Automatic vectorization",
+      "Lock-based scheduling"
+    ],
+    "correctAnswer": "Suspension without blocking a thread"
+  },
+  {
+    "title": "Q77. Consider the snippet:\n```cpp\nstd::flat_set<int> s;\ns.insert(3);\n```\nWhy is flat_set often faster to iterate?",
+    "choices": [
+      "Contiguous storage improves cache locality",
+      "Each node is heap allocated",
+      "It uses a hash table",
+      "It requires locks"
+    ],
+    "correctAnswer": "Contiguous storage improves cache locality"
+  },
+  {
+    "title": "Q78. Consider the snippet:\n```cpp\nstruct S {\n  int n;\n  auto inc(this auto&& self){ return ++self.n; }\n};\n```\nWhat does deducing this enable?",
+    "choices": [
+      "Value-category aware member functions",
+      "Automatic garbage collection",
+      "Runtime reflection",
+      "Thread affinity"
+    ],
+    "correctAnswer": "Value-category aware member functions"
+  },
+  {
+    "title": "Q79. Consider the snippet:\n```cpp\nauto s = std::format(\"{}\", id);\n```\nWhat is the low-latency alternative for numeric formatting?",
+    "choices": [
+      "std::to_chars",
+      "std::cout",
+      "std::stringstream",
+      "printf with locale"
+    ],
+    "correctAnswer": "std::to_chars"
+  },
+  {
+    "title": "Q80. Consider the snippet:\n```cpp\nauto channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());\nauto stub = Service::NewStub(channel);\n```\nWhat is the low-latency practice here?",
+    "choices": [
+      "Reuse channel and stub across calls",
+      "Recreate per request",
+      "Disable keep-alive",
+      "Always use sync streaming"
+    ],
+    "correctAnswer": "Reuse channel and stub across calls"
+  },
+  {
+    "title": "Q81. Consider the snippet:\n```cpp\ngrpc::CompletionQueue cq;\n// poll completion events\n```\nWhat does CompletionQueue provide?",
+    "choices": [
+      "Async completion events",
+      "Thread-local storage",
+      "Lock-free hashing",
+      "Binary serialization"
+    ],
+    "correctAnswer": "Async completion events"
+  },
+  {
+    "title": "Q82. Consider the snippet:\n```cpp\nauto stream = stub->Stream(&ctx);\n// send many messages on the same stream\n```\nWhy use streaming for low latency?",
+    "choices": [
+      "Reduce per-message setup overhead",
+      "Force reconnects each message",
+      "Disable backpressure",
+      "Allocate per message"
+    ],
+    "correctAnswer": "Reduce per-message setup overhead"
+  },
+  {
+    "title": "Q83. Consider the snippet:\n```cpp\nauto stmt = conn.prepare(\"SELECT price FROM quotes WHERE id = ?\");\nstmt.bind(id);\n```\nWhat does a prepared statement reduce?",
+    "choices": [
+      "Parse and plan overhead",
+      "Network RTT only",
+      "Disk latency only",
+      "Serialization cost only"
+    ],
+    "correctAnswer": "Parse and plan overhead"
+  },
+  {
+    "title": "Q84. Consider the snippet:\n```cpp\nstd::string q = \"SELECT ... WHERE id=\" + std::to_string(id);\n```\nWhy avoid building SQL strings per call?",
+    "choices": [
+      "Allocations and injection risk",
+      "It is faster than binding",
+      "It avoids parsing",
+      "It is required for caching"
+    ],
+    "correctAnswer": "Allocations and injection risk"
+  },
+  {
+    "title": "Q85. Consider the snippet:\n```cpp\nconn.begin();\n// multiple updates\nconn.commit();\n```\nWhy batch operations in a transaction?",
+    "choices": [
+      "Reduce per-statement commit overhead",
+      "Force fsync on each statement",
+      "Disable indexes",
+      "Avoid parsing"
+    ],
+    "correctAnswer": "Reduce per-statement commit overhead"
+  },
+  {
+    "title": "Q86. Consider the snippet:\n```cpp\nstd::unordered_map<int, Quote> cache;\nif (auto it = cache.find(id); it != cache.end()) { return it->second; }\n```\nWhat latency advantage does this provide?",
+    "choices": [
+      "Avoid repeated I/O",
+      "Guarantee lock-free access",
+      "Avoids hashing",
+      "Eliminates memory usage"
+    ],
+    "correctAnswer": "Avoid repeated I/O"
+  },
+  {
+    "title": "Q87. Consider the snippet:\n```cpp\nsize_t next = (head + 1) & (N - 1); // N is power of two\n```\nWhy use a bitmask for ring buffers?",
+    "choices": [
+      "Cheaper modulo operation",
+      "Guarantees thread safety",
+      "Avoids memory fences",
+      "Requires division"
+    ],
+    "correctAnswer": "Cheaper modulo operation"
+  },
+  {
+    "title": "Q88. Consider the snippet:\n```cpp\nclass Manager {};\nclass OrderBook {};\n```\nWhich naming choice is better for profiling clarity?",
+    "choices": [
+      "OrderBook",
+      "Manager",
+      "Tmp",
+      "Helper"
+    ],
+    "correctAnswer": "OrderBook"
+  },
+  {
+    "title": "Q89. Consider the snippet:\n```cpp\nstatic_assert(std::is_trivially_copyable_v<T>);\n```\nWhat does is_trivially_copyable check?",
+    "choices": [
+      "Type can be copied with memcpy",
+      "Type is always zero-sized",
+      "Type is polymorphic",
+      "Type requires locks"
+    ],
+    "correctAnswer": "Type can be copied with memcpy"
+  },
+  {
+    "title": "Q90. Consider the snippet:\n```cpp\nstatic_assert(std::is_standard_layout_v<S>);\n```\nWhy might standard layout matter?",
+    "choices": [
+      "Predictable memory layout for interop",
+      "Automatic alignment to cache line",
+      "Guaranteed lock-free behavior",
+      "Mandatory dynamic allocation"
+    ],
+    "correctAnswer": "Predictable memory layout for interop"
+  },
+  {
+    "title": "Q91. Consider the snippet:\n```cpp\nstatic_assert(std::is_aggregate_v<S>);\n```\nWhat does is_aggregate imply?",
+    "choices": [
+      "Aggregate initialization is allowed",
+      "Type is abstract",
+      "Type is trivially destructible",
+      "Type is always constexpr"
+    ],
+    "correctAnswer": "Aggregate initialization is allowed"
+  },
+  {
+    "title": "Q92. Consider the snippet:\n```cpp\nstruct alignas(64) X { int a; int b; };\n```\nWhat is true about sizeof(X)?",
+    "choices": [
+      "It is at least 64 bytes",
+      "It is always 8 bytes",
+      "It equals alignof(int)",
+      "It is implementation-defined but always 16"
+    ],
+    "correctAnswer": "It is at least 64 bytes"
+  },
+  {
+    "title": "Q93. Consider the snippet:\n```cpp\nconstexpr auto table = []{\n  std::array<int, 256> t{};\n  for (int i = 0; i < 256; i++) t[i] = i * i;\n  return t;\n}();\n```\nWhat is the latency advantage here?",
+    "choices": [
+      "Table built at compile time",
+      "Runtime heap allocation",
+      "Dynamic reflection",
+      "Mandatory locking"
+    ],
+    "correctAnswer": "Table built at compile time"
+  },
+  {
+    "title": "Q94. Consider the snippet:\n```cpp\nstd::optional<int> opt;\nint v = opt.value_or(0);\n```\nWhat does value_or do?",
+    "choices": [
+      "Returns a default when empty",
+      "Throws on empty",
+      "Returns a reference",
+      "Allocates a new int"
+    ],
+    "correctAnswer": "Returns a default when empty"
+  },
+  {
+    "title": "Q95. Consider the snippet:\n```cpp\nstd::variant<int, double> v;\nif (auto p = std::get_if<int>(&v)) { /* use *p */ }\n```\nWhy use get_if?",
+    "choices": [
+      "Safe access without exceptions",
+      "Forces dynamic allocation",
+      "Always returns a value",
+      "Converts to double"
+    ],
+    "correctAnswer": "Safe access without exceptions"
+  },
+  {
+    "title": "Q96. Consider the snippet:\n```cpp\nstd::unique_ptr<Foo, Deleter> p;\n```\nWhat is true about a unique_ptr with custom deleter?",
+    "choices": [
+      "The deleter is part of the type",
+      "It becomes shared ownership",
+      "It disables move semantics",
+      "It always uses malloc"
+    ],
+    "correctAnswer": "The deleter is part of the type"
+  },
+  {
+    "title": "Q97. Consider the snippet:\n```cpp\nauto p = std::shared_ptr<Foo>(new Foo);\n```\nWhy avoid shared_ptr in hot paths?",
+    "choices": [
+      "Atomic refcount overhead",
+      "No ability to share",
+      "Cannot be null",
+      "Requires virtual dispatch"
+    ],
+    "correctAnswer": "Atomic refcount overhead"
+  },
+  {
+    "title": "Q98. Consider the snippet:\n```cpp\nstd::string_view sv = line;\nstd::from_chars(sv.data(), sv.data() + sv.size(), value);\n```\nWhat benefit does this combination provide?",
+    "choices": [
+      "Avoid temporary string allocation",
+      "Forces locale parsing",
+      "Guarantees exceptions",
+      "Disables bounds checks"
+    ],
+    "correctAnswer": "Avoid temporary string allocation"
+  },
+  {
+    "title": "Q99. Consider the snippet:\n```cpp\nauto start = std::chrono::steady_clock::now();\n// work\n```\nWhy use steady_clock for latency measurement?",
+    "choices": [
+      "Monotonic and not subject to system clock jumps",
+      "It is always higher resolution",
+      "It measures CPU cycles",
+      "It is constexpr"
+    ],
+    "correctAnswer": "Monotonic and not subject to system clock jumps"
+  },
+  {
+    "title": "Q100. Consider the snippet:\n```cpp\nstd::atomic<int> a{0};\na.store(1, std::memory_order_seq_cst);\n```\nWhat is memory_order_seq_cst?",
+    "choices": [
+      "The strongest ordering (most costly)",
+      "Relaxed ordering",
+      "Release-only ordering",
+      "Acquire-only ordering"
+    ],
+    "correctAnswer": "The strongest ordering (most costly)"
+  }
+]
