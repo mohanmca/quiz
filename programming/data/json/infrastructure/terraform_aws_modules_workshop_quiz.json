@@ -1,7 +1,7 @@
 {
   "title": "Terraform AWS Modules Workshop Quiz",
-  "version": "2.0",
-  "totalQuestions": 150,
+  "version": "3.1",
+  "totalQuestions": 155,
   "modules": [
     {
       "id": 0,
@@ -9,183 +9,243 @@
       "questions": [
         {
           "id": "q0_1",
-          "question": "Which localStorage key must be used by the workshop runtime?",
+          "question": "Which Terraform command should run before `apply` to preview create/update/replace actions?",
           "options": [
-            "terraform_aws_modules_workshop",
-            "terraform-workshop-store",
-            "iac_quiz_runtime",
-            "terraform_workshop_2026"
+            "terraform plan",
+            "terraform output",
+            "terraform fmt",
+            "terraform providers"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Use `plan` to inspect the execution graph and catch destructive changes early."
         },
         {
           "id": "q0_2",
-          "question": "Which control opens or closes the TOC drawer in the workshop UI?",
+          "question": "In HCL, which block defines input values that callers can set?",
           "options": [
-            "Key T",
-            "Key Q",
-            "Key O",
-            "Key C"
+            "variable",
+            "output",
+            "locals",
+            "provider"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "The `variable` block defines module inputs, types, defaults, and validation rules."
         },
         {
           "id": "q0_3",
-          "question": "What should happen after a correct quiz answer in the workshop runtime?",
+          "question": "What is the primary purpose of `terraform validate` in CI?",
           "options": [
-            "Green feedback then auto-advance in about 1.2 seconds",
-            "Immediate full-page reload",
-            "Manual next only",
-            "Navigate back to module intro"
+            "Catch configuration and type errors before planning",
+            "Rotate state locks",
+            "Import unmanaged resources",
+            "Refresh only data sources"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "`validate` performs static checks so invalid configs fail early in pipelines."
         },
         {
           "id": "q0_4",
-          "question": "Which CSS class name marks a correct option button in quiz mode?",
+          "question": "When should `for_each` be preferred over `count`?",
           "options": [
-            "quiz-opt correct",
-            "quiz-answer pass",
-            "option ok",
-            "answer-green"
+            "When instances are keyed by stable names",
+            "When every instance is fully identical",
+            "When no collection input exists",
+            "When provider aliases are disabled"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "`for_each` gives stable addresses and reduces churn when list ordering changes."
         },
         {
           "id": "q0_5",
-          "question": "Which Terraform core doc explains planning action categories like create/update/replace?",
+          "question": "What does `lifecycle { create_before_destroy = true }` optimize for?",
           "options": [
-            "/Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/README.md"
+            "Reduced downtime during replacement",
+            "Lower Terraform state size",
+            "Faster `init` plugin downloads",
+            "Automatic import of existing resources"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "It creates replacement resources first, then removes old ones."
         },
         {
           "id": "q0_6",
-          "question": "Which Terraform core doc is the primary reference for debugger setup and diagnostics?",
+          "question": "What problem does a `moved` block solve during refactors?",
           "options": [
-            "/Users/mohannarayanaswamy/git/terraform/docs/debugging.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/resource-instance-change-lifecycle.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md"
+            "Maps old resource addresses to new addresses",
+            "Encrypts state at rest",
+            "Pins provider versions",
+            "Runs post-apply hooks"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "`moved` keeps resource history intact when addresses change."
         },
         {
           "id": "q0_7",
-          "question": "In this workshop, which integration style is used to map IaC outputs into service configs?",
+          "question": "In Terragrunt, what does `include` mainly provide?",
           "options": [
-            "gRPC config service plus SQL inventory snapshot",
-            "SOAP WSDL registry only",
-            "FTP configuration push",
-            "Static CSV only"
+            "Shared parent configuration reuse",
+            "AWS credential vending",
+            "Automatic drift correction",
+            "State backend migration"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "`include` helps DRY common backend/provider/input settings."
         },
         {
           "id": "q0_8",
-          "question": "What Terragrunt pattern is emphasized for multi-module environments?",
+          "question": "Why use Terragrunt `dependency` with `mock_outputs`?",
           "options": [
-            "include + dependency blocks with run-all orchestration",
-            "Single file with no hierarchy",
-            "Only manual terraform apply",
-            "CloudFormation nested stacks"
+            "To let plans run when upstream outputs are unavailable",
+            "To force downstream apply before upstream",
+            "To bypass variable validation",
+            "To disable remote state access"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/README.md"
+          "explanation": "`mock_outputs` keeps planning deterministic in partially bootstrapped stacks."
         },
         {
           "id": "q0_9",
-          "question": "What is the expected correct answer index in source JSON before option shuffling?",
+          "question": "Which HCL type best fits a map of service settings with mixed fields?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "object",
+            "number",
+            "bool",
+            "tuple(any)"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/data/json/infrastructure/terraform_aws_modules_workshop_quiz.json"
+          "explanation": "`object` defines named attributes with explicit types for safer contracts."
         },
         {
           "id": "q0_10",
-          "question": "Which keyboard combination moves to the previous slide?",
+          "question": "What is the main operational meaning of a `replace` action in plan output?",
           "options": [
-            "Shift+Space or ArrowLeft",
-            "Ctrl+Enter",
-            "Alt+N",
-            "Escape"
+            "Terraform will destroy and recreate that instance",
+            "Terraform will only refresh state",
+            "Terraform will skip provider calls",
+            "Terraform will create a data source"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "`replace` indicates immutable field changes or lifecycle-driven recreation."
         },
         {
           "id": "q0_11",
-          "question": "What is recorded for each wrong answer to support retry?",
+          "question": "What does `ignore_changes` protect against most directly?",
           "options": [
-            "Question id and user's selected option",
-            "Only final score",
-            "Browser IP address",
-            "Nothing is recorded"
+            "Perpetual diffs from externally-managed attributes",
+            "Missing provider credentials",
+            "Broken module source URLs",
+            "Incorrect variable defaults"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "It suppresses noise for fields intentionally managed outside Terraform."
         },
         {
           "id": "q0_12",
-          "question": "Which file is cited for Terraform core request flow internals?",
+          "question": "What is the best first step when a plan behaves unexpectedly in CI?",
           "options": [
-            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/README.md",
-            "/Users/mohannarayanaswamy/git/terraform/docs/resource-instance-change-lifecycle.md"
+            "Reproduce locally with the same provider/backend versions",
+            "Delete state and re-run apply",
+            "Disable all validations",
+            "Convert modules to inline resources"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/architecture.md"
+          "explanation": "Matching versions and backend context is essential for deterministic debugging."
         },
         {
           "id": "q0_13",
-          "question": "Which operational concern is explicitly covered across all modules?",
+          "question": "Why run Terraform/Terragrunt in containers for team workflows?",
           "options": [
-            "Blast-radius control and rollback playbooks",
-            "Only UI theming",
-            "Frontend routing",
-            "Nginx reverse proxy tuning"
+            "To keep tooling versions reproducible across machines",
+            "To remove all IAM requirements",
+            "To avoid remote state usage",
+            "To eliminate module version pinning"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Containerized execution reduces environment drift between developers and CI."
         },
         {
           "id": "q0_14",
-          "question": "Which trait pairing is repeatedly validated in module deep dives?",
+          "question": "In large AWS estates, why separate module inputs/outputs carefully?",
           "options": [
-            "Variable traits and output traits",
-            "CSS animations and icon packs",
-            "Audio codecs and bitrates",
-            "JWT refresh intervals"
+            "To make dependencies explicit and reusable across environments",
+            "To increase plan runtime intentionally",
+            "To avoid using variables",
+            "To force one giant root module"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Clear contracts improve composability and reduce accidental coupling."
         },
         {
           "id": "q0_15",
-          "question": "Which action should the runtime expose at the end for failed questions?",
+          "question": "What is a practical use of storing plan metadata in SQL while using gRPC for config delivery?",
           "options": [
-            "Retry failed questions with original attempts visible",
-            "Delete all quiz history",
-            "Lock the quiz permanently",
-            "Export only passing questions"
+            "Audit drift and change history while distributing resolved outputs",
+            "Replace Terraform state entirely",
+            "Generate IAM credentials automatically",
+            "Compile HCL into CloudFormation"
           ],
           "answer": 0,
-          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "gRPC can publish runtime config while SQL keeps queryable change records."
+        },
+        {
+          "id": "q0_16",
+          "question": "Which Terraform file usually defines typed input parameters and validation rules?",
+          "options": [
+            "variables.tf",
+            "outputs.tf",
+            "README.md",
+            ".terraform.lock.hcl"
+          ],
+          "answer": 0,
+          "explanation": "`variables.tf` is typically the module input contract for callers."
+        },
+        {
+          "id": "q0_17",
+          "question": "What is the best way to implement constants in Terraform when using a `constants.tf` file?",
+          "options": [
+            "Define shared values in a `locals` block",
+            "Use `output` blocks as constants",
+            "Store constants in provider blocks only",
+            "Write constants into state manually"
+          ],
+          "answer": 0,
+          "explanation": "`constants.tf` is usually a convention file that contains reusable `locals` values."
+        },
+        {
+          "id": "q0_18",
+          "question": "In a multi-account Terragrunt layout, where should backend/provider defaults usually live?",
+          "options": [
+            "In a parent/root `terragrunt.hcl` that children include",
+            "In each child module with copied blocks",
+            "Only in shell scripts",
+            "Inside `outputs.tf` files"
+          ],
+          "answer": 0,
+          "explanation": "Parent include patterns keep configuration DRY and consistent across accounts/regions."
+        },
+        {
+          "id": "q0_19",
+          "question": "What is the key difference between a Terraform `data` block and a `resource` block?",
+          "options": [
+            "`data` reads existing infrastructure; `resource` manages lifecycle",
+            "`data` creates resources; `resource` only reads",
+            "Both always create infrastructure",
+            "Neither can reference other blocks"
+          ],
+          "answer": 0,
+          "explanation": "Use `data` for lookup/read and `resource` for create/update/destroy ownership."
+        },
+        {
+          "id": "q0_20",
+          "question": "Which HCL function is used to combine tag maps from global and service-level inputs?",
+          "options": [
+            "merge",
+            "length",
+            "flatten",
+            "replace"
+          ],
+          "answer": 0,
+          "explanation": "`merge` combines maps and is commonly used for standard tagging patterns."
         }
       ]
     },
@@ -195,183 +255,183 @@
       "questions": [
         {
           "id": "q1_1",
-          "question": "Which repository backs the EC2 Instance Module section in this workshop?",
+          "question": "For EC2 module inputs, what is the safest AMI strategy for repeatable environments?",
           "options": [
-            "terraform-aws-ec2-instance",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "Pin AMI selection with controlled variables/SSM parameters",
+            "Always use the latest public AMI implicitly",
+            "Hardcode AMI per subnet",
+            "Disable AMI updates in all regions"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "Controlled AMI inputs keep upgrades intentional and auditable."
         },
         {
           "id": "q1_2",
-          "question": "Which file is a primary code anchor for EC2 Instance Module?",
+          "question": "Which option best hardens instance metadata access?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "Require IMDSv2 tokens via metadata options",
+            "Disable all metadata permanently",
+            "Expose metadata over public internet",
+            "Use user data to store long-lived keys"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "Requiring IMDSv2 reduces SSRF-style credential theft risk."
         },
         {
           "id": "q1_3",
-          "question": "Which resource block name is directly referenced for EC2 Instance Module?",
+          "question": "What is the role of an instance profile in EC2 provisioning?",
           "options": [
-            "aws_instance.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Attach an IAM role to the instance at runtime",
+            "Store Terraform backend credentials",
+            "Create VPC route tables",
+            "Generate AMI snapshots automatically"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "Instance profiles bridge EC2 instances to IAM roles."
         },
         {
           "id": "q1_4",
-          "question": "Which data source trait is highlighted in EC2 Instance Module troubleshooting?",
+          "question": "When using spot instances, what should production modules include?",
           "options": [
-            "aws_availability_zones.available",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Interruption-aware capacity fallback and lifecycle handling",
+            "Only one AZ deployment",
+            "No autoscaling policies",
+            "Manual replacement scripts only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "Spot capacity is volatile; resilient modules need fallback behavior."
         },
         {
           "id": "q1_5",
-          "question": "Which variable trait is part of EC2 Instance Module module inputs?",
+          "question": "Why separate root and additional EBS block device settings?",
           "options": [
-            "create",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "To tune persistence and performance per volume purpose",
+            "Because Terraform requires one disk type only",
+            "To disable encryption entirely",
+            "To avoid tags on volumes"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/variables.tf"
+          "explanation": "Different workloads need different size/iops/encryption policies."
         },
         {
           "id": "q1_6",
-          "question": "Which additional variable trait is commonly reviewed in EC2 Instance Module?",
+          "question": "What does `create_before_destroy` help with for instance replacements?",
           "options": [
-            "name",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Maintain service continuity during immutable changes",
+            "Reduce IAM permissions needed",
+            "Disable Terraform state writes",
+            "Force one-by-one AZ failures"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/variables.tf"
+          "explanation": "It minimizes downtime when replacement is unavoidable."
         },
         {
           "id": "q1_7",
-          "question": "Which output trait is part of the EC2 Instance Module contract?",
+          "question": "Which output is most useful for downstream security modules?",
           "options": [
-            "id",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "The instance security group or network interface identifiers",
+            "The module README path",
+            "The terraform binary checksum",
+            "The local workspace name"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/outputs.tf"
+          "explanation": "Downstream network policy often depends on SG/ENI identities."
         },
         {
           "id": "q1_8",
-          "question": "Which second output trait is tracked for downstream dependencies in EC2 Instance Module?",
+          "question": "In Session Manager-oriented examples, what is a key prerequisite?",
           "options": [
-            "arn",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "SSM permissions on the instance role and network reachability",
+            "Open SSH from 0.0.0.0/0 always",
+            "A public Elastic IP for each instance",
+            "Disabling CloudWatch agent"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/outputs.tf"
+          "explanation": "Session Manager needs IAM + connectivity to SSM endpoints."
         },
         {
           "id": "q1_9",
-          "question": "Which example path is explicitly walked through for EC2 Instance Module?",
+          "question": "Why model capacity reservation fields explicitly in variables?",
           "options": [
-            "complete",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "To control placement behavior without editing module internals",
+            "To avoid passing any compute constraints",
+            "To disable launch templates globally",
+            "To force dedicated hosts only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/examples/complete/main.tf"
+          "explanation": "Exposed variables let teams choose reservation strategy per environment."
         },
         {
           "id": "q1_10",
-          "question": "Which additional example helps validate edge behavior in EC2 Instance Module?",
+          "question": "What is the benefit of tagging EC2, EBS, and ENIs consistently?",
           "options": [
-            "session-manager",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Improved cost allocation and incident triage",
+            "Faster provider plugin downloads",
+            "Automatic state migration",
+            "Bypassing IAM policies"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/examples/session-manager/main.tf"
+          "explanation": "Consistent tags improve governance and operations at scale."
         },
         {
           "id": "q1_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for EC2 Instance Module?",
+          "question": "How should user data be managed for large fleets?",
           "options": [
-            "main.tf",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Template and version it as module input, not ad hoc edits",
+            "Store it only in wiki pages",
+            "Disable all bootstrapping",
+            "Inline random shell snippets in each environment"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/wrappers/main.tf"
+          "explanation": "Versioned user data improves reproducibility and reviewability."
         },
         {
           "id": "q1_12",
-          "question": "Which document is used for migration or upgrade guidance in EC2 Instance Module?",
+          "question": "When should an Elastic IP be attached in module design?",
           "options": [
-            "UPGRADE-3.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Only for stable public ingress/egress requirements",
+            "For every private-only backend",
+            "When NAT gateways exist already for all traffic",
+            "To replace security groups"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
+          "explanation": "EIPs are finite and should be used only where static public IP is required."
         },
         {
           "id": "q1_13",
-          "question": "What planning behavior should be reviewed before replacing resources in EC2 Instance Module?",
+          "question": "What does an EC2 module output contract primarily provide?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Stable identifiers for composition with other modules",
+            "CLI aliases for developers",
+            "Terraform state encryption keys",
+            "Automatic AMI rebuilds"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Outputs are the API between modules."
         },
         {
           "id": "q1_14",
-          "question": "What debugging workflow is emphasized for EC2 Instance Module when plan output is unstable?",
+          "question": "Why keep subnet and security group inputs explicit instead of hidden defaults?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "It prevents accidental placement and exposure in production",
+            "It makes modules impossible to reuse",
+            "It removes need for validation",
+            "It guarantees lower costs in all regions"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Explicit network inputs reduce blast radius and surprise behavior."
         },
         {
           "id": "q1_15",
-          "question": "How should failed answers behave in the EC2 Instance Module quiz segment?",
+          "question": "What is a good failure-handling pattern for instance shutdown behavior settings?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Validate allowed values and document stop/terminate expectations",
+            "Allow any free-form string",
+            "Set terminate always without review",
+            "Ignore lifecycle settings entirely"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Validation catches destructive misconfiguration before apply."
         }
       ]
     },
@@ -381,183 +441,183 @@
       "questions": [
         {
           "id": "q2_1",
-          "question": "Which repository backs the ECS Module section in this workshop?",
+          "question": "In ECS architecture, why separate cluster and service concerns?",
           "options": [
-            "terraform-aws-ecs",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "It enables independent scaling and reuse boundaries",
+            "Terraform requires separate repositories",
+            "Clusters cannot host multiple services",
+            "Services cannot reference task definitions"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "Separation improves modularity and operational ownership."
         },
         {
           "id": "q2_2",
-          "question": "Which file is a primary code anchor for ECS Module?",
+          "question": "What is the difference between task role and execution role?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "Task role is for app AWS API calls; execution role is for ECS agent pulls/logging",
+            "Both roles are identical and interchangeable",
+            "Execution role is only for EC2 launch templates",
+            "Task role is only for CloudWatch metrics"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "Keeping role purposes distinct improves least-privilege design."
         },
         {
           "id": "q2_3",
-          "question": "Which resource block name is directly referenced for ECS Module?",
+          "question": "Which ECS setting controls how many tasks run simultaneously?",
           "options": [
-            "aws_cloudwatch_log_group.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "desired_count",
+            "launch_type_version",
+            "capacity_provider_weight_only",
+            "task_cpu_arch"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "`desired_count` expresses steady-state service scale target."
         },
         {
           "id": "q2_4",
-          "question": "Which data source trait is highlighted in ECS Module troubleshooting?",
+          "question": "Why use capacity provider strategies in ECS?",
           "options": [
-            "aws_availability_zones.available",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "To balance placement across Fargate/EC2 capacity pools",
+            "To disable autoscaling",
+            "To remove task definitions",
+            "To bypass IAM requirements"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "Capacity providers define where tasks should run and at what proportions."
         },
         {
           "id": "q2_5",
-          "question": "Which variable trait is part of ECS Module module inputs?",
+          "question": "What is a core requirement for Fargate tasks?",
           "options": [
-            "create",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "awsvpc networking mode with compatible CPU/memory combos",
+            "Host networking with root access",
+            "Static container IPs in task JSON",
+            "Dedicated EC2 launch templates"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/cluster/main.tf"
+          "explanation": "Fargate enforces specific networking and resource constraints."
         },
         {
           "id": "q2_6",
-          "question": "Which additional variable trait is commonly reviewed in ECS Module?",
+          "question": "What should container definition modules standardize first?",
           "options": [
-            "region",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Logging, environment variables, and secret injection patterns",
+            "Random container names per deploy",
+            "Hardcoded image tags in code",
+            "Manual edits directly in state"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/cluster/main.tf"
+          "explanation": "Standardized definitions reduce drift and improve observability."
         },
         {
           "id": "q2_7",
-          "question": "Which output trait is part of the ECS Module contract?",
+          "question": "Why attach autoscaling policies to ECS services?",
           "options": [
-            "cluster_arn",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "To react to workload metrics instead of fixed capacity",
+            "To remove health checks",
+            "To avoid task definitions",
+            "To force one task per AZ forever"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/service/main.tf"
+          "explanation": "Autoscaling helps maintain SLOs under variable load."
         },
         {
           "id": "q2_8",
-          "question": "Which second output trait is tracked for downstream dependencies in ECS Module?",
+          "question": "What is the purpose of service security groups in ECS modules?",
           "options": [
-            "cluster_id",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "Control inbound/outbound traffic at the task ENI boundary",
+            "Encrypt Terraform state",
+            "Generate container images",
+            "Replace IAM policies"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/service/main.tf"
+          "explanation": "Network policies should be explicit per service blast radius."
         },
         {
           "id": "q2_9",
-          "question": "Which example path is explicitly walked through for ECS Module?",
+          "question": "Which output is most useful for cross-module integrations?",
           "options": [
-            "complete",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "Cluster ARN or service ARN identifiers",
+            "Terraform binary path",
+            "README markdown size",
+            "Provider plugin cache path"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/container-definition/main.tf"
+          "explanation": "ARN outputs are commonly consumed by monitoring and policy modules."
         },
         {
           "id": "q2_10",
-          "question": "Which additional example helps validate edge behavior in ECS Module?",
+          "question": "Why include upgrade guidance for ECS module versions?",
           "options": [
-            "container-definition",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "To handle breaking IAM/resource changes safely",
+            "Because ECS APIs never evolve",
+            "To avoid pinning versions",
+            "To skip testing before promotion"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/express-service/main.tf"
+          "explanation": "Major module upgrades often require policy and state transition planning."
         },
         {
           "id": "q2_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for ECS Module?",
+          "question": "What risk appears when execution role permissions are too narrow?",
           "options": [
-            "cluster",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Image pulls and log delivery failures at runtime",
+            "Terraform init failure only",
+            "ECS cluster deletion",
+            "Loss of VPC route tables"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/examples/ec2-autoscaling/main.tf"
+          "explanation": "Execution role must cover pull/logging dependencies."
         },
         {
           "id": "q2_12",
-          "question": "Which document is used for migration or upgrade guidance in ECS Module?",
+          "question": "How do wrappers help ECS in multi-environment estates?",
           "options": [
-            "README.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "They apply consistent defaults while keeping env-specific overrides small",
+            "They eliminate the need for variables",
+            "They force duplicate modules per account",
+            "They disable composition"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/README.md"
+          "explanation": "Wrappers reduce repetition and policy drift across accounts."
         },
         {
           "id": "q2_13",
-          "question": "What planning behavior should be reviewed before replacing resources in ECS Module?",
+          "question": "What is a sane strategy for task definition image tags?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Use immutable tags/digests promoted through environments",
+            "Always use `latest` in production",
+            "Randomize tags every apply",
+            "Build image names from timestamps only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Immutable image references improve traceability and rollback."
         },
         {
           "id": "q2_14",
-          "question": "What debugging workflow is emphasized for ECS Module when plan output is unstable?",
+          "question": "What should happen before enabling scheduled scaling actions?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Validate baseline autoscaling metrics and service limits",
+            "Delete service desired_count",
+            "Disable alarms permanently",
+            "Turn off deployment circuit breakers"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Scheduled actions should align with observed traffic and quotas."
         },
         {
           "id": "q2_15",
-          "question": "How should failed answers behave in the ECS Module quiz segment?",
+          "question": "When introducing a new ECS submodule feature, what is best practice?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Expose it via typed variables with conservative defaults",
+            "Hardcode all values for one environment",
+            "Bypass reviews using local state only",
+            "Couple feature flags to unrelated modules"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Typed inputs and defaults keep adoption controlled and safe."
         }
       ]
     },
@@ -567,183 +627,183 @@
       "questions": [
         {
           "id": "q3_1",
-          "question": "Which repository backs the EKS Module section in this workshop?",
+          "question": "What resource represents the EKS control plane in Terraform?",
           "options": [
-            "terraform-aws-eks",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "aws_eks_cluster",
+            "aws_autoscaling_group",
+            "aws_iam_group",
+            "aws_lb_target_group"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "`aws_eks_cluster` defines the control plane and core cluster settings."
         },
         {
           "id": "q3_2",
-          "question": "Which file is a primary code anchor for EKS Module?",
+          "question": "Why is an OIDC provider essential for IRSA?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "It lets Kubernetes service accounts assume scoped IAM roles",
+            "It replaces Kubernetes RBAC",
+            "It disables IAM policies",
+            "It creates worker nodes automatically"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "IRSA depends on OIDC federation between cluster and IAM."
         },
         {
           "id": "q3_3",
-          "question": "Which resource block name is directly referenced for EKS Module?",
+          "question": "What is the goal of access entries/policy associations in modern EKS modules?",
           "options": [
-            "aws_iam_role.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Manage cluster access declaratively instead of manual mappings",
+            "Store pod logs in S3",
+            "Configure VPC route propagation",
+            "Replace node groups"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "Declarative access control improves repeatability and auditability."
         },
         {
           "id": "q3_4",
-          "question": "Which data source trait is highlighted in EKS Module troubleshooting?",
+          "question": "Why stage add-ons before/after compute carefully?",
           "options": [
-            "aws_availability_zones.available",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Some add-ons depend on nodes while others bootstrap core networking first",
+            "Add-ons are independent of cluster state",
+            "It only affects Terraform fmt",
+            "It removes need for IAM roles"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "Ordering errors can break cluster bring-up and upgrades."
         },
         {
           "id": "q3_5",
-          "question": "Which variable trait is part of EKS Module module inputs?",
+          "question": "How do managed node groups differ from self-managed groups?",
           "options": [
-            "create",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "Managed groups offload lifecycle operations to EKS",
+            "Managed groups cannot scale",
+            "Self-managed groups do not use EC2",
+            "There is no operational difference"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/node_groups.tf"
+          "explanation": "Managed node groups reduce operational burden for patching and rollouts."
         },
         {
           "id": "q3_6",
-          "question": "Which additional variable trait is commonly reviewed in EKS Module?",
+          "question": "What does a Fargate profile primarily define?",
           "options": [
-            "prefix_separator",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Namespace/label selectors for pods that run on Fargate",
+            "Cluster endpoint TLS policy",
+            "Route53 zone delegation",
+            "KMS key rotation windows"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/node_groups.tf"
+          "explanation": "Profiles map pod workloads to serverless compute behavior."
         },
         {
           "id": "q3_7",
-          "question": "Which output trait is part of the EKS Module contract?",
+          "question": "Why does Karpenter integration often include an interruption queue?",
           "options": [
-            "cluster_arn",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "To handle spot/interruption events for graceful replacement",
+            "To store Terraform state locks",
+            "To publish kubectl output",
+            "To generate IRSA roles automatically"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/eks-managed-node-group/main.tf"
+          "explanation": "Interruption handling improves availability under volatile capacity."
         },
         {
           "id": "q3_8",
-          "question": "Which second output trait is tracked for downstream dependencies in EKS Module?",
+          "question": "What is a common hardening choice for EKS API endpoint access?",
           "options": [
-            "cluster_certificate_authority_data",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "Restrict public access CIDRs or use private endpoint patterns",
+            "Expose endpoint globally with no controls",
+            "Disable TLS for speed",
+            "Allow anonymous IAM principals"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/eks-managed-node-group/main.tf"
+          "explanation": "Endpoint access controls reduce control-plane attack surface."
         },
         {
           "id": "q3_9",
-          "question": "Which example path is explicitly walked through for EKS Module?",
+          "question": "Why separate cluster security group rules from worker node rules?",
           "options": [
-            "eks-auto-mode",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "Control-plane and workload traffic have different trust boundaries",
+            "Security groups cannot be reused",
+            "EKS requires one global SG only",
+            "Node groups do not need egress"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/self-managed-node-group/main.tf"
+          "explanation": "Separation improves least privilege and incident isolation."
         },
         {
           "id": "q3_10",
-          "question": "Which additional example helps validate edge behavior in EKS Module?",
+          "question": "What is the value of `_user_data` generation modules?",
           "options": [
-            "eks-capabilities",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Consistent bootstrap scripts across node group variants",
+            "Automatic Terraform state migration",
+            "Replacing cloud-init entirely",
+            "Disabling kubelet configuration"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/fargate-profile/main.tf"
+          "explanation": "Centralized user data logic prevents bootstrap drift."
         },
         {
           "id": "q3_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for EKS Module?",
+          "question": "What upgrade risk is common across major EKS module versions?",
           "options": [
-            "main.tf",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Breaking changes in IAM, add-on defaults, and node group behavior",
+            "Loss of all Terraform outputs",
+            "Removal of Kubernetes API server",
+            "Automatic downgrade of cluster version"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/karpenter/main.tf"
+          "explanation": "Major upgrades need staged testing and migration notes."
         },
         {
           "id": "q3_12",
-          "question": "Which document is used for migration or upgrade guidance in EKS Module?",
+          "question": "Why codify cluster logging settings in Terraform?",
           "options": [
-            "CHANGELOG.pre-v11.0.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "To guarantee audit and troubleshooting coverage across environments",
+            "To reduce IAM policy size",
+            "To speed up kubectl commands",
+            "To avoid CloudWatch entirely"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/CHANGELOG.pre-v11.0.0.md"
+          "explanation": "Declarative logging avoids ad hoc operational blind spots."
         },
         {
           "id": "q3_13",
-          "question": "What planning behavior should be reviewed before replacing resources in EKS Module?",
+          "question": "What is the purpose of wait semantics in node group orchestration?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Ensure dependent resources are ready before progressing",
+            "Make apply non-deterministic",
+            "Skip health checks",
+            "Disable rolling updates"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Proper waits reduce race conditions during cluster build and upgrade."
         },
         {
           "id": "q3_14",
-          "question": "What debugging workflow is emphasized for EKS Module when plan output is unstable?",
+          "question": "How should EKS module outputs be used in downstream modules?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Consume cluster endpoint, CA data, and role/SG IDs as explicit inputs",
+            "Parse them from state files manually",
+            "Hardcode values in scripts forever",
+            "Avoid outputs to reduce coupling"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Explicit outputs enable safe composition and automation."
         },
         {
           "id": "q3_15",
-          "question": "How should failed answers behave in the EKS Module quiz segment?",
+          "question": "What is a practical migration step before production EKS upgrades?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Apply module changes in lower environments and compare plan deltas",
+            "Upgrade prod first for faster feedback",
+            "Delete node groups preemptively",
+            "Disable drift detection"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Progressive rollout catches breaking changes before high-impact environments."
         }
       ]
     },
@@ -753,183 +813,183 @@
       "questions": [
         {
           "id": "q4_1",
-          "question": "Which repository backs the IAM Module section in this workshop?",
+          "question": "What does the IAM account module usually manage?",
           "options": [
-            "terraform-aws-iam",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "Account alias and password policy guardrails",
+            "VPC CIDR allocations",
+            "ECS task definitions",
+            "KMS grants only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "Account-level IAM posture is foundational for secure identity management."
         },
         {
           "id": "q4_2",
-          "question": "Which file is a primary code anchor for IAM Module?",
+          "question": "Why add MFA-related conditions to IAM group policies?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "To enforce stronger authentication for sensitive actions",
+            "To increase API latency",
+            "To replace all role assumptions",
+            "To disable console access"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "MFA conditions are a common least-privilege hardening control."
         },
         {
           "id": "q4_3",
-          "question": "Which resource block name is directly referenced for IAM Module?",
+          "question": "What is the main use of the IAM OIDC provider module?",
           "options": [
-            "aws_iam_policy.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Federate external identity tokens for role assumption",
+            "Encrypt S3 objects",
+            "Create EKS node groups",
+            "Attach EC2 security groups"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "OIDC federation enables workload and CI trust without long-lived keys."
         },
         {
           "id": "q4_4",
-          "question": "Which data source trait is highlighted in IAM Module troubleshooting?",
+          "question": "In IAM role modules, what does the assume role policy define?",
           "options": [
-            "aws_partition.current",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Who can assume the role and under which conditions",
+            "What inline permissions the role grants itself",
+            "How Terraform backend locks state",
+            "Which VPC endpoints are required"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "Trust policy and permission policy are separate concerns."
         },
         {
           "id": "q4_5",
-          "question": "Which variable trait is part of IAM Module module inputs?",
+          "question": "Why keep inline and managed policy attachments explicit?",
           "options": [
-            "defaults",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "To control blast radius and policy lifecycle clearly",
+            "Because AWS forbids managed policies",
+            "To avoid role outputs",
+            "To disable policy versioning"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-group/main.tf"
+          "explanation": "Explicit attachments improve reviewability and modular ownership."
         },
         {
           "id": "q4_6",
-          "question": "Which additional variable trait is commonly reviewed in IAM Module?",
+          "question": "What is a key IRSA condition trait in trust policies?",
           "options": [
-            "items",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Matching `sub`/`aud` claims for the intended service account",
+            "Matching AMI IDs",
+            "Matching S3 bucket names only",
+            "Matching Terraform workspace names"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-group/main.tf"
+          "explanation": "Fine-grained claims prevent over-broad pod role assumption."
         },
         {
           "id": "q4_7",
-          "question": "Which output trait is part of the IAM Module contract?",
+          "question": "When should an IAM user module be used carefully?",
           "options": [
-            "wrapper",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "Only when workload cannot use roles/federation",
+            "For all Kubernetes pods",
+            "For every CI job by default",
+            "As replacement for security groups"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role/main.tf"
+          "explanation": "Users create long-lived credential risk; roles are usually safer."
         },
         {
           "id": "q4_8",
-          "question": "Which second output trait is tracked for downstream dependencies in IAM Module?",
+          "question": "What does an IAM policy module typically output for reuse?",
           "options": [
-            "group_id",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "Policy ARN for attachment by role/group/user modules",
+            "Cluster endpoint URL",
+            "KMS key material",
+            "VPC route table IDs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role/main.tf"
+          "explanation": "Policy ARNs are the integration contract for downstream identity resources."
         },
         {
           "id": "q4_9",
-          "question": "Which example path is explicitly walked through for IAM Module?",
+          "question": "Why split IAM modules by concern (role, policy, user, group)?",
           "options": [
-            "iam-account",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "To keep contracts clear and avoid monolithic identity definitions",
+            "Because Terraform cannot handle nested modules",
+            "To avoid variable validation",
+            "To disable drift detection"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role-for-service-accounts/main.tf"
+          "explanation": "Decomposition improves maintainability and change safety."
         },
         {
           "id": "q4_10",
-          "question": "Which additional example helps validate edge behavior in IAM Module?",
+          "question": "What is the danger of wildcard actions/resources in IAM policies?",
           "options": [
-            "iam-group",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Excess privilege and higher blast radius during compromise",
+            "Faster provider downloads",
+            "Automatic key rotation",
+            "Lower CloudTrail volume"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/docs/UPGRADE-6.0.md"
+          "explanation": "Least privilege requires scoping actions and resources intentionally."
         },
         {
           "id": "q4_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for IAM Module?",
+          "question": "How do wrappers help IAM deployments across accounts?",
           "options": [
-            "iam-account",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "They enforce consistent baseline conditions and naming",
+            "They remove need for review",
+            "They prevent policy updates",
+            "They replace AWS Organizations"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role-for-service-accounts/main.tf"
+          "explanation": "Wrappers standardize posture while permitting small account-specific overrides."
         },
         {
           "id": "q4_12",
-          "question": "Which document is used for migration or upgrade guidance in IAM Module?",
+          "question": "Why model IAM tags and path conventions in variables?",
           "options": [
-            "UPGRADE-6.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "To support governance, ownership tracking, and policy boundaries",
+            "To increase apply runtime",
+            "To disable account aliases",
+            "To avoid module outputs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-6.0.md"
+          "explanation": "Consistent tagging/path strategy aids compliance and operations."
         },
         {
           "id": "q4_13",
-          "question": "What planning behavior should be reviewed before replacing resources in IAM Module?",
+          "question": "What should be validated before rotating IAM access keys?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Consumer readiness and overlap window for zero-downtime cutover",
+            "Delete all old policies first",
+            "Disable CloudTrail logs",
+            "Recreate AWS account alias"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Planned rotation avoids outages caused by stale credentials."
         },
         {
           "id": "q4_14",
-          "question": "What debugging workflow is emphasized for IAM Module when plan output is unstable?",
+          "question": "What is the practical outcome of consolidated IAM module families?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Reusable patterns for roles, policies, and federation at scale",
+            "Single hardcoded role for all systems",
+            "No need for trust policies",
+            "Automatic cross-account admin everywhere"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Consolidation reduces duplication and inconsistent security posture."
         },
         {
           "id": "q4_15",
-          "question": "How should failed answers behave in the IAM Module quiz segment?",
+          "question": "During IAM module upgrades, what deserves highest attention?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Trust policy behavior and permission scope diffs in plan output",
+            "README typography changes",
+            "Terraform colorized output",
+            "Local plugin cache size"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Identity changes can break workloads or create over-privilege if not reviewed."
         }
       ]
     },
@@ -939,183 +999,183 @@
       "questions": [
         {
           "id": "q5_1",
-          "question": "Which repository backs the KMS Module section in this workshop?",
+          "question": "Which KMS setting controls how long key deletion is delayed?",
           "options": [
-            "terraform-aws-kms",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "deletion_window_in_days",
+            "key_spec_timeout",
+            "kms_grace_hours",
+            "recovery_period_seconds"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "Deletion window gives operators time to recover from accidental deletion requests."
         },
         {
           "id": "q5_2",
-          "question": "Which file is a primary code anchor for KMS Module?",
+          "question": "When is automatic key rotation typically supported?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "Symmetric customer-managed KMS keys",
+            "All external key material keys",
+            "Asymmetric signing keys only",
+            "Aliases without backing keys"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "Rotation support depends on key type and AWS KMS capabilities."
         },
         {
           "id": "q5_3",
-          "question": "Which resource block name is directly referenced for KMS Module?",
+          "question": "Why separate key owners, admins, and users in policy design?",
           "options": [
-            "aws_kms_key.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "To enforce least privilege by responsibility",
+            "To speed up alias creation",
+            "To remove grant support",
+            "To avoid CloudTrail logging"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "Role separation reduces accidental or malicious misuse."
         },
         {
           "id": "q5_4",
-          "question": "Which data source trait is highlighted in KMS Module troubleshooting?",
+          "question": "What is the purpose of a KMS alias?",
           "options": [
-            "aws_caller_identity.current",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Provide a stable, readable pointer to a key",
+            "Replace key policies",
+            "Enable cross-region replication alone",
+            "Disable key rotation"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "Aliases improve usability without changing key IDs."
         },
         {
           "id": "q5_5",
-          "question": "Which variable trait is part of KMS Module module inputs?",
+          "question": "What do KMS grants provide compared with broad key policy statements?",
           "options": [
-            "create",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "Scoped permissions for specific principals/use cases",
+            "Faster Terraform plans",
+            "Automatic key deletion recovery",
+            "Cross-account VPC peering"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/variables.tf"
+          "explanation": "Grants are useful for narrowly targeted access patterns."
         },
         {
           "id": "q5_6",
-          "question": "Which additional variable trait is commonly reviewed in KMS Module?",
+          "question": "For multi-region encryption, what pair is commonly used?",
           "options": [
-            "region",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Primary key plus replica keys",
+            "One alias without keys",
+            "Only external keys",
+            "Secrets Manager versions only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/variables.tf"
+          "explanation": "Replica keys align cryptographic context across regions."
         },
         {
           "id": "q5_7",
-          "question": "Which output trait is part of the KMS Module contract?",
+          "question": "What is unique about external key material workflows?",
           "options": [
-            "key_arn",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "Key material lifecycle/import validity must be managed explicitly",
+            "AWS rotates it automatically every 30 days",
+            "It cannot be used with aliases",
+            "It removes the need for policies"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/outputs.tf"
+          "explanation": "External material introduces additional operational controls and risks."
         },
         {
           "id": "q5_8",
-          "question": "Which second output trait is tracked for downstream dependencies in KMS Module?",
+          "question": "Why include `aws_partition` and caller identity data in policies?",
           "options": [
-            "key_id",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "To build correct ARNs across partitions/accounts",
+            "To avoid using principals",
+            "To disable IAM conditions",
+            "To randomize key IDs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/outputs.tf"
+          "explanation": "Dynamic ARN construction prevents hardcoded account/partition mistakes."
         },
         {
           "id": "q5_9",
-          "question": "Which example path is explicitly walked through for KMS Module?",
+          "question": "What should happen before reducing KMS policy permissions?",
           "options": [
-            "complete",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "Review downstream services that encrypt/decrypt with that key",
+            "Delete all aliases first",
+            "Disable CloudWatch",
+            "Recreate key immediately"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/examples/complete/main.tf"
+          "explanation": "Policy tightening can break running workloads if dependencies are unknown."
         },
         {
           "id": "q5_10",
-          "question": "Which additional example helps validate edge behavior in KMS Module?",
+          "question": "How do key usage and key spec traits affect module design?",
           "options": [
-            "complete",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "They constrain allowed cryptographic operations and integrations",
+            "They only impact key tags",
+            "They are ignored by AWS KMS",
+            "They control Terraform backend locks"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/docs/UPGRADE-4.0.md"
+          "explanation": "Choosing wrong spec/usage can block required encryption workflows."
         },
         {
           "id": "q5_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for KMS Module?",
+          "question": "Why expose key ARN outputs from the module?",
           "options": [
-            "main.tf",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Other modules need it for encryption configuration",
+            "It is required for `terraform init`",
+            "It replaces IAM trust policy",
+            "It configures VPC DHCP options"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/examples/complete/main.tf"
+          "explanation": "Key ARNs are common integration inputs across AWS services."
         },
         {
           "id": "q5_12",
-          "question": "Which document is used for migration or upgrade guidance in KMS Module?",
+          "question": "What failure mode is common when key policy omits service principals?",
           "options": [
-            "UPGRADE-4.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Dependent AWS services fail encryption operations",
+            "Terraform cannot read variables",
+            "KMS aliases are auto-deleted",
+            "Region becomes inaccessible"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-4.0.md"
+          "explanation": "Service integrations often need explicit policy permissions."
         },
         {
           "id": "q5_13",
-          "question": "What planning behavior should be reviewed before replacing resources in KMS Module?",
+          "question": "In Route53 DNSSEC scenarios, why is KMS setup important?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "DNSSEC signing keys depend on correctly scoped KMS permissions",
+            "DNSSEC never uses KMS",
+            "It only changes VPC routes",
+            "It only affects IAM users"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "DNSSEC workflows require strong, explicit cryptographic key controls."
         },
         {
           "id": "q5_14",
-          "question": "What debugging workflow is emphasized for KMS Module when plan output is unstable?",
+          "question": "What should be reviewed during KMS module upgrades?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Changes to policy templates, defaults, and resource addresses",
+            "Only README badges",
+            "Local shell aliases",
+            "Terraform color theme"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "KMS upgrade diffs can affect security posture and service continuity."
         },
         {
           "id": "q5_15",
-          "question": "How should failed answers behave in the KMS Module quiz segment?",
+          "question": "What is a safe operational pattern before scheduling key deletion?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Confirm no active workloads still require decrypt access",
+            "Delete all encrypted resources first automatically",
+            "Force immediate deletion with zero window",
+            "Detach all IAM policies blindly"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Deletion planning must account for recovery and service dependency impact."
         }
       ]
     },
@@ -1125,183 +1185,183 @@
       "questions": [
         {
           "id": "q6_1",
-          "question": "Which repository backs the S3 Bucket Module section in this workshop?",
+          "question": "What is a core reason to manage S3 buckets through a module?",
           "options": [
-            "terraform-aws-s3-bucket",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "Enforce consistent security and lifecycle defaults",
+            "Disable bucket policies globally",
+            "Avoid versioning entirely",
+            "Replace IAM roles"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "A module standardizes guardrails across many buckets/environments."
         },
         {
           "id": "q6_2",
-          "question": "Which file is a primary code anchor for S3 Bucket Module?",
+          "question": "When using Object Ownership `BucketOwnerEnforced`, what happens to ACLs?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "ACLs are effectively disabled for access control",
+            "ACLs become mandatory for all objects",
+            "ACLs control KMS grants",
+            "ACLs define replication regions"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "Ownership controls can centralize authorization in policies instead of ACLs."
         },
         {
           "id": "q6_3",
-          "question": "Which resource block name is directly referenced for S3 Bucket Module?",
+          "question": "Which feature is required for replication to function?",
           "options": [
-            "random_pet.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Bucket versioning enabled on source and destination",
+            "Static website hosting",
+            "S3 Object Lambda",
+            "Transfer Acceleration"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "Replication depends on object version history and replication IAM role setup."
         },
         {
           "id": "q6_4",
-          "question": "Which data source trait is highlighted in S3 Bucket Module troubleshooting?",
+          "question": "Why configure Block Public Access settings explicitly?",
           "options": [
-            "aws_caller_identity.current",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "To prevent accidental public exposure paths",
+            "To increase PUT latency",
+            "To enable anonymous replication",
+            "To remove bucket encryption"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "Explicit BPA settings are a foundational S3 security control."
         },
         {
           "id": "q6_5",
-          "question": "Which variable trait is part of S3 Bucket Module module inputs?",
+          "question": "What does server-side encryption configuration define?",
           "options": [
-            "create_bucket",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "How S3 encrypts objects at rest (SSE-S3/SSE-KMS)",
+            "How Terraform encrypts state lock files",
+            "How IAM users authenticate",
+            "How Route53 resolves bucket names"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/account-public-access/main.tf"
+          "explanation": "Encryption settings are part of baseline data protection controls."
         },
         {
           "id": "q6_6",
-          "question": "Which additional variable trait is commonly reviewed in S3 Bucket Module?",
+          "question": "How do lifecycle rules improve large-bucket operations?",
           "options": [
-            "attach_elb_log_delivery_policy",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "They automate retention, transition, and expiration policies",
+            "They disable CloudTrail events",
+            "They replace bucket policies",
+            "They force immediate object deletion only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/account-public-access/main.tf"
+          "explanation": "Lifecycle policies reduce cost and enforce data governance automatically."
         },
         {
           "id": "q6_7",
-          "question": "Which output trait is part of the S3 Bucket Module contract?",
+          "question": "Why model notification targets (Lambda/SQS/SNS) in Terraform?",
           "options": [
-            "s3_bucket_id",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "To keep event wiring and permissions declarative and auditable",
+            "To bypass service permissions",
+            "To avoid IAM policy documents",
+            "To remove bucket policies"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/notification/main.tf"
+          "explanation": "Notifications need both destination configuration and permission policy alignment."
         },
         {
           "id": "q6_8",
-          "question": "Which second output trait is tracked for downstream dependencies in S3 Bucket Module?",
+          "question": "What is the purpose of request payer configuration?",
           "options": [
-            "s3_bucket_arn",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "Control who pays request/data transfer costs in shared access patterns",
+            "Enable bucket replication automatically",
+            "Encrypt object metadata",
+            "Configure IAM federation"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/notification/main.tf"
+          "explanation": "Request payer affects billing semantics for cross-account consumers."
         },
         {
           "id": "q6_9",
-          "question": "Which example path is explicitly walked through for S3 Bucket Module?",
+          "question": "When should object lock be enabled?",
           "options": [
-            "account-public-access",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "When compliance retention/WORM requirements apply",
+            "For all temporary CI artifacts",
+            "Only when versioning is disabled",
+            "Only for website buckets"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/object/main.tf"
+          "explanation": "Object lock is for strict retention controls and must be planned early."
         },
         {
           "id": "q6_10",
-          "question": "Which additional example helps validate edge behavior in S3 Bucket Module?",
+          "question": "What does a combined bucket policy approach help with?",
           "options": [
-            "complete",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Compose baseline denies plus service-specific allow statements",
+            "Disable all IAM evaluation",
+            "Remove the need for principals",
+            "Guarantee public read by default"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/table-bucket/main.tf"
+          "explanation": "Policy composition keeps guardrails consistent while enabling controlled exceptions."
         },
         {
           "id": "q6_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for S3 Bucket Module?",
+          "question": "Why provide outputs like bucket ARN and name?",
           "options": [
-            "account-public-access",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Downstream modules need them for policies and integrations",
+            "They are required for terraform fmt",
+            "They replace replication rules",
+            "They create KMS aliases"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/table-bucket/main.tf"
+          "explanation": "Bucket identifiers are key integration points for many AWS services."
         },
         {
           "id": "q6_12",
-          "question": "Which document is used for migration or upgrade guidance in S3 Bucket Module?",
+          "question": "What is a common pitfall when enabling replication?",
           "options": [
-            "UPGRADE-3.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Missing IAM permissions for replication role/object ownership conditions",
+            "Using too many lifecycle rules",
+            "Setting bucket tags",
+            "Using regional endpoints"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
+          "explanation": "Replication failures often trace back to policy or ownership misconfiguration."
         },
         {
           "id": "q6_13",
-          "question": "What planning behavior should be reviewed before replacing resources in S3 Bucket Module?",
+          "question": "How should defaults be chosen for multi-environment S3 modules?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Secure-by-default with explicit opt-in for risky behavior",
+            "Public-by-default for faster testing",
+            "No encryption by default",
+            "Disable versioning always"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Conservative defaults reduce accidental exposure in production."
         },
         {
           "id": "q6_14",
-          "question": "What debugging workflow is emphasized for S3 Bucket Module when plan output is unstable?",
+          "question": "Why are directory/table bucket paths separated in module design?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "They represent different S3 feature sets and resource behaviors",
+            "Terraform cannot manage standard buckets",
+            "They only differ by naming",
+            "They are aliases for the same API"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Distinct resource models require explicit branching and inputs."
         },
         {
           "id": "q6_15",
-          "question": "How should failed answers behave in the S3 Bucket Module quiz segment?",
+          "question": "During S3 module upgrades, what should be checked first?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Plan diffs for policy, ownership, and replication behavior changes",
+            "Only output ordering",
+            "Provider binary size",
+            "Shell history"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "S3 security-sensitive changes require careful drift and impact review."
         }
       ]
     },
@@ -1311,183 +1371,183 @@
       "questions": [
         {
           "id": "q7_1",
-          "question": "Which repository backs the Secrets Manager Module section in this workshop?",
+          "question": "Which resource creates the metadata container for a secret?",
           "options": [
-            "terraform-aws-secrets-manager",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "aws_secretsmanager_secret",
+            "aws_ssm_parameter",
+            "aws_kms_key_alias",
+            "aws_iam_policy_document"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "Secret metadata and lifecycle are managed separately from secret values."
         },
         {
           "id": "q7_2",
-          "question": "Which file is a primary code anchor for Secrets Manager Module?",
+          "question": "What resource typically manages the secret value/version payload?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "aws_secretsmanager_secret_version",
+            "aws_secretsmanager_resource_policy",
+            "aws_s3_object",
+            "aws_cloudwatch_log_group"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "Version resources handle staged secret values over time."
         },
         {
           "id": "q7_3",
-          "question": "Which resource block name is directly referenced for Secrets Manager Module?",
+          "question": "Why is `ignore_secret_changes` or similar lifecycle handling used?",
           "options": [
-            "aws_secretsmanager_secret.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "To avoid overwriting externally-rotated secret values",
+            "To disable encryption",
+            "To remove KMS key usage",
+            "To bypass IAM evaluation"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "Some teams rotate values outside Terraform and want drift tolerance."
         },
         {
           "id": "q7_4",
-          "question": "Which data source trait is highlighted in Secrets Manager Module troubleshooting?",
+          "question": "What is the purpose of enabling rotation with a Lambda function?",
           "options": [
-            "aws_iam_policy_document.this",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Automate credential renewal on a defined schedule",
+            "Disable secret replication",
+            "Replace KMS policies",
+            "Force AWSPREVIOUS deletion immediately"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "Rotation reduces manual secret management risk."
         },
         {
           "id": "q7_5",
-          "question": "Which variable trait is part of Secrets Manager Module module inputs?",
+          "question": "How does KMS integration affect Secrets Manager?",
           "options": [
-            "create",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "It defines the CMK used to encrypt secret data at rest",
+            "It selects the secret rotation interval",
+            "It controls VPC routing",
+            "It creates IAM users"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/variables.tf"
+          "explanation": "CMK selection is central to encryption boundary and key governance."
         },
         {
           "id": "q7_6",
-          "question": "Which additional variable trait is commonly reviewed in Secrets Manager Module?",
+          "question": "Why configure replica regions for secrets?",
           "options": [
-            "region",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Improve regional resilience and latency for consumers",
+            "Disable version stages",
+            "Avoid IAM policies",
+            "Replace rotation Lambda"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/variables.tf"
+          "explanation": "Replication supports multi-region workloads and DR patterns."
         },
         {
           "id": "q7_7",
-          "question": "Which output trait is part of the Secrets Manager Module contract?",
+          "question": "What does recovery window configuration control?",
           "options": [
-            "secret_arn",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "Days before permanent deletion after a delete request",
+            "How often rotation runs",
+            "KMS key alias naming",
+            "Terraform state lock timeout"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
+          "explanation": "Recovery windows provide rollback opportunity for accidental deletions."
         },
         {
           "id": "q7_8",
-          "question": "Which second output trait is tracked for downstream dependencies in Secrets Manager Module?",
+          "question": "What do version stages like `AWSCURRENT` and `AWSPREVIOUS` represent?",
           "options": [
-            "secret_id",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "Labels for active and prior secret versions",
+            "IAM trust relationships",
+            "S3 lifecycle transitions",
+            "ECS task states"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
+          "explanation": "Version stages coordinate secret cutovers for consumers."
         },
         {
           "id": "q7_9",
-          "question": "Which example path is explicitly walked through for Secrets Manager Module?",
+          "question": "Why attach explicit secret resource policies?",
           "options": [
-            "complete",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "To scope which principals can read/manage the secret",
+            "To choose secret random length",
+            "To control subnet routing",
+            "To disable CloudTrail logging"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/examples/complete/main.tf"
+          "explanation": "Resource policies enforce access boundaries beyond identity policy defaults."
         },
         {
           "id": "q7_10",
-          "question": "Which additional example helps validate edge behavior in Secrets Manager Module?",
+          "question": "What risk exists if secret updates are blindly managed in Terraform apply?",
           "options": [
-            "complete",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Accidental credential rollbacks or overwrites",
+            "Loss of bucket versioning",
+            "KMS key deletion",
+            "EKS cluster recreation"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "State-driven value writes can conflict with runtime rotation workflows."
         },
         {
           "id": "q7_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for Secrets Manager Module?",
+          "question": "Why include random password generation options in the module?",
           "options": [
-            "main.tf",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Generate compliant initial secrets with policy constraints",
+            "Replace IAM role trust policies",
+            "Set VPC CIDR ranges",
+            "Disable rotation support"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
+          "explanation": "Controlled random generation supports secure bootstrap without manual secrets."
         },
         {
           "id": "q7_12",
-          "question": "Which document is used for migration or upgrade guidance in Secrets Manager Module?",
+          "question": "How should outputs from a secrets module be consumed?",
           "options": [
-            "main.tf",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Expose ARNs/names, not secret plaintext",
+            "Return plaintext in Terraform outputs",
+            "Store plaintext in tags",
+            "Publish plaintext in plan comments"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "Never leak secret material; integrate via identifiers and runtime fetch."
         },
         {
           "id": "q7_13",
-          "question": "What planning behavior should be reviewed before replacing resources in Secrets Manager Module?",
+          "question": "What is the main purpose of block public policy style guardrails?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "Prevent overly broad secret access permissions",
+            "Allow anonymous retrieval for testing",
+            "Skip IAM policy evaluation",
+            "Disable versioning"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Guardrails reduce accidental data exposure risk."
         },
         {
           "id": "q7_14",
-          "question": "What debugging workflow is emphasized for Secrets Manager Module when plan output is unstable?",
+          "question": "In production, what should be validated before enabling rotation?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Lambda permissions, networking, and rollback process",
+            "Only secret tags",
+            "Route table propagation",
+            "Terraform fmt formatting"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Rotation failures can break auth flows without operational readiness."
         },
         {
           "id": "q7_15",
-          "question": "How should failed answers behave in the Secrets Manager Module quiz segment?",
+          "question": "What is a good hardening practice for secret lifecycle operations?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Use least privilege, audit trails, and staged rollout of changes",
+            "Give admin rights to all workloads",
+            "Disable deletion protection everywhere",
+            "Store secrets in user data scripts"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Defense-in-depth is critical for secret confidentiality and availability."
         }
       ]
     },
@@ -1497,183 +1557,183 @@
       "questions": [
         {
           "id": "q8_1",
-          "question": "Which repository backs the Security Group Module section in this workshop?",
+          "question": "What does `create_sg = false` typically indicate in SG modules?",
           "options": [
-            "terraform-aws-security-group",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "Use an existing security group ID instead of creating one",
+            "Disable all ingress/egress rules",
+            "Delete rules on every apply",
+            "Create only egress rules"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This pattern lets teams attach rules to pre-existing shared SGs."
         },
         {
           "id": "q8_2",
-          "question": "Which file is a primary code anchor for Security Group Module?",
+          "question": "Why model ingress and egress separately?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "They represent different traffic directions and risk controls",
+            "AWS combines them automatically",
+            "Egress is ignored by VPC",
+            "Ingress cannot use CIDRs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "Separate modeling improves review clarity and policy precision."
         },
         {
           "id": "q8_3",
-          "question": "Which resource block name is directly referenced for Security Group Module?",
+          "question": "When is a `self` rule useful?",
           "options": [
-            "aws_security_group.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Allow traffic between members of the same security group",
+            "Allow internet access from anywhere",
+            "Block all east-west traffic",
+            "Replace NACL rules"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "`self` enables controlled intra-tier communication patterns."
         },
         {
           "id": "q8_4",
-          "question": "Which data source trait is highlighted in Security Group Module troubleshooting?",
+          "question": "Why use computed rule variants in Terraform SG modules?",
           "options": [
-            "aws_vpc.default",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "To handle values unknown until apply without plan-time failures",
+            "To disable dynamic blocks",
+            "To avoid state files",
+            "To bypass IAM checks"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "Computed inputs need special handling to keep plans valid."
         },
         {
           "id": "q8_5",
-          "question": "Which variable trait is part of Security Group Module module inputs?",
+          "question": "What is a key risk with many inline SG rules in one resource?",
           "options": [
-            "rules",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "Rule churn and hard-to-review diffs during updates",
+            "Inability to set tags",
+            "Loss of VPC attachment",
+            "Automatic public exposure"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/rules.tf"
+          "explanation": "Fine-grained rule resources usually produce safer diffs."
         },
         {
           "id": "q8_6",
-          "question": "Which additional variable trait is commonly reviewed in Security Group Module?",
+          "question": "What does revoke-on-delete behavior help with?",
           "options": [
-            "auto_groups",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Cleanup of stale rules during replacement/removal",
+            "Automatic policy encryption",
+            "Cross-account assume role",
+            "Faster terraform init"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/rules.tf"
+          "explanation": "Explicit revoke behavior reduces orphaned network access."
         },
         {
           "id": "q8_7",
-          "question": "Which output trait is part of the Security Group Module contract?",
+          "question": "How do named service modules (for example `http-80`, `mysql`) help teams?",
           "options": [
-            "security_group_arn",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "They provide reusable, opinionated rule sets for common patterns",
+            "They eliminate the need for SG IDs",
+            "They force all ports open",
+            "They remove egress controls"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/http-80/main.tf"
+          "explanation": "Prebuilt modules accelerate delivery with consistent guardrails."
         },
         {
           "id": "q8_8",
-          "question": "Which second output trait is tracked for downstream dependencies in Security Group Module?",
+          "question": "When should prefix lists be used in SG rules?",
           "options": [
-            "security_group_id",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "When allowing AWS-managed or centrally maintained network ranges",
+            "Only for localhost traffic",
+            "Only with NACLs disabled",
+            "Never in production"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/http-80/main.tf"
+          "explanation": "Prefix lists improve maintainability of shared CIDR allowlists."
         },
         {
           "id": "q8_9",
-          "question": "Which example path is explicitly walked through for Security Group Module?",
+          "question": "What is the best way to scale SG rule management across many apps?",
           "options": [
-            "complete",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "Compose reusable rule objects and wrappers with strict defaults",
+            "Copy-paste one giant SG everywhere",
+            "Use manual console edits only",
+            "Disable drift checks"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/mysql/main.tf"
+          "explanation": "Composable patterns reduce duplication and misconfiguration."
         },
         {
           "id": "q8_10",
-          "question": "Which additional example helps validate edge behavior in Security Group Module?",
+          "question": "Why are output traits like SG ID/ARN important?",
           "options": [
-            "computed",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Downstream modules need stable references for dependencies",
+            "They increase provider speed",
+            "They replace route tables",
+            "They force one VPC per app"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/kubernetes-api/main.tf"
+          "explanation": "Identifiers are the contract between network and workload modules."
         },
         {
           "id": "q8_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for Security Group Module?",
+          "question": "What operational issue is common with SG drift?",
           "options": [
-            "_templates",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Out-of-band rule edits causing unexpected plan diffs",
+            "Provider installation failure",
+            "State backend corruption on init",
+            "Missing module versions only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/kubernetes-api/main.tf"
+          "explanation": "Drift detection is crucial for network security posture."
         },
         {
           "id": "q8_12",
-          "question": "Which document is used for migration or upgrade guidance in Security Group Module?",
+          "question": "How should destructive SG changes be introduced safely?",
           "options": [
-            "main.tf",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Stage in lower environments and review plan blast radius",
+            "Apply directly in production peak hours",
+            "Disable all monitoring first",
+            "Remove all egress rules blindly"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "Network changes can cause immediate outages; staged rollout is safer."
         },
         {
           "id": "q8_13",
-          "question": "What planning behavior should be reviewed before replacing resources in Security Group Module?",
+          "question": "Why are class-like rule taxonomies useful in SG modules?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "They standardize intent (web/db/internal) across teams",
+            "They prevent all custom rules",
+            "They replace IAM policy structure",
+            "They disable module inputs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Rule classes improve readability and consistency at scale."
         },
         {
           "id": "q8_14",
-          "question": "What debugging workflow is emphasized for Security Group Module when plan output is unstable?",
+          "question": "What is a secure default for inbound rules?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Deny by default, then explicitly allow required sources/ports",
+            "Allow all and tighten later",
+            "Always allow 0.0.0.0/0 on admin ports",
+            "Mirror egress rules to ingress automatically"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Least-privilege networking starts from restrictive ingress defaults."
         },
         {
           "id": "q8_15",
-          "question": "How should failed answers behave in the Security Group Module quiz segment?",
+          "question": "What should be included in SG module documentation for productivity?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Rule trait definitions, examples, and migration guidance",
+            "Only repository badges",
+            "Screenshots without code",
+            "No explanation of defaults"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Clear docs reduce onboarding time and configuration mistakes."
         }
       ]
     },
@@ -1683,183 +1743,183 @@
       "questions": [
         {
           "id": "q9_1",
-          "question": "Which repository backs the VPC Module section in this workshop?",
+          "question": "Which component enables internet egress for public subnets?",
           "options": [
-            "terraform-aws-vpc",
-            "terraform-aws-rds",
-            "terraform-aws-lambda",
-            "terraform-aws-cloudfront"
+            "Internet Gateway attached to the VPC and routed from public route tables",
+            "NAT Gateway in private subnet only",
+            "DHCP options set",
+            "Flow log destination"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "Public subnet internet access requires IGW + correct route association."
         },
         {
           "id": "q9_2",
-          "question": "Which file is a primary code anchor for VPC Module?",
+          "question": "Why are NAT gateways commonly used in private subnet patterns?",
           "options": [
-            "main.tf",
-            "Dockerfile",
-            "package-lock.json",
-            "pom.xml"
+            "Allow outbound internet access without inbound exposure",
+            "Provide inbound SSH directly",
+            "Replace security groups",
+            "Disable route tables"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "NAT keeps private resources non-public while permitting updates/dependencies."
         },
         {
           "id": "q9_3",
-          "question": "Which resource block name is directly referenced for VPC Module?",
+          "question": "What is the purpose of separate subnet classes (public/private/database/intra)?",
           "options": [
-            "aws_flow_log.this",
-            "resource_alpha",
-            "resource_beta",
-            "resource_gamma"
+            "Apply least-privilege routing and policy by workload type",
+            "Reduce VPC CIDR size automatically",
+            "Disable NACL support",
+            "Avoid using route tables"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "Subnet taxonomy clarifies trust boundaries and traffic paths."
         },
         {
           "id": "q9_4",
-          "question": "Which data source trait is highlighted in VPC Module troubleshooting?",
+          "question": "How do security groups and NACLs differ fundamentally?",
           "options": [
-            "aws_availability_zones.available",
-            "data_alpha",
-            "data_beta",
-            "data_gamma"
+            "Security groups are stateful; NACLs are stateless",
+            "Both are stateless only",
+            "Both are stateful only",
+            "Only NACLs support inbound rules"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "Understanding statefulness is critical for troubleshooting connectivity."
         },
         {
           "id": "q9_5",
-          "question": "Which variable trait is part of VPC Module module inputs?",
+          "question": "When should egress-only internet gateways be considered?",
           "options": [
-            "create_vpc",
-            "frontend_theme",
-            "api_rate_limit",
-            "react_strict_mode"
+            "For IPv6 outbound-only connectivity from private resources",
+            "For IPv4 NAT replacement in public subnets",
+            "For IAM federation",
+            "For KMS key replication"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/vpc-flow-logs.tf"
+          "explanation": "Egress-only IGW is an IPv6-specific control for outbound traffic."
         },
         {
           "id": "q9_6",
-          "question": "Which additional variable trait is commonly reviewed in VPC Module?",
+          "question": "Why configure DHCP options in VPC modules?",
           "options": [
-            "region",
-            "jwt_ttl",
-            "mobile_sdk_version",
-            "html_template"
+            "Set DNS/domain-name behavior for instances in the VPC",
+            "Encrypt route table entries",
+            "Control IAM role assumption",
+            "Manage SG ingress priorities"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/vpc-flow-logs.tf"
+          "explanation": "DHCP options influence name resolution and network configuration defaults."
         },
         {
           "id": "q9_7",
-          "question": "Which output trait is part of the VPC Module contract?",
+          "question": "What does VPC flow log configuration provide operationally?",
           "options": [
-            "vpc_id",
-            "apk_path",
-            "helm_release_name",
-            "binary_checksum"
+            "Network traffic observability for troubleshooting and audit",
+            "Automatic SG remediation",
+            "Subnet auto-scaling",
+            "KMS key deletion alerts only"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/flow-log/main.tf"
+          "explanation": "Flow logs are foundational for incident investigation and governance."
         },
         {
           "id": "q9_8",
-          "question": "Which second output trait is tracked for downstream dependencies in VPC Module?",
+          "question": "Why are endpoint submodules useful in private VPC designs?",
           "options": [
-            "vpc_arn",
-            "xcode_team_id",
-            "storybook_url",
-            "cdn_cache_key"
+            "They provide private access to AWS services without internet traversal",
+            "They replace route tables entirely",
+            "They remove IAM policies",
+            "They disable DNS in VPC"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/flow-log/main.tf"
+          "explanation": "Endpoints reduce NAT dependency and tighten network paths."
         },
         {
           "id": "q9_9",
-          "question": "Which example path is explicitly walked through for VPC Module?",
+          "question": "What is an IPAM-driven CIDR allocation advantage?",
           "options": [
-            "block-public-access",
-            "android-app",
-            "k8s-manifests",
-            "db-migrations"
+            "Centralized, conflict-resistant CIDR management across environments",
+            "Automatic IAM policy generation",
+            "No need for subnet planning",
+            "Mandatory public addressing"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/vpc-endpoints/main.tf"
+          "explanation": "IPAM helps large estates avoid overlapping CIDR mistakes."
         },
         {
           "id": "q9_10",
-          "question": "Which additional example helps validate edge behavior in VPC Module?",
+          "question": "What should be checked before managing a default VPC with Terraform?",
           "options": [
-            "complete",
-            "sample-ui",
-            "mock-api",
-            "helm-values"
+            "Ownership boundaries and impact on existing unmanaged resources",
+            "Only Terraform version",
+            "Only bucket tags",
+            "Only SG descriptions"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/examples/ipam/main.tf"
+          "explanation": "Default VPC adoption can have broad side effects if unmanaged state exists."
         },
         {
           "id": "q9_11",
-          "question": "Which wrapper path appears in repeated deployment patterns for VPC Module?",
+          "question": "Why expose route table, subnet, and VPC IDs as outputs?",
           "options": [
-            "flow-log",
-            "wrapper.ts",
-            "wrapper.py",
-            "wrapper.yaml"
+            "Downstream modules need explicit network attachment targets",
+            "To speed up terraform fmt",
+            "To disable provider retries",
+            "To replace variable validation"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/examples/ipam/main.tf"
+          "explanation": "Network IDs are key contracts for ECS/EKS/EC2 integrations."
         },
         {
           "id": "q9_12",
-          "question": "Which document is used for migration or upgrade guidance in VPC Module?",
+          "question": "What is a common dualstack pitfall in module design?",
           "options": [
-            "UPGRADE-3.0.md",
-            "CHANGELOG.rst",
-            "UPGRADE-1.0.adoc",
-            "terraform.lock.hcl"
+            "Enabling IPv6 without corresponding route/security updates",
+            "Using too many tags",
+            "Defining more than one private subnet",
+            "Outputting VPC ARN"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
+          "explanation": "IPv6 rollout requires coordinated routing, SG, and endpoint configuration."
         },
         {
           "id": "q9_13",
-          "question": "What planning behavior should be reviewed before replacing resources in VPC Module?",
+          "question": "How do database subnet patterns usually differ from public subnet patterns?",
           "options": [
-            "replace vs update action in plan output",
-            "force-stop all containers",
-            "delete remote state first",
-            "clear provider cache only"
+            "No direct internet route and tighter ingress controls",
+            "They require public IP assignment",
+            "They skip route tables",
+            "They disable DNS hostnames"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+          "explanation": "Database tiers should remain isolated with explicit access paths."
         },
         {
           "id": "q9_14",
-          "question": "What debugging workflow is emphasized for VPC Module when plan output is unstable?",
+          "question": "Why include upgrade/state transition guidance in VPC modules?",
           "options": [
-            "run validate/plan with targeted diagnostics and dependency checks",
-            "skip plan and apply directly",
-            "disable state backend",
-            "ignore all warnings"
+            "Address migrations can trigger destructive network replacements",
+            "VPC resources never require migration",
+            "Upgrades only change README text",
+            "Terraform handles all state moves automatically"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+          "explanation": "Network primitives are high impact; migration planning is essential."
         },
         {
           "id": "q9_15",
-          "question": "How should failed answers behave in the VPC Module quiz segment?",
+          "question": "What is a safe first step when large VPC plan changes appear?",
           "options": [
-            "capture user selection and retry at the end",
-            "drop failed answers silently",
-            "reset quiz immediately",
-            "lock further attempts"
+            "Inspect route/subnet/NACL diffs and validate blast radius before apply",
+            "Apply immediately to detect failures faster",
+            "Delete the state file",
+            "Disable flow logs"
           ],
           "answer": 0,
-          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+          "explanation": "Careful diff review prevents outages from unintended network mutations."
         }
       ]
     }
