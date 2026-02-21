@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Terraform V4 Workshop</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f766e'/%3E%3Cpath d='M8 7h16v5H8zm0 7h10v5H8zm0 7h16v4H8z' fill='%23fff'/%3E%3C/svg%3E" />
+<style>
+:root {
+  --bg: #f4f8fb;
+  --text: #102334;
+  --card: #ffffff;
+  --muted: #4a6377;
+  --border: #d8e4ef;
+  --accent: #0f766e;
+  --accent-2: #d97706;
+  --ok: #15803d;
+  --bad: #b91c1c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 700px at -10% -20%, #d9f5ee 0%, transparent 60%),
+    radial-gradient(1200px 700px at 110% 120%, #ffe8c7 0%, transparent 62%),
+    var(--bg);
+  font-family: "IBM Plex Sans", "Avenir Next", "Segoe UI", sans-serif;
+}
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+  z-index: 1000;
+  transition: width 0.25s ease;
+}
+#app { max-width: 1160px; margin: 0 auto; padding: 14px; padding-bottom: 60px; }
+#header {
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px 14px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+#module-label { font-weight: 700; font-size: 1.1em; color: var(--accent); }
+#slide-counter { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+#header .right { display: flex; align-items: center; gap: 8px; }
+button {
+  border: 1px solid #b7c9d8;
+  background: #fff;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: all 0.15s;
+}
+button:hover { border-color: var(--accent); color: var(--accent); }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+button.primary:hover { background: #0d6e66; }
+#toc-btn { padding: 8px; }
+#slide {
+  margin-top: 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(14, 36, 61, 0.04);
+  min-height: 600px;
+  padding: 40px 48px;
+  position: relative;
+}
+#slide h1 { margin-top: 0; color: var(--accent); font-size: 1.8em; letter-spacing: -0.02em; }
+#slide h2 { color: var(--text); margin-top: 1.5em; font-size: 1.4em; }
+#slide h3 { margin-top: 1.2em; font-size: 1.1em; color: var(--muted); }
+#slide p, #slide li { line-height: 1.6; color: #334155; }
+#slide ul { padding-left: 20px; }
+#slide li { margin-bottom: 6px; }
+#slide strong { color: var(--text); font-weight: 600; }
+#slide code {
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9em;
+  color: #0f172a;
+}
+#slide pre {
+  white-space: pre;
+  overflow-x: auto;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: "JetBrains Mono", "Cascadia Mono", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #334155;
+}
+#slide table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+#slide th, #slide td { border: 1px solid #e2e8f0; padding: 10px 12px; text-align: left; vertical-align: top; }
+#slide th { background: #f1f5f9; color: var(--text); font-weight: 600; }
+.diagram {
+  white-space: pre;
+  overflow-x: auto;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  padding: 16px;
+  font-family: "JetBrains Mono", monospace;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.3;
+  margin: 20px 0;
+}
+.callout {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid;
+  font-size: 0.95em;
+}
+.callout.note { background: #f0f9ff; border-color: #0ea5e9; color: #0c4a6e; }
+.callout.tip { background: #f0fdf4; border-color: #22c55e; color: #14532d; }
+.callout.warn { background: #fefce8; border-color: #eab308; color: #713f12; }
+.callout.real { background: #f5f3ff; border-color: #8b5cf6; color: #4c1d95; }
+.quiz-container { margin-top: 20px; }
+.quiz-option {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-option:hover { background: #f8fafc; border-color: var(--accent); }
+.quiz-option.selected { border-color: var(--accent); background: #f0fdfa; ring: 2px solid var(--accent); }
+.quiz-option.correct { background: #dcfce7; border-color: #22c55e; color: #14532d; }
+.quiz-option.wrong { background: #fee2e2; border-color: #ef4444; color: #7f1d1d; }
+.feedback { margin-top: 16px; padding: 12px; border-radius: 8px; font-weight: 500; }
+.feedback.correct { background: #dcfce7; color: #15803d; }
+.feedback.wrong { background: #fee2e2; color: #b91c1c; }
+#toc-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  border-left: 1px solid var(--border);
+  box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+  transition: right 0.3s ease;
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 20px;
+}
+#toc-drawer.open { right: 0; }
+.toc-module { margin-bottom: 16px; }
+.toc-title { font-weight: 700; margin-bottom: 8px; font-size: 0.9em; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.toc-item {
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.toc-item:hover { background: #f1f5f9; }
+.toc-item.active { background: #f0fdfa; color: var(--accent); font-weight: 600; }
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.2); z-index: 1500;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.overlay.open { opacity: 1; pointer-events: auto; }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+<div id="app">
+  <div id="header">
+    <div class="left">
+       <span id="module-label">M0: Foundations</span>
+       <span id="slide-counter">1 / 170</span>
+    </div>
+    <div class="right">
+      <button id="prev-btn" title="Previous (Shift+Space)">Previous</button>
+      <button id="next-btn" title="Next (Space)">Next</button>
+      <button id="toc-btn">Menu</button>
+    </div>
+  </div>
+  <div id="slide"></div>
+</div>
+<div class="overlay" id="overlay"></div>
+<div id="toc-drawer"></div>
+
+<script>
+const STORE_KEY = 'terraform_v4_workshop';
+let state = {
+  currentSlide: 0,
+  quizState: {}, // { slideIndex: { attempts: 0, solved: false } }
+  failedQuestions: [] // list of indices
+};
+
+// ... Slides Data Injected Here ...
+const slides = [
+[
+  {
+    "module": "M0: Foundations",
+    "title": "Why Terraform + Terragrunt?",
+    "type": "content",
+    "content": "\n    <p>Managing large AWS estates requires more than just simple HCL files. We need:</p>\n    <ul>\n        <li><strong>DRY (Don't Repeat Yourself):</strong> Terragrunt allows us to keep our Terraform code efficiently without duplication.</li>\n        <li><strong>Dependency Management:</strong> Orchestrating complex stacks (VPC -> EKS -> RDS).</li>\n        <li><strong>Immutability:</strong> Infrastructure as Code (IaC) ensures environments are reproducible.</li>\n    </ul>\n    <div class=\"callout note\">\n        <strong>Workshop Goal:</strong> Master the art of debugging and operating large-scale Terraform/Terragrunt projects.\n    </div>\n    <div class=\"diagram\">\n+----------------+      +------------------+      +----------------+\n|  Terragrunt    | ---> |  Terraform Core  | ---> |  AWS Provider  |\n|  Orchestrator  |      |  State Manager   |      |  API Calls     |\n+----------------+      +------------------+      +----------------+\n    </div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terraform CLI Workflow",
+    "type": "content",
+    "content": "\n    <p>The core lifecycle of any Terraform operation:</p>\n    <pre><code># Initialize backend and plugins\nterraform init\n\n# Check syntax and validity\nterraform validate\n\n# Preview changes (dry-run)\nterraform plan -out=tfplan\n\n# Apply changes\nterraform apply tfplan\n\n# Remove infrastructure\nterraform destroy</code></pre>\n    <div class=\"callout tip\">Always save your plan to a file (<code>-out=tfplan</code>) to ensure <code>apply</code> executes exactly what you reviewed.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terraform Core Request Flow",
+    "type": "content",
+    "content": "\n    <p>Understanding how Terraform processes your commands is key to debugging.</p>\n    <ul>\n        <li><strong>Loader:</strong> Reads configuration (*.tf), loads modules.</li>\n        <li><strong>Graph:</strong> Builds dependency graph of resources.</li>\n        <li><strong>Plan:</strong> Compares config with State and Real World.</li>\n        <li><strong>Apply:</strong> Executes graph walk to reach desired state.</li>\n    </ul>\n    <div class=\"diagram\">\n[Config] --> [Loader] --> [Graph] --> [Plan] --> [Apply]\n                               ^         |\n                               |         v\n                            [State] <-> [Real World]\n    </div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "HCL Block Types",
+    "type": "content",
+    "content": "\n    <p>HashiCorp Configuration Language (HCL) is built on specific blocks:</p>\n    <ul>\n        <li><code>terraform { ... }</code>: Global settings, backend.</li>\n        <li><code>provider \"aws\" { ... }</code>: Plugin configuration.</li>\n        <li><code>resource \"aws_instance\" \"web\" { ... }</code>: Infrastructure objects.</li>\n        <li><code>data \"aws_ami\" \"ubuntu\" { ... }</code>: Read-only external data.</li>\n        <li><code>module \"vpc\" { ... }</code>: Reusable components.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "HCL Type System",
+    "type": "content",
+    "content": "\n    <p>Terraform is strongly typed. Common types:</p>\n    <ul>\n        <li><strong>Primitive:</strong> <code>string</code>, <code>number</code>, <code>bool</code></li>\n        <li><strong>Collection:</strong> <code>list(string)</code>, <code>map(string)</code>, <code>set(string)</code></li>\n        <li><strong>Structural:</strong> <code>object({ name=string, age=number })</code>, <code>tuple([...])</code></li>\n    </ul>\n    <pre><code>variable \"tags\" {\n  type = map(string)\n  default = {\n    Environment = \"dev\"\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Variables & Validation",
+    "type": "content",
+    "content": "\n    <p>Input variables define the API of your module. Use validation to catch errors early.</p>\n    <pre><code>variable \"instance_type\" {\n  type = string\n  validation {\n    condition     = can(regex(\"^t3\", var.instance_type))\n    error_message = \"Instance type must be a t3 class.\"\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Locals & Expressions",
+    "type": "content",
+    "content": "\n    <p><code>locals</code> are temporary local variables for logic and transformation.</p>\n    <pre><code>locals {\n  common_tags = {\n    Project = \"MegaApp\"\n    Owner   = \"PlatformTeam\"\n  }\n  name_prefix = \"${var.env}-${var.region}\"\n}</code></pre>\n    <div class=\"callout tip\">Use locals to simplify complex expressions and avoid repetition in resource blocks.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Meta-Arguments",
+    "type": "content",
+    "content": "\n    <p>Special arguments available for every resource:</p>\n    <ul>\n        <li><code>count</code>: Create N instances (index based).</li>\n        <li><code>for_each</code>: Create instances from map/set (key based).</li>\n        <li><code>depends_on</code>: Explicit dependency ordering.</li>\n        <li><code>lifecycle</code>: <code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terragrunt Fundamentals",
+    "type": "content",
+    "content": "\n    <p>Terragrunt keeps your backend configuration DRY.</p>\n    <p><code>terragrunt.hcl</code>:</p>\n    <pre><code>include {\n  path = find_in_parent_folders()\n}\n\nterraform {\n  source = \"git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git//?ref=v5.0.0\"\n}\n\ninputs = {\n  cidr = \"10.0.0.0/16\"\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terragrunt Dependencies",
+    "type": "content",
+    "content": "\n    <p>Pass outputs from one module to another automatically.</p>\n    <pre><code>dependency \"vpc\" {\n  config_path = \"../vpc\"\n  mock_outputs = {\n    vpc_id = \"vpc-fake-123\"\n  }\n}\n\ninputs = {\n  vpc_id = dependency.vpc.outputs.vpc_id\n}</code></pre>\n    <div class=\"callout warn\">Mock outputs are crucial for <code>validate</code> and <code>plan</code> on empty states.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Planning Semantics",
+    "type": "content",
+    "content": "\n    <p>Terraform plan symbols mean specific actions:</p>\n    <ul>\n        <li><span style=\"color:green\">+ Create</span>: Resource will be added.</li>\n        <li><span style=\"color:red\">- Destroy</span>: Resource will be removed.</li>\n        <li><span style=\"color:orange\">~ Update</span>: In-place modification.</li>\n        <li><span style=\"color:red\">-/+ Replace</span>: Destroy then Create (disruptive!).</li>\n    </ul>\n    <div class=\"callout warn\">Always check for <strong>Replace</strong> actions on stateful resources like Databases!</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "State & Refactoring",
+    "type": "content",
+    "content": "\n    <p>Moving resources without destroying them:</p>\n    <pre><code>moved {\n  from = aws_instance.old\n  to   = aws_instance.new\n}</code></pre>\n    <p>Use <code>terraform state mv</code> for manual surgery, but <code>moved</code> blocks are preferred for code-driven refactoring.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Debugging Terraform",
+    "type": "content",
+    "content": "\n    <p>When things go wrong:</p>\n    <ul>\n        <li><strong>TF_LOG=DEBUG:</strong> Enable verbose logging.</li>\n        <li><strong>TF_LOG_PATH=trace.log:</strong> Save logs to file.</li>\n        <li><strong>Validation:</strong> Check <code>terraform validate</code>.</li>\n    </ul>\n    <div class=\"callout real\">\n        Common error: \"Provider produced inconsistent result\". Often means a remote API changed a value immediately after creation.\n    </div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Dockerized IaC Workflow",
+    "type": "content",
+    "content": "\n    <p>Run Terraform/Terragrunt in a consistent Docker container to avoid version mismatches.</p>\n    <pre><code>docker run --rm -v $(pwd):/app -w /app   alpine/terragrunt:1.5.0   terragrunt plan</code></pre>\n    <div class=\"callout tip\">Ensure your CI/CD uses the exact same Docker image as your local development environment.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "AWS IaC Coverage Map",
+    "type": "content",
+    "content": "\n    <p>We will cover the full stack:</p>\n    <ul>\n        <li><strong>Network:</strong> VPC, Security Groups</li>\n        <li><strong>Compute:</strong> EC2, EKS, ECS</li>\n        <li><strong>Storage:</strong> S3</li>\n        <li><strong>Security:</strong> IAM, KMS, Secrets Manager</li>\n    </ul>\n    <p>These modules form the building blocks of any production AWS environment.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Production Operations",
+    "type": "content",
+    "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit, <code>terraform apply</code> old version).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Terragrunt block allows you to pass outputs from one module to another?",
+      "options": [
+        "dependency",
+        "include",
+        "terraform",
+        "locals"
+      ],
+      "answer": 0,
+      "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+      "id": "q0_1"
+    }
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "EC2 Module Overview",
+    "type": "content",
+    "content": "\n    <p>The <code>terraform-aws-ec2-instance</code> module simplifies creating instances.</p>\n    <ul>\n        <li>Encapsulates <code>aws_instance</code> resource.</li>\n        <li>Handles Spot requests seamlessly.</li>\n        <li>Simplifies EBS volume attachments.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Repository Structure",
+    "type": "content",
+    "content": "\n    <p>Typical module layout:</p>\n    <ul>\n        <li><code>main.tf</code>: Primary logic.</li>\n        <li><code>variables.tf</code>: Inputs (ami, instance_type).</li>\n        <li><code>outputs.tf</code>: Outputs (id, arn, public_ip).</li>\n        <li><code>examples/</code>: Usage patterns.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Basic Instance Composition",
+    "type": "content",
+    "content": "\n    <pre><code>module \"ec2\" {\n  source = \"terraform-aws-modules/ec2-instance/aws\"\n\n  name = \"web-server\"\n  ami  = \"ami-12345678\"\n  instance_type = \"t3.micro\"\n  \n  subnet_id = \"subnet-abcde\"\n}</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "AMI Selection Paths",
+    "type": "content",
+    "content": "\n    <p>You can specify AMI directly or use data sources.</p>\n    <ul>\n        <li><strong>Hardcoded:</strong> <code>ami = \"ami-...\"</code> (Stable but manual)</li>\n        <li><strong>SSM Parameter:</strong> Fetch latest Amazon Linux 2 automatically.</li>\n    </ul>\n    <div class=\"callout tip\">In production, pin AMIs to ensure immutable deployments.</div>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Instance Lifecycle",
+    "type": "content",
+    "content": "\n    <p>Controlling instance behavior:</p>\n    <ul>\n        <li><code>user_data</code>: Script running on first boot.</li>\n        <li><code>user_data_replace_on_change</code>: Force replacement if user_data changes.</li>\n    </ul>\n    <pre><code>user_data = <<-EOT\n  #!/bin/bash\n  yum update -y\n  EOT</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Capacity & Placement",
+    "type": "content",
+    "content": "\n    <p>Advanced placement options:</p>\n    <ul>\n        <li><code>placement_group</code>: Cluster, spread, or partition strategies.</li>\n        <li><code>capacity_reservation_specification</code>: Ensure capacity is available.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Spot Instances",
+    "type": "content",
+    "content": "\n    <p>Save costs with Spot:</p>\n    <pre><code>create_spot_instance = true\nspot_price           = \"0.05\"\nspot_type            = \"persistent\"</code></pre>\n    <div class=\"callout warn\">Spot instances can be interrupted! Ensure your app is stateless or handles termination.</div>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Block Devices (EBS)",
+    "type": "content",
+    "content": "\n    <p>Attaching storage:</p>\n    <pre><code>root_block_device = [\n  {\n    volume_type = \"gp3\"\n    volume_size = 20\n  }\n]</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "IAM Role & Profiles",
+    "type": "content",
+    "content": "\n    <p>Instances need permissions to talk to AWS services.</p>\n    <ul>\n        <li><code>create_iam_instance_profile</code>: Auto-create profile.</li>\n        <li><code>iam_role_name</code>: Attach existing role.</li>\n    </ul>\n    <p>Never embed credentials in the instance!</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Security Groups",
+    "type": "content",
+    "content": "\n    <p>Networking firewall:</p>\n    <ul>\n        <li><code>vpc_security_group_ids</code>: List of SG IDs.</li>\n    </ul>\n    <p>The module can also create SGs if configured, but usually it's better to pass ID from SG module.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Network Interfaces",
+    "type": "content",
+    "content": "\n    <p>For advanced networking (e.g., dual homing):</p>\n    <pre><code>network_interface = [\n  {\n    device_index = 0\n    network_interface_id = \"eni-...\"\n  }\n]</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "IMDS & Monitoring",
+    "type": "content",
+    "content": "\n    <p><strong>IMDSv2</strong> is critical for security (SSRf protection).</p>\n    <pre><code>metadata_options = {\n  http_tokens = \"required\"\n}</code></pre>\n    <p>Enable <code>monitoring = true</code> for 1-minute CloudWatch metrics.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Variable Patterns",
+    "type": "content",
+    "content": "\n    <p>Check <code>variables.tf</code> for type constraints.</p>\n    <p>Most list variables default to <code>[]</code> (empty list) for optionality.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Output Contracts",
+    "type": "content",
+    "content": "\n    <p>Key outputs to consume:</p>\n    <ul>\n        <li><code>id</code>: The Instance ID.</li>\n        <li><code>public_ip</code>: (If attached).</li>\n        <li><code>arn</code>: Amazon Resource Name.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "\n    <p>The <code>examples/complete</code> directory shows all features enabled.</p>\n    <ul>\n        <li>Spot + Root Block + Tags + User Data.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Example: Session Manager",
+    "type": "content",
+    "content": "\n    <p>Access without SSH keys!</p>\n    <ul>\n        <li>Requires SSM Agent (default on AL2).</li>\n        <li>Requires Instance Profile with <code>AmazonSSMManagedInstanceCore</code>.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which parameter enforces the use of IMDSv2 for instance metadata security?",
+      "options": [
+        "http_tokens = 'required'",
+        "http_endpoint = 'enabled'",
+        "metadata_version = 2",
+        "secure_boot = true"
+      ],
+      "answer": 0,
+      "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+      "id": "q1_1"
+    }
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "ECS Module Architecture",
+    "type": "content",
+    "content": "\n    <p>ECS manages containers. The module usually splits into:</p>\n    <ul>\n        <li><strong>Cluster:</strong> The control plane.</li>\n        <li><strong>Service:</strong> The running application.</li>\n        <li><strong>Task Definition:</strong> The blueprint (CPU, RAM, Image).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Root: Cluster Composition",
+    "type": "content",
+    "content": "\n    <pre><code>module \"ecs_cluster\" {\n  source = \"terraform-aws-modules/ecs/aws\"\n  cluster_name = \"my-cluster\"\n  \n  cluster_configuration = {\n    execute_command_configuration = {\n      logging = \"OVERRIDE\"\n      log_configuration = {\n        cloud_watch_log_group_name = \"/aws/ecs/cls\"\n      }\n    }\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Cluster Resources",
+    "type": "content",
+    "content": "\n    <p>Key resources created:</p>\n    <ul>\n        <li><code>aws_ecs_cluster</code></li>\n        <li><code>aws_ecs_cluster_capacity_providers</code>: Fargate / EC2 ASG.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "CloudWatch Logging",
+    "type": "content",
+    "content": "\n    <p>Container logs need a destination.</p>\n    <p>The module creates a Log Group automatically if <code>create_cloudwatch_log_group = true</code>.</p>\n    <div class=\"callout tip\">Set retention days to avoid infinite storage costs!</div>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Cluster IAM Roles",
+    "type": "content",
+    "content": "\n    <p>ECS needs permission to call AWS APIs.</p>\n    <ul>\n        <li><strong>Infrastructure Role:</strong> Managing ASGs.</li>\n        <li><strong>Exec Role:</strong> Pulling images, pushing logs (Task Execution).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Service Submodule",
+    "type": "content",
+    "content": "\n    <p>Defining the application:</p>\n    <pre><code>module \"ecs_service\" {\n  source = \"terraform-aws-modules/ecs/aws//modules/service\"\n  \n  name = \"backend-api\"\n  cpu  = 1024\n  memory = 2048\n  container_definitions = { ... }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Task Execution vs Task Role",
+    "type": "content",
+    "content": "\n    <div class=\"callout note\">\n        <strong>Task Execution Role:</strong> Used by ECS Agent (Pull image, Logs).<br>\n        <strong>Task Role:</strong> Used by YOUR code (S3 access, DynamoDB).\n    </div>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Autoscaling",
+    "type": "content",
+    "content": "\n    <p>Scale based on CPU/Memory:</p>\n    <pre><code>autoscaling_policies = {\n  cpu = {\n    policy_type = \"TargetTrackingScaling\"\n    target_value = 75\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Service Security Groups",
+    "type": "content",
+    "content": "\n    <p>Allow traffic to your tasks.</p>\n    <ul>\n        <li>Ingress from ALB (Port 80/443 or container port).</li>\n        <li>Egress to internet (0.0.0.0/0) or VPC.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Container Definitions",
+    "type": "content",
+    "content": "\n    <p>JSON structure defining the container.</p>\n    <pre><code>container_definitions = {\n  app = {\n    image = \"nginx:latest\"\n    port_mappings = [{ containerPort = 80 }]\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Express Service",
+    "type": "content",
+    "content": "\n    <p>Simplified pattern for standard web services.</p>\n    <p>Abstracts away complex JSON definitions for simple needs.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Fargate Example",
+    "type": "content",
+    "content": "\n    <p>Serverless Compute:</p>\n    <ul>\n        <li>No EC2 instances to manage.</li>\n        <li>Network Mode must be <code>awsvpc</code>.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "EC2 Autoscaling Example",
+    "type": "content",
+    "content": "\n    <p>Using Capacity Providers to scale EC2 instances underlying the tasks.</p>\n    <p>Complex coordination between ECS Service scaling and ASG scaling.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Variables API",
+    "type": "content",
+    "content": "\n    <p>Check <code>ignore_task_definition_changes</code> if you deploy via external CD pipeline (like CodeDeploy).</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Upgrades & Breaking Changes",
+    "type": "content",
+    "content": "\n    <p>ECS module v5+ introduced significant structural changes.</p>\n    <p>Always review <code>UPGRADE.md</code> before bumping versions.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Wrapper Modules",
+    "type": "content",
+    "content": "\n    <p>Use wrappers to standardize logging, tags, and security defaults across all services in your org.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which IAM role allows the ECS Agent to pull container images and push logs?",
+      "options": [
+        "Task Execution Role",
+        "Task Role",
+        "Service Linked Role",
+        "Instance Profile"
+      ],
+      "answer": 0,
+      "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+      "id": "q2_1"
+    }
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "EKS Module Overview",
+    "type": "content",
+    "content": "\n    <p>One of the most complex modules. Manages Control Plane + Data Plane.</p>\n    <ul>\n        <li><code>aws_eks_cluster</code></li>\n        <li><code>aws_eks_node_group</code> (Managed)</li>\n        <li><code>karpenter</code> (Autoscaling)</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Cluster Resources",
+    "type": "content",
+    "content": "\n    <pre><code>module \"eks\" {\n  source = \"terraform-aws-modules/eks/aws\"\n  version = \"~> 20.0\"\n  \n  cluster_name    = \"dev-cluster\"\n  cluster_version = \"1.29\"\n  \n  vpc_id     = var.vpc_id\n  subnet_ids = var.private_subnets\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Access Entries (v20+)",
+    "type": "content",
+    "content": "\n    <p>New EKS Access Mode replaces <code>aws-auth</code> ConfigMap.</p>\n    <pre><code>enable_cluster_creator_admin_permissions = true\naccess_entries = {\n  devops = {\n    principal_arn = \"arn:aws:iam::111:role/DevOps\"\n    policy_arn    = \"arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy\"\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Control Plane Network",
+    "type": "content",
+    "content": "\n    <p>EKS Endpoint:</p>\n    <ul>\n        <li><code>cluster_endpoint_public_access</code>: True/False</li>\n        <li><code>cluster_endpoint_private_access</code>: True/False</li>\n    </ul>\n    <div class=\"callout warn\">Avoid Public Access CIDR 0.0.0.0/0 in production!</div>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "OIDC Provider & IAM",
+    "type": "content",
+    "content": "\n    <p>EKS uses OIDC to federate IAM identities to Pods (IRSA).</p>\n    <p>Module creates <code>aws_iam_openid_connect_provider</code> automatically.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "EKS Add-ons",
+    "type": "content",
+    "content": "\n    <p>Manage VPC CNI, CoreDNS, Kube-Proxy.</p>\n    <pre><code>cluster_addons = {\n  coredns = {\n    most_recent = true\n  }\n  vpc-cni = {\n    most_recent = true\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Node Groups Logic",
+    "type": "content",
+    "content": "\n    <p>Data Plane compute.</p>\n    <ul>\n        <li><strong>EKS Managed:</strong> AWS patches OS.</li>\n        <li><strong>Self Managed:</strong> You control ASG + UserData.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Managed Node Groups",
+    "type": "content",
+    "content": "\n    <pre><code>eks_managed_node_groups = {\n  general = {\n    min_size     = 1\n    max_size     = 3\n    instance_types = [\"t3.medium\"]\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Self-Managed Node Groups",
+    "type": "content",
+    "content": "\n    <p>For custom AMIs or advanced User Data logic not supported by Managed Node Groups.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Fargate Profiles",
+    "type": "content",
+    "content": "\n    <p>Serverless Pods.</p>\n    <p>Define namespaces/labels that trigger Fargate placement.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Karpenter Integration",
+    "type": "content",
+    "content": "\n    <p>Next-gen Autoscaler.</p>\n    <p>Module helps provision the IAM roles and SQS queues required for Karpenter to manage nodes efficiently.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Capability Submodules",
+    "type": "content",
+    "content": "\n    <p>Modular architecture allows adding capabilities via submodules to avoid monolithic configurations.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Hybrid Node Role",
+    "type": "content",
+    "content": "\n    <p>Support for <strong>EKS Anywhere</strong> or hybrid nodes connecting back to the cluster.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "User Data Generation",
+    "type": "content",
+    "content": "\n    <p>Bootstrap scripts for nodes.</p>\n    <p>Must register with the cluster API server on boot.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Network Connectivity Docs",
+    "type": "content",
+    "content": "\n    <p>Understanding Security Group rules between Control Plane and Nodes is vital.</p>\n    <p>Nodes must talk to API Server (443). Control plane must talk to Nodes (10250 for logs/exec).</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Upgrades & Migration",
+    "type": "content",
+    "content": "\n    <p>Kubernetes versions deprecate APIs frequently.</p>\n    <p>Terraform EKS module v19 -> v20 was a major breaking change regarding <code>aws-auth</code>.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS?",
+      "options": [
+        "Access Entries (API)",
+        "IAM Instance Profiles",
+        "Kubeconfig",
+        "Security Groups"
+      ],
+      "answer": 0,
+      "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+      "id": "q3_1"
+    }
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Module Family",
+    "type": "content",
+    "content": "\n    <p>A collection of submodules for specific IAM patterns.</p>\n    <ul>\n        <li><code>iam-user</code></li>\n        <li><code>iam-role-for-service-accounts-eks</code></li>\n        <li><code>iam-assumable-role</code></li>\n        <li><code>iam-policy</code></li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Account",
+    "type": "content",
+    "content": "\n    <p>Set account-wide settings.</p>\n    <ul>\n        <li>Password Policy (Length, Complexity).</li>\n        <li>Account Alias.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Group",
+    "type": "content",
+    "content": "\n    <p>Manage groups of users.</p>\n    <p>Best Practice: Assign permissions to Groups, not Users.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM OIDC Provider",
+    "type": "content",
+    "content": "\n    <p>Links AWS IAM to external IdPs (GitHub, EKS, Okta).</p>\n    <p>Required for <strong>GitHub Actions</strong> to assume roles without access keys.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Policy",
+    "type": "content",
+    "content": "\n    <p>Create reusable policy documents.</p>\n    <pre><code>module \"policy\" {\n  source = \"terraform-aws-modules/iam/aws//modules/iam-policy\"\n  name        = \"S3Read\"\n  policy      = jsonencode({ ... })\n}</code></pre>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Read-Only Policy",
+    "type": "content",
+    "content": "\n    <p>Helper module to generate ReadOnly policies for services automatically.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Role: Assume Role",
+    "type": "content",
+    "content": "\n    <p>Roles are for trusted entities.</p>\n    <ul>\n        <li><strong>Principal:</strong> Who can assume? (Service, User, Account, OIDC).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Inline vs Attached Policies",
+    "type": "content",
+    "content": "\n    <p><strong>Attached:</strong> Managed Policy (Reusable).<br>\n    <strong>Inline:</strong> Embedded in role (Strictly coupled).</p>\n    <p>Module supports both.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IRSA (IAM for K8s)",
+    "type": "content",
+    "content": "\n    <p>Map K8s Service Account to IAM Role.</p>\n    <pre><code>module \"irsa\" {\n  source = \"terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks\"\n  role_name = \"s3-reader\"\n  oidc_providers = {\n    ex = {\n      provider_arn = \"arn:aws:iam::...\"\n      namespace_service_accounts = [\"default:my-app\"]\n    }\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IRSA Built-in Policies",
+    "type": "content",
+    "content": "\n    <p>The module includes pre-built policies for common addons:</p>\n    <ul>\n        <li>VPC CNI</li>\n        <li>Load Balancer Controller</li>\n        <li>Cluster Autoscaler</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM User",
+    "type": "content",
+    "content": "\n    <p>Create physical users (avoid if possible, use SSO).</p>\n    <ul>\n        <li>Login Profile (Console Password).</li>\n        <li>Access Keys (CLI).</li>\n        <li>SSH Keys (CodeCommit).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Example: OIDC + Role",
+    "type": "content",
+    "content": "\n    <p>GitHub Actions Integration:</p>\n    <pre><code>trusted_role_services = [\"github\"]\ncustom_role_trust_policy = ...</code></pre>\n    <p>Allows <code>git push</code> to trigger deployments securely.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Example: Group + User",
+    "type": "content",
+    "content": "\n    <p>Standard pattern: Create 'Developers' group with PowerUserAccess, add users to group.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Variable Traits",
+    "type": "content",
+    "content": "\n    <p>Common inputs:</p>\n    <ul>\n        <li><code>create_role</code>: bool</li>\n        <li><code>role_name</code>: string</li>\n        <li><code>tags</code>: map</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Wrapper Modules",
+    "type": "content",
+    "content": "\n    <p>Use wrappers to enforce company-wide boundaries or naming conventions on Roles.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Upgrades & Migration",
+    "type": "content",
+    "content": "\n    <p>IAM changes are global and can lock you out.</p>\n    <p>Always review plans carefully. Verify Trust Policies explicitly.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions?",
+      "options": [
+        "IRSA (IAM Roles for Service Accounts)",
+        "Access Keys",
+        "Instance Profiles",
+        "Security Groups"
+      ],
+      "answer": 0,
+      "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+      "id": "q4_1"
+    }
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "KMS Module Scope",
+    "type": "content",
+    "content": "Key Management Service controls encryption keys."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Resource Types",
+    "type": "content",
+    "content": "Customer Managed Keys (CMK) vs AWS Managed Keys."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Key Policy Composition",
+    "type": "content",
+    "content": "The single most important security control for KMS."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Key Owners vs Admins",
+    "type": "content",
+    "content": "Separation of duties: Who can manage the key vs who can use it."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Aliases",
+    "type": "content",
+    "content": "Friendly names (alias/my-key) make keys easier to reference."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Grants",
+    "type": "content",
+    "content": "Dynamic, scoped permissions used by services like ASG."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Multi-Region Keys",
+    "type": "content",
+    "content": "Replicate keys across regions for DR."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "External Key Material",
+    "type": "content",
+    "content": "Import your own key material (BYOK)."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Route53 DNSSEC",
+    "type": "content",
+    "content": "KMS is used to sign DNS zones."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Autoscaling Service Role",
+    "type": "content",
+    "content": "ASG needs grants to encrypt volumes."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Variable Traits",
+    "type": "content",
+    "content": "Rotation window, deletion window (7-30 days)."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Data Sources",
+    "type": "content",
+    "content": "Using `aws_caller_identity` to scope policies."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Output Contracts",
+    "type": "content",
+    "content": "ARN is the primary identifier needed by other modules."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "Full CMK with rotation and strict policy."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Failure Modes",
+    "type": "content",
+    "content": "Key deletion is destructive! 7 day wait period minimum."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Upgrade Notes",
+    "type": "content",
+    "content": "Policy changes are immediate."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the minimum pending deletion window for a KMS key?",
+      "options": [
+        "7 days",
+        "1 day",
+        "30 days",
+        "Instant"
+      ],
+      "answer": 0,
+      "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+      "id": "q5_1"
+    }
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "S3 Module Surface",
+    "type": "content",
+    "content": "Creating secure, compliant buckets."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Core Resource",
+    "type": "content",
+    "content": "<code>aws_s3_bucket</code> and its many children."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Directory & Table Buckets",
+    "type": "content",
+    "content": "New high-performance bucket types."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "ACLs & Ownership",
+    "type": "content",
+    "content": "<strong>Block Public Access</strong> should be enabled by default."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Versioning & Encryption",
+    "type": "content",
+    "content": "Versioning protects against overwrites/deletes."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Lifecycle Rules",
+    "type": "content",
+    "content": "Transition to Glacier to save money."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Replication (CRR)",
+    "type": "content",
+    "content": "Copy objects to another region for DR."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Logging",
+    "type": "content",
+    "content": "Server Access Logs for audit."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Bucket Policies",
+    "type": "content",
+    "content": "JSON policies for granular access control."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Notification Submodule",
+    "type": "content",
+    "content": "Trigger Lambda/SQS on object upload."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Object Submodule",
+    "type": "content",
+    "content": "Upload objects via Terraform (small files only)."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Account Public Access",
+    "type": "content",
+    "content": "Block public buckets account-wide."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Table Bucket (Iceberg)",
+    "type": "content",
+    "content": "Specialized for analytics."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Example: Replication",
+    "type": "content",
+    "content": "Setup Source and Destination buckets."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Defensive Defaults",
+    "type": "content",
+    "content": "Module defaults to private and encrypted."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Import Migration",
+    "type": "content",
+    "content": "Importing existing buckets requires careful state alignment."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which feature effectively prevents accidental deletion of objects?",
+      "options": [
+        "Versioning",
+        "Encryption",
+        "Logging",
+        "Replication"
+      ],
+      "answer": 0,
+      "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+      "id": "q6_1"
+    }
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Module Purpose",
+    "type": "content",
+    "content": "Store passwords, keys, and config securely."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Resource",
+    "type": "content",
+    "content": "The container for the secret data."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Policy",
+    "type": "content",
+    "content": "Who can read this secret?"
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Versioning Strategy",
+    "type": "content",
+    "content": "Ignore changes to value if managed externally."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Types",
+    "type": "content",
+    "content": "String (JSON) vs Binary."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Random Generation",
+    "type": "content",
+    "content": "Generate passwords within Terraform."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "KMS Integration",
+    "type": "content",
+    "content": "Secrets are encrypted at rest with KMS."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Rotation",
+    "type": "content",
+    "content": "Trigger Lambda to rotate credentials automatically."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Replica Config",
+    "type": "content",
+    "content": "Replicate secrets to other regions."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Block Public Policy",
+    "type": "content",
+    "content": "Prevent exposure."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Lifecycle Behavior",
+    "type": "content",
+    "content": "Secrets are soft-deleted by default."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Variables API",
+    "type": "content",
+    "content": "Names, descriptions, and tags."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Outputs",
+    "type": "content",
+    "content": "ARN is needed for ECS/Lambda to consume it."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Example: Rotation",
+    "type": "content",
+    "content": "RDS Credential Rotation pattern."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Operational Risks",
+    "type": "content",
+    "content": "Don't print secrets to Terraform Output!"
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Production Hardening",
+    "type": "content",
+    "content": "Use separate keys for separate secrets."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What happens when you delete a secret in Secrets Manager?",
+      "options": [
+        "It enters a recovery window (7-30 days)",
+        "It is permanently deleted instantly",
+        "It is archived to Glacier",
+        "It becomes public"
+      ],
+      "answer": 0,
+      "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+      "id": "q7_1"
+    }
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "SG Module Design",
+    "type": "content",
+    "content": "DRY rule definitions."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Creation Modes",
+    "type": "content",
+    "content": "Create new or manage existing."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Rule Taxonomy",
+    "type": "content",
+    "content": "Ingress (Inbound) vs Egress (Outbound)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Ingress Patterns",
+    "type": "content",
+    "content": "CIDR blocks, Source SG, Prefix Lists."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Egress Patterns",
+    "type": "content",
+    "content": "Usually Allow All (0.0.0.0/0) or strict."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Computed Rules",
+    "type": "content",
+    "content": "Pre-defined rules (e.g., 'http-80', 'postgresql')."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Dynamic Rules",
+    "type": "content",
+    "content": "Using `dynamic` blocks for list iterations."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Prefix Lists",
+    "type": "content",
+    "content": "Managed lists of IPs (e.g., CloudFront, Corporate VPN)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Service Modules",
+    "type": "content",
+    "content": "Submodules for common apps."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Wrapper Ecosystem",
+    "type": "content",
+    "content": "Standardizing firewall rules."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Conflict & Drift",
+    "type": "content",
+    "content": "Avoid mixing inline rules with `aws_security_group_rule` resources."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Timeouts",
+    "type": "content",
+    "content": "Rule changes can be slow."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Output Traits",
+    "type": "content",
+    "content": "SG ID is the currency of AWS networking."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "Complex web-tier SG."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Scaling Rules",
+    "type": "content",
+    "content": "SGs have limits (rules per SG)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Safe Evolution",
+    "type": "content",
+    "content": "Add new rule -> Update App -> Remove old rule."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules?",
+      "options": [
+        "Avoids conflicts and allows modular rule management",
+        "It is faster",
+        "It supports more protocols",
+        "It is cheaper"
+      ],
+      "answer": 0,
+      "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+      "id": "q8_1"
+    }
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "VPC Module Architecture",
+    "type": "content",
+    "content": "The foundation of AWS networking."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Core Creation",
+    "type": "content",
+    "content": "CIDR block definition (10.0.0.0/16)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Public Subnets",
+    "type": "content",
+    "content": "Attached to Internet Gateway (IGW)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Private Subnets",
+    "type": "content",
+    "content": "Route to NAT Gateway."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Database Subnets",
+    "type": "content",
+    "content": "Private, often with specific NACLs."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Redshift/Cache Subnets",
+    "type": "content",
+    "content": "Specialized routing."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Intra Subnets",
+    "type": "content",
+    "content": "No internet access (internal only)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "DHCP Options",
+    "type": "content",
+    "content": "Domain names and NTP."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Network ACLs",
+    "type": "content",
+    "content": "Stateless firewall at subnet level."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IPv6 & Dualstack",
+    "type": "content",
+    "content": "Enabling IPv6 support."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Flow Logs",
+    "type": "content",
+    "content": "Capture IP traffic metadata."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IAM for Flow Logs",
+    "type": "content",
+    "content": "CloudWatch Logs write permissions."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "VPC Endpoints",
+    "type": "content",
+    "content": "Private link to AWS services (S3, DynamoDB)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IPAM",
+    "type": "content",
+    "content": "IP Address Manager integration."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Default VPC",
+    "type": "content",
+    "content": "Manage or adopt the default VPC."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Upgrade Considerations",
+    "type": "content",
+    "content": "Changing CIDRs requires recreation!"
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What component allows instances in a private subnet to access the internet for updates?",
+      "options": [
+        "NAT Gateway",
+        "Internet Gateway",
+        "VPN Gateway",
+        "Egress Only Gateway"
+      ],
+      "answer": 0,
+      "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+      "id": "q9_1"
+    }
+  }
+]
+];
+
+// ... Runtime Logic ...
+
+const app = document.getElementById('app');
+const slideEl = document.getElementById('slide');
+const modLabel = document.getElementById('module-label');
+const counter = document.getElementById('slide-counter');
+const progBar = document.getElementById('progress-bar');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const tocBtn = document.getElementById('toc-btn');
+const tocDrawer = document.getElementById('toc-drawer');
+const overlay = document.getElementById('overlay');
+
+function init() {
+  const saved = localStorage.getItem(STORE_KEY);
+  if (saved) {
+    try { state = { ...state, ...JSON.parse(saved) }; } catch(e) { console.error(e); }
+  }
+  render();
+  renderToc();
+  updateProgress();
+}
+
+function save() {
+  localStorage.setItem(STORE_KEY, JSON.stringify(state));
+}
+
+function render() {
+  const s = slides[state.currentSlide];
+  if (!s) return;
+
+  // Header update
+  modLabel.innerText = s.module;
+  counter.innerText = `${state.currentSlide + 1} / ${slides.length}`;
+  
+  // Slide Content
+  let html = `<h1>${s.title}</h1>`;
+  
+  if (s.type === 'quiz') {
+    html += renderQuiz(s);
+  } else {
+    html += s.content;
+  }
+  
+  slideEl.innerHTML = html;
+  
+  // Nav buttons
+  prevBtn.disabled = state.currentSlide === 0;
+  nextBtn.disabled = state.currentSlide === slides.length - 1;
+  
+  updateProgress();
+}
+
+function renderQuiz(s) {
+  const qState = state.quizState[state.currentSlide] || { solved: false, wrong: false };
+  const q = s.question;
+  
+  if (qState.solved) {
+    return `
+      <div class="quiz-container">
+        <h3>Quiz: ${q.question}</h3>
+        <div class="quiz-option correct">✅ ${q.options[q.answer]}</div>
+        <div class="feedback correct">
+          <strong>Correct!</strong> ${q.explanation}
+        </div>
+        <div style="margin-top:20px">
+           <button class="primary" onclick="nextSlide()">Continue</button>
+        </div>
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="quiz-container">
+      <h3>Quiz: ${q.question}</h3>
+      <div id="options">
+        ${q.options.map((opt, i) => `
+          <button class="quiz-option" onclick="checkAnswer(${i})">${opt}</button>
+        `).join('')}
+      </div>
+      ${qState.wrong ? `<div class="feedback wrong">❌ Incorrect. Try again.</div>` : ''}
+    </div>
+  `;
+}
+
+window.checkAnswer = function(idx) {
+  const s = slides[state.currentSlide];
+  if (idx === s.question.answer) {
+    state.quizState[state.currentSlide] = { solved: true };
+    save();
+    render();
+    setTimeout(nextSlide, 1500); // Auto-advance
+  } else {
+    state.quizState[state.currentSlide] = { solved: false, wrong: true };
+    // Track failure for retry if needed (not fully impl in this snippet but placeholder)
+    save();
+    render();
+  }
+};
+
+function nextSlide() {
+  if (state.currentSlide < slides.length - 1) {
+    state.currentSlide++;
+    save();
+    render();
+    document.getElementById('header').scrollIntoView();
+  }
+}
+
+function prevSlide() {
+  if (state.currentSlide > 0) {
+    state.currentSlide--;
+    save();
+    render();
+    document.getElementById('header').scrollIntoView();
+  }
+}
+
+function updateProgress() {
+  const pct = ((state.currentSlide + 1) / slides.length) * 100;
+  progBar.style.width = `${pct}%`;
+  
+  // Update TOC active state
+  document.querySelectorAll('.toc-item').forEach((el, idx) => {
+    if (idx === state.currentSlide) el.classList.add('active');
+    else el.classList.remove('active');
+  });
+}
+
+function renderToc() {
+  let html = '';
+  let lastMod = '';
+  slides.forEach((s, i) => {
+    if (s.module !== lastMod) {
+      if (lastMod) html += '</div>';
+      html += `<div class="toc-module"><div class="toc-title">${s.module}</div>`;
+      lastMod = s.module;
+    }
+    html += `<div class="toc-item" onclick="jumpTo(${i})">${i+1}. ${s.title}</div>`;
+  });
+  html += '</div>';
+  tocDrawer.innerHTML = html;
+}
+
+window.jumpTo = function(i) {
+  state.currentSlide = i;
+  save();
+  render();
+  toggleToc();
+}
+
+function toggleToc() {
+  tocDrawer.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// Event Listeners
+prevBtn.onclick = prevSlide;
+nextBtn.onclick = nextSlide;
+tocBtn.onclick = toggleToc;
+overlay.onclick = toggleToc;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === ' ' || e.key === 'ArrowRight') {
+    if (e.shiftKey && e.key === ' ') prevSlide();
+    else nextSlide();
+  } else if (e.key === 'ArrowLeft') {
+    prevSlide();
+  }
+});
+
+init();
+</script>
+</body>
+</html>

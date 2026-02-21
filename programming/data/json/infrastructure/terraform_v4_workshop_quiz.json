@@ -1,0 +1,1867 @@
+{
+  "title": "Terraform AWS Modules Workshop Quiz",
+  "version": "4.0",
+  "totalQuestions": 150,
+  "modules": [
+    {
+      "id": 0,
+      "name": "M0: Foundations",
+      "questions": [
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another?",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_1"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 1)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_2"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 2)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_3"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 3)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_4"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 4)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_5"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 5)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_6"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 6)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_7"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 7)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_8"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 8)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_9"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 9)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_10"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 10)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_11"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 11)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_12"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 12)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_13"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 13)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_14"
+        },
+        {
+          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 14)",
+          "options": [
+            "dependency",
+            "include",
+            "terraform",
+            "locals"
+          ],
+          "answer": 0,
+          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "id": "q0_15"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "M1: EC2 Instance",
+      "questions": [
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security?",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_1"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 1)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_2"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 2)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_3"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 3)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_4"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 4)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_5"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 5)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_6"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 6)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_7"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 7)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_8"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 8)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_9"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 9)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_10"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 10)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_11"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 11)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_12"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 12)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_13"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 13)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_14"
+        },
+        {
+          "question": "Which parameter enforces the use of IMDSv2 for instance metadata security? (Variant 14)",
+          "options": [
+            "http_tokens = 'required'",
+            "http_endpoint = 'enabled'",
+            "metadata_version = 2",
+            "secure_boot = true"
+          ],
+          "answer": 0,
+          "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+          "id": "q1_15"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "M2: ECS Cluster & Service",
+      "questions": [
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs?",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_1"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 1)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_2"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 2)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_3"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 3)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_4"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 4)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_5"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 5)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_6"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 6)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_7"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 7)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_8"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 8)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_9"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 9)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_10"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 10)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_11"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 11)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_12"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 12)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_13"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 13)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_14"
+        },
+        {
+          "question": "Which IAM role allows the ECS Agent to pull container images and push logs? (Variant 14)",
+          "options": [
+            "Task Execution Role",
+            "Task Role",
+            "Service Linked Role",
+            "Instance Profile"
+          ],
+          "answer": 0,
+          "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+          "id": "q2_15"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "M3: EKS (Kubernetes)",
+      "questions": [
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS?",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_1"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 1)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_2"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 2)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_3"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 3)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_4"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 4)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_5"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 5)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_6"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 6)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_7"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 7)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_8"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 8)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_9"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 9)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_10"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 10)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_11"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 11)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_12"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 12)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_13"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 13)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_14"
+        },
+        {
+          "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS? (Variant 14)",
+          "options": [
+            "Access Entries (API)",
+            "IAM Instance Profiles",
+            "Kubeconfig",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+          "id": "q3_15"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "M4: IAM Module",
+      "questions": [
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions?",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_1"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 1)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_2"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 2)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_3"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 3)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_4"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 4)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_5"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 5)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_6"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 6)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_7"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 7)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_8"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 8)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_9"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 9)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_10"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 10)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_11"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 11)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_12"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 12)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_13"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 13)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_14"
+        },
+        {
+          "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions? (Variant 14)",
+          "options": [
+            "IRSA (IAM Roles for Service Accounts)",
+            "Access Keys",
+            "Instance Profiles",
+            "Security Groups"
+          ],
+          "answer": 0,
+          "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+          "id": "q4_15"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "M5: KMS Module",
+      "questions": [
+        {
+          "question": "What is the minimum pending deletion window for a KMS key?",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_1"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 1)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_2"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 2)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_3"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 3)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_4"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 4)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_5"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 5)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_6"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 6)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_7"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 7)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_8"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 8)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_9"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 9)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_10"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 10)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_11"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 11)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_12"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 12)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_13"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 13)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_14"
+        },
+        {
+          "question": "What is the minimum pending deletion window for a KMS key? (Variant 14)",
+          "options": [
+            "7 days",
+            "1 day",
+            "30 days",
+            "Instant"
+          ],
+          "answer": 0,
+          "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+          "id": "q5_15"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "M6: S3 Bucket",
+      "questions": [
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects?",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_1"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 1)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_2"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 2)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_3"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 3)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_4"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 4)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_5"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 5)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_6"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 6)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_7"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 7)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_8"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 8)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_9"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 9)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_10"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 10)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_11"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 11)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_12"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 12)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_13"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 13)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_14"
+        },
+        {
+          "question": "Which feature effectively prevents accidental deletion of objects? (Variant 14)",
+          "options": [
+            "Versioning",
+            "Encryption",
+            "Logging",
+            "Replication"
+          ],
+          "answer": 0,
+          "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+          "id": "q6_15"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "M7: Secrets Manager",
+      "questions": [
+        {
+          "question": "What happens when you delete a secret in Secrets Manager?",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_1"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 1)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_2"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 2)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_3"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 3)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_4"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 4)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_5"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 5)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_6"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 6)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_7"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 7)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_8"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 8)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_9"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 9)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_10"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 10)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_11"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 11)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_12"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 12)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_13"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 13)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_14"
+        },
+        {
+          "question": "What happens when you delete a secret in Secrets Manager? (Variant 14)",
+          "options": [
+            "It enters a recovery window (7-30 days)",
+            "It is permanently deleted instantly",
+            "It is archived to Glacier",
+            "It becomes public"
+          ],
+          "answer": 0,
+          "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+          "id": "q7_15"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "M8: Security Group",
+      "questions": [
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules?",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_1"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 1)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_2"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 2)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_3"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 3)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_4"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 4)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_5"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 5)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_6"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 6)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_7"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 7)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_8"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 8)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_9"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 9)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_10"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 10)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_11"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 11)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_12"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 12)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_13"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 13)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_14"
+        },
+        {
+          "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules? (Variant 14)",
+          "options": [
+            "Avoids conflicts and allows modular rule management",
+            "It is faster",
+            "It supports more protocols",
+            "It is cheaper"
+          ],
+          "answer": 0,
+          "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+          "id": "q8_15"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "M9: VPC Module",
+      "questions": [
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates?",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_1"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 1)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_2"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 2)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_3"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 3)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_4"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 4)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_5"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 5)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_6"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 6)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_7"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 7)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_8"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 8)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_9"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 9)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_10"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 10)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_11"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 11)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_12"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 12)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_13"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 13)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_14"
+        },
+        {
+          "question": "What component allows instances in a private subnet to access the internet for updates? (Variant 14)",
+          "options": [
+            "NAT Gateway",
+            "Internet Gateway",
+            "VPN Gateway",
+            "Egress Only Gateway"
+          ],
+          "answer": 0,
+          "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+          "id": "q9_15"
+        }
+      ]
+    }
+  ]
+}
