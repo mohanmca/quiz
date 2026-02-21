@@ -1,0 +1,1707 @@
+[
+  {
+    "title": "Which Terraform command should run before `apply` to preview create/update/replace actions?",
+    "choices": [
+      "terraform plan",
+      "terraform output",
+      "terraform fmt",
+      "terraform providers"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Use `plan` to inspect the execution graph and catch destructive changes early."
+  },
+  {
+    "title": "In HCL, which block defines input values that callers can set?",
+    "choices": [
+      "variable",
+      "output",
+      "locals",
+      "provider"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The `variable` block defines module inputs, types, defaults, and validation rules."
+  },
+  {
+    "title": "What is the primary purpose of `terraform validate` in CI?",
+    "choices": [
+      "Catch configuration and type errors before planning",
+      "Rotate state locks",
+      "Import unmanaged resources",
+      "Refresh only data sources"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`validate` performs static checks so invalid configs fail early in pipelines."
+  },
+  {
+    "title": "When should `for_each` be preferred over `count`?",
+    "choices": [
+      "When instances are keyed by stable names",
+      "When every instance is fully identical",
+      "When no collection input exists",
+      "When provider aliases are disabled"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`for_each` gives stable addresses and reduces churn when list ordering changes."
+  },
+  {
+    "title": "What does `lifecycle { create_before_destroy = true }` optimize for?",
+    "choices": [
+      "Reduced downtime during replacement",
+      "Lower Terraform state size",
+      "Faster `init` plugin downloads",
+      "Automatic import of existing resources"
+    ],
+    "correctAnswer": 0,
+    "explanation": "It creates replacement resources first, then removes old ones."
+  },
+  {
+    "title": "What problem does a `moved` block solve during refactors?",
+    "choices": [
+      "Maps old resource addresses to new addresses",
+      "Encrypts state at rest",
+      "Pins provider versions",
+      "Runs post-apply hooks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`moved` keeps resource history intact when addresses change."
+  },
+  {
+    "title": "In Terragrunt, what does `include` mainly provide?",
+    "choices": [
+      "Shared parent configuration reuse",
+      "AWS credential vending",
+      "Automatic drift correction",
+      "State backend migration"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`include` helps DRY common backend/provider/input settings."
+  },
+  {
+    "title": "Why use Terragrunt `dependency` with `mock_outputs`?",
+    "choices": [
+      "To let plans run when upstream outputs are unavailable",
+      "To force downstream apply before upstream",
+      "To bypass variable validation",
+      "To disable remote state access"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`mock_outputs` keeps planning deterministic in partially bootstrapped stacks."
+  },
+  {
+    "title": "Which HCL type best fits a map of service settings with mixed fields?",
+    "choices": [
+      "object",
+      "number",
+      "bool",
+      "tuple(any)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`object` defines named attributes with explicit types for safer contracts."
+  },
+  {
+    "title": "What is the main operational meaning of a `replace` action in plan output?",
+    "choices": [
+      "Terraform will destroy and recreate that instance",
+      "Terraform will only refresh state",
+      "Terraform will skip provider calls",
+      "Terraform will create a data source"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`replace` indicates immutable field changes or lifecycle-driven recreation."
+  },
+  {
+    "title": "What does `ignore_changes` protect against most directly?",
+    "choices": [
+      "Perpetual diffs from externally-managed attributes",
+      "Missing provider credentials",
+      "Broken module source URLs",
+      "Incorrect variable defaults"
+    ],
+    "correctAnswer": 0,
+    "explanation": "It suppresses noise for fields intentionally managed outside Terraform."
+  },
+  {
+    "title": "What is the best first step when a plan behaves unexpectedly in CI?",
+    "choices": [
+      "Reproduce locally with the same provider/backend versions",
+      "Delete state and re-run apply",
+      "Disable all validations",
+      "Convert modules to inline resources"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Matching versions and backend context is essential for deterministic debugging."
+  },
+  {
+    "title": "Why run Terraform/Terragrunt in containers for team workflows?",
+    "choices": [
+      "To keep tooling versions reproducible across machines",
+      "To remove all IAM requirements",
+      "To avoid remote state usage",
+      "To eliminate module version pinning"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Containerized execution reduces environment drift between developers and CI."
+  },
+  {
+    "title": "In large AWS estates, why separate module inputs/outputs carefully?",
+    "choices": [
+      "To make dependencies explicit and reusable across environments",
+      "To increase plan runtime intentionally",
+      "To avoid using variables",
+      "To force one giant root module"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Clear contracts improve composability and reduce accidental coupling."
+  },
+  {
+    "title": "What is a practical use of storing plan metadata in SQL while using gRPC for config delivery?",
+    "choices": [
+      "Audit drift and change history while distributing resolved outputs",
+      "Replace Terraform state entirely",
+      "Generate IAM credentials automatically",
+      "Compile HCL into CloudFormation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "gRPC can publish runtime config while SQL keeps queryable change records."
+  },
+  {
+    "title": "Which Terraform file usually defines typed input parameters and validation rules?",
+    "choices": [
+      "variables.tf",
+      "outputs.tf",
+      "README.md",
+      ".terraform.lock.hcl"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`variables.tf` is typically the module input contract for callers."
+  },
+  {
+    "title": "What is the best way to implement constants in Terraform when using a `constants.tf` file?",
+    "choices": [
+      "Define shared values in a `locals` block",
+      "Use `output` blocks as constants",
+      "Store constants in provider blocks only",
+      "Write constants into state manually"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`constants.tf` is usually a convention file that contains reusable `locals` values."
+  },
+  {
+    "title": "In a multi-account Terragrunt layout, where should backend/provider defaults usually live?",
+    "choices": [
+      "In a parent/root `terragrunt.hcl` that children include",
+      "In each child module with copied blocks",
+      "Only in shell scripts",
+      "Inside `outputs.tf` files"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Parent include patterns keep configuration DRY and consistent across accounts/regions."
+  },
+  {
+    "title": "What is the key difference between a Terraform `data` block and a `resource` block?",
+    "choices": [
+      "`data` reads existing infrastructure; `resource` manages lifecycle",
+      "`data` creates resources; `resource` only reads",
+      "Both always create infrastructure",
+      "Neither can reference other blocks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Use `data` for lookup/read and `resource` for create/update/destroy ownership."
+  },
+  {
+    "title": "Which HCL function is used to combine tag maps from global and service-level inputs?",
+    "choices": [
+      "merge",
+      "length",
+      "flatten",
+      "replace"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`merge` combines maps and is commonly used for standard tagging patterns."
+  },
+  {
+    "title": "For EC2 module inputs, what is the safest AMI strategy for repeatable environments?",
+    "choices": [
+      "Pin AMI selection with controlled variables/SSM parameters",
+      "Always use the latest public AMI implicitly",
+      "Hardcode AMI per subnet",
+      "Disable AMI updates in all regions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Controlled AMI inputs keep upgrades intentional and auditable."
+  },
+  {
+    "title": "Which option best hardens instance metadata access?",
+    "choices": [
+      "Require IMDSv2 tokens via metadata options",
+      "Disable all metadata permanently",
+      "Expose metadata over public internet",
+      "Use user data to store long-lived keys"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Requiring IMDSv2 reduces SSRF-style credential theft risk."
+  },
+  {
+    "title": "What is the role of an instance profile in EC2 provisioning?",
+    "choices": [
+      "Attach an IAM role to the instance at runtime",
+      "Store Terraform backend credentials",
+      "Create VPC route tables",
+      "Generate AMI snapshots automatically"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Instance profiles bridge EC2 instances to IAM roles."
+  },
+  {
+    "title": "When using spot instances, what should production modules include?",
+    "choices": [
+      "Interruption-aware capacity fallback and lifecycle handling",
+      "Only one AZ deployment",
+      "No autoscaling policies",
+      "Manual replacement scripts only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Spot capacity is volatile; resilient modules need fallback behavior."
+  },
+  {
+    "title": "Why separate root and additional EBS block device settings?",
+    "choices": [
+      "To tune persistence and performance per volume purpose",
+      "Because Terraform requires one disk type only",
+      "To disable encryption entirely",
+      "To avoid tags on volumes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Different workloads need different size/iops/encryption policies."
+  },
+  {
+    "title": "What does `create_before_destroy` help with for instance replacements?",
+    "choices": [
+      "Maintain service continuity during immutable changes",
+      "Reduce IAM permissions needed",
+      "Disable Terraform state writes",
+      "Force one-by-one AZ failures"
+    ],
+    "correctAnswer": 0,
+    "explanation": "It minimizes downtime when replacement is unavoidable."
+  },
+  {
+    "title": "Which output is most useful for downstream security modules?",
+    "choices": [
+      "The instance security group or network interface identifiers",
+      "The module README path",
+      "The terraform binary checksum",
+      "The local workspace name"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Downstream network policy often depends on SG/ENI identities."
+  },
+  {
+    "title": "In Session Manager-oriented examples, what is a key prerequisite?",
+    "choices": [
+      "SSM permissions on the instance role and network reachability",
+      "Open SSH from 0.0.0.0/0 always",
+      "A public Elastic IP for each instance",
+      "Disabling CloudWatch agent"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Session Manager needs IAM + connectivity to SSM endpoints."
+  },
+  {
+    "title": "Why model capacity reservation fields explicitly in variables?",
+    "choices": [
+      "To control placement behavior without editing module internals",
+      "To avoid passing any compute constraints",
+      "To disable launch templates globally",
+      "To force dedicated hosts only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Exposed variables let teams choose reservation strategy per environment."
+  },
+  {
+    "title": "What is the benefit of tagging EC2, EBS, and ENIs consistently?",
+    "choices": [
+      "Improved cost allocation and incident triage",
+      "Faster provider plugin downloads",
+      "Automatic state migration",
+      "Bypassing IAM policies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Consistent tags improve governance and operations at scale."
+  },
+  {
+    "title": "How should user data be managed for large fleets?",
+    "choices": [
+      "Template and version it as module input, not ad hoc edits",
+      "Store it only in wiki pages",
+      "Disable all bootstrapping",
+      "Inline random shell snippets in each environment"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Versioned user data improves reproducibility and reviewability."
+  },
+  {
+    "title": "When should an Elastic IP be attached in module design?",
+    "choices": [
+      "Only for stable public ingress/egress requirements",
+      "For every private-only backend",
+      "When NAT gateways exist already for all traffic",
+      "To replace security groups"
+    ],
+    "correctAnswer": 0,
+    "explanation": "EIPs are finite and should be used only where static public IP is required."
+  },
+  {
+    "title": "What does an EC2 module output contract primarily provide?",
+    "choices": [
+      "Stable identifiers for composition with other modules",
+      "CLI aliases for developers",
+      "Terraform state encryption keys",
+      "Automatic AMI rebuilds"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Outputs are the API between modules."
+  },
+  {
+    "title": "Why keep subnet and security group inputs explicit instead of hidden defaults?",
+    "choices": [
+      "It prevents accidental placement and exposure in production",
+      "It makes modules impossible to reuse",
+      "It removes need for validation",
+      "It guarantees lower costs in all regions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Explicit network inputs reduce blast radius and surprise behavior."
+  },
+  {
+    "title": "What is a good failure-handling pattern for instance shutdown behavior settings?",
+    "choices": [
+      "Validate allowed values and document stop/terminate expectations",
+      "Allow any free-form string",
+      "Set terminate always without review",
+      "Ignore lifecycle settings entirely"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Validation catches destructive misconfiguration before apply."
+  },
+  {
+    "title": "In ECS architecture, why separate cluster and service concerns?",
+    "choices": [
+      "It enables independent scaling and reuse boundaries",
+      "Terraform requires separate repositories",
+      "Clusters cannot host multiple services",
+      "Services cannot reference task definitions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Separation improves modularity and operational ownership."
+  },
+  {
+    "title": "What is the difference between task role and execution role?",
+    "choices": [
+      "Task role is for app AWS API calls; execution role is for ECS agent pulls/logging",
+      "Both roles are identical and interchangeable",
+      "Execution role is only for EC2 launch templates",
+      "Task role is only for CloudWatch metrics"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Keeping role purposes distinct improves least-privilege design."
+  },
+  {
+    "title": "Which ECS setting controls how many tasks run simultaneously?",
+    "choices": [
+      "desired_count",
+      "launch_type_version",
+      "capacity_provider_weight_only",
+      "task_cpu_arch"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`desired_count` expresses steady-state service scale target."
+  },
+  {
+    "title": "Why use capacity provider strategies in ECS?",
+    "choices": [
+      "To balance placement across Fargate/EC2 capacity pools",
+      "To disable autoscaling",
+      "To remove task definitions",
+      "To bypass IAM requirements"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Capacity providers define where tasks should run and at what proportions."
+  },
+  {
+    "title": "What is a core requirement for Fargate tasks?",
+    "choices": [
+      "awsvpc networking mode with compatible CPU/memory combos",
+      "Host networking with root access",
+      "Static container IPs in task JSON",
+      "Dedicated EC2 launch templates"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fargate enforces specific networking and resource constraints."
+  },
+  {
+    "title": "What should container definition modules standardize first?",
+    "choices": [
+      "Logging, environment variables, and secret injection patterns",
+      "Random container names per deploy",
+      "Hardcoded image tags in code",
+      "Manual edits directly in state"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Standardized definitions reduce drift and improve observability."
+  },
+  {
+    "title": "Why attach autoscaling policies to ECS services?",
+    "choices": [
+      "To react to workload metrics instead of fixed capacity",
+      "To remove health checks",
+      "To avoid task definitions",
+      "To force one task per AZ forever"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Autoscaling helps maintain SLOs under variable load."
+  },
+  {
+    "title": "What is the purpose of service security groups in ECS modules?",
+    "choices": [
+      "Control inbound/outbound traffic at the task ENI boundary",
+      "Encrypt Terraform state",
+      "Generate container images",
+      "Replace IAM policies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Network policies should be explicit per service blast radius."
+  },
+  {
+    "title": "Which output is most useful for cross-module integrations?",
+    "choices": [
+      "Cluster ARN or service ARN identifiers",
+      "Terraform binary path",
+      "README markdown size",
+      "Provider plugin cache path"
+    ],
+    "correctAnswer": 0,
+    "explanation": "ARN outputs are commonly consumed by monitoring and policy modules."
+  },
+  {
+    "title": "Why include upgrade guidance for ECS module versions?",
+    "choices": [
+      "To handle breaking IAM/resource changes safely",
+      "Because ECS APIs never evolve",
+      "To avoid pinning versions",
+      "To skip testing before promotion"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Major module upgrades often require policy and state transition planning."
+  },
+  {
+    "title": "What risk appears when execution role permissions are too narrow?",
+    "choices": [
+      "Image pulls and log delivery failures at runtime",
+      "Terraform init failure only",
+      "ECS cluster deletion",
+      "Loss of VPC route tables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Execution role must cover pull/logging dependencies."
+  },
+  {
+    "title": "How do wrappers help ECS in multi-environment estates?",
+    "choices": [
+      "They apply consistent defaults while keeping env-specific overrides small",
+      "They eliminate the need for variables",
+      "They force duplicate modules per account",
+      "They disable composition"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Wrappers reduce repetition and policy drift across accounts."
+  },
+  {
+    "title": "What is a sane strategy for task definition image tags?",
+    "choices": [
+      "Use immutable tags/digests promoted through environments",
+      "Always use `latest` in production",
+      "Randomize tags every apply",
+      "Build image names from timestamps only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Immutable image references improve traceability and rollback."
+  },
+  {
+    "title": "What should happen before enabling scheduled scaling actions?",
+    "choices": [
+      "Validate baseline autoscaling metrics and service limits",
+      "Delete service desired_count",
+      "Disable alarms permanently",
+      "Turn off deployment circuit breakers"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Scheduled actions should align with observed traffic and quotas."
+  },
+  {
+    "title": "When introducing a new ECS submodule feature, what is best practice?",
+    "choices": [
+      "Expose it via typed variables with conservative defaults",
+      "Hardcode all values for one environment",
+      "Bypass reviews using local state only",
+      "Couple feature flags to unrelated modules"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Typed inputs and defaults keep adoption controlled and safe."
+  },
+  {
+    "title": "What resource represents the EKS control plane in Terraform?",
+    "choices": [
+      "aws_eks_cluster",
+      "aws_autoscaling_group",
+      "aws_iam_group",
+      "aws_lb_target_group"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`aws_eks_cluster` defines the control plane and core cluster settings."
+  },
+  {
+    "title": "Why is an OIDC provider essential for IRSA?",
+    "choices": [
+      "It lets Kubernetes service accounts assume scoped IAM roles",
+      "It replaces Kubernetes RBAC",
+      "It disables IAM policies",
+      "It creates worker nodes automatically"
+    ],
+    "correctAnswer": 0,
+    "explanation": "IRSA depends on OIDC federation between cluster and IAM."
+  },
+  {
+    "title": "What is the goal of access entries/policy associations in modern EKS modules?",
+    "choices": [
+      "Manage cluster access declaratively instead of manual mappings",
+      "Store pod logs in S3",
+      "Configure VPC route propagation",
+      "Replace node groups"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Declarative access control improves repeatability and auditability."
+  },
+  {
+    "title": "Why stage add-ons before/after compute carefully?",
+    "choices": [
+      "Some add-ons depend on nodes while others bootstrap core networking first",
+      "Add-ons are independent of cluster state",
+      "It only affects Terraform fmt",
+      "It removes need for IAM roles"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Ordering errors can break cluster bring-up and upgrades."
+  },
+  {
+    "title": "How do managed node groups differ from self-managed groups?",
+    "choices": [
+      "Managed groups offload lifecycle operations to EKS",
+      "Managed groups cannot scale",
+      "Self-managed groups do not use EC2",
+      "There is no operational difference"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Managed node groups reduce operational burden for patching and rollouts."
+  },
+  {
+    "title": "What does a Fargate profile primarily define?",
+    "choices": [
+      "Namespace/label selectors for pods that run on Fargate",
+      "Cluster endpoint TLS policy",
+      "Route53 zone delegation",
+      "KMS key rotation windows"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Profiles map pod workloads to serverless compute behavior."
+  },
+  {
+    "title": "Why does Karpenter integration often include an interruption queue?",
+    "choices": [
+      "To handle spot/interruption events for graceful replacement",
+      "To store Terraform state locks",
+      "To publish kubectl output",
+      "To generate IRSA roles automatically"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Interruption handling improves availability under volatile capacity."
+  },
+  {
+    "title": "What is a common hardening choice for EKS API endpoint access?",
+    "choices": [
+      "Restrict public access CIDRs or use private endpoint patterns",
+      "Expose endpoint globally with no controls",
+      "Disable TLS for speed",
+      "Allow anonymous IAM principals"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Endpoint access controls reduce control-plane attack surface."
+  },
+  {
+    "title": "Why separate cluster security group rules from worker node rules?",
+    "choices": [
+      "Control-plane and workload traffic have different trust boundaries",
+      "Security groups cannot be reused",
+      "EKS requires one global SG only",
+      "Node groups do not need egress"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Separation improves least privilege and incident isolation."
+  },
+  {
+    "title": "What is the value of `_user_data` generation modules?",
+    "choices": [
+      "Consistent bootstrap scripts across node group variants",
+      "Automatic Terraform state migration",
+      "Replacing cloud-init entirely",
+      "Disabling kubelet configuration"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Centralized user data logic prevents bootstrap drift."
+  },
+  {
+    "title": "What upgrade risk is common across major EKS module versions?",
+    "choices": [
+      "Breaking changes in IAM, add-on defaults, and node group behavior",
+      "Loss of all Terraform outputs",
+      "Removal of Kubernetes API server",
+      "Automatic downgrade of cluster version"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Major upgrades need staged testing and migration notes."
+  },
+  {
+    "title": "Why codify cluster logging settings in Terraform?",
+    "choices": [
+      "To guarantee audit and troubleshooting coverage across environments",
+      "To reduce IAM policy size",
+      "To speed up kubectl commands",
+      "To avoid CloudWatch entirely"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Declarative logging avoids ad hoc operational blind spots."
+  },
+  {
+    "title": "What is the purpose of wait semantics in node group orchestration?",
+    "choices": [
+      "Ensure dependent resources are ready before progressing",
+      "Make apply non-deterministic",
+      "Skip health checks",
+      "Disable rolling updates"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Proper waits reduce race conditions during cluster build and upgrade."
+  },
+  {
+    "title": "How should EKS module outputs be used in downstream modules?",
+    "choices": [
+      "Consume cluster endpoint, CA data, and role/SG IDs as explicit inputs",
+      "Parse them from state files manually",
+      "Hardcode values in scripts forever",
+      "Avoid outputs to reduce coupling"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Explicit outputs enable safe composition and automation."
+  },
+  {
+    "title": "What is a practical migration step before production EKS upgrades?",
+    "choices": [
+      "Apply module changes in lower environments and compare plan deltas",
+      "Upgrade prod first for faster feedback",
+      "Delete node groups preemptively",
+      "Disable drift detection"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Progressive rollout catches breaking changes before high-impact environments."
+  },
+  {
+    "title": "What does the IAM account module usually manage?",
+    "choices": [
+      "Account alias and password policy guardrails",
+      "VPC CIDR allocations",
+      "ECS task definitions",
+      "KMS grants only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Account-level IAM posture is foundational for secure identity management."
+  },
+  {
+    "title": "Why add MFA-related conditions to IAM group policies?",
+    "choices": [
+      "To enforce stronger authentication for sensitive actions",
+      "To increase API latency",
+      "To replace all role assumptions",
+      "To disable console access"
+    ],
+    "correctAnswer": 0,
+    "explanation": "MFA conditions are a common least-privilege hardening control."
+  },
+  {
+    "title": "What is the main use of the IAM OIDC provider module?",
+    "choices": [
+      "Federate external identity tokens for role assumption",
+      "Encrypt S3 objects",
+      "Create EKS node groups",
+      "Attach EC2 security groups"
+    ],
+    "correctAnswer": 0,
+    "explanation": "OIDC federation enables workload and CI trust without long-lived keys."
+  },
+  {
+    "title": "In IAM role modules, what does the assume role policy define?",
+    "choices": [
+      "Who can assume the role and under which conditions",
+      "What inline permissions the role grants itself",
+      "How Terraform backend locks state",
+      "Which VPC endpoints are required"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Trust policy and permission policy are separate concerns."
+  },
+  {
+    "title": "Why keep inline and managed policy attachments explicit?",
+    "choices": [
+      "To control blast radius and policy lifecycle clearly",
+      "Because AWS forbids managed policies",
+      "To avoid role outputs",
+      "To disable policy versioning"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Explicit attachments improve reviewability and modular ownership."
+  },
+  {
+    "title": "What is a key IRSA condition trait in trust policies?",
+    "choices": [
+      "Matching `sub`/`aud` claims for the intended service account",
+      "Matching AMI IDs",
+      "Matching S3 bucket names only",
+      "Matching Terraform workspace names"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fine-grained claims prevent over-broad pod role assumption."
+  },
+  {
+    "title": "When should an IAM user module be used carefully?",
+    "choices": [
+      "Only when workload cannot use roles/federation",
+      "For all Kubernetes pods",
+      "For every CI job by default",
+      "As replacement for security groups"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Users create long-lived credential risk; roles are usually safer."
+  },
+  {
+    "title": "What does an IAM policy module typically output for reuse?",
+    "choices": [
+      "Policy ARN for attachment by role/group/user modules",
+      "Cluster endpoint URL",
+      "KMS key material",
+      "VPC route table IDs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Policy ARNs are the integration contract for downstream identity resources."
+  },
+  {
+    "title": "Why split IAM modules by concern (role, policy, user, group)?",
+    "choices": [
+      "To keep contracts clear and avoid monolithic identity definitions",
+      "Because Terraform cannot handle nested modules",
+      "To avoid variable validation",
+      "To disable drift detection"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Decomposition improves maintainability and change safety."
+  },
+  {
+    "title": "What is the danger of wildcard actions/resources in IAM policies?",
+    "choices": [
+      "Excess privilege and higher blast radius during compromise",
+      "Faster provider downloads",
+      "Automatic key rotation",
+      "Lower CloudTrail volume"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Least privilege requires scoping actions and resources intentionally."
+  },
+  {
+    "title": "How do wrappers help IAM deployments across accounts?",
+    "choices": [
+      "They enforce consistent baseline conditions and naming",
+      "They remove need for review",
+      "They prevent policy updates",
+      "They replace AWS Organizations"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Wrappers standardize posture while permitting small account-specific overrides."
+  },
+  {
+    "title": "Why model IAM tags and path conventions in variables?",
+    "choices": [
+      "To support governance, ownership tracking, and policy boundaries",
+      "To increase apply runtime",
+      "To disable account aliases",
+      "To avoid module outputs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Consistent tagging/path strategy aids compliance and operations."
+  },
+  {
+    "title": "What should be validated before rotating IAM access keys?",
+    "choices": [
+      "Consumer readiness and overlap window for zero-downtime cutover",
+      "Delete all old policies first",
+      "Disable CloudTrail logs",
+      "Recreate AWS account alias"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Planned rotation avoids outages caused by stale credentials."
+  },
+  {
+    "title": "What is the practical outcome of consolidated IAM module families?",
+    "choices": [
+      "Reusable patterns for roles, policies, and federation at scale",
+      "Single hardcoded role for all systems",
+      "No need for trust policies",
+      "Automatic cross-account admin everywhere"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Consolidation reduces duplication and inconsistent security posture."
+  },
+  {
+    "title": "During IAM module upgrades, what deserves highest attention?",
+    "choices": [
+      "Trust policy behavior and permission scope diffs in plan output",
+      "README typography changes",
+      "Terraform colorized output",
+      "Local plugin cache size"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Identity changes can break workloads or create over-privilege if not reviewed."
+  },
+  {
+    "title": "Which KMS setting controls how long key deletion is delayed?",
+    "choices": [
+      "deletion_window_in_days",
+      "key_spec_timeout",
+      "kms_grace_hours",
+      "recovery_period_seconds"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Deletion window gives operators time to recover from accidental deletion requests."
+  },
+  {
+    "title": "When is automatic key rotation typically supported?",
+    "choices": [
+      "Symmetric customer-managed KMS keys",
+      "All external key material keys",
+      "Asymmetric signing keys only",
+      "Aliases without backing keys"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Rotation support depends on key type and AWS KMS capabilities."
+  },
+  {
+    "title": "Why separate key owners, admins, and users in policy design?",
+    "choices": [
+      "To enforce least privilege by responsibility",
+      "To speed up alias creation",
+      "To remove grant support",
+      "To avoid CloudTrail logging"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Role separation reduces accidental or malicious misuse."
+  },
+  {
+    "title": "What is the purpose of a KMS alias?",
+    "choices": [
+      "Provide a stable, readable pointer to a key",
+      "Replace key policies",
+      "Enable cross-region replication alone",
+      "Disable key rotation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Aliases improve usability without changing key IDs."
+  },
+  {
+    "title": "What do KMS grants provide compared with broad key policy statements?",
+    "choices": [
+      "Scoped permissions for specific principals/use cases",
+      "Faster Terraform plans",
+      "Automatic key deletion recovery",
+      "Cross-account VPC peering"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Grants are useful for narrowly targeted access patterns."
+  },
+  {
+    "title": "For multi-region encryption, what pair is commonly used?",
+    "choices": [
+      "Primary key plus replica keys",
+      "One alias without keys",
+      "Only external keys",
+      "Secrets Manager versions only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Replica keys align cryptographic context across regions."
+  },
+  {
+    "title": "What is unique about external key material workflows?",
+    "choices": [
+      "Key material lifecycle/import validity must be managed explicitly",
+      "AWS rotates it automatically every 30 days",
+      "It cannot be used with aliases",
+      "It removes the need for policies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "External material introduces additional operational controls and risks."
+  },
+  {
+    "title": "Why include `aws_partition` and caller identity data in policies?",
+    "choices": [
+      "To build correct ARNs across partitions/accounts",
+      "To avoid using principals",
+      "To disable IAM conditions",
+      "To randomize key IDs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Dynamic ARN construction prevents hardcoded account/partition mistakes."
+  },
+  {
+    "title": "What should happen before reducing KMS policy permissions?",
+    "choices": [
+      "Review downstream services that encrypt/decrypt with that key",
+      "Delete all aliases first",
+      "Disable CloudWatch",
+      "Recreate key immediately"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Policy tightening can break running workloads if dependencies are unknown."
+  },
+  {
+    "title": "How do key usage and key spec traits affect module design?",
+    "choices": [
+      "They constrain allowed cryptographic operations and integrations",
+      "They only impact key tags",
+      "They are ignored by AWS KMS",
+      "They control Terraform backend locks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Choosing wrong spec/usage can block required encryption workflows."
+  },
+  {
+    "title": "Why expose key ARN outputs from the module?",
+    "choices": [
+      "Other modules need it for encryption configuration",
+      "It is required for `terraform init`",
+      "It replaces IAM trust policy",
+      "It configures VPC DHCP options"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Key ARNs are common integration inputs across AWS services."
+  },
+  {
+    "title": "What failure mode is common when key policy omits service principals?",
+    "choices": [
+      "Dependent AWS services fail encryption operations",
+      "Terraform cannot read variables",
+      "KMS aliases are auto-deleted",
+      "Region becomes inaccessible"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Service integrations often need explicit policy permissions."
+  },
+  {
+    "title": "In Route53 DNSSEC scenarios, why is KMS setup important?",
+    "choices": [
+      "DNSSEC signing keys depend on correctly scoped KMS permissions",
+      "DNSSEC never uses KMS",
+      "It only changes VPC routes",
+      "It only affects IAM users"
+    ],
+    "correctAnswer": 0,
+    "explanation": "DNSSEC workflows require strong, explicit cryptographic key controls."
+  },
+  {
+    "title": "What should be reviewed during KMS module upgrades?",
+    "choices": [
+      "Changes to policy templates, defaults, and resource addresses",
+      "Only README badges",
+      "Local shell aliases",
+      "Terraform color theme"
+    ],
+    "correctAnswer": 0,
+    "explanation": "KMS upgrade diffs can affect security posture and service continuity."
+  },
+  {
+    "title": "What is a safe operational pattern before scheduling key deletion?",
+    "choices": [
+      "Confirm no active workloads still require decrypt access",
+      "Delete all encrypted resources first automatically",
+      "Force immediate deletion with zero window",
+      "Detach all IAM policies blindly"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Deletion planning must account for recovery and service dependency impact."
+  },
+  {
+    "title": "What is a core reason to manage S3 buckets through a module?",
+    "choices": [
+      "Enforce consistent security and lifecycle defaults",
+      "Disable bucket policies globally",
+      "Avoid versioning entirely",
+      "Replace IAM roles"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A module standardizes guardrails across many buckets/environments."
+  },
+  {
+    "title": "When using Object Ownership `BucketOwnerEnforced`, what happens to ACLs?",
+    "choices": [
+      "ACLs are effectively disabled for access control",
+      "ACLs become mandatory for all objects",
+      "ACLs control KMS grants",
+      "ACLs define replication regions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Ownership controls can centralize authorization in policies instead of ACLs."
+  },
+  {
+    "title": "Which feature is required for replication to function?",
+    "choices": [
+      "Bucket versioning enabled on source and destination",
+      "Static website hosting",
+      "S3 Object Lambda",
+      "Transfer Acceleration"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Replication depends on object version history and replication IAM role setup."
+  },
+  {
+    "title": "Why configure Block Public Access settings explicitly?",
+    "choices": [
+      "To prevent accidental public exposure paths",
+      "To increase PUT latency",
+      "To enable anonymous replication",
+      "To remove bucket encryption"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Explicit BPA settings are a foundational S3 security control."
+  },
+  {
+    "title": "What does server-side encryption configuration define?",
+    "choices": [
+      "How S3 encrypts objects at rest (SSE-S3/SSE-KMS)",
+      "How Terraform encrypts state lock files",
+      "How IAM users authenticate",
+      "How Route53 resolves bucket names"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Encryption settings are part of baseline data protection controls."
+  },
+  {
+    "title": "How do lifecycle rules improve large-bucket operations?",
+    "choices": [
+      "They automate retention, transition, and expiration policies",
+      "They disable CloudTrail events",
+      "They replace bucket policies",
+      "They force immediate object deletion only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Lifecycle policies reduce cost and enforce data governance automatically."
+  },
+  {
+    "title": "Why model notification targets (Lambda/SQS/SNS) in Terraform?",
+    "choices": [
+      "To keep event wiring and permissions declarative and auditable",
+      "To bypass service permissions",
+      "To avoid IAM policy documents",
+      "To remove bucket policies"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Notifications need both destination configuration and permission policy alignment."
+  },
+  {
+    "title": "What is the purpose of request payer configuration?",
+    "choices": [
+      "Control who pays request/data transfer costs in shared access patterns",
+      "Enable bucket replication automatically",
+      "Encrypt object metadata",
+      "Configure IAM federation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Request payer affects billing semantics for cross-account consumers."
+  },
+  {
+    "title": "When should object lock be enabled?",
+    "choices": [
+      "When compliance retention/WORM requirements apply",
+      "For all temporary CI artifacts",
+      "Only when versioning is disabled",
+      "Only for website buckets"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Object lock is for strict retention controls and must be planned early."
+  },
+  {
+    "title": "What does a combined bucket policy approach help with?",
+    "choices": [
+      "Compose baseline denies plus service-specific allow statements",
+      "Disable all IAM evaluation",
+      "Remove the need for principals",
+      "Guarantee public read by default"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Policy composition keeps guardrails consistent while enabling controlled exceptions."
+  },
+  {
+    "title": "Why provide outputs like bucket ARN and name?",
+    "choices": [
+      "Downstream modules need them for policies and integrations",
+      "They are required for terraform fmt",
+      "They replace replication rules",
+      "They create KMS aliases"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Bucket identifiers are key integration points for many AWS services."
+  },
+  {
+    "title": "What is a common pitfall when enabling replication?",
+    "choices": [
+      "Missing IAM permissions for replication role/object ownership conditions",
+      "Using too many lifecycle rules",
+      "Setting bucket tags",
+      "Using regional endpoints"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Replication failures often trace back to policy or ownership misconfiguration."
+  },
+  {
+    "title": "How should defaults be chosen for multi-environment S3 modules?",
+    "choices": [
+      "Secure-by-default with explicit opt-in for risky behavior",
+      "Public-by-default for faster testing",
+      "No encryption by default",
+      "Disable versioning always"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Conservative defaults reduce accidental exposure in production."
+  },
+  {
+    "title": "Why are directory/table bucket paths separated in module design?",
+    "choices": [
+      "They represent different S3 feature sets and resource behaviors",
+      "Terraform cannot manage standard buckets",
+      "They only differ by naming",
+      "They are aliases for the same API"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Distinct resource models require explicit branching and inputs."
+  },
+  {
+    "title": "During S3 module upgrades, what should be checked first?",
+    "choices": [
+      "Plan diffs for policy, ownership, and replication behavior changes",
+      "Only output ordering",
+      "Provider binary size",
+      "Shell history"
+    ],
+    "correctAnswer": 0,
+    "explanation": "S3 security-sensitive changes require careful drift and impact review."
+  },
+  {
+    "title": "Which resource creates the metadata container for a secret?",
+    "choices": [
+      "aws_secretsmanager_secret",
+      "aws_ssm_parameter",
+      "aws_kms_key_alias",
+      "aws_iam_policy_document"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Secret metadata and lifecycle are managed separately from secret values."
+  },
+  {
+    "title": "What resource typically manages the secret value/version payload?",
+    "choices": [
+      "aws_secretsmanager_secret_version",
+      "aws_secretsmanager_resource_policy",
+      "aws_s3_object",
+      "aws_cloudwatch_log_group"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Version resources handle staged secret values over time."
+  },
+  {
+    "title": "Why is `ignore_secret_changes` or similar lifecycle handling used?",
+    "choices": [
+      "To avoid overwriting externally-rotated secret values",
+      "To disable encryption",
+      "To remove KMS key usage",
+      "To bypass IAM evaluation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Some teams rotate values outside Terraform and want drift tolerance."
+  },
+  {
+    "title": "What is the purpose of enabling rotation with a Lambda function?",
+    "choices": [
+      "Automate credential renewal on a defined schedule",
+      "Disable secret replication",
+      "Replace KMS policies",
+      "Force AWSPREVIOUS deletion immediately"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Rotation reduces manual secret management risk."
+  },
+  {
+    "title": "How does KMS integration affect Secrets Manager?",
+    "choices": [
+      "It defines the CMK used to encrypt secret data at rest",
+      "It selects the secret rotation interval",
+      "It controls VPC routing",
+      "It creates IAM users"
+    ],
+    "correctAnswer": 0,
+    "explanation": "CMK selection is central to encryption boundary and key governance."
+  },
+  {
+    "title": "Why configure replica regions for secrets?",
+    "choices": [
+      "Improve regional resilience and latency for consumers",
+      "Disable version stages",
+      "Avoid IAM policies",
+      "Replace rotation Lambda"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Replication supports multi-region workloads and DR patterns."
+  },
+  {
+    "title": "What does recovery window configuration control?",
+    "choices": [
+      "Days before permanent deletion after a delete request",
+      "How often rotation runs",
+      "KMS key alias naming",
+      "Terraform state lock timeout"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Recovery windows provide rollback opportunity for accidental deletions."
+  },
+  {
+    "title": "What do version stages like `AWSCURRENT` and `AWSPREVIOUS` represent?",
+    "choices": [
+      "Labels for active and prior secret versions",
+      "IAM trust relationships",
+      "S3 lifecycle transitions",
+      "ECS task states"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Version stages coordinate secret cutovers for consumers."
+  },
+  {
+    "title": "Why attach explicit secret resource policies?",
+    "choices": [
+      "To scope which principals can read/manage the secret",
+      "To choose secret random length",
+      "To control subnet routing",
+      "To disable CloudTrail logging"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Resource policies enforce access boundaries beyond identity policy defaults."
+  },
+  {
+    "title": "What risk exists if secret updates are blindly managed in Terraform apply?",
+    "choices": [
+      "Accidental credential rollbacks or overwrites",
+      "Loss of bucket versioning",
+      "KMS key deletion",
+      "EKS cluster recreation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "State-driven value writes can conflict with runtime rotation workflows."
+  },
+  {
+    "title": "Why include random password generation options in the module?",
+    "choices": [
+      "Generate compliant initial secrets with policy constraints",
+      "Replace IAM role trust policies",
+      "Set VPC CIDR ranges",
+      "Disable rotation support"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Controlled random generation supports secure bootstrap without manual secrets."
+  },
+  {
+    "title": "How should outputs from a secrets module be consumed?",
+    "choices": [
+      "Expose ARNs/names, not secret plaintext",
+      "Return plaintext in Terraform outputs",
+      "Store plaintext in tags",
+      "Publish plaintext in plan comments"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Never leak secret material; integrate via identifiers and runtime fetch."
+  },
+  {
+    "title": "What is the main purpose of block public policy style guardrails?",
+    "choices": [
+      "Prevent overly broad secret access permissions",
+      "Allow anonymous retrieval for testing",
+      "Skip IAM policy evaluation",
+      "Disable versioning"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Guardrails reduce accidental data exposure risk."
+  },
+  {
+    "title": "In production, what should be validated before enabling rotation?",
+    "choices": [
+      "Lambda permissions, networking, and rollback process",
+      "Only secret tags",
+      "Route table propagation",
+      "Terraform fmt formatting"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Rotation failures can break auth flows without operational readiness."
+  },
+  {
+    "title": "What is a good hardening practice for secret lifecycle operations?",
+    "choices": [
+      "Use least privilege, audit trails, and staged rollout of changes",
+      "Give admin rights to all workloads",
+      "Disable deletion protection everywhere",
+      "Store secrets in user data scripts"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Defense-in-depth is critical for secret confidentiality and availability."
+  },
+  {
+    "title": "What does `create_sg = false` typically indicate in SG modules?",
+    "choices": [
+      "Use an existing security group ID instead of creating one",
+      "Disable all ingress/egress rules",
+      "Delete rules on every apply",
+      "Create only egress rules"
+    ],
+    "correctAnswer": 0,
+    "explanation": "This pattern lets teams attach rules to pre-existing shared SGs."
+  },
+  {
+    "title": "Why model ingress and egress separately?",
+    "choices": [
+      "They represent different traffic directions and risk controls",
+      "AWS combines them automatically",
+      "Egress is ignored by VPC",
+      "Ingress cannot use CIDRs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Separate modeling improves review clarity and policy precision."
+  },
+  {
+    "title": "When is a `self` rule useful?",
+    "choices": [
+      "Allow traffic between members of the same security group",
+      "Allow internet access from anywhere",
+      "Block all east-west traffic",
+      "Replace NACL rules"
+    ],
+    "correctAnswer": 0,
+    "explanation": "`self` enables controlled intra-tier communication patterns."
+  },
+  {
+    "title": "Why use computed rule variants in Terraform SG modules?",
+    "choices": [
+      "To handle values unknown until apply without plan-time failures",
+      "To disable dynamic blocks",
+      "To avoid state files",
+      "To bypass IAM checks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Computed inputs need special handling to keep plans valid."
+  },
+  {
+    "title": "What is a key risk with many inline SG rules in one resource?",
+    "choices": [
+      "Rule churn and hard-to-review diffs during updates",
+      "Inability to set tags",
+      "Loss of VPC attachment",
+      "Automatic public exposure"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fine-grained rule resources usually produce safer diffs."
+  },
+  {
+    "title": "What does revoke-on-delete behavior help with?",
+    "choices": [
+      "Cleanup of stale rules during replacement/removal",
+      "Automatic policy encryption",
+      "Cross-account assume role",
+      "Faster terraform init"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Explicit revoke behavior reduces orphaned network access."
+  },
+  {
+    "title": "How do named service modules (for example `http-80`, `mysql`) help teams?",
+    "choices": [
+      "They provide reusable, opinionated rule sets for common patterns",
+      "They eliminate the need for SG IDs",
+      "They force all ports open",
+      "They remove egress controls"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Prebuilt modules accelerate delivery with consistent guardrails."
+  },
+  {
+    "title": "When should prefix lists be used in SG rules?",
+    "choices": [
+      "When allowing AWS-managed or centrally maintained network ranges",
+      "Only for localhost traffic",
+      "Only with NACLs disabled",
+      "Never in production"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Prefix lists improve maintainability of shared CIDR allowlists."
+  },
+  {
+    "title": "What is the best way to scale SG rule management across many apps?",
+    "choices": [
+      "Compose reusable rule objects and wrappers with strict defaults",
+      "Copy-paste one giant SG everywhere",
+      "Use manual console edits only",
+      "Disable drift checks"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Composable patterns reduce duplication and misconfiguration."
+  },
+  {
+    "title": "Why are output traits like SG ID/ARN important?",
+    "choices": [
+      "Downstream modules need stable references for dependencies",
+      "They increase provider speed",
+      "They replace route tables",
+      "They force one VPC per app"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Identifiers are the contract between network and workload modules."
+  },
+  {
+    "title": "What operational issue is common with SG drift?",
+    "choices": [
+      "Out-of-band rule edits causing unexpected plan diffs",
+      "Provider installation failure",
+      "State backend corruption on init",
+      "Missing module versions only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Drift detection is crucial for network security posture."
+  },
+  {
+    "title": "How should destructive SG changes be introduced safely?",
+    "choices": [
+      "Stage in lower environments and review plan blast radius",
+      "Apply directly in production peak hours",
+      "Disable all monitoring first",
+      "Remove all egress rules blindly"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Network changes can cause immediate outages; staged rollout is safer."
+  },
+  {
+    "title": "Why are class-like rule taxonomies useful in SG modules?",
+    "choices": [
+      "They standardize intent (web/db/internal) across teams",
+      "They prevent all custom rules",
+      "They replace IAM policy structure",
+      "They disable module inputs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Rule classes improve readability and consistency at scale."
+  },
+  {
+    "title": "What is a secure default for inbound rules?",
+    "choices": [
+      "Deny by default, then explicitly allow required sources/ports",
+      "Allow all and tighten later",
+      "Always allow 0.0.0.0/0 on admin ports",
+      "Mirror egress rules to ingress automatically"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Least-privilege networking starts from restrictive ingress defaults."
+  },
+  {
+    "title": "What should be included in SG module documentation for productivity?",
+    "choices": [
+      "Rule trait definitions, examples, and migration guidance",
+      "Only repository badges",
+      "Screenshots without code",
+      "No explanation of defaults"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Clear docs reduce onboarding time and configuration mistakes."
+  },
+  {
+    "title": "Which component enables internet egress for public subnets?",
+    "choices": [
+      "Internet Gateway attached to the VPC and routed from public route tables",
+      "NAT Gateway in private subnet only",
+      "DHCP options set",
+      "Flow log destination"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Public subnet internet access requires IGW + correct route association."
+  },
+  {
+    "title": "Why are NAT gateways commonly used in private subnet patterns?",
+    "choices": [
+      "Allow outbound internet access without inbound exposure",
+      "Provide inbound SSH directly",
+      "Replace security groups",
+      "Disable route tables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "NAT keeps private resources non-public while permitting updates/dependencies."
+  },
+  {
+    "title": "What is the purpose of separate subnet classes (public/private/database/intra)?",
+    "choices": [
+      "Apply least-privilege routing and policy by workload type",
+      "Reduce VPC CIDR size automatically",
+      "Disable NACL support",
+      "Avoid using route tables"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Subnet taxonomy clarifies trust boundaries and traffic paths."
+  },
+  {
+    "title": "How do security groups and NACLs differ fundamentally?",
+    "choices": [
+      "Security groups are stateful; NACLs are stateless",
+      "Both are stateless only",
+      "Both are stateful only",
+      "Only NACLs support inbound rules"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Understanding statefulness is critical for troubleshooting connectivity."
+  },
+  {
+    "title": "When should egress-only internet gateways be considered?",
+    "choices": [
+      "For IPv6 outbound-only connectivity from private resources",
+      "For IPv4 NAT replacement in public subnets",
+      "For IAM federation",
+      "For KMS key replication"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Egress-only IGW is an IPv6-specific control for outbound traffic."
+  },
+  {
+    "title": "Why configure DHCP options in VPC modules?",
+    "choices": [
+      "Set DNS/domain-name behavior for instances in the VPC",
+      "Encrypt route table entries",
+      "Control IAM role assumption",
+      "Manage SG ingress priorities"
+    ],
+    "correctAnswer": 0,
+    "explanation": "DHCP options influence name resolution and network configuration defaults."
+  },
+  {
+    "title": "What does VPC flow log configuration provide operationally?",
+    "choices": [
+      "Network traffic observability for troubleshooting and audit",
+      "Automatic SG remediation",
+      "Subnet auto-scaling",
+      "KMS key deletion alerts only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Flow logs are foundational for incident investigation and governance."
+  },
+  {
+    "title": "Why are endpoint submodules useful in private VPC designs?",
+    "choices": [
+      "They provide private access to AWS services without internet traversal",
+      "They replace route tables entirely",
+      "They remove IAM policies",
+      "They disable DNS in VPC"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Endpoints reduce NAT dependency and tighten network paths."
+  },
+  {
+    "title": "What is an IPAM-driven CIDR allocation advantage?",
+    "choices": [
+      "Centralized, conflict-resistant CIDR management across environments",
+      "Automatic IAM policy generation",
+      "No need for subnet planning",
+      "Mandatory public addressing"
+    ],
+    "correctAnswer": 0,
+    "explanation": "IPAM helps large estates avoid overlapping CIDR mistakes."
+  },
+  {
+    "title": "What should be checked before managing a default VPC with Terraform?",
+    "choices": [
+      "Ownership boundaries and impact on existing unmanaged resources",
+      "Only Terraform version",
+      "Only bucket tags",
+      "Only SG descriptions"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Default VPC adoption can have broad side effects if unmanaged state exists."
+  },
+  {
+    "title": "Why expose route table, subnet, and VPC IDs as outputs?",
+    "choices": [
+      "Downstream modules need explicit network attachment targets",
+      "To speed up terraform fmt",
+      "To disable provider retries",
+      "To replace variable validation"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Network IDs are key contracts for ECS/EKS/EC2 integrations."
+  },
+  {
+    "title": "What is a common dualstack pitfall in module design?",
+    "choices": [
+      "Enabling IPv6 without corresponding route/security updates",
+      "Using too many tags",
+      "Defining more than one private subnet",
+      "Outputting VPC ARN"
+    ],
+    "correctAnswer": 0,
+    "explanation": "IPv6 rollout requires coordinated routing, SG, and endpoint configuration."
+  },
+  {
+    "title": "How do database subnet patterns usually differ from public subnet patterns?",
+    "choices": [
+      "No direct internet route and tighter ingress controls",
+      "They require public IP assignment",
+      "They skip route tables",
+      "They disable DNS hostnames"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Database tiers should remain isolated with explicit access paths."
+  },
+  {
+    "title": "Why include upgrade/state transition guidance in VPC modules?",
+    "choices": [
+      "Address migrations can trigger destructive network replacements",
+      "VPC resources never require migration",
+      "Upgrades only change README text",
+      "Terraform handles all state moves automatically"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Network primitives are high impact; migration planning is essential."
+  },
+  {
+    "title": "What is a safe first step when large VPC plan changes appear?",
+    "choices": [
+      "Inspect route/subnet/NACL diffs and validate blast radius before apply",
+      "Apply immediately to detect failures faster",
+      "Delete the state file",
+      "Disable flow logs"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Careful diff review prevents outages from unintended network mutations."
+  }
+]
