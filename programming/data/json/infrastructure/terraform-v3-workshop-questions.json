@@ -165,61 +165,6 @@
     "explanation": "gRPC can publish runtime config while SQL keeps queryable change records."
   },
   {
-    "title": "Which Terraform file usually defines typed input parameters and validation rules?",
-    "choices": [
-      "variables.tf",
-      "outputs.tf",
-      "README.md",
-      ".terraform.lock.hcl"
-    ],
-    "correctAnswer": 0,
-    "explanation": "`variables.tf` is typically the module input contract for callers."
-  },
-  {
-    "title": "What is the best way to implement constants in Terraform when using a `constants.tf` file?",
-    "choices": [
-      "Define shared values in a `locals` block",
-      "Use `output` blocks as constants",
-      "Store constants in provider blocks only",
-      "Write constants into state manually"
-    ],
-    "correctAnswer": 0,
-    "explanation": "`constants.tf` is usually a convention file that contains reusable `locals` values."
-  },
-  {
-    "title": "In a multi-account Terragrunt layout, where should backend/provider defaults usually live?",
-    "choices": [
-      "In a parent/root `terragrunt.hcl` that children include",
-      "In each child module with copied blocks",
-      "Only in shell scripts",
-      "Inside `outputs.tf` files"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Parent include patterns keep configuration DRY and consistent across accounts/regions."
-  },
-  {
-    "title": "What is the key difference between a Terraform `data` block and a `resource` block?",
-    "choices": [
-      "`data` reads existing infrastructure; `resource` manages lifecycle",
-      "`data` creates resources; `resource` only reads",
-      "Both always create infrastructure",
-      "Neither can reference other blocks"
-    ],
-    "correctAnswer": 0,
-    "explanation": "Use `data` for lookup/read and `resource` for create/update/destroy ownership."
-  },
-  {
-    "title": "Which HCL function is used to combine tag maps from global and service-level inputs?",
-    "choices": [
-      "merge",
-      "length",
-      "flatten",
-      "replace"
-    ],
-    "correctAnswer": 0,
-    "explanation": "`merge` combines maps and is commonly used for standard tagging patterns."
-  },
-  {
     "title": "For EC2 module inputs, what is the safest AMI strategy for repeatable environments?",
     "choices": [
       "Pin AMI selection with controlled variables/SSM parameters",
@@ -289,7 +234,7 @@
     "title": "Which output is most useful for downstream security modules?",
     "choices": [
       "The instance security group or network interface identifiers",
-      "The module README path",
+      "The module icon color",
       "The terraform binary checksum",
       "The local workspace name"
     ],
@@ -476,9 +421,9 @@
     "title": "Which output is most useful for cross-module integrations?",
     "choices": [
       "Cluster ARN or service ARN identifiers",
-      "Terraform binary path",
-      "README markdown size",
-      "Provider plugin cache path"
+      "Terraform binary checksum",
+      "Repository issue count",
+      "Provider plugin install latency"
     ],
     "correctAnswer": 0,
     "explanation": "ARN outputs are commonly consumed by monitoring and policy modules."
@@ -836,7 +781,7 @@
     "explanation": "Wrappers standardize posture while permitting small account-specific overrides."
   },
   {
-    "title": "Why model IAM tags and path conventions in variables?",
+    "title": "Why model IAM tags and naming conventions in variables?",
     "choices": [
       "To support governance, ownership tracking, and policy boundaries",
       "To increase apply runtime",
@@ -844,7 +789,7 @@
       "To avoid module outputs"
     ],
     "correctAnswer": 0,
-    "explanation": "Consistent tagging/path strategy aids compliance and operations."
+    "explanation": "Consistent tagging and naming strategy aids compliance and operations."
   },
   {
     "title": "What should be validated before rotating IAM access keys?",
@@ -872,7 +817,7 @@
     "title": "During IAM module upgrades, what deserves highest attention?",
     "choices": [
       "Trust policy behavior and permission scope diffs in plan output",
-      "README typography changes",
+      "Documentation typography changes",
       "Terraform colorized output",
       "Local plugin cache size"
     ],
@@ -1026,7 +971,7 @@
     "title": "What should be reviewed during KMS module upgrades?",
     "choices": [
       "Changes to policy templates, defaults, and resource addresses",
-      "Only README badges",
+      "Only documentation badges",
       "Local shell aliases",
       "Terraform color theme"
     ],
@@ -1687,7 +1632,7 @@
     "choices": [
       "Address migrations can trigger destructive network replacements",
       "VPC resources never require migration",
-      "Upgrades only change README text",
+      "Upgrades only change documentation text",
       "Terraform handles all state moves automatically"
     ],
     "correctAnswer": 0,
@@ -1698,7 +1643,7 @@
     "choices": [
       "Inspect route/subnet/NACL diffs and validate blast radius before apply",
       "Apply immediately to detect failures faster",
-      "Delete the state file",
+      "Skip environment validation before apply",
       "Disable flow logs"
     ],
     "correctAnswer": 0,
