@@ -105,7 +105,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .tip { border-color: #0f766e; background: #dcfce7; }
 .warn { border-color: #d97706; background: #fff7ed; }
 .real { border-color: #b45309; background: #fffbeb; }
-.teaching-note {
+.context-note {
   border: 1px solid #c7d8e7;
   border-left: 4px solid #0f766e;
   border-radius: 10px;
@@ -113,16 +113,16 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
   padding: 12px 14px;
   margin: 12px 0 14px 0;
 }
-.teaching-note h3 {
+.context-note h3 {
   margin: 0 0 8px 0;
   font-size: 15px;
   color: #0f5c55;
 }
-.teaching-note p {
+.context-note p {
   margin: 0 0 6px 0;
   line-height: 1.55;
 }
-.teaching-note p:last-child { margin-bottom: 0; }
+.context-note p:last-child { margin-bottom: 0; }
 #nav { display: flex; justify-content: space-between; margin-top: 12px; gap: 10px; }
 #nav .next { background: var(--accent); color: #fff; border-color: var(--accent); }
 #nav .prev { background: #64748b; color: #fff; border-color: #64748b; }
@@ -559,37 +559,82 @@ function stripLeadingHeading(content) {
   return content.replace(/^\s*<h2[^>]*>[\s\S]*?<\/h2>\s*/i, '');
 }
 
-function focusHintForTitle(title) {
-  const t = String(title || '').toLowerCase();
-  if (/(debug|troubleshoot|incident|rollback|drift|failure)/.test(t)) {
-    return 'Use this as an incident playbook: capture symptoms, isolate the dependency edge, and verify a safe rollback path.';
+function hashString(seed) {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
   }
-  if (/(security|iam|kms|secret|policy|hardening|access)/.test(t)) {
-    return 'Read every control through least-privilege intent, then verify trust boundaries, encryption scope, and audit visibility.';
-  }
-  if (/(state|plan|lifecycle|replace|upgrade|migration|refactor)/.test(t)) {
-    return 'Pay attention to plan semantics and state transitions so replacements happen intentionally and with controlled blast radius.';
-  }
-  if (/(terragrunt|module|wrapper|dependency|workspace|multi-account)/.test(t)) {
-    return 'Treat this as a composition lesson: module contract quality and dependency ordering determine team scalability.';
-  }
-  if (/(vpc|subnet|route|nat|endpoint|security group|network|ecs|eks|ec2)/.test(t)) {
-    return 'Map this to runtime traffic flow so you can explain what reaches what, over which boundary, and under which policy.';
-  }
-  return 'Translate the slide into a repeatable checklist that can be reused in review, CI gating, and production operations.';
+  return h >>> 0;
 }
 
-function buildTeachingNote(slide) {
+function pickByHash(items, seed, offset = 0) {
+  if (!items || !items.length) return '';
+  return items[(hashString(seed) + offset) % items.length];
+}
+
+function moduleContext(moduleId) {
+  const map = {
+    0: 'Terraform core behavior is graph-driven: edges come from references, and plan actions are derived from provider schemas.',
+    1: 'EC2 delivery quality depends on predictable AMI lifecycle, metadata hardening, and consistent IAM instance profile boundaries.',
+    2: 'ECS reliability is mainly a contract problem between task definition traits, service scaling policy, and network identity.',
+    3: 'EKS operations combine control plane policy, node provisioning strategy, and add-on ordering into one dependency-sensitive system.',
+    4: 'IAM modules are security-critical APIs; explicit denies, trust policy scope, and federation assumptions dominate runtime outcomes.',
+    5: 'KMS design decisions are long-lived because key policy and key spec choices propagate into every dependent encrypted workload.',
+    6: 'S3 module safety is mostly about defaults: ownership controls, encryption posture, lifecycle governance, and policy composition.',
+    7: 'Secrets Manager workflows are lifecycle-heavy; version stages, rotation semantics, and rollback windows matter as much as creation.',
+    8: 'Security group modules model policy intent as traffic contracts, where small rule changes can create outsized blast radius.',
+    9: 'VPC modules encode network primitives that every higher-level workload inherits, so routing and segmentation choices compound quickly.'
+  };
+  return map[moduleId] || 'This module focuses on infrastructure contracts and operational reliability.';
+}
+
+function keywordContext(title) {
+  const t = String(title || '').toLowerCase();
+  const groups = [
+    { re: /(state|plan|lifecycle|replace|moved|refactor|drift|upgrade|migration)/, line: 'A common hidden detail: many replacement actions come from immutable provider attributes (`ForceNew`) rather than obvious config edits.' },
+    { re: /(iam|policy|access|oidc|irsa|permission|trust)/, line: 'IAM evaluation trivia: explicit deny always wins, even when multiple allow policies appear to grant access.' },
+    { re: /(kms|key|encrypt|secret|rotation)/, line: 'Encryption control-plane failures usually appear first as application startup errors, not Terraform apply failures.' },
+    { re: /(vpc|subnet|route|nat|endpoint|network|security group|nacl|flow log)/, line: 'Network debugging rule of thumb: verify route intent first, then security controls, then DNS and service endpoint assumptions.' },
+    { re: /(ecs|eks|ec2|node|fargate|karpenter|cluster)/, line: 'Compute orchestration trivia: most runtime incidents are caused by dependency ordering and identity mismatch, not raw capacity alone.' },
+    { re: /(terragrunt|module|wrapper|dependency|run-all|workspace|multi-account)/, line: 'Composition insight: stable module inputs/outputs behave like API versioning, and weak contracts create cross-environment fragility.' },
+    { re: /(debug|troubleshoot|incident|rollback|failure)/, line: 'Incident handling improves when you preserve first-failure evidence before retrying, especially provider response details and plan diff snapshots.' },
+  ];
+  for (const g of groups) {
+    if (g.re.test(t)) return g.line;
+  }
+  return 'Operationally, this topic is strongest when expressed as explicit contracts and validated through deterministic plan-and-apply workflows.';
+}
+
+function buildContextNote(slide) {
   const moduleName = MODULE_LABELS[slide.moduleId] || 'Module';
-  const focusHint = focusHintForTitle(slide.title);
+  const seed = `${slide.moduleId}:${slide.title}`;
+  const extraFacts = [
+    'Terraform parallelism improves speed, but explicit dependencies should be used only where the graph cannot infer safe order.',
+    'Provider version drift is one of the most common causes of plan divergence between developer laptops and CI pipelines.',
+    'State locking prevents concurrent writes, but it does not protect against logically unsafe changes approved in code review.',
+    'Data sources are read-time dependencies; if they vary by environment, plans can drift even when module code is unchanged.',
+    'Most upgrade regressions are compatibility issues in expectations, not syntax errors, so contract tests are high leverage.',
+    'A mature runbook links each major resource type to detection signals, rollback strategy, and ownership boundaries.',
+  ];
+  const operationalAngles = [
+    'In production, treat this area as a change-risk multiplier and gate it with targeted plan review before broad rollout.',
+    'At team scale, quality comes from predictable contracts and repeatable execution context, not from one-off local fixes.',
+    'For long-term maintainability, prefer explicit intent in code over implicit behavior that only module experts remember.',
+    'This concept is easiest to retain when connected to a real failure pattern and the concrete prevention control.',
+    'The strongest learning signal here is understanding which part is declarative intent and which part is provider behavior.',
+  ];
+  const line3 = keywordContext(slide.title);
+  const line4 = pickByHash(extraFacts, seed, 7);
+  const line5 = pickByHash(operationalAngles, seed, 13);
   return `
-    <div class="teaching-note">
-      <h3>Teaching Notes</h3>
-      <p>This slide explains <strong>${esc(slide.title)}</strong> inside <strong>${esc(moduleName)}</strong> and why the concept matters in real delivery.</p>
-      <p>Start with the diagram/table/code block to identify the control surface: inputs, dependencies, and the expected output contract.</p>
-      <p>${esc(focusHint)}</p>
-      <p>When reviewing this topic in team discussions, call out both the happy path and one high-risk failure mode to improve decision quality.</p>
-      <p>Before moving on, summarize one rule you would enforce in CI or peer review to keep this behavior stable over time.</p>
+    <div class="context-note">
+      <h3>Deep Context</h3>
+      <p>This slide extends <strong>${esc(slide.title)}</strong> within <strong>${esc(moduleName)}</strong> and connects it to production-grade infrastructure behavior.</p>
+      <p>${esc(moduleContext(slide.moduleId))}</p>
+      <p>${esc(line3)}</p>
+      <p>${esc(line4)}</p>
+      <p>${esc(line5)}</p>
     </div>
   `;
 }
@@ -600,7 +645,7 @@ function renderSlide() {
   if (slide.quiz) renderQuizSlide(slide.moduleId);
   else {
     const content = stripLeadingHeading(slide.content || '');
-    els.slide.innerHTML = `<h1>${esc(slide.title)}</h1>${buildTeachingNote(slide)}${content}`;
+    els.slide.innerHTML = `<h1>${esc(slide.title)}</h1>${buildContextNote(slide)}${content}`;
   }
 }
 
