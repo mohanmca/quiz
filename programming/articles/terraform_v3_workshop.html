@@ -105,6 +105,24 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .tip { border-color: #0f766e; background: #dcfce7; }
 .warn { border-color: #d97706; background: #fff7ed; }
 .real { border-color: #b45309; background: #fffbeb; }
+.teaching-note {
+  border: 1px solid #c7d8e7;
+  border-left: 4px solid #0f766e;
+  border-radius: 10px;
+  background: #f5fbf8;
+  padding: 12px 14px;
+  margin: 12px 0 14px 0;
+}
+.teaching-note h3 {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+  color: #0f5c55;
+}
+.teaching-note p {
+  margin: 0 0 6px 0;
+  line-height: 1.55;
+}
+.teaching-note p:last-child { margin-bottom: 0; }
 #nav { display: flex; justify-content: space-between; margin-top: 12px; gap: 10px; }
 #nav .next { background: var(--accent); color: #fff; border-color: var(--accent); }
 #nav .prev { background: #64748b; color: #fff; border-color: #64748b; }
@@ -536,12 +554,53 @@ function renderRetryMode() {
   }
 }
 
+function stripLeadingHeading(content) {
+  if (!content) return '';
+  return content.replace(/^\s*<h2[^>]*>[\s\S]*?<\/h2>\s*/i, '');
+}
+
+function focusHintForTitle(title) {
+  const t = String(title || '').toLowerCase();
+  if (/(debug|troubleshoot|incident|rollback|drift|failure)/.test(t)) {
+    return 'Use this as an incident playbook: capture symptoms, isolate the dependency edge, and verify a safe rollback path.';
+  }
+  if (/(security|iam|kms|secret|policy|hardening|access)/.test(t)) {
+    return 'Read every control through least-privilege intent, then verify trust boundaries, encryption scope, and audit visibility.';
+  }
+  if (/(state|plan|lifecycle|replace|upgrade|migration|refactor)/.test(t)) {
+    return 'Pay attention to plan semantics and state transitions so replacements happen intentionally and with controlled blast radius.';
+  }
+  if (/(terragrunt|module|wrapper|dependency|workspace|multi-account)/.test(t)) {
+    return 'Treat this as a composition lesson: module contract quality and dependency ordering determine team scalability.';
+  }
+  if (/(vpc|subnet|route|nat|endpoint|security group|network|ecs|eks|ec2)/.test(t)) {
+    return 'Map this to runtime traffic flow so you can explain what reaches what, over which boundary, and under which policy.';
+  }
+  return 'Translate the slide into a repeatable checklist that can be reused in review, CI gating, and production operations.';
+}
+
+function buildTeachingNote(slide) {
+  const moduleName = MODULE_LABELS[slide.moduleId] || 'Module';
+  const focusHint = focusHintForTitle(slide.title);
+  return `
+    <div class="teaching-note">
+      <h3>Teaching Notes</h3>
+      <p>This slide explains <strong>${esc(slide.title)}</strong> inside <strong>${esc(moduleName)}</strong> and why the concept matters in real delivery.</p>
+      <p>Start with the diagram/table/code block to identify the control surface: inputs, dependencies, and the expected output contract.</p>
+      <p>${esc(focusHint)}</p>
+      <p>When reviewing this topic in team discussions, call out both the happy path and one high-risk failure mode to improve decision quality.</p>
+      <p>Before moving on, summarize one rule you would enforce in CI or peer review to keep this behavior stable over time.</p>
+    </div>
+  `;
+}
+
 function renderSlide() {
   const slide = SLIDES[currentSlide];
   if (!slide) return;
   if (slide.quiz) renderQuizSlide(slide.moduleId);
   else {
-    els.slide.innerHTML = `<h1>${esc(slide.title)}</h1>${slide.content}`;
+    const content = stripLeadingHeading(slide.content || '');
+    els.slide.innerHTML = `<h1>${esc(slide.title)}</h1>${buildTeachingNote(slide)}${content}`;
   }
 }
 
