@@ -505,5 +505,27 @@
     "timePerQuestion": 120,
     "maxTimeToFinish": 7200,
     "articleFile": "articles/essential-slick.html"
+  },
+  {
+    "id": "terraform-iac-workshop",
+    "title": "Terraform IaC Workshop - Production Architecture Deep Dive",
+    "description": "Interactive workshop covering Terraform graph model, Terragrunt hierarchy, gRPC and SQL delivery concerns, IAM hardening, and operational runbooks.",
+    "category": "Infrastructure as Code",
+    "difficulty": "Advanced",
+    "estimatedTime": "70-110 minutes",
+    "questionsFile": "data/json/infrastructure/terraform-iac-workshop-questions.json",
+    "icon": "\ud83e\uddf1",
+    "color": "#2563eb",
+    "timePerQuestion": 120,
+    "maxTimeToFinish": 8400,
+    "articleFile": "articles/terraform-iac-workshop.html",
+    "tags": [
+      "terraform",
+      "terragrunt",
+      "iac",
+      "grpc",
+      "sql",
+      "aws"
+    ]
   }
 ]

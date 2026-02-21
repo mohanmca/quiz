@@ -1,0 +1,282 @@
+[
+  {
+    "type": "radiogroup",
+    "name": "q0_1",
+    "title": "What is the core advantage of Terraform's declarative model over imperative scripts?",
+    "choices": [
+      "You define desired state, and Terraform computes the execution plan",
+      "You must manually code API call order for every dependency",
+      "It only works for AWS and cannot target other providers",
+      "It removes the need for state tracking"
+    ],
+    "correctAnswer": "You define desired state, and Terraform computes the execution plan",
+    "explanation": "Terraform compares configuration to state and builds a dependency graph, so you specify end state instead of procedural steps.",
+    "module": "IaC Foundations"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q0_2",
+    "title": "Which file tracks resource bindings between real infrastructure and configuration?",
+    "choices": [
+      "terraform.tfstate",
+      "terraform.lock.hcl",
+      "providers.tf",
+      "outputs.tf"
+    ],
+    "correctAnswer": "terraform.tfstate",
+    "explanation": "State keeps IDs and attributes of provisioned resources and allows Terraform to diff desired versus actual.",
+    "module": "IaC Foundations"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q0_3",
+    "title": "Which backend feature prevents concurrent state corruption in team workflows?",
+    "choices": [
+      "State locking via DynamoDB (or equivalent lock mechanism)",
+      "terraform fmt formatting",
+      "Provider version pinning",
+      "Output value redaction"
+    ],
+    "correctAnswer": "State locking via DynamoDB (or equivalent lock mechanism)",
+    "explanation": "Remote backends with lock support prevent multiple applies from mutating the same state simultaneously.",
+    "module": "IaC Foundations"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q0_4",
+    "title": "In Terraform, what is the purpose of a module block?",
+    "choices": [
+      "Reuse grouped infrastructure definitions with inputs and outputs",
+      "Store secrets directly in state for fast access",
+      "Replace provider authentication settings",
+      "Disable dependency graph evaluation"
+    ],
+    "correctAnswer": "Reuse grouped infrastructure definitions with inputs and outputs",
+    "explanation": "Modules package reusable infrastructure and expose variables and outputs for composition across environments.",
+    "module": "IaC Foundations"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q0_5",
+    "title": "What does terraform plan primarily provide?",
+    "choices": [
+      "A preview of proposed infrastructure changes before apply",
+      "Automatic rollback of failed resources",
+      "A lock-free apply operation",
+      "Permanent drift remediation"
+    ],
+    "correctAnswer": "A preview of proposed infrastructure changes before apply",
+    "explanation": "plan is a dry-run diff showing creates, updates, and destroys before any actual API calls occur.",
+    "module": "IaC Foundations"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q1_1",
+    "title": "Which meta-argument is best when resources should be keyed by stable names rather than index positions?",
+    "choices": [
+      "for_each",
+      "count",
+      "depends_on",
+      "lifecycle"
+    ],
+    "correctAnswer": "for_each",
+    "explanation": "for_each tracks instances by keys and avoids index-shift churn common with count.",
+    "module": "Terraform Core and Platform APIs"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q1_2",
+    "title": "For gRPC workloads behind AWS load balancing, which listener protocol is typically required?",
+    "choices": [
+      "HTTP/2",
+      "FTP",
+      "SMTP",
+      "SNMP"
+    ],
+    "correctAnswer": "HTTP/2",
+    "explanation": "gRPC requires HTTP/2 semantics; ALB or NLB configuration must preserve that protocol behavior.",
+    "module": "Terraform Core and Platform APIs"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q1_3",
+    "title": "In an RDS-focused Terraform module, which resource class usually provisions PostgreSQL instances?",
+    "choices": [
+      "aws_db_instance",
+      "aws_s3_bucket",
+      "aws_iam_role",
+      "aws_appautoscaling_target"
+    ],
+    "correctAnswer": "aws_db_instance",
+    "explanation": "aws_db_instance creates managed relational databases such as PostgreSQL on AWS RDS.",
+    "module": "Terraform Core and Platform APIs"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q1_4",
+    "title": "Why should SQL migrations run after infrastructure apply but before app traffic cutover?",
+    "choices": [
+      "To ensure schema compatibility before new service versions receive production requests",
+      "Because Terraform can execute arbitrary SQL in provider blocks",
+      "To avoid creating subnet groups",
+      "Because RDS requires manual key rotation first"
+    ],
+    "correctAnswer": "To ensure schema compatibility before new service versions receive production requests",
+    "explanation": "Deployment pipelines commonly separate infra provisioning from schema evolution, then switch traffic once both are valid.",
+    "module": "Terraform Core and Platform APIs"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q1_5",
+    "title": "If gh pr list returns an empty array for a repo, what is the correct interpretation?",
+    "choices": [
+      "No pull requests are visible in the current repo context for that query",
+      "Terraform state is corrupted",
+      "The AWS provider version is incompatible",
+      "Your local HCL syntax is invalid"
+    ],
+    "correctAnswer": "No pull requests are visible in the current repo context for that query",
+    "explanation": "An empty PR list means no matching PRs are available to the current repository and auth context.",
+    "module": "Terraform Core and Platform APIs"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2_1",
+    "title": "Which Terragrunt function helps inherit root-level settings across many environments?",
+    "choices": [
+      "find_in_parent_folders()",
+      "cidrsubnet()",
+      "coalesce()",
+      "base64decode()"
+    ],
+    "correctAnswer": "find_in_parent_folders()",
+    "explanation": "find_in_parent_folders locates parent terragrunt.hcl files for shared configuration.",
+    "module": "Terragrunt and Multi-Account Delivery"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2_2",
+    "title": "What Terragrunt block expresses cross-stack output consumption?",
+    "choices": [
+      "dependency",
+      "locals",
+      "terraform",
+      "inputs"
+    ],
+    "correctAnswer": "dependency",
+    "explanation": "dependency blocks read outputs from upstream stacks and make them available to downstream inputs.",
+    "module": "Terragrunt and Multi-Account Delivery"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2_3",
+    "title": "When validating plans in CI before dependencies exist, what Terragrunt feature is commonly used?",
+    "choices": [
+      "mock_outputs",
+      "retryable_errors",
+      "include_in_copy",
+      "prevent_destroy"
+    ],
+    "correctAnswer": "mock_outputs",
+    "explanation": "mock_outputs allow downstream modules to plan without requiring all upstream resources to be created first.",
+    "module": "Terragrunt and Multi-Account Delivery"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2_4",
+    "title": "Which naming trait is most reliable for environment isolation in multi-account IaC?",
+    "choices": [
+      "Environment and account-scoped paths such as env/prod/us-east-1/service",
+      "One global folder with manual comments",
+      "Random directory names per engineer",
+      "Keeping all states local only"
+    ],
+    "correctAnswer": "Environment and account-scoped paths such as env/prod/us-east-1/service",
+    "explanation": "Explicit hierarchical naming by environment, account, region, and service reduces ambiguity and supports automation.",
+    "module": "Terragrunt and Multi-Account Delivery"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q2_5",
+    "title": "Which command pattern applies all stacks in dependency order from Terragrunt?",
+    "choices": [
+      "terragrunt run-all apply",
+      "terraform graph apply",
+      "terragrunt output --all",
+      "terraform import --parallel"
+    ],
+    "correctAnswer": "terragrunt run-all apply",
+    "explanation": "run-all executes multiple modules with Terragrunt dependency graph ordering.",
+    "module": "Terragrunt and Multi-Account Delivery"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3_1",
+    "title": "What is the safest default for IAM policy scope in Terraform modules?",
+    "choices": [
+      "Least privilege with explicit actions and resources",
+      "Wildcard actions on all resources",
+      "AdministratorAccess on every role",
+      "No policy version declaration"
+    ],
+    "correctAnswer": "Least privilege with explicit actions and resources",
+    "explanation": "Least privilege reduces blast radius and is a baseline security control for production infrastructure.",
+    "module": "Operations, Security, and Testing"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3_2",
+    "title": "Which CI step catches infrastructure drift or policy regressions before merge?",
+    "choices": [
+      "Automated terraform plan plus policy checks (for example tflint and checkov)",
+      "Only terraform fmt",
+      "Only unit tests in application code",
+      "Manual console validation once a quarter"
+    ],
+    "correctAnswer": "Automated terraform plan plus policy checks (for example tflint and checkov)",
+    "explanation": "Plan and policy checks in CI provide fast feedback on drift, misconfiguration, and unsafe changes.",
+    "module": "Operations, Security, and Testing"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3_3",
+    "title": "Why run Terraform in ephemeral CI workers rather than shared mutable hosts?",
+    "choices": [
+      "To improve reproducibility and reduce hidden local-state side effects",
+      "To avoid using backend state",
+      "To disable provider plugins",
+      "To skip lock handling"
+    ],
+    "correctAnswer": "To improve reproducibility and reduce hidden local-state side effects",
+    "explanation": "Ephemeral runners reduce contamination from previous runs and improve deterministic automation.",
+    "module": "Operations, Security, and Testing"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3_4",
+    "title": "What is the primary reason to maintain a rollback strategy for IaC releases?",
+    "choices": [
+      "To rapidly recover when applies introduce availability or security regressions",
+      "Because Terraform cannot destroy resources",
+      "To avoid storing module versions",
+      "To replace monitoring systems"
+    ],
+    "correctAnswer": "To rapidly recover when applies introduce availability or security regressions",
+    "explanation": "Rollback procedures limit downtime and operational risk when production changes fail.",
+    "module": "Operations, Security, and Testing"
+  },
+  {
+    "type": "radiogroup",
+    "name": "q3_5",
+    "title": "Which practice best validates module behavior before production applies?",
+    "choices": [
+      "Layered testing: fmt or validate, static checks, plan review, and staged apply",
+      "Applying directly to production for faster feedback",
+      "Skipping variable validation",
+      "Committing state files to git for traceability"
+    ],
+    "correctAnswer": "Layered testing: fmt or validate, static checks, plan review, and staged apply",
+    "explanation": "A layered testing pipeline catches issues early and protects production environments.",
+    "module": "Operations, Security, and Testing"
+  }
+]

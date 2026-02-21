@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terraform IaC Workshop - Production Architecture Deep Dive</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --fg: #1a1a2e;
+      --muted: #64748b;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --panel: #ffffff;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    #progress-bar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+      transition: width 0.2s ease;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 14px 24px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 14px;
+      z-index: 120;
+    }
+    #header .left { font-weight: 700; }
+    #header .center { color: var(--muted); font-size: 14px; }
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fff;
+      color: var(--fg);
+    }
+    button:hover { border-color: var(--primary); }
+    #nav {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    #nav .next { background: #2563eb; color: #fff; border-color: #2563eb; }
+    #nav .prev { background: #f1f5f9; }
+    #slide {
+      margin-top: 12px;
+      background: var(--panel);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+    }
+    #slide h1, #slide h2, #slide h3 { color: #0f172a; }
+    #slide p, #slide li { line-height: 1.65; }
+    #slide code,
+    #slide pre,
+    .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px;
+      overflow-x: auto;
+      white-space: pre;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 14px;
+    }
+    #slide th, #slide td {
+      border: 1px solid #dbe2eb;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    #slide tr:hover { background: #f8fbff; }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 14px;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.45;
+      font-size: 12px;
+    }
+    .note, .tip, .warn, .real {
+      padding: 10px 12px;
+      border-radius: 6px;
+      margin: 12px 0;
+    }
+    .note { border-left: 4px solid #2563eb; background: #eff6ff; }
+    .tip { border-left: 4px solid #22c55e; background: #f0fdf4; }
+    .warn { border-left: 4px solid #eab308; background: #fefce8; }
+    .real { border-left: 4px solid #7c3aed; background: #faf5ff; }
+    .quiz-container { max-width: 700px; margin: 12px auto; }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      display: block;
+      margin: 8px 0;
+      border: 2px solid #e2e8f0;
+      background: #fff;
+      transition: 0.15s ease;
+    }
+    .quiz-opt:hover { border-color: #2563eb; }
+    .quiz-opt.correct { border-color: #16a34a; background: #f0fdf4; }
+    .quiz-opt.wrong { border-color: #dc2626; background: #fef2f2; }
+    .quiz-opt.disabled { pointer-events: none; opacity: 0.7; }
+    .quiz-feedback {
+      display: none;
+      margin-top: 12px;
+      border-radius: 8px;
+      padding: 10px 12px;
+      border: 1px solid transparent;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass { background: #dcfce7; border-color: #86efac; color: #14532d; }
+    .quiz-feedback.fail { background: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100%;
+      background: #fff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      overflow-y: auto;
+      padding: 18px 14px;
+    }
+    #toc.open { left: 0; }
+    #toc h2 { margin-top: 0; }
+    .toc-group { margin-bottom: 12px; }
+    .toc-head {
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .toc-item {
+      display: block;
+      width: 100%;
+      margin: 4px 0;
+      font-size: 13px;
+      text-align: left;
+      background: #fff;
+    }
+    .toc-item.active {
+      border-color: #2563eb;
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+    #toc-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      z-index: 200;
+      display: none;
+    }
+    #toc-overlay.open { display: block; }
+    .kbd {
+      display: inline-block;
+      border: 1px solid #cbd5e1;
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      background: #fff;
+      font-size: 12px;
+      padding: 2px 6px;
+      margin: 0 2px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header { flex-wrap: wrap; }
+      #header .right { width: 100%; justify-content: flex-end; }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: 1px solid #ddd; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC()"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {
+      "title": "Terraform IaC Workshop - Production Architecture Deep Dive",
+      "version": "1.0",
+      "totalQuestions": 20,
+      "modules": [
+        {
+          "id": 0,
+          "name": "IaC Foundations",
+          "questions": [
+            {
+              "id": "q0_1",
+              "question": "What is the core advantage of Terraform's declarative model over imperative scripts?",
+              "options": [
+                "You define desired state, and Terraform computes the execution plan",
+                "You must manually code API call order for every dependency",
+                "It only works for AWS and cannot target other providers",
+                "It removes the need for state tracking"
+              ],
+              "answer": 0,
+              "explanation": "Terraform compares configuration to state and builds a dependency graph, so you specify end state instead of procedural steps."
+            },
+            {
+              "id": "q0_2",
+              "question": "Which file tracks resource bindings between real infrastructure and configuration?",
+              "options": [
+                "terraform.tfstate",
+                "terraform.lock.hcl",
+                "providers.tf",
+                "outputs.tf"
+              ],
+              "answer": 0,
+              "explanation": "State keeps IDs and attributes of provisioned resources and allows Terraform to diff desired versus actual."
+            },
+            {
+              "id": "q0_3",
+              "question": "Which backend feature prevents concurrent state corruption in team workflows?",
+              "options": [
+                "State locking via DynamoDB (or equivalent lock mechanism)",
+                "terraform fmt formatting",
+                "Provider version pinning",
+                "Output value redaction"
+              ],
+              "answer": 0,
+              "explanation": "Remote backends with lock support prevent multiple applies from mutating the same state simultaneously."
+            },
+            {
+              "id": "q0_4",
+              "question": "In Terraform, what is the purpose of a module block?",
+              "options": [
+                "Reuse grouped infrastructure definitions with inputs and outputs",
+                "Store secrets directly in state for fast access",
+                "Replace provider authentication settings",
+                "Disable dependency graph evaluation"
+              ],
+              "answer": 0,
+              "explanation": "Modules package reusable infrastructure and expose variables and outputs for composition across environments."
+            },
+            {
+              "id": "q0_5",
+              "question": "What does terraform plan primarily provide?",
+              "options": [
+                "A preview of proposed infrastructure changes before apply",
+                "Automatic rollback of failed resources",
+                "A lock-free apply operation",
+                "Permanent drift remediation"
+              ],
+              "answer": 0,
+              "explanation": "plan is a dry-run diff showing creates, updates, and destroys before any actual API calls occur."
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "name": "Terraform Core and Platform APIs",
+          "questions": [
+            {
+              "id": "q1_1",
+              "question": "Which meta-argument is best when resources should be keyed by stable names rather than index positions?",
+              "options": [
+                "for_each",
+                "count",
+                "depends_on",
+                "lifecycle"
+              ],
+              "answer": 0,
+              "explanation": "for_each tracks instances by keys and avoids index-shift churn common with count."
+            },
+            {
+              "id": "q1_2",
+              "question": "For gRPC workloads behind AWS load balancing, which listener protocol is typically required?",
+              "options": [
+                "HTTP/2",
+                "FTP",
+                "SMTP",
+                "SNMP"
+              ],
+              "answer": 0,
+              "explanation": "gRPC requires HTTP/2 semantics; ALB or NLB configuration must preserve that protocol behavior."
+            },
+            {
+              "id": "q1_3",
+              "question": "In an RDS-focused Terraform module, which resource class usually provisions PostgreSQL instances?",
+              "options": [
+                "aws_db_instance",
+                "aws_s3_bucket",
+                "aws_iam_role",
+                "aws_appautoscaling_target"
+              ],
+              "answer": 0,
+              "explanation": "aws_db_instance creates managed relational databases such as PostgreSQL on AWS RDS."
+            },
+            {
+              "id": "q1_4",
+              "question": "Why should SQL migrations run after infrastructure apply but before app traffic cutover?",
+              "options": [
+                "To ensure schema compatibility before new service versions receive production requests",
+                "Because Terraform can execute arbitrary SQL in provider blocks",
+                "To avoid creating subnet groups",
+                "Because RDS requires manual key rotation first"
+              ],
+              "answer": 0,
+              "explanation": "Deployment pipelines commonly separate infra provisioning from schema evolution, then switch traffic once both are valid."
+            },
+            {
+              "id": "q1_5",
+              "question": "If gh pr list returns an empty array for a repo, what is the correct interpretation?",
+              "options": [
+                "No pull requests are visible in the current repo context for that query",
+                "Terraform state is corrupted",
+                "The AWS provider version is incompatible",
+                "Your local HCL syntax is invalid"
+              ],
+              "answer": 0,
+              "explanation": "An empty PR list means no matching PRs are available to the current repository and auth context."
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Terragrunt and Multi-Account Delivery",
+          "questions": [
+            {
+              "id": "q2_1",
+              "question": "Which Terragrunt function helps inherit root-level settings across many environments?",
+              "options": [
+                "find_in_parent_folders()",
+                "cidrsubnet()",
+                "coalesce()",
+                "base64decode()"
+              ],
+              "answer": 0,
+              "explanation": "find_in_parent_folders locates parent terragrunt.hcl files for shared configuration."
+            },
+            {
+              "id": "q2_2",
+              "question": "What Terragrunt block expresses cross-stack output consumption?",
+              "options": [
+                "dependency",
+                "locals",
+                "terraform",
+                "inputs"
+              ],
+              "answer": 0,
+              "explanation": "dependency blocks read outputs from upstream stacks and make them available to downstream inputs."
+            },
+            {
+              "id": "q2_3",
+              "question": "When validating plans in CI before dependencies exist, what Terragrunt feature is commonly used?",
+              "options": [
+                "mock_outputs",
+                "retryable_errors",
+                "include_in_copy",
+                "prevent_destroy"
+              ],
+              "answer": 0,
+              "explanation": "mock_outputs allow downstream modules to plan without requiring all upstream resources to be created first."
+            },
+            {
+              "id": "q2_4",
+              "question": "Which naming trait is most reliable for environment isolation in multi-account IaC?",
+              "options": [
+                "Environment and account-scoped paths such as env/prod/us-east-1/service",
+                "One global folder with manual comments",
+                "Random directory names per engineer",
+                "Keeping all states local only"
+              ],
+              "answer": 0,
+              "explanation": "Explicit hierarchical naming by environment, account, region, and service reduces ambiguity and supports automation."
+            },
+            {
+              "id": "q2_5",
+              "question": "Which command pattern applies all stacks in dependency order from Terragrunt?",
+              "options": [
+                "terragrunt run-all apply",
+                "terraform graph apply",
+                "terragrunt output --all",
+                "terraform import --parallel"
+              ],
+              "answer": 0,
+              "explanation": "run-all executes multiple modules with Terragrunt dependency graph ordering."
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "name": "Operations, Security, and Testing",
+          "questions": [
+            {
+              "id": "q3_1",
+              "question": "What is the safest default for IAM policy scope in Terraform modules?",
+              "options": [
+                "Least privilege with explicit actions and resources",
+                "Wildcard actions on all resources",
+                "AdministratorAccess on every role",
+                "No policy version declaration"
+              ],
+              "answer": 0,
+              "explanation": "Least privilege reduces blast radius and is a baseline security control for production infrastructure."
+            },
+            {
+              "id": "q3_2",
+              "question": "Which CI step catches infrastructure drift or policy regressions before merge?",
+              "options": [
+                "Automated terraform plan plus policy checks (for example tflint and checkov)",
+                "Only terraform fmt",
+                "Only unit tests in application code",
+                "Manual console validation once a quarter"
+              ],
+              "answer": 0,
+              "explanation": "Plan and policy checks in CI provide fast feedback on drift, misconfiguration, and unsafe changes."
+            },
+            {
+              "id": "q3_3",
+              "question": "Why run Terraform in ephemeral CI workers rather than shared mutable hosts?",
+              "options": [
+                "To improve reproducibility and reduce hidden local-state side effects",
+                "To avoid using backend state",
+                "To disable provider plugins",
+                "To skip lock handling"
+              ],
+              "answer": 0,
+              "explanation": "Ephemeral runners reduce contamination from previous runs and improve deterministic automation."
+            },
+            {
+              "id": "q3_4",
+              "question": "What is the primary reason to maintain a rollback strategy for IaC releases?",
+              "options": [
+                "To rapidly recover when applies introduce availability or security regressions",
+                "Because Terraform cannot destroy resources",
+                "To avoid storing module versions",
+                "To replace monitoring systems"
+              ],
+              "answer": 0,
+              "explanation": "Rollback procedures limit downtime and operational risk when production changes fail."
+            },
+            {
+              "id": "q3_5",
+              "question": "Which practice best validates module behavior before production applies?",
+              "options": [
+                "Layered testing: fmt or validate, static checks, plan review, and staged apply",
+                "Applying directly to production for faster feedback",
+                "Skipping variable validation",
+                "Committing state files to git for traceability"
+              ],
+              "answer": 0,
+              "explanation": "A layered testing pipeline catches issues early and protects production environments."
+            }
+          ]
+        }
+      ]
+    };
+
+    const MODULE_NAMES = [
+      "M0: IaC Foundations",
+      "M1: Terraform Core and Platform APIs",
+      "M2: Terragrunt and Multi-Account Delivery",
+      "M3: Operations, Security, and Testing"
+    ];
+
+    const SLIDES = [
+      {
+        m: 0,
+        t: "Welcome to Terraform IaC Workshop",
+        c: `
+          <h1>Terraform IaC Workshop</h1>
+          <p>Architecture deep-dive with interactive module quizzes and retry flow.</p>
+          <table>
+            <tr><th>Shortcut</th><th>Action</th></tr>
+            <tr><td><span class="kbd">Space</span> / <span class="kbd">&rarr;</span></td><td>Next slide</td></tr>
+            <tr><td><span class="kbd">Shift</span> + <span class="kbd">Space</span> / <span class="kbd">&larr;</span></td><td>Previous slide</td></tr>
+            <tr><td><span class="kbd">T</span></td><td>Open/close TOC</td></tr>
+            <tr><td><span class="kbd">R</span></td><td>Retry all failed quiz questions</td></tr>
+            <tr><td><span class="kbd">Home</span> / <span class="kbd">End</span></td><td>Jump to first/last slide</td></tr>
+          </table>
+          <div class="note"><strong>Coverage:</strong> Terraform core, Terragrunt hierarchy, gRPC-ready infra, SQL delivery workflow, IAM, CI validation, and rollback strategy.</div>
+          <div class="diagram">┌─────────────────┐   ┌───────────────────┐   ┌──────────────────────┐
+│ Terraform HCL  │──▶│ Terragrunt Layout │──▶│ Multi-Account Apply  │
+└─────────────────┘   └───────────────────┘   └──────────────────────┘
+           │                        │                        │
+           ▼                        ▼                        ▼
+   Providers and APIs        Dependencies and DRY   Security, CI, Rollback</div>
+        `
+      },
+      {
+        m: 0,
+        t: "IaC Mental Model",
+        c: `
+          <h2>Declarative IaC Mental Model</h2>
+          <p>Infrastructure is represented as desired state. Terraform builds a dependency graph and computes transitions.</p>
+          <table>
+            <tr><th>Approach</th><th>You Write</th><th>Tool Does</th><th>Risk</th></tr>
+            <tr><td>Imperative script</td><td>Ordered API calls</td><td>Minimal planning</td><td>Order and idempotency mistakes</td></tr>
+            <tr><td>Declarative Terraform</td><td>Desired resources</td><td>Graph, diff, and plan</td><td>State and drift discipline needed</td></tr>
+          </table>
+          <div class="tip"><strong>Tip:</strong> Use <code>terraform plan</code> in CI to review graph effects before apply.</div>
+          <div class="warn"><strong>Caution:</strong> State drift outside Terraform can create misleading plans unless drift detection is enforced.</div>
+        `
+      },
+      {
+        m: 0,
+        t: "HCL Building Blocks",
+        c: `
+          <h2>HCL Building Blocks and Traits</h2>
+          <p>The most important block names (class-like traits) are <code>resource</code>, <code>data</code>, <code>module</code>, <code>variable</code>, and <code>output</code>.</p>
+          <pre>terraform {
+  required_version = "&gt;= 1.6.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~&gt; 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+module "network" {
+  source = "./modules/network"
+  cidr   = var.vpc_cidr
+}
+
+resource "aws_security_group" "grpc_ingress" {
+  name   = "svc-grpc-ingress"
+  vpc_id = module.network.vpc_id
+}
+
+output "grpc_sg_id" {
+  value = aws_security_group.grpc_ingress.id
+}</pre>
+          <div class="real"><strong>Real production example:</strong> Teams keep block naming consistent across repos so plan diff review is fast and low-risk.</div>
+        `
+      },
+      {
+        m: 0,
+        t: "State and Locking",
+        c: `
+          <h2>State, Backend, and Locking</h2>
+          <p>Remote state with locking is mandatory for concurrent team delivery.</p>
+          <pre>terraform {
+  backend "s3" {
+    bucket         = "platform-tfstate-prod"
+    key            = "payments/prod/us-east-1/network/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "platform-tf-locks"
+    encrypt        = true
+  }
+}</pre>
+          <div class="diagram">Developer A          CI Runner           Backend (S3 + DynamoDB)
+    │                    │                       │
+    │ terraform apply    │                       │
+    ├───────────────────▶│ acquire lock          │
+    │                    ├──────────────────────▶│ lock key
+    │                    │ plan/apply            │
+    │                    ├──────────────────────▶│ update state
+    │                    │ release lock          │
+    │                    └──────────────────────▶│ unlock</div>
+          <div class="warn"><strong>Caution:</strong> Never commit <code>terraform.tfstate</code> into git.</div>
+        `
+      },
+      {
+        m: 0,
+        t: "Module 0 Summary",
+        c: `
+          <h2>Module 0 Summary</h2>
+          <ul>
+            <li>Declarative model: desired state + graph-driven execution.</li>
+            <li>State file maps configuration to real resource identities.</li>
+            <li>Remote backend + lock table protects concurrent applies.</li>
+            <li>Consistent block naming traits reduce review mistakes.</li>
+          </ul>
+          <div class="note">Next: Terraform graph behaviors, major cloud APIs, gRPC routing, and SQL migration lifecycle.</div>
+        `
+      },
+      { m: 0, t: "Quiz: IaC Foundations", q: true },
+      {
+        m: 1,
+        t: "Terraform Graph and Meta-Arguments",
+        c: `
+          <h2>Graph and Meta-Arguments</h2>
+          <p>Terraform creates an execution graph where references and explicit dependencies define order.</p>
+          <table>
+            <tr><th>Meta-Argument</th><th>Use Case</th><th>Tradeoff</th></tr>
+            <tr><td><code>for_each</code></td><td>Stable key-based instances</td><td>Needs deterministic key set</td></tr>
+            <tr><td><code>count</code></td><td>Simple repeated instances</td><td>Index churn on list changes</td></tr>
+            <tr><td><code>depends_on</code></td><td>Explicit edge in graph</td><td>Can over-constrain concurrency</td></tr>
+            <tr><td><code>lifecycle</code></td><td>Protect or customize replacement</td><td>Can mask required destructive changes</td></tr>
+          </table>
+          <div class="tip"><strong>Tip:</strong> Prefer <code>for_each</code> when instance identity matters across updates.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "Major Platform APIs in IaC",
+        c: `
+          <h2>Major APIs Terraform Automates</h2>
+          <p>Terraform providers convert HCL to cloud API calls. Understanding target API families helps debugging.</p>
+          <table>
+            <tr><th>Domain</th><th>Representative Resource</th><th>API Family</th><th>Failure Mode</th></tr>
+            <tr><td>Networking</td><td><code>aws_vpc</code>, <code>aws_subnet</code></td><td>EC2 VPC API</td><td>CIDR overlap, quota</td></tr>
+            <tr><td>Identity</td><td><code>aws_iam_role</code>, <code>aws_iam_policy</code></td><td>IAM API</td><td>Denied actions, trust mismatch</td></tr>
+            <tr><td>Compute</td><td><code>aws_ecs_service</code>, <code>aws_eks_cluster</code></td><td>ECS/EKS API</td><td>Capacity and subnet mismatch</td></tr>
+            <tr><td>Database</td><td><code>aws_db_instance</code></td><td>RDS API</td><td>Parameter group incompatibility</td></tr>
+          </table>
+          <div class="real"><strong>Real production example:</strong> Keep resource names aligned with API domain ownership to reduce incident triage time.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "gRPC Infrastructure Topology",
+        c: `
+          <h2>gRPC Service Topology on AWS</h2>
+          <p>gRPC traffic requires HTTP/2-capable listeners and compatible health checks.</p>
+          <div class="diagram">┌──────────────┐    ┌──────────────┐    ┌────────────────┐
+│ API Gateway  │───▶│ ALB (HTTP/2) │───▶│ ECS gRPC Service│
+└──────────────┘    └──────┬───────┘    └────────┬───────┘
+                            │                      │
+                            ▼                      ▼
+                      CloudWatch Logs         RDS PostgreSQL
+                                                  ▲
+                                                  │
+                                           Flyway/Liquibase Job</div>
+          <pre>resource "aws_lb_listener" "grpc" {
+  load_balancer_arn = aws_lb.public.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = var.certificate_arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.grpc.arn
+  }
+}</pre>
+          <div class="note"><strong>Note:</strong> Validate target group protocol configuration for gRPC semantics before cutover.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "SQL Migration Lifecycle",
+        c: `
+          <h2>SQL in Infrastructure Delivery</h2>
+          <p>Terraform provisions database infrastructure; migration tooling evolves schema safely.</p>
+          <table>
+            <tr><th>Stage</th><th>Owner</th><th>Action</th></tr>
+            <tr><td>Provision</td><td>Terraform</td><td>Create RDS instance, subnet group, security groups</td></tr>
+            <tr><td>Migrate</td><td>Release pipeline</td><td>Run versioned SQL scripts</td></tr>
+            <tr><td>Validate</td><td>Service health checks</td><td>Check schema compatibility and latency</td></tr>
+            <tr><td>Cutover</td><td>Traffic router</td><td>Shift production requests</td></tr>
+          </table>
+          <pre>-- Example migration
+ALTER TABLE account_balance
+  ADD COLUMN last_reconciled_at TIMESTAMPTZ;
+
+CREATE INDEX CONCURRENTLY idx_account_balance_last_reconciled_at
+  ON account_balance(last_reconciled_at);</pre>
+          <div class="warn"><strong>Caution:</strong> Avoid large blocking DDL during peak traffic windows.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "Pipeline Utility (Python)",
+        c: `
+          <h2>Python Helper for Plan Matrix</h2>
+          <p>Companion utilities can generate apply matrices by account, region, and module for CI jobs.</p>
+          <pre>from itertools import product
+
+accounts = ["dev", "staging", "prod"]
+regions = ["us-east-1", "eu-west-1"]
+stacks = ["network", "compute", "data"]
+
+for account, region, stack in product(accounts, regions, stacks):
+    path = f"env/{account}/{region}/{stack}"
+    print(f"terragrunt run-all plan --terragrunt-working-dir {path}")</pre>
+          <div class="tip"><strong>Tip:</strong> Keep matrix generation deterministic so reruns preserve ordering and logs.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "PR Timeline Scan",
+        c: `
+          <h2>PR Timeline Snapshot</h2>
+          <p>PR scan executed via CLI for this repository context on <strong>February 21, 2026</strong>.</p>
+          <pre>gh pr list --state all --limit 20 --json number,title,createdAt,updatedAt,state,url,mergedAt,closedAt
+[]</pre>
+          <table>
+            <tr><th>Observation</th><th>Result</th></tr>
+            <tr><td>Open PRs</td><td>0 visible in current repo context</td></tr>
+            <tr><td>Merged PR timeline</td><td>No records returned for this query</td></tr>
+            <tr><td>Action</td><td>Use repo with active PR history when building release timeline slides</td></tr>
+          </table>
+          <div class="real"><strong>Real production example:</strong> Teams map PR merge time to apply window and incident timeline to improve change failure analysis.</div>
+        `
+      },
+      {
+        m: 1,
+        t: "Module 1 Summary",
+        c: `
+          <h2>Module 1 Summary</h2>
+          <ul>
+            <li>Graph-driven behavior comes from references and meta-arguments.</li>
+            <li>Provider resources map directly to major cloud API domains.</li>
+            <li>gRPC paths need explicit HTTP/2-aware infra decisions.</li>
+            <li>SQL migrations belong in the release pipeline, not Terraform resource bodies.</li>
+          </ul>
+        `
+      },
+      { m: 1, t: "Quiz: Terraform Core and Platform APIs", q: true },
+      {
+        m: 2,
+        t: "Terragrunt Hierarchy",
+        c: `
+          <h2>Why Terragrunt for Scale</h2>
+          <p>Terragrunt reduces duplication and centralizes environment-level defaults.</p>
+          <div class="diagram">live/
+├── terragrunt.hcl            # root settings
+├── env/
+│   ├── dev/us-east-1/network/terragrunt.hcl
+│   ├── dev/us-east-1/compute/terragrunt.hcl
+│   └── prod/us-east-1/data/terragrunt.hcl
+└── modules/
+    ├── network
+    ├── compute
+    └── data</div>
+          <div class="note"><strong>Trait naming:</strong> <code>include</code>, <code>locals</code>, <code>dependency</code>, and <code>inputs</code> should remain consistent across stacks.</div>
+        `
+      },
+      {
+        m: 2,
+        t: "include, dependency, and mock_outputs",
+        c: `
+          <h2>Key Terragrunt Blocks</h2>
+          <pre>include "root" {
+  path = find_in_parent_folders()
+}
+
+dependency "network" {
+  config_path = "../network"
+  mock_outputs = {
+    vpc_id = "vpc-000000"
+  }
+}
+
+terraform {
+  source = "git::ssh://git@github.com/company/iac-modules.git//service?ref=v1.14.2"
+}
+
+inputs = {
+  vpc_id = dependency.network.outputs.vpc_id
+}</pre>
+          <div class="tip"><strong>Tip:</strong> Use <code>mock_outputs</code> in CI plans to unblock downstream validation before full env creation.</div>
+        `
+      },
+      {
+        m: 2,
+        t: "Multi-Account Promotion Pattern",
+        c: `
+          <h2>Promotion Across Accounts</h2>
+          <table>
+            <tr><th>Environment</th><th>Account</th><th>Purpose</th><th>Gate</th></tr>
+            <tr><td>dev</td><td>111111111111</td><td>Fast feedback and experiments</td><td>Automated checks</td></tr>
+            <tr><td>staging</td><td>222222222222</td><td>Pre-prod validation</td><td>Manual approval</td></tr>
+            <tr><td>prod</td><td>333333333333</td><td>Customer-facing runtime</td><td>Change window + rollback plan</td></tr>
+          </table>
+          <div class="diagram">PR Merge
+  │
+  ▼
+terragrunt run-all plan (dev) ──▶ apply (dev)
+  │
+  ▼
+plan (staging) ──▶ apply (staging)
+  │
+  ▼
+plan (prod) + approval ──▶ apply (prod)</div>
+        `
+      },
+      {
+        m: 2,
+        t: "run-all Debugging",
+        c: `
+          <h2>run-all and Debugging</h2>
+          <pre>terragrunt run-all plan \\
+  --terragrunt-working-dir env/prod/us-east-1 \\
+  --terragrunt-include-dir network \\
+  --terragrunt-include-dir compute \\
+  --terragrunt-log-level debug</pre>
+          <ul>
+            <li>Run partial stacks first to narrow failures.</li>
+            <li>Inspect dependency output contracts between stacks.</li>
+            <li>Pin module refs to immutable tags for repeatable plans.</li>
+          </ul>
+          <div class="warn"><strong>Caution:</strong> Avoid implicit dependency assumptions; declare them explicitly with <code>dependency</code> blocks.</div>
+        `
+      },
+      {
+        m: 2,
+        t: "Module 2 Summary",
+        c: `
+          <h2>Module 2 Summary</h2>
+          <ul>
+            <li>Terragrunt hierarchy enforces DRY and environment structure.</li>
+            <li><code>find_in_parent_folders()</code> anchors inherited defaults.</li>
+            <li><code>dependency</code> + <code>mock_outputs</code> stabilize CI planning.</li>
+            <li>Promotion pipelines should preserve deterministic ordering.</li>
+          </ul>
+        `
+      },
+      { m: 2, t: "Quiz: Terragrunt and Multi-Account Delivery", q: true },
+      {
+        m: 3,
+        t: "Security Baselines",
+        c: `
+          <h2>IAM and Security Baselines</h2>
+          <p>Secure Terraform modules start with scoped trust boundaries and least-privilege policies.</p>
+          <pre>data "aws_iam_policy_document" "service_assume" {
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "svc_role" {
+  name               = "svc-runtime-role"
+  assume_role_policy = data.aws_iam_policy_document.service_assume.json
+}</pre>
+          <div class="real"><strong>Real production example:</strong> Role trust policy drift is a frequent root cause for failed deploys and runtime auth outages.</div>
+        `
+      },
+      {
+        m: 3,
+        t: "Testing Pyramid for IaC",
+        c: `
+          <h2>Testing Pyramid</h2>
+          <table>
+            <tr><th>Layer</th><th>Tools</th><th>Goal</th></tr>
+            <tr><td>Syntax and style</td><td><code>terraform fmt</code>, <code>terraform validate</code></td><td>Catch syntax/config errors early</td></tr>
+            <tr><td>Static policy checks</td><td>tflint, checkov, tfsec</td><td>Security and best-practice enforcement</td></tr>
+            <tr><td>Plan review</td><td>CI plan artifacts</td><td>Human and automated diff verification</td></tr>
+            <tr><td>Staged applies</td><td>dev &rarr; staging &rarr; prod</td><td>Controlled blast radius</td></tr>
+          </table>
+          <div class="tip"><strong>Tip:</strong> Keep test and policy output attached to PR checks for fast reviewer context.</div>
+        `
+      },
+      {
+        m: 3,
+        t: "Drift, Rollback, and Incident Readiness",
+        c: `
+          <h2>Drift Detection and Rollback</h2>
+          <div class="diagram">Scheduled Plan (read-only)
+          │
+          ├── no diff ─▶ record healthy baseline
+          │
+          └── diff found ─▶ classify
+                         ├── expected drift: update code
+                         └── risky drift: incident + rollback</div>
+          <ul>
+            <li>Track drift findings per environment and owner.</li>
+            <li>Predefine rollback actions for critical modules.</li>
+            <li>Ensure on-call runbook includes state lock recovery steps.</li>
+          </ul>
+          <div class="warn"><strong>Caution:</strong> Forced unlock should be a last resort and documented with incident context.</div>
+        `
+      },
+      {
+        m: 3,
+        t: "Best Practices Checklist",
+        c: `
+          <h2>Best Practices Checklist</h2>
+          <ul>
+            <li>Pin provider and module versions.</li>
+            <li>Use remote encrypted state with locking.</li>
+            <li>Separate infra provisioning and SQL schema deployment.</li>
+            <li>Codify gRPC protocol expectations in load balancer config.</li>
+            <li>Run layered CI checks before any apply.</li>
+            <li>Keep rollback runbooks reviewed and tested.</li>
+          </ul>
+          <div class="note">Finish Module 3 quiz, then use Retry to revisit only failed questions.</div>
+        `
+      },
+      { m: 3, t: "Quiz: Operations, Security, and Testing", q: true },
+      {
+        m: 3,
+        t: "Workshop Complete",
+        c: `
+          <h2>Workshop Complete</h2>
+          <p>You covered Terraform fundamentals, Terragrunt composition, gRPC and SQL deployment concerns, and production operations controls.</p>
+          <div class="tip"><strong>Next step:</strong> Re-run failed questions from the Retry button and save a clean pass snapshot in local storage.</div>
+        `
+      }
+    ];
+
+    let cur = 0;
+    const STORE_KEY = "terraform_iac_workshop";
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const d = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch (e) {}
+      try { document.cookie = STORE_KEY + "=" + cur + ";max-age=31536000;path=/"; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const d = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (d) {
+          cur = d.cur || 0;
+          quizState = d.quizState || {};
+          failedQs = d.failedQs || [];
+        }
+      } catch (e) {}
+      if (cur < 0 || cur >= SLIDES.length) cur = 0;
+    }
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i++) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const arr = opts.map((text, idx) => ({ text, orig: idx }));
+      let s = hashSeed(seed);
+      function rnd() {
+        s ^= s << 13;
+        s ^= s >>> 17;
+        s ^= s << 5;
+        return ((s >>> 0) % 10000) / 10000;
+      }
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(rnd() * (i + 1));
+        const tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+      }
+      return arr;
+    }
+
+    function renderQuiz(moduleId) {
+      const mod = QUIZ_DATA.modules.find(x => x.id === moduleId);
+      if (!mod) return "<p>Quiz module not found.</p>";
+
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: mod.questions.length, done: false };
+      }
+
+      const st = quizState[moduleId];
+      const unansweredIdx = mod.questions.findIndex(q => st.answers[q.id] == null);
+      if (unansweredIdx === -1) {
+        st.done = true;
+        const pct = Math.round((st.score / st.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h2>Quiz Complete: ${esc(mod.name)}</h2>
+            <p><strong>Score:</strong> ${st.score} / ${st.total} (${pct}%)</p>
+            <p><strong>Failed queued for retry:</strong> ${failedQs.length}</p>
+            <div class="note">Use <strong>Retry</strong> (or key <strong>R</strong>) to re-attempt only failed questions at the end.</div>
+          </div>
+        `;
+      }
+
+      const q = mod.questions[unansweredIdx];
+      const shuffled = shuffleOpts(q.options, q.id);
+      const correct = shuffled.findIndex(x => x.orig === q.answer);
+      let optsHtml = "";
+      for (let i = 0; i < shuffled.length; i++) {
+        optsHtml += `<button class="quiz-opt" onclick="answerQuiz(${moduleId}, '${q.id}', ${i}, ${correct}, ${unansweredIdx})">${esc(shuffled[i].text)}</button>`;
+      }
+
+      return `
+        <div class="quiz-container">
+          <h2>${esc(mod.name)} Quiz</h2>
+          <p><strong>Question ${unansweredIdx + 1} / ${mod.questions.length}</strong></p>
+          <p>${esc(q.question)}</p>
+          ${optsHtml}
+          <div id="quiz-feedback" class="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, qId, chosen, correct, qIndex) {
+      const mod = QUIZ_DATA.modules.find(x => x.id === moduleId);
+      const st = quizState[moduleId];
+      if (!mod || !st || st.answers[qId]) return;
+
+      const q = mod.questions[qIndex];
+      const ok = chosen === correct;
+      st.answers[qId] = { chosen, correct, ok };
+      if (ok) st.score += 1;
+      if (!ok && !failedQs.some(x => x.moduleId === moduleId && x.qId === qId)) {
+        failedQs.push({ moduleId, qId });
+      }
+
+      const opts = document.querySelectorAll(".quiz-opt");
+      opts.forEach((btn, idx) => {
+        btn.classList.add("disabled");
+        btn.disabled = true;
+        if (idx === correct) btn.classList.add("correct");
+        if (!ok && idx === chosen) btn.classList.add("wrong");
+      });
+
+      const fb = document.getElementById("quiz-feedback");
+      if (fb) {
+        fb.classList.add("show");
+        if (ok) {
+          fb.classList.add("pass");
+          fb.innerHTML = "Correct. " + esc(q.explanation);
+        } else {
+          fb.classList.add("fail");
+          fb.innerHTML = "Incorrect. " + esc(q.explanation);
+        }
+      }
+
+      if (Object.keys(st.answers).length >= st.total) st.done = true;
+      save();
+      setTimeout(() => render(), ok ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert("No failed questions recorded yet.");
+        return;
+      }
+
+      const unique = [];
+      const seen = new Set();
+      failedQs.forEach(f => {
+        const k = f.moduleId + "::" + f.qId;
+        if (!seen.has(k)) {
+          seen.add(k);
+          unique.push(f);
+        }
+      });
+
+      unique.forEach(f => {
+        const st = quizState[f.moduleId];
+        if (!st || !st.answers[f.qId]) return;
+        delete st.answers[f.qId];
+      });
+
+      Object.keys(quizState).forEach(k => {
+        const st = quizState[k];
+        st.score = Object.values(st.answers).filter(x => x.ok).length;
+        st.done = false;
+      });
+
+      const first = unique[0];
+      const jump = SLIDES.findIndex(s => s.q === true && s.m === first.moduleId);
+      if (jump >= 0) cur = jump;
+      failedQs = [];
+      render();
+    }
+
+    function go(dir) {
+      cur += dir;
+      if (cur < 0) cur = 0;
+      if (cur >= SLIDES.length) cur = SLIDES.length - 1;
+      render();
+    }
+
+    function toggleTOC() {
+      const toc = document.getElementById("toc");
+      const ov = document.getElementById("toc-overlay");
+      const open = toc.classList.contains("open");
+      if (open) {
+        toc.classList.remove("open");
+        ov.classList.remove("open");
+      } else {
+        toc.classList.add("open");
+        ov.classList.add("open");
+      }
+    }
+
+    function buildTOC() {
+      const body = document.getElementById("toc-body");
+      let html = "";
+      for (let m = 0; m < MODULE_NAMES.length; m++) {
+        const slides = [];
+        for (let i = 0; i < SLIDES.length; i++) {
+          if (SLIDES[i].m === m) slides.push({ idx: i, title: SLIDES[i].t });
+        }
+        html += `<div class="toc-group"><div class="toc-head">${esc(MODULE_NAMES[m])}</div>`;
+        for (let j = 0; j < slides.length; j++) {
+          const s = slides[j];
+          const active = s.idx === cur ? " active" : "";
+          html += `<button class="toc-item${active}" onclick="jumpSlide(${s.idx})">${s.idx + 1}. ${esc(s.title)}</button>`;
+        }
+        html += "</div>";
+      }
+      body.innerHTML = html;
+    }
+
+    function jumpSlide(idx) {
+      cur = idx;
+      render();
+      toggleTOC();
+    }
+
+    function render() {
+      const s = SLIDES[cur];
+      const moduleLabel = document.getElementById("module-label");
+      const counter = document.getElementById("slide-counter");
+      const pct = document.getElementById("pct");
+      const bar = document.getElementById("progress-bar");
+      const slide = document.getElementById("slide");
+
+      moduleLabel.textContent = MODULE_NAMES[s.m] || "Module";
+      counter.textContent = (cur + 1) + " / " + SLIDES.length;
+
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      pct.textContent = progress + "%";
+      bar.style.width = progress + "%";
+
+      if (s.q) {
+        slide.innerHTML = renderQuiz(s.m);
+      } else {
+        slide.innerHTML = `<h1>${esc(s.t)}</h1>${s.c || ""}`;
+      }
+
+      buildTOC();
+      save();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+      if (e.code === "Space" && !e.shiftKey) {
+        e.preventDefault();
+        go(1);
+      } else if (e.code === "Space" && e.shiftKey) {
+        e.preventDefault();
+        go(-1);
+      } else if (e.key === "ArrowLeft") {
+        go(-1);
+      } else if (e.key === "ArrowRight") {
+        go(1);
+      } else if (e.key === "Home") {
+        cur = 0;
+        render();
+      } else if (e.key === "End") {
+        cur = SLIDES.length - 1;
+        render();
+      } else if (e.key === "t" || e.key === "T") {
+        toggleTOC();
+      } else if (e.key === "r" || e.key === "R") {
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>
