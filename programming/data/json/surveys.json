@@ -579,5 +579,29 @@
       "workshop",
       "v3"
     ]
+  },
+  {
+    "id": "terraform-v4-workshop",
+    "title": "Terraform V4 Workshop - 10 Module Deep Dive",
+    "description": "Terraform workshop v4 covering modern IaC foundations, EKS Access Entries, S3 Table Buckets, and comprehensive quiz-driven revision with 150 questions.",
+    "category": "Infrastructure as Code",
+    "difficulty": "Advanced",
+    "estimatedTime": "120-210 minutes",
+    "questionsFile": "data/json/infrastructure/terraform_v4_workshop_quiz.json",
+    "icon": "🚀",
+    "color": "#0f766e",
+    "timePerQuestion": 90,
+    "maxTimeToFinish": 16200,
+    "articleFile": "articles/terraform_v4_workshop.html",
+    "tags": [
+      "terraform",
+      "terragrunt",
+      "aws",
+      "iac",
+      "grpc",
+      "sql",
+      "workshop",
+      "v4"
+    ]
   }
 ]
