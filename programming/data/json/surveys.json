@@ -41,7 +41,12 @@
     "timePerQuestion": 90,
     "maxTimeToFinish": 4500,
     "articleFile": "articles/modern-cpp-low-latency.html",
-    "tags": ["performance", "latency", "systems", "c++"]
+    "tags": [
+      "performance",
+      "latency",
+      "systems",
+      "c++"
+    ]
   },
   {
     "id": "python-internals",
@@ -227,7 +232,7 @@
   },
   {
     "id": "android-api-101",
-    "title": "Android API 101 — Driver Apps",
+    "title": "Android API 101 \u2014 Driver Apps",
     "description": "Location, contacts, lifecycle, diagnostics, and transportation APIs for compliant driver experiences",
     "category": "Mobile Development",
     "difficulty": "Intermediate",
@@ -526,6 +531,29 @@
       "grpc",
       "sql",
       "aws"
+    ]
+  },
+  {
+    "id": "terraform-aws-modules-workshop",
+    "title": "Terraform AWS Modules Workshop - 10 Module Deep Dive",
+    "description": "170-slide Terraform workshop with Terragrunt, Docker debug workflows, gRPC/SQL integration notes, and a 150-question module quiz with retry for failed answers.",
+    "category": "Infrastructure as Code",
+    "difficulty": "Advanced",
+    "estimatedTime": "120-210 minutes",
+    "questionsFile": "data/json/infrastructure/terraform-aws-modules-workshop-questions.json",
+    "icon": "\ud83e\udde9",
+    "color": "#0f766e",
+    "timePerQuestion": 90,
+    "maxTimeToFinish": 16200,
+    "articleFile": "articles/terraform_aws_modules_workshop.html",
+    "tags": [
+      "terraform",
+      "terragrunt",
+      "aws",
+      "iac",
+      "grpc",
+      "sql",
+      "workshop"
     ]
   }
 ]

@@ -1,15 +1,201 @@
 {
   "title": "Terraform AWS Modules Workshop Quiz",
-  "version": "1.0",
-  "totalQuestions": 135,
+  "version": "2.0",
+  "totalQuestions": 150,
   "modules": [
     {
       "id": 0,
-      "name": "EC2 Instance Module",
+      "name": "Terraform + Terragrunt + HCL Foundations",
       "questions": [
         {
           "id": "q0_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "question": "Which localStorage key must be used by the workshop runtime?",
+          "options": [
+            "terraform_aws_modules_workshop",
+            "terraform-workshop-store",
+            "iac_quiz_runtime",
+            "terraform_workshop_2026"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_2",
+          "question": "Which control opens or closes the TOC drawer in the workshop UI?",
+          "options": [
+            "Key T",
+            "Key Q",
+            "Key O",
+            "Key C"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_3",
+          "question": "What should happen after a correct quiz answer in the workshop runtime?",
+          "options": [
+            "Green feedback then auto-advance in about 1.2 seconds",
+            "Immediate full-page reload",
+            "Manual next only",
+            "Navigate back to module intro"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_4",
+          "question": "Which CSS class name marks a correct option button in quiz mode?",
+          "options": [
+            "quiz-opt correct",
+            "quiz-answer pass",
+            "option ok",
+            "answer-green"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_5",
+          "question": "Which Terraform core doc explains planning action categories like create/update/replace?",
+          "options": [
+            "/Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/README.md"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
+        },
+        {
+          "id": "q0_6",
+          "question": "Which Terraform core doc is the primary reference for debugger setup and diagnostics?",
+          "options": [
+            "/Users/mohannarayanaswamy/git/terraform/docs/debugging.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/resource-instance-change-lifecycle.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
+        },
+        {
+          "id": "q0_7",
+          "question": "In this workshop, which integration style is used to map IaC outputs into service configs?",
+          "options": [
+            "gRPC config service plus SQL inventory snapshot",
+            "SOAP WSDL registry only",
+            "FTP configuration push",
+            "Static CSV only"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_8",
+          "question": "What Terragrunt pattern is emphasized for multi-module environments?",
+          "options": [
+            "include + dependency blocks with run-all orchestration",
+            "Single file with no hierarchy",
+            "Only manual terraform apply",
+            "CloudFormation nested stacks"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/README.md"
+        },
+        {
+          "id": "q0_9",
+          "question": "What is the expected correct answer index in source JSON before option shuffling?",
+          "options": [
+            "0",
+            "1",
+            "2",
+            "3"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/data/json/infrastructure/terraform_aws_modules_workshop_quiz.json"
+        },
+        {
+          "id": "q0_10",
+          "question": "Which keyboard combination moves to the previous slide?",
+          "options": [
+            "Shift+Space or ArrowLeft",
+            "Ctrl+Enter",
+            "Alt+N",
+            "Escape"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_11",
+          "question": "What is recorded for each wrong answer to support retry?",
+          "options": [
+            "Question id and user's selected option",
+            "Only final score",
+            "Browser IP address",
+            "Nothing is recorded"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_12",
+          "question": "Which file is cited for Terraform core request flow internals?",
+          "options": [
+            "/Users/mohannarayanaswamy/git/terraform/docs/architecture.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/destroying.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/README.md",
+            "/Users/mohannarayanaswamy/git/terraform/docs/resource-instance-change-lifecycle.md"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/architecture.md"
+        },
+        {
+          "id": "q0_13",
+          "question": "Which operational concern is explicitly covered across all modules?",
+          "options": [
+            "Blast-radius control and rollback playbooks",
+            "Only UI theming",
+            "Frontend routing",
+            "Nginx reverse proxy tuning"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_14",
+          "question": "Which trait pairing is repeatedly validated in module deep dives?",
+          "options": [
+            "Variable traits and output traits",
+            "CSS animations and icon packs",
+            "Audio codecs and bitrates",
+            "JWT refresh intervals"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        },
+        {
+          "id": "q0_15",
+          "question": "Which action should the runtime expose at the end for failed questions?",
+          "options": [
+            "Retry failed questions with original attempts visible",
+            "Delete all quiz history",
+            "Lock the quiz permanently",
+            "Export only passing questions"
+          ],
+          "answer": 0,
+          "explanation": "Correct because this behavior/path is explicitly implemented or cited in the workshop. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "EC2 Instance Module",
+      "questions": [
+        {
+          "id": "q1_1",
+          "question": "Which repository backs the EC2 Instance Module section in this workshop?",
           "options": [
             "terraform-aws-ec2-instance",
             "terraform-aws-rds",
@@ -17,95 +203,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
         },
         {
-          "id": "q0_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
-        },
-        {
-          "id": "q0_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q1_2",
+          "question": "Which file is a primary code anchor for EC2 Instance Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
         },
         {
-          "id": "q0_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q1_3",
+          "question": "Which resource block name is directly referenced for EC2 Instance Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_instance.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
         },
         {
-          "id": "q0_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q1_4",
+          "question": "Which data source trait is highlighted in EC2 Instance Module troubleshooting?",
           "options": [
-            "aws_ec2_capacity_reservation",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_availability_zones.available",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
         },
         {
-          "id": "q0_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_availability_zones",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
-        },
-        {
-          "id": "q0_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q1_5",
+          "question": "Which variable trait is part of EC2 Instance Module module inputs?",
           "options": [
             "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/variables.tf"
         },
         {
-          "id": "q0_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q1_6",
+          "question": "Which additional variable trait is commonly reviewed in EC2 Instance Module?",
+          "options": [
+            "name",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/variables.tf"
+        },
+        {
+          "id": "q1_7",
+          "question": "Which output trait is part of the EC2 Instance Module contract?",
           "options": [
             "id",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/outputs.tf"
         },
         {
-          "id": "q0_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q1_8",
+          "question": "Which second output trait is tracked for downstream dependencies in EC2 Instance Module?",
+          "options": [
+            "arn",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/outputs.tf"
+        },
+        {
+          "id": "q1_9",
+          "question": "Which example path is explicitly walked through for EC2 Instance Module?",
           "options": [
             "complete",
             "android-app",
@@ -113,89 +299,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/examples/complete/main.tf"
         },
         {
-          "id": "q0_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q1_10",
+          "question": "Which additional example helps validate edge behavior in EC2 Instance Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "session-manager",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/examples/session-manager/main.tf"
         },
         {
-          "id": "q0_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q1_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for EC2 Instance Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "main.tf",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/wrappers/main.tf"
         },
         {
-          "id": "q0_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q1_12",
+          "question": "Which document is used for migration or upgrade guidance in EC2 Instance Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "UPGRADE-3.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
         },
         {
-          "id": "q0_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q1_13",
+          "question": "What planning behavior should be reviewed before replacing resources in EC2 Instance Module?",
           "options": [
-            "aws_instance",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q0_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q1_14",
+          "question": "What debugging workflow is emphasized for EC2 Instance Module when plan output is unstable?",
           "options": [
-            "name",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q0_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q1_15",
+          "question": "How should failed answers behave in the EC2 Instance Module quiz segment?",
           "options": [
-            "arn",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-ec2-instance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ec2-instance/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 1,
+      "id": 2,
       "name": "ECS Module",
       "questions": [
         {
-          "id": "q1_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q2_1",
+          "question": "Which repository backs the ECS Module section in this workshop?",
           "options": [
             "terraform-aws-ecs",
             "terraform-aws-rds",
@@ -203,95 +389,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
         },
         {
-          "id": "q1_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
-        },
-        {
-          "id": "q1_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q2_2",
+          "question": "Which file is a primary code anchor for ECS Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
         },
         {
-          "id": "q1_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q2_3",
+          "question": "Which resource block name is directly referenced for ECS Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_cloudwatch_log_group.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
         },
         {
-          "id": "q1_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q2_4",
+          "question": "Which data source trait is highlighted in ECS Module troubleshooting?",
           "options": [
-            "aws_iam_role_policy_attachment",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_availability_zones.available",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
         },
         {
-          "id": "q1_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_iam_policy_document",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
-        },
-        {
-          "id": "q1_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q2_5",
+          "question": "Which variable trait is part of ECS Module module inputs?",
           "options": [
             "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/cluster/main.tf"
         },
         {
-          "id": "q1_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q2_6",
+          "question": "Which additional variable trait is commonly reviewed in ECS Module?",
+          "options": [
+            "region",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/cluster/main.tf"
+        },
+        {
+          "id": "q2_7",
+          "question": "Which output trait is part of the ECS Module contract?",
           "options": [
             "cluster_arn",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/service/main.tf"
         },
         {
-          "id": "q1_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q2_8",
+          "question": "Which second output trait is tracked for downstream dependencies in ECS Module?",
+          "options": [
+            "cluster_id",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/service/main.tf"
+        },
+        {
+          "id": "q2_9",
+          "question": "Which example path is explicitly walked through for ECS Module?",
           "options": [
             "complete",
             "android-app",
@@ -299,89 +485,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-ecs/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/container-definition/main.tf"
         },
         {
-          "id": "q1_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q2_10",
+          "question": "Which additional example helps validate edge behavior in ECS Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "container-definition",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/modules/express-service/main.tf"
         },
         {
-          "id": "q1_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q2_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for ECS Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "cluster",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/examples/ec2-autoscaling/main.tf"
         },
         {
-          "id": "q1_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q2_12",
+          "question": "Which document is used for migration or upgrade guidance in ECS Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "README.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/README.md"
         },
         {
-          "id": "q1_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q2_13",
+          "question": "What planning behavior should be reviewed before replacing resources in ECS Module?",
           "options": [
-            "aws_iam_role",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q1_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q2_14",
+          "question": "What debugging workflow is emphasized for ECS Module when plan output is unstable?",
           "options": [
-            "region",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q1_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q2_15",
+          "question": "How should failed answers behave in the ECS Module quiz segment?",
           "options": [
-            "cluster_id",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-ecs. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-ecs/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "EKS Module",
       "questions": [
         {
-          "id": "q2_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q3_1",
+          "question": "Which repository backs the EKS Module section in this workshop?",
           "options": [
             "terraform-aws-eks",
             "terraform-aws-rds",
@@ -389,95 +575,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
         },
         {
-          "id": "q2_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
-        },
-        {
-          "id": "q2_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q3_2",
+          "question": "Which file is a primary code anchor for EKS Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
         },
         {
-          "id": "q2_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q3_3",
+          "question": "Which resource block name is directly referenced for EKS Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_iam_role.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
         },
         {
-          "id": "q2_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q3_4",
+          "question": "Which data source trait is highlighted in EKS Module troubleshooting?",
           "options": [
-            "local_file",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_availability_zones.available",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
         },
         {
-          "id": "q2_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_iam_policy_document",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
-        },
-        {
-          "id": "q2_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q3_5",
+          "question": "Which variable trait is part of EKS Module module inputs?",
           "options": [
             "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/node_groups.tf"
         },
         {
-          "id": "q2_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q3_6",
+          "question": "Which additional variable trait is commonly reviewed in EKS Module?",
+          "options": [
+            "prefix_separator",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/node_groups.tf"
+        },
+        {
+          "id": "q3_7",
+          "question": "Which output trait is part of the EKS Module contract?",
           "options": [
             "cluster_arn",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/eks-managed-node-group/main.tf"
         },
         {
-          "id": "q2_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q3_8",
+          "question": "Which second output trait is tracked for downstream dependencies in EKS Module?",
+          "options": [
+            "cluster_certificate_authority_data",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/eks-managed-node-group/main.tf"
+        },
+        {
+          "id": "q3_9",
+          "question": "Which example path is explicitly walked through for EKS Module?",
           "options": [
             "eks-auto-mode",
             "android-app",
@@ -485,89 +671,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-eks/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/self-managed-node-group/main.tf"
         },
         {
-          "id": "q2_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q3_10",
+          "question": "Which additional example helps validate edge behavior in EKS Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "eks-capabilities",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/fargate-profile/main.tf"
         },
         {
-          "id": "q2_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q3_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for EKS Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "main.tf",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/modules/karpenter/main.tf"
         },
         {
-          "id": "q2_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q3_12",
+          "question": "Which document is used for migration or upgrade guidance in EKS Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "CHANGELOG.pre-v11.0.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/CHANGELOG.pre-v11.0.0.md"
         },
         {
-          "id": "q2_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q3_13",
+          "question": "What planning behavior should be reviewed before replacing resources in EKS Module?",
           "options": [
-            "aws_iam_role_policy_attachment",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q2_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q3_14",
+          "question": "What debugging workflow is emphasized for EKS Module when plan output is unstable?",
           "options": [
-            "prefix_separator",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q2_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q3_15",
+          "question": "How should failed answers behave in the EKS Module quiz segment?",
           "options": [
-            "cluster_certificate_authority_data",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-eks. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-eks/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "IAM Module",
       "questions": [
         {
-          "id": "q3_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q4_1",
+          "question": "Which repository backs the IAM Module section in this workshop?",
           "options": [
             "terraform-aws-iam",
             "terraform-aws-rds",
@@ -575,95 +761,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
         },
         {
-          "id": "q3_2",
-          "question": "How many content slides are planned for this module before quiz?",
+          "id": "q4_2",
+          "question": "Which file is a primary code anchor for IAM Module?",
           "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
-        },
-        {
-          "id": "q3_3",
-          "question": "Which file is a primary code anchor for this module?",
-          "options": [
-            "modules/iam-account/main.tf",
+            "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
         },
         {
-          "id": "q3_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q4_3",
+          "question": "Which resource block name is directly referenced for IAM Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_iam_policy.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
         },
         {
-          "id": "q3_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q4_4",
+          "question": "Which data source trait is highlighted in IAM Module troubleshooting?",
           "options": [
-            "aws_iam_policy",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_partition.current",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
         },
         {
-          "id": "q3_6",
-          "question": "Which data source is used in this module codebase?",
+          "id": "q4_5",
+          "question": "Which variable trait is part of IAM Module module inputs?",
           "options": [
-            "aws_iam_policy_document",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
+            "defaults",
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-group/main.tf"
         },
         {
-          "id": "q3_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q4_6",
+          "question": "Which additional variable trait is commonly reviewed in IAM Module?",
           "options": [
-            "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "items",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-group/main.tf"
         },
         {
-          "id": "q3_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q4_7",
+          "question": "Which output trait is part of the IAM Module contract?",
           "options": [
-            "id",
+            "wrapper",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role/main.tf"
         },
         {
-          "id": "q3_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q4_8",
+          "question": "Which second output trait is tracked for downstream dependencies in IAM Module?",
+          "options": [
+            "group_id",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role/main.tf"
+        },
+        {
+          "id": "q4_9",
+          "question": "Which example path is explicitly walked through for IAM Module?",
           "options": [
             "iam-account",
             "android-app",
@@ -671,89 +857,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-iam/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role-for-service-accounts/main.tf"
         },
         {
-          "id": "q3_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q4_10",
+          "question": "Which additional example helps validate edge behavior in IAM Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "iam-group",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/docs/UPGRADE-6.0.md"
         },
         {
-          "id": "q3_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q4_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for IAM Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "iam-account",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-role-for-service-accounts/main.tf"
         },
         {
-          "id": "q3_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q4_12",
+          "question": "Which document is used for migration or upgrade guidance in IAM Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "UPGRADE-6.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-6.0.md"
         },
         {
-          "id": "q3_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q4_13",
+          "question": "What planning behavior should be reviewed before replacing resources in IAM Module?",
           "options": [
-            "aws_iam_role_policy_attachment",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q3_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q4_14",
+          "question": "What debugging workflow is emphasized for IAM Module when plan output is unstable?",
           "options": [
-            "name",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q3_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q4_15",
+          "question": "How should failed answers behave in the IAM Module quiz segment?",
           "options": [
-            "arn",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-iam. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-iam/modules/iam-account/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "KMS Module",
       "questions": [
         {
-          "id": "q4_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q5_1",
+          "question": "Which repository backs the KMS Module section in this workshop?",
           "options": [
             "terraform-aws-kms",
             "terraform-aws-rds",
@@ -761,95 +947,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
         },
         {
-          "id": "q4_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
-        },
-        {
-          "id": "q4_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q5_2",
+          "question": "Which file is a primary code anchor for KMS Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
         },
         {
-          "id": "q4_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q5_3",
+          "question": "Which resource block name is directly referenced for KMS Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_kms_key.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
         },
         {
-          "id": "q4_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q5_4",
+          "question": "Which data source trait is highlighted in KMS Module troubleshooting?",
           "options": [
-            "aws_iam_role",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_caller_identity.current",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
         },
         {
-          "id": "q4_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_caller_identity",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
-        },
-        {
-          "id": "q4_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q5_5",
+          "question": "Which variable trait is part of KMS Module module inputs?",
           "options": [
             "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/variables.tf"
         },
         {
-          "id": "q4_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q5_6",
+          "question": "Which additional variable trait is commonly reviewed in KMS Module?",
+          "options": [
+            "region",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/variables.tf"
+        },
+        {
+          "id": "q5_7",
+          "question": "Which output trait is part of the KMS Module contract?",
           "options": [
             "key_arn",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/outputs.tf"
         },
         {
-          "id": "q4_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q5_8",
+          "question": "Which second output trait is tracked for downstream dependencies in KMS Module?",
+          "options": [
+            "key_id",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/outputs.tf"
+        },
+        {
+          "id": "q5_9",
+          "question": "Which example path is explicitly walked through for KMS Module?",
           "options": [
             "complete",
             "android-app",
@@ -857,89 +1043,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-kms/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/examples/complete/main.tf"
         },
         {
-          "id": "q4_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q5_10",
+          "question": "Which additional example helps validate edge behavior in KMS Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "complete",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/docs/UPGRADE-4.0.md"
         },
         {
-          "id": "q4_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q5_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for KMS Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "main.tf",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/examples/complete/main.tf"
         },
         {
-          "id": "q4_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q5_12",
+          "question": "Which document is used for migration or upgrade guidance in KMS Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "UPGRADE-4.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-4.0.md"
         },
         {
-          "id": "q4_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q5_13",
+          "question": "What planning behavior should be reviewed before replacing resources in KMS Module?",
           "options": [
-            "aws_kms_key",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q4_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q5_14",
+          "question": "What debugging workflow is emphasized for KMS Module when plan output is unstable?",
           "options": [
-            "region",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q4_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q5_15",
+          "question": "How should failed answers behave in the KMS Module quiz segment?",
           "options": [
-            "key_id",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-kms. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-kms/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "S3 Bucket Module",
       "questions": [
         {
-          "id": "q5_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q6_1",
+          "question": "Which repository backs the S3 Bucket Module section in this workshop?",
           "options": [
             "terraform-aws-s3-bucket",
             "terraform-aws-rds",
@@ -947,95 +1133,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
         },
         {
-          "id": "q5_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
-        },
-        {
-          "id": "q5_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q6_2",
+          "question": "Which file is a primary code anchor for S3 Bucket Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
         },
         {
-          "id": "q5_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q6_3",
+          "question": "Which resource block name is directly referenced for S3 Bucket Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "random_pet.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
         },
         {
-          "id": "q5_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q6_4",
+          "question": "Which data source trait is highlighted in S3 Bucket Module troubleshooting?",
           "options": [
-            "random_pet",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_caller_identity.current",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
         },
         {
-          "id": "q5_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_iam_policy_document",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
-        },
-        {
-          "id": "q5_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q6_5",
+          "question": "Which variable trait is part of S3 Bucket Module module inputs?",
           "options": [
             "create_bucket",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/account-public-access/main.tf"
         },
         {
-          "id": "q5_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q6_6",
+          "question": "Which additional variable trait is commonly reviewed in S3 Bucket Module?",
+          "options": [
+            "attach_elb_log_delivery_policy",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/account-public-access/main.tf"
+        },
+        {
+          "id": "q6_7",
+          "question": "Which output trait is part of the S3 Bucket Module contract?",
           "options": [
             "s3_bucket_id",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/notification/main.tf"
         },
         {
-          "id": "q5_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q6_8",
+          "question": "Which second output trait is tracked for downstream dependencies in S3 Bucket Module?",
+          "options": [
+            "s3_bucket_arn",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/notification/main.tf"
+        },
+        {
+          "id": "q6_9",
+          "question": "Which example path is explicitly walked through for S3 Bucket Module?",
           "options": [
             "account-public-access",
             "android-app",
@@ -1043,89 +1229,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/object/main.tf"
         },
         {
-          "id": "q5_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q6_10",
+          "question": "Which additional example helps validate edge behavior in S3 Bucket Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "complete",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/table-bucket/main.tf"
         },
         {
-          "id": "q5_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q6_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for S3 Bucket Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "account-public-access",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/modules/table-bucket/main.tf"
         },
         {
-          "id": "q5_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q6_12",
+          "question": "Which document is used for migration or upgrade guidance in S3 Bucket Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "UPGRADE-3.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
         },
         {
-          "id": "q5_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q6_13",
+          "question": "What planning behavior should be reviewed before replacing resources in S3 Bucket Module?",
           "options": [
-            "aws_kms_key",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q5_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q6_14",
+          "question": "What debugging workflow is emphasized for S3 Bucket Module when plan output is unstable?",
           "options": [
-            "attach_elb_log_delivery_policy",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q5_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q6_15",
+          "question": "How should failed answers behave in the S3 Bucket Module quiz segment?",
           "options": [
-            "s3_bucket_arn",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-s3-bucket. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-s3-bucket/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 6,
+      "id": 7,
       "name": "Secrets Manager Module",
       "questions": [
         {
-          "id": "q6_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q7_1",
+          "question": "Which repository backs the Secrets Manager Module section in this workshop?",
           "options": [
             "terraform-aws-secrets-manager",
             "terraform-aws-rds",
@@ -1133,95 +1319,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
-        },
-        {
-          "id": "q6_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q7_2",
+          "question": "Which file is a primary code anchor for Secrets Manager Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q7_3",
+          "question": "Which resource block name is directly referenced for Secrets Manager Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_secretsmanager_secret.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q7_4",
+          "question": "Which data source trait is highlighted in Secrets Manager Module troubleshooting?",
           "options": [
-            "aws_secretsmanager_secret_version",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_iam_policy_document.this",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_iam_policy_document",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
-        },
-        {
-          "id": "q6_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q7_5",
+          "question": "Which variable trait is part of Secrets Manager Module module inputs?",
           "options": [
             "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/variables.tf"
         },
         {
-          "id": "q6_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q7_6",
+          "question": "Which additional variable trait is commonly reviewed in Secrets Manager Module?",
+          "options": [
+            "region",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/variables.tf"
+        },
+        {
+          "id": "q7_7",
+          "question": "Which output trait is part of the Secrets Manager Module contract?",
           "options": [
             "secret_arn",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
         },
         {
-          "id": "q6_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q7_8",
+          "question": "Which second output trait is tracked for downstream dependencies in Secrets Manager Module?",
+          "options": [
+            "secret_id",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
+        },
+        {
+          "id": "q7_9",
+          "question": "Which example path is explicitly walked through for Secrets Manager Module?",
           "options": [
             "complete",
             "android-app",
@@ -1229,89 +1415,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/examples/complete/main.tf"
         },
         {
-          "id": "q6_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q7_10",
+          "question": "Which additional example helps validate edge behavior in Secrets Manager Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "complete",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q7_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for Secrets Manager Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "main.tf",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/outputs.tf"
         },
         {
-          "id": "q6_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q7_12",
+          "question": "Which document is used for migration or upgrade guidance in Secrets Manager Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "main.tf",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
         },
         {
-          "id": "q6_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q7_13",
+          "question": "What planning behavior should be reviewed before replacing resources in Secrets Manager Module?",
           "options": [
-            "aws_secretsmanager_secret",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q6_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q7_14",
+          "question": "What debugging workflow is emphasized for Secrets Manager Module when plan output is unstable?",
           "options": [
-            "region",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q6_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q7_15",
+          "question": "How should failed answers behave in the Secrets Manager Module quiz segment?",
           "options": [
-            "secret_id",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-secrets-manager. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-secrets-manager/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 7,
+      "id": 8,
       "name": "Security Group Module",
       "questions": [
         {
-          "id": "q7_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q8_1",
+          "question": "Which repository backs the Security Group Module section in this workshop?",
           "options": [
             "terraform-aws-security-group",
             "terraform-aws-rds",
@@ -1319,95 +1505,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
         },
         {
-          "id": "q7_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
-        },
-        {
-          "id": "q7_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q8_2",
+          "question": "Which file is a primary code anchor for Security Group Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
         },
         {
-          "id": "q7_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q8_3",
+          "question": "Which resource block name is directly referenced for Security Group Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_security_group.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
         },
         {
-          "id": "q7_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q8_4",
+          "question": "Which data source trait is highlighted in Security Group Module troubleshooting?",
           "options": [
-            "aws_security_group_rule",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_vpc.default",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
         },
         {
-          "id": "q7_6",
-          "question": "Which data source is used in this module codebase?",
+          "id": "q8_5",
+          "question": "Which variable trait is part of Security Group Module module inputs?",
           "options": [
-            "aws_vpc",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
+            "rules",
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/rules.tf"
         },
         {
-          "id": "q7_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q8_6",
+          "question": "Which additional variable trait is commonly reviewed in Security Group Module?",
           "options": [
-            "create",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "auto_groups",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/rules.tf"
         },
         {
-          "id": "q7_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q8_7",
+          "question": "Which output trait is part of the Security Group Module contract?",
           "options": [
             "security_group_arn",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/http-80/main.tf"
         },
         {
-          "id": "q7_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q8_8",
+          "question": "Which second output trait is tracked for downstream dependencies in Security Group Module?",
+          "options": [
+            "security_group_id",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/http-80/main.tf"
+        },
+        {
+          "id": "q8_9",
+          "question": "Which example path is explicitly walked through for Security Group Module?",
           "options": [
             "complete",
             "android-app",
@@ -1415,89 +1601,89 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-security-group/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/mysql/main.tf"
         },
         {
-          "id": "q7_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q8_10",
+          "question": "Which additional example helps validate edge behavior in Security Group Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "computed",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/kubernetes-api/main.tf"
         },
         {
-          "id": "q7_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q8_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for Security Group Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "_templates",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/modules/kubernetes-api/main.tf"
         },
         {
-          "id": "q7_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q8_12",
+          "question": "Which document is used for migration or upgrade guidance in Security Group Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "main.tf",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
         },
         {
-          "id": "q7_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q8_13",
+          "question": "What planning behavior should be reviewed before replacing resources in Security Group Module?",
           "options": [
-            "aws_security_group",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q7_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q8_14",
+          "question": "What debugging workflow is emphasized for Security Group Module when plan output is unstable?",
           "options": [
-            "create_sg",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q7_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q8_15",
+          "question": "How should failed answers behave in the Security Group Module quiz segment?",
           "options": [
-            "security_group_id",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-security-group. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-security-group/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     },
     {
-      "id": 8,
+      "id": 9,
       "name": "VPC Module",
       "questions": [
         {
-          "id": "q8_1",
-          "question": "Which repository is this module mapped to in the workshop?",
+          "id": "q9_1",
+          "question": "Which repository backs the VPC Module section in this workshop?",
           "options": [
             "terraform-aws-vpc",
             "terraform-aws-rds",
@@ -1505,95 +1691,95 @@
             "terraform-aws-cloudfront"
           ],
           "answer": 0,
-          "explanation": "Mapped directly to /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
         },
         {
-          "id": "q8_2",
-          "question": "How many content slides are planned for this module before quiz?",
-          "options": [
-            "16",
-            "10",
-            "12",
-            "20"
-          ],
-          "answer": 0,
-          "explanation": "The prompt sets 16 content slides plus 1 quiz. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
-        },
-        {
-          "id": "q8_3",
-          "question": "Which file is a primary code anchor for this module?",
+          "id": "q9_2",
+          "question": "Which file is a primary code anchor for VPC Module?",
           "options": [
             "main.tf",
             "Dockerfile",
-            "pom.xml",
-            "package-lock.json"
+            "package-lock.json",
+            "pom.xml"
           ],
           "answer": 0,
-          "explanation": "Listed in module code anchors under /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
         },
         {
-          "id": "q8_4",
-          "question": "What is the quiz-slide placement rule for each module?",
+          "id": "q9_3",
+          "question": "Which resource block name is directly referenced for VPC Module?",
           "options": [
-            "Last slide of module",
-            "First slide of module",
-            "Middle slide only",
-            "No quiz slide"
+            "aws_flow_log.this",
+            "resource_alpha",
+            "resource_beta",
+            "resource_gamma"
           ],
           "answer": 0,
-          "explanation": "Each module ends with one quiz slide. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
         },
         {
-          "id": "q8_5",
-          "question": "Which resource type appears prominently in this module code?",
+          "id": "q9_4",
+          "question": "Which data source trait is highlighted in VPC Module troubleshooting?",
           "options": [
-            "aws_network_acl_rule",
-            "google_compute_instance",
-            "azurerm_resource_group",
-            "kubernetes_ingress_v1"
+            "aws_availability_zones.available",
+            "data_alpha",
+            "data_beta",
+            "data_gamma"
           ],
           "answer": 0,
-          "explanation": "Observed in Terraform resources under /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
         },
         {
-          "id": "q8_6",
-          "question": "Which data source is used in this module codebase?",
-          "options": [
-            "aws_availability_zones",
-            "google_client_config",
-            "azurerm_client_config",
-            "kubernetes_nodes"
-          ],
-          "answer": 0,
-          "explanation": "Observed in Terraform data blocks under /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
-        },
-        {
-          "id": "q8_7",
-          "question": "Which variable name is part of the module surface?",
+          "id": "q9_5",
+          "question": "Which variable trait is part of VPC Module module inputs?",
           "options": [
             "create_vpc",
-            "spring_profile",
-            "django_settings",
-            "rails_env"
+            "frontend_theme",
+            "api_rate_limit",
+            "react_strict_mode"
           ],
           "answer": 0,
-          "explanation": "Defined in variables within /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/vpc-flow-logs.tf"
         },
         {
-          "id": "q8_8",
-          "question": "Which output trait is exported by this module?",
+          "id": "q9_6",
+          "question": "Which additional variable trait is commonly reviewed in VPC Module?",
+          "options": [
+            "region",
+            "jwt_ttl",
+            "mobile_sdk_version",
+            "html_template"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/vpc-flow-logs.tf"
+        },
+        {
+          "id": "q9_7",
+          "question": "Which output trait is part of the VPC Module contract?",
           "options": [
             "vpc_id",
+            "apk_path",
             "helm_release_name",
-            "docker_image_digest",
-            "jenkins_job_id"
+            "binary_checksum"
           ],
           "answer": 0,
-          "explanation": "Defined in outputs within /Users/mohannarayanaswamy/git/terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/flow-log/main.tf"
         },
         {
-          "id": "q8_9",
-          "question": "Which example folder belongs to this repo?",
+          "id": "q9_8",
+          "question": "Which second output trait is tracked for downstream dependencies in VPC Module?",
+          "options": [
+            "vpc_arn",
+            "xcode_team_id",
+            "storybook_url",
+            "cdn_cache_key"
+          ],
+          "answer": 0,
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/flow-log/main.tf"
+        },
+        {
+          "id": "q9_9",
+          "question": "Which example path is explicitly walked through for VPC Module?",
           "options": [
             "block-public-access",
             "android-app",
@@ -1601,79 +1787,79 @@
             "db-migrations"
           ],
           "answer": 0,
-          "explanation": "Found under /Users/mohannarayanaswamy/git/terraform-aws-vpc/examples. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/modules/vpc-endpoints/main.tf"
         },
         {
-          "id": "q8_10",
-          "question": "How are answer options handled in runtime?",
+          "id": "q9_10",
+          "question": "Which additional example helps validate edge behavior in VPC Module?",
           "options": [
-            "Deterministically shuffled by question ID",
-            "Never shuffled",
-            "Shuffled randomly per refresh without seed",
-            "Sorted alphabetically"
+            "complete",
+            "sample-ui",
+            "mock-api",
+            "helm-values"
           ],
           "answer": 0,
-          "explanation": "Quiz runtime applies deterministic shuffling per question ID. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/examples/ipam/main.tf"
         },
         {
-          "id": "q8_11",
-          "question": "What happens on wrong answer in this workshop runtime?",
+          "id": "q9_11",
+          "question": "Which wrapper path appears in repeated deployment patterns for VPC Module?",
           "options": [
-            "Red feedback, tracked for retry, auto-advance",
-            "Immediate page reload",
-            "Answer is ignored silently",
-            "Quiz exits module"
+            "flow-log",
+            "wrapper.ts",
+            "wrapper.py",
+            "wrapper.yaml"
           ],
           "answer": 0,
-          "explanation": "Wrong answers are recorded and retryable. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/examples/ipam/main.tf"
         },
         {
-          "id": "q8_12",
-          "question": "What is the expected answer index in source quiz JSON before shuffling?",
+          "id": "q9_12",
+          "question": "Which document is used for migration or upgrade guidance in VPC Module?",
           "options": [
-            "0",
-            "1",
-            "2",
-            "3"
+            "UPGRADE-3.0.md",
+            "CHANGELOG.rst",
+            "UPGRADE-1.0.adoc",
+            "terraform.lock.hcl"
           ],
           "answer": 0,
-          "explanation": "All source questions keep the correct option at index 0. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: docs/UPGRADE-3.0.md"
         },
         {
-          "id": "q8_13",
-          "question": "Which secondary resource is also present in this module footprint?",
+          "id": "q9_13",
+          "question": "What planning behavior should be reviewed before replacing resources in VPC Module?",
           "options": [
-            "aws_route",
-            "aws_glue_catalog_database",
-            "aws_opensearch_domain_policy",
-            "aws_codepipeline"
+            "replace vs update action in plan output",
+            "force-stop all containers",
+            "delete remote state first",
+            "clear provider cache only"
           ],
           "answer": 0,
-          "explanation": "Detected among top resource types for terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/planning-behaviors.md"
         },
         {
-          "id": "q8_14",
-          "question": "Which additional variable trait is module-relevant?",
+          "id": "q9_14",
+          "question": "What debugging workflow is emphasized for VPC Module when plan output is unstable?",
           "options": [
-            "region",
-            "flask_debug",
-            "gradle_heap",
-            "react_strict_mode"
+            "run validate/plan with targeted diagnostics and dependency checks",
+            "skip plan and apply directly",
+            "disable state backend",
+            "ignore all warnings"
           ],
           "answer": 0,
-          "explanation": "Found in variable definitions for terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/terraform/docs/debugging.md"
         },
         {
-          "id": "q8_15",
-          "question": "Which additional output trait is part of module contracts?",
+          "id": "q9_15",
+          "question": "How should failed answers behave in the VPC Module quiz segment?",
           "options": [
-            "vpc_arn",
-            "apk_path",
-            "binary_checksum",
-            "chart_repo_url"
+            "capture user selection and retry at the end",
+            "drop failed answers silently",
+            "reset quiz immediately",
+            "lock further attempts"
           ],
           "answer": 0,
-          "explanation": "Found in output definitions for terraform-aws-vpc. Code reference: /Users/mohannarayanaswamy/git/terraform-aws-vpc/main.tf"
+          "explanation": "This aligns with module code anchors and workshop operations guidance. Code reference: /Users/mohannarayanaswamy/git/quiz/programming/articles/terraform_aws_modules_workshop.html"
         }
       ]
     }
