@@ -383,6 +383,42 @@ const slides = [
   },
   {
     "module": "M0: Foundations",
+    "title": "String Formats in HCL",
+    "type": "content",
+    "content": "\n    <p>Terraform supports several ways to define strings, from simple quotes to complex multi-line templates.</p>\n    <table>\n      <tr><th>Format</th><th>Syntax</th><th>Use Case</th></tr>\n      <tr><td>Quoted</td><td><code>\"...\"</code></td><td>Single line, most common</td></tr>\n      <tr><td>Heredoc</td><td><code>&lt;&lt;EOT</code></td><td>Multi-line preservation</td></tr>\n      <tr><td>Indented</td><td><code>&lt;&lt;-EOT</code></td><td>Cleanly indented code</td></tr>\n      <tr><td>Function</td><td><code>jsonencode()</code></td><td>Object \u2192 String</td></tr>\n    </table>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "1\ufe0f\u20e3 Quoted Strings",
+    "type": "content",
+    "content": "\n    <p>The standard way to define strings on a single line.</p>\n    <pre><code>name    = \"droptruck-web\"\nmessage = \"Hello ${var.user_name}\"  # Interpolation\npath    = \"C:\\\\Program Files\"      # Escape sequences</code></pre>\n    <ul>\n        <li><strong>Escape characters:</strong> Use <code>\\n</code> for newlines, <code>\\t</code> for tabs, and <code>\\\\</code> for literals.</li>\n        <li><strong>Interpolation:</strong> Fully supported within quotes.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "2\ufe0f\u20e3 Heredocs (Multi-line Strings)",
+    "type": "content",
+    "content": "\n    <p>Heredocs are essential for scripts and policies.</p>\n    <p><strong>Standard Heredoc (<code>&lt;&lt;EOT</code>):</strong> Preserves indentation exactly as written.</p>\n    <pre><code>script = &lt;&lt;EOT\n#!/bin/bash\necho \"Starting...\"\nEOT</code></pre>\n    <p><strong>Indented Heredoc (<code>&lt;&lt;-EOT</code>):</strong> Strips leading whitespace common to all lines.</p>\n    <pre><code>resource \"aws_instance\" \"this\" {\n  user_data = &lt;&lt;-EOT\n    #!/bin/bash\n    yum update -y  # This whitespace is removed!\n  EOT\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "3\ufe0f\u20e3 Template Interopolation",
+    "type": "content",
+    "content": "\n    <p>Terraform evaluates <code>${ ... }</code> in both quoted and heredoc strings.</p>\n    <pre><code>policy = &lt;&lt;-EOT\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"s3:GetObject\",\n      \"Resource\": \"arn:aws:s3:::${var.bucket_name}/*\"\n    }\n  ]\n}\nEOT</code></pre>\n    <div class=\"callout note\">Interpolation happens during <strong>Plan</strong> if values are known, or <strong>Apply</strong> if they depend on resource outputs.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "4\ufe0f\u20e3 External Templates: <code>templatefile()</code>",
+    "type": "content",
+    "content": "\n    <p>For complex scripts, don't use inline strings. Use <code>templatefile()</code>.</p>\n    <pre><code>user_data = templatefile(\"${path.module}/setup.sh\", {\n  env    = var.environment,\n  region = data.aws_region.current.name\n})</code></pre>\n    <p><strong>Benefits:</strong></p>\n    <ul>\n        <li>Keep logic out of your resources.</li>\n        <li>Syntax highlighting in your IDE.</li>\n        <li>Easier to test and lint scripts.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "5\ufe0f\u20e3 Encoding Functions",
+    "type": "content",
+    "content": "\n    <p>Terraform has powerful generators for structured strings.</p>\n    <ul>\n        <li><strong><code>jsonencode()</code>:</strong> Safest way to generate IAM policies.</li>\n        <li><strong><code>yamlencode()</code>:</strong> Great for Kubernetes ConfigMaps.</li>\n        <li><strong><code>base64encode()</code>:</strong> Often required for EC2 metadata.</li>\n    </ul>\n    <pre><code># Object \u2192 JSON String\npolicy = jsonencode({\n  Version = \"2012-10-17\"\n  Statement = [ { Effect = \"Allow\", Action = \"*\", Resource = \"*\" } ]\n})</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
     "title": "Production Operations",
     "type": "content",
     "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit).</li>\n    </ul>\n    "

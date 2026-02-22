@@ -1,7 +1,7 @@
 {
   "title": "Terraform AWS Modules Workshop Quiz",
   "version": "4.0",
-  "totalQuestions": 230,
+  "totalQuestions": 240,
   "modules": [
     {
       "id": 0,
@@ -18,6 +18,124 @@
           "answer": 0,
           "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
           "id": "q0_1"
+        },
+        {
+          "question": "What is the difference between `<<EOT` and `<<-EOT` in Terraform?",
+          "options": [
+            "`<<-EOT` removes common leading whitespace (indented heredoc)",
+            "`<<-EOT` is for single-line strings",
+            "`<<EOT` is deprecated",
+            "There is no difference"
+          ],
+          "answer": 0,
+          "explanation": "The hyphen in `<<-EOT` allows you to indent the heredoc block for better code readability while stripping that leading indentation from the actual string value.",
+          "id": "q0_string_1"
+        },
+        {
+          "question": "Which function is recommended for rendering external template files with variables?",
+          "options": [
+            "file()",
+            "templatefile()",
+            "read_template()",
+            "render()"
+          ],
+          "answer": 1,
+          "explanation": "`templatefile(path, vars)` reads a file and renders it as a template with the provided variables.",
+          "id": "q0_string_2"
+        },
+        {
+          "question": "How do you convert a Terraform map or object into a JSON string?",
+          "options": [
+            "jsondecode()",
+            "tojson()",
+            "jsonencode()",
+            "as_json()"
+          ],
+          "answer": 2,
+          "explanation": "`jsonencode()` takes a Terraform value and returns a string containing its JSON representation.",
+          "id": "q0_string_3"
+        },
+        {
+          "question": "What is the syntax for string interpolation in HCL?",
+          "options": [
+            "{{ var.name }}",
+            "${var.name}",
+            "$(var.name)",
+            "&var.name"
+          ],
+          "answer": 1,
+          "explanation": "Terraform uses `${ ... }` for string interpolation.",
+          "id": "q0_string_4"
+        },
+        {
+          "question": "Which encoding function is commonly required for EC2 'user_data' in some specific API contexts?",
+          "options": [
+            "urlencode()",
+            "base64encode()",
+            "hexencode()",
+            "utf8encode()"
+          ],
+          "answer": 1,
+          "explanation": "Many AWS resources (like launch templates) require `user_data` to be base64-encoded.",
+          "id": "q0_string_5"
+        },
+        {
+          "question": "Standard heredoc (`<<EOT`) preserves indentation exactly as written. True or False?",
+          "options": [
+            "True",
+            "False"
+          ],
+          "answer": 0,
+          "explanation": "Correct. Standard heredoc does not strip leading whitespace.",
+          "id": "q0_string_6"
+        },
+        {
+          "question": "Can you use interpolation (`${...}`) inside a heredoc string?",
+          "options": [
+            "No, heredocs are raw strings",
+            "Yes, Terraform evaluates them",
+            "Only if using `<<-`",
+            "Only for environment variables"
+          ],
+          "answer": 1,
+          "explanation": "Heredoc strings in Terraform support full interpolation just like quoted strings.",
+          "id": "q0_string_7"
+        },
+        {
+          "question": "Which format is best for defining multi-line scripts in a resource while keeping the HCL code clean and indented?",
+          "options": [
+            "Quoted string with \\n",
+            "Standard Heredoc (<<EOT)",
+            "Indented Heredoc (<<-EOT)",
+            "Single line string"
+          ],
+          "answer": 2,
+          "explanation": "Indented Heredoc (`<<-EOT`) is the cleanest way to include scripts inside indented resource blocks.",
+          "id": "q0_string_8"
+        },
+        {
+          "question": "What does `yamlencode()` return?",
+          "options": [
+            "A YAML file",
+            "A map",
+            "A YAML-formatted string",
+            "A binary object"
+          ],
+          "answer": 2,
+          "explanation": "`yamlencode()` generates a YAML string from a Terraform value.",
+          "id": "q0_string_9"
+        },
+        {
+          "question": "What is the primary benefit of using `templatefile()` over inline heredocs?",
+          "options": [
+            "It is faster",
+            "Better separation of concerns and reuse of script files",
+            "It bypasses IAM checks",
+            "It supports more languages"
+          ],
+          "answer": 1,
+          "explanation": "Keeping scripts in external files makes them easier to test, lint, and reuse across modules.",
+          "id": "q0_string_10"
         },
         {
           "question": "Which meta-argument is best for creating resources that are tracked by stable string keys?",
