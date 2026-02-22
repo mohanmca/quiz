@@ -1,0 +1,1782 @@
+const slides = [
+  {
+    "module": "M0: Foundations",
+    "title": "Why Terraform + Terragrunt?",
+    "type": "content",
+    "content": "\n    <p>Managing large AWS estates like <strong>DropTruck</strong> requires more than just simple HCL files. We need:</p>\n    <ul>\n        <li><strong>DRY (Don't Repeat Yourself):</strong> Terragrunt allows us to keep our Terraform code efficiently without duplication.</li>\n        <li><strong>Dependency Management:</strong> Orchestrating complex stacks (VPC -> EKS -> RDS).</li>\n        <li><strong>Immutability:</strong> Infrastructure as Code (IaC) ensures environments are reproducible.</li>\n    </ul>\n    <div class=\"callout note\">\n        <strong>Workshop Goal:</strong> Master the art of debugging and operating large-scale Terraform/Terragrunt projects.\n    </div>\n    <div class=\"diagram\">\n+----------------+      +------------------+      +----------------+\n|  Terragrunt    | ---> |  Terraform Core  | ---> |  AWS Provider  |\n|  Orchestrator  |      |  State Manager   |      |  API Calls     |\n+----------------+      +------------------+      +----------------+\n    </div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terraform CLI Workflow",
+    "type": "content",
+    "content": "\n    <p>The core lifecycle of any Terraform operation:</p>\n    <pre><code># Initialize backend and plugins\nterraform init\n\n# Check syntax and validity\nterraform validate\n\n# Preview changes (dry-run)\nterraform plan -out=tfplan\n\n# Apply changes\nterraform apply tfplan\n\n# Remove infrastructure\nterraform destroy</code></pre>\n    <div class=\"callout tip\">Always save your plan to a file (<code>-out=tfplan</code>) to ensure <code>apply</code> executes exactly what you reviewed.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terraform Core Request Flow",
+    "type": "content",
+    "content": "\n    <p>Understanding how Terraform processes your commands is key to debugging.</p>\n    <ul>\n        <li><strong>Loader:</strong> Reads configuration (*.tf), loads modules.</li>\n        <li><strong>Graph:</strong> Builds dependency graph of resources.</li>\n        <li><strong>Plan:</strong> Compares config with State and Real World.</li>\n        <li><strong>Apply:</strong> Executes graph walk to reach desired state.</li>\n    </ul>\n    <div class=\"diagram\">\n[Config] --> [Loader] --> [Graph] --> [Plan] --> [Apply]\n                               ^         |\n                               |         v\n                            [State] <-> [Real World]\n    </div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Global Config: <code>terraform { ... }</code>",
+    "type": "content",
+    "content": "\n    <p>This block configures <strong>Terraform itself</strong>, not your infrastructure. It is evaluated first and defines required versions, providers, and backends.</p>\n    <pre><code>terraform {\n  required_version = \">= 1.6.0\"\n  required_providers {\n    aws = { source = \"hashicorp/aws\", version = \"~> 5.0\" }\n  }\n  backend \"s3\" {\n    bucket         = \"droptruck-terraform-state\"\n    key            = \"prod/vpc/terraform.tfstate\"\n    region         = \"ap-southeast-1\"\n    dynamodb_table = \"terraform-lock\"\n    encrypt        = true\n  }\n}</code></pre>\n    <div class=\"callout real\">In production environments like <strong>DropTruck</strong>, remote state prevents accidental overwrites and state locking prevents concurrent apply corruption.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Provider Config: <code>provider 'aws'</code>",
+    "type": "content",
+    "content": "\n    <p>Providers are plugins that translate HCL \u2192 API calls. Terraform core doesn't know AWS \u2014 the provider does.</p>\n    <div class=\"diagram\">\nTerraform Core -> AWS Provider Plugin -> AWS SDK -> AWS API\n    </div>\n    <p>Common Authentication Methods:</p>\n    <ul>\n        <li><strong>Profile:</strong> <code>profile = \"prod\"</code> (Local Dev)</li>\n        <li><strong>Env Vars:</strong> <code>AWS_ACCESS_KEY_ID</code> (CI/CD)</li>\n        <li><strong>IAM Role:</strong> Uses metadata service (EC2/ECS/EKS) - <em>Most Secure</em></li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Advanced Provider Patterns",
+    "type": "content",
+    "content": "\n    <p>Multiple provider instances (aliases) are critical for multi-region or cross-account setups.</p>\n    <pre><code>provider \"aws\" {\n  alias  = \"mumbai\"\n  region = \"ap-south-1\"\n}\n\nresource \"aws_instance\" \"india_server\" {\n  provider = aws.mumbai\n  ...\n}</code></pre>\n    <div class=\"callout tip\"><strong>Best Practice:</strong> Use <code>default_tags</code> in the provider block to ensure all resources are tagged for cost tracking and governance.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Infrastructure Objects: <code>resource</code>",
+    "type": "content",
+    "content": "\n    <p>The most important block. It creates, updates, and destroys real infrastructure.</p>\n    <pre><code>resource \"aws_instance\" \"web\" {\n  ami           = \"ami-0abcdef1234567890\"\n  instance_type = \"t3.micro\"\n  tags = { Name = \"droptruck-web\" }\n}</code></pre>\n    <p><strong>Internals:</strong> Terraform builds a dependency graph, calls the provider, and stores attributes (ID, metadata) in the state file.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Read-Only Data: <code>data</code>",
+    "type": "content",
+    "content": "\n    <p>Data blocks <strong>DO NOT create infrastructure</strong>. They fetch existing information.</p>\n    <pre><code>data \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"099720109477\"]\n  filter { name = \"name\", values = [\"ubuntu/images/*\"] }\n}</code></pre>\n    <table>\n      <tr><th>resource</th><th>data</th></tr>\n      <tr><td>Creates/Manages infra</td><td>Reads existing infra</td></tr>\n      <tr><td>Owned by State</td><td>Not owned by Terraform</td></tr>\n      <tr><td>Can be destroyed</td><td>Cannot be destroyed</td></tr>\n    </table>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Reusable Logic: <code>module</code>",
+    "type": "content",
+    "content": "\n    <p>Modules are reusable packages (like functions in programming). They contain their own <code>main.tf</code>, <code>variables.tf</code>, and <code>outputs.tf</code>.</p>\n    <pre><code>module \"vpc\" {\n  source = \"terraform-aws-modules/vpc/aws\"\n  cidr   = \"10.0.0.0/16\"\n}</code></pre>\n    <p><strong>Sources:</strong> Local paths, GitHub repositories, or the Terraform Registry.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "HCL Block Interaction & Mental Model",
+    "type": "content",
+    "content": "\n    <p>Think of Terraform blocks like a machine:</p>\n    <table>\n      <tr><td><code>terraform</code></td><td>Engine Config</td></tr>\n      <tr><td><code>provider</code></td><td>Cloud Driver</td></tr>\n      <tr><td><code>data</code></td><td>Read-only Lookup</td></tr>\n      <tr><td><code>resource</code></td><td>Create Infra</td></tr>\n      <tr><td><code>module</code></td><td>Reusable Package</td></tr>\n    </table>\n    <div class=\"callout note\"><strong>Execution Order:</strong> Terraform does NOT execute top-to-bottom. It builds a dependency graph and executes in parallel where possible.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "HCL Type System",
+    "type": "content",
+    "content": "\n    <p>Terraform is strongly typed. Common types:</p>\n    <ul>\n        <li><strong>Primitive:</strong> <code>string</code>, <code>number</code>, <code>bool</code></li>\n        <li><strong>Collection:</strong> <code>list(string)</code>, <code>map(string)</code>, <code>set(string)</code></li>\n        <li><strong>Structural:</strong> <code>object({ name=string, age=number })</code>, <code>tuple([...])</code></li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Variables & Validation",
+    "type": "content",
+    "content": "\n    <p>Input variables define the API of your module. Use validation to catch errors early.</p>\n    <pre><code>variable \"instance_type\" {\n  type = string\n  validation {\n    condition     = can(regex(\"^t3\", var.instance_type))\n    error_message = \"Instance type must be a t3 class.\"\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Locals & Expressions",
+    "type": "content",
+    "content": "\n    <p><code>locals</code> are temporary local variables for logic and transformation.</p>\n    <pre><code>locals {\n  common_tags = { Project = \"MegaApp\", Owner = \"PlatformTeam\" }\n  name_prefix = \"${var.env}-${var.region}\"\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Meta-Arguments: <code>count</code> (Index-Based)",
+    "type": "content",
+    "content": "\n    <p><code>count</code> allows creating multiple copies of a resource using a numeric index.</p>\n    <pre><code>resource \"aws_instance\" \"web\" {\n  count         = 3\n  ami           = \"ami-123456\"\n  instance_type = \"t3.micro\"\n  tags = { Name = \"web-${count.index}\" }\n}</code></pre>\n    <ul>\n        <li><strong>Identity:</strong> Resources are identified as <code>web[0]</code>, <code>web[1]</code>, etc.</li>\n        <li><strong>Conditional Creation:</strong> <code>count = var.create ? 1 : 0</code></li>\n    </ul>\n    <div class=\"callout warn\"><strong>Fragility:</strong> Deleting an element from the middle of a list causes Terraform to shift indices, potentially recreating all subsequent resources.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Meta-Arguments: <code>for_each</code> (Key-Based)",
+    "type": "content",
+    "content": "\n    <p><code>for_each</code> is safer and preferred for managing distinct entities like subnets or buckets.</p>\n    <pre><code>variable \"servers\" {\n  type = map(string)\n  default = { app1 = \"t3.micro\", app2 = \"t3.small\" }\n}\n\nresource \"aws_instance\" \"web\" {\n  for_each      = var.servers\n  ami           = \"ami-123456\"\n  instance_type = each.value\n  tags = { Name = each.key }\n}</code></pre>\n    <ul>\n        <li><strong>Identity:</strong> <code>web[\"app1\"]</code>, <code>web[\"app2\"]</code>.</li>\n        <li><strong>Stability:</strong> Removing <code>app1</code> only destroys that specific instance.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "<code>count</code> vs <code>for_each</code>",
+    "type": "content",
+    "content": "\n    <table>\n      <tr><th>Feature</th><th>count</th><th>for_each</th></tr>\n      <tr><td>Based On</td><td>Number</td><td>Map or Set</td></tr>\n      <tr><td>Identity</td><td>Index (Numeric)</td><td>Key (String)</td></tr>\n      <tr><td>Stability</td><td>\u274c No (Index shifting)</td><td>\u2705 Yes (Stable keys)</td></tr>\n      <tr><td>Best For</td><td>Identical replicas</td><td>Named resources</td></tr>\n    </table>\n    <div class=\"callout tip\"><strong>Production Rule:</strong> For <strong>DropTruck</strong> stable infra (VPCs, MSK Clusters, RDS), always prefer <code>for_each</code> for deterministic behavior.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Other Meta-Arguments",
+    "type": "content",
+    "content": "\n    <ul>\n        <li><strong><code>depends_on</code></strong>: Explicitly sets dependency when Terraform cannot infer it.</li>\n        <li><strong><code>lifecycle</code></strong>: Controls resource behavior (<code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>).</li>\n        <li><strong><code>provider</code></strong>: Specifies a non-default provider configuration (e.g., cross-region).</li>\n    </ul>\n    <div class=\"callout note\">Meta-arguments work across <strong>all</strong> resource blocks and control <em>how</em> Terraform manages the resource.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terragrunt Fundamentals",
+    "type": "content",
+    "content": "\n    <p>Terragrunt keeps your backend configuration DRY.</p>\n    <pre><code>include { path = find_parent_folders() }\nterraform {\n  source = \"git::https://github.com/.../terraform-aws-vpc.git//?ref=v5.0.0\"\n}\ninputs = { cidr = \"10.0.0.0/16\" }</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Terragrunt Dependencies",
+    "type": "content",
+    "content": "\n    <p>Pass outputs from one module to another automatically.</p>\n    <pre><code>dependency \"vpc\" {\n  config_path = \"../vpc\"\n  mock_outputs = { vpc_id = \"vpc-fake-123\" }\n}\ninputs = { vpc_id = dependency.vpc.outputs.vpc_id }</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Planning Semantics",
+    "type": "content",
+    "content": "\n    <p>Terraform plan symbols mean specific actions:</p>\n    <ul>\n        <li><span style=\"color:green\">+ Create</span>: Resource will be added.</li>\n        <li><span style=\"color:red\">- Destroy</span>: Resource will be removed.</li>\n        <li><span style=\"color:orange\">~ Update</span>: In-place modification.</li>\n        <li><span style=\"color:red\">-/+ Replace</span>: Destroy then Create.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "State & Refactoring",
+    "type": "content",
+    "content": "\n    <p>Moving resources without destroying them:</p>\n    <pre><code>moved {\n  from = aws_instance.old\n  to   = aws_instance.new\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Debugging Terraform",
+    "type": "content",
+    "content": "\n    <p>When things go wrong:</p>\n    <ul>\n        <li><code>TF_LOG=DEBUG</code>: Enable verbose logging.</li>\n        <li>Check <code>terraform validate</code>.</li>\n    </ul>\n    <div class=\"callout real\">Common error: \"Provider produced inconsistent result\". Often means a remote API changed a value immediately after creation.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Dockerized IaC Workflow",
+    "type": "content",
+    "content": "\n    <p>Run Terraform/Terragrunt in a consistent Docker container to avoid version mismatches.</p>\n    <pre><code>docker run --rm -v $(pwd):/app -w /app alpine/terragrunt:1.5.0 terragrunt plan</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "AWS IaC Coverage Map",
+    "type": "content",
+    "content": "\n    <p>We will cover the full stack:</p>\n    <ul>\n        <li><strong>Network:</strong> VPC, Security Groups</li>\n        <li><strong>Compute:</strong> EC2, EKS, ECS</li>\n        <li><strong>Storage:</strong> S3</li>\n        <li><strong>Security:</strong> IAM, KMS, Secrets Manager</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "String Formats in HCL",
+    "type": "content",
+    "content": "\n    <p>Terraform supports several ways to define strings, from simple quotes to complex multi-line templates.</p>\n    <table>\n      <tr><th>Format</th><th>Syntax</th><th>Use Case</th></tr>\n      <tr><td>Quoted</td><td><code>\"...\"</code></td><td>Single line, most common</td></tr>\n      <tr><td>Heredoc</td><td><code>&lt;&lt;EOT</code></td><td>Multi-line preservation</td></tr>\n      <tr><td>Indented</td><td><code>&lt;&lt;-EOT</code></td><td>Cleanly indented code</td></tr>\n      <tr><td>Function</td><td><code>jsonencode()</code></td><td>Object \u2192 String</td></tr>\n    </table>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "1\ufe0f\u20e3 Quoted Strings",
+    "type": "content",
+    "content": "\n    <p>The standard way to define strings on a single line.</p>\n    <pre><code>name    = \"droptruck-web\"\nmessage = \"Hello ${var.user_name}\"  # Interpolation\npath    = \"C:\\\\Program Files\"      # Escape sequences</code></pre>\n    <ul>\n        <li><strong>Escape characters:</strong> Use <code>\\n</code> for newlines, <code>\\t</code> for tabs, and <code>\\\\</code> for literals.</li>\n        <li><strong>Interpolation:</strong> Fully supported within quotes.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "2\ufe0f\u20e3 Heredocs (Multi-line Strings)",
+    "type": "content",
+    "content": "\n    <p>Heredocs are essential for scripts and policies.</p>\n    <p><strong>Standard Heredoc (<code>&lt;&lt;EOT</code>):</strong> Preserves indentation exactly as written.</p>\n    <pre><code>script = &lt;&lt;EOT\n#!/bin/bash\necho \"Starting...\"\nEOT</code></pre>\n    <p><strong>Indented Heredoc (<code>&lt;&lt;-EOT</code>):</strong> Strips leading whitespace common to all lines.</p>\n    <pre><code>resource \"aws_instance\" \"this\" {\n  user_data = &lt;&lt;-EOT\n    #!/bin/bash\n    yum update -y  # This whitespace is removed!\n  EOT\n}</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "3\ufe0f\u20e3 Template Interopolation",
+    "type": "content",
+    "content": "\n    <p>Terraform evaluates <code>${ ... }</code> in both quoted and heredoc strings.</p>\n    <pre><code>policy = &lt;&lt;-EOT\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"s3:GetObject\",\n      \"Resource\": \"arn:aws:s3:::${var.bucket_name}/*\"\n    }\n  ]\n}\nEOT</code></pre>\n    <div class=\"callout note\">Interpolation happens during <strong>Plan</strong> if values are known, or <strong>Apply</strong> if they depend on resource outputs.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "4\ufe0f\u20e3 External Templates: <code>templatefile()</code>",
+    "type": "content",
+    "content": "\n    <p>For complex scripts, don't use inline strings. Use <code>templatefile()</code>.</p>\n    <pre><code>user_data = templatefile(\"${path.module}/setup.sh\", {\n  env    = var.environment,\n  region = data.aws_region.current.name\n})</code></pre>\n    <p><strong>Benefits:</strong></p>\n    <ul>\n        <li>Keep logic out of your resources.</li>\n        <li>Syntax highlighting in your IDE.</li>\n        <li>Easier to test and lint scripts.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "5\ufe0f\u20e3 Encoding Functions",
+    "type": "content",
+    "content": "\n    <p>Terraform has powerful generators for structured strings.</p>\n    <ul>\n        <li><strong><code>jsonencode()</code>:</strong> Safest way to generate IAM policies.</li>\n        <li><strong><code>yamlencode()</code>:</strong> Great for Kubernetes ConfigMaps.</li>\n        <li><strong><code>base64encode()</code>:</strong> Often required for EC2 metadata.</li>\n    </ul>\n    <pre><code># Object \u2192 JSON String\npolicy = jsonencode({\n  Version = \"2012-10-17\"\n  Statement = [ { Effect = \"Allow\", Action = \"*\", Resource = \"*\" } ]\n})</code></pre>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Production Operations",
+    "type": "content",
+    "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Why is `for_each` preferred over `count` for production infrastructure?",
+      "options": [
+        "It is faster",
+        "It uses stable keys instead of numeric indices",
+        "It is the only way to use maps",
+        "It creates resources in parallel"
+      ],
+      "answer": 1,
+      "explanation": "`for_each` identifies resources by stable keys, preventing the 'index-shifting' problem where deleting one item recreates others.",
+      "id": "q0_2"
+    }
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Terragrunt block allows you to pass outputs from one module to another?",
+      "options": [
+        "dependency",
+        "include",
+        "terraform",
+        "locals"
+      ],
+      "answer": 0,
+      "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+      "id": "q0_1"
+    }
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "EC2 Module Overview",
+    "type": "content",
+    "content": "\n    <p>The <code>terraform-aws-ec2-instance</code> module simplifies creating instances.</p>\n    <ul>\n        <li>Encapsulates <code>aws_instance</code> resource.</li>\n        <li>Handles Spot requests seamlessly.</li>\n        <li>Simplifies EBS volume attachments.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Repository Structure",
+    "type": "content",
+    "content": "\n    <p>Typical module layout:</p>\n    <ul>\n        <li><code>main.tf</code>: Primary logic.</li>\n        <li><code>variables.tf</code>: Inputs (ami, instance_type).</li>\n        <li><code>outputs.tf</code>: Outputs (id, arn, public_ip).</li>\n        <li><code>examples/</code>: Usage patterns.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Basic Instance Composition",
+    "type": "content",
+    "content": "\n    <pre><code>module \"ec2\" {\n  source = \"terraform-aws-modules/ec2-instance/aws\"\n\n  name = \"droptruck-web\"\n  ami  = \"ami-12345678\"\n  instance_type = \"t3.micro\"\n  \n  subnet_id = \"subnet-abcde\"\n}</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "AMI Selection Paths",
+    "type": "content",
+    "content": "\n    <p>You can specify AMI directly or use data sources.</p>\n    <ul>\n        <li><strong>Hardcoded:</strong> <code>ami = \"ami-...\"</code> (Stable but manual)</li>\n        <li><strong>SSM Parameter:</strong> Fetch latest Amazon Linux 2 automatically.</li>\n    </ul>\n    <div class=\"callout tip\">In production, pin AMIs to ensure immutable deployments.</div>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Instance Lifecycle",
+    "type": "content",
+    "content": "\n    <p>Controlling instance behavior:</p>\n    <ul>\n        <li><code>user_data</code>: Script running on first boot.</li>\n        <li><code>user_data_replace_on_change</code>: Force replacement if user_data changes.</li>\n    </ul>\n    <pre><code>user_data = <<-EOT\n  #!/bin/bash\n  yum update -y\n  EOT</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Capacity & Placement",
+    "type": "content",
+    "content": "\n    <p>Advanced placement options:</p>\n    <ul>\n        <li><code>placement_group</code>: Cluster, spread, or partition strategies.</li>\n        <li><code>capacity_reservation_specification</code>: Ensure capacity is available.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Spot Instances",
+    "type": "content",
+    "content": "\n    <p>Save costs with Spot:</p>\n    <pre><code>create_spot_instance = true\nspot_price           = \"0.05\"\nspot_type            = \"persistent\"</code></pre>\n    <div class=\"callout warn\">Spot instances can be interrupted! Ensure your app is stateless or handles termination.</div>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Block Devices (EBS)",
+    "type": "content",
+    "content": "\n    <p>Attaching storage:</p>\n    <pre><code>root_block_device = [\n  {\n    volume_type = \"gp3\"\n    volume_size = 20\n  }\n]</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "IAM Role & Profiles",
+    "type": "content",
+    "content": "\n    <p>Instances need permissions to talk to AWS services.</p>\n    <ul>\n        <li><code>create_iam_instance_profile</code>: Auto-create profile.</li>\n        <li><code>iam_role_name</code>: Attach existing role.</li>\n    </ul>\n    <p>Never embed credentials in the instance!</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Security Groups",
+    "type": "content",
+    "content": "\n    <p>Networking firewall:</p>\n    <ul>\n        <li><code>vpc_security_group_ids</code>: List of SG IDs.</li>\n    </ul>\n    <p>The module can also create SGs if configured, but usually it's better to pass ID from SG module.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Network Interfaces",
+    "type": "content",
+    "content": "\n    <p>For advanced networking (e.g., dual homing):</p>\n    <pre><code>network_interface = [\n  {\n    device_index = 0\n    network_interface_id = \"eni-...\"\n  }\n]</code></pre>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "IMDS & Monitoring",
+    "type": "content",
+    "content": "\n    <p><strong>IMDSv2</strong> is critical for security (SSRf protection).</p>\n    <pre><code>metadata_options = {\n  http_tokens = \"required\"\n}</code></pre>\n    <p>Enable <code>monitoring = true</code> for 1-minute CloudWatch metrics.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Variable Patterns",
+    "type": "content",
+    "content": "\n    <p>Check <code>variables.tf</code> for type constraints.</p>\n    <p>Most list variables default to <code>[]</code> (empty list) for optionality.</p>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Output Contracts",
+    "type": "content",
+    "content": "\n    <p>Key outputs to consume:</p>\n    <ul>\n        <li><code>id</code>: The Instance ID.</li>\n        <li><code>public_ip</code>: (If attached).</li>\n        <li><code>arn</code>: Amazon Resource Name.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "\n    <p>The <code>examples/complete</code> directory shows all features enabled.</p>\n    <ul>\n        <li>Spot + Root Block + Tags + User Data.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Example: Session Manager",
+    "type": "content",
+    "content": "\n    <p>Access without SSH keys!</p>\n    <ul>\n        <li>Requires SSM Agent (default on AL2).</li>\n        <li>Requires Instance Profile with <code>AmazonSSMManagedInstanceCore</code>.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M1: EC2 Instance",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which parameter enforces the use of IMDSv2 for instance metadata security?",
+      "options": [
+        "http_tokens = 'required'",
+        "http_endpoint = 'enabled'",
+        "metadata_version = 2",
+        "secure_boot = true"
+      ],
+      "answer": 0,
+      "explanation": "Setting `http_tokens` to `required` enforces session-based authentication (IMDSv2).",
+      "id": "q1_1"
+    }
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "ECS Module Architecture",
+    "type": "content",
+    "content": "\n    <p>ECS manages containers. The module usually splits into:</p>\n    <ul>\n        <li><strong>Cluster:</strong> The control plane.</li>\n        <li><strong>Service:</strong> The running application.</li>\n        <li><strong>Task Definition:</strong> The blueprint (CPU, RAM, Image).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Root: Cluster Composition",
+    "type": "content",
+    "content": "\n    <pre><code>module \"ecs_cluster\" {\n  source = \"terraform-aws-modules/ecs/aws\"\n  cluster_name = \"my-cluster\"\n  \n  cluster_configuration = {\n    execute_command_configuration = {\n      logging = \"OVERRIDE\"\n      log_configuration = {\n        cloud_watch_log_group_name = \"/aws/ecs/cls\"\n      }\n    }\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Cluster Resources",
+    "type": "content",
+    "content": "\n    <p>Key resources created:</p>\n    <ul>\n        <li><code>aws_ecs_cluster</code></li>\n        <li><code>aws_ecs_cluster_capacity_providers</code>: Fargate / EC2 ASG.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "CloudWatch Logging",
+    "type": "content",
+    "content": "\n    <p>Container logs need a destination.</p>\n    <p>The module creates a Log Group automatically if <code>create_cloudwatch_log_group = true</code>.</p>\n    <div class=\"callout tip\">Set retention days to avoid infinite storage costs!</div>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Cluster IAM Roles",
+    "type": "content",
+    "content": "\n    <p>ECS needs permission to call AWS APIs.</p>\n    <ul>\n        <li><strong>Infrastructure Role:</strong> Managing ASGs.</li>\n        <li><strong>Exec Role:</strong> Pulling images, pushing logs (Task Execution).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Service Submodule",
+    "type": "content",
+    "content": "\n    <p>Defining the application:</p>\n    <pre><code>module \"ecs_service\" {\n  source = \"terraform-aws-modules/ecs/aws//modules/service\"\n  \n  name = \"backend-api\"\n  cpu  = 1024\n  memory = 2048\n  container_definitions = { ... }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Task Execution vs Task Role",
+    "type": "content",
+    "content": "\n    <div class=\"callout note\">\n        <strong>Task Execution Role:</strong> Used by ECS Agent (Pull image, Logs).<br>\n        <strong>Task Role:</strong> Used by YOUR code (S3 access, DynamoDB).\n    </div>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Autoscaling",
+    "type": "content",
+    "content": "\n    <p>Scale based on CPU/Memory:</p>\n    <pre><code>autoscaling_policies = {\n  cpu = {\n    policy_type = \"TargetTrackingScaling\"\n    target_value = 75\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Service Security Groups",
+    "type": "content",
+    "content": "\n    <p>Allow traffic to your tasks.</p>\n    <ul>\n        <li>Ingress from ALB (Port 80/443 or container port).</li>\n        <li>Egress to internet (0.0.0.0/0) or VPC.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Container Definitions",
+    "type": "content",
+    "content": "\n    <p>JSON structure defining the container.</p>\n    <pre><code>container_definitions = {\n  app = {\n    image = \"nginx:latest\"\n    port_mappings = [{ containerPort = 80 }]\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Express Service",
+    "type": "content",
+    "content": "\n    <p>Simplified pattern for standard web services.</p>\n    <p>Abstracts away complex JSON definitions for simple needs.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Fargate Example",
+    "type": "content",
+    "content": "\n    <p>Serverless Compute:</p>\n    <ul>\n        <li>No EC2 instances to manage.</li>\n        <li>Network Mode must be <code>awsvpc</code>.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "EC2 Autoscaling Example",
+    "type": "content",
+    "content": "\n    <p>Using Capacity Providers to scale EC2 instances underlying the tasks.</p>\n    <p>Complex coordination between ECS Service scaling and ASG scaling.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Variables API",
+    "type": "content",
+    "content": "\n    <p>Check <code>ignore_task_definition_changes</code> if you deploy via external CD pipeline (like CodeDeploy).</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Upgrades & Breaking Changes",
+    "type": "content",
+    "content": "\n    <p>ECS module v5+ introduced significant structural changes.</p>\n    <p>Always review <code>UPGRADE.md</code> before bumping versions.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Wrapper Modules",
+    "type": "content",
+    "content": "\n    <p>Use wrappers to standardize logging, tags, and security defaults across all services in your org.</p>\n    "
+  },
+  {
+    "module": "M2: ECS Cluster & Service",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which IAM role allows the ECS Agent to pull container images and push logs?",
+      "options": [
+        "Task Execution Role",
+        "Task Role",
+        "Service Linked Role",
+        "Instance Profile"
+      ],
+      "answer": 0,
+      "explanation": "The Task Execution Role grants permissions to the ECS infrastructure (agent) to pull images and write logs.",
+      "id": "q2_1"
+    }
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "EKS Module Overview",
+    "type": "content",
+    "content": "\n    <p>One of the most complex modules. Manages Control Plane + Data Plane.</p>\n    <ul>\n        <li><code>aws_eks_cluster</code></li>\n        <li><code>aws_eks_node_group</code> (Managed)</li>\n        <li><code>karpenter</code> (Autoscaling)</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Cluster Resources",
+    "type": "content",
+    "content": "\n    <pre><code>module \"eks\" {\n  source = \"terraform-aws-modules/eks/aws\"\n  version = \"~> 20.0\"\n  \n  cluster_name    = \"dev-cluster\"\n  cluster_version = \"1.29\"\n  \n  vpc_id     = var.vpc_id\n  subnet_ids = var.private_subnets\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Access Entries (v20+)",
+    "type": "content",
+    "content": "\n    <p>New EKS Access Mode replaces <code>aws-auth</code> ConfigMap.</p>\n    <pre><code>enable_cluster_creator_admin_permissions = true\naccess_entries = {\n  devops = {\n    principal_arn = \"arn:aws:iam::111:role/DevOps\"\n    policy_arn    = \"arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy\"\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Control Plane Network",
+    "type": "content",
+    "content": "\n    <p>EKS Endpoint:</p>\n    <ul>\n        <li><code>cluster_endpoint_public_access</code>: True/False</li>\n        <li><code>cluster_endpoint_private_access</code>: True/False</li>\n    </ul>\n    <div class=\"callout warn\">Avoid Public Access CIDR 0.0.0.0/0 in production!</div>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "OIDC Provider & IAM",
+    "type": "content",
+    "content": "\n    <p>EKS uses OIDC to federate IAM identities to Pods (IRSA).</p>\n    <p>Module creates <code>aws_iam_openid_connect_provider</code> automatically.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "EKS Add-ons",
+    "type": "content",
+    "content": "\n    <p>Manage VPC CNI, CoreDNS, Kube-Proxy.</p>\n    <pre><code>cluster_addons = {\n  coredns = {\n    most_recent = true\n  }\n  vpc-cni = {\n    most_recent = true\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Node Groups Logic",
+    "type": "content",
+    "content": "\n    <p>Data Plane compute.</p>\n    <ul>\n        <li><strong>EKS Managed:</strong> AWS patches OS.</li>\n        <li><strong>Self Managed:</strong> You control ASG + UserData.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Managed Node Groups",
+    "type": "content",
+    "content": "\n    <pre><code>eks_managed_node_groups = {\n  general = {\n    min_size     = 1\n    max_size     = 3\n    instance_types = [\"t3.medium\"]\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Self-Managed Node Groups",
+    "type": "content",
+    "content": "\n    <p>For custom AMIs or advanced User Data logic not supported by Managed Node Groups.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Fargate Profiles",
+    "type": "content",
+    "content": "\n    <p>Serverless Pods.</p>\n    <p>Define namespaces/labels that trigger Fargate placement.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Karpenter Integration",
+    "type": "content",
+    "content": "\n    <p>Next-gen Autoscaler.</p>\n    <p>Module helps provision the IAM roles and SQS queues required for Karpenter to manage nodes efficiently.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Capability Submodules",
+    "type": "content",
+    "content": "\n    <p>Modular architecture allows adding capabilities via submodules to avoid monolithic configurations.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Hybrid Node Role",
+    "type": "content",
+    "content": "\n    <p>Support for <strong>EKS Anywhere</strong> or hybrid nodes connecting back to the cluster.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "User Data Generation",
+    "type": "content",
+    "content": "\n    <p>Bootstrap scripts for nodes.</p>\n    <p>Must register with the cluster API server on boot.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Network Connectivity Docs",
+    "type": "content",
+    "content": "\n    <p>Understanding Security Group rules between Control Plane and Nodes is vital.</p>\n    <p>Nodes must talk to API Server (443). Control plane must talk to Nodes (10250 for logs/exec).</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Upgrades & Migration",
+    "type": "content",
+    "content": "\n    <p>Kubernetes versions deprecate APIs frequently.</p>\n    <p>Terraform EKS module v19 -> v20 was a major breaking change regarding <code>aws-auth</code>.</p>\n    "
+  },
+  {
+    "module": "M3: EKS (Kubernetes)",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the modern replacement for the `aws-auth` ConfigMap in EKS?",
+      "options": [
+        "Access Entries (API)",
+        "IAM Instance Profiles",
+        "Kubeconfig",
+        "Security Groups"
+      ],
+      "answer": 0,
+      "explanation": "EKS Access Entries allow managing cluster access directly via the AWS API, replacing the awkward ConfigMap.",
+      "id": "q3_1"
+    }
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Module Family",
+    "type": "content",
+    "content": "\n    <p>A collection of submodules for specific IAM patterns.</p>\n    <ul>\n        <li><code>iam-user</code></li>\n        <li><code>iam-role-for-service-accounts-eks</code></li>\n        <li><code>iam-assumable-role</code></li>\n        <li><code>iam-policy</code></li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Account",
+    "type": "content",
+    "content": "\n    <p>Set account-wide settings.</p>\n    <ul>\n        <li>Password Policy (Length, Complexity).</li>\n        <li>Account Alias.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Group",
+    "type": "content",
+    "content": "\n    <p>Manage groups of users.</p>\n    <p>Best Practice: Assign permissions to Groups, not Users.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM OIDC Provider",
+    "type": "content",
+    "content": "\n    <p>Links AWS IAM to external IdPs (GitHub, EKS, Okta).</p>\n    <p>Required for <strong>GitHub Actions</strong> to assume roles without access keys.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Policy",
+    "type": "content",
+    "content": "\n    <p>Create reusable policy documents.</p>\n    <pre><code>module \"policy\" {\n  source = \"terraform-aws-modules/iam/aws//modules/iam-policy\"\n  name        = \"S3Read\"\n  policy      = jsonencode({ ... })\n}</code></pre>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Read-Only Policy",
+    "type": "content",
+    "content": "\n    <p>Helper module to generate ReadOnly policies for services automatically.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM Role: Assume Role",
+    "type": "content",
+    "content": "\n    <p>Roles are for trusted entities.</p>\n    <ul>\n        <li><strong>Principal:</strong> Who can assume? (Service, User, Account, OIDC).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Inline vs Attached Policies",
+    "type": "content",
+    "content": "\n    <p><strong>Attached:</strong> Managed Policy (Reusable).<br>\n    <strong>Inline:</strong> Embedded in role (Strictly coupled).</p>\n    <p>Module supports both.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IRSA (IAM for K8s)",
+    "type": "content",
+    "content": "\n    <p>Map K8s Service Account to IAM Role.</p>\n    <pre><code>module \"irsa\" {\n  source = \"terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks\"\n  role_name = \"s3-reader\"\n  oidc_providers = {\n    ex = {\n      provider_arn = \"arn:aws:iam::...\"\n      namespace_service_accounts = [\"default:my-app\"]\n    }\n  }\n}</code></pre>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IRSA Built-in Policies",
+    "type": "content",
+    "content": "\n    <p>The module includes pre-built policies for common addons:</p>\n    <ul>\n        <li>VPC CNI</li>\n        <li>Load Balancer Controller</li>\n        <li>Cluster Autoscaler</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "IAM User",
+    "type": "content",
+    "content": "\n    <p>Create physical users (avoid if possible, use SSO).</p>\n    <ul>\n        <li>Login Profile (Console Password).</li>\n        <li>Access Keys (CLI).</li>\n        <li>SSH Keys (CodeCommit).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Example: OIDC + Role",
+    "type": "content",
+    "content": "\n    <p>GitHub Actions Integration:</p>\n    <pre><code>trusted_role_services = [\"github\"]\ncustom_role_trust_policy = ...</code></pre>\n    <p>Allows <code>git push</code> to trigger deployments securely.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Example: Group + User",
+    "type": "content",
+    "content": "\n    <p>Standard pattern: Create 'Developers' group with PowerUserAccess, add users to group.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Variable Traits",
+    "type": "content",
+    "content": "\n    <p>Common inputs:</p>\n    <ul>\n        <li><code>create_role</code>: bool</li>\n        <li><code>role_name</code>: string</li>\n        <li><code>tags</code>: map</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Wrapper Modules",
+    "type": "content",
+    "content": "\n    <p>Use wrappers to enforce company-wide boundaries or naming conventions on Roles.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Upgrades & Migration",
+    "type": "content",
+    "content": "\n    <p>IAM changes are global and can lock you out.</p>\n    <p>Always review plans carefully. Verify Trust Policies explicitly.</p>\n    "
+  },
+  {
+    "module": "M4: IAM Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which mechanism allows a Kubernetes Pod to use AWS IAM permissions?",
+      "options": [
+        "IRSA (IAM Roles for Service Accounts)",
+        "Access Keys",
+        "Instance Profiles",
+        "Security Groups"
+      ],
+      "answer": 0,
+      "explanation": "IRSA uses OIDC to project a Kubernetes Service Account token to an IAM Role, providing fine-grained permissions.",
+      "id": "q4_1"
+    }
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "KMS Module Scope",
+    "type": "content",
+    "content": "Key Management Service controls encryption keys."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Resource Types",
+    "type": "content",
+    "content": "Customer Managed Keys (CMK) vs AWS Managed Keys."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Key Policy Composition",
+    "type": "content",
+    "content": "The single most important security control for KMS."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Key Owners vs Admins",
+    "type": "content",
+    "content": "Separation of duties: Who can manage the key vs who can use it."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Aliases",
+    "type": "content",
+    "content": "Friendly names (alias/my-key) make keys easier to reference."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Grants",
+    "type": "content",
+    "content": "Dynamic, scoped permissions used by services like ASG."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Multi-Region Keys",
+    "type": "content",
+    "content": "Replicate keys across regions for DR."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "External Key Material",
+    "type": "content",
+    "content": "Import your own key material (BYOK)."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Route53 DNSSEC",
+    "type": "content",
+    "content": "KMS is used to sign DNS zones."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Autoscaling Service Role",
+    "type": "content",
+    "content": "ASG needs grants to encrypt volumes."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Variable Traits",
+    "type": "content",
+    "content": "Rotation window, deletion window (7-30 days)."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Data Sources",
+    "type": "content",
+    "content": "Using `aws_caller_identity` to scope policies."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Output Contracts",
+    "type": "content",
+    "content": "ARN is the primary identifier needed by other modules."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "Full CMK with rotation and strict policy."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Failure Modes",
+    "type": "content",
+    "content": "Key deletion is destructive! 7 day wait period minimum."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Upgrade Notes",
+    "type": "content",
+    "content": "Policy changes are immediate."
+  },
+  {
+    "module": "M5: KMS Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the minimum pending deletion window for a KMS key?",
+      "options": [
+        "7 days",
+        "1 day",
+        "30 days",
+        "Instant"
+      ],
+      "answer": 0,
+      "explanation": "AWS enforces a minimum of 7 days wait period before deleting a key to allow recovery from accidental deletion.",
+      "id": "q5_1"
+    }
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "S3 Module Surface",
+    "type": "content",
+    "content": "Creating secure, compliant buckets."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Core Resource",
+    "type": "content",
+    "content": "<code>aws_s3_bucket</code> and its many children."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Directory & Table Buckets",
+    "type": "content",
+    "content": "New high-performance bucket types."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "ACLs & Ownership",
+    "type": "content",
+    "content": "<strong>Block Public Access</strong> should be enabled by default."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Versioning & Encryption",
+    "type": "content",
+    "content": "Versioning protects against overwrites/deletes."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Lifecycle Rules",
+    "type": "content",
+    "content": "Transition to Glacier to save money."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Replication (CRR)",
+    "type": "content",
+    "content": "Copy objects to another region for DR."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Logging",
+    "type": "content",
+    "content": "Server Access Logs for audit."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Bucket Policies",
+    "type": "content",
+    "content": "JSON policies for granular access control."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Notification Submodule",
+    "type": "content",
+    "content": "Trigger Lambda/SQS on object upload."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Object Submodule",
+    "type": "content",
+    "content": "Upload objects via Terraform (small files only)."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Account Public Access",
+    "type": "content",
+    "content": "Block public buckets account-wide."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Table Bucket (Iceberg)",
+    "type": "content",
+    "content": "Specialized for analytics."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Example: Replication",
+    "type": "content",
+    "content": "Setup Source and Destination buckets."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Defensive Defaults",
+    "type": "content",
+    "content": "Module defaults to private and encrypted."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Import Migration",
+    "type": "content",
+    "content": "Importing existing buckets requires careful state alignment."
+  },
+  {
+    "module": "M6: S3 Bucket",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which feature effectively prevents accidental deletion of objects?",
+      "options": [
+        "Versioning",
+        "Encryption",
+        "Logging",
+        "Replication"
+      ],
+      "answer": 0,
+      "explanation": "Versioning keeps multiple variants of an object, allowing recovery of deleted or overwritten files.",
+      "id": "q6_1"
+    }
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Module Purpose",
+    "type": "content",
+    "content": "Store passwords, keys, and config securely."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Resource",
+    "type": "content",
+    "content": "The container for the secret data."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Policy",
+    "type": "content",
+    "content": "Who can read this secret?"
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Versioning Strategy",
+    "type": "content",
+    "content": "Ignore changes to value if managed externally."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Secret Types",
+    "type": "content",
+    "content": "String (JSON) vs Binary."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Random Generation",
+    "type": "content",
+    "content": "Generate passwords within Terraform."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "KMS Integration",
+    "type": "content",
+    "content": "Secrets are encrypted at rest with KMS."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Rotation",
+    "type": "content",
+    "content": "Trigger Lambda to rotate credentials automatically."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Replica Config",
+    "type": "content",
+    "content": "Replicate secrets to other regions."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Block Public Policy",
+    "type": "content",
+    "content": "Prevent exposure."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Lifecycle Behavior",
+    "type": "content",
+    "content": "Secrets are soft-deleted by default."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Variables API",
+    "type": "content",
+    "content": "Names, descriptions, and tags."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Outputs",
+    "type": "content",
+    "content": "ARN is needed for ECS/Lambda to consume it."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Example: Rotation",
+    "type": "content",
+    "content": "RDS Credential Rotation pattern."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Operational Risks",
+    "type": "content",
+    "content": "Don't print secrets to Terraform Output!"
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Production Hardening",
+    "type": "content",
+    "content": "Use separate keys for separate secrets."
+  },
+  {
+    "module": "M7: Secrets Manager",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What happens when you delete a secret in Secrets Manager?",
+      "options": [
+        "It enters a recovery window (7-30 days)",
+        "It is permanently deleted instantly",
+        "It is archived to Glacier",
+        "It becomes public"
+      ],
+      "answer": 0,
+      "explanation": "Secrets Manager enforces a recovery window to allow restoration of accidentally deleted secrets.",
+      "id": "q7_1"
+    }
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "SG Module Design",
+    "type": "content",
+    "content": "DRY rule definitions."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Creation Modes",
+    "type": "content",
+    "content": "Create new or manage existing."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Rule Taxonomy",
+    "type": "content",
+    "content": "Ingress (Inbound) vs Egress (Outbound)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Ingress Patterns",
+    "type": "content",
+    "content": "CIDR blocks, Source SG, Prefix Lists."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Egress Patterns",
+    "type": "content",
+    "content": "Usually Allow All (0.0.0.0/0) or strict."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Computed Rules",
+    "type": "content",
+    "content": "Pre-defined rules (e.g., 'http-80', 'postgresql')."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Dynamic Rules",
+    "type": "content",
+    "content": "Using `dynamic` blocks for list iterations."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Prefix Lists",
+    "type": "content",
+    "content": "Managed lists of IPs (e.g., CloudFront, Corporate VPN)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Service Modules",
+    "type": "content",
+    "content": "Submodules for common apps."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Wrapper Ecosystem",
+    "type": "content",
+    "content": "Standardizing firewall rules."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Conflict & Drift",
+    "type": "content",
+    "content": "Avoid mixing inline rules with `aws_security_group_rule` resources."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Timeouts",
+    "type": "content",
+    "content": "Rule changes can be slow."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Output Traits",
+    "type": "content",
+    "content": "SG ID is the currency of AWS networking."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Example: Complete",
+    "type": "content",
+    "content": "Complex web-tier SG."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Scaling Rules",
+    "type": "content",
+    "content": "SGs have limits (rules per SG)."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Safe Evolution",
+    "type": "content",
+    "content": "Add new rule -> Update App -> Remove old rule."
+  },
+  {
+    "module": "M8: Security Group",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Why is it recommended to use `aws_security_group_rule` resources over inline rules?",
+      "options": [
+        "Avoids conflicts and allows modular rule management",
+        "It is faster",
+        "It supports more protocols",
+        "It is cheaper"
+      ],
+      "answer": 0,
+      "explanation": "Inline rules cause conflicts if multiple modules try to manage the same SG. Discrete rule resources are additive.",
+      "id": "q8_1"
+    }
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "VPC Module Architecture",
+    "type": "content",
+    "content": "The foundation of AWS networking."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Core Creation",
+    "type": "content",
+    "content": "CIDR block definition (10.0.0.0/16).<div class=\"callout real\"><strong>DropTruck Pattern:</strong> Using <code>10.0.0.0/16</code> for production VPCs with separate subnets for MSK and Flink.</div>"
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Public Subnets",
+    "type": "content",
+    "content": "Attached to Internet Gateway (IGW)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Private Subnets",
+    "type": "content",
+    "content": "Route to NAT Gateway."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Database Subnets",
+    "type": "content",
+    "content": "Private, often with specific NACLs."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Redshift/Cache Subnets",
+    "type": "content",
+    "content": "Specialized routing."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Intra Subnets",
+    "type": "content",
+    "content": "No internet access (internal only)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "DHCP Options",
+    "type": "content",
+    "content": "Domain names and NTP."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Network ACLs",
+    "type": "content",
+    "content": "Stateless firewall at subnet level."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IPv6 & Dualstack",
+    "type": "content",
+    "content": "Enabling IPv6 support."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Flow Logs",
+    "type": "content",
+    "content": "Capture IP traffic metadata."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IAM for Flow Logs",
+    "type": "content",
+    "content": "CloudWatch Logs write permissions."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "VPC Endpoints",
+    "type": "content",
+    "content": "Private link to AWS services (S3, DynamoDB)."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "IPAM",
+    "type": "content",
+    "content": "IP Address Manager integration."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Default VPC",
+    "type": "content",
+    "content": "Manage or adopt the default VPC."
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Upgrade Considerations",
+    "type": "content",
+    "content": "Changing CIDRs requires recreation!"
+  },
+  {
+    "module": "M9: VPC Module",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What component allows instances in a private subnet to access the internet for updates?",
+      "options": [
+        "NAT Gateway",
+        "Internet Gateway",
+        "VPN Gateway",
+        "Egress Only Gateway"
+      ],
+      "answer": 0,
+      "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
+      "id": "q9_1"
+    }
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Introduction to Amazon Managed Service for Apache Flink",
+    "type": "content",
+    "content": "<p>Amazon Managed Service for Apache Flink is a fully managed service for running Flink jobs at scale.</p>\n<ul>\n    <li><strong>Serverless:</strong> No cluster provisioning or management.</li>\n    <li><strong>Stateful:</strong> Designed for exactly-once consistency.</li>\n    <li><strong>Tooling:</strong> Supports AWS Console, CLI, SDK, CloudFormation, and Terraform.</li>\n</ul>\n<div class=\"callout note\">Managed Service for Apache Flink was formerly known as Kinesis Data Analytics for Java.</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Core Concepts: Application",
+    "type": "content",
+    "content": "<p>The <strong>Application</strong> is the main resource you create and control.</p>\n<ul>\n    <li><strong>Code Package:</strong> JAR (Java) or ZIP (Python) in S3.</li>\n    <li><strong>Configuration:</strong> Defines parallelism (KPU), networking (VPC), and runtime properties.</li>\n    <li><strong>Job:</strong> The running instance of your code on a Flink cluster.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Checkpoints vs Savepoints",
+    "type": "content",
+    "content": "<p>Mechanisms for state consistency:</p>\n<table>\n    <tr><th>Feature</th><th>Checkpoint</th><th>Savepoint (Snapshot)</th></tr>\n    <tr><td>Purpose</td><td>Auto-recovery from failures</td><td>Updates, Scaling, Maintenance</td></tr>\n    <tr><td>Trigger</td><td>Automatic (default 1 min)</td><td>User triggered or Update triggered</td></tr>\n    <tr><td>Durability</td><td>Transient (deleted on stop)</td><td>Durable (persisted)</td></tr>\n    <tr><td>Managed Service Name</td><td>Checkpoint</td><td>Snapshot</td></tr>\n</table>\n<div class=\"callout tip\">Enable Snapshots for production apps to persist state across updates!</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Application Lifecycle: Happy Path",
+    "type": "content",
+    "content": "<ol>\n    <li><strong>Create:</strong> Define config and code location.</li>\n    <li><strong>Start:</strong> Provisions cluster -> READY to STARTING to RUNNING.</li>\n    <li><strong>Update:</strong> Change code/config. Stops job with Snapshot -> Restarts with new config.</li>\n    <li><strong>Stop:</strong> Graceful shutdown. Takes Snapshot -> RUNNING to STOPPING to READY.</li>\n</ol>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Streaming vs Batch Mode",
+    "type": "content",
+    "content": "<p><strong>Streaming Mode (Default):</strong></p>\n<ul>\n    <li>Runs continuously until stopped.</li>\n    <li>Auto-restarts from checkpoint on failure.</li>\n</ul>\n<p><strong>Batch Mode:</strong></p>\n<ul>\n    <li>Runs until processing completes.</li>\n    <li>Gracefully stops and returns to READY.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Update Workflow (Zero Data Loss)",
+    "type": "content",
+    "content": "<p>When you update a RUNNING application (e.g., code change or scaling):</p>\n<pre><code>1. Service triggers Update. Status: UPDATING.\n2. Flink stops processing.\n3. Service takes a Snapshot (Savepoint).\n4. Service provisions new cluster (if needed).\n5. Job restarts on new cluster using the Snapshot.\n6. Status returns to RUNNING.</code></pre>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Flink Cluster Composition",
+    "type": "content",
+    "content": "<p>Your application runs on a dedicated cluster consisting of:</p>\n<ul>\n    <li><strong>Job Manager (1):</strong> The coordinator. Receives code/config.</li>\n    <li><strong>Task Managers (N):</strong> The workers. Execute subtasks.</li>\n</ul>\n<div class=\"diagram\">\n[Job Manager] ----> [Task Manager 1]\n              ----> [Task Manager 2]\n              ----> [Task Manager N]\n</div>\n<p>Resources (CPU/RAM) are defined by <strong>KPUs</strong> (Kinesis Processing Units).</p>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Task Distribution",
+    "type": "content",
+    "content": "<p>Flink decomposes your `main()` code into a <strong>Dataflow Graph</strong>.</p>\n<ul>\n    <li><strong>Subtasks:</strong> The actual units of execution distributed across Task Managers.</li>\n    <li><strong>Parallelism:</strong> Determines the number of subtasks.</li>\n</ul>\n<div class=\"callout real\">If a job is \"RUNNING\" but subtasks are \"INITIALIZING\", data is not yet processing.</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Start Application Process",
+    "type": "content",
+    "content": "<p>What happens when you click Start?</p>\n<ol>\n    <li>Provision dedicated cluster resources.</li>\n    <li>Submit code/config to Job Manager.</li>\n    <li>Execute `main()` to generate Dataflow.</li>\n    <li>Deploy subtasks to Task Managers.</li>\n    <li>Subtasks restore state (from Snapshot) and initialize connectors (e.g., Kafka).</li>\n    <li>Processing begins.</li>\n</ol>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Starting from Snapshot",
+    "type": "content",
+    "content": "<p><code>StartApplication</code> restore options:</p>\n<ul>\n    <li><code>RESTORE_FROM_LATEST_SNAPSHOT</code>: Typical production restart.</li>\n    <li><code>RESTORE_FROM_CUSTOM_SNAPSHOT</code>: Time travel (careful with source retention!).</li>\n    <li><code>SKIP_RESTORE_FROM_SNAPSHOT</code>: Fresh start (State loss).</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Snapshot Considerations",
+    "type": "content",
+    "content": "<p>Restarting from an older snapshot (Time Travel):</p>\n<ul>\n    <li><strong>Source Retention:</strong> Must be within Kafka/Kinesis retention period.</li>\n    <li><strong>Duplicates:</strong> Older snapshot means re-processing old data. Idempotency is key.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "IAM Role Updates",
+    "type": "content",
+    "content": "<p>IAM changes are <strong>external</strong> to the Flink Lifecycle.</p>\n<ul>\n    <li>Updating the IAM Role policies happens immediately.</li>\n    <li>Does NOT require app restart.</li>\n    <li><strong>Risk:</strong> Revoking permission causes immediate runtime errors in the running job.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Code Package Updates",
+    "type": "content",
+    "content": "<p>Simply uploading a new JAR to S3 does <strong>NOT</strong> trigger an update.</p>\n<p>You must call <code>UpdateApplication</code> to tell the service to pick up the new object version.</p>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Flink mechanism is used for automatic recovery from runtime failures?",
+      "options": [
+        "Checkpoints",
+        "Savepoints",
+        "S3 Backups",
+        "Snapshots"
+      ],
+      "answer": 0,
+      "explanation": "Checkpoints are automatic, transient, and used for failure recovery. Snapshots (Savepoints) are for updates.",
+      "id": "q10_1"
+    }
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "The Fail-and-Restart Loop",
+    "type": "content",
+    "content": "<p>A common failure mode where the application is <strong>RUNNING</strong> but the job is constantly crashing and restarting.</p>\n<ul>\n    <li><strong>Causes:</strong> Buggy code, Schema mismatch, Connectivity issues, Missing permissions.</li>\n    <li><strong>Behavior:</strong> Job fails -> Restarts from Checkpoint -> Fails again.</li>\n</ul>\n<div class=\"callout warn\">The Console may show \"RUNNING\" but with a \"Needs Attention\" banner.</div>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Monitoring: FullRestarts Metric",
+    "type": "content",
+    "content": "<p>To detect restart loops automatically:</p>\n<ul>\n    <li><strong>Metric:</strong> <code>FullRestarts</code> in CloudWatch.</li>\n    <li><strong>Alarm Strategy:</strong> Use a <code>DIFF</code> or <code>RATE</code> logic. Don't alarm on a single restart (could be transient).</li>\n    <li><strong>Threshold:</strong> Alarm if restarts persist for > 5 minutes.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Start-Up Failures",
+    "type": "content",
+    "content": "<p>Two main phases where Start can fail:</p>\n<ol>\n    <li><strong>Deployment Fail:</strong> Malformed JAR, missing `mainClass`. Status reverts to READY.</li>\n    <li><strong>Runtime Fail:</strong> Job starts but subtasks fail (e.g., Kafka unreachable). Enters Restart Loop.</li>\n</ol>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Rollback Types",
+    "type": "content",
+    "content": "<p>How to recover from a bad deployment:</p>\n<ul>\n    <li><strong>Automatic (System Rollback):</strong> Service detects startup failure and reverts to previous version. (Must be enabled).</li>\n    <li><strong>Manual Rollback:</strong> API `RollbackApplication`. User triggered.</li>\n    <li><strong>Implicit Rollback:</strong> `UpdateApplication` with old config.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "System Rollback",
+    "type": "content",
+    "content": "<p>Ideally enabled in Production.</p>\n<ul>\n    <li>Detects if application cannot start or immediately crashes.</li>\n    <li>Restores previous Configuration AND Snapshot.</li>\n    <li>Prevents prolonged downtime.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Force-Stop",
+    "type": "content",
+    "content": "<p>Last resort when Graceful Stop fails (e.g., stuck in loop).</p>\n<ul>\n    <li><code>StopApplication(Force=true)</code></li>\n    <li><strong>Consequence:</strong> No Snapshot is created.</li>\n    <li><strong>Recovery:</strong> Must restart from an older explicit snapshot or from scratch.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Monitoring Operation Outcome",
+    "type": "content",
+    "content": "<p>Don't just check if status is RUNNING.</p>\n<ul>\n    <li><strong>ListApplicationOperations:</strong> Check if `UpdateApplication` succeeded.</li>\n    <li><strong>Subtask Status:</strong> Poll Flink Dashboard/API. Wait for all to be `RUNNING`.</li>\n    <li><strong>Bad Signs:</strong> Subtasks in `FAILING` or `CANCELED`.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Processing Downtime",
+    "type": "content",
+    "content": "<p>Downtime is unavoidable during updates (state consistency).</p>\n<div class=\"diagram\">\n[Running V1] -> [Stop w/ Savepoint] -> [Provision V2] -> [Start V2 w/ Snapshot] -> [Running V2]\n                    ^-------------------------------------------^\n                                Processing Downtime\n</div>\n<p>Service provisions new cluster <em>before</em> stopping old one to minimize this gap.</p>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Troubleshooting: Subtask Monitoring",
+    "type": "content",
+    "content": "<p>Use CloudWatch Logs to track subtask transitions:</p>\n<pre><code>fields message\n| parse message /^(?<task>.+) switched from (?<from>[A-Z]+) to (?<to>[A-Z]+)/\n| filter to = 'FAILING'</code></pre>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Scaling (Rescaling)",
+    "type": "content",
+    "content": "<p>Changing Parallelism (KPUs):</p>\n<ul>\n    <li>Requires an application update (restart).</li>\n    <li>State is redistributed among new number of subtasks.</li>\n    <li><strong>Quota:</strong> Default limit is 64 KPUs (Soft limit).</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "In-Place Runtime Upgrades",
+    "type": "content",
+    "content": "<p>Upgrading Flink Version (e.g., 1.15 to 1.18):</p>\n<ul>\n    <li>Update dependencies in `pom.xml`.</li>\n    <li>Update Runtime Environment in config.</li>\n    <li>Service handles the upgrade via the standard Snapshot/Restart flow.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Implicit Rollback Caveats",
+    "type": "content",
+    "content": "<p>If you manually revert config (Terraform style):</p>\n<ul>\n    <li>Use <code>RESTORE_FROM_CUSTOM_SNAPSHOT</code> to pick the snapshot <em>before</em> the bad change.</li>\n    <li>If app is in Restart Loop, you must Force-Stop first.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Accessing Flink Dashboard API",
+    "type": "content",
+    "content": "<p>To access Flink internal metrics programmatically:</p>\n<ol>\n    <li><code>CreateApplicationPresignedUrl</code></li>\n    <li>GET <code>/jobs</code> to get ID.</li>\n    <li>GET <code>/jobs/&lt;id&gt;</code> for details.</li>\n</ol>\n<div class=\"callout warn\">Do not poll this aggressively in high-load production!</div>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the best metric to detect a 'fail-and-restart' loop?",
+      "options": [
+        "FullRestarts",
+        "CPUUsage",
+        "KPUCount",
+        "Downtime"
+      ],
+      "answer": 0,
+      "explanation": "A rising FullRestarts count indicates the job is failing and retrying repeatedly.",
+      "id": "q11_1"
+    }
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Resource",
+    "type": "content",
+    "content": "<p>The primary resource is:</p>\n<pre><code>resource \"aws_kinesis_analyticsv2_application\" \"example\" {\n  name                   = \"example-app\"\n  runtime_environment    = \"FLINK-1_20\"\n  service_execution_role = aws_iam_role.example.arn\n  \n  application_configuration {\n    application_code_configuration { ... }\n    flink_application_configuration { ... }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "State Management & Locking",
+    "type": "content",
+    "content": "<p>Best Practices for Terraform State:</p>\n<ul>\n    <li><strong>Backend:</strong> Store state in S3.</li>\n    <li><strong>Locking:</strong> Use DynamoDB to prevent concurrent runs.</li>\n    <li><strong>Consistency:</strong> Essential when multiple CI/CD pipelines might deploy.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Dockerized Workflow",
+    "type": "content",
+    "content": "<p>Run Terraform in Docker to ensure consistent environments.</p>\n<pre><code>docker run --env-file .env.docker \n  -v $(pwd):/workspace \n  hashicorp/terraform:light apply</code></pre>\n<p>Pass AWS credentials via env vars. Mount code directories.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Deploying Code Changes",
+    "type": "content",
+    "content": "<p>The Terraform Flow:</p>\n<ol>\n    <li>Build JAR (Maven/Gradle).</li>\n    <li>Upload JAR to S3.</li>\n    <li>Update <code>s3_content_location</code> in Terraform config.</li>\n    <li><code>terraform apply</code> detects change -> Updates App.</li>\n</ol>\n<div class=\"callout tip\">Terraform handles the state compatibility check (if configured correctly).</div>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Deploying Config Changes",
+    "type": "content",
+    "content": "<p>Changes to Runtime Properties or Parallelism:</p>\n<ul>\n    <li>Update `terraform.tfvars`.</li>\n    <li><code>terraform apply</code>.</li>\n    <li>Terraform calls `UpdateApplication`.</li>\n    <li>Service performs Snapshot + Restart.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Handling Failure in Terraform",
+    "type": "content",
+    "content": "<p>If deployment fails (e.g., code bug):</p>\n<ul>\n    <li>Terraform Apply Errors out.</li>\n    <li>App state might be stuck or reverted to READY.</li>\n    <li><strong>Fix:</strong> Correct the code/config and re-apply.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Manual Rollbacks & Terraform State",
+    "type": "content",
+    "content": "<p>If you perform a <strong>Manual Rollback</strong> via Console:</p>\n<ul>\n    <li>Terraform state becomes stale (it thinks V2 is running, but V1 is).</li>\n    <li><strong>Resolution:</strong> Next <code>terraform apply</code> or <code>refresh</code> will detect drift and update state.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Removing Operators (Advanced)",
+    "type": "content",
+    "content": "<p>Removing a stateful operator breaks Snapshot restore.</p>\n<p><strong>Solution:</strong> Enable <code>AllowNonRestoredState</code>.</p>\n<pre><code>flink_application_configuration {\n    checkpoint_configuration {\n        configuration_type = \"CUSTOM\"\n        checkpointing_enabled = true\n    }\n    # Terraform provider mapping for allow_non_restored_state varies\n    # Check provider docs for 'application_restore_configuration'\n}</code></pre>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "State Incompatibility",
+    "type": "content",
+    "content": "<p><strong>Scenario:</strong> Changing an operator UID.</p>\n<ul>\n    <li>Flink cannot map old state to new operator.</li>\n    <li>Update fails.</li>\n    <li><strong>System Rollback:</strong> If enabled, service reverts automatically.</li>\n    <li>Terraform sees \"FAILED\" state.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "In-Place Version Upgrade",
+    "type": "content",
+    "content": "<p>Upgrading Flink Runtime (e.g., 1.19 -> 1.20):</p>\n<pre><code>resource \"aws_kinesis_analyticsv2_application\" \"example\" {\n  runtime_environment = \"FLINK-1_20\" # Changed from FLINK-1_19\n  ...\n}</code></pre>\n<p>Terraform performs an in-place upgrade without destroying the resource.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Limitations: Start/Stop",
+    "type": "content",
+    "content": "<p>Terraform is declarative.</p>\n<ul>\n    <li>It cannot simply \"Start\" an app without a config change.</li>\n    <li>You might use a variable <code>start_application = true/false</code> to control this state.</li>\n    <li>Toggling it triggers the transition.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Limitations: Rollback",
+    "type": "content",
+    "content": "<p>Terraform does not have a <code>rollback</code> command.</p>\n<p>To rollback, you must <strong>revert the code/config</strong> in your `.tf` files to the previous state and Apply.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Best Practice: CI/CD Separation",
+    "type": "content",
+    "content": "<p><strong>Build Pipeline:</strong> Compiles Java, Tests, Uploads JAR.</p>\n<p><strong>Infra Pipeline:</strong> Runs Terraform Apply to deploy JAR reference.</p>\n<p>Keeps concerns separated.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Terraform resource manages Flink applications?",
+      "options": [
+        "aws_kinesis_analyticsv2_application",
+        "aws_flink_app",
+        "aws_kinesis_app",
+        "aws_lambda_function"
+      ],
+      "answer": 0,
+      "explanation": "The v2 resource is the current standard for Managed Service for Apache Flink.",
+      "id": "q12_1"
+    }
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Amazon MSK Overview",
+    "type": "content",
+    "content": "<p>Amazon Managed Streaming for Apache Kafka (MSK) is a fully managed service that makes it easy to build and run applications that use Apache Kafka to process streaming data.</p><ul><li><strong>Fully Managed:</strong> AWS handles broker management, patching, and high availability.</li><li><strong>Native Integration:</strong> Seamlessly integrates with IAM, KMS, and VPC.</li><li><strong>Durability:</strong> Multi-AZ replication by default.</li></ul>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Cluster Types: Provisioned vs Serverless",
+    "type": "content",
+    "content": "<table><tr><th>Provisioned</th><th>Serverless</th></tr><tr><td>Full control over instance types and broker count.</td><td>No brokers to manage; scales automatically.</td></tr><tr><td>Best for predictable workloads.</td><td>Best for unpredictable or low-throughput workloads.</td></tr><tr><td>Supports Kafka 3.5.1, etc.</td><td>Always runs a recent version.</td></tr></table>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Broker Node Group Configuration",
+    "type": "content",
+    "content": "<p>The core of an MSK cluster is the broker node group. In Terraform:</p><pre><code>broker_node_group_info {\n  instance_type   = \"kafka.t3.small\"\n  client_subnets  = [\"subnet-1\", \"subnet-2\", \"subnet-3\"]\n  security_groups = [\"sg-12345\"]\n  az_distribution = \"DEFAULT\"\n}</code></pre><div class='callout note'>Total brokers must be a multiple of the number of subnets (typically 3 AZs).</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Storage: EBS & Autoscaling",
+    "type": "content",
+    "content": "<p>MSK uses EBS volumes for storage. You can enable autoscaling to avoid running out of space.</p><pre><code>storage_info {\n  ebs_storage_info {\n    volume_size = 100\n    provisioned_throughput {\n      enabled           = true\n      volume_throughput = 250\n    }\n  }\n}</code></pre><p>Use <code>aws_appautoscaling_target</code> for dynamic growth.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Configuration (server.properties)",
+    "type": "content",
+    "content": "<p>Customize Kafka properties like <code>auto.create.topics.enable</code> or <code>log.retention.hours</code>.</p><pre><code>resource \"aws_msk_configuration\" \"example\" {\n  kafka_versions = [\"3.5.1\"]\n  name           = \"example-config\"\n  server_properties = \"auto.create.topics.enable = true\\ndelete.topic.enable = true\"\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Connectivity: Client-Broker Encryption",
+    "type": "content",
+    "content": "<p>Control how clients connect to your brokers.</p><ul><li><strong>TLS:</strong> Encryption in transit (default and recommended).</li><li><strong>TLS_PLAINTEXT:</strong> Supports both for migration.</li><li><strong>PLAINTEXT:</strong> Unencrypted (not recommended).</li></ul><pre><code>encryption_info {\n  encryption_in_transit {\n    client_broker = \"TLS\"\n    in_cluster    = true\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Authentication: SASL/SCRAM",
+    "type": "content",
+    "content": "<p>Use username/password auth stored in Secrets Manager.</p><pre><code>client_authentication {\n  sasl {\n    scram = true\n  }\n}\n\nresource \"aws_msk_scram_secret_association\" \"example\" {\n  cluster_arn     = aws_msk_cluster.example.arn\n  secret_arn_list = [aws_secretsmanager_secret.user.arn]\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Authentication: IAM Access Control",
+    "type": "content",
+    "content": "<p>The most secure and native way to authenticate. No secrets to manage.</p><pre><code>client_authentication {\n  sasl {\n    iam = true\n  }\n}</code></pre><p>Clients use the AWS SDK to sign requests with their IAM identity.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Encryption at Rest: KMS",
+    "type": "content",
+    "content": "<p>All data on EBS and Zookeeper is encrypted at rest. You can use an AWS-managed key or your own CMK.</p><pre><code>encryption_info {\n  encryption_at_rest_kms_key_arn = aws_kms_key.msk.arn\n}</code></pre><div class='callout tip'>Rotate keys regularly for compliance.</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Monitoring: Prometheus Exporters",
+    "type": "content",
+    "content": "<p>Enable open monitoring for Prometheus without managing agents.</p><pre><code>open_monitoring {\n  prometheus {\n    jmx_exporter  { enabled_in_broker = true }\n    node_exporter { enabled_in_broker = true }\n  }\n}</code></pre><p>Scrape metrics from the broker IPs on ports 11001 and 11002.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Logging: Broker Logs",
+    "type": "content",
+    "content": "<p>Deliver logs to CloudWatch, S3, or Kinesis Firehose.</p><pre><code>logging_info {\n  broker_logs {\n    cloudwatch_logs {\n      enabled   = true\n      log_group = \"/aws/msk/my-cluster\"\n    }\n    s3 {\n      enabled = true\n      bucket  = \"my-msk-logs\"\n      prefix  = \"logs/\"\n    }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "VPC Connectivity & Multi-VPC",
+    "type": "content",
+    "content": "<p>Connect clients from different VPCs using Managed VPC Connections.</p><pre><code>resource \"aws_msk_vpc_connection\" \"example\" {\n  authentication     = \"SASL_IAM\"\n  vpc_id             = \"vpc-0123456\"\n  client_subnets     = [\"subnet-a\", \"subnet-b\"]\n  security_groups    = [\"sg-5678\"]\n  target_cluster_arn = aws_msk_cluster.this.arn\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Storage Autoscaling Logic",
+    "type": "content",
+    "content": "<p>Implement autoscaling using <code>aws_appautoscaling</code>.</p><pre><code>resource \"aws_appautoscaling_target\" \"msk\" {\n  max_capacity       = 512\n  min_capacity       = 1\n  resource_id        = aws_msk_cluster.this.arn\n  scalable_dimension = \"kafka:broker-storage:VolumeSize\"\n  service_namespace  = \"kafka\"\n}</code></pre><p>This allows volumes to grow as disk pressure increases.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Cluster Policy",
+    "type": "content",
+    "content": "<p>Similar to S3 Bucket Policies, MSK Cluster Policies control cross-account access at the resource level.</p><pre><code>resource \"aws_msk_cluster_policy\" \"example\" {\n  cluster_arn = aws_msk_cluster.this.arn\n  policy      = \"...\"\n}</code></pre><p>Grant <code>kafka-cluster:Connect</code> permissions to external accounts.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Introduction",
+    "type": "content",
+    "content": "<p>Managed Kafka Connect. Run connectors (Debezium, S3, etc.) without managing a cluster.</p><ul><li><strong>Custom Plugin:</strong> Upload your connector JAR to S3.</li><li><strong>Worker Configuration:</strong> Define <code>connect-distributed.properties</code>.</li><li><strong>Autoscaling:</strong> Workers scale based on MCU usage.</li></ul>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Custom Plugin",
+    "type": "content",
+    "content": "<p>Upload your <code>.zip</code> or <code>.jar</code> to S3 and register it.</p><pre><code>resource \"aws_mskconnect_custom_plugin\" \"this\" {\n  name         = \"debezium-plugin\"\n  content_type = \"ZIP\"\n  location {\n    s3 {\n      bucket_arn = aws_s3_bucket.plugins.arn\n      file_key   = \"debezium.zip\"\n    }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Worker Configuration",
+    "type": "content",
+    "content": "<p>Configure the connector behavior.</p><pre><code>resource \"aws_mskconnect_worker_configuration\" \"this\" {\n  name                    = \"worker-config\"\n  properties_file_content = \"key.converter=org.apache.kafka.connect.storage.StringConverter\"\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Version Upgrades (In-Place)",
+    "type": "content",
+    "content": "<p>Upgrading Kafka versions in MSK is a rolling process.</p><ul><li>Terraform updates <code>kafka_version</code>.</li><li>AWS performs a rolling update of brokers.</li><li>Clients remain connected (if they have enough retries).</li></ul><div class='callout warn'>Always check version compatibility before upgrading.</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Rebalancing with Cruise Control",
+    "type": "content",
+    "content": "<p>MSK supports intelligent rebalancing (via Cruise Control integration).</p><pre><code>rebalancing {\n  status = \"ENABLED\"\n}</code></pre><p>This helps in redistributing partitions across brokers when nodes are added or removed.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Best Practice: Cluster Stability",
+    "type": "content",
+    "content": "<ul><li><strong>Replication Factor:</strong> Always use at least 3 for production.</li><li><strong>Monitoring:</strong> Alert on <code>UnderReplicatedPartitions</code>.</li><li><strong>Instance Size:</strong> Don't undersize brokers; Kafka is memory and I/O intensive.</li><li><strong>for_each:</strong> Use <code>for_each</code> in Terraform for multi-cluster management to avoid index shift issues.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "The Real-Time Pipeline",
+    "type": "content",
+    "content": "<p>In <strong>DropTruck</strong>, MSK is the backbone and Flink is the brain.</p><div class='diagram'>[Source App] -> [MSK Topic] -> [Flink App] -> [MSK Sink] -> [Dashboard]</div><ul><li><strong>MSK:</strong> Decouples producers and consumers.</li><li><strong>Flink:</strong> Processes streams with state (aggregates, joins).</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Flink Kafka Connector",
+    "type": "content",
+    "content": "<p>Flink uses the <code>flink-connector-kafka</code> to interact with MSK.</p><pre><code>KafkaSource&lt;String&gt; source = KafkaSource.&lt;String&gt;builder()\n    .setBootstrapServers(brokers)\n    .setTopics(\"input-topic\")\n    .setGroupId(\"flink-group\")\n    .build();</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "IAM Auth for Flink to MSK",
+    "type": "content",
+    "content": "<p>Use the <code>aws-msk-iam-auth</code> library in your Flink job to connect securely without passwords.</p><pre><code>properties.put(\"security.protocol\", \"SASL_SSL\");\nproperties.put(\"sasl.mechanism\", \"AWS_MSK_IAM\");</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "VPC Connectivity: Flink & MSK",
+    "type": "content",
+    "content": "<p>Ensure Flink (Kinesis Analytics) is configured with VPC access to reach MSK brokers.</p><pre><code>vpc_configuration {\n  subnet_ids         = [aws_subnet.private_1.id, aws_subnet.private_2.id]\n  security_group_ids = [aws_security_group.flink.id]\n}</code></pre><div class='callout note'>MSK Security Group must allow inbound traffic from Flink Security Group.</div>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Exactly-Once with MSK",
+    "type": "content",
+    "content": "<p>Flink achieves exactly-once by coordinating checkpoints with Kafka offsets.</p><ul><li><strong>Source:</strong> Flink stores consumed offsets in its checkpoint state.</li><li><strong>Sink:</strong> Flink uses Kafka transactions to commit data only when a checkpoint succeeds.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Glue Schema Registry",
+    "type": "content",
+    "content": "<p>Manage Avro/JSON schemas for MSK topics using AWS Glue.</p><pre><code>resource \"aws_glue_registry\" \"example\" {\n  registry_name = \"droptruck-registry\"\n}\n\nresource \"aws_glue_schema\" \"example\" {\n  schema_name       = \"truck-telemetry\"\n  registry_arn      = aws_glue_registry.example.arn\n  data_format       = \"AVRO\"\n  compatibility     = \"BACKWARD\"\n  schema_definition = \"...\"\n}</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Avro in Flink with Glue Registry",
+    "type": "content",
+    "content": "<p>Use the <code>GlueSchemaRegistryKafkaDeserializer</code> in Flink to decode MSK messages.</p><pre><code>Map&lt;String, Object&gt; configs = new HashMap&lt;&gt;();\nconfigs.put(AWS_REGION, \"us-east-1\");\nconfigs.put(SCHEMA_REGISTRY_NAME, \"droptruck-registry\");</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Handling Schema Evolution",
+    "type": "content",
+    "content": "<ul><li><strong>Backward Compatibility:</strong> New schema can read old data.</li><li><strong>Forward Compatibility:</strong> Old schema can read new data.</li><li><strong>Full:</strong> Both ways.</li></ul><p>Flink jobs need to be redeployed or updated if schema changes are breaking.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK as a Flink Sink",
+    "type": "content",
+    "content": "<p>Send processed results back to MSK for other downstream consumers.</p><pre><code>KafkaSink&lt;String&gt; sink = KafkaSink.&lt;String&gt;builder()\n    .setBootstrapServers(brokers)\n    .setRecordSerializer(serializer)\n    .build();</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "End-to-End Latency Monitoring",
+    "type": "content",
+    "content": "<p>Monitor the time it takes for data to flow through MSK and Flink.</p><ul><li><strong>MSK Lag:</strong> <code>EstimatedMaxTimeLag</code> metric.</li><li><strong>Flink Latency:</strong> <code>lastCheckpointDuration</code> and <code>watermarkLag</code>.</li></ul><div class='callout tip'>High lag usually indicates undersized Flink parallelism or MSK broker bottlenecks.</div>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Performance Tuning: MSK",
+    "type": "content",
+    "content": "<ul><li><strong>Batch Size:</strong> Increase for higher throughput.</li><li><strong>Linger.ms:</strong> Add small delay to batch more records.</li><li><strong>Compression:</strong> Use <code>snappy</code> or <code>zstd</code> to save bandwidth and storage.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Performance Tuning: Flink",
+    "type": "content",
+    "content": "<ul><li><strong>Parallelism:</strong> Should match the number of MSK partitions for optimal consumption.</li><li><strong>Heap Size:</strong> Flink state can grow large; monitor <code>ManagedMemoryUsage</code>.</li><li><strong>Backpressure:</strong> Check Flink UI to see which operator is slow.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Disaster Recovery: Multi-Region",
+    "type": "content",
+    "content": "<p>Use <strong>MSK Replicator</strong> to copy data between regions.</p><ul><li>Region A: Flink Job + MSK Cluster.</li><li>Region B: Flink Job (standby) + MSK Cluster (replica).</li></ul><p>Note: Flink state is usually region-local and needs separate synchronization if required.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK Connect vs Flink",
+    "type": "content",
+    "content": "<table><tr><th>MSK Connect</th><th>Flink (MSF)</th></tr><tr><td>Best for simple ETL (S3 -> Kafka).</td><td>Best for complex logic (Joins, Windowing).</td></tr><tr><td>No code (Configuration based).</td><td>Code-heavy (Java/Python/SQL).</td></tr><tr><td>Lower operational overhead.</td><td>Higher power and flexibility.</td></tr></table>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Troubleshooting Connectivity",
+    "type": "content",
+    "content": "<ul><li><strong>Timeout:</strong> Check Security Groups and NACLs.</li><li><strong>Auth Error:</strong> Check IAM Role permissions or Secret contents.</li><li><strong>UnknownHost:</strong> Ensure Flink is in the same VPC or has DNS resolution for MSK.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK Broker Failover",
+    "type": "content",
+    "content": "<p>MSK performs automatic failover. Flink handles this by:</p><ol><li>Detecting broker disconnect.</li><li>Retrying connection to other brokers.</li><li>Resuming from last committed checkpoint if a restart occurs.</li></ol>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Scaling MSK & Flink",
+    "type": "content",
+    "content": "<p>Scaling must be coordinated.</p><ul><li>Increase MSK partitions -> Increase Flink parallelism.</li><li>Increase MSK brokers -> Rebalance partitions.</li></ul><p>Terraform manages both resources, making coordinated scaling easier in CI/CD.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Cost Optimization",
+    "type": "content",
+    "content": "<ul><li><strong>MSK:</strong> Use <code>t3</code> instances for dev, <code>m5</code>/<code>m7g</code> for prod.</li><li><strong>Flink:</strong> Use Autoscaling for KPUs.</li><li><strong>Storage:</strong> Use Tiered Storage (S3) for long-term Kafka retention.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Workshop Summary",
+    "type": "content",
+    "content": "<p>We've covered the entire <strong>DropTruck</strong> stack:</p><ol><li>VPC Foundations.</li><li>Compute (ECS/EKS).</li><li>Storage (S3/RDS).</li><li><strong>Real-time (MSK/Flink).</strong></li><li>IaC Best Practices (Terraform/Terragrunt).</li></ol>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Final Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Flink guarantee ensures no data is lost or duplicated during a checkpoint?",
+      "options": [
+        "At-most-once",
+        "At-least-once",
+        "Exactly-once",
+        "None"
+      ],
+      "answer": 2,
+      "explanation": "Flink's checkpointing mechanism, when combined with transactional sinks, provides exactly-once semantics.",
+      "id": "q14_1"
+    }
+  },
+  {
+    "module": "Final Assessment",
+    "title": "Final Exam",
+    "type": "content",
+    "content": "<h2>Ready for the Final Exam?</h2><p>This exam will combine and shuffle all 40+ knowledge checks from this workshop.</p><ul><li>Questions are shuffled.</li><li>Options within questions are shuffled.</li><li>Performance is tracked by module.</li></ul><div class='callout note'>At the end, we will highlight which modules you need to practice.</div><div style='margin-top:40px'><button class='primary' style='padding: 15px 30px; font-size: 1.2em;' onclick='startExam()'>🚀 Start Final Exam</button></div>"
+  }
+]
+;
