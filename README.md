@@ -20,6 +20,7 @@
 
 ## Deployment
 ```
+git clone git@github.com:mohanmca/quiz.git
 git config --global --add safe.directory /tmp/quiz
 mkdir -p /tmp/quiz
 cd /tmp/quiz

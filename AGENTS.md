@@ -11,6 +11,34 @@
 - There is no bundler/dev server; edit files directly and refresh.
 -- codex --allow-system
 
+
+## 3. Article, Documentation & Quiz Generation (keyword DQ)
+
+When generating articles or quizzes, follow these specifications:
+
+### Article Requirements
+| Requirement | Details |
+|-------------|---------|
+| **Formats** | HTML|
+| **Content Coverage** | Code explanation, gRPC, SQL, tables, major APIs |
+| **PR Integration** | Use `gh` CLI to scan PRs and include timeline |
+| **Readability** | Human-readable with technical depth |
+| **Theme** | Light, don't use dark background |
+
+1. white-space: pre; // ensure diagram and code-blocks rendered properly html
+
+### Quiz Requirements
+1. Provide **4 answer options** per question
+2. 50 - Quiz should be interactive and validate answers **after each questions are submitted**
+3. Include feedback on incorrect answers
+4. All the quiz informtaion should be saved in json along html file
+5. Quiz could be like slide show, should not increase page hight due to number of quizzes
+6. It can use local state in browser should display progress
+7. Upon right answer slide should move automatically
+8. Answers should be shuffled, so user won't use same option
+9. Ask few questins about the classNames and traits
+10. All the failed questions can be attempted at the end of the quiz (with user/option)
+
 ## Directory Tour
 - `/programming/index.html` bootstraps the SPA and wires in `app.js`, CSS, and JSON data sources.
 - `/programming/app.js` handles fetch, quiz rendering, markdown conversion, and tab switching (Quizzes/Articles/Journal).
