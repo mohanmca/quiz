@@ -189,6 +189,20 @@ button.primary:hover { background: #0d6e66; }
   opacity: 0; pointer-events: none; transition: opacity 0.3s;
 }
 .overlay.open { opacity: 1; pointer-events: auto; }
+
+.result-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;
+}
+.result-item {
+  padding: 15px; border: 1px solid var(--border); border-radius: 12px; background: #fff;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.status-badge {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: 700;
+}
+.status-badge.pass { background: #dcfce7; color: #166534; }
+.status-badge.fail { background: #fee2e2; color: #991b1b; }
+.status-badge.neutral { background: #f1f5f9; color: #475569; }
 </style>
 </head>
 <body>
@@ -214,8 +228,11 @@ button.primary:hover { background: #0d6e66; }
 const STORE_KEY = 'terraform_v4_workshop';
 let state = {
   currentSlide: 0,
-  quizState: {}, // { slideIndex: { attempts: 0, solved: false } }
-  failedQuestions: [] // list of indices
+  quizState: {}, 
+  examMode: false,
+  examQuestions: [],
+  currentExamIndex: 0,
+  examResults: {} // { questionId: { correct: bool, module: string } }
 };
 
 // ... Slides Data Injected Here ...
@@ -1956,6 +1973,12 @@ const slides = [
       "explanation": "Flink's checkpointing mechanism, when combined with transactional sinks, provides exactly-once semantics.",
       "id": "q14_1"
     }
+  },
+  {
+    "module": "Final Assessment",
+    "title": "Final Exam",
+    "type": "content",
+    "content": "<h2>Ready for the Final Exam?</h2><p>This exam will combine and shuffle all 40+ knowledge checks from this workshop.</p><ul><li>Questions are shuffled.</li><li>Options within questions are shuffled.</li><li>Performance is tracked by module.</li></ul><div class='callout note'>At the end, we will highlight which modules you need to practice.</div><div style='margin-top:40px'><button class='primary' style='padding: 15px 30px; font-size: 1.2em;' onclick='startExam()'>🚀 Start Final Exam</button></div>"
   }
 ]
 ;
@@ -1988,16 +2011,17 @@ function save() {
 }
 
 function render() {
+  if (state.examMode) {
+    return renderExam();
+  }
+
   const s = slides[state.currentSlide];
   if (!s) return;
 
-  // Header update
   modLabel.innerText = s.module;
   counter.innerText = `${state.currentSlide + 1} / ${slides.length}`;
   
-  // Slide Content
   let html = `<h1>${s.title}</h1>`;
-  
   if (s.type === 'quiz') {
     html += renderQuiz(s);
   } else {
@@ -2005,11 +2029,8 @@ function render() {
   }
   
   slideEl.innerHTML = html;
-  
-  // Nav buttons
   prevBtn.disabled = state.currentSlide === 0;
   nextBtn.disabled = state.currentSlide === slides.length - 1;
-  
   updateProgress();
 }
 
@@ -2051,13 +2072,156 @@ window.checkAnswer = function(idx) {
     state.quizState[state.currentSlide] = { solved: true };
     save();
     render();
-    setTimeout(nextSlide, 1500); // Auto-advance
+    setTimeout(nextSlide, 1500);
   } else {
     state.quizState[state.currentSlide] = { solved: false, wrong: true };
-    // Track failure for retry if needed (not fully impl in this snippet but placeholder)
     save();
     render();
   }
+};
+
+window.startExam = function() {
+  const allQuizzes = slides.filter(s => s.type === 'quiz').map(s => {
+    // Clone to avoid modifying original
+    const q = JSON.parse(JSON.stringify(s));
+    
+    // Shuffle options
+    const originalAnswerText = q.question.options[q.question.answer];
+    const shuffledOptions = q.question.options.sort(() => Math.random() - 0.5);
+    q.question.options = shuffledOptions;
+    q.question.answer = shuffledOptions.indexOf(originalAnswerText);
+    
+    return q;
+  });
+
+  state.examMode = true;
+  state.examQuestions = allQuizzes.sort(() => Math.random() - 0.5);
+  state.currentExamIndex = 0;
+  state.examResults = {};
+  save();
+  render();
+};
+
+function renderExam() {
+  if (state.currentExamIndex >= state.examQuestions.length) {
+    return renderExamResult();
+  }
+
+  const qObj = state.examQuestions[state.currentExamIndex];
+  const q = qObj.question;
+  const result = state.examResults[q.id];
+
+  modLabel.innerText = "Final Exam";
+  counter.innerText = `${state.currentExamIndex + 1} / ${state.examQuestions.length}`;
+  
+  let html = `<h1>Question ${state.currentExamIndex + 1}</h1>`;
+  html += `
+    <div class="quiz-container">
+      <h3>${q.question}</h3>
+      <div id="options">
+        ${q.options.map((opt, i) => {
+          let cls = 'quiz-option';
+          if (result) {
+             if (i === q.answer) cls += ' correct';
+             else if (i === result.choice && i !== q.answer) cls += ' wrong';
+          }
+          return `<button class="${cls}" onclick="checkExamAnswer(${i})" ${result ? 'disabled' : ''}>${opt}</button>`;
+        }).join('')}
+      </div>
+      ${result ? `
+        <div class="feedback ${result.correct ? 'correct' : 'wrong'}">
+          ${result.correct ? '✅ Correct!' : '❌ Incorrect.'} ${q.explanation}
+        </div>
+        <div style="margin-top:20px">
+           <button class="primary" onclick="nextExamQuestion()">Next Question</button>
+        </div>
+      ` : ''}
+    </div>
+  `;
+  
+  slideEl.innerHTML = html;
+  prevBtn.disabled = true; 
+  nextBtn.disabled = true;
+}
+
+window.checkExamAnswer = function(idx) {
+  const qObj = state.examQuestions[state.currentExamIndex];
+  const q = qObj.question;
+  const isCorrect = (idx === q.answer);
+  
+  state.examResults[q.id] = {
+    correct: isCorrect,
+    choice: idx,
+    module: qObj.module
+  };
+  
+  save();
+  render();
+};
+
+window.nextExamQuestion = function() {
+  state.currentExamIndex++;
+  save();
+  render();
+};
+
+function renderExamResult() {
+  const results = Object.values(state.examResults);
+  const correctCount = results.filter(r => r.correct).length;
+  const total = state.examQuestions.length;
+  const scorePct = Math.round((correctCount / total) * 100);
+
+  // Group performance by module
+  const modStats = {};
+  state.examQuestions.forEach(q => {
+    if (!modStats[q.module]) modStats[q.module] = { total: 0, correct: 0 };
+    modStats[q.module].total++;
+    const res = state.examResults[q.question.id];
+    if (res && res.correct) modStats[q.module].correct++;
+  });
+
+  modLabel.innerText = "Exam Result";
+  counter.innerText = "Completed";
+
+  let html = `<h1>Your Score: ${scorePct}%</h1>`;
+  html += `<p>You answered ${correctCount} out of ${total} questions correctly.</p>`;
+  
+  html += `<div class="result-grid">`;
+  for (const mod in modStats) {
+    const s = modStats[mod];
+    const pct = Math.round((s.correct / s.total) * 100);
+    let badgeCls = 'neutral';
+    let statusTxt = 'Reviewing';
+    if (pct >= 80) { badgeCls = 'pass'; statusTxt = 'Mastered'; }
+    else if (pct < 60) { badgeCls = 'fail'; statusTxt = 'Needs Practice'; }
+    
+    html += `
+      <div class="result-item">
+        <div>
+          <strong>${mod}</strong><br/>
+          <small>${s.correct}/${s.total} correct (${pct}%)</small>
+        </div>
+        <span class="status-badge ${badgeCls}">${statusTxt}</span>
+      </div>
+    `;
+  }
+  html += `</div>`;
+  
+  html += `
+    <div style="margin-top:40px; display: flex; gap: 15px;">
+      <button class="primary" onclick="restartWorkshop()">Back to Workshop</button>
+      <button onclick="startExam()">Retake Exam</button>
+    </div>
+  `;
+  
+  slideEl.innerHTML = html;
+}
+
+window.restartWorkshop = function() {
+  state.examMode = false;
+  state.currentSlide = 0;
+  save();
+  window.location.reload(); // Refresh to reset UI state
 };
 
 function nextSlide() {
@@ -2082,7 +2246,6 @@ function updateProgress() {
   const pct = ((state.currentSlide + 1) / slides.length) * 100;
   progBar.style.width = `${pct}%`;
   
-  // Update TOC active state
   document.querySelectorAll('.toc-item').forEach((el, idx) => {
     if (idx === state.currentSlide) el.classList.add('active');
     else el.classList.remove('active');
