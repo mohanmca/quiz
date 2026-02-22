@@ -1705,6 +1705,257 @@ const slides = [
       "explanation": "The v2 resource is the current standard for Managed Service for Apache Flink.",
       "id": "q12_1"
     }
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Amazon MSK Overview",
+    "type": "content",
+    "content": "<p>Amazon Managed Streaming for Apache Kafka (MSK) is a fully managed service that makes it easy to build and run applications that use Apache Kafka to process streaming data.</p><ul><li><strong>Fully Managed:</strong> AWS handles broker management, patching, and high availability.</li><li><strong>Native Integration:</strong> Seamlessly integrates with IAM, KMS, and VPC.</li><li><strong>Durability:</strong> Multi-AZ replication by default.</li></ul>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Cluster Types: Provisioned vs Serverless",
+    "type": "content",
+    "content": "<table><tr><th>Provisioned</th><th>Serverless</th></tr><tr><td>Full control over instance types and broker count.</td><td>No brokers to manage; scales automatically.</td></tr><tr><td>Best for predictable workloads.</td><td>Best for unpredictable or low-throughput workloads.</td></tr><tr><td>Supports Kafka 3.5.1, etc.</td><td>Always runs a recent version.</td></tr></table>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Broker Node Group Configuration",
+    "type": "content",
+    "content": "<p>The core of an MSK cluster is the broker node group. In Terraform:</p><pre><code>broker_node_group_info {\n  instance_type   = \"kafka.t3.small\"\n  client_subnets  = [\"subnet-1\", \"subnet-2\", \"subnet-3\"]\n  security_groups = [\"sg-12345\"]\n  az_distribution = \"DEFAULT\"\n}</code></pre><div class='callout note'>Total brokers must be a multiple of the number of subnets (typically 3 AZs).</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Storage: EBS & Autoscaling",
+    "type": "content",
+    "content": "<p>MSK uses EBS volumes for storage. You can enable autoscaling to avoid running out of space.</p><pre><code>storage_info {\n  ebs_storage_info {\n    volume_size = 100\n    provisioned_throughput {\n      enabled           = true\n      volume_throughput = 250\n    }\n  }\n}</code></pre><p>Use <code>aws_appautoscaling_target</code> for dynamic growth.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Configuration (server.properties)",
+    "type": "content",
+    "content": "<p>Customize Kafka properties like <code>auto.create.topics.enable</code> or <code>log.retention.hours</code>.</p><pre><code>resource \"aws_msk_configuration\" \"example\" {\n  kafka_versions = [\"3.5.1\"]\n  name           = \"example-config\"\n  server_properties = \"auto.create.topics.enable = true\\ndelete.topic.enable = true\"\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Connectivity: Client-Broker Encryption",
+    "type": "content",
+    "content": "<p>Control how clients connect to your brokers.</p><ul><li><strong>TLS:</strong> Encryption in transit (default and recommended).</li><li><strong>TLS_PLAINTEXT:</strong> Supports both for migration.</li><li><strong>PLAINTEXT:</strong> Unencrypted (not recommended).</li></ul><pre><code>encryption_info {\n  encryption_in_transit {\n    client_broker = \"TLS\"\n    in_cluster    = true\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Authentication: SASL/SCRAM",
+    "type": "content",
+    "content": "<p>Use username/password auth stored in Secrets Manager.</p><pre><code>client_authentication {\n  sasl {\n    scram = true\n  }\n}\n\nresource \"aws_msk_scram_secret_association\" \"example\" {\n  cluster_arn     = aws_msk_cluster.example.arn\n  secret_arn_list = [aws_secretsmanager_secret.user.arn]\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Authentication: IAM Access Control",
+    "type": "content",
+    "content": "<p>The most secure and native way to authenticate. No secrets to manage.</p><pre><code>client_authentication {\n  sasl {\n    iam = true\n  }\n}</code></pre><p>Clients use the AWS SDK to sign requests with their IAM identity.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Encryption at Rest: KMS",
+    "type": "content",
+    "content": "<p>All data on EBS and Zookeeper is encrypted at rest. You can use an AWS-managed key or your own CMK.</p><pre><code>encryption_info {\n  encryption_at_rest_kms_key_arn = aws_kms_key.msk.arn\n}</code></pre><div class='callout tip'>Rotate keys regularly for compliance.</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Monitoring: Prometheus Exporters",
+    "type": "content",
+    "content": "<p>Enable open monitoring for Prometheus without managing agents.</p><pre><code>open_monitoring {\n  prometheus {\n    jmx_exporter  { enabled_in_broker = true }\n    node_exporter { enabled_in_broker = true }\n  }\n}</code></pre><p>Scrape metrics from the broker IPs on ports 11001 and 11002.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Logging: Broker Logs",
+    "type": "content",
+    "content": "<p>Deliver logs to CloudWatch, S3, or Kinesis Firehose.</p><pre><code>logging_info {\n  broker_logs {\n    cloudwatch_logs {\n      enabled   = true\n      log_group = \"/aws/msk/my-cluster\"\n    }\n    s3 {\n      enabled = true\n      bucket  = \"my-msk-logs\"\n      prefix  = \"logs/\"\n    }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "VPC Connectivity & Multi-VPC",
+    "type": "content",
+    "content": "<p>Connect clients from different VPCs using Managed VPC Connections.</p><pre><code>resource \"aws_msk_vpc_connection\" \"example\" {\n  authentication     = \"SASL_IAM\"\n  vpc_id             = \"vpc-0123456\"\n  client_subnets     = [\"subnet-a\", \"subnet-b\"]\n  security_groups    = [\"sg-5678\"]\n  target_cluster_arn = aws_msk_cluster.this.arn\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Storage Autoscaling Logic",
+    "type": "content",
+    "content": "<p>Implement autoscaling using <code>aws_appautoscaling</code>.</p><pre><code>resource \"aws_appautoscaling_target\" \"msk\" {\n  max_capacity       = 512\n  min_capacity       = 1\n  resource_id        = aws_msk_cluster.this.arn\n  scalable_dimension = \"kafka:broker-storage:VolumeSize\"\n  service_namespace  = \"kafka\"\n}</code></pre><p>This allows volumes to grow as disk pressure increases.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Cluster Policy",
+    "type": "content",
+    "content": "<p>Similar to S3 Bucket Policies, MSK Cluster Policies control cross-account access at the resource level.</p><pre><code>resource \"aws_msk_cluster_policy\" \"example\" {\n  cluster_arn = aws_msk_cluster.this.arn\n  policy      = \"...\"\n}</code></pre><p>Grant <code>kafka-cluster:Connect</code> permissions to external accounts.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Introduction",
+    "type": "content",
+    "content": "<p>Managed Kafka Connect. Run connectors (Debezium, S3, etc.) without managing a cluster.</p><ul><li><strong>Custom Plugin:</strong> Upload your connector JAR to S3.</li><li><strong>Worker Configuration:</strong> Define <code>connect-distributed.properties</code>.</li><li><strong>Autoscaling:</strong> Workers scale based on MCU usage.</li></ul>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Custom Plugin",
+    "type": "content",
+    "content": "<p>Upload your <code>.zip</code> or <code>.jar</code> to S3 and register it.</p><pre><code>resource \"aws_mskconnect_custom_plugin\" \"this\" {\n  name         = \"debezium-plugin\"\n  content_type = \"ZIP\"\n  location {\n    s3 {\n      bucket_arn = aws_s3_bucket.plugins.arn\n      file_key   = \"debezium.zip\"\n    }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "MSK Connect: Worker Configuration",
+    "type": "content",
+    "content": "<p>Configure the connector behavior.</p><pre><code>resource \"aws_mskconnect_worker_configuration\" \"this\" {\n  name                    = \"worker-config\"\n  properties_file_content = \"key.converter=org.apache.kafka.connect.storage.StringConverter\"\n}</code></pre>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Version Upgrades (In-Place)",
+    "type": "content",
+    "content": "<p>Upgrading Kafka versions in MSK is a rolling process.</p><ul><li>Terraform updates <code>kafka_version</code>.</li><li>AWS performs a rolling update of brokers.</li><li>Clients remain connected (if they have enough retries).</li></ul><div class='callout warn'>Always check version compatibility before upgrading.</div>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Rebalancing with Cruise Control",
+    "type": "content",
+    "content": "<p>MSK supports intelligent rebalancing (via Cruise Control integration).</p><pre><code>rebalancing {\n  status = \"ENABLED\"\n}</code></pre><p>This helps in redistributing partitions across brokers when nodes are added or removed.</p>"
+  },
+  {
+    "module": "M13: MSK Architecture",
+    "title": "Best Practice: Cluster Stability",
+    "type": "content",
+    "content": "<ul><li><strong>Replication Factor:</strong> Always use at least 3 for production.</li><li><strong>Monitoring:</strong> Alert on <code>UnderReplicatedPartitions</code>.</li><li><strong>Instance Size:</strong> Don't undersize brokers; Kafka is memory and I/O intensive.</li><li><strong>for_each:</strong> Use <code>for_each</code> in Terraform for multi-cluster management to avoid index shift issues.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "The Real-Time Pipeline",
+    "type": "content",
+    "content": "<p>In <strong>DropTruck</strong>, MSK is the backbone and Flink is the brain.</p><div class='diagram'>[Source App] -> [MSK Topic] -> [Flink App] -> [MSK Sink] -> [Dashboard]</div><ul><li><strong>MSK:</strong> Decouples producers and consumers.</li><li><strong>Flink:</strong> Processes streams with state (aggregates, joins).</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Flink Kafka Connector",
+    "type": "content",
+    "content": "<p>Flink uses the <code>flink-connector-kafka</code> to interact with MSK.</p><pre><code>KafkaSource&lt;String&gt; source = KafkaSource.&lt;String&gt;builder()\n    .setBootstrapServers(brokers)\n    .setTopics(\"input-topic\")\n    .setGroupId(\"flink-group\")\n    .build();</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "IAM Auth for Flink to MSK",
+    "type": "content",
+    "content": "<p>Use the <code>aws-msk-iam-auth</code> library in your Flink job to connect securely without passwords.</p><pre><code>properties.put(\"security.protocol\", \"SASL_SSL\");\nproperties.put(\"sasl.mechanism\", \"AWS_MSK_IAM\");</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "VPC Connectivity: Flink & MSK",
+    "type": "content",
+    "content": "<p>Ensure Flink (Kinesis Analytics) is configured with VPC access to reach MSK brokers.</p><pre><code>vpc_configuration {\n  subnet_ids         = [aws_subnet.private_1.id, aws_subnet.private_2.id]\n  security_group_ids = [aws_security_group.flink.id]\n}</code></pre><div class='callout note'>MSK Security Group must allow inbound traffic from Flink Security Group.</div>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Exactly-Once with MSK",
+    "type": "content",
+    "content": "<p>Flink achieves exactly-once by coordinating checkpoints with Kafka offsets.</p><ul><li><strong>Source:</strong> Flink stores consumed offsets in its checkpoint state.</li><li><strong>Sink:</strong> Flink uses Kafka transactions to commit data only when a checkpoint succeeds.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Glue Schema Registry",
+    "type": "content",
+    "content": "<p>Manage Avro/JSON schemas for MSK topics using AWS Glue.</p><pre><code>resource \"aws_glue_registry\" \"example\" {\n  registry_name = \"droptruck-registry\"\n}\n\nresource \"aws_glue_schema\" \"example\" {\n  schema_name       = \"truck-telemetry\"\n  registry_arn      = aws_glue_registry.example.arn\n  data_format       = \"AVRO\"\n  compatibility     = \"BACKWARD\"\n  schema_definition = \"...\"\n}</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Avro in Flink with Glue Registry",
+    "type": "content",
+    "content": "<p>Use the <code>GlueSchemaRegistryKafkaDeserializer</code> in Flink to decode MSK messages.</p><pre><code>Map&lt;String, Object&gt; configs = new HashMap&lt;&gt;();\nconfigs.put(AWS_REGION, \"us-east-1\");\nconfigs.put(SCHEMA_REGISTRY_NAME, \"droptruck-registry\");</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Handling Schema Evolution",
+    "type": "content",
+    "content": "<ul><li><strong>Backward Compatibility:</strong> New schema can read old data.</li><li><strong>Forward Compatibility:</strong> Old schema can read new data.</li><li><strong>Full:</strong> Both ways.</li></ul><p>Flink jobs need to be redeployed or updated if schema changes are breaking.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK as a Flink Sink",
+    "type": "content",
+    "content": "<p>Send processed results back to MSK for other downstream consumers.</p><pre><code>KafkaSink&lt;String&gt; sink = KafkaSink.&lt;String&gt;builder()\n    .setBootstrapServers(brokers)\n    .setRecordSerializer(serializer)\n    .build();</code></pre>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "End-to-End Latency Monitoring",
+    "type": "content",
+    "content": "<p>Monitor the time it takes for data to flow through MSK and Flink.</p><ul><li><strong>MSK Lag:</strong> <code>EstimatedMaxTimeLag</code> metric.</li><li><strong>Flink Latency:</strong> <code>lastCheckpointDuration</code> and <code>watermarkLag</code>.</li></ul><div class='callout tip'>High lag usually indicates undersized Flink parallelism or MSK broker bottlenecks.</div>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Performance Tuning: MSK",
+    "type": "content",
+    "content": "<ul><li><strong>Batch Size:</strong> Increase for higher throughput.</li><li><strong>Linger.ms:</strong> Add small delay to batch more records.</li><li><strong>Compression:</strong> Use <code>snappy</code> or <code>zstd</code> to save bandwidth and storage.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Performance Tuning: Flink",
+    "type": "content",
+    "content": "<ul><li><strong>Parallelism:</strong> Should match the number of MSK partitions for optimal consumption.</li><li><strong>Heap Size:</strong> Flink state can grow large; monitor <code>ManagedMemoryUsage</code>.</li><li><strong>Backpressure:</strong> Check Flink UI to see which operator is slow.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Disaster Recovery: Multi-Region",
+    "type": "content",
+    "content": "<p>Use <strong>MSK Replicator</strong> to copy data between regions.</p><ul><li>Region A: Flink Job + MSK Cluster.</li><li>Region B: Flink Job (standby) + MSK Cluster (replica).</li></ul><p>Note: Flink state is usually region-local and needs separate synchronization if required.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK Connect vs Flink",
+    "type": "content",
+    "content": "<table><tr><th>MSK Connect</th><th>Flink (MSF)</th></tr><tr><td>Best for simple ETL (S3 -> Kafka).</td><td>Best for complex logic (Joins, Windowing).</td></tr><tr><td>No code (Configuration based).</td><td>Code-heavy (Java/Python/SQL).</td></tr><tr><td>Lower operational overhead.</td><td>Higher power and flexibility.</td></tr></table>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Troubleshooting Connectivity",
+    "type": "content",
+    "content": "<ul><li><strong>Timeout:</strong> Check Security Groups and NACLs.</li><li><strong>Auth Error:</strong> Check IAM Role permissions or Secret contents.</li><li><strong>UnknownHost:</strong> Ensure Flink is in the same VPC or has DNS resolution for MSK.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "MSK Broker Failover",
+    "type": "content",
+    "content": "<p>MSK performs automatic failover. Flink handles this by:</p><ol><li>Detecting broker disconnect.</li><li>Retrying connection to other brokers.</li><li>Resuming from last committed checkpoint if a restart occurs.</li></ol>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Scaling MSK & Flink",
+    "type": "content",
+    "content": "<p>Scaling must be coordinated.</p><ul><li>Increase MSK partitions -> Increase Flink parallelism.</li><li>Increase MSK brokers -> Rebalance partitions.</li></ul><p>Terraform manages both resources, making coordinated scaling easier in CI/CD.</p>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Cost Optimization",
+    "type": "content",
+    "content": "<ul><li><strong>MSK:</strong> Use <code>t3</code> instances for dev, <code>m5</code>/<code>m7g</code> for prod.</li><li><strong>Flink:</strong> Use Autoscaling for KPUs.</li><li><strong>Storage:</strong> Use Tiered Storage (S3) for long-term Kafka retention.</li></ul>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Workshop Summary",
+    "type": "content",
+    "content": "<p>We've covered the entire <strong>DropTruck</strong> stack:</p><ol><li>VPC Foundations.</li><li>Compute (ECS/EKS).</li><li>Storage (S3/RDS).</li><li><strong>Real-time (MSK/Flink).</strong></li><li>IaC Best Practices (Terraform/Terragrunt).</li></ol>"
+  },
+  {
+    "module": "M14: Flink & MSK Integration",
+    "title": "Final Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Flink guarantee ensures no data is lost or duplicated during a checkpoint?",
+      "options": [
+        "At-most-once",
+        "At-least-once",
+        "Exactly-once",
+        "None"
+      ],
+      "answer": 2,
+      "explanation": "Flink's checkpointing mechanism, when combined with transactional sinks, provides exactly-once semantics.",
+      "id": "q14_1"
+    }
   }
 ]
 ;

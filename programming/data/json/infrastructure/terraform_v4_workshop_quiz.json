@@ -1,7 +1,7 @@
 {
   "title": "Terraform AWS Modules Workshop Quiz",
   "version": "4.0",
-  "totalQuestions": 190,
+  "totalQuestions": 230,
   "modules": [
     {
       "id": 0,
@@ -2354,6 +2354,498 @@
           "answer": 0,
           "explanation": "Docker ensures everyone uses the same Terraform version and environment tools.",
           "id": "q12_14"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "M13: MSK Architecture",
+      "questions": [
+        {
+          "question": "What does MSK stand for?",
+          "options": [
+            "Managed Service for Kafka",
+            "Managed Streaming for Apache Kafka",
+            "Managed Storage for Kafka",
+            "Multi-Streaming Kafka"
+          ],
+          "answer": 1,
+          "explanation": "MSK is Managed Streaming for Apache Kafka.",
+          "id": "q13_1"
+        },
+        {
+          "question": "Which broker node count is valid for a 3-AZ MSK cluster?",
+          "options": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "answer": 1,
+          "explanation": "In provisioned mode, broker count must be a multiple of the number of AZs.",
+          "id": "q13_2"
+        },
+        {
+          "question": "Which MSK cluster type scales automatically without managing brokers?",
+          "options": [
+            "Provisioned",
+            "Serverless",
+            "Standard",
+            "Dedicated"
+          ],
+          "answer": 1,
+          "explanation": "MSK Serverless handles scaling and broker management automatically.",
+          "id": "q13_3"
+        },
+        {
+          "question": "How is storage autoscaling implemented for MSK in Terraform?",
+          "options": [
+            "Using 'count' variable",
+            "Using 'aws_appautoscaling_target'",
+            "Manually updating 'volume_size'",
+            "It's automatic by default"
+          ],
+          "answer": 1,
+          "explanation": "Storage autoscaling requires 'aws_appautoscaling' resources.",
+          "id": "q13_4"
+        },
+        {
+          "question": "Which file is used to configure MSK server properties?",
+          "options": [
+            "main.tf",
+            "server.properties",
+            "kafka.conf",
+            "variables.tf"
+          ],
+          "answer": 1,
+          "explanation": "MSK uses a 'server.properties' format within the 'aws_msk_configuration' resource.",
+          "id": "q13_5"
+        },
+        {
+          "question": "Which encryption is enabled by default for data in transit in MSK?",
+          "options": [
+            "PLAINTEXT",
+            "TLS",
+            "SASL",
+            "KMS"
+          ],
+          "answer": 1,
+          "explanation": "TLS is the default and recommended encryption for data in transit.",
+          "id": "q13_6"
+        },
+        {
+          "question": "What service stores secrets for MSK SASL/SCRAM authentication?",
+          "options": [
+            "IAM",
+            "KMS",
+            "Secrets Manager",
+            "Parameter Store"
+          ],
+          "answer": 2,
+          "explanation": "SASL/SCRAM credentials are stored in AWS Secrets Manager.",
+          "id": "q13_7"
+        },
+        {
+          "question": "Which authentication method uses AWS credentials to sign requests to MSK?",
+          "options": [
+            "TLS",
+            "SASL/SCRAM",
+            "SASL/IAM",
+            "Mutual TLS"
+          ],
+          "answer": 2,
+          "explanation": "SASL/IAM uses IAM roles and policies for authentication.",
+          "id": "q13_8"
+        },
+        {
+          "question": "On which port does the MSK JMX Exporter run?",
+          "options": [
+            "9092",
+            "2181",
+            "11001",
+            "11002"
+          ],
+          "answer": 2,
+          "explanation": "The JMX Exporter runs on port 11001.",
+          "id": "q13_9"
+        },
+        {
+          "question": "Where can MSK deliver broker logs?",
+          "options": [
+            "CloudWatch Logs",
+            "S3",
+            "Kinesis Firehose",
+            "All of the above"
+          ],
+          "answer": 3,
+          "explanation": "MSK supports logging to CloudWatch, S3, and Firehose.",
+          "id": "q13_10"
+        },
+        {
+          "question": "What is the purpose of 'aws_msk_vpc_connection'?",
+          "options": [
+            "To connect to the internet",
+            "To allow cross-VPC/Account client connectivity",
+            "To connect to RDS" ,
+            "To manage VPNs"
+          ],
+          "answer": 1,
+          "explanation": "It enables clients from other VPCs to connect to the MSK cluster.",
+          "id": "q13_11"
+        },
+        {
+          "question": "What resource controls resource-level access to an MSK cluster?",
+          "options": [
+            "Security Group",
+            "IAM Role",
+            "MSK Cluster Policy",
+            "NACL"
+          ],
+          "answer": 2,
+          "explanation": "An MSK Cluster Policy is a resource-based policy similar to an S3 bucket policy.",
+          "id": "q13_12"
+        },
+        {
+          "question": "What is MSK Connect?",
+          "options": [
+            "A tool for connecting MSK clusters",
+            "Managed Kafka Connect for running connectors",
+            "A VPC peering tool",
+            "An MSK CLI"
+          ],
+          "answer": 1,
+          "explanation": "MSK Connect is a managed service for running Kafka Connectors.",
+          "id": "q13_13"
+        },
+        {
+          "question": "What file format is required for MSK Connect custom plugins?",
+          "options": [
+            "ZIP or JAR",
+            "EXE",
+            "PY",
+            "JSON"
+          ],
+          "answer": 0,
+          "explanation": "Plugins are uploaded as ZIP or JAR files to S3.",
+          "id": "q13_14"
+        },
+        {
+          "question": "Does MSK support in-place Kafka version upgrades?",
+          "options": [
+            "No, requires cluster recreation",
+            "Yes, it is a rolling process",
+            "Only for minor versions",
+            "Only for major versions"
+          ],
+          "answer": 1,
+          "explanation": "MSK supports rolling in-place upgrades for both major and minor versions.",
+          "id": "q13_15"
+        },
+        {
+          "question": "What is the role of Zookeeper in MSK?",
+          "options": [
+            "To store data records",
+            "Cluster management and metadata",
+            "To handle producer requests",
+            "Encryption"
+          ],
+          "answer": 1,
+          "explanation": "Zookeeper manages cluster metadata.",
+          "id": "q13_16"
+        },
+        {
+          "question": "What is 'Cruise Control' used for in MSK?",
+          "options": [
+            "Auto-scaling brokers",
+            "Intelligent partition rebalancing",
+            "Speeding up producers",
+            "Authentication"
+          ],
+          "answer": 1,
+          "explanation": "Cruise Control is used for rebalancing partitions across brokers.",
+          "id": "q13_17"
+        },
+        {
+          "question": "Which metric indicates that Kafka is struggling to keep up with replication?",
+          "options": [
+            "CPUUtilization",
+            "UnderReplicatedPartitions",
+            "MemoryUsage",
+            "DiskSpace"
+          ],
+          "answer": 1,
+          "explanation": "UnderReplicatedPartitions is a critical metric for cluster health.",
+          "id": "q13_18"
+        },
+        {
+          "question": "Can you disable in-cluster encryption in MSK?",
+          "options": [
+            "Yes",
+            "No",
+            "Only in dev",
+            "Only in serverless"
+          ],
+          "answer": 0,
+          "explanation": "In-cluster encryption can be toggled.",
+          "id": "q13_19"
+        },
+        {
+          "question": "What is the benefit of using 'for_each' for MSK clusters in Terraform?",
+          "options": [
+            "Faster apply",
+            "Deterministic identity and stability",
+            "Lower cost",
+            "More tags"
+          ],
+          "answer": 1,
+          "explanation": "for_each uses keys, avoiding index shifting.",
+          "id": "q13_20"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "M14: Flink & MSK Integration",
+      "questions": [
+        {
+          "question": "Which library allows Flink to use IAM roles for MSK authentication?",
+          "options": [
+            "aws-java-sdk",
+            "aws-msk-iam-auth",
+            "flink-connector-aws",
+            "kafka-clients"
+          ],
+          "answer": 1,
+          "explanation": "The 'aws-msk-iam-auth' library is required for SASL/IAM.",
+          "id": "q14_2"
+        },
+        {
+          "question": "Why should Flink parallelism match MSK partition count?",
+          "options": [
+            "To save money",
+            "For optimal 1:1 mapping",
+            "To avoid data loss",
+            "It doesn't matter"
+          ],
+          "answer": 1,
+          "explanation": "Matching parallelism to partitions ensures efficient consumption.",
+          "id": "q14_3"
+        },
+        {
+          "question": "Which AWS service manages Avro schemas for MSK?",
+          "options": [
+            "DynamoDB",
+            "S3",
+            "Glue Schema Registry",
+            "KMS"
+          ],
+          "answer": 2,
+          "explanation": "AWS Glue Schema Registry is the native service for schema management.",
+          "id": "q14_4"
+        },
+        {
+          "question": "How does Flink ensure exactly-once semantics with MSK?",
+          "options": [
+            "By using transactions and checkpoints",
+            "By never failing",
+            "By using S3",
+            "By using Lambda"
+          ],
+          "answer": 0,
+          "explanation": "Flink uses two-phase commit aligned with checkpoints.",
+          "id": "q14_5"
+        },
+        {
+          "question": "What is the primary benefit of using MSK as a Flink source?",
+          "options": [
+            "Low cost",
+            "Durability and decoupling",
+            "Ease of use",
+            "Native UI"
+          ],
+          "answer": 1,
+          "explanation": "MSK provides a durable buffer.",
+          "id": "q14_6"
+        },
+        {
+          "question": "What Flink metric shows how far the consumer is behind the producer?",
+          "options": [
+            "CPU",
+            "Heap",
+            "RecordsLagMax",
+            "Uptime"
+          ],
+          "answer": 2,
+          "explanation": "RecordsLagMax indicates consumption lag.",
+          "id": "q14_7"
+        },
+        {
+          "question": "In Flink, what happens to Kafka offsets during a checkpoint?",
+          "options": [
+            "They are deleted",
+            "They are stored in the checkpoint state",
+            "They are committed to Kafka immediately",
+            "Nothing"
+          ],
+          "answer": 1,
+          "explanation": "Flink stores offsets in its own state.",
+          "id": "q14_8"
+        },
+        {
+          "question": "Which compatibility mode allows an old schema to read new data?",
+          "options": [
+            "BACKWARD",
+            "FORWARD",
+            "FULL",
+            "NONE"
+          ],
+          "answer": 1,
+          "explanation": "FORWARD compatibility allows older schemas to read data produced by newer schemas.",
+          "id": "q14_9"
+        },
+        {
+          "question": "What is the purpose of 'MSK Replicator'?",
+          "options": [
+            "To backup to S3",
+            "To copy data between MSK clusters",
+            "To scale brokers",
+            "To fix bugs"
+          ],
+          "answer": 1,
+          "explanation": "MSK Replicator is used for data replication.",
+          "id": "q14_10"
+        },
+        {
+          "question": "Which MSK port is used for SASL/IAM authentication?",
+          "options": [
+            "9092",
+            "9094",
+            "9098",
+            "2181"
+          ],
+          "answer": 2,
+          "explanation": "Port 9098 is standard for MSK SASL/IAM.",
+          "id": "q14_11"
+        },
+        {
+          "question": "What happens if a Flink job cannot reach MSK brokers?",
+          "options": [
+            "It works slowly",
+            "It fails with a timeout error",
+            "It uses S3 instead",
+            "It logs a warning"
+          ],
+          "answer": 1,
+          "explanation": "Connectivity issues result in timeout failures.",
+          "id": "q14_12"
+        },
+        {
+          "question": "What is a 'KPU' in the context of Amazon Managed Flink?",
+          "options": [
+            "Kafka Process Unit",
+            "Kinesis Processing Unit",
+            "Kernel Power Unit",
+            "Key Policy Unit"
+          ],
+          "answer": 1,
+          "explanation": "A KPU is the unit of scale for Managed Flink.",
+          "id": "q14_13"
+        },
+        {
+          "question": "Which Flink sink delivery guarantee is the most performant?",
+          "options": [
+            "EXACTLY_ONCE",
+            "AT_LEAST_ONCE",
+            "NONE",
+            "AT_MOST_ONCE"
+          ],
+          "answer": 3,
+          "explanation": "AT_MOST_ONCE has the lowest overhead.",
+          "id": "q14_14"
+        },
+        {
+          "question": "Can MSK Connect be used as a source for Flink?",
+          "options": [
+            "Yes",
+            "No",
+            "Only if Flink is in the same account",
+            "Only with SQL"
+          ],
+          "answer": 0,
+          "explanation": "MSK Connect can ingest data into a topic, which Flink then consumes.",
+          "id": "q14_15"
+        },
+        {
+          "question": "What is 'Backpressure' in Flink?",
+          "options": [
+            "High disk usage",
+            "Downstream operators being slower",
+            "Low network bandwidth",
+            "High CPU"
+          ],
+          "answer": 1,
+          "explanation": "Backpressure occurs when an operator cannot keep up.",
+          "id": "q14_16"
+        },
+        {
+          "question": "Which Kafka property controls batching delay?",
+          "options": [
+            "batch.size",
+            "linger.ms",
+            "acks",
+            "retries"
+          ],
+          "answer": 1,
+          "explanation": "linger.ms introduces a small delay to increase batching.",
+          "id": "q14_17"
+        },
+        {
+          "question": "What does 'UnderReplicatedPartitions > 0' mean?",
+          "options": [
+            "Cluster is healthy",
+            "A broker might be down",
+            "Producers are fast",
+            "Consumers are slow"
+          ],
+          "answer": 1,
+          "explanation": "It means some partitions don't have enough in-sync replicas.",
+          "id": "q14_18"
+        },
+        {
+          "question": "Does Glue Schema Registry support JSON Schema?",
+          "options": [
+            "Yes",
+            "No",
+            "Only in certain regions",
+            "Only for MSK Serverless"
+          ],
+          "answer": 0,
+          "explanation": "Glue Schema Registry supports Avro, JSON Schema, and Protobuf.",
+          "id": "q14_19"
+        },
+        {
+          "question": "What is the maximum number of brokers MSK supports?",
+          "options": [
+            "3",
+            "15",
+            "30",
+            "Depends on service quotas"
+          ],
+          "answer": 3,
+          "explanation": "MSK limits can be increased via service quotas.",
+          "id": "q14_20"
+        },
+        {
+          "question": "What is the benefit of Flink's 'Managed Memory'?",
+          "options": [
+            "It's free",
+            "It reduces GC pressure",
+            "It's faster than RAM",
+            "It's used for logging"
+          ],
+          "answer": 1,
+          "explanation": "Managed memory reduces GC overhead.",
+          "id": "q14_21"
         }
       ]
     }
