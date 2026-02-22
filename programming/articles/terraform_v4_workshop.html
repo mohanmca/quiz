@@ -197,7 +197,7 @@ button.primary:hover { background: #0d6e66; }
   <div id="header">
     <div class="left">
        <span id="module-label">M0: Foundations</span>
-       <span id="slide-counter">1 / 170</span>
+       <span id="slide-counter">1 / 180</span>
     </div>
     <div class="right">
       <button id="prev-btn" title="Previous (Shift+Space)">Previous</button>
@@ -300,9 +300,27 @@ const slides = [
   },
   {
     "module": "M0: Foundations",
-    "title": "Meta-Arguments",
+    "title": "Meta-Arguments: <code>count</code> (Index-Based)",
     "type": "content",
-    "content": "\n    <p>Special arguments available for every resource:</p>\n    <ul>\n        <li><code>count</code> / <code>for_each</code>: Dynamic creation.</li>\n        <li><code>depends_on</code>: Explicit ordering.</li>\n        <li><code>lifecycle</code>: <code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>.</li>\n    </ul>\n    "
+    "content": "\n    <p><code>count</code> allows creating multiple copies of a resource using a numeric index.</p>\n    <pre><code>resource \"aws_instance\" \"web\" {\n  count         = 3\n  ami           = \"ami-123456\"\n  instance_type = \"t3.micro\"\n  tags = { Name = \"web-${count.index}\" }\n}</code></pre>\n    <ul>\n        <li><strong>Identity:</strong> Resources are identified as <code>web[0]</code>, <code>web[1]</code>, etc.</li>\n        <li><strong>Conditional Creation:</strong> <code>count = var.create ? 1 : 0</code></li>\n    </ul>\n    <div class=\"callout warn\"><strong>Fragility:</strong> Deleting an element from the middle of a list causes Terraform to shift indices, potentially recreating all subsequent resources.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Meta-Arguments: <code>for_each</code> (Key-Based)",
+    "type": "content",
+    "content": "\n    <p><code>for_each</code> is safer and preferred for managing distinct entities like subnets or buckets.</p>\n    <pre><code>variable \"servers\" {\n  type = map(string)\n  default = { app1 = \"t3.micro\", app2 = \"t3.small\" }\n}\n\nresource \"aws_instance\" \"web\" {\n  for_each      = var.servers\n  ami           = \"ami-123456\"\n  instance_type = each.value\n  tags = { Name = each.key }\n}</code></pre>\n    <ul>\n        <li><strong>Identity:</strong> <code>web[\"app1\"]</code>, <code>web[\"app2\"]</code>.</li>\n        <li><strong>Stability:</strong> Removing <code>app1</code> only destroys that specific instance.</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "<code>count</code> vs <code>for_each</code>",
+    "type": "content",
+    "content": "\n    <table>\n      <tr><th>Feature</th><th>count</th><th>for_each</th></tr>\n      <tr><td>Based On</td><td>Number</td><td>Map or Set</td></tr>\n      <tr><td>Identity</td><td>Index (Numeric)</td><td>Key (String)</td></tr>\n      <tr><td>Stability</td><td>\u274c No (Index shifting)</td><td>\u2705 Yes (Stable keys)</td></tr>\n      <tr><td>Best For</td><td>Identical replicas</td><td>Named resources</td></tr>\n    </table>\n    <div class=\"callout tip\"><strong>Production Rule:</strong> For <strong>DropTruck</strong> stable infra (VPCs, MSK Clusters, RDS), always prefer <code>for_each</code> for deterministic behavior.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Other Meta-Arguments",
+    "type": "content",
+    "content": "\n    <ul>\n        <li><strong><code>depends_on</code></strong>: Explicitly sets dependency when Terraform cannot infer it.</li>\n        <li><strong><code>lifecycle</code></strong>: Controls resource behavior (<code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>).</li>\n        <li><strong><code>provider</code></strong>: Specifies a non-default provider configuration (e.g., cross-region).</li>\n    </ul>\n    <div class=\"callout note\">Meta-arguments work across <strong>all</strong> resource blocks and control <em>how</em> Terraform manages the resource.</div>\n    "
   },
   {
     "module": "M0: Foundations",
@@ -351,6 +369,23 @@ const slides = [
     "title": "Production Operations",
     "type": "content",
     "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit).</li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Why is `for_each` preferred over `count` for production infrastructure?",
+      "options": [
+        "It is faster",
+        "It uses stable keys instead of numeric indices",
+        "It is the only way to use maps",
+        "It creates resources in parallel"
+      ],
+      "answer": 1,
+      "explanation": "`for_each` identifies resources by stable keys, preventing the 'index-shifting' problem where deleting one item recreates others.",
+      "id": "q0_2"
+    }
   },
   {
     "module": "M0: Foundations",

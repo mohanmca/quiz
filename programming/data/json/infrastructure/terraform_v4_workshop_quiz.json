@@ -20,39 +20,39 @@
           "id": "q0_1"
         },
         {
-          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 1)",
+          "question": "Which meta-argument is best for creating resources that are tracked by stable string keys?",
           "options": [
-            "dependency",
-            "include",
-            "terraform",
-            "locals"
+            "count",
+            "for_each",
+            "depends_on",
+            "lifecycle"
           ],
-          "answer": 0,
-          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "answer": 1,
+          "explanation": "`for_each` uses keys from a map or set, providing stable identity for resources even if the order changes.",
           "id": "q0_2"
         },
         {
-          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 2)",
+          "question": "What is a major risk of using `count` for resources that might be deleted from the middle of a list?",
           "options": [
-            "dependency",
-            "include",
-            "terraform",
-            "locals"
+            "It causes a syntax error",
+            "It makes Terraform faster",
+            "It causes index shifting and unnecessary resource recreation",
+            "It prevents state locking"
           ],
-          "answer": 0,
-          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "answer": 2,
+          "explanation": "Because `count` tracks by numeric index, removing an item from the middle shifts the indices of all subsequent items, causing Terraform to recreate them.",
           "id": "q0_3"
         },
         {
-          "question": "Which Terragrunt block allows you to pass outputs from one module to another? (Variant 3)",
+          "question": "Inside a `for_each` block, how do you access the value of the current map element?",
           "options": [
-            "dependency",
-            "include",
-            "terraform",
-            "locals"
+            "count.index",
+            "self.value",
+            "each.value",
+            "var.value"
           ],
-          "answer": 0,
-          "explanation": "The `dependency` block fetches outputs from another Terragrunt module configuration.",
+          "answer": 2,
+          "explanation": "`each.value` provides the value of the current element in a `for_each` iteration.",
           "id": "q0_4"
         },
         {
