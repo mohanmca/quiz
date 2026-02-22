@@ -203,6 +203,12 @@ button.primary:hover { background: #0d6e66; }
 .status-badge.pass { background: #dcfce7; color: #166534; }
 .status-badge.fail { background: #fee2e2; color: #991b1b; }
 .status-badge.neutral { background: #f1f5f9; color: #475569; }
+
+#auto-btn.active {
+  background: var(--accent-2);
+  color: white;
+  border-color: var(--accent-2);
+}
 </style>
 </head>
 <body>
@@ -214,6 +220,7 @@ button.primary:hover { background: #0d6e66; }
        <span id="slide-counter">1 / 222</span>
     </div>
     <div class="right">
+      <button id="auto-btn" title="Auto Slide (40s)">Auto: OFF</button>
       <button id="prev-btn" title="Previous (Shift+Space)">Previous</button>
       <button id="next-btn" title="Next (Space)">Next</button>
       <button id="toc-btn">Menu</button>
@@ -232,7 +239,8 @@ let state = {
   examMode: false,
   examQuestions: [],
   currentExamIndex: 0,
-  examResults: {} // { questionId: { correct: bool, module: string } }
+  examResults: {}, // { questionId: { correct: bool, module: string } }
+  autoMode: false
 };
 
 // ... Slides Data Injected Here ...
@@ -2025,17 +2033,25 @@ const slideEl = document.getElementById('slide');
 const modLabel = document.getElementById('module-label');
 const counter = document.getElementById('slide-counter');
 const progBar = document.getElementById('progress-bar');
+const autoBtn = document.getElementById('auto-btn');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const tocBtn = document.getElementById('toc-btn');
 const tocDrawer = document.getElementById('toc-drawer');
 const overlay = document.getElementById('overlay');
 
+let autoTimer = null;
+
 function init() {
   const saved = localStorage.getItem(STORE_KEY);
   if (saved) {
     try { state = { ...state, ...JSON.parse(saved) }; } catch(e) { console.error(e); }
   }
+  
+  // Ensure autoMode is OFF by default on page load if desired, 
+  // but here we follow state. We'll start timer if it was ON.
+  if (state.autoMode) startAutoTimer();
+  
   render();
   renderToc();
   updateProgress();
@@ -2045,8 +2061,39 @@ function save() {
   localStorage.setItem(STORE_KEY, JSON.stringify(state));
 }
 
+function startAutoTimer() {
+  if (autoTimer) clearInterval(autoTimer);
+  autoTimer = setInterval(() => {
+    if (!state.examMode && state.currentSlide < slides.length - 1) {
+      nextSlide();
+    } else {
+      stopAutoTimer();
+    }
+  }, 40000);
+}
+
+function stopAutoTimer() {
+  if (autoTimer) clearInterval(autoTimer);
+  autoTimer = null;
+  state.autoMode = false;
+  render();
+  save();
+}
+
+function toggleAutoSlide() {
+  state.autoMode = !state.autoMode;
+  if (state.autoMode) {
+    startAutoTimer();
+  } else {
+    stopAutoTimer();
+  }
+  render();
+  save();
+}
+
 function render() {
   if (state.examMode) {
+    stopAutoTimer();
     return renderExam();
   }
 
@@ -2056,6 +2103,11 @@ function render() {
   modLabel.innerText = s.module;
   counter.innerText = `${state.currentSlide + 1} / ${slides.length}`;
   
+  // Update Auto Button UI
+  autoBtn.innerText = state.autoMode ? 'Auto: ON' : 'Auto: OFF';
+  if (state.autoMode) autoBtn.classList.add('active');
+  else autoBtn.classList.remove('active');
+
   let html = `<h1>${s.title}</h1>`;
   if (s.type === 'quiz') {
     html += renderQuiz(s);
@@ -2116,16 +2168,13 @@ window.checkAnswer = function(idx) {
 };
 
 window.startExam = function() {
+  stopAutoTimer();
   const allQuizzes = slides.filter(s => s.type === 'quiz').map(s => {
-    // Clone to avoid modifying original
     const q = JSON.parse(JSON.stringify(s));
-    
-    // Shuffle options
     const originalAnswerText = q.question.options[q.question.answer];
     const shuffledOptions = q.question.options.sort(() => Math.random() - 0.5);
     q.question.options = shuffledOptions;
     q.question.answer = shuffledOptions.indexOf(originalAnswerText);
-    
     return q;
   });
 
@@ -2206,7 +2255,6 @@ function renderExamResult() {
   const total = state.examQuestions.length;
   const scorePct = Math.round((correctCount / total) * 100);
 
-  // Group performance by module
   const modStats = {};
   state.examQuestions.forEach(q => {
     if (!modStats[q.module]) modStats[q.module] = { total: 0, correct: 0 };
@@ -2256,7 +2304,7 @@ window.restartWorkshop = function() {
   state.examMode = false;
   state.currentSlide = 0;
   save();
-  window.location.reload(); // Refresh to reset UI state
+  window.location.reload();
 };
 
 function nextSlide() {
@@ -2264,7 +2312,10 @@ function nextSlide() {
     state.currentSlide++;
     save();
     render();
+    if (state.autoMode) startAutoTimer(); // Reset 40s window on manual click too
     document.getElementById('header').scrollIntoView();
+  } else {
+    stopAutoTimer();
   }
 }
 
@@ -2273,6 +2324,7 @@ function prevSlide() {
     state.currentSlide--;
     save();
     render();
+    if (state.autoMode) startAutoTimer();
     document.getElementById('header').scrollIntoView();
   }
 }
@@ -2306,6 +2358,7 @@ window.jumpTo = function(i) {
   state.currentSlide = i;
   save();
   render();
+  if (state.autoMode) startAutoTimer();
   toggleToc();
 }
 
@@ -2315,6 +2368,7 @@ function toggleToc() {
 }
 
 // Event Listeners
+autoBtn.onclick = toggleAutoSlide;
 prevBtn.onclick = prevSlide;
 nextBtn.onclick = nextSlide;
 tocBtn.onclick = toggleToc;
