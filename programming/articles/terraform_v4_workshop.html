@@ -224,7 +224,7 @@ const slides = [
     "module": "M0: Foundations",
     "title": "Why Terraform + Terragrunt?",
     "type": "content",
-    "content": "\n    <p>Managing large AWS estates requires more than just simple HCL files. We need:</p>\n    <ul>\n        <li><strong>DRY (Don't Repeat Yourself):</strong> Terragrunt allows us to keep our Terraform code efficiently without duplication.</li>\n        <li><strong>Dependency Management:</strong> Orchestrating complex stacks (VPC -> EKS -> RDS).</li>\n        <li><strong>Immutability:</strong> Infrastructure as Code (IaC) ensures environments are reproducible.</li>\n    </ul>\n    <div class=\"callout note\">\n        <strong>Workshop Goal:</strong> Master the art of debugging and operating large-scale Terraform/Terragrunt projects.\n    </div>\n    <div class=\"diagram\">\n+----------------+      +------------------+      +----------------+\n|  Terragrunt    | ---> |  Terraform Core  | ---> |  AWS Provider  |\n|  Orchestrator  |      |  State Manager   |      |  API Calls     |\n+----------------+      +------------------+      +----------------+\n    </div>\n    "
+    "content": "\n    <p>Managing large AWS estates like <strong>DropTruck</strong> requires more than just simple HCL files. We need:</p>\n    <ul>\n        <li><strong>DRY (Don't Repeat Yourself):</strong> Terragrunt allows us to keep our Terraform code efficiently without duplication.</li>\n        <li><strong>Dependency Management:</strong> Orchestrating complex stacks (VPC -> EKS -> RDS).</li>\n        <li><strong>Immutability:</strong> Infrastructure as Code (IaC) ensures environments are reproducible.</li>\n    </ul>\n    <div class=\"callout note\">\n        <strong>Workshop Goal:</strong> Master the art of debugging and operating large-scale Terraform/Terragrunt projects.\n    </div>\n    <div class=\"diagram\">\n+----------------+      +------------------+      +----------------+\n|  Terragrunt    | ---> |  Terraform Core  | ---> |  AWS Provider  |\n|  Orchestrator  |      |  State Manager   |      |  API Calls     |\n+----------------+      +------------------+      +----------------+\n    </div>\n    "
   },
   {
     "module": "M0: Foundations",
@@ -240,15 +240,51 @@ const slides = [
   },
   {
     "module": "M0: Foundations",
-    "title": "HCL Block Types",
+    "title": "Global Config: <code>terraform { ... }</code>",
     "type": "content",
-    "content": "\n    <p>HashiCorp Configuration Language (HCL) is built on specific blocks:</p>\n    <ul>\n        <li><code>terraform { ... }</code>: Global settings, backend.</li>\n        <li><code>provider \"aws\" { ... }</code>: Plugin configuration.</li>\n        <li><code>resource \"aws_instance\" \"web\" { ... }</code>: Infrastructure objects.</li>\n        <li><code>data \"aws_ami\" \"ubuntu\" { ... }</code>: Read-only external data.</li>\n        <li><code>module \"vpc\" { ... }</code>: Reusable components.</li>\n    </ul>\n    "
+    "content": "\n    <p>This block configures <strong>Terraform itself</strong>, not your infrastructure. It is evaluated first and defines required versions, providers, and backends.</p>\n    <pre><code>terraform {\n  required_version = \">= 1.6.0\"\n  required_providers {\n    aws = { source = \"hashicorp/aws\", version = \"~> 5.0\" }\n  }\n  backend \"s3\" {\n    bucket         = \"droptruck-terraform-state\"\n    key            = \"prod/vpc/terraform.tfstate\"\n    region         = \"ap-southeast-1\"\n    dynamodb_table = \"terraform-lock\"\n    encrypt        = true\n  }\n}</code></pre>\n    <div class=\"callout real\">In production environments like <strong>DropTruck</strong>, remote state prevents accidental overwrites and state locking prevents concurrent apply corruption.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Provider Config: <code>provider 'aws'</code>",
+    "type": "content",
+    "content": "\n    <p>Providers are plugins that translate HCL \u2192 API calls. Terraform core doesn't know AWS \u2014 the provider does.</p>\n    <div class=\"diagram\">\nTerraform Core -> AWS Provider Plugin -> AWS SDK -> AWS API\n    </div>\n    <p>Common Authentication Methods:</p>\n    <ul>\n        <li><strong>Profile:</strong> <code>profile = \"prod\"</code> (Local Dev)</li>\n        <li><strong>Env Vars:</strong> <code>AWS_ACCESS_KEY_ID</code> (CI/CD)</li>\n        <li><strong>IAM Role:</strong> Uses metadata service (EC2/ECS/EKS) - <em>Most Secure</em></li>\n    </ul>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Advanced Provider Patterns",
+    "type": "content",
+    "content": "\n    <p>Multiple provider instances (aliases) are critical for multi-region or cross-account setups.</p>\n    <pre><code>provider \"aws\" {\n  alias  = \"mumbai\"\n  region = \"ap-south-1\"\n}\n\nresource \"aws_instance\" \"india_server\" {\n  provider = aws.mumbai\n  ...\n}</code></pre>\n    <div class=\"callout tip\"><strong>Best Practice:</strong> Use <code>default_tags</code> in the provider block to ensure all resources are tagged for cost tracking and governance.</div>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Infrastructure Objects: <code>resource</code>",
+    "type": "content",
+    "content": "\n    <p>The most important block. It creates, updates, and destroys real infrastructure.</p>\n    <pre><code>resource \"aws_instance\" \"web\" {\n  ami           = \"ami-0abcdef1234567890\"\n  instance_type = \"t3.micro\"\n  tags = { Name = \"droptruck-web\" }\n}</code></pre>\n    <p><strong>Internals:</strong> Terraform builds a dependency graph, calls the provider, and stores attributes (ID, metadata) in the state file.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Read-Only Data: <code>data</code>",
+    "type": "content",
+    "content": "\n    <p>Data blocks <strong>DO NOT create infrastructure</strong>. They fetch existing information.</p>\n    <pre><code>data \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"099720109477\"]\n  filter { name = \"name\", values = [\"ubuntu/images/*\"] }\n}</code></pre>\n    <table>\n      <tr><th>resource</th><th>data</th></tr>\n      <tr><td>Creates/Manages infra</td><td>Reads existing infra</td></tr>\n      <tr><td>Owned by State</td><td>Not owned by Terraform</td></tr>\n      <tr><td>Can be destroyed</td><td>Cannot be destroyed</td></tr>\n    </table>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "Reusable Logic: <code>module</code>",
+    "type": "content",
+    "content": "\n    <p>Modules are reusable packages (like functions in programming). They contain their own <code>main.tf</code>, <code>variables.tf</code>, and <code>outputs.tf</code>.</p>\n    <pre><code>module \"vpc\" {\n  source = \"terraform-aws-modules/vpc/aws\"\n  cidr   = \"10.0.0.0/16\"\n}</code></pre>\n    <p><strong>Sources:</strong> Local paths, GitHub repositories, or the Terraform Registry.</p>\n    "
+  },
+  {
+    "module": "M0: Foundations",
+    "title": "HCL Block Interaction & Mental Model",
+    "type": "content",
+    "content": "\n    <p>Think of Terraform blocks like a machine:</p>\n    <table>\n      <tr><td><code>terraform</code></td><td>Engine Config</td></tr>\n      <tr><td><code>provider</code></td><td>Cloud Driver</td></tr>\n      <tr><td><code>data</code></td><td>Read-only Lookup</td></tr>\n      <tr><td><code>resource</code></td><td>Create Infra</td></tr>\n      <tr><td><code>module</code></td><td>Reusable Package</td></tr>\n    </table>\n    <div class=\"callout note\"><strong>Execution Order:</strong> Terraform does NOT execute top-to-bottom. It builds a dependency graph and executes in parallel where possible.</div>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "HCL Type System",
     "type": "content",
-    "content": "\n    <p>Terraform is strongly typed. Common types:</p>\n    <ul>\n        <li><strong>Primitive:</strong> <code>string</code>, <code>number</code>, <code>bool</code></li>\n        <li><strong>Collection:</strong> <code>list(string)</code>, <code>map(string)</code>, <code>set(string)</code></li>\n        <li><strong>Structural:</strong> <code>object({ name=string, age=number })</code>, <code>tuple([...])</code></li>\n    </ul>\n    <pre><code>variable \"tags\" {\n  type = map(string)\n  default = {\n    Environment = \"dev\"\n  }\n}</code></pre>\n    "
+    "content": "\n    <p>Terraform is strongly typed. Common types:</p>\n    <ul>\n        <li><strong>Primitive:</strong> <code>string</code>, <code>number</code>, <code>bool</code></li>\n        <li><strong>Collection:</strong> <code>list(string)</code>, <code>map(string)</code>, <code>set(string)</code></li>\n        <li><strong>Structural:</strong> <code>object({ name=string, age=number })</code>, <code>tuple([...])</code></li>\n    </ul>\n    "
   },
   {
     "module": "M0: Foundations",
@@ -260,61 +296,61 @@ const slides = [
     "module": "M0: Foundations",
     "title": "Locals & Expressions",
     "type": "content",
-    "content": "\n    <p><code>locals</code> are temporary local variables for logic and transformation.</p>\n    <pre><code>locals {\n  common_tags = {\n    Project = \"MegaApp\"\n    Owner   = \"PlatformTeam\"\n  }\n  name_prefix = \"${var.env}-${var.region}\"\n}</code></pre>\n    <div class=\"callout tip\">Use locals to simplify complex expressions and avoid repetition in resource blocks.</div>\n    "
+    "content": "\n    <p><code>locals</code> are temporary local variables for logic and transformation.</p>\n    <pre><code>locals {\n  common_tags = { Project = \"MegaApp\", Owner = \"PlatformTeam\" }\n  name_prefix = \"${var.env}-${var.region}\"\n}</code></pre>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Meta-Arguments",
     "type": "content",
-    "content": "\n    <p>Special arguments available for every resource:</p>\n    <ul>\n        <li><code>count</code>: Create N instances (index based).</li>\n        <li><code>for_each</code>: Create instances from map/set (key based).</li>\n        <li><code>depends_on</code>: Explicit dependency ordering.</li>\n        <li><code>lifecycle</code>: <code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>.</li>\n    </ul>\n    "
+    "content": "\n    <p>Special arguments available for every resource:</p>\n    <ul>\n        <li><code>count</code> / <code>for_each</code>: Dynamic creation.</li>\n        <li><code>depends_on</code>: Explicit ordering.</li>\n        <li><code>lifecycle</code>: <code>create_before_destroy</code>, <code>prevent_destroy</code>, <code>ignore_changes</code>.</li>\n    </ul>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Terragrunt Fundamentals",
     "type": "content",
-    "content": "\n    <p>Terragrunt keeps your backend configuration DRY.</p>\n    <p><code>terragrunt.hcl</code>:</p>\n    <pre><code>include {\n  path = find_in_parent_folders()\n}\n\nterraform {\n  source = \"git::https://github.com/terraform-aws-modules/terraform-aws-vpc.git//?ref=v5.0.0\"\n}\n\ninputs = {\n  cidr = \"10.0.0.0/16\"\n}</code></pre>\n    "
+    "content": "\n    <p>Terragrunt keeps your backend configuration DRY.</p>\n    <pre><code>include { path = find_parent_folders() }\nterraform {\n  source = \"git::https://github.com/.../terraform-aws-vpc.git//?ref=v5.0.0\"\n}\ninputs = { cidr = \"10.0.0.0/16\" }</code></pre>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Terragrunt Dependencies",
     "type": "content",
-    "content": "\n    <p>Pass outputs from one module to another automatically.</p>\n    <pre><code>dependency \"vpc\" {\n  config_path = \"../vpc\"\n  mock_outputs = {\n    vpc_id = \"vpc-fake-123\"\n  }\n}\n\ninputs = {\n  vpc_id = dependency.vpc.outputs.vpc_id\n}</code></pre>\n    <div class=\"callout warn\">Mock outputs are crucial for <code>validate</code> and <code>plan</code> on empty states.</div>\n    "
+    "content": "\n    <p>Pass outputs from one module to another automatically.</p>\n    <pre><code>dependency \"vpc\" {\n  config_path = \"../vpc\"\n  mock_outputs = { vpc_id = \"vpc-fake-123\" }\n}\ninputs = { vpc_id = dependency.vpc.outputs.vpc_id }</code></pre>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Planning Semantics",
     "type": "content",
-    "content": "\n    <p>Terraform plan symbols mean specific actions:</p>\n    <ul>\n        <li><span style=\"color:green\">+ Create</span>: Resource will be added.</li>\n        <li><span style=\"color:red\">- Destroy</span>: Resource will be removed.</li>\n        <li><span style=\"color:orange\">~ Update</span>: In-place modification.</li>\n        <li><span style=\"color:red\">-/+ Replace</span>: Destroy then Create (disruptive!).</li>\n    </ul>\n    <div class=\"callout warn\">Always check for <strong>Replace</strong> actions on stateful resources like Databases!</div>\n    "
+    "content": "\n    <p>Terraform plan symbols mean specific actions:</p>\n    <ul>\n        <li><span style=\"color:green\">+ Create</span>: Resource will be added.</li>\n        <li><span style=\"color:red\">- Destroy</span>: Resource will be removed.</li>\n        <li><span style=\"color:orange\">~ Update</span>: In-place modification.</li>\n        <li><span style=\"color:red\">-/+ Replace</span>: Destroy then Create.</li>\n    </ul>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "State & Refactoring",
     "type": "content",
-    "content": "\n    <p>Moving resources without destroying them:</p>\n    <pre><code>moved {\n  from = aws_instance.old\n  to   = aws_instance.new\n}</code></pre>\n    <p>Use <code>terraform state mv</code> for manual surgery, but <code>moved</code> blocks are preferred for code-driven refactoring.</p>\n    "
+    "content": "\n    <p>Moving resources without destroying them:</p>\n    <pre><code>moved {\n  from = aws_instance.old\n  to   = aws_instance.new\n}</code></pre>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Debugging Terraform",
     "type": "content",
-    "content": "\n    <p>When things go wrong:</p>\n    <ul>\n        <li><strong>TF_LOG=DEBUG:</strong> Enable verbose logging.</li>\n        <li><strong>TF_LOG_PATH=trace.log:</strong> Save logs to file.</li>\n        <li><strong>Validation:</strong> Check <code>terraform validate</code>.</li>\n    </ul>\n    <div class=\"callout real\">\n        Common error: \"Provider produced inconsistent result\". Often means a remote API changed a value immediately after creation.\n    </div>\n    "
+    "content": "\n    <p>When things go wrong:</p>\n    <ul>\n        <li><code>TF_LOG=DEBUG</code>: Enable verbose logging.</li>\n        <li>Check <code>terraform validate</code>.</li>\n    </ul>\n    <div class=\"callout real\">Common error: \"Provider produced inconsistent result\". Often means a remote API changed a value immediately after creation.</div>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Dockerized IaC Workflow",
     "type": "content",
-    "content": "\n    <p>Run Terraform/Terragrunt in a consistent Docker container to avoid version mismatches.</p>\n    <pre><code>docker run --rm -v $(pwd):/app -w /app   alpine/terragrunt:1.5.0   terragrunt plan</code></pre>\n    <div class=\"callout tip\">Ensure your CI/CD uses the exact same Docker image as your local development environment.</div>\n    "
+    "content": "\n    <p>Run Terraform/Terragrunt in a consistent Docker container to avoid version mismatches.</p>\n    <pre><code>docker run --rm -v $(pwd):/app -w /app alpine/terragrunt:1.5.0 terragrunt plan</code></pre>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "AWS IaC Coverage Map",
     "type": "content",
-    "content": "\n    <p>We will cover the full stack:</p>\n    <ul>\n        <li><strong>Network:</strong> VPC, Security Groups</li>\n        <li><strong>Compute:</strong> EC2, EKS, ECS</li>\n        <li><strong>Storage:</strong> S3</li>\n        <li><strong>Security:</strong> IAM, KMS, Secrets Manager</li>\n    </ul>\n    <p>These modules form the building blocks of any production AWS environment.</p>\n    "
+    "content": "\n    <p>We will cover the full stack:</p>\n    <ul>\n        <li><strong>Network:</strong> VPC, Security Groups</li>\n        <li><strong>Compute:</strong> EC2, EKS, ECS</li>\n        <li><strong>Storage:</strong> S3</li>\n        <li><strong>Security:</strong> IAM, KMS, Secrets Manager</li>\n    </ul>\n    "
   },
   {
     "module": "M0: Foundations",
     "title": "Production Operations",
     "type": "content",
-    "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit, <code>terraform apply</code> old version).</li>\n    </ul>\n    "
+    "content": "\n    <p>Operational Excellence:</p>\n    <ul>\n        <li><strong>Blast Radius:</strong> Separate state files per env/region.</li>\n        <li><strong>Change Windows:</strong> Don't apply on Fridays.</li>\n        <li><strong>Rollback:</strong> Have a plan (e.g., revert commit).</li>\n    </ul>\n    "
   },
   {
     "module": "M0: Foundations",
@@ -349,7 +385,7 @@ const slides = [
     "module": "M1: EC2 Instance",
     "title": "Basic Instance Composition",
     "type": "content",
-    "content": "\n    <pre><code>module \"ec2\" {\n  source = \"terraform-aws-modules/ec2-instance/aws\"\n\n  name = \"web-server\"\n  ami  = \"ami-12345678\"\n  instance_type = \"t3.micro\"\n  \n  subnet_id = \"subnet-abcde\"\n}</code></pre>\n    "
+    "content": "\n    <pre><code>module \"ec2\" {\n  source = \"terraform-aws-modules/ec2-instance/aws\"\n\n  name = \"droptruck-web\"\n  ami  = \"ami-12345678\"\n  instance_type = \"t3.micro\"\n  \n  subnet_id = \"subnet-abcde\"\n}</code></pre>\n    "
   },
   {
     "module": "M1: EC2 Instance",
@@ -1247,7 +1283,7 @@ const slides = [
     "module": "M9: VPC Module",
     "title": "Core Creation",
     "type": "content",
-    "content": "CIDR block definition (10.0.0.0/16)."
+    "content": "CIDR block definition (10.0.0.0/16).<div class=\"callout real\"><strong>DropTruck Pattern:</strong> Using <code>10.0.0.0/16</code> for production VPCs with separate subnets for MSK and Flink.</div>"
   },
   {
     "module": "M9: VPC Module",
@@ -1350,7 +1386,8 @@ const slides = [
       "id": "q9_1"
     }
   }
-];
+]
+;
 
 // ... Runtime Logic ...
 
