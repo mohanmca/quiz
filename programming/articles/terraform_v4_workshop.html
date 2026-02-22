@@ -197,7 +197,7 @@ button.primary:hover { background: #0d6e66; }
   <div id="header">
     <div class="left">
        <span id="module-label">M0: Foundations</span>
-       <span id="slide-counter">1 / 180</span>
+       <span id="slide-counter">1 / 222</span>
     </div>
     <div class="right">
       <button id="prev-btn" title="Previous (Shift+Space)">Previous</button>
@@ -1419,6 +1419,291 @@ const slides = [
       "answer": 0,
       "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
       "id": "q9_1"
+    }
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Introduction to Amazon Managed Service for Apache Flink",
+    "type": "content",
+    "content": "<p>Amazon Managed Service for Apache Flink is a fully managed service for running Flink jobs at scale.</p>\n<ul>\n    <li><strong>Serverless:</strong> No cluster provisioning or management.</li>\n    <li><strong>Stateful:</strong> Designed for exactly-once consistency.</li>\n    <li><strong>Tooling:</strong> Supports AWS Console, CLI, SDK, CloudFormation, and Terraform.</li>\n</ul>\n<div class=\"callout note\">Managed Service for Apache Flink was formerly known as Kinesis Data Analytics for Java.</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Core Concepts: Application",
+    "type": "content",
+    "content": "<p>The <strong>Application</strong> is the main resource you create and control.</p>\n<ul>\n    <li><strong>Code Package:</strong> JAR (Java) or ZIP (Python) in S3.</li>\n    <li><strong>Configuration:</strong> Defines parallelism (KPU), networking (VPC), and runtime properties.</li>\n    <li><strong>Job:</strong> The running instance of your code on a Flink cluster.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Checkpoints vs Savepoints",
+    "type": "content",
+    "content": "<p>Mechanisms for state consistency:</p>\n<table>\n    <tr><th>Feature</th><th>Checkpoint</th><th>Savepoint (Snapshot)</th></tr>\n    <tr><td>Purpose</td><td>Auto-recovery from failures</td><td>Updates, Scaling, Maintenance</td></tr>\n    <tr><td>Trigger</td><td>Automatic (default 1 min)</td><td>User triggered or Update triggered</td></tr>\n    <tr><td>Durability</td><td>Transient (deleted on stop)</td><td>Durable (persisted)</td></tr>\n    <tr><td>Managed Service Name</td><td>Checkpoint</td><td>Snapshot</td></tr>\n</table>\n<div class=\"callout tip\">Enable Snapshots for production apps to persist state across updates!</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Application Lifecycle: Happy Path",
+    "type": "content",
+    "content": "<ol>\n    <li><strong>Create:</strong> Define config and code location.</li>\n    <li><strong>Start:</strong> Provisions cluster -> READY to STARTING to RUNNING.</li>\n    <li><strong>Update:</strong> Change code/config. Stops job with Snapshot -> Restarts with new config.</li>\n    <li><strong>Stop:</strong> Graceful shutdown. Takes Snapshot -> RUNNING to STOPPING to READY.</li>\n</ol>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Streaming vs Batch Mode",
+    "type": "content",
+    "content": "<p><strong>Streaming Mode (Default):</strong></p>\n<ul>\n    <li>Runs continuously until stopped.</li>\n    <li>Auto-restarts from checkpoint on failure.</li>\n</ul>\n<p><strong>Batch Mode:</strong></p>\n<ul>\n    <li>Runs until processing completes.</li>\n    <li>Gracefully stops and returns to READY.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Update Workflow (Zero Data Loss)",
+    "type": "content",
+    "content": "<p>When you update a RUNNING application (e.g., code change or scaling):</p>\n<pre><code>1. Service triggers Update. Status: UPDATING.\n2. Flink stops processing.\n3. Service takes a Snapshot (Savepoint).\n4. Service provisions new cluster (if needed).\n5. Job restarts on new cluster using the Snapshot.\n6. Status returns to RUNNING.</code></pre>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Flink Cluster Composition",
+    "type": "content",
+    "content": "<p>Your application runs on a dedicated cluster consisting of:</p>\n<ul>\n    <li><strong>Job Manager (1):</strong> The coordinator. Receives code/config.</li>\n    <li><strong>Task Managers (N):</strong> The workers. Execute subtasks.</li>\n</ul>\n<div class=\"diagram\">\n[Job Manager] ----> [Task Manager 1]\n              ----> [Task Manager 2]\n              ----> [Task Manager N]\n</div>\n<p>Resources (CPU/RAM) are defined by <strong>KPUs</strong> (Kinesis Processing Units).</p>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Task Distribution",
+    "type": "content",
+    "content": "<p>Flink decomposes your `main()` code into a <strong>Dataflow Graph</strong>.</p>\n<ul>\n    <li><strong>Subtasks:</strong> The actual units of execution distributed across Task Managers.</li>\n    <li><strong>Parallelism:</strong> Determines the number of subtasks.</li>\n</ul>\n<div class=\"callout real\">If a job is \"RUNNING\" but subtasks are \"INITIALIZING\", data is not yet processing.</div>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Start Application Process",
+    "type": "content",
+    "content": "<p>What happens when you click Start?</p>\n<ol>\n    <li>Provision dedicated cluster resources.</li>\n    <li>Submit code/config to Job Manager.</li>\n    <li>Execute `main()` to generate Dataflow.</li>\n    <li>Deploy subtasks to Task Managers.</li>\n    <li>Subtasks restore state (from Snapshot) and initialize connectors (e.g., Kafka).</li>\n    <li>Processing begins.</li>\n</ol>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Starting from Snapshot",
+    "type": "content",
+    "content": "<p><code>StartApplication</code> restore options:</p>\n<ul>\n    <li><code>RESTORE_FROM_LATEST_SNAPSHOT</code>: Typical production restart.</li>\n    <li><code>RESTORE_FROM_CUSTOM_SNAPSHOT</code>: Time travel (careful with source retention!).</li>\n    <li><code>SKIP_RESTORE_FROM_SNAPSHOT</code>: Fresh start (State loss).</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Snapshot Considerations",
+    "type": "content",
+    "content": "<p>Restarting from an older snapshot (Time Travel):</p>\n<ul>\n    <li><strong>Source Retention:</strong> Must be within Kafka/Kinesis retention period.</li>\n    <li><strong>Duplicates:</strong> Older snapshot means re-processing old data. Idempotency is key.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "IAM Role Updates",
+    "type": "content",
+    "content": "<p>IAM changes are <strong>external</strong> to the Flink Lifecycle.</p>\n<ul>\n    <li>Updating the IAM Role policies happens immediately.</li>\n    <li>Does NOT require app restart.</li>\n    <li><strong>Risk:</strong> Revoking permission causes immediate runtime errors in the running job.</li>\n</ul>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Code Package Updates",
+    "type": "content",
+    "content": "<p>Simply uploading a new JAR to S3 does <strong>NOT</strong> trigger an update.</p>\n<p>You must call <code>UpdateApplication</code> to tell the service to pick up the new object version.</p>"
+  },
+  {
+    "module": "M10: Flink Architecture",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Flink mechanism is used for automatic recovery from runtime failures?",
+      "options": [
+        "Checkpoints",
+        "Savepoints",
+        "S3 Backups",
+        "Snapshots"
+      ],
+      "answer": 0,
+      "explanation": "Checkpoints are automatic, transient, and used for failure recovery. Snapshots (Savepoints) are for updates.",
+      "id": "q10_1"
+    }
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "The Fail-and-Restart Loop",
+    "type": "content",
+    "content": "<p>A common failure mode where the application is <strong>RUNNING</strong> but the job is constantly crashing and restarting.</p>\n<ul>\n    <li><strong>Causes:</strong> Buggy code, Schema mismatch, Connectivity issues, Missing permissions.</li>\n    <li><strong>Behavior:</strong> Job fails -> Restarts from Checkpoint -> Fails again.</li>\n</ul>\n<div class=\"callout warn\">The Console may show \"RUNNING\" but with a \"Needs Attention\" banner.</div>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Monitoring: FullRestarts Metric",
+    "type": "content",
+    "content": "<p>To detect restart loops automatically:</p>\n<ul>\n    <li><strong>Metric:</strong> <code>FullRestarts</code> in CloudWatch.</li>\n    <li><strong>Alarm Strategy:</strong> Use a <code>DIFF</code> or <code>RATE</code> logic. Don't alarm on a single restart (could be transient).</li>\n    <li><strong>Threshold:</strong> Alarm if restarts persist for > 5 minutes.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Start-Up Failures",
+    "type": "content",
+    "content": "<p>Two main phases where Start can fail:</p>\n<ol>\n    <li><strong>Deployment Fail:</strong> Malformed JAR, missing `mainClass`. Status reverts to READY.</li>\n    <li><strong>Runtime Fail:</strong> Job starts but subtasks fail (e.g., Kafka unreachable). Enters Restart Loop.</li>\n</ol>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Rollback Types",
+    "type": "content",
+    "content": "<p>How to recover from a bad deployment:</p>\n<ul>\n    <li><strong>Automatic (System Rollback):</strong> Service detects startup failure and reverts to previous version. (Must be enabled).</li>\n    <li><strong>Manual Rollback:</strong> API `RollbackApplication`. User triggered.</li>\n    <li><strong>Implicit Rollback:</strong> `UpdateApplication` with old config.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "System Rollback",
+    "type": "content",
+    "content": "<p>Ideally enabled in Production.</p>\n<ul>\n    <li>Detects if application cannot start or immediately crashes.</li>\n    <li>Restores previous Configuration AND Snapshot.</li>\n    <li>Prevents prolonged downtime.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Force-Stop",
+    "type": "content",
+    "content": "<p>Last resort when Graceful Stop fails (e.g., stuck in loop).</p>\n<ul>\n    <li><code>StopApplication(Force=true)</code></li>\n    <li><strong>Consequence:</strong> No Snapshot is created.</li>\n    <li><strong>Recovery:</strong> Must restart from an older explicit snapshot or from scratch.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Monitoring Operation Outcome",
+    "type": "content",
+    "content": "<p>Don't just check if status is RUNNING.</p>\n<ul>\n    <li><strong>ListApplicationOperations:</strong> Check if `UpdateApplication` succeeded.</li>\n    <li><strong>Subtask Status:</strong> Poll Flink Dashboard/API. Wait for all to be `RUNNING`.</li>\n    <li><strong>Bad Signs:</strong> Subtasks in `FAILING` or `CANCELED`.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Processing Downtime",
+    "type": "content",
+    "content": "<p>Downtime is unavoidable during updates (state consistency).</p>\n<div class=\"diagram\">\n[Running V1] -> [Stop w/ Savepoint] -> [Provision V2] -> [Start V2 w/ Snapshot] -> [Running V2]\n                    ^-------------------------------------------^\n                                Processing Downtime\n</div>\n<p>Service provisions new cluster <em>before</em> stopping old one to minimize this gap.</p>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Troubleshooting: Subtask Monitoring",
+    "type": "content",
+    "content": "<p>Use CloudWatch Logs to track subtask transitions:</p>\n<pre><code>fields message\n| parse message /^(?<task>.+) switched from (?<from>[A-Z]+) to (?<to>[A-Z]+)/\n| filter to = 'FAILING'</code></pre>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Scaling (Rescaling)",
+    "type": "content",
+    "content": "<p>Changing Parallelism (KPUs):</p>\n<ul>\n    <li>Requires an application update (restart).</li>\n    <li>State is redistributed among new number of subtasks.</li>\n    <li><strong>Quota:</strong> Default limit is 64 KPUs (Soft limit).</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "In-Place Runtime Upgrades",
+    "type": "content",
+    "content": "<p>Upgrading Flink Version (e.g., 1.15 to 1.18):</p>\n<ul>\n    <li>Update dependencies in `pom.xml`.</li>\n    <li>Update Runtime Environment in config.</li>\n    <li>Service handles the upgrade via the standard Snapshot/Restart flow.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Implicit Rollback Caveats",
+    "type": "content",
+    "content": "<p>If you manually revert config (Terraform style):</p>\n<ul>\n    <li>Use <code>RESTORE_FROM_CUSTOM_SNAPSHOT</code> to pick the snapshot <em>before</em> the bad change.</li>\n    <li>If app is in Restart Loop, you must Force-Stop first.</li>\n</ul>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Accessing Flink Dashboard API",
+    "type": "content",
+    "content": "<p>To access Flink internal metrics programmatically:</p>\n<ol>\n    <li><code>CreateApplicationPresignedUrl</code></li>\n    <li>GET <code>/jobs</code> to get ID.</li>\n    <li>GET <code>/jobs/&lt;id&gt;</code> for details.</li>\n</ol>\n<div class=\"callout warn\">Do not poll this aggressively in high-load production!</div>"
+  },
+  {
+    "module": "M11: Operations & Failure",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "What is the best metric to detect a 'fail-and-restart' loop?",
+      "options": [
+        "FullRestarts",
+        "CPUUsage",
+        "KPUCount",
+        "Downtime"
+      ],
+      "answer": 0,
+      "explanation": "A rising FullRestarts count indicates the job is failing and retrying repeatedly.",
+      "id": "q11_1"
+    }
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Resource",
+    "type": "content",
+    "content": "<p>The primary resource is:</p>\n<pre><code>resource \"aws_kinesis_analyticsv2_application\" \"example\" {\n  name                   = \"example-app\"\n  runtime_environment    = \"FLINK-1_20\"\n  service_execution_role = aws_iam_role.example.arn\n  \n  application_configuration {\n    application_code_configuration { ... }\n    flink_application_configuration { ... }\n  }\n}</code></pre>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "State Management & Locking",
+    "type": "content",
+    "content": "<p>Best Practices for Terraform State:</p>\n<ul>\n    <li><strong>Backend:</strong> Store state in S3.</li>\n    <li><strong>Locking:</strong> Use DynamoDB to prevent concurrent runs.</li>\n    <li><strong>Consistency:</strong> Essential when multiple CI/CD pipelines might deploy.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Dockerized Workflow",
+    "type": "content",
+    "content": "<p>Run Terraform in Docker to ensure consistent environments.</p>\n<pre><code>docker run --env-file .env.docker \n  -v $(pwd):/workspace \n  hashicorp/terraform:light apply</code></pre>\n<p>Pass AWS credentials via env vars. Mount code directories.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Deploying Code Changes",
+    "type": "content",
+    "content": "<p>The Terraform Flow:</p>\n<ol>\n    <li>Build JAR (Maven/Gradle).</li>\n    <li>Upload JAR to S3.</li>\n    <li>Update <code>s3_content_location</code> in Terraform config.</li>\n    <li><code>terraform apply</code> detects change -> Updates App.</li>\n</ol>\n<div class=\"callout tip\">Terraform handles the state compatibility check (if configured correctly).</div>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Deploying Config Changes",
+    "type": "content",
+    "content": "<p>Changes to Runtime Properties or Parallelism:</p>\n<ul>\n    <li>Update `terraform.tfvars`.</li>\n    <li><code>terraform apply</code>.</li>\n    <li>Terraform calls `UpdateApplication`.</li>\n    <li>Service performs Snapshot + Restart.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Handling Failure in Terraform",
+    "type": "content",
+    "content": "<p>If deployment fails (e.g., code bug):</p>\n<ul>\n    <li>Terraform Apply Errors out.</li>\n    <li>App state might be stuck or reverted to READY.</li>\n    <li><strong>Fix:</strong> Correct the code/config and re-apply.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Manual Rollbacks & Terraform State",
+    "type": "content",
+    "content": "<p>If you perform a <strong>Manual Rollback</strong> via Console:</p>\n<ul>\n    <li>Terraform state becomes stale (it thinks V2 is running, but V1 is).</li>\n    <li><strong>Resolution:</strong> Next <code>terraform apply</code> or <code>refresh</code> will detect drift and update state.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Removing Operators (Advanced)",
+    "type": "content",
+    "content": "<p>Removing a stateful operator breaks Snapshot restore.</p>\n<p><strong>Solution:</strong> Enable <code>AllowNonRestoredState</code>.</p>\n<pre><code>flink_application_configuration {\n    checkpoint_configuration {\n        configuration_type = \"CUSTOM\"\n        checkpointing_enabled = true\n    }\n    # Terraform provider mapping for allow_non_restored_state varies\n    # Check provider docs for 'application_restore_configuration'\n}</code></pre>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "State Incompatibility",
+    "type": "content",
+    "content": "<p><strong>Scenario:</strong> Changing an operator UID.</p>\n<ul>\n    <li>Flink cannot map old state to new operator.</li>\n    <li>Update fails.</li>\n    <li><strong>System Rollback:</strong> If enabled, service reverts automatically.</li>\n    <li>Terraform sees \"FAILED\" state.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "In-Place Version Upgrade",
+    "type": "content",
+    "content": "<p>Upgrading Flink Runtime (e.g., 1.19 -> 1.20):</p>\n<pre><code>resource \"aws_kinesis_analyticsv2_application\" \"example\" {\n  runtime_environment = \"FLINK-1_20\" # Changed from FLINK-1_19\n  ...\n}</code></pre>\n<p>Terraform performs an in-place upgrade without destroying the resource.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Limitations: Start/Stop",
+    "type": "content",
+    "content": "<p>Terraform is declarative.</p>\n<ul>\n    <li>It cannot simply \"Start\" an app without a config change.</li>\n    <li>You might use a variable <code>start_application = true/false</code> to control this state.</li>\n    <li>Toggling it triggers the transition.</li>\n</ul>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Terraform Limitations: Rollback",
+    "type": "content",
+    "content": "<p>Terraform does not have a <code>rollback</code> command.</p>\n<p>To rollback, you must <strong>revert the code/config</strong> in your `.tf` files to the previous state and Apply.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Best Practice: CI/CD Separation",
+    "type": "content",
+    "content": "<p><strong>Build Pipeline:</strong> Compiles Java, Tests, Uploads JAR.</p>\n<p><strong>Infra Pipeline:</strong> Runs Terraform Apply to deploy JAR reference.</p>\n<p>Keeps concerns separated.</p>"
+  },
+  {
+    "module": "M12: Flink with Terraform",
+    "title": "Knowledge Check",
+    "type": "quiz",
+    "question": {
+      "question": "Which Terraform resource manages Flink applications?",
+      "options": [
+        "aws_kinesis_analyticsv2_application",
+        "aws_flink_app",
+        "aws_kinesis_app",
+        "aws_lambda_function"
+      ],
+      "answer": 0,
+      "explanation": "The v2 resource is the current standard for Managed Service for Apache Flink.",
+      "id": "q12_1"
     }
   }
 ]

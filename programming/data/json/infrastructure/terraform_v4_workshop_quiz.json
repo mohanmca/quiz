@@ -1,7 +1,7 @@
 {
   "title": "Terraform AWS Modules Workshop Quiz",
   "version": "4.0",
-  "totalQuestions": 150,
+  "totalQuestions": 190,
   "modules": [
     {
       "id": 0,
@@ -1860,6 +1860,500 @@
           "answer": 0,
           "explanation": "A NAT Gateway resides in a public subnet and translates traffic from private subnets to the internet.",
           "id": "q9_15"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "M10: Flink Architecture",
+      "questions": [
+        {
+          "question": "Which Flink mechanism is used for automatic recovery from runtime failures?",
+          "options": [
+            "Checkpoints",
+            "Savepoints",
+            "S3 Backups",
+            "Snapshots"
+          ],
+          "answer": 0,
+          "explanation": "Checkpoints are automatic, transient, and used for failure recovery. Snapshots (Savepoints) are for updates.",
+          "id": "q10_1"
+        },
+        {
+          "question": "What happens to Checkpoints when an application is stopped?",
+          "options": [
+            "They are deleted",
+            "They are archived to Glacier",
+            "They are converted to Snapshots",
+            "They are stored in DynamoDB"
+          ],
+          "answer": 0,
+          "explanation": "Checkpoints are transient and deleted on stop. Snapshots are durable.",
+          "id": "q10_2"
+        },
+        {
+          "question": "Which component acts as the coordinator in a Flink cluster?",
+          "options": [
+            "Job Manager",
+            "Task Manager",
+            "Zookeeper",
+            "KPU"
+          ],
+          "answer": 0,
+          "explanation": "The Job Manager coordinates the execution, while Task Managers perform the work.",
+          "id": "q10_3"
+        },
+        {
+          "question": "How do you trigger an update after uploading a new JAR to S3?",
+          "options": [
+            "Call UpdateApplication API",
+            "Restart the EC2 instance",
+            "It happens automatically via S3 Event",
+            "Delete the old JAR"
+          ],
+          "answer": 0,
+          "explanation": "You must explicitly call UpdateApplication to tell the service to use the new code package.",
+          "id": "q10_4"
+        },
+        {
+          "question": "What is the default restore behavior for Streaming Mode on failure?",
+          "options": [
+            "Restart from latest Checkpoint",
+            "Restart from beginning of stream",
+            "Skip to end of stream",
+            "Terminate application"
+          ],
+          "answer": 0,
+          "explanation": "Flink ensures exactly-once consistency by restarting from the last successful checkpoint.",
+          "id": "q10_5"
+        },
+        {
+          "question": "Which Start option should you use for a standard production restart to ensure no data loss?",
+          "options": [
+            "RESTORE_FROM_LATEST_SNAPSHOT",
+            "SKIP_RESTORE_FROM_SNAPSHOT",
+            "FORCE_RESTART",
+            "RESTORE_FROM_ZERO"
+          ],
+          "answer": 0,
+          "explanation": "Restoring from the latest snapshot ensures state consistency and resumes processing where it left off.",
+          "id": "q10_6"
+        },
+        {
+          "question": "What does the 'Parallelism' configuration control?",
+          "options": [
+            "The number of simultaneous subtasks",
+            "The number of Job Managers",
+            "The S3 bucket size",
+            "The checkpoint interval"
+          ],
+          "answer": 0,
+          "explanation": "Parallelism determines how many subtasks are created to process data in parallel.",
+          "id": "q10_7"
+        },
+        {
+          "question": "True or False: Updating IAM policies requires a Flink application restart.",
+          "options": [
+            "False",
+            "True"
+          ],
+          "answer": 0,
+          "explanation": "IAM changes are immediate and external to the Flink application lifecycle.",
+          "id": "q10_8"
+        },
+        {
+          "question": "What is a KPU?",
+          "options": [
+            "Kinesis Processing Unit",
+            "Kafka Partition Unit",
+            "Kernel Process User",
+            "Key Performance Update"
+          ],
+          "answer": 0,
+          "explanation": "KPU measures the compute and memory capacity allocated to the application.",
+          "id": "q10_9"
+        },
+        {
+          "question": "When the application status is RUNNING, are all subtasks guaranteed to be processing data?",
+          "options": [
+            "No, they might be Initializing",
+            "Yes, always",
+            "Only in Batch mode",
+            "No, they might be Stopped"
+          ],
+          "answer": 0,
+          "explanation": "RUNNING status means the job is deployed, but subtasks might still be initializing (e.g., connecting to Kafka).",
+          "id": "q10_10"
+        },
+        {
+          "question": "What happens if you restore from a snapshot older than your source data retention?",
+          "options": [
+            "Data loss and unpredictable behavior",
+            "It works perfectly",
+            "Flink automatically fetches data from S3",
+            "The job refuses to start"
+          ],
+          "answer": 0,
+          "explanation": "You cannot re-process data that no longer exists in the source stream.",
+          "id": "q10_11"
+        },
+        {
+          "question": "Which Flink mode runs until processing completes and then stops?",
+          "options": [
+            "Batch Mode",
+            "Streaming Mode",
+            "Serverless Mode",
+            "Interactive Mode"
+          ],
+          "answer": 0,
+          "explanation": "Batch mode is for finite datasets.",
+          "id": "q10_12"
+        },
+        {
+          "question": "What is the primary risk of Force-Stopping an application?",
+          "options": [
+            "No Snapshot is taken (Potential data loss)",
+            "It costs more",
+            "It deletes the JAR file",
+            "It corrupts the IAM role"
+          ],
+          "answer": 0,
+          "explanation": "Force-stop kills the job immediately without giving it time to take a final snapshot.",
+          "id": "q10_13"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "M11: Operations & Failure",
+      "questions": [
+        {
+          "question": "What is the best metric to detect a 'fail-and-restart' loop?",
+          "options": [
+            "FullRestarts",
+            "CPUUsage",
+            "KPUCount",
+            "Downtime"
+          ],
+          "answer": 0,
+          "explanation": "A rising FullRestarts count indicates the job is failing and retrying repeatedly.",
+          "id": "q11_1"
+        },
+        {
+          "question": "What happens if you enable System Rollback?",
+          "options": [
+            "The service automatically reverts to the previous version if startup fails",
+            "The service deletes bad code",
+            "The service prevents all updates",
+            "It disables Snapshots"
+          ],
+          "answer": 0,
+          "explanation": "System Rollback automatically restores the last known good configuration on failure.",
+          "id": "q11_2"
+        },
+        {
+          "question": "When Force-Stopping an application, what happens to the state?",
+          "options": [
+            "No snapshot is taken; potential state loss if no previous snapshot exists",
+            "State is saved automatically",
+            "State is exported to S3 CSV",
+            "The application cannot be restarted"
+          ],
+          "answer": 0,
+          "explanation": "Force=true skips the graceful shutdown and snapshot process.",
+          "id": "q11_3"
+        },
+        {
+          "question": "What does 'Processing Downtime' refer to during an update?",
+          "options": [
+            "The time the job is stopped to take a savepoint and restart",
+            "The time it takes to upload the JAR",
+            "The time the AWS Console is offline",
+            "The duration of the build"
+          ],
+          "answer": 0,
+          "explanation": "It is the gap where no data is processed while the state is being migrated.",
+          "id": "q11_4"
+        },
+        {
+          "question": "How does Managed Service for Apache Flink minimize downtime during updates?",
+          "options": [
+            "It provisions the new cluster before stopping the old one",
+            "It runs two copies simultaneously",
+            "It skips snapshots",
+            "It uses hot patching"
+          ],
+          "answer": 0,
+          "explanation": "The 'blue/green' style provisioning ensures resources are ready before the switchover.",
+          "id": "q11_5"
+        },
+        {
+          "question": "Which API action generates a URL to access the Flink Dashboard programmatically?",
+          "options": [
+            "CreateApplicationPresignedUrl",
+            "GetDashboardLink",
+            "ConnectFlink",
+            "OpenDashboard"
+          ],
+          "answer": 0,
+          "explanation": "This action provides a secure, temporary URL to the internal Flink UI.",
+          "id": "q11_6"
+        },
+        {
+          "question": "What is the default KPU soft limit for an application?",
+          "options": [
+            "64",
+            "128",
+            "32",
+            "1000"
+          ],
+          "answer": 0,
+          "explanation": "You must request a quota increase to go beyond 64 KPUs.",
+          "id": "q11_7"
+        },
+        {
+          "question": "If an application is stuck in a restart loop, can you perform a standard graceful Stop?",
+          "options": [
+            "No, you often must Force-Stop",
+            "Yes, always",
+            "Only via Terraform",
+            "Only on Tuesdays"
+          ],
+          "answer": 0,
+          "explanation": "Graceful stop requires the job to be healthy enough to take a snapshot. A crash loop prevents this.",
+          "id": "q11_8"
+        },
+        {
+          "question": "What status does a Subtask report when it is failing?",
+          "options": [
+            "FAILING",
+            "BROKEN",
+            "STOPPED",
+            "ERROR"
+          ],
+          "answer": 0,
+          "explanation": "FAILING is the standard Flink status for a task encountering errors.",
+          "id": "q11_9"
+        },
+        {
+          "question": "True or False: Terraform supports the `RollbackApplication` API natively.",
+          "options": [
+            "False",
+            "True"
+          ],
+          "answer": 0,
+          "explanation": "Terraform generally relies on explicit configuration Application Updates, not imperative Rollback commands.",
+          "id": "q11_10"
+        },
+        {
+          "question": "Why shouldn't you trigger an alarm on a single FullRestart?",
+          "options": [
+            "It might be a transient error that Flink handles automatically",
+            "Metrics are unreliable",
+            "It costs too much",
+            "Restarts are always planned"
+          ],
+          "answer": 0,
+          "explanation": "Flink is designed to recover from transient failures; alarming on every single one causes alert fatigue.",
+          "id": "q11_11"
+        },
+        {
+          "question": "What log query filter helps find failing tasks?",
+          "options": [
+            "switched to FAILING",
+            "ERROR",
+            "Exception",
+            "Crash"
+          ],
+          "answer": 0,
+          "explanation": "Searching for status transitions to FAILING is precise.",
+          "id": "q11_12"
+        },
+        {
+          "question": "Implicit Rollback involves...",
+          "options": [
+            "Updating configuration to previous values",
+            "Clicking the Undo button",
+            "Deleting the stack",
+            "Calling AWS Support"
+          ],
+          "answer": 0,
+          "explanation": "IaC tools perform rollbacks by simply re-applying the old configuration.",
+          "id": "q11_13"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "M12: Flink with Terraform",
+      "questions": [
+        {
+          "question": "Which Terraform resource manages Flink applications?",
+          "options": [
+            "aws_kinesis_analyticsv2_application",
+            "aws_flink_app",
+            "aws_kinesis_app",
+            "aws_lambda_function"
+          ],
+          "answer": 0,
+          "explanation": "The v2 resource is the current standard for Managed Service for Apache Flink.",
+          "id": "q12_1"
+        },
+        {
+          "question": "How does Terraform handle Flink state compatibility when removing an operator?",
+          "options": [
+            "It fails unless `AllowNonRestoredState` is enabled",
+            "It automatically migrates state",
+            "It ignores state",
+            "It deletes the app"
+          ],
+          "answer": 0,
+          "explanation": "You must explicitly allow non-restored state if you remove a stateful operator.",
+          "id": "q12_2"
+        },
+        {
+          "question": "What happens to Terraform state if you perform a manual rollback in the Console?",
+          "options": [
+            "It becomes stale/drifted",
+            "It automatically updates instantly",
+            "It deletes the state file",
+            "It locks the state"
+          ],
+          "answer": 0,
+          "explanation": "Terraform only updates state during Refresh/Plan/Apply. Manual changes cause drift.",
+          "id": "q12_3"
+        },
+        {
+          "question": "To upgrade Flink version with Terraform, you should...",
+          "options": [
+            "Change `runtime_environment`",
+            "Destroy and Recreate",
+            "Manually click upgrade",
+            "Use a null_resource"
+          ],
+          "answer": 0,
+          "explanation": "Changing the runtime_environment triggers an in-place upgrade.",
+          "id": "q12_4"
+        },
+        {
+          "question": "Why use DynamoDB with Terraform?",
+          "options": [
+            "State locking to prevent concurrent runs",
+            "To store application logs",
+            "To store Flink checkpoints",
+            "To cache JAR files"
+          ],
+          "answer": 0,
+          "explanation": "DynamoDB provides the locking mechanism for the S3 backend.",
+          "id": "q12_5"
+        },
+        {
+          "question": "Can Terraform Start an application without changing configuration?",
+          "options": [
+            "No, it requires a config change or variable toggle",
+            "Yes, using `terraform start`",
+            "Yes, always",
+            "Only on first run"
+          ],
+          "answer": 0,
+          "explanation": "Terraform is declarative; it enforces state. You need a tracked attribute change to trigger an API call.",
+          "id": "q12_6"
+        },
+        {
+          "question": "What is the recommended backend for Terraform state in a team?",
+          "options": [
+            "S3 with DynamoDB Locking",
+            "Local file",
+            "Git",
+            "Google Drive"
+          ],
+          "answer": 0,
+          "explanation": "S3+DynamoDB is the standard AWS pattern for shared state.",
+          "id": "q12_7"
+        },
+        {
+          "question": "When deploying a code change via Terraform, what must happen first?",
+          "options": [
+            "Upload JAR to S3",
+            "Run Terraform Apply",
+            "Stop the App",
+            "Delete the App"
+          ],
+          "answer": 0,
+          "explanation": "Terraform needs the S3 object to exist before it can reference it in the configuration.",
+          "id": "q12_8"
+        },
+        {
+          "question": "If you change an Operator UID in your code, what happens to the deployment?",
+          "options": [
+            "It fails due to state incompatibility",
+            "It succeeds",
+            "It deletes state",
+            "It creates a new app"
+          ],
+          "answer": 0,
+          "explanation": "Changing UIDs breaks the mapping between the savepoint state and the new graph.",
+          "id": "q12_9"
+        },
+        {
+          "question": "Does Terraform support automatic System Rollback configuration?",
+          "options": [
+            "No, it's not exposed in the provider directly (usually)",
+            "Yes, fully supported",
+            "Only via CLI",
+            "Only via Console"
+          ],
+          "answer": 0,
+          "explanation": "While the app supports it, Terraform provider support lags or requires raw configuration blocks.",
+          "id": "q12_10"
+        },
+        {
+          "question": "What is 'Drift' in the context of Terraform and Flink?",
+          "options": [
+            "Difference between real-world state and Terraform state",
+            "A racing game",
+            "Network latency",
+            "Clock skew"
+          ],
+          "answer": 0,
+          "explanation": "Drift occurs when manual changes (like Console rollbacks) differ from the .tfstate.",
+          "id": "q12_11"
+        },
+        {
+          "question": "How do you scale an application using Terraform?",
+          "options": [
+            "Update parallelism/KPU var and Apply",
+            "Run `terraform scale`",
+            "Edit the JAR",
+            "You can't"
+          ],
+          "answer": 0,
+          "explanation": "Scaling is a configuration update managed by Terraform.",
+          "id": "q12_12"
+        },
+        {
+          "question": "What happens if `terraform apply` fails halfway through?",
+          "options": [
+            "The state file may report error, and app might be in mixed state",
+            "It automatically rolls back",
+            "It deletes everything",
+            "It retries forever"
+          ],
+          "answer": 0,
+          "explanation": "Terraform stops. You must fix the config and re-apply to reconcile state.",
+          "id": "q12_13"
+        },
+        {
+          "question": "Why run Terraform in Docker?",
+          "options": [
+            "Reproducibility and isolation",
+            "Speed",
+            "It's required by AWS",
+            "To save disk space"
+          ],
+          "answer": 0,
+          "explanation": "Docker ensures everyone uses the same Terraform version and environment tools.",
+          "id": "q12_14"
         }
       ]
     }
