@@ -10,6 +10,7 @@ programming/data/json/articles.json so the home page Articles panel can list
 all articles, including those without quizzes.
 """
 from __future__ import annotations
+import html
 import json
 import os
 import re
@@ -26,7 +27,8 @@ def extract_title(path: str) -> str:
             chunk = f.read(8192)
         m = re.search(r'<title>(.*?)</title>', chunk, flags=re.I | re.S)
         if m:
-            return re.sub(r'\s+', ' ', m.group(1).strip())
+            raw = re.sub(r'\s+', ' ', m.group(1).strip())
+            return html.unescape(raw)
     except Exception:
         pass
     # Fallback to filename
