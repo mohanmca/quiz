@@ -142,21 +142,7 @@
     return arr;
   }
 
-  function shuffleQuestion(q){
-    const seedOrder = q.baseChoices.map((_, idx) => idx);
-    let order = shuffleArray(seedOrder.slice());
-    if (seedOrder.length > 1) {
-      const previous = q.lastOrderKey;
-      let tries = 0;
-      while (order.join(',') === previous && tries < 6) {
-        order = shuffleArray(seedOrder.slice());
-        tries++;
-      }
-      if (order.join(',') === previous) {
-        order = seedOrder.slice(1).concat(seedOrder[0]);
-      }
-    }
-
+  function applyOrder(q, order){
     q.lastOrderKey = order.join(',');
     q.choices = order.map(idx => q.baseChoices[idx]);
     const correctSet = new Set(q.baseCorrect);
@@ -166,17 +152,93 @@
     }, []);
   }
 
-  function shuffleQuestions(indices){
+  function randomOrderForQuestion(q){
+    const seedOrder = q.baseChoices.map((_, idx) => idx);
+    let order = shuffleArray(seedOrder.slice());
+    if (seedOrder.length > 1) {
+      const previous = q.lastOrderKey;
+      let tries = 0;
+      while (order.join(',') === previous && tries < 6) {
+        order = shuffleArray(seedOrder.slice());
+        tries++;
+      }
+      if (order.join(',') === previous) order = seedOrder.slice(1).concat(seedOrder[0]);
+    }
+    return order;
+  }
+
+  function shuffleQuestion(q){
+    applyOrder(q, randomOrderForQuestion(q));
+  }
+
+  function shuffleQuestionWithTargetCorrectIndex(q, targetIndex){
+    if (q.baseCorrect.length !== 1 || q.baseChoices.length < 2) {
+      shuffleQuestion(q);
+      return;
+    }
+    const n = q.baseChoices.length;
+    if (!Number.isInteger(targetIndex) || targetIndex < 0 || targetIndex >= n) {
+      shuffleQuestion(q);
+      return;
+    }
+
+    const correctOriginal = q.baseCorrect[0];
+    const others = q.baseChoices.map((_, idx) => idx).filter(idx => idx !== correctOriginal);
+    let order = null;
+    let tries = 0;
+    while (tries < 6) {
+      const shuffledOthers = shuffleArray(others.slice());
+      order = [];
+      let ptr = 0;
+      for (let i = 0; i < n; i++) {
+        if (i === targetIndex) order.push(correctOriginal);
+        else order.push(shuffledOthers[ptr++]);
+      }
+      if (order.join(',') !== q.lastOrderKey) break;
+      tries++;
+    }
+    if (!order) {
+      shuffleQuestion(q);
+      return;
+    }
+    applyOrder(q, order);
+  }
+
+  function shuffleQuestionsBalanced(indices){
     const target = Array.isArray(indices) ? indices : state.questions.map((_, i) => i);
-    target.forEach(idx => {
-      const q = state.questions[idx];
-      if (q) shuffleQuestion(q);
+    const slotUsage = {};
+    target.forEach(qIndex => {
+      const q = state.questions[qIndex];
+      if (!q) return;
+      if (q.baseCorrect.length !== 1 || q.baseChoices.length < 2) {
+        shuffleQuestion(q);
+        const idxs = correctIndices(q);
+        if (idxs.length === 1) slotUsage[idxs[0]] = (slotUsage[idxs[0]] || 0) + 1;
+        return;
+      }
+
+      let minUsage = Infinity;
+      const candidates = [];
+      for (let slot = 0; slot < q.baseChoices.length; slot++) {
+        const count = slotUsage[slot] || 0;
+        if (count < minUsage) {
+          minUsage = count;
+          candidates.length = 0;
+          candidates.push(slot);
+        } else if (count === minUsage) {
+          candidates.push(slot);
+        }
+      }
+      const targetSlot = candidates[Math.floor(Math.random() * candidates.length)];
+      shuffleQuestionWithTargetCorrectIndex(q, targetSlot);
+      const idxs = correctIndices(q);
+      if (idxs.length === 1) slotUsage[idxs[0]] = (slotUsage[idxs[0]] || 0) + 1;
     });
   }
 
   function startAttempt(sequence, retrying){
     const nextSequence = Array.isArray(sequence) ? sequence.slice() : state.questions.map((_, i) => i);
-    shuffleQuestions(nextSequence);
+    shuffleQuestionsBalanced(nextSequence);
     breakUniformCorrectIndex(nextSequence);
     state.sequence = nextSequence;
     state.index = 0;

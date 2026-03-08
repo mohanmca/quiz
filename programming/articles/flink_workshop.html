@@ -198,12 +198,15 @@
         ]
     };
 
-    const QUIZ_DATA_URL = './quiz.json';
+    const QUIZ_DATA_URL = '../data/json/data-engineering/flink-workshop-questions.json';
     let QUIZ_DATA = null;
     let quizDataLoadError = '';
     let examMode = false;
     let examState = {answers:{},score:0,total:0,done:false};
     let examFailedQs = [];
+    let examAttempt = 0;
+    let examOptionOrders = {};
+    let examLastAttemptOrders = {};
 
     const MODULE_NAMES = [
         "M0: Orientation & The Flink Mental Model",
@@ -2245,7 +2248,7 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
     let quizDataLoadPromise = null;
 
     function save(){
-        const d={cur,quizState,failedQs,examMode,examState,examFailedQs,ts:Date.now()};
+        const d={cur,quizState,failedQs,examMode,examState,examFailedQs,examAttempt,ts:Date.now()};
         try{localStorage.setItem(STORE_KEY,JSON.stringify(d))}catch(e){}
         try{document.cookie=STORE_KEY+'='+cur+';max-age=31536000;path=/'}catch(e){}
     }
@@ -2260,6 +2263,7 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
                 examMode=Boolean(d.examMode);
                 examState=d.examState||{answers:{},score:0,total:0,done:false};
                 examFailedQs=d.examFailedQs||[];
+                examAttempt=d.examAttempt||examAttempt;
             }
         }catch(e){}
     }
@@ -2287,6 +2291,102 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
         return opts.findIndex(opt=>opt.isCorrect);
     }
 
+    function getExternalChoices(question){
+        if(Array.isArray(question.choices))return question.choices;
+        if(Array.isArray(question.options))return question.options;
+        return [];
+    }
+
+    function getExternalCorrectIndex(question,choices){
+        const list=Array.isArray(choices)?choices:getExternalChoices(question);
+        if(typeof question.correctAnswer==='number' && question.correctAnswer>=0 && question.correctAnswer<list.length){
+            return question.correctAnswer;
+        }
+        if(question.correctAnswer!=null){
+            const idx=list.findIndex(choice=>String(choice)===String(question.correctAnswer));
+            if(idx>=0)return idx;
+        }
+        if(typeof question.answer==='number' && question.answer>=0 && question.answer<list.length){
+            return question.answer;
+        }
+        return -1;
+    }
+
+    function cloneOrderMap(src){
+        const out={};
+        Object.keys(src||{}).forEach(key=>{
+            const order=src[key];
+            if(Array.isArray(order))out[key]=order.slice();
+        });
+        return out;
+    }
+
+    function resetExamAttempt(){
+        examAttempt++;
+        examLastAttemptOrders=cloneOrderMap(examOptionOrders);
+        examOptionOrders={};
+    }
+
+    function buildExamOrder(question){
+        const choices=getExternalChoices(question);
+        const total=choices.length;
+        const correctOriginal=getExternalCorrectIndex(question,choices);
+        if(total<2 || correctOriginal<0)return [];
+        const qKey=question.id||question.question||('q-'+total);
+        const base=hashSeed(qKey+'|attempt|'+examAttempt);
+        let targetSlot=base%total;
+        const prevOrder=examLastAttemptOrders[qKey];
+        const prevCorrectSlot=Array.isArray(prevOrder)?prevOrder.indexOf(correctOriginal):-1;
+        if(total>1 && prevCorrectSlot>=0 && targetSlot===prevCorrectSlot){
+            const bump=1+(base%(total-1));
+            targetSlot=(targetSlot+bump)%total;
+        }
+        const others=[];
+        for(let i=0;i<total;i++){
+            if(i!==correctOriginal)others.push(i);
+        }
+        let h=hashSeed(qKey+'|order|'+examAttempt);
+        for(let i=others.length-1;i>0;i--){
+            h=(h*1103515245+12345)&0x7fffffff;
+            const j=h%(i+1);
+            [others[i],others[j]]=[others[j],others[i]];
+        }
+        const order=new Array(total);
+        let ptr=0;
+        for(let slot=0;slot<total;slot++){
+            if(slot===targetSlot)order[slot]=correctOriginal;
+            else order[slot]=others[ptr++];
+        }
+        if(Array.isArray(prevOrder) && prevOrder.length===order.length){
+            const sameOrder=prevOrder.every((value,index)=>value===order[index]);
+            if(sameOrder && total>1){
+                const left=targetSlot===0?1:0;
+                const right=targetSlot===total-1?total-2:total-1;
+                [order[left],order[right]]=[order[right],order[left]];
+            }
+        }
+        return order;
+    }
+
+    function getExamShuffledOptions(question){
+        const qKey=question.id||question.question||'question';
+        const choices=getExternalChoices(question);
+        const correctOriginal=getExternalCorrectIndex(question,choices);
+        let order=examOptionOrders[qKey];
+        if(!Array.isArray(order) || order.length!==choices.length){
+            order=buildExamOrder(question);
+            if(!Array.isArray(order) || !order.length){
+                order=choices.map((_,index)=>index);
+            }
+            examOptionOrders[qKey]=order;
+        }
+        return order.map(originalIndex=>({
+            text:choices[originalIndex],
+            isCorrect:originalIndex===correctOriginal,
+            originalIndex
+        }));
+    }
+
     function getExamQuestions(){
         if(!QUIZ_DATA||!Array.isArray(QUIZ_DATA.modules))return [];
         return QUIZ_DATA.modules.flatMap(mod=>(mod.questions||[]).map(q=>({...q,moduleId:mod.id,moduleName:mod.name,moduleTags:mod.tags||[]})));
@@ -2298,8 +2398,10 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
         Object.entries(examState.answers||{}).forEach(([qId,chosen])=>{
             const q=questions.find(item=>item.id===qId);
             if(!q)return;
-            const opts=getShuffledOptions(q);
-            if(chosen===getCorrectIndex(opts))score++;
+            const correctOriginal=getExternalCorrectIndex(q,getExternalChoices(q));
+            if(correctOriginal<0)return;
+            const chosenOriginal=Number(chosen);
+            if(chosenOriginal===correctOriginal)score++;
         });
         examState.score=score;
         examState.total=questions.length;
@@ -2335,8 +2437,10 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
         data.modules.forEach((mod,moduleIndex)=>{
             if(!Array.isArray(mod.questions))throw new Error('Invalid quiz data: module '+moduleIndex+' is missing questions.');
             mod.questions.forEach((q,questionIndex)=>{
-                if(!Array.isArray(q.options)||q.options.length<2)throw new Error('Invalid quiz data: question '+moduleIndex+':'+questionIndex+' has invalid options.');
-                if(typeof q.answer!=='number'||q.answer<0||q.answer>=q.options.length)throw new Error('Invalid quiz data: question '+moduleIndex+':'+questionIndex+' has invalid answer index.');
+                const choices=getExternalChoices(q);
+                if(!Array.isArray(choices)||choices.length<2)throw new Error('Invalid quiz data: question '+moduleIndex+':'+questionIndex+' has invalid choices/options.');
+                const correctIndex=getExternalCorrectIndex(q,choices);
+                if(correctIndex<0)throw new Error('Invalid quiz data: question '+moduleIndex+':'+questionIndex+' has invalid correctAnswer.');
             });
         });
     }
@@ -2355,7 +2459,7 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
                 recountExamScore();
             }catch(err){
                 QUIZ_DATA=null;
-                quizDataLoadError=err&&err.message?err.message:'Unable to load quiz.json';
+                quizDataLoadError=err&&err.message?err.message:'Unable to load exam question bank';
             }finally{
                 updateExamButton();
                 if(examMode)render();
@@ -2503,10 +2607,10 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
 
     function renderExam(){
         if(quizDataLoadError){
-            return '<div class="quiz-score"><h2>Exam Bank Unavailable</h2><p>'+esc(quizDataLoadError)+'</p><p>Serve this workshop over HTTP so the browser can load <code>quiz.json</code>, then try again.</p><p><button onclick="toggleExamMode()">Return To Workshop</button></p></div>';
+            return '<div class="quiz-score"><h2>Exam Bank Unavailable</h2><p>'+esc(quizDataLoadError)+'</p><p>Serve this workshop over HTTP so the browser can load <code>'+esc(QUIZ_DATA_URL)+'</code>, then try again.</p><p><button onclick="toggleExamMode()">Return To Workshop</button></p></div>';
         }
         if(!QUIZ_DATA){
-            return '<div class="quiz-score"><h2>Loading Exam Bank</h2><p>Loading external quiz data from <code>quiz.json</code>...</p></div>';
+            return '<div class="quiz-score"><h2>Loading Exam Bank</h2><p>Loading external quiz data from <code>'+esc(QUIZ_DATA_URL)+'</code>...</p></div>';
         }
         const questions=getExamQuestions();
         examState.total=questions.length;
@@ -2515,7 +2619,7 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
             if(examState.answers[questions[i].id]===undefined){qIdx=i;break;}
         }
         if(qIdx===-1 && examState.done){
-            return '<div class="quiz-score"><h2>Exam Complete!</h2><p>Score: <strong>'+examState.score+' / '+examState.total+'</strong></p>'+(examState.score===examState.total?'<p style="color:#22c55e;font-size:1.2rem">&#10003; Perfect score!</p>':'<p>Press <span class="kbd">R</span> to retry failed exam questions.</p>')+'<p style="margin-top:16px"><button onclick="toggleExamMode()">Return To Workshop</button></p></div>';
+            return '<div class="quiz-score"><h2>Exam Complete!</h2><p>Score: <strong>'+examState.score+' / '+examState.total+'</strong></p>'+(examState.score===examState.total?'<p style="color:#22c55e;font-size:1.2rem">&#10003; Perfect score!</p>':'<p>Press <span class="kbd">R</span> to retry failed exam questions.</p>')+'<p style="margin-top:16px"><button onclick="retakeExam()">Retake Exam</button> <button onclick="toggleExamMode()">Return To Workshop</button></p></div>';
         }
         if(qIdx===-1){
             examState.done=true;
@@ -2523,7 +2627,7 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
             return renderExam();
         }
         const q=questions[qIdx];
-        const opts=getShuffledOptions(q);
+        const opts=getExamShuffledOptions(q);
         const tags=(q.tags||[]).slice(0,3).map(tag=>'<code>'+esc(tag)+'</code>').join(' ');
         let html='<div class="quiz-container">';
         html+='<div class="quiz-progress">Question '+(q.globalNumber||qIdx+1)+' of '+questions.length+'</div>';
@@ -2542,13 +2646,15 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
         const questions=getExamQuestions();
         const q=questions[qIndex]&&questions[qIndex].id===qId?questions[qIndex]:questions.find(item=>item.id===qId);
         if(!q||examState.answers[qId]!==undefined)return;
-        const opts=getShuffledOptions(q);
+        const opts=getExamShuffledOptions(q);
         const correct=getCorrectIndex(opts);
-        examState.answers[qId]=chosen;
+        const correctOriginal=getExternalCorrectIndex(q,getExternalChoices(q));
+        const chosenOriginal=opts[chosen]?opts[chosen].originalIndex:-1;
+        examState.answers[qId]=chosenOriginal;
         const fb=document.getElementById('exam-fb');
         const allOpts=document.querySelectorAll('[id^=\"exam-opt-\"]');
         allOpts.forEach(o=>o.classList.add('disabled'));
-        if(chosen===correct){
+        if(chosenOriginal===correctOriginal){
             examState.score++;
             document.getElementById('exam-opt-'+chosen).classList.add('correct');
             fb.className='quiz-feedback show pass';
@@ -2591,12 +2697,21 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
 
     function retryFailedExam(){
         if(!examFailedQs.length){alert('No failed exam questions to retry!');return;}
+        resetExamAttempt();
         examFailedQs.forEach(fq=>{
             delete examState.answers[fq.qId];
         });
         examFailedQs=[];
         examState.done=false;
         recountExamScore();
+        save();
+        render();
+    }
+
+    function retakeExam(){
+        resetExamAttempt();
+        examState={answers:{},score:0,total:getExamQuestions().length,done:false};
+        examFailedQs=[];
         save();
         render();
     }
@@ -2609,6 +2724,9 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
             return;
         }
         if(QUIZ_DATA){
+            if(!Object.keys(examState.answers||{}).length && !examState.done && !Object.keys(examOptionOrders).length){
+                resetExamAttempt();
+            }
             examMode=true;
             render();
             window.scrollTo(0,0);
@@ -2616,11 +2734,14 @@ env.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // enable incrementa
         }
         loadExternalQuizData().then(()=>{
             if(QUIZ_DATA){
+                if(!Object.keys(examState.answers||{}).length && !examState.done && !Object.keys(examOptionOrders).length){
+                    resetExamAttempt();
+                }
                 examMode=true;
                 render();
                 window.scrollTo(0,0);
             }else{
-                alert('Unable to load quiz.json: '+quizDataLoadError);
+                alert('Unable to load exam question bank: '+quizDataLoadError);
             }
         });
     }
