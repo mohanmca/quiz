@@ -100,16 +100,38 @@
 
   function normalizeQuestion(q) {
     const text = q.title || q.question || 'Question';
-    const choices = Array.isArray(q.choices) ? q.choices : (Array.isArray(q.options) ? q.options : []);
-    const correct = normalizeCorrect(q.correctAnswer, choices); // index, value, or array
-    const shuffled = shuffleArray(choices.slice());
-    return { text, choices: shuffled, correct };
+    const baseChoices = Array.isArray(q.choices) ? q.choices.slice() : (Array.isArray(q.options) ? q.options.slice() : []);
+    const baseCorrect = normalizeCorrectIndices(q.correctAnswer, baseChoices);
+    return {
+      text,
+      baseChoices,
+      baseCorrect,
+      choices: baseChoices.slice(),
+      correct: baseCorrect.slice(),
+      lastOrderKey: ''
+    };
   }
 
-  function normalizeCorrect(correct, choices){
-    if (typeof correct === 'number') return choices[correct];
-    if (Array.isArray(correct)) return correct.map(v => (typeof v === 'number' ? choices[v] : v));
-    return correct;
+  function normalizeCorrectIndices(correct, choices){
+    const out = [];
+    function addIndex(idx){
+      if (Number.isInteger(idx) && idx >= 0 && idx < choices.length) out.push(idx);
+    }
+    function addByValue(value){
+      choices.forEach((choice, idx) => {
+        if (String(choice) === String(value)) out.push(idx);
+      });
+    }
+
+    if (typeof correct === 'number') addIndex(correct);
+    else if (Array.isArray(correct)) {
+      correct.forEach(v => {
+        if (typeof v === 'number') addIndex(v);
+        else if (v != null) addByValue(v);
+      });
+    } else if (correct != null) addByValue(correct);
+
+    return Array.from(new Set(out));
   }
 
   function shuffleArray(arr){
@@ -118,6 +140,51 @@
       [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
+  }
+
+  function shuffleQuestion(q){
+    const seedOrder = q.baseChoices.map((_, idx) => idx);
+    let order = shuffleArray(seedOrder.slice());
+    if (seedOrder.length > 1) {
+      const previous = q.lastOrderKey;
+      let tries = 0;
+      while (order.join(',') === previous && tries < 6) {
+        order = shuffleArray(seedOrder.slice());
+        tries++;
+      }
+      if (order.join(',') === previous) {
+        order = seedOrder.slice(1).concat(seedOrder[0]);
+      }
+    }
+
+    q.lastOrderKey = order.join(',');
+    q.choices = order.map(idx => q.baseChoices[idx]);
+    const correctSet = new Set(q.baseCorrect);
+    q.correct = order.reduce((acc, originalIdx, shuffledIdx) => {
+      if (correctSet.has(originalIdx)) acc.push(shuffledIdx);
+      return acc;
+    }, []);
+  }
+
+  function shuffleQuestions(indices){
+    const target = Array.isArray(indices) ? indices : state.questions.map((_, i) => i);
+    target.forEach(idx => {
+      const q = state.questions[idx];
+      if (q) shuffleQuestion(q);
+    });
+  }
+
+  function startAttempt(sequence, retrying){
+    const nextSequence = Array.isArray(sequence) ? sequence.slice() : state.questions.map((_, i) => i);
+    shuffleQuestions(nextSequence);
+    breakUniformCorrectIndex(nextSequence);
+    state.sequence = nextSequence;
+    state.index = 0;
+    state.answers = {};
+    state.checked = {};
+    state.incorrect = new Set();
+    state.retrying = Boolean(retrying);
+    state.score = null;
   }
 
   function countAnswered(){
@@ -137,45 +204,82 @@
 
   function computeCorrect(q, selectedIndex){
     if (selectedIndex == null) return false;
-    const correct = q.correct;
-    if (typeof correct === 'number') return selectedIndex === correct;
-    if (Array.isArray(correct)) return correct.includes(selectedIndex) || correct.includes(q.choices[selectedIndex]);
-    return String(q.choices[selectedIndex]) === String(correct);
+    const correct = Array.isArray(q.correct) ? q.correct : (typeof q.correct === 'number' ? [q.correct] : []);
+    return correct.includes(selectedIndex);
   }
 
   function correctIndices(q){
-    const out = [];
-    if (typeof q.correct === 'number') {
-      if (q.correct >= 0 && q.correct < q.choices.length) out.push(q.correct);
-    } else if (Array.isArray(q.correct)) {
-      // may contain indices or values
-      q.correct.forEach(v => {
-        if (typeof v === 'number' && v >= 0 && v < q.choices.length) out.push(v);
-        else {
-          const idx = q.choices.findIndex(c => String(c) === String(v));
-          if (idx >= 0) out.push(idx);
-        }
-      });
-    } else if (q.correct != null) {
-      const idx = q.choices.findIndex(c => String(c) === String(q.correct));
-      if (idx >= 0) out.push(idx);
+    const raw = Array.isArray(q.correct) ? q.correct : (typeof q.correct === 'number' ? [q.correct] : []);
+    return Array.from(new Set(raw.filter(v => Number.isInteger(v) && v >= 0 && v < q.choices.length)));
+  }
+
+  function uniformCorrectIndex(sequence){
+    let baseline = null;
+    let seen = 0;
+    for (const qIndex of sequence) {
+      const q = state.questions[qIndex];
+      if (!q) continue;
+      const idxs = correctIndices(q);
+      if (idxs.length !== 1) return null;
+      if (baseline == null) baseline = idxs[0];
+      else if (idxs[0] !== baseline) return null;
+      seen++;
     }
-    // dedupe
-    return Array.from(new Set(out));
+    return seen >= 2 ? baseline : null;
+  }
+
+  function breakUniformCorrectIndex(sequence){
+    const uniform = uniformCorrectIndex(sequence);
+    if (uniform == null) return;
+    const candidateIndex = sequence.find(qIndex => {
+      const q = state.questions[qIndex];
+      return q && q.baseChoices.length > 1;
+    });
+    if (candidateIndex == null) return;
+
+    const candidate = state.questions[candidateIndex];
+    let tries = 0;
+    while (tries < 10) {
+      shuffleQuestion(candidate);
+      const idxs = correctIndices(candidate);
+      if (idxs.length === 1 && idxs[0] !== uniform) return;
+      tries++;
+    }
   }
 
   function dedupe(arr){ return Array.from(new Set(arr)); }
 
+  function normalizeSearchText(value){
+    return String(value || '')
+      .toLowerCase()
+      .replace(/[_\-/.]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   function filterSurveys() {
-    const s = (ui.search().value || '').toLowerCase();
+    const s = normalizeSearchText(ui.search().value || '');
     const cat = ui.category().value || '';
     const tag = state.tagFilter || '';
     state.filtered = state.surveys.filter(x => {
-      const matchesText = !s || `${x.title} ${x.description || ''}`.toLowerCase().includes(s);
+      const haystack = normalizeSearchText(`${x.title} ${x.description || ''}`);
+      const matchesText = !s || haystack.includes(s);
       const matchesCat = !cat || (x.category || '') === cat;
       const tags = Array.isArray(x.tags) ? x.tags : [];
       const matchesTag = !tag || tags.includes(tag);
       return matchesText && matchesCat && matchesTag;
+    });
+  }
+
+  function filterArticles() {
+    const s = normalizeSearchText(ui.search().value || '');
+    const tag = state.tagFilter || '';
+    return (state.articles || []).filter(article => {
+      const tags = Array.isArray(article.tags) ? article.tags : [];
+      const haystack = normalizeSearchText(`${article.title || ''} ${article.path || ''} ${tags.join(' ')}`);
+      const matchesText = !s || haystack.includes(s);
+      const matchesTag = !tag || tags.includes(tag);
+      return matchesText && matchesTag;
     });
   }
 
@@ -288,10 +392,19 @@
     panel.style.setProperty('--tab-color', meta.color);
     if (meta.background) panel.style.setProperty('--tab-bg', meta.background);
     panel.append(h('div', { class:'title', text:'Articles' }));
-    panel.append(h('div', { class:'subtitle', text: `${state.articles.length} long-form explanations linked with quizzes` }));
-
-    if (!(state.articles || []).length) {
+    const totalArticles = (state.articles || []).length;
+    if (!totalArticles) {
       panel.append(h('div', { class:'subtitle', text: 'No articles found in the registry yet.' }));
+      return panel;
+    }
+    const filteredArticles = filterArticles();
+    const hasFilter = Boolean((ui.search().value || '').trim() || state.tagFilter);
+    const subtitle = hasFilter
+      ? `${filteredArticles.length} of ${totalArticles} articles match current filters`
+      : `${totalArticles} long-form explanations linked with quizzes`;
+    panel.append(h('div', { class:'subtitle', text: subtitle }));
+    if (!filteredArticles.length) {
+      panel.append(h('div', { class:'subtitle', text: 'No articles match the current filters yet.' }));
       return panel;
     }
 
@@ -304,7 +417,7 @@
     table.append(thead);
 
     const tbody = h('tbody');
-    (state.articles || []).forEach(article => {
+    filteredArticles.forEach(article => {
       const tr = h('tr');
       const titleCell = h('td'); titleCell.textContent = article.title || article.path;
 
@@ -420,18 +533,12 @@
 
   async function startQuiz(survey){
     state.currentSurvey = survey;
-    state.index = 0;
-    state.answers = {};
-    state.checked = {};
-    state.incorrect = new Set();
-    state.retrying = false;
-    state.score = null;
     const url = API.resolveQuestionsPath(survey.questionsFile);
     const data = await fetchJSON(url);
     const normalized = (Array.isArray(data) ? data : []).map(normalizeQuestion).filter(q => q.choices.length > 0);
     if (!normalized.length) throw new Error('No valid questions');
     state.questions = normalized;
-    state.sequence = normalized.map((_, i) => i);
+    startAttempt(null, false);
     renderQuiz();
   }
 
@@ -579,12 +686,7 @@
     actions.append(
       h('button', { class:'secondary', onclick: () => { state.currentSurvey = null; renderHome(); }, text:'Back to Quizzes' }),
       h('button', { onclick: () => {
-        state.index = 0;
-        state.answers = {};
-        state.checked = {};
-        state.sequence = state.questions.map((_, i) => i);
-        state.retrying = false;
-        state.score = null;
+        startAttempt(null, false);
         renderQuiz();
       }, text:'Retry Quiz' })
     );
@@ -592,12 +694,7 @@
     if (incorrectList.length) {
       actions.append(
         h('button', { class:'ghost', onclick: () => {
-          state.sequence = incorrectList;
-          state.index = 0;
-          state.answers = {};
-          state.checked = {};
-          state.retrying = true;
-          state.score = null;
+          startAttempt(incorrectList, true);
           renderQuiz();
         }, text:`Retry Incorrect (${incorrectList.length})` })
       );
