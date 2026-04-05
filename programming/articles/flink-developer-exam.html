@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apache Flink Certification Practice Exam - Full 150 Questions</title>
+<style>
+:root{
+  --bg:#eef2ff;
+  --card:#ffffff;
+  --text:#172033;
+  --muted:#64748b;
+  --line:#dbe4f0;
+  --blue:#2563eb;
+  --violet:#7c3aed;
+  --green:#16a34a;
+  --red:#dc2626;
+  --amber:#d97706;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+  background:linear-gradient(180deg,#eef2ff 0%,#f8fafc 100%);
+  color:var(--text);
+  line-height:1.6;
+}
+code,pre{font-family:"JetBrains Mono","Fira Code","Cascadia Code",monospace}
+#progressBar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:0;
+  height:4px;
+  z-index:500;
+  background:linear-gradient(90deg,var(--blue),var(--violet));
+  transition:width .2s ease;
+}
+.shell{
+  max-width:980px;
+  margin:0 auto;
+  padding:20px 16px 120px;
+}
+.topbar{
+  position:sticky;
+  top:10px;
+  z-index:50;
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(219,228,240,.9);
+  box-shadow:0 10px 30px rgba(15,23,42,.08);
+  border-radius:16px;
+  padding:14px 18px;
+  display:grid;
+  grid-template-columns:1.6fr 1fr auto;
+  gap:14px;
+  align-items:center;
+  backdrop-filter:blur(10px);
+}
+.brand h1{
+  font-size:1.05rem;
+  line-height:1.3;
+}
+.brand .sub{
+  color:var(--muted);
+  font-size:.84rem;
+}
+.meta{
+  display:flex;
+  gap:14px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:.88rem;
+}
+.meta strong{color:var(--text)}
+.actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:82px;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:.9rem;
+  background:#eff6ff;
+  color:var(--blue);
+}
+.pill.warn{background:#fff7ed;color:var(--amber)}
+.pill.danger{background:#fef2f2;color:var(--red)}
+button{
+  border:none;
+  cursor:pointer;
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:.9rem;
+  font-weight:600;
+  transition:all .15s ease;
+}
+button.secondary{
+  background:#f8fafc;
+  color:#334155;
+  border:1px solid var(--line);
+}
+button.secondary:hover{background:#eef2ff}
+button.primary{
+  background:var(--blue);
+  color:#fff;
+}
+button.primary:hover{background:#1d4ed8}
+button.violet{
+  background:var(--violet);
+  color:#fff;
+}
+button.violet:hover{background:#6d28d9}
+
+.examCard,.resultsCard{
+  margin-top:18px;
+  background:var(--card);
+  border:1px solid rgba(219,228,240,.95);
+  border-radius:18px;
+  box-shadow:0 18px 48px rgba(15,23,42,.08);
+  padding:30px 32px;
+}
+.resultsCard{display:none}
+.resultsCard.show{display:block}
+.sectionBadge{
+  display:inline-block;
+  background:#eff6ff;
+  color:var(--blue);
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:.76rem;
+  font-weight:700;
+  margin-bottom:8px;
+}
+.qMeta{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:.88rem;
+  margin-bottom:10px;
+}
+.objective{
+  margin-bottom:14px;
+  padding:8px 12px;
+  border-left:4px solid var(--violet);
+  background:#faf5ff;
+  color:#5b21b6;
+  border-radius:0 10px 10px 0;
+  font-size:.9rem;
+}
+.qText{
+  font-size:1.08rem;
+  font-weight:600;
+  line-height:1.55;
+}
+pre{
+  margin-top:14px;
+  background:#0f172a;
+  color:#e2e8f0;
+  border-radius:14px;
+  padding:16px 18px;
+  overflow:auto;
+  font-size:.86rem;
+}
+.options{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:18px;
+}
+.option{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  border:2px solid var(--line);
+  border-radius:14px;
+  padding:14px 16px;
+  background:#fff;
+  user-select:none;
+}
+.option:hover:not(.locked){
+  border-color:#a5b4fc;
+  background:#f8faff;
+}
+.optionLetter{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 auto;
+  background:#f1f5f9;
+  color:#475569;
+  font-weight:800;
+  font-size:.82rem;
+}
+.optionText{
+  flex:1;
+  font-size:.96rem;
+}
+.optionText code{
+  background:#eef2ff;
+  padding:1px 5px;
+  border-radius:6px;
+}
+.option.correct{
+  border-color:#86efac;
+  background:#f0fdf4;
+}
+.option.correct .optionLetter{
+  background:var(--green);
+  color:#fff;
+}
+.option.wrong{
+  border-color:#fca5a5;
+  background:#fef2f2;
+}
+.option.wrong .optionLetter{
+  background:var(--red);
+  color:#fff;
+}
+.option.locked{
+  opacity:.92;
+  cursor:default;
+}
+.feedback{
+  display:none;
+  margin-top:18px;
+  padding:16px 18px;
+  border-radius:14px;
+  font-size:.93rem;
+}
+.feedback.show{display:block}
+.feedback.pass{
+  background:#f0fdf4;
+  border:1px solid #bbf7d0;
+  color:#166534;
+}
+.feedback.fail{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  color:#991b1b;
+}
+.footerNav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:80;
+  background:rgba(255,255,255,.97);
+  border-top:1px solid rgba(219,228,240,.95);
+  backdrop-filter:blur(8px);
+  padding:12px 18px;
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.footerNav .flaggedBtn{
+  background:#fff7ed;
+  color:#9a3412;
+  border:1px solid #fdba74;
+}
+.footerNav .flaggedBtn.on{
+  background:#f59e0b;
+  color:#fff;
+  border-color:#f59e0b;
+}
+
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.36);
+  display:none;
+  z-index:199;
+}
+#overlay.show{display:block}
+#navigator{
+  position:fixed;
+  top:0;
+  left:-390px;
+  width:370px;
+  height:100%;
+  z-index:200;
+  background:#fff;
+  border-right:1px solid var(--line);
+  box-shadow:20px 0 50px rgba(15,23,42,.18);
+  padding:22px 18px 40px;
+  overflow:auto;
+  transition:left .2s ease;
+}
+#navigator.open{left:0}
+#navigator h2{
+  font-size:1.1rem;
+  margin-bottom:6px;
+}
+#navigator .small{
+  color:var(--muted);
+  font-size:.85rem;
+  margin-bottom:16px;
+}
+.navSection{
+  margin-bottom:18px;
+}
+.navSection h3{
+  color:var(--blue);
+  font-size:.88rem;
+  margin-bottom:8px;
+}
+.navGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+.navCell{
+  position:relative;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+  font-weight:700;
+  font-size:.85rem;
+  cursor:pointer;
+}
+.navCell.current{background:var(--blue);border-color:var(--blue);color:#fff}
+.navCell.ok{background:#dcfce7;border-color:#86efac;color:#166534}
+.navCell.bad{background:#fee2e2;border-color:#fca5a5;color:#991b1b}
+.navCell.flagged::after{
+  content:"";
+  position:absolute;
+  top:4px;
+  right:4px;
+  width:7px;
+  height:7px;
+  border-radius:999px;
+  background:#eab308;
+}
+
+.scoreHero{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  align-items:center;
+  margin-bottom:18px;
+}
+.bigScore{
+  padding:16px 22px;
+  border-radius:18px;
+  font-size:2rem;
+  font-weight:800;
+}
+.bigScore.pass{background:#dcfce7;color:#166534}
+.bigScore.fail{background:#fee2e2;color:#991b1b}
+.resultsMeta{
+  color:var(--muted);
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:14px;
+}
+th,td{
+  text-align:left;
+  padding:12px 10px;
+  border-bottom:1px solid var(--line);
+  font-size:.92rem;
+}
+th{
+  color:#475569;
+  background:#f8fafc;
+  font-weight:700;
+}
+.bar{
+  width:140px;
+  height:8px;
+  border-radius:999px;
+  background:#e2e8f0;
+  overflow:hidden;
+}
+.bar > span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+}
+.reviewList{
+  margin-top:22px;
+}
+.reviewItem{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  border-radius:14px;
+  padding:14px 16px;
+  margin-bottom:12px;
+}
+.reviewItem .q{
+  font-weight:700;
+  margin-bottom:6px;
+}
+.reviewItem .line{
+  font-size:.9rem;
+  color:#475569;
+  margin-top:2px;
+}
+.kbd{
+  display:inline-block;
+  padding:1px 6px;
+  border-radius:6px;
+  background:#f1f5f9;
+  border:1px solid var(--line);
+  font-size:.78rem;
+  font-family:monospace;
+}
+@media (max-width: 800px){
+  .topbar{grid-template-columns:1fr}
+  .actions{justify-content:flex-start}
+  .examCard,.resultsCard{padding:22px 18px}
+  #navigator{width:100%;left:-100%}
+}
+</style>
+</head>
+<body>
+<div id="progressBar"></div>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand">
+      <h1>Apache Flink Certification Practice Exam</h1>
+      <div class="sub">Dry run batches 1-15: full 150-question bank.</div>
+    </div>
+    <div class="meta">
+      <span id="counter"><strong>1 / 150</strong></span>
+      <span id="sectionLabel">Runtime &amp; Execution</span>
+      <span id="completion">0% answered</span>
+    </div>
+    <div class="actions">
+      <div id="timerPill" class="pill">300:00</div>
+      <button class="secondary" id="navToggle">Navigator</button>
+      <button class="secondary" id="resultsToggle">Results</button>
+    </div>
+  </div>
+
+  <div id="examCard" class="examCard"></div>
+  <div id="resultsCard" class="resultsCard"></div>
+</div>
+
+<div class="footerNav">
+  <button class="secondary" id="prevBtn">Prev</button>
+  <button class="secondary" id="flagBtn">Flag</button>
+  <button class="primary" id="nextBtn">Next</button>
+  <button class="violet" id="submitBtn">Submit Exam</button>
+</div>
+
+<div id="overlay"></div>
+<div id="navigator">
+  <h2>Question Navigator</h2>
+  <div class="small">Keyboard: <span class="kbd">1-4</span> answer, <span class="kbd">N</span> next, <span class="kbd">P</span> prev, <span class="kbd">F</span> flag, <span class="kbd">T</span> navigator.</div>
+  <div id="navBody"></div>
+</div>
+
+<script>
+(() => {
+  const EXAM = {
+    title: "Apache Flink Certification Practice Exam - Full 150 Questions",
+    version: "0.6",
+    timeLimitMinutes: 300,
+    passThreshold: 0.70,
+    source: "Generated from flink-knowledge-llms.txt and certification/Flink_Certification.md, grounded in Apache Flink runtime, checkpoint, failover, and table planner source files.",
+    sections: [
+      {
+        id: 1,
+        name: "Runtime & Execution",
+        questions: [
+          {
+            id: "rt_1",
+            objective: "Separate Dispatcher, JobMaster, and task-side execution roles",
+            question: "A platform engineer says, 'The component that receives job submissions, persists them, spawns JobManagers, and recovers jobs after a master failure is the JobMaster.' Which correction is most accurate?",
+            options: [
+              "That description matches the Dispatcher; the JobMaster is responsible for execution of a single job.",
+              "That description matches SchedulerBase; the Dispatcher only serves the web UI.",
+              "That description matches StreamExecutionEnvironment; the JobMaster only manages checkpoints.",
+              "That description is already correct because JobMaster and Dispatcher are synonyms in modern Flink."
+            ],
+            answer: 0,
+            explanation: "Dispatcher is the cluster-side component responsible for receiving submissions, persisting them, spawning JobManagers/JobMasters, and recovering them. JobMaster is responsible for execution of a single job."
+          },
+          {
+            id: "rt_2",
+            objective: "Understand what operator chaining means at runtime",
+            question: "Assume several operators are fully chainable. Which statement best matches Flink runtime behavior?",
+            options: [
+              "Chained operators execute synchronously in the same StreamTask thread and on the same stream partition.",
+              "Chained operators always run in separate executor threads, but share checkpoint metadata.",
+              "Chained operators run in the same JVM process but must be in different task slots.",
+              "Chained operators are combined only in batch mode; streaming mode forbids chaining."
+            ],
+            answer: 0,
+            explanation: "The StreamTask class comment states that operators chained together execute synchronously in the same thread and on the same stream partition. Chaining is a runtime optimization, not a separate-thread mechanism."
+          },
+          {
+            id: "rt_3",
+            objective: "Understand what the program assembly context accumulates",
+            question: "Before execution is triggered, what does StreamExecutionEnvironment primarily accumulate as a user builds a Flink DataStream job?",
+            options: [
+              "A set of transformations that will later be materialized into the execution graph or plan.",
+              "A list of fully running StreamTasks that are only waiting for checkpoint IDs.",
+              "A completed checkpoint store for every operator chain, even if checkpointing is disabled.",
+              "A permanent savepoint for each intermediate DataStream to support lazy evaluation."
+            ],
+            answer: 0,
+            explanation: "StreamExecutionEnvironment collects transformations and configuration. It is the context in which the logical program is assembled before being turned into a graph or plan for execution."
+          },
+          {
+            id: "rt_4",
+            objective: "Identify the TaskManager-side local execution unit",
+            question: "Which statement is most accurate about the unit of local execution on a TaskManager?",
+            options: [
+              "A StreamTask is the local processing unit, and it may run one or more chained StreamOperators.",
+              "A StreamExecutionEnvironment is the local processing unit, and each TaskManager owns exactly one.",
+              "A Dispatcher is the local processing unit, and each slot contains one Dispatcher.",
+              "A DynamicTableSource is the local processing unit whenever the job uses SQL."
+            ],
+            answer: 0,
+            explanation: "StreamTask is the local unit of processing deployed on TaskManagers. It can contain a head operator and additional chained operators."
+          },
+          {
+            id: "rt_5",
+            objective: "Reason about task lifecycle ordering",
+            question: "Which lifecycle ordering best matches the StreamTask comments and setup flow?",
+            options: [
+              "Initialize operator state before opening operators, then run, then finish and close operators.",
+              "Open operators first, then initialize state, then run, then create checkpoint storage.",
+              "Run first, then initialize state from the first successful checkpoint, then open operators.",
+              "Finish operators before run because finishing installs the mailbox execution loop."
+            ],
+            answer: 0,
+            explanation: "The documented StreamTask lifecycle places state initialization before open-operators, then run, then finish-operators and close-operators."
+          },
+          {
+            id: "rt_6",
+            objective: "Identify the per-job execution-side control-plane component",
+            question: "If the question is phrased precisely in terms of current runtime code, which component is responsible for execution of a single ExecutionPlan?",
+            options: [
+              "JobMaster",
+              "Dispatcher",
+              "StreamExecutionEnvironment",
+              "StatusWatermarkValve"
+            ],
+            answer: 0,
+            explanation: "JobMaster is responsible for execution of a single ExecutionPlan. Dispatcher is cluster/session-side submission and recovery control."
+          },
+          {
+            id: "rt_7",
+            objective: "Understand what SchedulerBase assembles when checkpointing is enabled",
+            question: "Which statement best matches what SchedulerBase sets up when checkpointing is enabled for a job?",
+            options: [
+              "It wires in pieces such as the completed checkpoint store, checkpoint ID counter, and checkpoint stats tracking as part of execution graph creation and restore.",
+              "It bypasses checkpoint-related setup because CheckpointCoordinator is created only inside StreamTask.",
+              "It creates checkpoint storage only for batch jobs, not streaming jobs.",
+              "It only records checkpoint metrics after the job finishes so scheduling remains isolated from recovery."
+            ],
+            answer: 0,
+            explanation: "SchedulerBase is not just a resource-placement abstraction. It participates in execution graph creation and restoration, including completed checkpoint store, checkpoint ID counter, and checkpoint stats tracker setup."
+          },
+          {
+            id: "rt_9",
+            objective: "Understand that operator chains can have multiple outputs",
+            question: "What is true about a StreamTask's operator chain according to the runtime comments?",
+            options: [
+              "The chain may fork and therefore may have multiple ends, even though it has one head operator.",
+              "The chain is always a single linear list with exactly one head and one tail.",
+              "The chain may contain multiple heads, but only if checkpointing is disabled.",
+              "Forking is forbidden because all chained operators must share one output channel."
+            ],
+            answer: 0,
+            explanation: "The StreamTask comments note that the chain has one head operator but may fork and thus have multiple ends."
+          },
+          {
+            id: "rt_10",
+            objective: "Understand how off-thread actions are serialized back onto the task thread",
+            question: "Why does StreamTask route actions from outside the mailbox through task-thread coordination instead of letting arbitrary threads call operators directly?",
+            options: [
+              "To avoid concurrent operator method calls that could break consistency, especially around checkpoints and task execution semantics.",
+              "Because Java prevents StreamOperator methods from being invoked from multiple threads at compile time.",
+              "Because only the Dispatcher process is allowed to call StreamOperator methods.",
+              "Because off-thread actions are converted into SQL operations before execution."
+            ],
+            answer: 0,
+            explanation: "The runtime uses mailbox-based coordination so external actions are executed in the task thread, avoiding unsafe concurrent operator calls and protecting consistency."
+          },
+          {
+            id: "rt_11",
+            objective: "Differentiate cluster-level submission from local task execution",
+            question: "Which pairing is correct?",
+            options: [
+              "Dispatcher handles submission and recovery at the cluster/session side; StreamTask is the TaskManager-side local execution unit.",
+              "Dispatcher is the local execution unit; StreamTask is the submission-time planning context.",
+              "JobMaster is the only component involved in submission, planning, and every local task method call.",
+              "SchedulerBase runs inside each operator chain as the source-side coordinator."
+            ],
+            answer: 0,
+            explanation: "Dispatcher is cluster-side control for submitted jobs and recovery. StreamTask is the local execution unit on the TaskManager side."
+          },
+          {
+            id: "rt_12",
+            objective: "Understand JobMaster ownership of per-job runtime services",
+            question: "Which set of responsibilities aligns best with the JobMaster fields visible in the runtime source?",
+            options: [
+              "Per-job execution control such as scheduler integration, slot pool interaction, TaskManager heartbeats, shuffle coordination, and operator coordination.",
+              "Global website rendering, browser-side progress bars, and local source idleness detection.",
+              "Compile-time Java code generation only, with no runtime interaction once the job starts.",
+              "Only savepoint disposal and nothing related to scheduling or resources."
+            ],
+            answer: 0,
+            explanation: "JobMaster owns per-job services including scheduler, slot pool, heartbeat-related components, shuffle, and operator coordination. It is not just a savepoint helper."
+          },
+          {
+            id: "rt_13",
+            objective: "Recognize that scheduling is coupled with restore and recovery",
+            question: "Why is it misleading to describe modern Flink scheduling as only 'placing tasks on machines'?",
+            options: [
+              "Because scheduling code is intertwined with execution-graph creation, restoration, checkpoint stores, exception history, and recovery behavior.",
+              "Because Flink does not schedule tasks at all; tasks choose their own TaskManagers at runtime.",
+              "Because task placement is handled entirely inside DynamicTableSink implementations.",
+              "Because placement matters only for batch jobs; streaming jobs always execute in place."
+            ],
+            answer: 0,
+            explanation: "SchedulerBase and related runtime code show that scheduling is tied to execution graph lifecycle, restoration, checkpoint-related services, and failure handling, not just raw placement."
+          },
+          {
+            id: "rt_14",
+            objective: "Understand how the environment controls execution behavior",
+            question: "Which statement best matches the role of StreamExecutionEnvironment?",
+            options: [
+              "It is the context for building a streaming program, controlling execution aspects like parallelism and checkpointing, and interacting with data access.",
+              "It is a local state backend that stores per-key values on the heap.",
+              "It is the high-availability service that persists submitted jobs across master failure.",
+              "It is the planner-only abstraction used exclusively by SQL, with no DataStream role."
+            ],
+            answer: 0,
+            explanation: "The class comment describes StreamExecutionEnvironment as the context in which a streaming program is executed, controlling execution behavior and data access."
+          },
+          {
+            id: "rt_15",
+            objective: "Separate logical job description from deployed execution attempts",
+            question: "Which statement most precisely distinguishes `JobGraph` from the runtime execution graph that the scheduler works with?",
+            options: [
+              "`JobGraph` is the logical submitted topology, while the runtime execution graph expands that plan into execution vertices and attempts used for deployment and recovery.",
+              "`JobGraph` exists only inside TaskManagers, while the runtime execution graph exists only in client code.",
+              "`JobGraph` is the mutable state snapshot, while the runtime execution graph stores only SQL metadata.",
+              "They are the same object under different names, split only for legacy package reasons."
+            ],
+            answer: 0,
+            explanation: "The submitted JobGraph describes the job logically. The scheduler builds and manages runtime execution structures with concrete execution vertices, attempts, and deployment state."
+          },
+          {
+            id: "rt_16",
+            objective: "Understand why StreamTask uses the mailbox model",
+            question: "What problem does the mailbox model solve inside `StreamTask` most directly?",
+            options: [
+              "It lets control actions and operator work run in a serialized task-thread loop instead of relying on broad concurrent mutation of task internals.",
+              "It permanently moves timer callbacks to a dedicated network thread so operators never run on the task thread.",
+              "It replaces checkpoints with mailbox messages so state snapshots become lock-free.",
+              "It allows JobMaster RPC handlers to execute user functions directly inside the client process."
+            ],
+            answer: 0,
+            explanation: "The mailbox model is about serialized execution on the task thread. Control actions can be enqueued and processed without turning the operator runtime into a freely concurrent design."
+          },
+          {
+            id: "rt_17",
+            objective: "Recognize the practical effect of operator chaining",
+            question: "What is the most accurate runtime reading of an operator chain in Flink?",
+            options: [
+              "Chainable operators can run within the same task and exchange records without inserting a network boundary between them.",
+              "Every chained operator still becomes a separate TaskManager process, but they share a checkpoint ID.",
+              "Operator chaining is only a SQL planner optimization and does not affect the DataStream runtime.",
+              "Chaining means all operators in the job share one key-group range."
+            ],
+            answer: 0,
+            explanation: "Operator chaining is a runtime optimization that keeps compatible operators in the same task, avoiding unnecessary network handoff between them."
+          },
+          {
+            id: "rt_18",
+            objective: "Separate restart strategy from failover scope",
+            question: "Which pairing best matches Flink runtime terminology when a task fails?",
+            options: [
+              "The restart strategy decides whether and when execution should be retried, while the failover strategy decides which tasks or regions must restart together.",
+              "The failover strategy decides checkpoint intervals, while the restart strategy chooses watermark alignment groups.",
+              "The restart strategy chooses slot sharing groups, while the failover strategy serializes mailbox actions.",
+              "Both terms mean exactly the same thing and are interchangeable in the runtime."
+            ],
+            answer: 0,
+            explanation: "Restart strategy answers retry timing and admissibility. Failover strategy determines the execution scope that must be restarted for consistency."
+          },
+          {
+            id: "rt_19",
+            objective: "Understand why one subtask can have multiple executions over time",
+            question: "Why can a single logical subtask correspond to multiple execution attempts across the life of one submitted job?",
+            options: [
+              "Because retries and recoveries create new executions for the same logical vertex or subtask position after failure or redeployment.",
+              "Because every checkpoint creates a brand-new execution attempt even if nothing failed.",
+              "Because every watermark emission rotates the active execution attempt for load balancing.",
+              "Because SQL jobs duplicate each subtask once for planner fallback."
+            ],
+            answer: 0,
+            explanation: "Execution attempts are runtime incarnations of the same logical subtask. New attempts appear when tasks are redeployed after failures or recovery transitions."
+          },
+          {
+            id: "rt_20",
+            objective: "Understand slot sharing at a high level",
+            question: "What is the best practical reading of slot sharing groups in Flink runtime execution?",
+            options: [
+              "They allow compatible subtasks from different operators to co-locate in the same slot rather than requiring one exclusive slot per subtask.",
+              "They force all grouped operators to become a single chained operator even when chaining would otherwise be impossible.",
+              "They disable checkpoint barriers across grouped subtasks.",
+              "They guarantee that grouped subtasks always run on the same physical machine across restarts."
+            ],
+            answer: 0,
+            explanation: "Slot sharing is about resource allocation compatibility, not guaranteed chaining or immutable machine placement."
+          },
+          {
+            id: "rt_21",
+            objective: "Separate Dispatcher admission from JobMaster execution control",
+            question: "A developer says, 'Once Dispatcher accepts a job, it directly owns the operator runtime, task mailboxes, and record processing loop.' What is the more accurate correction?",
+            options: [
+              "Dispatcher admits and manages job-level lifecycle concerns, but per-job execution control belongs to the JobMaster and task-side runtime such as StreamTask and OperatorChain.",
+              "Dispatcher owns all task threads permanently; JobMaster only serves web UI metadata.",
+              "Dispatcher controls operator chaining inside each TaskManager, while JobMaster stores savepoints.",
+              "Dispatcher and StreamTask are aliases for the same runtime component in different packages."
+            ],
+            answer: 0,
+            explanation: "Dispatcher handles cluster-side admission and job-manager lifecycle concerns, while actual per-job execution control is delegated to JobMaster and then to task-side runtime components."
+          },
+          {
+            id: "rt_22",
+            objective: "Differentiate logical vertices from runtime execution vertices",
+            question: "A submitted topology contains one `JobVertex` with parallelism 4. Before deployment, what runtime expansion best matches Flink execution structures?",
+            options: [
+              "One runtime job vertex expands into four execution vertices, one for each parallel subtask position.",
+              "The `JobVertex` is copied into four separate `JobGraph` objects, one per TaskManager.",
+              "It still becomes a single execution vertex because parallelism is resolved only inside the network stack.",
+              "It becomes four checkpoint coordinators, one per subtask."
+            ],
+            answer: 0,
+            explanation: "The logical job vertex is expanded into runtime execution structures per parallel subtask. Parallelism is materialized in execution vertices, not as separate submitted job graphs."
+          },
+          {
+            id: "rt_23",
+            objective: "Understand job-level operator coordination",
+            question: "Which construct is intended for coordination logic that spans all subtasks of one operator rather than living independently inside each `StreamTask`?",
+            options: [
+              "An operator coordinator on the job-manager side for that operator.",
+              "A separate `WatermarkStrategy` per subtask.",
+              "A `CheckpointStorage` implementation embedded in every operator instance.",
+              "A slot sharing group dedicated to control-plane messages."
+            ],
+            answer: 0,
+            explanation: "Cross-subtask operator coordination belongs in the operator-coordinator model at job scope, not as isolated logic buried separately inside each running task."
+          },
+          {
+            id: "rt_24",
+            objective: "Understand how external actions should interact with a StreamTask",
+            question: "An external callback wants to affect operator internals in a running `StreamTask`. Which pattern best matches the mailbox-based runtime model?",
+            options: [
+              "Schedule the action onto the task thread via the mailbox rather than mutating operator state directly from the external thread.",
+              "Modify keyed state directly from the callback thread because mailbox serialization is only for SQL jobs.",
+              "Write the requested change into checkpoint storage and wait for the next restore.",
+              "Force the Dispatcher to restart the task for every external callback."
+            ],
+            answer: 0,
+            explanation: "The mailbox model is about serialized task-thread execution. Cross-thread direct mutation is exactly what the mailbox approach avoids."
+          },
+          {
+            id: "rt_25",
+            objective: "Separate normal end-of-input from failure semantics",
+            question: "A bounded source finishes consuming all input. What is the most accurate runtime interpretation?",
+            options: [
+              "End-of-input is a normal lifecycle condition, not a task failure; operators may continue finishing and finalize normally.",
+              "The task is treated as failed because it can no longer emit checkpoints.",
+              "Flink immediately converts the job to processing time and keeps all subtasks alive indefinitely.",
+              "JobMaster must create a new execution attempt even when termination was expected."
+            ],
+            answer: 0,
+            explanation: "Finite input completion is a normal control-flow condition. It is not equivalent to task failure and does not by itself require recovery."
+          },
+          {
+            id: "rt_26",
+            objective: "Recognize what a deployment descriptor carries",
+            question: "What does a `TaskDeploymentDescriptor` represent most directly in Flink runtime?",
+            options: [
+              "The deployment package for one execution attempt, carrying the task's runtime configuration and partition/deployment descriptors needed by the TaskManager.",
+              "The completed checkpoint metadata store for one operator.",
+              "A planner-only schema artifact describing SQL row kinds.",
+              "The JVM heap image of a running operator chain."
+            ],
+            answer: 0,
+            explanation: "Deployment descriptors are the concrete runtime payload used to launch task executions. They are not checkpoint stores or planner-only metadata."
+          },
+          {
+            id: "rt_27",
+            objective: "Separate slot sharing from chaining",
+            question: "Two operators belong to the same slot sharing group but cannot be chained. What follows from that most directly?",
+            options: [
+              "They may share slot resources while still remaining separate subtasks with a normal exchange boundary between them.",
+              "They must be fused into one operator chain because slot sharing always implies chaining.",
+              "They cannot be scheduled together under any circumstances.",
+              "They are forced into the same key-group range and therefore the same keyed state."
+            ],
+            answer: 0,
+            explanation: "Slot sharing is a resource-allocation compatibility concept. It does not guarantee operator fusion into one chained task."
+          },
+          {
+            id: "rt_28",
+            objective: "Understand what changes across recovery attempts",
+            question: "After one logical subtask fails and is redeployed, which identity should remain stable across attempts?",
+            options: [
+              "The logical subtask position remains stable, while the execution attempt identity changes.",
+              "The execution attempt identity remains stable, while the subtask index changes randomly.",
+              "Both the subtask position and execution attempt identity must change for correctness.",
+              "Neither concept exists once region failover is enabled."
+            ],
+            answer: 0,
+            explanation: "Recovery creates new runtime attempts for the same logical subtask position. The logical slot in the parallel operator remains the same."
+          },
+          {
+            id: "rt_29",
+            objective: "Distinguish StreamTask orchestration from operator-pipeline management",
+            question: "Which split best matches `StreamTask` and `OperatorChain` responsibilities?",
+            options: [
+              "`StreamTask` orchestrates task lifecycle, mailbox processing, and checkpoint interaction, while `OperatorChain` manages the assembled operator pipeline and record forwarding inside the task.",
+              "`OperatorChain` owns cluster scheduling and `StreamTask` owns only SQL parsing.",
+              "`StreamTask` stores durable checkpoints and `OperatorChain` chooses high-availability leadership.",
+              "`OperatorChain` replaces the task thread entirely whenever checkpoints are enabled."
+            ],
+            answer: 0,
+            explanation: "The task orchestrates the runtime lifecycle, while the operator chain represents the within-task operator pipeline and forwarding structure."
+          },
+          {
+            id: "rt_30",
+            objective: "Separate global checkpoint coordination from local snapshot work",
+            question: "Which statement best matches how a normal checkpoint is coordinated in Flink?",
+            options: [
+              "A job-manager-side checkpoint coordinator triggers and completes the global checkpoint, while tasks perform local snapshot work and acknowledge back.",
+              "Each task unilaterally completes its own checkpoint and the JobMaster merely displays the status in the UI.",
+              "Checkpoint completion is decided only by the source subtasks because they own event time.",
+              "The Dispatcher writes all task state itself, and TaskManagers only emit barriers."
+            ],
+            answer: 0,
+            explanation: "Checkpointing is globally coordinated, not independently completed by tasks. Tasks snapshot local state and acknowledgements feed into job-level completion."
+          },
+          {
+            id: "rt_31",
+            objective: "Understand when a DataStream program is actually submitted",
+            question: "When does a DataStream program definition become an executing job?",
+            options: [
+              "When `execute(...)` or `executeAsync(...)` is called on the `StreamExecutionEnvironment`, not merely when transformations are declared.",
+              "As soon as the first `map(...)` or `keyBy(...)` transformation is appended to the graph.",
+              "Only after the first checkpoint succeeds.",
+              "Only when a savepoint path is configured."
+            ],
+            answer: 0,
+            explanation: "The environment collects transformations lazily. Submission happens when the execution method is invoked."
+          },
+          {
+            id: "rt_32",
+            objective: "Differentiate logical vertices from runtime execution vertices",
+            question: "A submitted topology contains one `JobVertex` with parallelism 4. Before deployment, what runtime expansion best matches Flink execution structures?",
+            options: [
+              "One logical job vertex expands into four execution vertices, one for each parallel subtask position.",
+              "The `JobVertex` is copied into four separate `JobGraph` objects, one per TaskManager.",
+              "It still becomes a single execution vertex because parallelism is resolved only inside the network stack.",
+              "It becomes four checkpoint coordinators, one per subtask."
+            ],
+            answer: 0,
+            explanation: "Parallelism is materialized in runtime execution structures. One logical vertex fans out into per-subtask execution vertices."
+          },
+          {
+            id: "rt_33",
+            objective: "Recognize job-level operator coordination",
+            question: "Which construct is intended for coordination logic that spans all subtasks of one operator rather than living independently inside each `StreamTask`?",
+            options: [
+              "An operator coordinator on the job-manager side for that operator.",
+              "A separate `WatermarkStrategy` per subtask.",
+              "A `CheckpointStorage` implementation embedded in every operator instance.",
+              "A slot sharing group dedicated to control-plane messages."
+            ],
+            answer: 0,
+            explanation: "Cross-subtask operator coordination belongs in the operator-coordinator model, not as isolated logic inside every task instance."
+          },
+          {
+            id: "rt_34",
+            objective: "Understand how external actions should interact with a StreamTask",
+            question: "An external callback wants to affect operator internals in a running `StreamTask`. Which pattern best matches the mailbox-based runtime model?",
+            options: [
+              "Schedule the action onto the task thread via the mailbox rather than mutating operator state directly from the external thread.",
+              "Modify keyed state directly from the callback thread because mailbox serialization is only for SQL jobs.",
+              "Write the requested change into checkpoint storage and wait for the next restore.",
+              "Force the Dispatcher to restart the task for every external callback."
+            ],
+            answer: 0,
+            explanation: "The mailbox model exists to serialize task-thread work. Cross-thread direct mutation is exactly what it is designed to avoid."
+          },
+          {
+            id: "rt_35",
+            objective: "Separate normal end-of-input from failure semantics",
+            question: "A bounded source finishes consuming all of its input. What is the most accurate runtime interpretation?",
+            options: [
+              "End-of-input is a normal lifecycle condition, not a task failure; operators may continue finalizing and the job can finish normally.",
+              "The task is treated as failed because it can no longer emit checkpoints.",
+              "Flink immediately converts the job to processing time and keeps all subtasks alive indefinitely.",
+              "JobMaster must create a new execution attempt even when termination was expected."
+            ],
+            answer: 0,
+            explanation: "Finite input completion is a normal control-flow condition. It is not equivalent to a runtime failure."
+          },
+          {
+            id: "rt_36",
+            objective: "Understand what a deployment descriptor carries",
+            question: "What does a `TaskDeploymentDescriptor` represent most directly in Flink runtime?",
+            options: [
+              "The deployment package for one execution attempt, carrying the runtime configuration and partition-related descriptors needed by the TaskManager.",
+              "The completed checkpoint metadata store for one operator.",
+              "A planner-only schema artifact describing SQL row kinds.",
+              "The JVM heap image of a running operator chain."
+            ],
+            answer: 0,
+            explanation: "Deployment descriptors are the concrete runtime payloads used to launch task executions, not checkpoint metadata or planner artifacts."
+          },
+          {
+            id: "rt_37",
+            objective: "Separate slot sharing from chaining",
+            question: "Two operators belong to the same slot sharing group but cannot be chained. What follows most directly?",
+            options: [
+              "They may still share slot resources while remaining separate subtasks with a normal exchange boundary between them.",
+              "They must be fused into one operator chain because slot sharing always implies chaining.",
+              "They cannot be scheduled together under any circumstances.",
+              "They are forced into the same key-group range and therefore the same keyed state."
+            ],
+            answer: 0,
+            explanation: "Slot sharing is a resource-allocation compatibility concept. It does not guarantee operator fusion."
+          },
+          {
+            id: "rt_38",
+            objective: "Understand what changes across recovery attempts",
+            question: "After one logical subtask fails and is redeployed, which identity should remain stable across attempts?",
+            options: [
+              "The logical subtask position remains stable, while the execution attempt identity changes.",
+              "The execution attempt identity remains stable, while the subtask index changes randomly.",
+              "Both the subtask position and execution attempt identity must change for correctness.",
+              "Neither concept exists once region failover is enabled."
+            ],
+            answer: 0,
+            explanation: "Recovery creates new runtime attempts for the same logical subtask position. The logical position in the parallel operator remains the same."
+          },
+          {
+            id: "rt_39",
+            objective: "Separate control-plane job management from user-code execution",
+            question: "Which statement best matches where user-defined operator code actually runs in Flink?",
+            options: [
+              "User-defined operator code runs in task executions on TaskManagers, while JobMaster coordinates the job without executing the operator pipeline itself.",
+              "User-defined operator code runs in the Dispatcher, while TaskManagers only hold checkpoint files.",
+              "User-defined operator code runs in the JobMaster, while TaskManagers only relay network buffers.",
+              "User-defined operator code runs only on the client after `executeAsync(...)` is called."
+            ],
+            answer: 0,
+            explanation: "JobMaster coordinates per-job execution, but the actual operator pipeline executes on tasks running in TaskManagers."
+          }
+        ]
+      },
+      {
+        id: 2,
+        name: "Event Time & Watermarks",
+        questions: [
+          {
+            id: "wm_1",
+            objective: "Reason about watermark aggregation across active inputs",
+            question: "A downstream operator has two active inputs. Input A last emitted watermark 10:05, Input B last emitted watermark 10:01. No input is idle. What watermark can the downstream operator advance to?",
+            options: [
+              "10:01, because the overall event-time progress is held by the minimum aligned active watermark.",
+              "10:05, because the fastest input determines downstream progress until idleness is declared.",
+              "10:03, because Flink averages watermarks across inputs to reduce skew.",
+              "It cannot advance at all until both inputs emit identical watermark timestamps."
+            ],
+            answer: 0,
+            explanation: "StatusWatermarkValve advances based on the minimum watermark across aligned active subpartitions. A slower active input holds back the downstream watermark."
+          },
+          {
+            id: "wm_2",
+            objective: "Distinguish temporary idleness from permanent completion",
+            question: "A Kafka partition becomes temporarily quiet and may emit more events later. Which signal is the correct way to prevent it from holding back overall event time?",
+            options: [
+              "Mark that input as IDLE rather than emitting MAX_WATERMARK.",
+              "Emit MAX_WATERMARK immediately because no records are currently arriving.",
+              "Delete all pending event-time timers so downstream operators ignore the partition.",
+              "Switch the entire job to processing time until that partition becomes active again."
+            ],
+            answer: 0,
+            explanation: "WatermarkStatus.IDLE is for temporary inactivity. Watermark.MAX_WATERMARK is the completion-style signal for permanent end-of-input from an event-time perspective."
+          },
+          {
+            id: "wm_3",
+            objective: "Understand event-time trigger behavior for late elements",
+            question: "Consider an event-time window using EventTimeTrigger. A new element arrives after the current watermark has already passed the window end. What does the trigger do for that element?",
+            code: "if (window.maxTimestamp() <= ctx.getCurrentWatermark()) {\n    return TriggerResult.FIRE;\n} else {\n    ctx.registerEventTimeTimer(window.maxTimestamp());\n    return TriggerResult.CONTINUE;\n}",
+            options: [
+              "It fires immediately because the watermark is already past the window end.",
+              "It waits for another watermark because late elements can never trigger evaluation directly.",
+              "It converts the window to processing time and schedules a processing-time timer.",
+              "It drops the element before trigger evaluation because event-time windows reject late input by default."
+            ],
+            answer: 0,
+            explanation: "EventTimeTrigger fires immediately when the watermark has already passed the window's max timestamp. Event-time firing is watermark-driven, not wall-clock-driven."
+          },
+          {
+            id: "wm_4",
+            objective: "Understand what withIdleness changes",
+            question: "What is the main effect of adding `withIdleness(Duration)` to a WatermarkStrategy?",
+            options: [
+              "A partition with no records for the configured timeout can be treated as idle so it no longer holds back downstream watermark progress.",
+              "Late events are automatically rewritten into processing-time events after the timeout expires.",
+              "The strategy switches from event time to ingestion time whenever a partition goes idle.",
+              "All timers for that source are discarded to guarantee no watermark regression."
+            ],
+            answer: 0,
+            explanation: "withIdleness marks inactive partitions as idle so they stop participating in the minimum-watermark calculation that drives downstream event-time progress."
+          },
+          {
+            id: "wm_5",
+            objective: "Understand watermark alignment",
+            question: "What does watermark alignment allow Flink to do when one source or partition runs too far ahead of others in the same watermark group?",
+            options: [
+              "Pause consumption from the ahead source or partition when the allowed watermark drift is exceeded.",
+              "Immediately mark every slower source as idle so the fast source can keep advancing.",
+              "Average all watermark timestamps and publish the midpoint downstream.",
+              "Force all event-time timers on the slower sources to fire early."
+            ],
+            answer: 0,
+            explanation: "Watermark alignment is specifically about bounding watermark drift across a group. The ahead source can be paused if it exceeds the configured drift."
+          },
+          {
+            id: "wm_6",
+            objective: "Understand downstream task idleness",
+            question: "When does a downstream task become idle according to WatermarkStatus semantics?",
+            options: [
+              "Only when all of its input streams are idle.",
+              "As soon as any one input stream becomes idle.",
+              "Whenever its last emitted watermark did not change for one checkpoint interval.",
+              "Only if all input streams emitted MAX_WATERMARK."
+            ],
+            answer: 0,
+            explanation: "A downstream task remains active as long as at least one input is active. It becomes idle only when all its inputs are idle."
+          },
+          {
+            id: "wm_7",
+            objective: "Separate event-time timers from processing-time timers",
+            question: "How are event-time timers actually fired in the runtime?",
+            options: [
+              "They fire when the internal time service advances the current watermark past the timer timestamp.",
+              "They fire on wall-clock time just like processing-time timers, but with different metrics.",
+              "They fire only when a checkpoint completes successfully.",
+              "They fire when the source emits WatermarkStatus.ACTIVE after being idle."
+            ],
+            answer: 0,
+            explanation: "Event-time timers are stored in the event-time timer queue and are triggered when watermark advancement reaches or passes their timestamps."
+          },
+          {
+            id: "wm_8",
+            objective: "Reason about merged windows under EventTimeTrigger",
+            question: "Why does EventTimeTrigger register a timer on merge only if the merged window end is still greater than the current watermark?",
+            options: [
+              "Because if the watermark already passed the merged window end, registering the timer could cause the window to fire twice.",
+              "Because merged windows are converted to processing-time windows after the first merge.",
+              "Because event-time timers are forbidden for merged windows in modern Flink.",
+              "Because merged windows always inherit the oldest timer from the original windows automatically."
+            ],
+            answer: 0,
+            explanation: "The source comment explicitly says that if the watermark already passed the merged window end, onElement will already cause firing, and registering another timer could duplicate firing."
+          },
+          {
+            id: "wm_9",
+            objective: "Understand the special flush behavior when all inputs become idle",
+            question: "When the last active subpartition becomes idle and its watermark equals the valve's last output watermark, what extra action may StatusWatermarkValve take before emitting idle status?",
+            options: [
+              "It may flush the maximum watermark across all subpartitions before marking the valve idle.",
+              "It rewinds the output watermark to the minimum subpartition watermark for determinism.",
+              "It deletes every tracked watermark so the next active record restarts from `Long.MIN_VALUE`.",
+              "It emits UPDATE_BEFORE and UPDATE_AFTER style watermark markers for consistency."
+            ],
+            answer: 0,
+            explanation: "When all subpartitions are idle, the valve may flush the maximum watermark across all subpartitions before emitting idle status. This is different from normal active-input minimum-watermark behavior."
+          },
+          {
+            id: "wm_10",
+            objective: "Understand the default timestamp assigner behavior",
+            question: "If a WatermarkStrategy does not provide a custom timestamp assigner, what is the default assumption?",
+            options: [
+              "Records already carry valid timestamps, so the default assigner is effectively a RecordTimestampAssigner.",
+              "Flink will always use current system time as the event timestamp.",
+              "Flink falls back to processing-time timers and disables event time.",
+              "Every record is assigned `Long.MIN_VALUE` until the first checkpoint completes."
+            ],
+            answer: 0,
+            explanation: "The default `createTimestampAssigner(...)` returns a RecordTimestampAssigner, which assumes records already come out of the source with valid timestamps."
+          },
+          {
+            id: "wm_12",
+            objective: "Differentiate processing-time and event-time behavior in EventTimeTrigger",
+            question: "How does EventTimeTrigger respond to processing-time callbacks?",
+            options: [
+              "It returns CONTINUE; processing-time callbacks do not cause EventTimeTrigger to fire.",
+              "It fires if the processing time is greater than the watermark.",
+              "It always purges the window on the first processing-time callback.",
+              "It converts the processing-time callback into an event-time timer."
+            ],
+            answer: 0,
+            explanation: "EventTimeTrigger's `onProcessingTime(...)` returns CONTINUE. It is specifically an event-time trigger."
+          },
+          {
+            id: "wm_13",
+            objective: "Reason about out-of-order or regressing watermarks",
+            question: "A subpartition sends a watermark that is lower than the last watermark previously seen for that same subpartition. What does StatusWatermarkValve do with it?",
+            options: [
+              "It ignores it, because watermarks for a subpartition are expected to move forward rather than regress.",
+              "It rewinds the global watermark so downstream timers can be re-evaluated safely.",
+              "It marks the subpartition idle immediately to avoid inconsistency.",
+              "It forces a checkpoint because watermark regression indicates state corruption."
+            ],
+            answer: 0,
+            explanation: "The valve updates a subpartition watermark only if the new watermark is greater than the previously recorded one. Lower values are ignored."
+          },
+          {
+            id: "wm_14",
+            objective: "Understand resumed inputs that are still behind the current output watermark",
+            question: "A previously idle subpartition becomes active again, but its last remembered watermark is still behind the valve's last emitted output watermark. What is true immediately after it becomes active?",
+            options: [
+              "It may still be considered unaligned until it catches up to at least the last output watermark.",
+              "It immediately becomes the sole determinant of the new global watermark, even if behind.",
+              "It is forced to emit MAX_WATERMARK so the valve can rejoin it safely.",
+              "It can only rejoin after a savepoint restore."
+            ],
+            answer: 0,
+            explanation: "StatusWatermarkValve keeps resumed inputs unaligned if their watermark is still behind the last output watermark. They must catch up before rejoining aligned minimum-watermark calculation."
+          },
+          {
+            id: "wm_15",
+            objective: "Understand processing-time timer scheduling details",
+            question: "What happens if a newly registered processing-time timer is earlier than the currently scheduled next processing-time callback?",
+            options: [
+              "The old callback can be cancelled and the timer service reschedules to the earlier timestamp.",
+              "The earlier timer is ignored because Flink preserves registration order over timestamp order.",
+              "The earlier timer is converted into an event-time timer to avoid reordering.",
+              "All existing timers are purged and rebuilt from state snapshots."
+            ],
+            answer: 0,
+            explanation: "InternalTimerServiceImpl checks whether the newly added processing-time timer is earlier than the current head and reschedules accordingly."
+          },
+          {
+            id: "wm_16",
+            objective: "Understand how timer state survives failures",
+            question: "How are internal timers preserved for recovery according to InternalTimerServiceImpl?",
+            options: [
+              "They are snapshotted by key-group, including both event-time and processing-time timers.",
+              "Only processing-time timers are snapshotted because event-time timers can be recomputed from watermarks.",
+              "Only event-time timers are snapshotted because processing-time timers depend on wall clock.",
+              "Timers are never snapshotted; users must recreate them on restore."
+            ],
+            answer: 0,
+            explanation: "InternalTimerServiceImpl snapshots timers for a given key-group, including both event-time and processing-time timer queues."
+          },
+          {
+            id: "wm_17",
+            objective: "Understand the meaning of source-side idleness examples",
+            question: "Which source-side situation is explicitly mentioned as a reason a source task may be considered idle for watermark purposes?",
+            options: [
+              "A Kafka source has no assigned partitions or cannot read records from its assigned partitions for an indefinite amount of time.",
+              "A filesystem source is reading too quickly and must be slowed by watermark alignment.",
+              "A source emitted too many checkpoints in a short interval.",
+              "A source has a nested rowtime column in SQL."
+            ],
+            answer: 0,
+            explanation: "WatermarkStatus comments explicitly cite source tasks such as Kafka consumers that may have no assigned partitions or no readable records as examples of temporary idleness."
+          },
+          {
+            id: "wm_18",
+            objective: "Differentiate timestamp assignment from watermark generation",
+            question: "Which statement best separates timestamp assignment from watermark generation in a `WatermarkStrategy`?",
+            options: [
+              "Timestamp assigners choose the event timestamp carried by each record, while watermark generators decide the progress signal derived from observed events over time.",
+              "Timestamp assigners only run after a watermark is emitted, while watermark generators only run during checkpointing.",
+              "Timestamp assignment exists only for SQL, while watermark generation exists only for DataStream.",
+              "They are two names for the same callback and always produce identical values."
+            ],
+            answer: 0,
+            explanation: "A watermark strategy combines timestamp extraction with watermark generation, but they are distinct responsibilities."
+          },
+          {
+            id: "wm_19",
+            objective: "Understand the default timestamp-assignment behavior",
+            question: "If a custom `TimestampAssigner` is not provided in a `WatermarkStrategy`, what is the intended default behavior?",
+            options: [
+              "The existing record timestamp is forwarded rather than inventing a new event timestamp from scratch.",
+              "All records receive the current processing time as their event timestamp.",
+              "All records receive the latest emitted watermark as their event timestamp.",
+              "Records are treated as untimestamped and event time is disabled automatically."
+            ],
+            answer: 0,
+            explanation: "The default strategy behavior is to preserve the timestamp already attached to the record stream rather than overwrite it arbitrarily."
+          },
+          {
+            id: "wm_20",
+            objective: "Reason about reactivation after idleness",
+            question: "An input was marked IDLE and then starts producing records again. What must happen conceptually before it fully constrains downstream watermark progress?",
+            options: [
+              "It becomes active again, but if its watermark is still behind the last output watermark it may remain unaligned until it catches up.",
+              "It immediately forces the global watermark backward to its last remembered value.",
+              "It must first emit MAX_WATERMARK and then reset to ACTIVE.",
+              "It cannot participate again until the next checkpoint completes."
+            ],
+            answer: 0,
+            explanation: "Resumed inputs reactivate, but the valve does not let a behind input drag emitted watermarks backward. It may remain unaligned until caught up."
+          },
+          {
+            id: "wm_21",
+            objective: "Understand the effect of removing an idle minimum input",
+            question: "Suppose the current downstream watermark is held back by one very slow active input. That input is then declared IDLE. What is the most accurate consequence?",
+            options: [
+              "The downstream watermark may advance to the minimum watermark among the remaining aligned active inputs.",
+              "The downstream watermark must stay fixed until the idle input becomes active again.",
+              "All remaining inputs are marked idle as well to preserve symmetry.",
+              "The downstream watermark is reset to `Long.MIN_VALUE` until a new checkpoint finishes."
+            ],
+            answer: 0,
+            explanation: "Once an input is idle it stops participating in the active minimum-watermark calculation, so progress can continue based on the remaining active inputs."
+          },
+          {
+            id: "wm_22",
+            objective: "Understand why MAX_WATERMARK is stronger than temporary idleness",
+            question: "Why is emitting `MAX_WATERMARK` from a merely quiet source partition usually the wrong signal?",
+            options: [
+              "Because it says event time has effectively finished for that input, which can prematurely fire end-of-time event-time logic rather than just excluding a temporarily idle input.",
+              "Because `MAX_WATERMARK` only affects processing-time timers, not event-time computation.",
+              "Because `MAX_WATERMARK` is interpreted as a request to restore from the latest savepoint.",
+              "Because Flink treats `MAX_WATERMARK` as a syntax error outside SQL."
+            ],
+            answer: 0,
+            explanation: "Temporary inactivity should be represented by IDLE. MAX_WATERMARK is the terminal-style progress signal that can flush event-time behavior as if no earlier data will ever arrive again."
+          },
+          {
+            id: "wm_23",
+            objective: "Understand timer deduplication semantics",
+            question: "If user code registers the same event-time timer repeatedly for the same key, namespace, and timestamp, what is the most accurate expectation?",
+            options: [
+              "It behaves like one logical timer entry rather than producing duplicate firings for identical timer identity.",
+              "Each registration creates a separate callback, so the same timer will fire once per registration.",
+              "The timer becomes processing-time based after the second registration.",
+              "Flink rejects duplicate timer registration as an illegal state."
+            ],
+            answer: 0,
+            explanation: "Internal timer services key timer identity by key, namespace, and timestamp. Re-registering the same timer does not create a stack of independent firings."
+          },
+          {
+            id: "wm_24",
+            objective: "Differentiate periodic emission from event callbacks",
+            question: "What is the cleanest distinction between `onEvent(...)` and `onPeriodicEmit(...)` in watermark generation?",
+            options: [
+              "`onEvent(...)` reacts to arriving records, while `onPeriodicEmit(...)` is invoked periodically so a generator can emit progress even without emitting on every event.",
+              "`onEvent(...)` runs only in batch mode, while `onPeriodicEmit(...)` runs only in streaming mode.",
+              "`onPeriodicEmit(...)` assigns timestamps and `onEvent(...)` snapshots timers.",
+              "They are both required to emit the same watermark on every invocation."
+            ],
+            answer: 0,
+            explanation: "The two callbacks serve different purposes: one is record-driven, the other is periodic, enabling more flexible watermark generation strategies."
+          },
+          {
+            id: "wm_25",
+            objective: "Understand what watermark alignment does not do",
+            question: "Which statement is the most accurate description of watermark alignment?",
+            options: [
+              "It bounds drift by slowing ahead sources or partitions; it does not rewrite slower sources' timestamps or fabricate averaged watermarks.",
+              "It rewrites all source timestamps into a shared median event time before records enter operators.",
+              "It permanently disables idleness detection because aligned groups must stay active.",
+              "It guarantees identical watermark values on all subtasks at all instants."
+            ],
+            answer: 0,
+            explanation: "Watermark alignment is a throttling mechanism for ahead readers. It does not mutate event timestamps or create averaged watermark values."
+          },
+          {
+            id: "wm_26",
+            objective: "Understand the bounded-out-of-orderness watermark formula",
+            question: "A bounded-out-of-orderness generator has observed a maximum event timestamp of `10000` and uses an out-of-orderness bound of `500`. What watermark does that strategy conceptually emit?",
+            options: [
+              "`9499`, because the watermark trails the observed maximum by the bound plus one.",
+              "`9500`, because the watermark equals max timestamp minus bound exactly.",
+              "`10000`, because watermarks must match the latest observed event time.",
+              "`10500`, because the generator predicts future progress."
+            ],
+            answer: 0,
+            explanation: "The standard bounded-out-of-orderness logic emits `maxTimestamp - bound - 1`, not the raw maximum timestamp and not a forward prediction."
+          },
+          {
+            id: "wm_27",
+            objective: "Understand the exact event-time timer firing condition",
+            question: "An event-time timer is registered for timestamp `5000`. When should it become eligible to fire?",
+            options: [
+              "When the current watermark reaches or exceeds `5000`.",
+              "Only when the current watermark becomes strictly greater than `5000`.",
+              "As soon as processing time reaches `5000`, regardless of watermarks.",
+              "Only after a checkpoint confirms the timer registration."
+            ],
+            answer: 0,
+            explanation: "Event-time timers are driven by watermark progress. Reaching the target timestamp is sufficient; strict greater-than is not required."
+          },
+          {
+            id: "wm_28",
+            objective: "Understand window max timestamp for end-exclusive windows",
+            question: "For a time window represented as `[1000, 2000)`, what does `window.maxTimestamp()` represent for event-time trigger logic?",
+            options: [
+              "`1999`, the greatest timestamp still belonging to that end-exclusive window.",
+              "`2000`, because the end boundary is always included for timers.",
+              "`1000`, because max timestamp equals the window start for determinism.",
+              "`Long.MAX_VALUE`, because window timers are open-ended."
+            ],
+            answer: 0,
+            explanation: "For an end-exclusive interval, the maximum in-window timestamp is one less than the end boundary."
+          },
+          {
+            id: "wm_29",
+            objective: "Understand that resumed inputs do not force watermark regression",
+            question: "A previously idle input becomes active again with a remembered watermark below the last downstream output watermark. What must not happen?",
+            options: [
+              "The already emitted downstream watermark must not move backward to match the resumed input.",
+              "The resumed input must immediately take over as the new global minimum regardless of being behind.",
+              "The system must convert all event-time timers into processing-time timers.",
+              "The source must emit `MAX_WATERMARK` before rejoining."
+            ],
+            answer: 0,
+            explanation: "Watermarks are monotonic. A resumed behind input can remain unaligned, but it cannot make downstream progress regress."
+          },
+          {
+            id: "wm_30",
+            objective: "Understand all-input-idle semantics",
+            question: "If every input of a downstream task becomes idle, what is the most accurate event-time interpretation?",
+            options: [
+              "The task can itself become idle rather than inventing a synthetic watermark advance.",
+              "The task must emit `MAX_WATERMARK` immediately because no further data is currently arriving.",
+              "The task must reset its watermark to zero to indicate uncertainty.",
+              "The task must fail so the scheduler can recalculate event time."
+            ],
+            answer: 0,
+            explanation: "When all inputs are idle, the correct signal is task idleness, not a fabricated watermark jump."
+          },
+          {
+            id: "wm_31",
+            objective: "Understand limits of periodic watermark emission",
+            question: "A periodic watermark generator is invoked repeatedly, but no new larger event timestamp has been observed since the last emission. What is the safest conclusion?",
+            options: [
+              "Periodic callbacks do not justify inventing new event-time progress beyond what observed data already supports.",
+              "Each periodic callback must still advance the watermark by one millisecond to prove liveness.",
+              "The generator should switch to processing-time semantics until a new event arrives.",
+              "The runtime deletes all event-time timers if no new maximum timestamp appears."
+            ],
+            answer: 0,
+            explanation: "Periodic emission controls when a generator may publish progress, not permission to fabricate progress without newer observed event timestamps."
+          },
+          {
+            id: "wm_32",
+            objective: "Understand the difference between idleness and lateness",
+            question: "What is the most accurate distinction between source idleness detection and allowed lateness on windows?",
+            options: [
+              "Idleness detection controls whether an input participates in watermark progress, while allowed lateness controls whether late elements may still affect window state after the first firing.",
+              "They are two names for the same setting and always have the same effect.",
+              "Idleness detection applies only to batch jobs, while allowed lateness applies only to SQL.",
+              "Allowed lateness rewrites idle partitions into active ones after a timeout."
+            ],
+            answer: 0,
+            explanation: "Idleness is about watermark progression across inputs. Allowed lateness is about how window operators treat elements that arrive after the event-time firing point."
+          },
+          {
+            id: "wm_33",
+            objective: "Reason about active inputs that stop producing watermarks",
+            question: "An input is still technically active, but it stops producing records and never gets marked idle. What is the most accurate downstream effect?",
+            options: [
+              "Its last watermark can keep holding back downstream event-time progress because active inputs still participate in the minimum-watermark calculation.",
+              "Downstream operators will infer idleness automatically after one checkpoint even if no idleness policy exists.",
+              "The runtime converts all event-time timers to processing-time timers to compensate.",
+              "The input is treated the same as if it had emitted `MAX_WATERMARK`."
+            ],
+            answer: 0,
+            explanation: "Without an idle signal, an active input remains part of the watermark minimum and can stall downstream event-time progress."
+          },
+          {
+            id: "wm_34",
+            objective: "Understand monotonic watermark emission",
+            question: "Why is it invalid for a watermark generator to emit a watermark lower than one it already emitted earlier?",
+            options: [
+              "Because watermark progress is monotonic; moving backward would break downstream event-time assumptions and timer/window correctness.",
+              "Because lower watermarks are reserved exclusively for batch mode.",
+              "Because only the checkpoint coordinator is allowed to emit decreasing watermarks.",
+              "Because decreasing watermarks are automatically reinterpreted as idleness markers."
+            ],
+            answer: 0,
+            explanation: "Watermark semantics rely on monotonic progress. Downstream operators assume that already-closed event-time regions do not reopen."
+          },
+          {
+            id: "wm_35",
+            objective: "Understand what event timestamps and watermarks do not imply",
+            question: "A record carries timestamp `10000`, but the current watermark is only `9400`. What is the most accurate interpretation?",
+            options: [
+              "The record timestamp and the current watermark are different concepts; a newer event does not imply the watermark has already advanced to that event time.",
+              "The watermark must be wrong because it can never trail any observed event timestamp.",
+              "The record will be rejected automatically because its timestamp is ahead of the current watermark.",
+              "The runtime will immediately emit `MAX_WATERMARK` for that input."
+            ],
+            answer: 0,
+            explanation: "Observed event timestamps and published watermark progress are related but distinct. A watermark may lag behind the latest seen event depending on the strategy."
+          },
+          {
+            id: "wm_36",
+            objective: "Understand what watermark alignment does not coordinate",
+            question: "What is a bad mental model of watermark alignment?",
+            options: [
+              "Treating it as a mechanism that rewrites event timestamps or directly synchronizes timer firing across all operators.",
+              "Treating it as a way to bound how far ahead one source in a group may run in event-time progress.",
+              "Treating it as source-side control over ahead partitions when drift exceeds a configured bound.",
+              "Treating it as compatible with ordinary watermark generation and idleness concepts."
+            ],
+            answer: 0,
+            explanation: "Watermark alignment bounds drift among opted-in sources. It does not rewrite event timestamps or globally synchronize every timer."
+          },
+          {
+            id: "wm_37",
+            objective: "Understand why `window.maxTimestamp()` is not the exclusive end",
+            question: "Why does `EventTimeTrigger` register timers at `window.maxTimestamp()` instead of at the exclusive window end directly?",
+            options: [
+              "Because `window.maxTimestamp()` is the last timestamp that still belongs to the window, matching event-time semantics for end-exclusive intervals.",
+              "Because the exclusive window end is reserved for processing-time timers only.",
+              "Because event-time timers must always fire one full watermark interval early.",
+              "Because windows in Flink are inclusive at both ends and the value is identical anyway."
+            ],
+            answer: 0,
+            explanation: "For an end-exclusive window, the trigger uses the last in-window timestamp. That is what `window.maxTimestamp()` represents."
+          },
+          {
+            id: "wm_38",
+            objective: "Understand source-group scoping for alignment",
+            question: "Two sources are configured with different watermark alignment groups. What is the safest expectation?",
+            options: [
+              "They are not drift-bounded against each other as one shared alignment group; alignment applies within the configured group.",
+              "They are always globally aligned by the JobMaster regardless of group assignment.",
+              "They cannot emit watermarks at all until assigned to the same group.",
+              "Their timers become processing-time timers because event time cannot cross group boundaries."
+            ],
+            answer: 0,
+            explanation: "Watermark alignment operates within the configured alignment group. Different groups are not forced into one shared drift envelope."
+          },
+          {
+            id: "wm_39",
+            objective: "Understand why a quiet partition is not automatically finished",
+            question: "A source partition has not emitted a record for a long time. Why is `IDLE` usually a better signal than `MAX_WATERMARK` in that situation?",
+            options: [
+              "Because `IDLE` says the partition should stop constraining progress for now, while `MAX_WATERMARK` says event-time progression is effectively complete for that input.",
+              "Because `MAX_WATERMARK` only affects processing-time operators and would be ignored anyway.",
+              "Because `IDLE` permanently closes all windows for that input and `MAX_WATERMARK` does not.",
+              "Because Flink forbids `MAX_WATERMARK` from sources."
+            ],
+            answer: 0,
+            explanation: "A quiet partition may resume later. `IDLE` models temporary inactivity, while `MAX_WATERMARK` is the terminal-style signal for end-of-time progress."
+          }
+        ]
+      },
+      {
+        id: 3,
+        name: "State, Checkpoints & Recovery",
+        questions: [
+          {
+            id: "state_1",
+            objective: "Separate working-state representation from durable checkpoint storage",
+            question: "Which statement best distinguishes HashMapStateBackend from CheckpointStorage?",
+            options: [
+              "HashMapStateBackend defines how working keyed state is held in memory, while CheckpointStorage defines where checkpoint/savepoint bytes and metadata are durably stored.",
+              "HashMapStateBackend is the durable storage layer, while CheckpointStorage only caches local heap state for recovery.",
+              "Both are synonyms; modern Flink merged them into a single abstraction.",
+              "CheckpointStorage chooses key-groups, while HashMapStateBackend chooses checkpoint retention policy."
+            ],
+            answer: 0,
+            explanation: "State backend and checkpoint storage are separate layers. HashMapStateBackend holds working state on the TaskManager heap. CheckpointStorage defines the durable bytes layer for checkpoint/savepoint data."
+          },
+          {
+            id: "state_2",
+            objective: "Understand what 'forced' means for checkpoint behavior",
+            question: "In CheckpointProperties, what does a forced checkpoint imply while it is pending?",
+            options: [
+              "It can bypass the configured maximum concurrent checkpoints and minimum pause between checkpoints, and it is not subsumed while pending.",
+              "It skips state serialization and writes only checkpoint metadata.",
+              "It converts the snapshot into a savepoint automatically.",
+              "It guarantees restore success even if operator IDs or max parallelism changed incompatibly."
+            ],
+            answer: 0,
+            explanation: "The source comment explicitly notes that 'forced' means the snapshot may ignore max concurrent checkpoint and minimum-pause limits, and forced pending checkpoints are not subsumed by later ones."
+          },
+          {
+            id: "state_3",
+            objective: "Reason about savepoint restore compatibility",
+            question: "A savepoint contains non-empty state for an operator that no longer exists in the new program, and non-restored state is not allowed. What should happen during restore?",
+            options: [
+              "Restore fails because the checkpoint/savepoint state cannot be mapped to the new program.",
+              "Restore succeeds and silently drops the missing operator state because savepoints are user-triggered snapshots.",
+              "Restore succeeds only if the job uses HashMapStateBackend instead of RocksDB.",
+              "Restore succeeds as long as checkpoint storage is filesystem-based."
+            ],
+            answer: 0,
+            explanation: "Checkpoints.java throws a restore failure when state for an operator cannot be mapped to the new program and non-restored state is not allowed."
+          },
+          {
+            id: "state_4",
+            objective: "Understand how keyed state ownership is assigned",
+            question: "When `setCurrentKey(newKey)` is called on the keyed state backend, what important ownership decision happens immediately?",
+            options: [
+              "The backend computes the key-group for that key using the configured number of key-groups.",
+              "The backend writes the key to checkpoint storage so it can be recovered lazily.",
+              "The backend duplicates the state into every parallel subtask for fault tolerance.",
+              "The backend pins the key permanently to the current TaskManager regardless of rescaling."
+            ],
+            answer: 0,
+            explanation: "AbstractKeyedStateBackend assigns the current key-group using KeyGroupRangeAssignment and the configured numberOfKeyGroups. That is fundamental to keyed-state partitioning."
+          },
+          {
+            id: "state_5",
+            objective: "Connect max parallelism to rescaling mechanics",
+            question: "Why is max parallelism so important for keyed state and rescaling?",
+            options: [
+              "Because it defines the key-group universe, which is the redistributable unit used to assign keyed state across subtasks.",
+              "Because it defines the maximum number of checkpoints that may run concurrently.",
+              "Because it fixes the number of watermarks that a source may emit per second.",
+              "Because it disables operator chaining when the key distribution becomes skewed."
+            ],
+            answer: 0,
+            explanation: "Key-groups are the rescalable unit of keyed state. Max parallelism defines that key-group space and strongly affects how state can be redistributed on restore."
+          },
+          {
+            id: "state_6",
+            objective: "Avoid the common RocksDB durability misconception",
+            question: "Which statement is most accurate about EmbeddedRocksDBStateBackend?",
+            options: [
+              "It stores local working state in embedded RocksDB, but durable recovery from machine loss still depends on configured checkpoint storage.",
+              "It makes checkpoint storage optional because RocksDB itself is the durable cluster-wide checkpoint store.",
+              "It can only be used if the job disables incremental checkpointing.",
+              "It removes the need for savepoints because RocksDB always preserves prior versions of state."
+            ],
+            answer: 0,
+            explanation: "EmbeddedRocksDBStateBackend changes how working state is stored locally. It does not replace remote durable checkpoint storage for recovery after machine loss."
+          },
+          {
+            id: "state_8",
+            objective: "Differentiate savepoint post-checkpoint actions",
+            question: "Which statement best distinguishes `terminate` savepoints from `suspend` savepoints in current runtime semantics?",
+            options: [
+              "`terminate` savepoints are meant to drain to end-of-time, while `suspend` savepoints have different post-checkpoint behavior and can ignore end-of-input in that specific sense.",
+              "`suspend` savepoints always discard all keyed state, while `terminate` savepoints preserve it.",
+              "`terminate` savepoints cannot be restored, while `suspend` savepoints can.",
+              "`suspend` savepoints are just forced checkpoints with a different UI label."
+            ],
+            answer: 0,
+            explanation: "SavepointType encodes post-checkpoint action. Terminate savepoints are associated with draining semantics, while suspend savepoints differ in how they treat end-of-input behavior."
+          },
+          {
+            id: "state_9",
+            objective: "Separate restart policy from failover scope",
+            question: "Which pairing best reflects how Flink handles failures?",
+            options: [
+              "Failover strategy decides what tasks or regions must restart; restart strategy decides whether restart is allowed and how long to wait.",
+              "Failover strategy decides the checkpoint storage, and restart strategy decides the state backend.",
+              "Restart strategy decides what tasks failed, and failover strategy decides how watermarks are recomputed.",
+              "Both strategies are synonyms for the same interface in the runtime."
+            ],
+            answer: 0,
+            explanation: "ExecutionFailureHandler combines both concerns. Failover strategy determines which vertices to restart. RestartBackoffTimeStrategy determines whether restart can happen and with what delay."
+          },
+          {
+            id: "state_10",
+            objective: "Understand keyed-state namespace caching",
+            question: "What optimization does `getPartitionedState(...)` use in AbstractKeyedStateBackend when the same state name is accessed repeatedly?",
+            options: [
+              "It can reuse the last accessed state object and simply switch its current namespace instead of recreating the state wrapper each time.",
+              "It bypasses namespace handling entirely and stores all keys in a single global namespace.",
+              "It writes the namespace to checkpoint storage before returning the state handle.",
+              "It duplicates the state into both heap and RocksDB to avoid namespace misses."
+            ],
+            answer: 0,
+            explanation: "The backend caches the last accessed state by name and updates the namespace on that state object when possible. This is one reason keyed-state access is more local than many developers assume."
+          },
+          {
+            id: "state_11",
+            objective: "Understand state creation wrappers",
+            question: "When `getOrCreateKeyedState(...)` builds a new state in AbstractKeyedStateBackend, what additional behavior may be applied automatically?",
+            options: [
+              "TTL wrapping and metrics tracking can be layered onto the created state if those features are enabled.",
+              "The state is always converted into a savepoint handle immediately after creation.",
+              "The state is forced into UPDATE_BEFORE/UPDATE_AFTER changelog mode.",
+              "The state is moved to the Dispatcher JVM to reduce TaskManager heap pressure."
+            ],
+            answer: 0,
+            explanation: "The backend creation path can wrap state with TTL handling and metrics tracking before caching it by name."
+          },
+          {
+            id: "state_12",
+            objective: "Understand a backend-specific restore capability",
+            question: "Why does HashMapStateBackend report support for no-claim restore mode in the inspected source?",
+            options: [
+              "Because its snapshots are full and it does not rely on shared files that would need ownership-claim semantics.",
+              "Because it never creates checkpoints, only savepoints.",
+              "Because no-claim restore is required for all heap-based Java collections.",
+              "Because it stores every checkpoint inside the JobMaster memory only."
+            ],
+            answer: 0,
+            explanation: "HashMapStateBackend supports no-claim restore because it uses full snapshots and does not share files across snapshots in the way incremental file-based strategies might."
+          },
+          {
+            id: "state_13",
+            objective: "Understand what CheckpointStorage resolves",
+            question: "What does `CheckpointStorage.resolveCheckpoint(...)` conceptually provide?",
+            options: [
+              "A way to turn an external checkpoint/savepoint pointer into a readable checkpoint location that supports metadata access or disposal.",
+              "A way to assign a key to its key-group after restore.",
+              "A way to convert a checkpoint into a planner changelog mode.",
+              "A way to merge concurrent checkpoints into a single forced snapshot."
+            ],
+            answer: 0,
+            explanation: "CheckpointStorage resolves external pointers into completed checkpoint storage locations, which can then be used to read metadata or dispose the snapshot."
+          },
+          {
+            id: "state_14",
+            objective: "Understand the semantics of multiple close-in-time failures under exponential restart",
+            question: "In ExponentialDelayRestartBackoffTimeStrategy, what does it mean if `notifyFailure(...)` returns false for a later failure?",
+            options: [
+              "That failure is merged into an already scheduled recovery attempt rather than counted as a brand-new restart attempt.",
+              "The failure is unrecoverable and the job must fail immediately.",
+              "The failure was caused by a savepoint, so restart logic is skipped.",
+              "The scheduler has already reset the backoff to its initial value."
+            ],
+            answer: 0,
+            explanation: "If a restart is already scheduled in the future, a subsequent failure can be treated as part of the same recovery effort rather than a separate new attempt."
+          },
+          {
+            id: "state_15",
+            objective: "Understand why exponential restart uses jitter",
+            question: "Why does the exponential restart strategy include a jitter factor?",
+            options: [
+              "To avoid a thundering-herd pattern where many components restart in lockstep with identical backoff times.",
+              "To guarantee that all retries happen on the same TaskManager that failed before.",
+              "To align restart timestamps with checkpoint intervals exactly.",
+              "To convert failure-rate restart into fixed-delay restart after several attempts."
+            ],
+            answer: 0,
+            explanation: "The source comments say jitter is there to avoid avalanche or thundering-herd behavior by randomizing the backoff around the computed delay."
+          },
+          {
+            id: "state_16",
+            objective: "Understand pipelined-region failover expansion",
+            question: "Under RestartPipelinedRegionFailoverStrategy, why might the set of tasks to restart include more than the region containing the failed task?",
+            options: [
+              "Because unavailable consumed partitions can pull producer regions in, and involved regions also pull in their consumer regions.",
+              "Because Flink always restarts the entire cluster for any streaming failure.",
+              "Because the strategy ignores partition availability and simply restarts random neighboring subtasks.",
+              "Because region failover is only used for batch and must simulate full-job restart in streaming."
+            ],
+            answer: 0,
+            explanation: "The strategy expands from the failed region to producer regions when required partitions are unavailable and to consumer regions of already involved regions."
+          },
+          {
+            id: "state_17",
+            objective: "Understand failure-counting differences between checkpoints and savepoints",
+            question: "Which statement matches the checkpoint failure manager's special handling?",
+            options: [
+              "JobManager-side savepoint failures do not count against the ordinary checkpoint failure counter in the same way that normal checkpoint failures do.",
+              "All savepoint failures are always treated exactly like ordinary periodic checkpoint failures.",
+              "Periodic checkpoint failures are ignored, but any savepoint failure immediately disables restart forever.",
+              "Savepoint failures can never fail a job because they are always manual."
+            ],
+            answer: 0,
+            explanation: "CheckpointFailureManager distinguishes savepoints from ordinary checkpoints. In particular, JM-side savepoint failures are not counted in the same way as normal checkpoint failures."
+          },
+          {
+            id: "state_18",
+            objective: "Separate checkpoint persistence from completed-checkpoint bookkeeping",
+            question: "Which component is responsible for remembering which completed checkpoints are currently retained for recovery, rather than physically writing snapshot bytes?",
+            options: [
+              "`CompletedCheckpointStore`, not the working state backend.",
+              "`HashMapStateBackend`, because heap state doubles as retained checkpoint metadata.",
+              "`InternalTimerServiceImpl`, because timers are the authoritative recovery index.",
+              "`WatermarkStrategy`, because checkpoint retention depends on event-time progress."
+            ],
+            answer: 0,
+            explanation: "Completed-checkpoint bookkeeping and retention are handled separately from the state backend and from the physical checkpoint-storage writers."
+          },
+          {
+            id: "state_19",
+            objective: "Understand why namespaces matter in keyed state",
+            question: "Why can the same key and the same logical state descriptor hold different values for different windows or contexts in Flink?",
+            options: [
+              "Because keyed state access also includes a namespace dimension, allowing separation such as one value per window for the same key.",
+              "Because each key is implicitly duplicated once per checkpoint.",
+              "Because savepoints serialize keys into separate JVM classloaders.",
+              "Because namespace is only a UI label and the actual state value is always global per key."
+            ],
+            answer: 0,
+            explanation: "Keyed state backends support namespaces, which is exactly how window state can remain distinct for the same key across different windows."
+          },
+          {
+            id: "state_20",
+            objective: "Reason about restore compatibility and max parallelism",
+            question: "Why can changing max parallelism break restore compatibility for keyed state even if the user function code itself did not change?",
+            options: [
+              "Because key-group partitioning is defined relative to max parallelism, and incompatible key-group layouts can make previous keyed state unmappable.",
+              "Because max parallelism changes invalidate only processing-time timers, not keyed state.",
+              "Because checkpoint storage paths are hashed solely from max parallelism and become unreadable.",
+              "Because Flink stores user code bytecode separately for each max parallelism value."
+            ],
+            answer: 0,
+            explanation: "Keyed state is organized by key-groups, and max parallelism defines that universe. Incompatible changes can therefore break state assignment on restore."
+          },
+          {
+            id: "state_21",
+            objective: "Understand what is lost when local working state disappears",
+            question: "A TaskManager hosting embedded RocksDB working state disappears entirely before the next successful checkpoint. What is the most accurate recovery expectation?",
+            options: [
+              "Recovery proceeds from the latest durable checkpoint or savepoint, not from the vanished local working state that had not yet been checkpointed.",
+              "Recovery reconstructs the missing local RocksDB contents from the last emitted watermark only.",
+              "The job can always recover the lost local RocksDB files from Dispatcher memory even without checkpoints.",
+              "Flink transparently converts the loss into a no-op because RocksDB state is already globally replicated."
+            ],
+            answer: 0,
+            explanation: "Local backend state is not itself the cluster-wide durable recovery source. Recovery relies on successfully materialized checkpoints or savepoints."
+          },
+          {
+            id: "state_22",
+            objective: "Understand checkpoint retention as a policy decision",
+            question: "What does a checkpoint-retention policy primarily control after job termination or cancellation events?",
+            options: [
+              "Whether externalized checkpoint artifacts are kept or cleaned up under the relevant terminal conditions.",
+              "Whether keyed state is stored in heap or RocksDB during normal execution.",
+              "Whether watermarks are snapshotted before or after timers.",
+              "Whether the scheduler uses region failover or full restart."
+            ],
+            answer: 0,
+            explanation: "Retention policy governs cleanup or preservation of completed checkpoint artifacts under terminal job outcomes."
+          },
+          {
+            id: "state_23",
+            objective: "Separate incremental checkpoint mechanics from logical state ownership",
+            question: "What is the safest high-level reading of incremental checkpointing with RocksDB-style state backends?",
+            options: [
+              "It changes how snapshot data may be materialized and reused between checkpoints, but it does not change the logical meaning of keyed state ownership or restore mapping.",
+              "It removes the need for checkpoint storage because incremental pieces are kept only in local RocksDB.",
+              "It guarantees that restore is possible after any operator-ID change because SST reuse is content-addressed.",
+              "It disables savepoints because savepoints require full snapshots only."
+            ],
+            answer: 0,
+            explanation: "Incremental checkpointing is a snapshot-materialization optimization. It does not redefine the logical state model or magically bypass restore-compatibility rules."
+          },
+          {
+            id: "state_24",
+            objective: "Understand stable key-group assignment for a given key",
+            question: "Why does the backend recompute the key-group whenever the current key changes?",
+            options: [
+              "Because each key must map deterministically into the configured key-group space so the backend knows which partition of keyed state the key belongs to.",
+              "Because key-groups are random buckets that must be rebalanced on every record.",
+              "Because checkpoint storage writes each key immediately to a different remote directory.",
+              "Because every key change forces a new savepoint."
+            ],
+            answer: 0,
+            explanation: "Key-group assignment is deterministic and foundational to keyed-state partitioning, rescaling, and timer partition ownership."
+          },
+          {
+            id: "state_25",
+            objective: "Separate checkpointing mechanics from restart admission",
+            question: "Which statement best describes the relationship between checkpoint failure handling and restart strategy?",
+            options: [
+              "Checkpoint failures and restart decisions interact, but the restart strategy is still the policy that decides whether retries continue and with what backoff behavior.",
+              "Any failed checkpoint permanently disables all restart strategies immediately.",
+              "Restart strategy is evaluated only for savepoint failures and never for task or checkpoint problems.",
+              "Checkpoint failure handling exists only in batch mode, while restart strategy exists only in streaming."
+            ],
+            answer: 0,
+            explanation: "Checkpoint failure handling can influence job failure outcomes, but restart strategy remains the policy layer governing retry behavior and delay."
+          },
+          {
+            id: "state_26",
+            objective: "Differentiate keyed state partitioning from operator state partitioning",
+            question: "Which statement best separates keyed state from operator state in Flink runtime?",
+            options: [
+              "Keyed state is partitioned by key-groups across keys, while operator state is scoped per operator subtask rather than by key.",
+              "Operator state is always partitioned by key-group, while keyed state is global to the whole job.",
+              "There is no runtime distinction; both are stored identically and redistributed the same way.",
+              "Operator state exists only for SQL queries, while keyed state exists only for DataStream jobs."
+            ],
+            answer: 0,
+            explanation: "Keyed state and operator state have different ownership and redistribution models. Key-groups are specific to keyed state."
+          },
+          {
+            id: "state_27",
+            objective: "Understand why metadata alone is insufficient for restore",
+            question: "Suppose completed checkpoint metadata is still present, but the referenced underlying state files in durable storage are missing. What is the most accurate recovery expectation?",
+            options: [
+              "Restore fails because checkpoint metadata without the actual referenced state data is not a usable recovery source.",
+              "Restore succeeds because metadata alone is enough to reconstruct all keyed state deterministically.",
+              "Restore succeeds if and only if the original backend was heap-based rather than RocksDB-based.",
+              "Flink falls back to the last emitted watermark to rebuild the checkpoint contents."
+            ],
+            answer: 0,
+            explanation: "Checkpoint completion metadata points to real persisted snapshot data. If the data is gone, the metadata cannot magically restore the job."
+          },
+          {
+            id: "state_28",
+            objective: "Understand subsumption differences for pending checkpoints",
+            question: "How do ordinary pending checkpoints differ from forced pending checkpoints with respect to subsumption?",
+            options: [
+              "Ordinary pending checkpoints may be subsumed by newer ones, while forced pending checkpoints are not subsumed while pending.",
+              "Forced checkpoints are always subsumed first because they are smaller.",
+              "Neither kind can ever be subsumed once triggered.",
+              "Both are subsumed only by savepoints, never by other checkpoints."
+            ],
+            answer: 0,
+            explanation: "Forced checkpoints receive special handling and are not subsumed while pending, unlike ordinary periodic checkpoints."
+          },
+          {
+            id: "state_29",
+            objective: "Understand why only completed snapshots are restore candidates",
+            question: "A new periodic checkpoint has started but the job fails before that checkpoint completes. Which snapshot is a valid recovery candidate?",
+            options: [
+              "The latest successfully completed checkpoint or savepoint, not the failed in-progress checkpoint.",
+              "The newest started checkpoint, because start time is enough to make it authoritative.",
+              "No prior snapshot at all; any in-progress checkpoint invalidates older completed ones.",
+              "Only the most recent savepoint, because ordinary checkpoints cannot be used after failure."
+            ],
+            answer: 0,
+            explanation: "Started-but-unfinished checkpoints are not completed recovery points. Recovery uses the latest completed consistent snapshot."
+          },
+          {
+            id: "state_30",
+            objective: "Separate local task acknowledgement from globally completed checkpoints",
+            question: "Why is one task's successful local snapshot acknowledgement not by itself equivalent to a completed checkpoint?",
+            options: [
+              "Because global checkpoint completion still depends on coordinated success and finalization across all required participants.",
+              "Because local acknowledgements are ignored until a savepoint is taken.",
+              "Because a task acknowledgement proves only watermark progress, not snapshot progress.",
+              "Because only sources are allowed to acknowledge checkpoints."
+            ],
+            answer: 0,
+            explanation: "Checkpointing is a coordinated global protocol. A single local success does not make the whole checkpoint complete."
+          },
+          {
+            id: "state_31",
+            objective: "Understand timer ownership after restore and rescaling",
+            question: "After restore or rescaling, where should keyed timers conceptually reappear?",
+            options: [
+              "On the subtask that now owns the relevant key-group partition for those keyed timers.",
+              "Always on subtask 0, because timers are globally ordered there.",
+              "Only on the JobMaster, because timers are no longer task-local after restore.",
+              "On whichever subtask first emits a watermark."
+            ],
+            answer: 0,
+            explanation: "Keyed timers follow the same partitioning logic as keyed state, which is rooted in key-group ownership."
+          },
+          {
+            id: "state_32",
+            objective: "Understand why stable operator IDs matter for restore",
+            question: "Why are stable operator IDs or explicitly assigned UIDs important when restoring state across job changes?",
+            options: [
+              "Because restore logic maps persisted operator state to the new program by operator identity, not by source-code line order or task-manager placement.",
+              "Because operator IDs decide watermark alignment groups automatically.",
+              "Because savepoints can only be written for operators with heap state.",
+              "Because restart strategies are keyed solely by operator UID."
+            ],
+            answer: 0,
+            explanation: "State mapping during restore depends on operator identity. Stable IDs help the runtime match persisted state to the intended operator in the new job graph."
+          },
+          {
+            id: "state_33",
+            objective: "Understand why metadata alone is not enough for recovery",
+            question: "Suppose completed checkpoint metadata still exists, but the underlying referenced state files in durable storage are gone. What is the most accurate recovery expectation?",
+            options: [
+              "Restore fails because checkpoint metadata without the actual snapshot data is not a usable recovery source.",
+              "Restore succeeds because metadata alone is enough to reconstruct all keyed state deterministically.",
+              "Restore succeeds if and only if the original backend was heap-based rather than RocksDB-based.",
+              "Flink falls back to the last emitted watermark to rebuild the checkpoint contents."
+            ],
+            answer: 0,
+            explanation: "Completed-checkpoint metadata points to persisted state. If the referenced data is missing, the metadata cannot restore the job by itself."
+          },
+          {
+            id: "state_34",
+            objective: "Understand subsumption differences for pending checkpoints",
+            question: "How do ordinary pending checkpoints differ from forced pending checkpoints with respect to subsumption?",
+            options: [
+              "Ordinary pending checkpoints may be subsumed by newer ones, while forced pending checkpoints are not subsumed while pending.",
+              "Forced checkpoints are always subsumed first because they are smaller.",
+              "Neither kind can ever be subsumed once triggered.",
+              "Both are subsumed only by savepoints, never by other checkpoints."
+            ],
+            answer: 0,
+            explanation: "Forced checkpoints receive special handling and are not subsumed while pending, unlike ordinary periodic checkpoints."
+          },
+          {
+            id: "state_35",
+            objective: "Understand why only completed snapshots are restore candidates",
+            question: "A new periodic checkpoint has started but the job fails before that checkpoint completes. Which snapshot is a valid recovery candidate?",
+            options: [
+              "The latest successfully completed checkpoint or savepoint, not the failed in-progress checkpoint.",
+              "The newest started checkpoint, because start time is enough to make it authoritative.",
+              "No prior snapshot at all; any in-progress checkpoint invalidates older completed ones.",
+              "Only the most recent savepoint, because ordinary checkpoints cannot be used after failure."
+            ],
+            answer: 0,
+            explanation: "Started-but-unfinished checkpoints are not completed recovery points. Recovery uses the latest completed consistent snapshot."
+          },
+          {
+            id: "state_36",
+            objective: "Separate local task acknowledgement from globally completed checkpoints",
+            question: "Why is one task's successful local snapshot acknowledgement not by itself equivalent to a completed checkpoint?",
+            options: [
+              "Because global checkpoint completion still depends on coordinated success and finalization across all required participants.",
+              "Because local acknowledgements are ignored until a savepoint is taken.",
+              "Because a task acknowledgement proves only watermark progress, not snapshot progress.",
+              "Because only sources are allowed to acknowledge checkpoints."
+            ],
+            answer: 0,
+            explanation: "Checkpointing is a coordinated global protocol. A single local success does not make the whole checkpoint complete."
+          },
+          {
+            id: "state_37",
+            objective: "Understand allow-non-restored-state semantics",
+            question: "What is the practical meaning of allowing non-restored state during restore?",
+            options: [
+              "State that cannot be mapped to the new program may be skipped instead of failing restore, but it does not mean mismatched state is somehow remapped automatically.",
+              "Every operator gets an empty default state and prior snapshots are ignored entirely.",
+              "Key-group layouts are recomputed from scratch so any max-parallelism change becomes safe.",
+              "The checkpoint becomes a savepoint automatically."
+            ],
+            answer: 0,
+            explanation: "Allowing non-restored state permits dropping unmapped persisted state. It does not magically make incompatible mappings correct."
+          },
+          {
+            id: "state_38",
+            objective: "Differentiate savepoints from ordinary checkpoints operationally",
+            question: "Which statement is the most accurate operational distinction between savepoints and ordinary checkpoints?",
+            options: [
+              "Both snapshot state, but savepoints are typically user-triggered operational snapshots, while checkpoints are the regular automated recovery snapshots used during normal running.",
+              "Savepoints never contain keyed state, while checkpoints always do.",
+              "Checkpoints can be used only for SQL jobs, while savepoints can be used only for DataStream jobs.",
+              "Savepoints bypass checkpoint storage and live only in TaskManager memory."
+            ],
+            answer: 0,
+            explanation: "The two mechanisms both capture state, but their operational role differs: checkpoints are routine recovery snapshots, while savepoints are explicit operational snapshots."
+          }
+        ]
+      },
+      {
+        id: 4,
+        name: "Table & SQL Semantics",
+        questions: [
+          {
+            id: "sql_1",
+            objective: "Understand planner validation for changelog sources",
+            question: "A streaming table source produces UPDATE_AFTER rows but never produces UPDATE_BEFORE rows. Under planner validation, what additional schema property is required?",
+            options: [
+              "A primary key, because UPDATE_AFTER-without-UPDATE_BEFORE is treated as upsert-style changelog semantics.",
+              "A processing-time attribute, because upsert sources cannot use event time.",
+              "Exactly two watermark declarations, one for inserts and one for updates.",
+              "A sink-side overwrite capability, because UPDATE_AFTER requires overwrite mode."
+            ],
+            answer: 0,
+            explanation: "DynamicSourceUtils validation requires a primary key when a source emits UPDATE_AFTER without UPDATE_BEFORE. This is tied to upsert-style changelog reasoning."
+          },
+          {
+            id: "sql_2",
+            objective: "Understand temporal join constraints beyond time attributes",
+            question: "Which condition must hold for a temporal table join besides having the time-based temporal condition itself?",
+            options: [
+              "The temporal table's primary key must be included in the equivalence condition of the join.",
+              "The left side of the join must be bounded, even in streaming mode.",
+              "Both sides must emit INSERT-only changelogs with no updates or deletes.",
+              "The right side must use processing time while the left side uses event time."
+            ],
+            answer: 0,
+            explanation: "TemporalJoinRewriteWithUniqueKeyRule enforces that the temporal table's primary key is included in the equivalence condition. Time semantics alone are not enough."
+          },
+          {
+            id: "sql_3",
+            objective: "Differentiate DataStream-to-Table defaults",
+            question: "What is the default changelog assumption difference between `fromDataStream(...)` and `fromChangelogStream(...)` in StreamTableEnvironmentImpl?",
+            options: [
+              "`fromDataStream(...)` assumes insert-only input, while `fromChangelogStream(...)` can represent full changelog input.",
+              "`fromDataStream(...)` assumes retract streams, while `fromChangelogStream(...)` assumes insert-only.",
+              "Both assume identical changelog semantics; the method names are only cosmetic.",
+              "`fromChangelogStream(...)` is only valid in batch mode because streaming changelogs require SQL DDL."
+            ],
+            answer: 0,
+            explanation: "The Java bridge uses ChangelogMode.insertOnly() for fromDataStream and ChangelogMode.all() for fromChangelogStream unless a specific mode is provided."
+          },
+          {
+            id: "sql_4",
+            objective: "Understand sink-side changelog negotiation",
+            question: "A planner requests a certain changelog mode for a sink. Which statement is correct about `DynamicTableSink.getChangelogMode(...)`?",
+            options: [
+              "The planner can suggest a mode, but the sink has the final decision on what changelog shape it accepts.",
+              "The sink must accept whatever mode the planner requests, even if its runtime cannot support it.",
+              "The sink can only reject insert-only mode; all update modes are mandatory.",
+              "The method exists only for lookup joins and is ignored for normal INSERT statements."
+            ],
+            answer: 0,
+            explanation: "DynamicTableSink explicitly allows the planner to request a mode while leaving final acceptance to the sink implementation."
+          },
+          {
+            id: "sql_5",
+            objective: "Understand batch restrictions on table sources",
+            question: "What combination is required for querying a table source in batch mode under the inspected planner validation?",
+            options: [
+              "The source must be bounded and its changelog must be INSERT-only.",
+              "The source may be unbounded as long as it has a primary key.",
+              "The source may emit UPDATE_AFTER rows as long as it never emits DELETE.",
+              "The source must use RocksDB-backed state to support batch replay."
+            ],
+            answer: 0,
+            explanation: "DynamicSourceUtils validates that batch-mode table queries require a bounded source and insert-only changelog semantics."
+          },
+          {
+            id: "sql_6",
+            objective: "Understand window table function time requirements",
+            question: "In streaming SQL, what does the planner require from the time column used by a window table function?",
+            options: [
+              "It must be TIMESTAMP or TIMESTAMP_LTZ, and in streaming mode it must also be a time attribute type.",
+              "It may be any numeric type if a watermark expression exists elsewhere in the schema.",
+              "It must always be a processing-time attribute; rowtime is normalized away before validation.",
+              "It must be nested under a ROW type so the planner can attach watermark metadata."
+            ],
+            answer: 0,
+            explanation: "SqlWindowTableFunction validation requires TIMESTAMP or TIMESTAMP_LTZ, and in streaming mode it also requires a time attribute, not just a timestamp-looking field."
+          },
+          {
+            id: "sql_7",
+            objective: "Understand what upsert changelog means",
+            question: "Which statement best describes `ChangelogMode.upsert()`?",
+            options: [
+              "It models idempotent key-based updates with INSERT, UPDATE_AFTER, and DELETE, but without UPDATE_BEFORE rows.",
+              "It is the same as full retract mode with INSERT, UPDATE_BEFORE, UPDATE_AFTER, and DELETE.",
+              "It means INSERT-only with optional watermark rows for deduplication.",
+              "It is valid only for batch sinks because streaming sinks require UPDATE_BEFORE."
+            ],
+            answer: 0,
+            explanation: "ChangelogMode.upsert() intentionally excludes UPDATE_BEFORE. It represents key-based upsert semantics rather than full retract streams."
+          },
+          {
+            id: "sql_8",
+            objective: "Understand the two major dynamic table source access patterns",
+            question: "According to DynamicTableSource, how can the content of a dynamic table be consumed?",
+            options: [
+              "Either as a changelog via scan semantics or as point lookups via lookup semantics, depending on the query and source abilities.",
+              "Only as a bounded snapshot, because dynamic tables are normalized before planning.",
+              "Only as a lookup table; changelog scanning is delegated to the DataStream API.",
+              "Only as an append-only stream because updates are handled inside the sink."
+            ],
+            answer: 0,
+            explanation: "DynamicTableSource explicitly describes both scan-based changelog reading and lookup-style access for dynamic tables."
+          },
+          {
+            id: "sql_9",
+            objective: "Understand source planner mutation via abilities",
+            question: "Why does DynamicTableSource say that abilities such as filter pushdown or projection pushdown may mutate the source instance during planning?",
+            options: [
+              "Because the planner can refine the runtime behavior of the source factory before the actual runtime provider is created.",
+              "Because the runtime source instance is always modified directly by TaskManagers after job submission.",
+              "Because abilities are only metadata labels and mutation is used just for debugging.",
+              "Because Flink converts every dynamic table source into a static filesystem source before execution."
+            ],
+            answer: 0,
+            explanation: "DynamicTableSource instances act like factories. Planner-applied abilities can mutate them so the final runtime provider reflects pushdowns and other optimizations."
+          },
+          {
+            id: "sql_10",
+            objective: "Understand internal runtime data structures for table connectors",
+            question: "What data structure does the table runtime expect sink implementations to accept, regardless of the external object types users may see?",
+            options: [
+              "Internal `RowData` structures.",
+              "Always Java `Row` objects with a processing-time field.",
+              "Only JSON strings because changelog semantics are encoded textually.",
+              "Only POJOs generated by the SQL planner."
+            ],
+            answer: 0,
+            explanation: "DynamicTableSink states that independent of the runtime provider interface, the table runtime expects the sink to consume internal data structures such as RowData."
+          },
+          {
+            id: "sql_11",
+            objective: "Differentiate TableEnvironment from StreamTableEnvironment",
+            question: "Which statement best distinguishes TableEnvironmentImpl from StreamTableEnvironmentImpl in the inspected source?",
+            options: [
+              "TableEnvironmentImpl is not bound to a specific StreamExecutionEnvironment, while StreamTableEnvironmentImpl binds to one and enables conversions to and from DataStream.",
+              "TableEnvironmentImpl is for batch only, while StreamTableEnvironmentImpl is for SQL DDL only.",
+              "TableEnvironmentImpl can use changelog streams, but StreamTableEnvironmentImpl cannot.",
+              "They are identical classes split only for package naming compatibility."
+            ],
+            answer: 0,
+            explanation: "TableEnvironmentImpl works with Table API abstractions without binding to a specific StreamExecutionEnvironment. StreamTableEnvironmentImpl is the bridge that binds to a StreamExecutionEnvironment and supports DataStream conversion."
+          },
+          {
+            id: "sql_12",
+            objective: "Understand invalid changelog combinations",
+            question: "How does planner validation treat a streaming source that emits UPDATE_BEFORE rows but never emits UPDATE_AFTER rows?",
+            options: [
+              "It is invalid; that changelog combination is rejected by validation.",
+              "It is treated as normal upsert mode as long as the table has a primary key.",
+              "It is allowed only in batch mode and disabled in streaming mode.",
+              "It is automatically normalized into INSERT-only mode."
+            ],
+            answer: 0,
+            explanation: "DynamicSourceUtils rejects UPDATE_BEFORE-without-UPDATE_AFTER as an invalid source changelog shape."
+          },
+          {
+            id: "sql_13",
+            objective: "Understand current watermark declaration limitations",
+            question: "What happens if a schema declares a nested field like `payload.ts` as the rowtime attribute in a WATERMARK declaration under the inspected planner validation?",
+            options: [
+              "Validation fails because nested fields are not currently supported as rowtime attributes in that path.",
+              "The planner silently flattens the field into a top-level rowtime column.",
+              "The declaration is accepted only if the sink also supports metadata writing.",
+              "The declaration is accepted only in batch mode."
+            ],
+            answer: 0,
+            explanation: "DynamicSourceUtils validation explicitly rejects nested fields as rowtime attributes in the current supported watermark declaration path."
+          },
+          {
+            id: "sql_14",
+            objective: "Understand rank strategy fallback behavior",
+            question: "If a streaming rank input is an update stream but the planner cannot find suitable upsert keys containing the partition key, which rank process strategy does the inspected planner utility fall back to?",
+            options: [
+              "Retract strategy.",
+              "Append-fast strategy.",
+              "Window-TVF strategy.",
+              "Processing-time-only strategy."
+            ],
+            answer: 0,
+            explanation: "RankProcessStrategy falls back to retract strategy when update streams lack compatible upsert-key conditions for faster update-oriented strategies."
+          },
+          {
+            id: "sql_15",
+            objective: "Understand when append-fast ranking is possible",
+            question: "Under the inspected rank strategy utility, when is append-fast ranking the natural choice?",
+            options: [
+              "When the rank input is insert-only rather than an update stream.",
+              "Whenever the sink accepts UPDATE_BEFORE messages.",
+              "Whenever watermark alignment is enabled on the input source.",
+              "Only when the input is a temporal join with processing time."
+            ],
+            answer: 0,
+            explanation: "RankProcessStrategy chooses append-fast strategy when the input is insert-only. Update streams require different reasoning."
+          },
+          {
+            id: "sql_16",
+            objective: "Understand which window TVF column remains a time attribute",
+            question: "After a window table-valued function such as tumble produces `window_start`, `window_end`, and `window_time`, which column remains the usable time attribute for further time-based relational operations?",
+            options: [
+              "`window_time`, while `window_start` and `window_end` are ordinary timestamps.",
+              "`window_end`, because it is the natural firing boundary and therefore remains rowtime automatically.",
+              "All three remain equivalent time attributes.",
+              "None of them; window TVFs erase time attributes completely."
+            ],
+            answer: 0,
+            explanation: "In the planner's time-attribute handling for window TVFs, `window_time` is preserved as the time attribute intended for cascading time-based operations."
+          },
+          {
+            id: "sql_17",
+            objective: "Reason about temporal join requirements",
+            question: "What is the most accurate high-level requirement for the versioned side of a temporal join in streaming SQL?",
+            options: [
+              "It must behave like a versioned table keyed by a primary key and correlated using a time attribute from the probing side.",
+              "It must be insert-only, because temporal joins reject updates entirely.",
+              "It must be a bounded batch table so the planner can sort the full history first.",
+              "It must expose watermark alignment configuration to the sink."
+            ],
+            answer: 0,
+            explanation: "Temporal joins rely on a versioned view of the right side, typically keyed and interpreted relative to a time attribute from the left side."
+          },
+          {
+            id: "sql_18",
+            objective: "Differentiate append-only conversion from changelog conversion",
+            question: "When a table may emit updates or deletes, why is `toChangelogStream(...)` the safer bridge than a conversion path that assumes append-only semantics?",
+            options: [
+              "Because changelog conversion can preserve row kinds such as inserts, updates, and deletes instead of pretending the result is insert-only.",
+              "Because `toChangelogStream(...)` automatically materializes all state into a savepoint before conversion.",
+              "Because append-only conversions are valid only in batch mode and forbidden in streaming mode.",
+              "Because changelog conversion disables planner validation of sink capabilities."
+            ],
+            answer: 0,
+            explanation: "General relational results may contain updates and deletes. A changelog-aware conversion preserves those row kinds instead of collapsing them into an append-only fiction."
+          },
+          {
+            id: "sql_19",
+            objective: "Understand sink changelog negotiation",
+            question: "What is the practical meaning of a dynamic table sink's requested or accepted changelog mode during planning?",
+            options: [
+              "It tells the planner which kinds of row-level changes the sink can consume so the planner can validate or adapt the query result's changelog shape.",
+              "It tells TaskManagers how often to emit checkpoint barriers into the sink.",
+              "It decides whether the sink runs with heap state or RocksDB state.",
+              "It is only documentation; planner validation ignores it."
+            ],
+            answer: 0,
+            explanation: "Dynamic table sink negotiation is about row-kind compatibility between the query result and what the sink can physically or semantically consume."
+          },
+          {
+            id: "sql_20",
+            objective: "Separate lookup access from scan-based changelog access",
+            question: "Why is a lookup source not just a slower version of a scan source?",
+            options: [
+              "Because lookup access is probe-driven point retrieval for specific keys, whereas scan access reads the table as a changelog stream over time.",
+              "Because lookup sources can be used only in batch mode, while scan sources can be used only in streaming mode.",
+              "Because scan sources do not support projection pushdown but lookup sources always do.",
+              "Because lookup sources bypass planner validation entirely."
+            ],
+            answer: 0,
+            explanation: "Dynamic table sources support fundamentally different access patterns: continuous scan-style changelog reading and key-based lookup access."
+          },
+          {
+            id: "sql_21",
+            objective: "Understand why insert-only sinks reject update-producing queries",
+            question: "A streaming query produces updates, but the sink accepts only INSERT changelog mode. What is the planner expected to do?",
+            options: [
+              "Reject or rewrite the plan only if it can produce a compatible result, because the sink cannot simply be handed an incompatible update stream.",
+              "Silently drop UPDATE_BEFORE and UPDATE_AFTER rows and keep only inserts.",
+              "Convert all updates into checkpoints and send only checkpoint IDs to the sink.",
+              "Force the upstream table into batch mode automatically."
+            ],
+            answer: 0,
+            explanation: "Changelog compatibility is a planning contract. If the query result shape is incompatible with the sink's accepted mode, the plan cannot be used as-is."
+          },
+          {
+            id: "sql_22",
+            objective: "Understand why cascading windows use `window_time` instead of `window_end`",
+            question: "Why is `window_time` needed for cascading window operations even though `window_end` already looks like the event-time boundary?",
+            options: [
+              "Because `window_time` carries the time-attribute semantics forward, while `window_end` is just a regular timestamp value.",
+              "Because `window_end` is always null for late records in streaming mode.",
+              "Because `window_end` can only be used in batch SQL, not streaming SQL.",
+              "Because `window_time` is the only column that can participate in joins of any kind."
+            ],
+            answer: 0,
+            explanation: "The planner treats `window_time` as the propagated time attribute for subsequent time-aware relational operations; `window_end` is only a timestamp field."
+          },
+          {
+            id: "sql_23",
+            objective: "Understand what a NOT ENFORCED primary key gives the planner",
+            question: "What does a declared `PRIMARY KEY (...) NOT ENFORCED` primarily contribute in Flink SQL planning?",
+            options: [
+              "Semantic uniqueness information for reasoning such as upsert-style changelog handling, not automatic runtime enforcement by the engine itself.",
+              "A guarantee that duplicates can no longer physically enter the pipeline.",
+              "A request to materialize all updates as `UPDATE_BEFORE` only.",
+              "A directive to run the table exclusively in batch mode."
+            ],
+            answer: 0,
+            explanation: "The planner can use primary-key semantics for changelog reasoning, but `NOT ENFORCED` is not the same as runtime duplicate prevention."
+          },
+          {
+            id: "sql_24",
+            objective: "Understand why append-only conversion is unsafe for updating tables",
+            question: "Why is converting an updating dynamic table to an append-only DataStream unsafe by default?",
+            options: [
+              "Because append-only conversion would lose row-kind information needed to represent updates and deletes correctly.",
+              "Because DataStream cannot carry timestamps once SQL updates are involved.",
+              "Because append-only conversion requires RocksDB-backed connectors.",
+              "Because updating tables always require lookup semantics instead of scans."
+            ],
+            answer: 0,
+            explanation: "A changing table is not faithfully represented by plain appended rows alone. Row-kind semantics are essential when updates or deletes exist."
+          },
+          {
+            id: "sql_25",
+            objective: "Differentiate lookup-side access from scan-side access in joins",
+            question: "What makes a lookup join side fundamentally different from a normal scan-based source in execution terms?",
+            options: [
+              "Lookup access is probe-driven keyed retrieval on demand, whereas scan access reads the table as a changelog or stream over time.",
+              "Lookup access is only for batch plans, while scan access is only for streaming plans.",
+              "Lookup access can emit updates, but scan access cannot emit inserts.",
+              "Lookup access bypasses planner validation of changelog mode."
+            ],
+            answer: 0,
+            explanation: "Lookup semantics are request-driven and keyed, while scan semantics are about reading the table continuously as data changes over time."
+          },
+          {
+            id: "sql_26",
+            objective: "Understand the practical effect of projection pushdown",
+            question: "What is the most accurate effect of projection pushdown on a `DynamicTableSource`?",
+            options: [
+              "The source can narrow the physical columns it produces before the runtime provider is created, reducing unnecessary data movement or decoding.",
+              "The planner can skip watermark validation entirely because fewer columns remain.",
+              "The source becomes insert-only automatically once unused columns are removed.",
+              "Projection pushdown changes the table's primary key definition at runtime."
+            ],
+            answer: 0,
+            explanation: "Projection pushdown refines what the source physically produces. It is a planning optimization, not a rewrite of keys or changelog semantics."
+          },
+          {
+            id: "sql_27",
+            objective: "Separate planner negotiation from runtime-provider creation",
+            question: "What is a `DynamicTableSink` runtime provider responsible for after planner negotiation has finished?",
+            options: [
+              "Providing the concrete runtime implementation bridge that consumes the table runtime's internal data structures.",
+              "Recomputing the SQL parse tree for every checkpoint.",
+              "Owning JobMaster scheduling and region failover.",
+              "Persisting savepoints directly without checkpoint storage."
+            ],
+            answer: 0,
+            explanation: "The runtime provider is the handoff from planning to execution. It supplies the concrete sink runtime integration, not planning or cluster-management responsibilities."
+          },
+          {
+            id: "sql_28",
+            objective: "Understand what happens when a sink cannot consume raw retract semantics",
+            question: "A query may emit `UPDATE_BEFORE` rows, but the target sink only accepts upsert-style changes. What must happen conceptually?",
+            options: [
+              "The planner must find a compatible rewriting/normalization or reject the plan; it cannot blindly pass incompatible retract semantics through.",
+              "The sink silently drops every `UPDATE_BEFORE` row and remains correct by definition.",
+              "The planner converts all updates into checkpoints and writes them out-of-band.",
+              "Flink disables the primary key requirement so the mismatch disappears."
+            ],
+            answer: 0,
+            explanation: "Sink changelog compatibility is a planning contract. Incompatible raw retract streams cannot simply be forwarded unchanged to an upsert-only sink."
+          },
+          {
+            id: "sql_29",
+            objective: "Understand why row values alone are insufficient for dynamic-table change capture",
+            question: "Why is a plain stream of row values insufficient to reconstruct a fully updating dynamic table unless row-kind information is preserved as well?",
+            options: [
+              "Because the same row payload may represent an insert, an update, or a delete depending on row kind, and the value alone does not encode that meaning.",
+              "Because row values in Flink SQL never contain timestamps.",
+              "Because dynamic tables are always materialized into static snapshots before conversion.",
+              "Because lookup sources can only consume row kinds, not row values."
+            ],
+            answer: 0,
+            explanation: "Dynamic-table semantics depend on the kind of change, not just the row payload. Row values alone cannot distinguish insert/update/delete intent."
+          },
+          {
+            id: "sql_30",
+            objective: "Separate primary-key semantics from sink compatibility guarantees",
+            question: "A table has a declared primary key. Does that fact alone guarantee any target sink can consume its updates as upserts?",
+            options: [
+              "No. The actual query changelog shape and the sink's accepted changelog mode still have to be compatible.",
+              "Yes. A primary key automatically forces every sink into upsert mode.",
+              "Yes, but only if the source is bounded.",
+              "No, because primary keys are ignored completely by the planner."
+            ],
+            answer: 0,
+            explanation: "A primary key is important semantic information, but compatibility still depends on the real changelog produced and what the sink can accept."
+          },
+          {
+            id: "sql_31",
+            objective: "Understand what `PRIMARY KEY ... NOT ENFORCED` contributes",
+            question: "What does a declared `PRIMARY KEY (...) NOT ENFORCED` primarily contribute in Flink SQL planning?",
+            options: [
+              "Semantic uniqueness information for planning and changelog reasoning, not automatic runtime duplicate prevention by the engine itself.",
+              "A guarantee that duplicates can no longer physically enter the pipeline.",
+              "A request to materialize all updates as `UPDATE_BEFORE` only.",
+              "A directive to run the table exclusively in batch mode."
+            ],
+            answer: 0,
+            explanation: "The planner can use primary-key semantics for reasoning, but `NOT ENFORCED` is not the same as runtime uniqueness enforcement."
+          },
+          {
+            id: "sql_32",
+            objective: "Differentiate insert-only conversion from changelog-preserving conversion",
+            question: "When is `toDataStream(...)` the more natural conversion than `toChangelogStream(...)`?",
+            options: [
+              "When the table result is insert-only and does not need row-kind information to represent updates or deletes.",
+              "Whenever the table has a declared primary key, regardless of changelog shape.",
+              "Whenever the sink accepts `UPDATE_BEFORE` rows.",
+              "Only when the source is unbounded and uses watermark alignment."
+            ],
+            answer: 0,
+            explanation: "Plain `toDataStream(...)` is the natural fit for insert-only results. Updating or deleting tables require changelog-aware conversion to preserve row kinds."
+          },
+          {
+            id: "sql_33",
+            objective: "Understand why `toChangelogStream(...)` preserves row kinds",
+            question: "Why is `toChangelogStream(...)` safer than an append-only conversion for an updating query result?",
+            options: [
+              "Because it preserves row kinds such as insert, update, and delete instead of pretending every change is just another appended row.",
+              "Because it automatically materializes the table into a savepoint before conversion.",
+              "Because it disables changelog-mode validation for downstream consumers.",
+              "Because it converts all updates into lookup joins."
+            ],
+            answer: 0,
+            explanation: "Updating dynamic tables require row-kind semantics. Changelog conversion preserves them rather than flattening them into plain appended values."
+          },
+          {
+            id: "sql_34",
+            objective: "Understand when `fromChangelogStream(...)` is the right bridge",
+            question: "When is `fromChangelogStream(...)` the better choice than `fromDataStream(...)` when moving into the Table API?",
+            options: [
+              "When the input stream already represents row-level changes and needs those changelog semantics preserved rather than assumed insert-only.",
+              "Only when the stream is batch-bounded.",
+              "Only when the input has no timestamps.",
+              "Only when the target table has no primary key."
+            ],
+            answer: 0,
+            explanation: "`fromDataStream(...)` assumes insert-only semantics by default. `fromChangelogStream(...)` is meant for streams that already carry update/delete meaning."
+          },
+          {
+            id: "sql_35",
+            objective: "Understand that bounded is not enough for batch table scanning",
+            question: "A dynamic table source is bounded but emits updates. Under the inspected planner validation, what is the most accurate conclusion for batch querying it directly?",
+            options: [
+              "Boundedness alone is not enough; batch querying still requires insert-only changelog semantics in that validation path.",
+              "It is valid automatically because boundedness overrides changelog restrictions in batch.",
+              "It becomes valid as long as the table has a primary key.",
+              "It is valid only if the sink supports writable metadata."
+            ],
+            answer: 0,
+            explanation: "The batch validation path requires both boundedness and insert-only semantics. A bounded updating source is still not valid there as-is."
+          },
+          {
+            id: "sql_36",
+            objective: "Understand why an update-only source without keys is not valid upsert",
+            question: "Why can the planner not treat `UPDATE_AFTER`-only input without a primary key as valid upsert semantics?",
+            options: [
+              "Because without key information there is no semantic basis for knowing which prior row an update is supposed to replace.",
+              "Because upsert mode requires `UPDATE_BEFORE` rows by definition.",
+              "Because primary keys are relevant only to sinks, never to sources.",
+              "Because event time must be disabled before upsert validation can run."
+            ],
+            answer: 0,
+            explanation: "Upsert-style interpretation is fundamentally key-based. Without primary-key information, update-after-only input is not semantically well-defined as replacement events."
+          },
+          {
+            id: "sql_37",
+            objective: "Separate primary-key semantics from universal sink compatibility",
+            question: "A result table has a primary key and emits key-based updates. Why might a target sink still reject it?",
+            options: [
+              "Because sink compatibility still depends on the sink's accepted changelog mode and runtime abilities, not just on the existence of a primary key.",
+              "Because primary keys force every sink into retract mode automatically.",
+              "Because keyed updates can never be written by dynamic table sinks.",
+              "Because a primary key disables runtime provider creation."
+            ],
+            answer: 0,
+            explanation: "Primary keys help the planner reason about change semantics, but the sink still has to advertise that it can consume the resulting changelog shape."
+          }
+        ]
+      }
+    ]
+  };
+
+  const letters = ["A", "B", "C", "D"];
+  const STORE_KEY = "flinkDeveloperExam.v7";
+  const allQuestions = EXAM.sections.flatMap(section =>
+    section.questions.map(question => ({
+      ...question,
+      sectionId: section.id,
+      sectionName: section.name
+    }))
+  );
+
+  let currentIndex = 0;
+  let answers = {};
+  let flags = {};
+  let timerLeft = EXAM.timeLimitMinutes * 60;
+  let timerHandle = null;
+  let examFinished = false;
+  let shuffleSeed = Math.floor(Math.random() * 0xFFFFFFFF);
+
+  const els = {
+    progressBar: document.getElementById("progressBar"),
+    examCard: document.getElementById("examCard"),
+    resultsCard: document.getElementById("resultsCard"),
+    counter: document.getElementById("counter"),
+    sectionLabel: document.getElementById("sectionLabel"),
+    completion: document.getElementById("completion"),
+    timerPill: document.getElementById("timerPill"),
+    navBody: document.getElementById("navBody"),
+    navigator: document.getElementById("navigator"),
+    overlay: document.getElementById("overlay"),
+    flagBtn: document.getElementById("flagBtn")
+  };
+
+  function saveState() {
+    const payload = {
+      currentIndex,
+      answers,
+      flags,
+      shuffleSeed,
+      timerLeft,
+      examFinished
+    };
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(payload));
+    } catch (err) {
+      // Ignore storage failures.
+    }
+  }
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORE_KEY);
+      if (!raw) {
+        return;
+      }
+      const data = JSON.parse(raw);
+      currentIndex = Math.min(data.currentIndex || 0, allQuestions.length - 1);
+      answers = data.answers || {};
+      flags = data.flags || {};
+      shuffleSeed = typeof data.shuffleSeed === "number" ? data.shuffleSeed : Math.floor(Math.random() * 0xFFFFFFFF);
+      timerLeft = typeof data.timerLeft === "number" ? data.timerLeft : EXAM.timeLimitMinutes * 60;
+      examFinished = Boolean(data.examFinished);
+    } catch (err) {
+      // Ignore storage failures.
+    }
+  }
+
+  function hashString(text) {
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = ((hash << 5) - hash) + text.charCodeAt(i);
+      hash |= 0;
+    }
+    return Math.abs(hash);
+  }
+
+  function mulberry32(seed) {
+    return function() {
+      let t = seed += 0x6D2B79F5;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function getShuffled(question, index) {
+    const indices = question.options.map((_, optionIndex) => optionIndex);
+    const seedBase = `${question.id || String(index)}::${shuffleSeed}::flink::v3`;
+    const rand = mulberry32(hashString(seedBase));
+    for (let m = indices.length - 1; m > 0; m--) {
+      const j = Math.floor(rand() * (m + 1));
+      [indices[m], indices[j]] = [indices[j], indices[m]];
+    }
+
+    // Avoid leaving the option order unchanged for a given question id.
+    if (indices.length > 1 && indices.every((originalIndex, optionIndex) => originalIndex === optionIndex)) {
+      const rotation = (hashString(`${seedBase}::rotate`) % (indices.length - 1)) + 1;
+      const rotated = indices.slice(rotation).concat(indices.slice(0, rotation));
+      indices.splice(0, indices.length, ...rotated);
+    }
+
+    const options = indices.map(originalIndex => question.options[originalIndex]);
+    return { options, indices };
+  }
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+  function formatOption(text) {
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/`([^`]+)`/g, "<code>$1</code>")
+      .replace(/\n/g, "<br>");
+  }
+
+  function renderQuestion() {
+    const question = allQuestions[currentIndex];
+    const shuffled = getShuffled(question, currentIndex);
+    const stored = answers[currentIndex];
+
+    let html = "";
+    html += `<div class="sectionBadge">Section ${question.sectionId}: ${escapeHtml(question.sectionName)}</div>`;
+    html += `<div class="qMeta"><span>Question ${currentIndex + 1} of ${allQuestions.length}</span><span>Question ID: ${escapeHtml(question.id)}</span></div>`;
+    if (question.objective) {
+      html += `<div class="objective">Objective: ${escapeHtml(question.objective)}</div>`;
+    }
+    html += `<div class="qText">${question.question.replace(/\n/g, "<br>")}</div>`;
+    if (question.code) {
+      html += `<pre>${escapeHtml(question.code)}</pre>`;
+    }
+    html += `<div class="options">`;
+    shuffled.options.forEach((optionText, optionIndex) => {
+      const originalIndex = shuffled.indices[optionIndex];
+      let classes = "option";
+      if (stored) {
+        classes += " locked";
+        if (originalIndex === question.answer) {
+          classes += " correct";
+        } else if (stored.chosenOriginal === originalIndex) {
+          classes += " wrong";
+        }
+      }
+      html += `<div class="${classes}" data-choice="${optionIndex}" data-choice-original="${originalIndex}">`;
+      html += `<div class="optionLetter">${letters[optionIndex]}</div>`;
+      html += `<div class="optionText">${formatOption(optionText)}</div>`;
+      html += `</div>`;
+    });
+    html += `</div>`;
+
+    if (stored) {
+      const correct = stored.chosenOriginal === question.answer;
+      html += `<div class="feedback show ${correct ? "pass" : "fail"}">`;
+      html += `<strong>${correct ? "Correct." : "Incorrect."}</strong> ${escapeHtml(question.explanation)}`;
+      html += `</div>`;
+    }
+
+    els.examCard.innerHTML = html;
+    els.resultsCard.classList.remove("show");
+    els.examCard.style.display = "block";
+
+    els.examCard.querySelectorAll(".option").forEach(optionEl => {
+      optionEl.addEventListener("click", () => {
+        if (answers[currentIndex]) {
+          return;
+        }
+        const chosenOriginal = Number(optionEl.getAttribute("data-choice-original"));
+        selectOption(currentIndex, chosenOriginal);
+      });
+    });
+
+    const answeredCount = Object.keys(answers).length;
+    const percent = Math.round((answeredCount / allQuestions.length) * 100);
+    els.counter.innerHTML = `<strong>${currentIndex + 1} / ${allQuestions.length}</strong>`;
+    els.sectionLabel.textContent = `S${question.sectionId}: ${question.sectionName}`;
+    els.completion.textContent = `${percent}% answered`;
+    els.progressBar.style.width = `${percent}%`;
+    els.flagBtn.textContent = flags[currentIndex] ? "Flagged" : "Flag";
+    els.flagBtn.className = flags[currentIndex] ? "flaggedBtn on" : "secondary";
+    renderNavigator();
+    saveState();
+  }
+
+  function selectOption(index, chosenOriginal) {
+    answers[index] = { chosenOriginal };
+    saveState();
+    renderQuestion();
+    const delay = chosenOriginal === allQuestions[index].answer ? 1200 : 2200;
+    setTimeout(() => {
+      if (currentIndex === index && currentIndex < allQuestions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+      }
+    }, delay);
+  }
+
+  function go(delta) {
+    const next = currentIndex + delta;
+    if (next < 0 || next >= allQuestions.length) {
+      return;
+    }
+    currentIndex = next;
+    renderQuestion();
+  }
+
+  function toggleFlag() {
+    if (flags[currentIndex]) {
+      delete flags[currentIndex];
+    } else {
+      flags[currentIndex] = true;
+    }
+    renderQuestion();
+  }
+
+  function formatTime(totalSeconds) {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  }
+
+  function updateTimer() {
+    els.timerPill.textContent = formatTime(timerLeft);
+    els.timerPill.className = "pill";
+    if (timerLeft <= 60) {
+      els.timerPill.classList.add("danger");
+    } else if (timerLeft <= 300) {
+      els.timerPill.classList.add("warn");
+    }
+  }
+
+  function startTimer() {
+    if (timerHandle) {
+      clearInterval(timerHandle);
+    }
+    if (examFinished) {
+      return;
+    }
+    timerHandle = setInterval(() => {
+      if (timerLeft <= 0) {
+        clearInterval(timerHandle);
+        examFinished = true;
+        showResults();
+        return;
+      }
+      timerLeft -= 1;
+      updateTimer();
+      if (timerLeft % 30 === 0) {
+        saveState();
+      }
+    }, 1000);
+  }
+
+  function toggleNavigator(forceOpen) {
+    const open = typeof forceOpen === "boolean"
+      ? forceOpen
+      : !els.navigator.classList.contains("open");
+    els.navigator.classList.toggle("open", open);
+    els.overlay.classList.toggle("show", open);
+  }
+
+  function renderNavigator() {
+    let html = "";
+    let globalIndex = 0;
+    EXAM.sections.forEach(section => {
+      html += `<div class="navSection">`;
+      html += `<h3>S${section.id}: ${escapeHtml(section.name)} (${section.questions.length})</h3>`;
+      html += `<div class="navGrid">`;
+      section.questions.forEach((question, localIndex) => {
+        let classes = "navCell";
+        if (globalIndex === currentIndex) {
+          classes += " current";
+        }
+        if (answers[globalIndex]) {
+          classes += answers[globalIndex].chosenOriginal === allQuestions[globalIndex].answer ? " ok" : " bad";
+        }
+        if (flags[globalIndex]) {
+          classes += " flagged";
+        }
+        html += `<div class="${classes}" data-jump="${globalIndex}" title="Question ${globalIndex + 1}">${localIndex + 1}</div>`;
+        globalIndex += 1;
+      });
+      html += `</div></div>`;
+    });
+    els.navBody.innerHTML = html;
+    els.navBody.querySelectorAll(".navCell").forEach(cell => {
+      cell.addEventListener("click", () => {
+        currentIndex = Number(cell.getAttribute("data-jump"));
+        toggleNavigator(false);
+        renderQuestion();
+      });
+    });
+  }
+
+  function showResults() {
+    examFinished = true;
+    if (timerHandle) {
+      clearInterval(timerHandle);
+    }
+    saveState();
+
+    let totalCorrect = 0;
+    const sectionScores = {};
+    const wrongItems = [];
+
+    EXAM.sections.forEach(section => {
+      sectionScores[section.id] = {
+        name: section.name,
+        total: section.questions.length,
+        correct: 0
+      };
+    });
+
+    allQuestions.forEach((question, index) => {
+      if (!answers[index]) {
+        return;
+      }
+      const correct = answers[index].chosenOriginal === question.answer;
+      if (correct) {
+        totalCorrect += 1;
+        sectionScores[question.sectionId].correct += 1;
+      } else {
+        wrongItems.push({
+          number: index + 1,
+          question: question.question,
+          yourAnswer: question.options[answers[index].chosenOriginal],
+          correctAnswer: question.options[question.answer],
+          explanation: question.explanation
+        });
+      }
+    });
+
+    const percent = Math.round((totalCorrect / allQuestions.length) * 100);
+    const passed = (totalCorrect / allQuestions.length) >= EXAM.passThreshold;
+    const answeredCount = Object.keys(answers).length;
+
+    let html = "";
+    html += `<h2>${escapeHtml(EXAM.title)}</h2>`;
+    html += `<div class="scoreHero">`;
+    html += `<div class="bigScore ${passed ? "pass" : "fail"}">${totalCorrect}/${allQuestions.length} (${percent}%)</div>`;
+    html += `<div class="resultsMeta">`;
+    html += `<div><strong>${passed ? "PASS" : "NOT YET PASSING"}</strong> - threshold ${(EXAM.passThreshold * 100).toFixed(0)}%</div>`;
+    html += `<div>Answered ${answeredCount}/${allQuestions.length} | Correct ${totalCorrect} | Wrong ${answeredCount - totalCorrect} | Unanswered ${allQuestions.length - answeredCount}</div>`;
+    html += `<div style="margin-top:4px">${escapeHtml(EXAM.source)}</div>`;
+    html += `</div></div>`;
+
+    html += `<table><thead><tr><th>Section</th><th>Score</th><th>Percent</th><th>Progress</th></tr></thead><tbody>`;
+    Object.values(sectionScores).forEach(score => {
+      const pct = Math.round((score.correct / score.total) * 100);
+      const color = pct >= 70 ? "#16a34a" : pct >= 50 ? "#d97706" : "#dc2626";
+      html += `<tr>`;
+      html += `<td>${escapeHtml(score.name)}</td>`;
+      html += `<td>${score.correct}/${score.total}</td>`;
+      html += `<td>${pct}%</td>`;
+      html += `<td><div class="bar"><span style="width:${pct}%;background:${color}"></span></div></td>`;
+      html += `</tr>`;
+    });
+    html += `</tbody></table>`;
+
+    if (wrongItems.length) {
+      html += `<div class="reviewList"><h3>Review Incorrect Answers (${wrongItems.length})</h3>`;
+      wrongItems.forEach(item => {
+        html += `<div class="reviewItem">`;
+        html += `<div class="q">Q${item.number}. ${escapeHtml(item.question)}</div>`;
+        html += `<div class="line"><strong>Your answer:</strong> ${escapeHtml(item.yourAnswer)}</div>`;
+        html += `<div class="line"><strong>Correct answer:</strong> ${escapeHtml(item.correctAnswer)}</div>`;
+        html += `<div class="line"><strong>Why:</strong> ${escapeHtml(item.explanation)}</div>`;
+        html += `</div>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">`;
+    html += `<button class="primary" id="retryWrongBtn">Retry Incorrect</button>`;
+    html += `<button class="secondary" id="resetExamBtn">Reset Exam</button>`;
+    html += `</div>`;
+
+    els.resultsCard.innerHTML = html;
+    els.resultsCard.classList.add("show");
+    els.examCard.style.display = "none";
+
+    document.getElementById("retryWrongBtn").addEventListener("click", retryWrong);
+    document.getElementById("resetExamBtn").addEventListener("click", resetExam);
+  }
+
+  function retryWrong() {
+    let firstWrong = -1;
+    allQuestions.forEach((question, index) => {
+      if (answers[index] && answers[index].chosenOriginal !== question.answer) {
+        delete answers[index];
+        if (firstWrong < 0) {
+          firstWrong = index;
+        }
+      }
+    });
+    if (firstWrong < 0) {
+      alert("There are no incorrect answers to retry.");
+      return;
+    }
+    currentIndex = firstWrong;
+    examFinished = false;
+    timerLeft = 10 * 60;
+    updateTimer();
+    startTimer();
+    renderQuestion();
+  }
+
+  function resetExam() {
+    if (!confirm("Reset all answers and restart this dry-run exam?")) {
+      return;
+    }
+    answers = {};
+    flags = {};
+    currentIndex = 0;
+    shuffleSeed = Math.floor(Math.random() * 0xFFFFFFFF);
+    timerLeft = EXAM.timeLimitMinutes * 60;
+    examFinished = false;
+    updateTimer();
+    startTimer();
+    renderQuestion();
+  }
+
+  document.getElementById("prevBtn").addEventListener("click", () => go(-1));
+  document.getElementById("nextBtn").addEventListener("click", () => go(1));
+  document.getElementById("submitBtn").addEventListener("click", showResults);
+  document.getElementById("resultsToggle").addEventListener("click", showResults);
+  document.getElementById("navToggle").addEventListener("click", () => toggleNavigator());
+  els.flagBtn.addEventListener("click", toggleFlag);
+  els.overlay.addEventListener("click", () => toggleNavigator(false));
+
+  document.addEventListener("keydown", event => {
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA") {
+      return;
+    }
+    const key = event.key.toLowerCase();
+    if (key === "n" || key === "arrowright") {
+      event.preventDefault();
+      go(1);
+    } else if (key === "p" || key === "arrowleft") {
+      event.preventDefault();
+      go(-1);
+    } else if (key === "f") {
+      event.preventDefault();
+      toggleFlag();
+    } else if (key === "t") {
+      event.preventDefault();
+      toggleNavigator();
+    } else if (key === "escape") {
+      toggleNavigator(false);
+    } else if (!answers[currentIndex] && ["1", "2", "3", "4"].includes(key)) {
+      const choice = Number(key) - 1;
+      const shuffled = getShuffled(allQuestions[currentIndex], currentIndex);
+      selectOption(currentIndex, shuffled.indices[choice]);
+    }
+  });
+
+  loadState();
+  updateTimer();
+  startTimer();
+  renderQuestion();
+})();
+</script>
+</body>
+</html>

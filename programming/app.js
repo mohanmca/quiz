@@ -36,6 +36,12 @@
     activeTab: 'quizzes'
   };
 
+  const ARTICLE_TAG_STOP = new Set([
+    'the','and','for','with','into','from','your','you','are','about','part','overview','fundamentals','guide','notes','design','api','deep','dive','internals','concepts','principles','mastery','quiz','questions'
+  ]);
+
+  const ARTICLE_GENERIC_TAGS = ['article','reference','cheatsheet','study','notes','guide','practice','revision'];
+
   const ui = {
     main: () => document.querySelector('#main'),
     search: () => document.querySelector('#search'),
@@ -317,6 +323,167 @@
       .replace(/[_\-/.]+/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
+  }
+
+  function normalizeArticlePath(value){
+    const path = String(value || '').trim();
+    if (!path) return '';
+    if (path.startsWith('./')) return path.slice(2);
+    return path.replace(/^\/+/, '');
+  }
+
+  function humanizeArticlePath(path){
+    return String(path || '')
+      .split('/')
+      .pop()
+      .replace(/\.html?$/i, '')
+      .replace(/[_\-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, ch => ch.toUpperCase());
+  }
+
+  function decodeHtmlEntities(value){
+    const el = document.createElement('textarea');
+    el.innerHTML = value;
+    return el.value;
+  }
+
+  function computeArticleTags(title, relpath){
+    const toks = (String(title || '').toLowerCase().match(/[a-z0-9]+/g) || [])
+      .filter(token => token.length >= 3 && !ARTICLE_TAG_STOP.has(token));
+    const parts = String(relpath || '').split('/').filter(Boolean).slice(0, -1);
+    const tags = [];
+    const seen = new Set();
+    function add(token){
+      if (!token || seen.has(token)) return;
+      seen.add(token);
+      tags.push(token);
+    }
+    toks.forEach(add);
+    parts.filter(part => part !== 'articles').forEach(add);
+    ARTICLE_GENERIC_TAGS.forEach(tag => {
+      if (tags.length < 8) add(tag);
+    });
+    return tags.slice(0, 12);
+  }
+
+  function normalizeArticleMeta(article){
+    const path = normalizeArticlePath(article && article.path);
+    if (!path || !/\.html?$/i.test(path)) return null;
+    const title = String(article.title || '').trim() || humanizeArticlePath(path);
+    const rawTags = Array.isArray(article.tags) ? article.tags.map(tag => String(tag || '').trim()).filter(Boolean) : [];
+    return {
+      path,
+      title,
+      tags: rawTags.length ? dedupe(rawTags) : computeArticleTags(title, path)
+    };
+  }
+
+  function extractLinksFromHtml(html){
+    try {
+      const doc = new DOMParser().parseFromString(html, 'text/html');
+      return Array.from(doc.querySelectorAll('a[href]')).map(link => link.getAttribute('href') || '');
+    } catch {
+      return [];
+    }
+  }
+
+  async function discoverArticlePaths(){
+    const programRoot = new URL('./', window.location.href);
+    const articlesRoot = new URL('articles/', programRoot);
+    const queue = [articlesRoot.href];
+    const seenDirs = new Set();
+    const found = [];
+
+    while (queue.length) {
+      const dirHref = queue.shift();
+      if (!dirHref || seenDirs.has(dirHref)) continue;
+      seenDirs.add(dirHref);
+
+      let html = '';
+      try {
+        const res = await fetch(dirHref, { cache: 'no-store' });
+        if (!res.ok) continue;
+        html = await res.text();
+      } catch {
+        continue;
+      }
+
+      extractLinksFromHtml(html).forEach(href => {
+        if (!href || href.startsWith('#') || href.startsWith('?') || href.startsWith('../')) return;
+        let target;
+        try {
+          target = new URL(href, dirHref);
+        } catch {
+          return;
+        }
+        if (target.origin !== articlesRoot.origin) return;
+        if (!target.pathname.startsWith(articlesRoot.pathname)) return;
+        if (target.pathname.endsWith('/')) {
+          if (target.href !== dirHref) queue.push(target.href);
+          return;
+        }
+        if (!/\.html?$/i.test(target.pathname)) return;
+        if (!target.pathname.startsWith(programRoot.pathname)) return;
+        const relPath = decodeURIComponent(target.pathname.slice(programRoot.pathname.length)).replace(/^\/+/, '');
+        if (relPath) found.push(relPath);
+      });
+    }
+
+    return dedupe(found);
+  }
+
+  function extractTitleFromHtml(html, path){
+    const match = String(html || '').match(/<title>([\s\S]*?)<\/title>/i);
+    if (!match) return humanizeArticlePath(path);
+    return decodeHtmlEntities(match[1].replace(/\s+/g, ' ').trim()) || humanizeArticlePath(path);
+  }
+
+  async function fetchArticleTitle(path){
+    try {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) return humanizeArticlePath(path);
+      return extractTitleFromHtml(await res.text(), path);
+    } catch {
+      return humanizeArticlePath(path);
+    }
+  }
+
+  async function loadArticles(registryArticles, surveys){
+    const byPath = new Map();
+
+    (Array.isArray(registryArticles) ? registryArticles : [])
+      .map(normalizeArticleMeta)
+      .filter(Boolean)
+      .forEach(article => byPath.set(article.path, article));
+
+    (Array.isArray(surveys) ? surveys : [])
+      .map(survey => normalizeArticleMeta({
+        path: survey && survey.articleFile,
+        title: survey && survey.title,
+        tags: survey && survey.tags
+      }))
+      .filter(Boolean)
+      .forEach(article => {
+        if (!byPath.has(article.path)) byPath.set(article.path, article);
+      });
+
+    const discoveredPaths = await discoverArticlePaths().catch(() => []);
+    const missingPaths = discoveredPaths.filter(path => !byPath.has(path));
+    if (missingPaths.length) {
+      const discovered = await Promise.all(missingPaths.map(async path => normalizeArticleMeta({
+        path,
+        title: await fetchArticleTitle(path)
+      })));
+      discovered.filter(Boolean).forEach(article => byPath.set(article.path, article));
+    }
+
+    return Array.from(byPath.values()).sort((a, b) => {
+      const left = (a.title || a.path || '').toLowerCase();
+      const right = (b.title || b.path || '').toLowerCase();
+      return left.localeCompare(right);
+    });
   }
 
   function filterSurveys() {
@@ -833,7 +1000,7 @@
       fetchJSON(API.journal).catch(() => [])
     ]);
     state.surveys = (Array.isArray(survData) ? survData : []).filter(s => typeof s.questionsFile === 'string' && s.questionsFile.includes('data/json/')).map(s => ({...s, tags: computeItemTags(s)}));
-    state.articles = (Array.isArray(artData) ? artData : []).filter(a => a && typeof a.path === 'string');
+    state.articles = await loadArticles(artData, state.surveys);
     state.logs = (Array.isArray(logData) ? logData : []).map(normalizeLog);
     populateFilters();
     attachFilterEvents();
