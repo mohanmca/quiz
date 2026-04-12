@@ -1,0 +1,39 @@
+CHAPTER 5
+GENERICS
+148
+To make this concrete, consider the following generic method, which takes
+three arguments of type T and returns an array containing two of the arguments,
+chosen at random:
+static <T> T[] pickTwo(T a, T b, T c) {
+    switch(ThreadLocalRandom.current().nextInt(3)) {
+      case 0: return toArray(a, b);
+      case 1: return toArray(a, c);
+      case 2: return toArray(b, c);
+    }
+    throw new AssertionError(); // Can't get here
+}
+This method is not, in and of itself, dangerous and would not generate a warning
+except that it invokes the toArray method, which has a generic varargs parameter. 
+When compiling this method, the compiler generates code to create a varargs
+parameter array in which to pass two T instances to toArray. This code allocates
+an array of type Object[], which is the most specific type that is guaranteed to
+hold these instances, no matter what types of objects are passed to pickTwo at the
+call site. The toArray method simply returns this array to pickTwo, which in turn
+returns it to its caller, so pickTwo will always return an array of type Object[].
+Now consider this main method, which exercises pickTwo:
+public static void main(String[] args) {
+    String[] attributes = pickTwo("Good", "Fast", "Cheap");
+}
+There is nothing at all wrong with this method, so it compiles without generating
+any warnings. But when you run it, it throws a ClassCastException, though it
+contains no visible casts. What you don’t see is that the compiler has generated a
+hidden cast to String[] on the value returned by pickTwo so that it can be stored
+in attributes. The cast fails, because Object[] is not a subtype of String[].
+This failure is quite disconcerting because it is two levels removed from the
+method that actually causes the heap pollution (toArray), and the varargs parame-
+ter array is not modified after the actual parameters are stored in it.
+This example is meant to drive home the point that it is unsafe to give
+another method access to a generic varargs parameter array, with two excep-
+tions: it is safe to pass the array to another varargs method that is correctly anno-
+tated with @SafeVarargs, and it is safe to pass the array to a non-varargs method
+that merely computes some function of the contents of the array.

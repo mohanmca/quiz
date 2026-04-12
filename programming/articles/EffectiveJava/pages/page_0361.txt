@@ -1,0 +1,46 @@
+CHAPTER 12
+SERIALIZATION
+340
+The attack surface includes classes in the Java platform libraries, in third-party
+libraries such as Apache Commons Collections, and in the application itself. Even
+if you adhere to all of the relevant best practices and succeed in writing serializable
+classes that are invulnerable to attack, your application may still be vulnerable. To
+quote Robert Seacord, technical manager of the CERT Coordination Center:
+Java deserialization is a clear and present danger as it is widely used both
+directly by applications and indirectly by Java subsystems such as RMI
+(Remote Method Invocation), JMX (Java Management Extension), and
+JMS (Java Messaging System). Deserialization of untrusted streams can
+result in remote code execution (RCE), denial-of-service (DoS), and a
+range of other exploits. Applications can be vulnerable to these attacks
+even if they did nothing wrong. [Seacord17]
+Attackers and security researchers study the serializable types in the Java
+libraries and in commonly used third-party libraries, looking for methods invoked
+during deserialization that perform potentially dangerous activities. Such methods
+are known as gadgets. Multiple gadgets can be used in concert, to form a gadget
+chain. From time to time, a gadget chain is discovered that is sufficiently powerful
+to allow an attacker to execute arbitrary native code on the underlying hardware,
+given only the opportunity to submit a carefully crafted byte stream for deserial-
+ization. This is exactly what happened in the SFMTA Muni attack. This attack was
+not isolated. There have been others, and there will be more. 
+Without using any gadgets, you can easily mount a denial-of-service attack by
+causing the deserialization of a short stream that requires a long time to deserial-
+ize. Such streams are known as deserialization bombs [Svoboda16]. Here’s an
+example by Wouter Coekaerts that uses only hash sets and a string [Coekaerts15]:
+// Deserialization bomb - deserializing this stream takes forever
+static byte[] bomb() {
+Set<Object> root = new HashSet<>();
+Set<Object> s1 = root;
+Set<Object> s2 = new HashSet<>();
+for (int i = 0; i < 100; i++) {
+Set<Object> t1 = new HashSet<>();
+Set<Object> t2 = new HashSet<>();
+t1.add("foo"); // Make t1 unequal to t2
+s1.add(t1);
+s1.add(t2);
+s2.add(t1);
+s2.add(t2);
+s1 = t1;
+s2 = t2;
+}
+return serialize(root); // Method omitted for brevity
+}

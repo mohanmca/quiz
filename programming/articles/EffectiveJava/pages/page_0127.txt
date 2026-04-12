@@ -1,0 +1,21 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+106
+It is also worth noting that default methods were not designed to support
+removing methods from interfaces or changing the signatures of existing methods.
+Neither of these interface changes is possible without breaking existing clients.
+The moral is clear. Even though default methods are now a part of the Java
+platform, it is still of the utmost importance to design interfaces with great
+care. While default methods make it possible to add methods to existing
+interfaces, there is great risk in doing so. If an interface contains a minor flaw, it
+may irritate its users forever; if an interface is severely deficient, it may doom the
+API that contains it.
+Therefore, it is critically important to test each new interface before you
+release it. Multiple programmers should implement each interface in different
+ways. At a minimum, you should aim for three diverse implementations. Equally
+important is to write multiple client programs that use instances of each new
+interface to perform various tasks. This will go a long way toward ensuring that
+each interface satisfies all of its intended uses. These steps will allow you to
+discover flaws in interfaces before they are released, when you can still correct
+them easily. While it may be possible to correct some interface flaws after an
+interface is released, you cannot count on it.

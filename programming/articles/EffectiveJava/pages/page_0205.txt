@@ -1,0 +1,44 @@
+CHAPTER 6
+ENUMS AND ANNOTATIONS
+184
+Now let’s modify the test runner tool to process the new annotation. Doing so
+consists of adding the following code to the main method:
+if (m.isAnnotationPresent(ExceptionTest.class)) {
+tests++;
+try {
+m.invoke(null);
+System.out.printf("Test %s failed: no exception%n", m);
+} catch (InvocationTargetException wrappedEx) {
+Throwable exc = wrappedEx.getCause();
+Class<? extends Throwable> excType =
+m.getAnnotation(ExceptionTest.class).value();
+if (excType.isInstance(exc)) {
+passed++;
+} else {
+System.out.printf(
+"Test %s failed: expected %s, got %s%n",
+m, excType.getName(), exc);
+}
+} catch (Exception exc) {
+System.out.println("Invalid @Test: " + m);
+}
+}
+This code is similar to the code we used to process Test annotations, with one
+exception: this code extracts the value of the annotation parameter and uses it to
+check if the exception thrown by the test is of the right type. There are no explicit
+casts, and hence no danger of a ClassCastException. The fact that the test
+program compiled guarantees that its annotation parameters represent valid
+exception types, with one caveat: if the annotation parameters were valid at
+compile time but the class file representing a specified exception type is no longer
+present at runtime, the test runner will throw TypeNotPresentException.
+Taking our exception testing example one step further, it is possible to
+envision a test that passes if it throws any one of several specified exceptions. The
+annotation mechanism has a facility that makes it easy to support this usage.
+Suppose we change the parameter type of the ExceptionTest annotation to be an
+array of Class objects:
+// Annotation type with an array parameter
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ExceptionTest {
+Class<? extends Exception>[] value();
+}

@@ -1,0 +1,95 @@
+INDEX
+387
+optimizations, 286–288
+caching hash codes, 53
+lazy initialization, 333–335
+notify instead of notifyAll, 329
+object reuse, 22–25
+order of comparisons in equals, 47
+parallelizing streams, 224
+static initialization, 23
+StringBuffer and, 279
+using == in equals, 46
+optionals, 249
+exceptions and, 295, 298
+as return values, 249–253
+ordinals
+vs. enum maps, 171–175
+vs. instance fields, 168
+overloading
+See method overloading
+Override annotations, 49, 188–190
+overriding
+See method overriding
+P
+package-private access level, 4, 74, 84
+packages, naming conventions for, 289–290
+parallelizing streams, 222–225
+parameter lists
+of builders, 14
+shortening, 236–237
+varargs and, 245–246
+parameterized types, 117–122
+reifiable, 127
+parameterless constructors, 19
+parameters
+defensive copies of mutable, 232
+type (see type parameters)
+validity checking of, 227–230, 353–355
+PECS mnemonic, 141
+performance, 286–288
+autoboxing and, 24, 201, 275
+BigDecimal and, 271
+builder pattern, 16
+cleaners, 29–30
+defensive copying and, 234
+of enums, 167, 170
+of equals, 46–47
+of excessive synchronization, 321
+finalizers, 29–30
+for-each loops and, 264
+of hashCode, 50, 53
+immutable classes and, 83–85
+libraries and, 268
+measuring, 287
+memory leaks and, 27
+native methods and, 285
+object creation and, 6, 22–23
+of reflection, 282
+parallelizing streams and, 222–225
+of serialization, 348–350
+software architecture and, 286–287
+state-testing vs. special return value, 295
+static factories and, 6
+of string concatenation, 279
+toString and, 57
+varargs and, 246
+wrapper classes and, 91
+See also optimizations
+performance model, 288
+portability
+cleaners and, 29
+finalizers and, 29
+native methods and, 285
+thread priorities and, 337
+thread scheduler and, 336
+predicates, 104
+primitive fields
+compareTo and, 69
+equals and, 47
+primitive types, 273
+incompatibility with generic types, 134
+optionals and, 253
+prefer over boxed primitives, 24, 273–275
+See also individual primitive types
+private access level, 74
+private constructors, 84
+for noninstantiability, 19
+for singletons, 17–18
+private lock object idiom, 332
+private lock objects, 332
+procedural programming, 82
+process objects, 114
+producer-consumer queues, 326
+programming principles, 2
+promptness of finalization, 29

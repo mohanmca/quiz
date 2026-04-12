@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Introduction</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Introduction - Purpose, scope, notation, and reading strategy for Effective Java", "version": "1.0", "totalQuestions": 12, "modules": [{"id": 0, "name": "Purpose and audience", "questions": [{"question": "What audience does the book target?", "options": ["Java developers who already know the language and want practical guidance for better design", "Absolute beginners learning their first programming language", "Only library authors working on the JDK itself", "Only engineers writing concurrency-heavy systems"], "answer": 0, "explanation": "The introduction says the book is not for beginners and assumes working knowledge of Java.", "id": "intro_m1_q1"}, {"question": "How is the book structured?", "options": ["Ninety independent items grouped into eleven chapters", "Twelve chapters, each split into exactly eight items", "A single continuous tutorial meant to be read in order", "One chapter per Java release"], "answer": 0, "explanation": "The text explicitly says the book consists of ninety items loosely grouped into eleven chapters.", "id": "intro_m1_q2"}, {"question": "What is the recommended reading model?", "options": ["Read items selectively and follow cross references as needed", "Read strictly from the first page to the last page", "Skip all code examples and focus on prose only", "Treat the items as exhaustive formal proofs"], "answer": 0, "explanation": "The introduction says each item stands on its own and the cross references help you plot your own course.", "id": "intro_m1_q3"}, {"question": "What kind of examples does the book emphasize?", "options": ["Code examples, including patterns and idioms that can be adapted directly", "Only mathematical proofs of correctness", "Only UML diagrams with no Java code", "Only contrived toy examples with no production relevance"], "answer": 0, "explanation": "The book says it is heavily illustrated with code examples and design patterns/idioms.", "id": "intro_m1_q4"}]}, {"id": 1, "name": "Edition updates and release map", "questions": [{"question": "Why does the book prefer release nicknames?", "options": ["To make repeated version references easier to read", "To avoid discussing any Java versions by number", "To hide the fact that the book covers Java 8 and Java 9 features", "To replace all technical terminology with informal language"], "answer": 0, "explanation": "The introduction says nicknames are used in preference to official names for convenience.", "id": "intro_m2_q1"}, {"question": "Which feature is explicitly associated with Java 9?", "options": ["Modules", "Streams", "Lambdas", "try-with-resources"], "answer": 0, "explanation": "The release table maps modules to Java 9.", "id": "intro_m2_q2"}, {"question": "What is the book's stance on terminology?", "options": ["Mostly JLS-aligned, with a few pragmatic terms used consistently throughout", "It invents a new vocabulary unrelated to the JLS", "It avoids all formal terminology", "It uses only vendor-specific terms from one IDE"], "answer": 0, "explanation": "The introduction says most terms follow the JLS, but some are adjusted for clarity and convention.", "id": "intro_m2_q3"}, {"question": "What does the book mean by an API?", "options": ["The exported classes, interfaces, constructors, members, and serialized forms a programmer uses", "Any internal helper method in a class", "Only public static methods", "Only a package's source files"], "answer": 0, "explanation": "The introduction defines exported API and API elements explicitly.", "id": "intro_m2_q4"}]}, {"id": 2, "name": "How to read the rules", "questions": [{"question": "What is the main purpose of the examples in the book?", "options": ["To illustrate design patterns, idioms, and mistakes with concrete Java code", "To provide complete production-ready source files for reuse", "To avoid any discussion of implementation details", "To compare Java against unrelated languages"], "answer": 0, "explanation": "The introduction says the book is heavily illustrated with code examples and anti-examples.", "id": "intro_m3_q1"}, {"question": "What is the book's position on performance?", "options": ["It is secondary to clarity, correctness, usability, robustness, flexibility, and maintainability", "It is the only concern that matters", "It is ignored entirely", "It replaces all other design goals"], "answer": 0, "explanation": "The introduction says the book is mostly not about performance.", "id": "intro_m3_q2"}, {"question": "How should the rules be applied?", "options": ["Generally, but not slavishly; violate them only occasionally and with good reason", "Always, even when the rule conflicts with the problem", "Never, because they are only historical notes", "Only after consulting external style guides"], "answer": 0, "explanation": "The introduction explicitly warns that the rules are best practices, not absolute laws.", "id": "intro_m3_q3"}, {"question": "What is the book's definition of a component?", "options": ["Any reusable software element, from a method to a multi-package framework", "Only a Maven artifact", "Only a class file", "Only a user interface widget"], "answer": 0, "explanation": "The introduction defines component broadly so the same rules can apply at different levels of reuse.", "id": "intro_m3_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Why this book exists", "c": "<p>Effective Java is a rules book for Java developers who already know the language and want to write better code with less ambiguity.</p>\n<p>Its core scope is the standard platform libraries the author expects you to use in practice: `java.lang`, `java.util`, `java.io`, plus subpackages such as `java.util.concurrent` and `java.util.function`.</p>\n<p>The book is intentionally practical, not theoretical: it focuses on reusable rules that improve design and implementation quality.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0022.png\" alt=\"Chapter 1, page 22: the book states its purpose and library scope explicitly.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 22: the book states its purpose and library scope explicitly.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 22.</div>"}, {"m": 0, "t": "Who it is for", "c": "<p>This is not an introductory Java text.</p>\n<p>The target reader is already comfortable with Java syntax, libraries, and everyday programming, and wants guidance that is still useful for advanced work.</p>\n<p>The book is designed to remain readable for experienced developers, but it assumes you can follow code examples without hand-holding.</p>\n<div class=\"note\"><strong>Source span:</strong> Source page 22.</div>\n<div class=\"note\"><strong>Pedantic reading:</strong> treat the book as a design manual for practicing Java developers, not as a language primer.</div>"}, {"m": 0, "t": "Rule-based structure", "c": "<p>The book contains ninety items, and each item expresses one rule.</p>\n<p>The items are grouped into eleven chapters by broad design concern, but the intended reading path is non-linear.</p>\n<p>Each item stands on its own, and the cross references are there so you can navigate by topic instead of reading cover to cover.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0023.png\" alt=\"Chapter 1, page 23: the book is organized around independent items, not a linear narrative.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 23: the book is organized around independent items, not a linear narrative.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 23.</div>"}, {"m": 0, "t": "Quiz: Purpose and audience", "q": true}, {"m": 1, "t": "New platform features in the third edition", "c": "<p>The edition reflects platform features added after the previous edition, especially Java 7, Java 8, and Java 9 features.</p>\n<p>The introduction names several features by item and release so readers can find the primary coverage quickly.</p>\n<p>Lambdas, streams, optionals, default methods, try-with-resources, `@SafeVarargs`, and modules are all explicitly mapped.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0023.png\" alt=\"Chapter 1, page 23: the book maps major language and platform features to the relevant items.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 23: the book maps major language and platform features to the relevant items.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 23.</div>"}, {"m": 1, "t": "Release names are normalized", "c": "<p>When referring to platform versions, the book prefers nicknames over official release names for readability.</p>\n<p>That choice is editorial, not technical: the goal is to reduce friction when the same release is referenced repeatedly across items.</p>\n<p>The book includes a mapping from official JDK and Java SE names to the nicknames used throughout the text.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0024.png\" alt=\"Chapter 1, page 24: release names are normalized to short nicknames for the rest of the book.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 24: release names are normalized to short nicknames for the rest of the book.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 24.</div>"}, {"m": 1, "t": "Technical vocabulary", "c": "<p>The book aligns mostly with the Java Language Specification, but it also defines some terms in a more practical way.</p>\n<p>It distinguishes reference types, primitive values, objects, class members, and method signatures with precise meanings.</p>\n<p>It uses `package-private` rather than the formal but less common `package access`, and it treats inheritance as subclassing when talking about classes.</p>\n<div class=\"note\"><strong>Source span:</strong> Source page 24.</div>\n<div class=\"note\"><strong>Implementation detail:</strong> the terminology is intentionally consistent with how Java developers discuss APIs in practice, not just with the JLS phrasing.</div>"}, {"m": 1, "t": "Quiz: Edition updates and release map", "q": true}, {"m": 2, "t": "Examples and antipatterns", "c": "<p>Most items include program examples, and the examples are intentionally realistic enough to show design tradeoffs rather than toy syntax.</p>\n<p>When a bad pattern is shown, it is clearly labeled as something to avoid and is followed by an alternative approach.</p>\n<p>The book also references established design literature when an example benefits from prior art.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0024.png\" alt=\"Chapter 1, page 24: bad examples are labeled so the item can explain the failure mode and the replacement.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 24: bad examples are labeled so the item can explain the failure mode and the replacement.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 24.</div>"}, {"m": 2, "t": "Principles behind the rules", "c": "<p>The rules are grounded in a small set of design principles: clarity, simplicity, minimal surprise, small components, code reuse, low coupling, and early error detection.</p>\n<p>Those principles are descriptive of the book's method, not optional motivational language.</p>\n<p>A component here can be anything reusable from a single method to a large framework spanning multiple packages.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0025.png\" alt=\"Chapter 1, page 25: the introduction states the design principles that justify the rules that follow.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 1, page 25: the introduction states the design principles that justify the rules that follow.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 25.</div>"}, {"m": 2, "t": "Performance in context", "c": "<p>Performance is not the primary subject of the book.</p>\n<p>The priority is clear, correct, usable, robust, flexible, and maintainable code; performance should usually be addressed after those qualities are in place.</p>\n<p>Where performance numbers appear, they are explicitly framed as approximate and machine-specific, not as universal constants.</p>\n<div class=\"note\"><strong>Source span:</strong> Source page 25.</div>\n<div class=\"note\"><strong>Reading rule:</strong> treat every optimization claim as conditional unless the item explicitly proves otherwise.</div>"}, {"m": 2, "t": "Quiz: How to read the rules", "q": true}];
+    const MODULE_NAMES = ["Purpose and audience", "Edition updates and release map", "How to read the rules"];
+    const STORE_KEY = 'chapter_01_introduction_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

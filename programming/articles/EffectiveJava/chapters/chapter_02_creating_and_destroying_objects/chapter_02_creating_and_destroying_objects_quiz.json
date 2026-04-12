@@ -1,0 +1,247 @@
+{
+  "title": "Creating and Destroying Objects - Items 1-9: construction, ownership, reuse, cleanup, and resource safety",
+  "version": "1.0",
+  "totalQuestions": 18,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Construction APIs",
+      "questions": [
+        {
+          "question": "Which is the clearest reason to prefer a static factory over a constructor when the creation path needs a descriptive name?",
+          "options": [
+            "The name can encode the construction semantics directly.",
+            "Constructors cannot return objects.",
+            "Constructors cannot be public.",
+            "Static factories are always faster than constructors."
+          ],
+          "answer": 0,
+          "explanation": "A static factory can communicate intent with a name such as `valueOf` or `of`, which is more readable than a bare constructor signature.",
+          "id": "chapter02_m1_q1"
+        },
+        {
+          "question": "Why can a static factory be more flexible than a constructor?",
+          "options": [
+            "It can return any subtype of the declared return type.",
+            "It must always allocate a fresh object.",
+            "It cannot be overloaded.",
+            "It cannot hide implementation classes."
+          ],
+          "answer": 0,
+          "explanation": "The returned object may vary by subtype, by input, or by release, which is impossible with a constructor.",
+          "id": "chapter02_m1_q2"
+        },
+        {
+          "question": "What is the main failure mode of telescoping constructors for many optional parameters?",
+          "options": [
+            "Callers must pass long positional lists of identically typed values.",
+            "They cannot be made public.",
+            "They force all fields to be mutable.",
+            "They cannot validate parameters."
+          ],
+          "answer": 0,
+          "explanation": "The core problem is readability and the risk of swapping same-typed arguments without compiler help.",
+          "id": "chapter02_m1_q3"
+        },
+        {
+          "question": "What is the main technical drawback of the JavaBeans pattern for object construction?",
+          "options": [
+            "The object can be observed in an inconsistent intermediate state.",
+            "It prevents the use of setters.",
+            "It requires private constructors.",
+            "It forbids optional parameters."
+          ],
+          "answer": 0,
+          "explanation": "Construction is split across multiple calls, so invariants cannot be enforced atomically and immutability becomes awkward.",
+          "id": "chapter02_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Controlled Instantiation",
+      "questions": [
+        {
+          "question": "What is the strongest modern choice for a singleton that also needs serialization and reflection resistance by default?",
+          "options": [
+            "An enum singleton.",
+            "A public constructor.",
+            "An abstract class with one instance field.",
+            "A static utility class."
+          ],
+          "answer": 0,
+          "explanation": "An enum singleton gives the strongest built-in instance-control guarantee in Java.",
+          "id": "chapter02_m2_q1"
+        },
+        {
+          "question": "Why is making a utility class abstract not a valid way to prevent instantiation?",
+          "options": [
+            "A subclass can still be instantiated.",
+            "The compiler removes all constructors.",
+            "Abstract classes cannot have static methods.",
+            "Abstract classes cannot be final."
+          ],
+          "answer": 0,
+          "explanation": "Abstract only blocks direct instantiation; it does not prevent subclass construction.",
+          "id": "chapter02_m2_q2"
+        },
+        {
+          "question": "What is the purpose of throwing `AssertionError` in a private utility-class constructor?",
+          "options": [
+            "It prevents accidental construction even from inside the class.",
+            "It makes the class serializable.",
+            "It enables dependency injection.",
+            "It avoids the need for a private constructor."
+          ],
+          "answer": 0,
+          "explanation": "The exception is a defensive backstop in case the constructor is invoked by mistake during maintenance or reflection.",
+          "id": "chapter02_m2_q3"
+        },
+        {
+          "question": "What is the core benefit of dependency injection for resource-dependent classes?",
+          "options": [
+            "It lets clients supply the dependency they actually need.",
+            "It forces the resource to be static.",
+            "It makes the class impossible to test.",
+            "It eliminates constructors."
+          ],
+          "answer": 0,
+          "explanation": "Injecting the resource gives the class flexibility, makes tests deterministic, and avoids hardwired global state.",
+          "id": "chapter02_m2_q4"
+        },
+        {
+          "question": "Why is `Supplier<? extends Tile>` a good input type for a factory dependency?",
+          "options": [
+            "It allows the client to provide any factory that creates a Tile subtype.",
+            "It forces the factory to return `null` on failure.",
+            "It prevents lambdas from being used.",
+            "It requires the factory to be a singleton."
+          ],
+          "answer": 0,
+          "explanation": "The bounded wildcard preserves subtype flexibility while still expressing a factory contract.",
+          "id": "chapter02_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Allocation Discipline",
+      "questions": [
+        {
+          "question": "Which allocation is most clearly unnecessary?",
+          "options": [
+            "Creating `new String(\"bikini\")` instead of reusing the string literal.",
+            "Creating a small immutable value object once.",
+            "Using a builder for a complex object.",
+            "Returning an interface from a factory."
+          ],
+          "answer": 0,
+          "explanation": "The string literal is already an object and can be reused directly.",
+          "id": "chapter02_m3_q1"
+        },
+        {
+          "question": "Why is caching a compiled `Pattern` often better than calling `String.matches` repeatedly?",
+          "options": [
+            "The regular expression compilation is expensive and can be reused.",
+            "`String.matches` is not part of the JDK.",
+            "A `Pattern` cannot be immutable.",
+            "Caching only helps for boxed primitives."
+          ],
+          "answer": 0,
+          "explanation": "Repeatedly compiling the same regex creates avoidable work; a cached `Pattern` avoids that cost.",
+          "id": "chapter02_m3_q2"
+        },
+        {
+          "question": "What is the best general response when a custom stack or array-backed container removes an element?",
+          "options": [
+            "Null out the now-obsolete slot.",
+            "Leave the reference in place for debugging.",
+            "Clone the entire array on every pop.",
+            "Convert the array to a `WeakHashMap`."
+          ],
+          "answer": 0,
+          "explanation": "The slot is no longer part of the active set, so clearing it lets the GC reclaim the object graph behind it.",
+          "id": "chapter02_m3_q3"
+        },
+        {
+          "question": "When is `WeakHashMap` the right cache implementation?",
+          "options": [
+            "When entry lifetime should follow external references to the key.",
+            "When entries must stay forever.",
+            "When all values are primitives.",
+            "When the cache is only used once."
+          ],
+          "answer": 0,
+          "explanation": "Weak references are useful only when the cache entry is relevant for as long as the key is externally reachable.",
+          "id": "chapter02_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Cleanup and Resource Safety",
+      "questions": [
+        {
+          "question": "Why are finalizers and cleaners poor choices for ordinary resource management?",
+          "options": [
+            "They are not guaranteed to run promptly or at all.",
+            "They are required by every closeable type.",
+            "They run only on the main thread.",
+            "They cannot be used with native resources."
+          ],
+          "answer": 0,
+          "explanation": "The timing and even execution of cleanup are not reliable enough for correctness or resource limits.",
+          "id": "chapter02_m4_q1"
+        },
+        {
+          "question": "What is the best modern pattern for a class that owns a resource requiring explicit termination?",
+          "options": [
+            "Implement `AutoCloseable` and require clients to call `close()`.",
+            "Rely on a finalizer as the primary cleanup path.",
+            "Make the resource static.",
+            "Hide the resource inside a singleton."
+          ],
+          "answer": 0,
+          "explanation": "The class should expose explicit closure and, if desired, keep a cleaner only as a fallback safety net.",
+          "id": "chapter02_m4_q2"
+        },
+        {
+          "question": "What happens when both the body of a try-finally block and the `close()` call throw?",
+          "options": [
+            "The later exception can obscure the earlier one.",
+            "Both exceptions are always printed equally.",
+            "The compiler rewrites it as try-with-resources.",
+            "The close exception is ignored by definition."
+          ],
+          "answer": 0,
+          "explanation": "Old try-finally code often loses the primary failure, which is one of the reasons try-with-resources was introduced.",
+          "id": "chapter02_m4_q3"
+        },
+        {
+          "question": "Which interface must a resource implement to be usable in try-with-resources?",
+          "options": [
+            "`AutoCloseable`.",
+            "`Serializable`.",
+            "`CloseableFactory`.",
+            "`Runnable`."
+          ],
+          "answer": 0,
+          "explanation": "`AutoCloseable` is the contract that gives the compiler a resource to close automatically.",
+          "id": "chapter02_m4_q4"
+        },
+        {
+          "question": "Can a try-with-resources statement also have a catch clause?",
+          "options": [
+            "Yes, it can handle exceptions without extra nesting.",
+            "No, the syntax forbids it.",
+            "Only if the resource is finalizable.",
+            "Only inside a loop."
+          ],
+          "answer": 0,
+          "explanation": "A catch clause may follow the resource specification exactly as it can follow a try-finally statement.",
+          "id": "chapter02_m4_q5"
+        }
+      ]
+    }
+  ]
+}

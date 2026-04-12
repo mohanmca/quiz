@@ -1,0 +1,41 @@
+ITEM 50: MAKE DEFENSIVE COPIES WHEN NEEDED
+231
+Item 50: Make defensive copies when needed
+One thing that makes Java a pleasure to use is that it is a safe language. This
+means that in the absence of native methods it is immune to buffer overruns, array
+overruns, wild pointers, and other memory corruption errors that plague unsafe
+languages such as C and C++. In a safe language, it is possible to write classes and
+to know with certainty that their invariants will hold, no matter what happens in
+any other part of the system. This is not possible in languages that treat all of
+memory as one giant array.
+Even in a safe language, you aren’t insulated from other classes without some
+effort on your part. You must program defensively, with the assumption that
+clients of your class will do their best to destroy its invariants. This is
+increasingly true as people try harder to break the security of systems, but more
+commonly, your class will have to cope with unexpected behavior resulting from
+the honest mistakes of well-intentioned programmers. Either way, it is worth
+taking the time to write classes that are robust in the face of ill-behaved clients.
+While it is impossible for another class to modify an object’s internal state
+without some assistance from the object, it is surprisingly easy to provide such
+assistance without meaning to do so. For example, consider the following class,
+which purports to represent an immutable time period:
+// Broken "immutable" time period class
+public final class Period {
+private final Date start;
+private final Date end;
+/**
+* @param  start the beginning of the period
+* @param  end the end of the period; must not precede start
+* @throws IllegalArgumentException if start is after end
+* @throws NullPointerException if start or end is null
+*/
+public Period(Date start, Date end) {
+if (start.compareTo(end) > 0)
+throw new IllegalArgumentException(
+start + " after " + end);
+this.start = start;
+this.end   = end;
+}
+public Date start() {
+return start;
+}

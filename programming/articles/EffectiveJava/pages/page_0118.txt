@@ -1,0 +1,40 @@
+ITEM 19: DESIGN AND DOCUMENT FOR INHERITANCE OR ELSE PROHIBIT IT
+97
+subclass’s state has been deserialized. In the case of clone, the overriding method
+will run before the subclass’s clone method has a chance to fix the clone’s state.
+In either case, a program failure is likely to follow. In the case of clone, the failure
+can damage the original object as well as the clone. This can happen, for example,
+if the overriding method assumes it is modifying the clone’s copy of the object’s
+deep structure, but the copy hasn’t been made yet.
+Finally, if you decide to implement Serializable in a class designed for
+inheritance and the class has a readResolve or writeReplace method, you must
+make the readResolve or writeReplace method protected rather than private. If
+these methods are private, they will be silently ignored by subclasses. This is one
+more case where an implementation detail becomes part of a class’s API to permit
+inheritance.
+By now it should be apparent that designing a class for inheritance requires
+great effort and places substantial limitations on the class. This is not a
+decision to be undertaken lightly. There are some situations where it is clearly the
+right thing to do, such as abstract classes, including skeletal implementations of
+interfaces (Item 20). There are other situations where it is clearly the wrong thing
+to do, such as immutable classes (Item 17).
+But what about ordinary concrete classes? Traditionally, they are neither final
+nor designed and documented for subclassing, but this state of affairs is danger-
+ous. Each time a change is made in such a class, there is a chance that subclasses
+extending the class will break. This is not just a theoretical problem. It is not
+uncommon to receive subclassing-related bug reports after modifying the internals
+of a nonfinal concrete class that was not designed and documented for inheritance.
+The best solution to this problem is to prohibit subclassing in classes that
+are not designed and documented to be safely subclassed. There are two ways
+to prohibit subclassing. The easier of the two is to declare the class final. The
+alternative is to make all the constructors private or package-private and to add
+public static factories in place of the constructors. This alternative, which provides
+the flexibility to use subclasses internally, is discussed in Item 17. Either approach
+is acceptable.
+This advice may be somewhat controversial because many programmers have
+grown accustomed to subclassing ordinary concrete classes to add facilities such
+as instrumentation, notification, and synchronization or to limit functionality. If a
+class implements some interface that captures its essence, such as Set, List, or
+Map, then you should feel no compunction about prohibiting subclassing. The
+wrapper class pattern, described in Item 18, provides a superior alternative to
+inheritance for augmenting the functionality.

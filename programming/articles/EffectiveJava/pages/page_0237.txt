@@ -1,0 +1,39 @@
+CHAPTER 7
+LAMBDAS AND STREAMS
+216
+Item 47: Prefer Collection to Stream as a return type
+Many methods return sequences of elements. Prior to Java 8, the obvious return
+types for such methods were the collection interfaces Collection, Set, and List;
+Iterable; and the array types. Usually, it was easy to decide which of these types
+to return. The norm was a collection interface. If the method existed solely to
+enable for-each loops or the returned sequence couldn’t be made to implement
+some Collection method (typically, contains(Object)), the Iterable interface
+was used. If the returned elements were primitive values or there were stringent
+performance requirements, arrays were used. In Java 8, streams were added to the
+platform, substantially complicating the task of choosing the appropriate return
+type for a sequence-returning method.
+You may hear it said that streams are now the obvious choice to return a
+sequence of elements, but as discussed in Item 45, streams do not make iteration
+obsolete: writing good code requires combining streams and iteration judiciously.
+If an API returns only a stream and some users want to iterate over the returned
+sequence with a for-each loop, those users will be justifiably upset. It is especially
+frustrating because the Stream interface contains the sole abstract method in the
+Iterable interface, and Stream’s specification for this method is compatible with
+Iterable’s. The only thing preventing programmers from using a for-each loop to
+iterate over a stream is Stream’s failure to extend Iterable.
+Sadly, there is no good workaround for this problem. At first glance, it might
+appear that passing a method reference to Stream’s iterator method would work.
+The resulting code is perhaps a bit noisy and opaque, but not unreasonable:
+// Won't compile, due to limitations on Java's type inference
+for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
+// Process the process
+}
+Unfortunately, if you attempt to compile this code, you’ll get an error message:
+Test.java:6: error: method reference not expected here
+for (ProcessHandle ph : ProcessHandle.allProcesses()::iterator) {
+^
+In order to make the code compile, you have to cast the method reference to an
+appropriately parameterized Iterable:
+// Hideous workaround to iterate over a stream
+for (ProcessHandle ph : (Iterable<ProcessHandle>)
+ProcessHandle.allProcesses()::iterator)

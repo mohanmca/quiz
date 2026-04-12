@@ -1,0 +1,94 @@
+INDEX
+385
+L
+lambdas, 70, 193–225
+cleaners and, 33
+for constant-specific behaviors, 195
+prefer method references to, 197–198
+prefer to anonymous classes, 193–196
+serialization and, 196
+lazy initialization, 23, 53, 85, 333–335
+lazy initialization holder class idiom, 334–335
+lazy initialization with a synchronized 
+accessor idiom, 333–334
+leaky abstractions, 146
+libraries, 267–269
+Liskov substitution principle, 43, 75
+listeners, avoiding memory leaks from, 28
+lists
+vs. arrays, 126–129
+for generic varargs parameter arrays, 149
+mutual comparability in, 138
+liveness
+ensuring, 317–322, 328
+failures of, 224, 313
+local classes, 112, 114
+local variables
+minimizing scope of, 261–263
+naming conventions for, 290, 292
+locality of reference, 223
+locks
+fields containing, 332
+finalizers or cleaners and, 30
+private, 332
+reentrant, 320
+logical equality, 37–38
+long, for monetary calculations, 270
+loops
+nested, 264–266
+See also for loops; for-each loops
+M
+maps
+member classes and, 113
+nested, 173–175
+vs. streams, behavior of, 173
+marker annotations, 181
+vs. marker interfaces, 191
+marker interfaces, 191–192
+member classes, 112–114
+See also static member classes
+members, 3
+minimizing accessibility of, 73–77
+memory footprint
+See space consumption
+memory leaks, 26–27
+nonstatic member classes and, 113
+self-management of memory, 28
+memory model, 80
+merge functions, 212
+meta-annotations, 181
+method chaining, 14
+method overloading, 238–244
+accidental, of equals, 49
+effects of autoboxing and generics, 241–242
+functional interfaces and, 202, 243
+parameters and, 240
+static selection among methods, 238
+method overriding, 49, 238–239
+access levels and, 75
+clone, 58
+dynamic selection among methods, 238
+equals, 37–49
+hashCode, 50–54
+self-use and, 98
+toString, 55–57
+unintentional, 190
+method references, 18
+kinds of, 198
+prefer to lambdas, 197–198
+methods, 3, 227–260
+access levels of, 74
+accessor (see accessor methods)
+alien, 317
+common to all objects, 37–72
+constant-specific, for enum-types, 162
+documenting, 254–255
+exceptions thrown by, 304–305
+overridable, 93
+summary descriptions of, 257
+thread safety of, 330–332
+failure atomicity and, 308–309
+forwarding (see forwarding methods)
+generic, 121, 135–138
+invocation, reflection and, 282
+legal for SafeVarargs, 149

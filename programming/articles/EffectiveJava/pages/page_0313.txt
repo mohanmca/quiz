@@ -1,0 +1,20 @@
+CHAPTER 9
+GENERAL PROGRAMMING
+292
+asType, for example, asList. Methods that return a primitive with the same value
+as the object on which they’re invoked are often called typeValue, for example,
+intValue. Common names for static factories include from, of, valueOf,
+instance, getInstance, newInstance, getType, and newType (Item 1, page 9).
+Grammatical conventions for field names are less well established and less
+important than those for class, interface, and method names because well-
+designed APIs contain few if any exposed fields. Fields of type boolean are often
+named like boolean accessor methods with the initial is omitted, for example,
+initialized, composite. Fields of other types are usually named with nouns or
+noun phrases, such as height, digits, or bodyStyle. Grammatical conventions
+for local variables are similar to those for fields but even weaker.
+To summarize, internalize the standard naming conventions and learn to use
+them as second nature. The typographical conventions are straightforward and
+largely unambiguous; the grammatical conventions are more complex and looser.
+To quote from The Java Language Specification [JLS, 6.1], “These conventions
+should not be followed slavishly if long-held conventional usage dictates other-
+wise.” Use common sense.

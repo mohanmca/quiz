@@ -1,0 +1,271 @@
+{
+  "title": "Chapter 9: General Programming - Effective Java, pages 282-313. Items 57-68: local scope, for-each, libraries, exact arithmetic, primitives vs boxed primitives, strings, concatenation, interfaces, reflection, native methods, optimization, and naming.",
+  "version": "1.0",
+  "totalQuestions": 20,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Local Scope and for-each",
+      "questions": [
+        {
+          "question": "What is the primary benefit of declaring a local variable at first use?",
+          "options": [
+            "It minimizes scope and reduces clutter and accidental misuse.",
+            "It avoids the need for an initializer.",
+            "It makes the variable visible to later methods.",
+            "It guarantees the variable is final."
+          ],
+          "answer": 0,
+          "explanation": "Narrow scope improves readability and reduces the chance that a variable is observed outside its intended region.",
+          "id": "chapter_09_m1_q1"
+        },
+        {
+          "question": "When is a traditional for loop justified over for-each?",
+          "options": [
+            "When you need the iterator, index, removal, replacement, or parallel traversal control.",
+            "Whenever the container is a collection rather than an array.",
+            "Whenever performance matters.",
+            "Whenever the body contains more than one statement."
+          ],
+          "answer": 0,
+          "explanation": "For-each is the default; explicit control is for the few cases where the iterator or index is semantically required.",
+          "id": "chapter_09_m1_q2"
+        },
+        {
+          "question": "Why are while loops more error-prone for simple iteration?",
+          "options": [
+            "They leave the loop variable in scope longer and make copy-and-paste mistakes harder to catch.",
+            "They are slower than for loops.",
+            "They cannot iterate over arrays.",
+            "They require recursion behind the scenes."
+          ],
+          "answer": 0,
+          "explanation": "The book's concern is scope and clarity, not raw execution speed.",
+          "id": "chapter_09_m1_q3"
+        },
+        {
+          "question": "Why does the enhanced for statement not hurt performance?",
+          "options": [
+            "The generated code is essentially identical to the hand-written iterator or index loop.",
+            "It uses a specialized JVM instruction.",
+            "It caches all elements automatically.",
+            "It disables bounds checks entirely."
+          ],
+          "answer": 0,
+          "explanation": "The gain is readability and safety, not a special runtime optimization.",
+          "id": "chapter_09_m1_q4"
+        },
+        {
+          "question": "When should you implement `Iterable` on a custom element group?",
+          "options": [
+            "Whenever you want clients to use the for-each loop naturally.",
+            "Only when the type also implements `Collection`.",
+            "Only when the elements are primitive values.",
+            "Only when the type is immutable."
+          ],
+          "answer": 0,
+          "explanation": "Any type that represents a group of elements should be iterable if possible.",
+          "id": "chapter_09_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Libraries and Exact Arithmetic",
+      "questions": [
+        {
+          "question": "Why is `Math.abs(rnd.nextInt()) % n` a bad way to generate a bounded random integer?",
+          "options": [
+            "It is biased and can fail catastrophically on `Integer.MIN_VALUE`.",
+            "It is too slow for small `n`.",
+            "It always returns negative values.",
+            "It only works for prime `n`."
+          ],
+          "answer": 0,
+          "explanation": "Item 59 explicitly calls out bias and the `Integer.MIN_VALUE` edge case.",
+          "id": "chapter_09_m2_q1"
+        },
+        {
+          "question": "What is the preferred modern random generator for most uses?",
+          "options": [
+            "`ThreadLocalRandom`.",
+            "`Random`.",
+            "`Math.random()`.",
+            "`SplittableRandom` only, in all cases."
+          ],
+          "answer": 0,
+          "explanation": "The book says `ThreadLocalRandom` is the usual choice, with `SplittableRandom` for fork-join and parallel work.",
+          "id": "chapter_09_m2_q2"
+        },
+        {
+          "question": "Why should you use `BigDecimal` for exact money calculations?",
+          "options": [
+            "Binary floating-point cannot represent decimal fractions like `0.1` exactly.",
+            "Because `BigDecimal` is always faster than primitives.",
+            "Because `BigDecimal` automatically rounds to cents.",
+            "Because `double` is always imprecise for all numbers."
+          ],
+          "answer": 0,
+          "explanation": "The issue is exact decimal representation and controlled rounding, not general numeric validity.",
+          "id": "chapter_09_m2_q3"
+        },
+        {
+          "question": "When is `int` or `long` a reasonable alternative to `BigDecimal`?",
+          "options": [
+            "When the quantity can be represented as a scaled integer within the range you need.",
+            "Whenever exact answers are not required.",
+            "Only for scientific calculations.",
+            "Never; primitives are always unsafe."
+          ],
+          "answer": 0,
+          "explanation": "Scaled integers are a deliberate exact-arithmetic strategy when the magnitude is bounded.",
+          "id": "chapter_09_m2_q4"
+        },
+        {
+          "question": "What should you do if a standard library almost solves the problem but misses a feature?",
+          "options": [
+            "Check for a high-quality third-party library before implementing it yourself.",
+            "Rewrite the entire standard library function.",
+            "Use reflection to patch the library class.",
+            "Ignore the gap and duplicate the missing piece in every project."
+          ],
+          "answer": 0,
+          "explanation": "The book's order is: platform library, then third-party library, then custom code.",
+          "id": "chapter_09_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Primitives, Strings, and Interfaces",
+      "questions": [
+        {
+          "question": "Why is `Long sum = 0L` a problem in a tight accumulation loop?",
+          "options": [
+            "It forces repeated boxing and unboxing and can be much slower than `long`.",
+            "It makes the sum exact when `long` would not.",
+            "It prevents the loop from compiling.",
+            "It disables integer overflow."
+          ],
+          "answer": 0,
+          "explanation": "The issue is unnecessary object creation and auto-unboxing overhead.",
+          "id": "chapter_09_m3_q1"
+        },
+        {
+          "question": "When is a boxed primitive appropriate?",
+          "options": [
+            "In collections, type parameters, and other places where a reference type is required.",
+            "Whenever the value might be `null`.",
+            "Whenever a method has more than one parameter.",
+            "Whenever you want better performance."
+          ],
+          "answer": 0,
+          "explanation": "Boxed primitives are sometimes necessary, but only because the type system requires references there.",
+          "id": "chapter_09_m3_q2"
+        },
+        {
+          "question": "Why are strings a poor substitute for aggregate types?",
+          "options": [
+            "They hide structure, require parsing, and cannot express invariants directly.",
+            "They cannot be compared for equality.",
+            "They are always slower than arrays.",
+            "They are mutable by default."
+          ],
+          "answer": 0,
+          "explanation": "A dedicated type can expose the fields and contracts explicitly instead of encoding them in delimiters.",
+          "id": "chapter_09_m3_q3"
+        },
+        {
+          "question": "What is the main reason to prefer an interface type for a variable or field?",
+          "options": [
+            "It keeps the implementation swappable without changing client code.",
+            "It makes the code shorter.",
+            "It guarantees iteration order.",
+            "It forces the use of factory methods."
+          ],
+          "answer": 0,
+          "explanation": "The point is decoupling from a concrete implementation choice.",
+          "id": "chapter_09_m3_q4"
+        },
+        {
+          "question": "When is it acceptable to refer to an object by its concrete class?",
+          "options": [
+            "When no suitable interface exists or when class-specific behavior is required.",
+            "Whenever the class is public.",
+            "Whenever you want better compile times.",
+            "Whenever the class is final."
+          ],
+          "answer": 0,
+          "explanation": "The concrete class is appropriate only when the interface abstraction would be lossy or unavailable.",
+          "id": "chapter_09_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Reflection, Native Code, Optimization, and Naming",
+      "questions": [
+        {
+          "question": "What is the main technical downside of reflection?",
+          "options": [
+            "It bypasses compile-time type checking and is slower and more verbose than normal calls.",
+            "It cannot construct objects.",
+            "It only works for private members.",
+            "It makes code immutable."
+          ],
+          "answer": 0,
+          "explanation": "Reflection is useful, but it shifts correctness checks from compile time to runtime.",
+          "id": "chapter_09_m4_q1"
+        },
+        {
+          "question": "What is the preferred way to use a class found reflectively?",
+          "options": [
+            "Instantiate it reflectively, then interact with it through a known interface or superclass.",
+            "Invoke all methods reflectively forever.",
+            "Cast it to `Object` and inspect fields manually.",
+            "Avoid constructors and use native code instead."
+          ],
+          "answer": 0,
+          "explanation": "This keeps the reflective cost at the boundary and the rest of the code normal.",
+          "id": "chapter_09_m4_q2"
+        },
+        {
+          "question": "When are native methods justified?",
+          "options": [
+            "For platform-specific facilities or truly necessary native libraries, not as a default performance trick.",
+            "Whenever Java code allocates objects.",
+            "Whenever reflection feels verbose.",
+            "Only in test code."
+          ],
+          "answer": 0,
+          "explanation": "Native code is a narrow interoperability tool, not a general optimization strategy.",
+          "id": "chapter_09_m4_q3"
+        },
+        {
+          "question": "What is the correct first step in optimization?",
+          "options": [
+            "Measure with a profiler or `jmh` and identify the real hot spots.",
+            "Replace all strings with `StringBuilder`.",
+            "Inline every method.",
+            "Convert everything to native code."
+          ],
+          "answer": 0,
+          "explanation": "The book is explicit: don't guess, measure, then fix the right problem.",
+          "id": "chapter_09_m4_q4"
+        },
+        {
+          "question": "Which naming rule is most conventional for a constant field?",
+          "options": [
+            "Uppercase words separated by underscores.",
+            "lowerCamelCase.",
+            "PascalCase.",
+            "A single lowercase word."
+          ],
+          "answer": 0,
+          "explanation": "Constant fields are the standard exception to the normal member-name casing rules.",
+          "id": "chapter_09_m4_q5"
+        }
+      ]
+    }
+  ]
+}

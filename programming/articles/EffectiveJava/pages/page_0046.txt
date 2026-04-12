@@ -1,0 +1,15 @@
+ITEM 6: AVOID CREATING UNNECESSARY OBJECTS
+25
+example of an object that does justify an object pool is a database connection. The
+cost of establishing the connection is sufficiently high that it makes sense to reuse
+these objects. Generally speaking, however, maintaining your own object pools
+clutters your code, increases memory footprint, and harms performance. Modern
+JVM implementations have highly optimized garbage collectors that easily out-
+perform such object pools on lightweight objects.
+The counterpoint to this item is Item 50 on defensive copying. The present
+item says, “Don’t create a new object when you should reuse an existing one,”
+while Item 50 says, “Don’t reuse an existing object when you should create a new
+one.” Note that the penalty for reusing an object when defensive copying is called
+for is far greater than the penalty for needlessly creating a duplicate object. Failing
+to make defensive copies where required can lead to insidious bugs and security
+holes; creating objects unnecessarily merely affects style and performance.

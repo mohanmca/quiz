@@ -1,0 +1,39 @@
+ITEM 81: PREFER CONCURRENCY UTILITIES TO WAIT AND NOTIFY
+325
+Item 81: Prefer concurrency utilities to wait and notify
+The first edition of this book devoted an item to the correct use of wait and
+notify [Bloch01, Item 50]. Its advice is still valid and is summarized at end of this
+item, but this advice is far less important than it once was. This is because there is
+far less reason to use wait and notify. Since Java 5, the platform has provided
+higher-level concurrency utilities that do the sorts of things you formerly had to
+hand-code atop wait and notify. Given the difficulty of using wait and notify
+correctly, you should use the higher-level concurrency utilities instead.
+The higher-level utilities in java.util.concurrent fall into three categories:
+the Executor Framework, which was covered briefly in Item 80; concurrent
+collections; and synchronizers. Concurrent collections and synchronizers are
+covered briefly in this item.
+The concurrent collections are high-performance concurrent implementations
+of standard collection interfaces such as List, Queue, and Map. To provide high
+concurrency, these implementations manage their own synchronization internally
+(Item 79). Therefore, it is impossible to exclude concurrent activity from a
+concurrent collection; locking it will only slow the program. 
+Because you can’t exclude concurrent activity on concurrent collections, you
+can’t atomically compose method invocations on them either. Therefore, concur-
+rent collection interfaces were outfitted with state-dependent modify operations,
+which combine several primitives into a single atomic operation. These operations
+proved sufficiently useful on concurrent collections that they were added to the
+corresponding collection interfaces in Java 8, using default methods (Item 21). 
+For example, Map’s putIfAbsent(key, value) method inserts a mapping for
+a key if none was present and returns the previous value associated with the key,
+or null if there was none. This makes it easy to implement thread-safe canonical-
+izing maps. This method simulates the behavior of String.intern:
+// Concurrent canonicalizing map atop ConcurrentMap - not optimal
+private static final ConcurrentMap<String, String> map = 
+new ConcurrentHashMap<>();
+public static String intern(String s) {
+String previousValue = map.putIfAbsent(s, s);
+return previousValue == null ? s : previousValue;
+}
+In fact, you can do even better. ConcurrentHashMap is optimized for retrieval
+operations, such as get. Therefore, it is worth invoking get initially and calling
+putIfAbsent only if get indicates that it is necessary:

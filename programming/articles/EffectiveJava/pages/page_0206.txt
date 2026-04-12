@@ -1,0 +1,42 @@
+ITEM 39: PREFER ANNOTATIONS TO NAMING PATTERNS
+185
+The syntax for array parameters in annotations is flexible. It is optimized for
+single-element arrays. All of the previous ExceptionTest annotations are still
+valid with the new array-parameter version of ExceptionTest and result in
+single-element arrays. To specify a multiple-element array, surround the elements
+with curly braces and separate them with commas:
+// Code containing an annotation with an array parameter
+@ExceptionTest({ IndexOutOfBoundsException.class,
+NullPointerException.class })
+public static void doublyBad() {
+List<String> list = new ArrayList<>();
+// The spec permits this method to throw either
+// IndexOutOfBoundsException or NullPointerException
+list.addAll(5, null);
+}
+It is reasonably straightforward to modify the test runner tool to process the
+new version of ExceptionTest. This code replaces the original version:
+if (m.isAnnotationPresent(ExceptionTest.class)) {
+tests++;
+try {
+m.invoke(null);
+System.out.printf("Test %s failed: no exception%n", m);
+} catch (Throwable wrappedExc) {
+Throwable exc = wrappedExc.getCause();
+int oldPassed = passed;
+Class<? extends Exception>[] excTypes =
+m.getAnnotation(ExceptionTest.class).value();
+for (Class<? extends Exception> excType : excTypes) {
+if (excType.isInstance(exc)) {
+passed++;
+break;
+}
+}
+if (passed == oldPassed)
+System.out.printf("Test %s failed: %s %n", m, exc);
+}
+}
+As of Java 8, there is another way to do multivalued annotations. Instead of
+declaring an annotation type with an array parameter, you can annotate the decla-
+ration of an annotation with the @Repeatable meta-annotation, to indicate that the
+annotation may be applied repeatedly to a single element. This meta-annotation

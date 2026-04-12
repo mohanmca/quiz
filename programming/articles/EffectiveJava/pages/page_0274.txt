@@ -1,0 +1,40 @@
+ITEM 55: RETURN OPTIONALS JUDICIOUSLY
+253
+An Optional is an object that has to be allocated and initialized, and reading the
+value out of the optional requires an extra indirection. This makes optionals
+inappropriate for use in some performance-critical situations. Whether a particular
+method falls into this category can only be determined by careful measurement
+(Item 67).
+Returning an optional that contains a boxed primitive type is prohibitively
+expensive compared to returning a primitive type because the optional has two
+levels of boxing instead of zero. Therefore, the library designers saw fit to provide
+analogues of Optional<T> for the primitive types int, long, and double. These
+optional types are OptionalInt, OptionalLong, and OptionalDouble. They
+contain most, but not all, of the methods on Optional<T>. Therefore, you should
+never return an optional of a boxed primitive type, with the possible exception
+of the “minor primitive types,” Boolean, Byte, Character, Short, and Float.
+Thus far, we have discussed returning optionals and processing them after they
+are returned. We have not discussed other possible uses, and that is because most
+other uses of optionals are suspect. For example, you should never use optionals as
+map values. If you do, you have two ways of expressing a key’s logical absence
+from the map: either the key can be absent from the map, or it can be present and
+map to an empty optional. This represents needless complexity with great
+potential for confusion and errors. More generally, it is almost never appropriate
+to use an optional as a key, value, or element in a collection or array.
+This leaves a big question unanswered. Is it ever appropriate to store an
+optional in an instance field? Often it’s a “bad smell”: it suggests that perhaps you
+should have a subclass containing the optional fields. But sometimes it may be
+justified. Consider the case of our NutritionFacts class in Item 2. A
+NutritionFacts instance contains many fields that are not required. You can’t
+have a subclass for every possible combination of these fields. Also, the fields
+have primitive types, which make it awkward to express absence directly. The best
+API for NutritionFacts would return an optional from the getter for each
+optional field, so it makes good sense to simply store those optionals as fields in
+the object.
+In summary, if you find yourself writing a method that can’t always return a
+value and you believe it is important that users of the method consider this
+possibility every time they call it, then you should probably return an optional.
+You should, however, be aware that there are real performance consequences
+associated with returning optionals; for performance-critical methods, it may be
+better to return a null or throw an exception. Finally, you should rarely use an
+optional in any other capacity than as a return value.

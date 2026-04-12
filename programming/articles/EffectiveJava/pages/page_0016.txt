@@ -1,0 +1,34 @@
+PREFACE
+xv
+ued enthusiasm for the platform and helps make your use of the platform and its
+new features more effective and enjoyable.
+San Jose, California
+April 2008
+Preface to the First Edition
+In 1996 I pulled up stakes and headed west to work for JavaSoft, as it was then
+known, because it was clear that that was where the action was. In the intervening
+five years I’ve served as Java platform libraries architect. I’ve designed, imple-
+mented, and maintained many of the libraries and served as a consultant for many
+others. Presiding over these libraries as the Java platform matured was a once-in-a-
+lifetime opportunity. It is no exaggeration to say that I had the privilege to work with
+some of the great software engineers of our generation. In the process, I learned a lot
+about the Java programming language—what works, what doesn’t, and how to use
+the language and its libraries to best effect.
+This book is my attempt to share my experience with you so that you can imi-
+tate my successes while avoiding my failures. I borrowed the format from Scott
+Meyers’s Effective C++, which consists of fifty items, each conveying one spe-
+cific rule for improving your programs and designs. I found the format to be sin-
+gularly effective, and I hope you do too.
+In many cases, I took the liberty of illustrating the items with real-world
+examples from the Java platform libraries. When describing something that could
+have been done better, I tried to pick on code that I wrote myself, but occasionally
+I pick on something written by a colleague. I sincerely apologize if, despite my
+best efforts, I’ve offended anyone. Negative examples are cited not to cast blame
+but in the spirit of cooperation, so that all of us can benefit from the experience of
+those who’ve gone before.
+While this book is not targeted solely at developers of reusable components, it
+is inevitably colored by my experience writing such components over the past two
+decades. I naturally think in terms of exported APIs (Application Programming
+Interfaces), and I encourage you to do likewise. Even if you aren’t developing
+reusable components, thinking in these terms tends to improve the quality of the
+software you write. Furthermore, it’s not uncommon to write a reusable compo-

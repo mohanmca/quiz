@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methods Common to All Objects</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Methods Common to All Objects - Items 10-14: equals, hashCode, toString, clone, and Comparable", "version": "1.0", "totalQuestions": 15, "modules": [{"id": 0, "name": "Equality and hash codes", "questions": [{"question": "When is it reasonable to leave equals inherited from Object?", "options": ["When each instance is inherently unique or the class has no logical equality concept", "Whenever the class has many fields", "Only when the class is final and public", "Only when the class also overrides hashCode"], "answer": 0, "explanation": "Object identity is the right semantics for active entities and for classes that do not need logical equality.", "id": "m1_q1"}, {"question": "Which equals property is violated by one-way comparisons against String?", "options": ["Symmetry", "Reflexivity", "Consistency", "Null handling"], "answer": 0, "explanation": "If cis.equals(s) can be true while s.equals(cis) is false, the two objects do not agree on equality.", "id": "m1_q2"}, {"question": "Why does a getClass-based equals method often fail for subclasses?", "options": ["It prevents a subtype from being equal to a valid supertype view of the same value", "It makes hash codes slower to compute", "It violates reflexivity for final classes", "It forces every object to be mutable"], "answer": 0, "explanation": "A subclass is still an instance of the supertype, but getClass equality rejects that relationship outright.", "id": "m1_q3"}, {"question": "What is the main problem with a constant hashCode such as 42?", "options": ["It is legal but collapses all entries into one bucket and destroys hash table performance", "It makes equal objects unequal", "It breaks reflexivity", "It prevents compilation on modern JDKs"], "answer": 0, "explanation": "The contract allows collisions, but one bucket for everything is effectively a denial of service for hash tables.", "id": "m1_q4"}, {"question": "Which fields should participate in hashCode?", "options": ["Only the significant fields used by equals", "Every field, including transient and derived fields", "Only primitive fields", "Only fields declared final"], "answer": 0, "explanation": "hashCode must mirror equals, so it should be built from the same state that determines logical equality.", "id": "m1_q5"}]}, {"id": 1, "name": "String form and copying", "questions": [{"question": "What should a good toString method provide?", "options": ["A concise but informative representation that a person can read", "The exact hash code in hexadecimal", "A full binary dump of every field", "A string that cannot be parsed or logged"], "answer": 0, "explanation": "The contract explicitly favors human readability and useful diagnostics.", "id": "m2_q1"}, {"question": "When is it most useful to document the exact toString format?", "options": ["For value classes where the string may be used as stable human-readable input and output", "Only for private helper classes", "Only when the class is mutable", "Never, because formats should always be hidden"], "answer": 0, "explanation": "A precise format is helpful when the string representation is intended to be a standard representation.", "id": "m2_q2"}, {"question": "What is the required first step in a well-behaved clone implementation?", "options": ["Call super.clone", "Allocate the copy with new", "Serialize the object to bytes", "Throw CloneNotSupportedException immediately"], "answer": 0, "explanation": "The Object contract and the chapter both emphasize super.clone as the field-by-field base copy.", "id": "m2_q3"}, {"question": "Why can a shallow clone be dangerous for mutable internals?", "options": ["The clone and the original may share mutable subobjects", "It always violates equals", "It makes the object non-final", "It removes all constructors"], "answer": 0, "explanation": "If both objects point at the same mutable array or list, changes in one leak into the other.", "id": "m2_q4"}, {"question": "What is the preferred copy mechanism for most new classes?", "options": ["A copy constructor or copy factory", "A public clone method", "A protected finalize method", "A custom readObject method"], "answer": 0, "explanation": "The chapter treats constructors and factories as simpler, safer, and more flexible than Cloneable.", "id": "m2_q5"}]}, {"id": 2, "name": "Comparable and ordering", "questions": [{"question": "What does implementing Comparable advertise about a class?", "options": ["That its instances have a natural ordering", "That its instances are immutable", "That its instances can be cloned safely", "That its instances always have unique hash codes"], "answer": 0, "explanation": "Comparable is the marker for a class whose instances can be ordered without an external comparator.", "id": "m3_q1"}, {"question": "Why should you avoid subtracting one field value from another in compareTo?", "options": ["Overflow and floating point edge cases can break the ordering", "It cannot compile for any primitive type", "It always returns zero", "It makes the method abstract"], "answer": 0, "explanation": "The chapter calls difference-based comparison broken because arithmetic overflow can reverse the sign.", "id": "m3_q2"}, {"question": "Which statement about compareTo and equals is correct?", "options": ["Consistency with equals is recommended but not required", "They must always return the same result for every pair of objects", "compareTo must never throw ClassCastException", "equals is ignored by all sorted collections"], "answer": 0, "explanation": "The contract allows inconsistency, but the class should document it clearly when it exists.", "id": "m3_q3"}, {"question": "What do TreeSet and TreeMap use to decide element equality?", "options": ["The ordering imposed by compareTo", "Only object identity", "Only hashCode", "The finalize method"], "answer": 0, "explanation": "Sorted collections rely on ordering, so compareTo takes the role that equals plays in hash-based collections.", "id": "m3_q4"}, {"question": "Which helper is preferred for primitive comparisons inside compareTo?", "options": ["The static compare methods such as Integer.compare and Short.compare", "The minus operator", "The instanceof operator", "The clone method"], "answer": 0, "explanation": "Static compare helpers are clearer, safer, and less error-prone than subtraction.", "id": "m3_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Why Object methods matter", "c": "<p>Object supplies five overridable methods with explicit contracts: equals, hashCode, toString, clone, and finalize.</p>\n<p>This chapter focuses on the four that still matter for everyday library code, plus Comparable because it behaves like a companion contract for ordering.</p>\n<p>If a class participates in collections, logging, or sorting, these methods are not cosmetic. They define observable behavior.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0058.png\" alt=\"Chapter 3 opens by tying object methods to collection behavior and method contracts.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 3 opens by tying object methods to collection behavior and method contracts.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 58.</div>\n<div class=\"note\">The practical failure mode is simple: once a contract is wrong, HashMap, HashSet, TreeMap, and TreeSet can misbehave in ways that are hard to diagnose.</div>"}, {"m": 0, "t": "Equals contract and inheritance traps", "c": "<p>Override equals only when the class has logical equality that differs from object identity.</p>\n<p>The contract requires reflexive, symmetric, transitive, consistent behavior, and null must never compare equal.</p>\n<p>Use instanceof for most value types; a getClass test breaks substitutability and usually makes subclasses stop behaving as their supertype.</p>\n<ul><li>Do not try one-way interoperability with a foreign type.</li><li>Do not extend an instantiable value class and add a new equality component unless you can accept the contract tradeoffs.</li><li>Favor composition when you need to add state and still preserve equality semantics.</li></ul>\n<pre><code>public final class CaseInsensitiveString {\n    private final String s;\n    @Override public boolean equals(Object o) {\n        return o instanceof CaseInsensitiveString\n                &amp;&amp; ((CaseInsensitiveString) o).s.equalsIgnoreCase(s);\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0043.png\" alt=\"The chapter shows why getClass-based equality and mixed-type equality both fail in real code.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The chapter shows why getClass-based equality and mixed-type equality both fail in real code.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 38-44.</div>"}, {"m": 0, "t": "Hash codes that actually match equals", "c": "<p>Every class that overrides equals must override hashCode as well.</p>\n<p>Equal objects must produce the same hash code. Unequal objects may collide, but a good hash function should spread them out well enough to keep hash tables fast.</p>\n<p>A constant hash code is legal but disastrous because it collapses every entry into one bucket and turns expected linear-time behavior into quadratic-time behavior.</p>\n<ul><li>Use only significant fields, meaning the fields that participate in equals.</li><li>Ignore derived fields that can be computed from those significant fields.</li><li>Cache the hash code only when the object is immutable and computing it is genuinely expensive.</li></ul>\n<pre><code>@Override public int hashCode() {\n    int result = Short.hashCode(areaCode);\n    result = 31 * result + Short.hashCode(prefix);\n    result = 31 * result + Short.hashCode(lineNum);\n    return result;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0051.png\" alt=\"Item 11 gives a field-based recipe and explains why 31 is the traditional multiplier.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 11 gives a field-based recipe and explains why 31 is the traditional multiplier.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 50-54.</div>\n<div class=\"warning\">Do not hard-code the exact hash code in the API contract. That locks you into an implementation detail and makes future improvements painful.</div>"}, {"m": 0, "t": "Quiz: Equality and hash codes", "q": true}, {"m": 1, "t": "Why toString matters", "c": "<p>Object.toString is usually not what clients want. A useful string should be concise, informative, and readable by a person.</p>\n<p>toString is invoked implicitly by println, printf, concatenation, assert, and debuggers, so bad output leaks into logs whether you call it directly or not.</p>\n<p>For value classes, document the exact format if you expect the string to be used as a stable human-readable representation or for round-tripping.</p>\n<ul><li>Return all interesting state when that is practical.</li><li>Use a summary when the object is large or the state is not suitable for a literal dump.</li><li>If you specify a format, document it precisely and provide a matching parser, constructor, or factory when appropriate.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0055.png\" alt=\"Item 12 argues for a readable diagnostic form and explains when to document the exact format.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 12 argues for a readable diagnostic form and explains when to document the exact format.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 55-56.</div>\n<div class=\"note\">If you do not override toString, every log message and debugger display that reaches your object will usually be far less useful than it should be.</div>"}, {"m": 1, "t": "Clone is a protocol, not a constructor", "c": "<p>Cloneable is unusual: it changes the behavior of Object.clone even though the interface declares no methods.</p>\n<p>A well-behaved public clone should call super.clone first, return the concrete type, and then repair any mutable internal structure that the shallow copy leaves shared.</p>\n<p>clone is fragile around mutable state, final fields, and overridable methods, so it behaves more like a special runtime protocol than a normal API.</p>\n<ul><li>Arrays are the one place where clone is usually the right copy mechanism.</li><li>If a clone method calls an overridable method during construction, the subclass can observe or corrupt a half-fixed object.</li><li>Public clone methods should not expose CloneNotSupportedException.</li></ul>\n<pre><code>@Override public Stack clone() {\n    try {\n        Stack result = (Stack) super.clone();\n        result.elements = elements.clone();\n        return result;\n    } catch (CloneNotSupportedException e) {\n        throw new AssertionError();\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0060.png\" alt=\"The chapter shows the required super.clone pattern and why shallow copies become dangerous with mutable internals.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The chapter shows the required super.clone pattern and why shallow copies become dangerous with mutable internals.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 59-64.</div>"}, {"m": 1, "t": "Prefer copy constructors and factories", "c": "<p>For almost every class, copy constructors or copy factories are safer than clone.</p>\n<p>They avoid unchecked conventions, avoid checked exceptions, preserve final fields, and let the caller choose the implementation type in conversion constructors and factories.</p>\n<p>A new interface should not extend Cloneable, and a new extendable class should usually not implement it.</p>\n<ul><li>Use clone mainly when you inherit it from an existing Cloneable superclass or when copying arrays.</li><li>If the class is immutable, clone is usually pointless and should not be advertised as a normal copying path.</li><li>A class that needs deep copies of internal mutable structure must rebuild that structure explicitly.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0065.png\" alt=\"Item 13 ends by recommending constructors or factories over Cloneable for most copy operations.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 13 ends by recommending constructors or factories over Cloneable for most copy operations.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 65.</div>\n<div class=\"warning\">Cloneable is not a general-purpose object-copying abstraction. Treat it as a legacy escape hatch, not a design default.</div>"}, {"m": 1, "t": "Quiz: String form and copying", "q": true}, {"m": 2, "t": "Natural ordering and the compareTo contract", "c": "<p>Comparable advertises a natural ordering for instances of the class.</p>\n<p>compareTo is generic and is the single method that drives sorting, searching, and ordered collections such as TreeSet and TreeMap.</p>\n<p>The contract is close to equals: antisymmetry, transitivity, and consistency across comparisons all matter, and consistency with equals is strongly recommended.</p>\n<ul><li>If compareTo is inconsistent with equals, sorted collections may behave differently from hash-based collections.</li><li>The class should clearly document that inconsistency when it is intentional.</li><li>Cross-type comparisons usually fail with ClassCastException, and that is acceptable.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0066.png\" alt=\"Item 14 frames Comparable as the ordered companion to equals.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 14 frames Comparable as the ordered companion to equals.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 66-68.</div>"}, {"m": 2, "t": "Implement compareTo lexicographically", "c": "<p>For multiple fields, compare from the most significant field to the least significant field and stop as soon as you find a nonzero result.</p>\n<p>For primitive types, use the static compare methods. Do not subtract values and hope for the best.</p>\n<p>For object fields, use their compareTo method or a Comparator when you need a nonstandard ordering.</p>\n<ul><li>Use Integer.compare, Long.compare, Double.compare, or their boxed equivalents instead of arithmetic subtraction.</li><li>Comparator.comparingInt and thenComparingInt make fluent lexicographic comparators easy to read.</li><li>Java 8 and later give you the comparator construction methods for all primitive and reference key types.</li></ul>\n<pre><code>public int compareTo(PhoneNumber pn) {\n    int result = Short.compare(areaCode, pn.areaCode);\n    if (result == 0) {\n        result = Short.compare(prefix, pn.prefix);\n        if (result == 0)\n            result = Short.compare(lineNum, pn.lineNum);\n    }\n    return result;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0069.png\" alt=\"The chapter recommends field-by-field lexicographic comparison and warns against subtraction-based order tests.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The chapter recommends field-by-field lexicographic comparison and warns against subtraction-based order tests.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 69-71.</div>"}, {"m": 2, "t": "Consistency with equals and BigDecimal", "c": "<p>The chapter strongly recommends that compareTo return zero exactly when equals returns true, but that is a recommendation rather than a strict requirement.</p>\n<p>BigDecimal is the standard example of a class whose natural ordering is inconsistent with equals, which means a HashSet and a TreeSet can report different sizes for the same inputs.</p>\n<p>If you use a difference-based comparator, integer overflow and floating point artifacts can break transitivity and make the ordering wrong.</p>\n<ul><li>Use static compare helpers or comparator construction methods instead of subtraction.</li><li>Document inconsistent natural orderings explicitly.</li><li>Remember that ordered collections consult compareTo, not equals, when deciding whether two elements are duplicates.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0072.png\" alt=\"The closing advice is to use compare helpers and document any ordering that is intentionally inconsistent with equals.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The closing advice is to use compare helpers and document any ordering that is intentionally inconsistent with equals.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 71-72.</div>\n<div class=\"warning\">If two values compare as equal but are not equal according to equals, TreeSet and TreeMap will still treat them as duplicates.</div>"}, {"m": 2, "t": "Quiz: Comparable and ordering", "q": true}];
+    const MODULE_NAMES = ["Equality and hash codes", "String form and copying", "Comparable and ordering"];
+    const STORE_KEY = 'chapter_03_methods_common_to_all_objects_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

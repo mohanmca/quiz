@@ -1,0 +1,93 @@
+384
+INDEX
+inheritance, 3
+vs. composition, 87–92
+constructors and, 95
+designing for, 93–98
+documenting for, 93–94
+encapsulation and, 87
+fragility of, 89
+hooks to facilitate, 94
+implementation vs. interface, 3, 87
+of method doc comments, 259
+multiple, simulated, 102
+self-use of overridable methods and, 98
+uses of, 92
+See also subclassing
+initialization
+circularities, 333, 366
+defensive copying and, 80
+of fields on deserialization, 351
+incomplete, 96
+lazy (see lazy initialization)
+of local variables, 261
+normal vs. lazy, 333
+at object creation, 86
+inner classes, 112
+Serializable and, 345
+to extend skeletal implementations, 102
+instance fields
+access levels of, 75
+initializing, 333
+lazy initialization of, 334
+vs. ordinals, 168
+instance-controlled classes, 6, 158
+singletons, 17–18
+static factory methods and, 6
+utility classes, 19
+See also enum types
+instanceof operator, parameter types, 121
+int constants vs. enum types, 157–167
+int, for monetary calculations, 270
+interface-based frameworks, 6, 99–103
+interface inheritance, 87
+interfaces, 73–114
+vs. abstract classes, 99–103
+access levels of, 74
+accessibility of static members, 7
+default methods on, 99, 104–105
+for defining types, 107–108, 191–192
+design of, 104–106
+emulating extensible enums with, 176–179
+enabling functionality enhancements, 100
+generic, 117
+marker (see marker interfaces)
+mixin, 58, 99
+naming conventions for, 289–291
+for nonhierarchical type frameworks, 99
+noninstantiable companion classes and, 7
+as parameter types, 170, 237
+prefer to reflection, 282
+purpose of, 58, 107–108
+for referring to objects, 280–281
+reflective instantiation of, 283–284
+serialization and, 344
+skeletal implementations and, 100–103
+static methods and, 7
+summary descriptions of, 257
+See also individual interface names
+internal field theft attacks, 360–362
+invariant types, 126, 139
+invariants
+clone and, 61
+concurrency and, 328
+constructors and, 82, 86
+corruption of, 92
+enum types and, 362
+maintaining, 229, 234, 308
+of objects and members, 75, 78
+J
+JavaBeans
+immutability and, 12
+method-naming conventions, 291
+pattern, 11–12
+Javadoc, 254
+architecture documents and, 260
+class-level comments, 228, 331
+client-side indexes in, 258
+comment inheritance, 259
+formatting, 255–256
+module- and package-level comments, 259
+summary descriptions, 257
+K
+key extractor functions, 70

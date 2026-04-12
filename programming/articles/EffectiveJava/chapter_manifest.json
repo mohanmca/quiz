@@ -1,0 +1,859 @@
+{
+  "source_pdf": "C:\\Users\\Robert\\Downloads\\jesc1dd\\EffectiveJava.pdf",
+  "book_slug": "EffectiveJava",
+  "page_count": 413,
+  "chapter_count": 12,
+  "chapters": [
+    {
+      "chapter_number": 1,
+      "title": "Introduction",
+      "full_title": "1 Introduction",
+      "start_page": 22,
+      "end_page": 25,
+      "items": [],
+      "slug": "chapter_01_introduction",
+      "item_count": 0
+    },
+    {
+      "chapter_number": 2,
+      "title": "Creating and Destroying Objects",
+      "full_title": "2 Creating and Destroying Objects",
+      "start_page": 26,
+      "end_page": 57,
+      "items": [
+        {
+          "item_number": 1,
+          "title": "Consider static factory methods instead of constructors",
+          "full_title": "Item 1: Consider static factory methods instead of constructors",
+          "start_page": 26,
+          "end_page": 30,
+          "slug": "item_01_consider_static_factory_methods_instead_of_constructors"
+        },
+        {
+          "item_number": 2,
+          "title": "Consider a builder when faced with many constructor parameters",
+          "full_title": "Item 2: Consider a builder when faced with many constructor parameters",
+          "start_page": 31,
+          "end_page": 37,
+          "slug": "item_02_consider_a_builder_when_faced_with_many_constructor_parameters"
+        },
+        {
+          "item_number": 3,
+          "title": "Enforce the singleton property with a private constructor or an enum type",
+          "full_title": "Item 3: Enforce the singleton property with a private constructor or an enum type",
+          "start_page": 38,
+          "end_page": 39,
+          "slug": "item_03_enforce_the_singleton_property_with_a_private_constructor_or_an_enum_type"
+        },
+        {
+          "item_number": 4,
+          "title": "Enforce noninstantiability with a private constructor",
+          "full_title": "Item 4: Enforce noninstantiability with a private constructor",
+          "start_page": 40,
+          "end_page": 40,
+          "slug": "item_04_enforce_noninstantiability_with_a_private_constructor"
+        },
+        {
+          "item_number": 5,
+          "title": "Prefer dependency injection to hardwiring resources",
+          "full_title": "Item 5: Prefer dependency injection to hardwiring resources",
+          "start_page": 41,
+          "end_page": 42,
+          "slug": "item_05_prefer_dependency_injection_to_hardwiring_resources"
+        },
+        {
+          "item_number": 6,
+          "title": "Avoid creating unnecessary objects",
+          "full_title": "Item 6: Avoid creating unnecessary objects",
+          "start_page": 43,
+          "end_page": 46,
+          "slug": "item_06_avoid_creating_unnecessary_objects"
+        },
+        {
+          "item_number": 7,
+          "title": "Eliminate obsolete object references",
+          "full_title": "Item 7: Eliminate obsolete object references",
+          "start_page": 47,
+          "end_page": 49,
+          "slug": "item_07_eliminate_obsolete_object_references"
+        },
+        {
+          "item_number": 8,
+          "title": "Avoid finalizers and cleaners",
+          "full_title": "Item 8: Avoid finalizers and cleaners",
+          "start_page": 50,
+          "end_page": 54,
+          "slug": "item_08_avoid_finalizers_and_cleaners"
+        },
+        {
+          "item_number": 9,
+          "title": "Prefer try-with-resources to try-finally",
+          "full_title": "Item 9: Prefer try-with-resources to try-finally",
+          "start_page": 55,
+          "end_page": 57,
+          "slug": "item_09_prefer_try-with-resources_to_try-finally"
+        }
+      ],
+      "slug": "chapter_02_creating_and_destroying_objects",
+      "item_count": 9
+    },
+    {
+      "chapter_number": 3,
+      "title": "Methods Common to All Objects",
+      "full_title": "3 Methods Common to All Objects",
+      "start_page": 58,
+      "end_page": 93,
+      "items": [
+        {
+          "item_number": 10,
+          "title": "Obey the general contract when overriding equals",
+          "full_title": "Item 10: Obey the general contract when overriding equals",
+          "start_page": 58,
+          "end_page": 70,
+          "slug": "item_10_obey_the_general_contract_when_overriding_equals"
+        },
+        {
+          "item_number": 11,
+          "title": "Always override hashCode when you override equals",
+          "full_title": "Item 11: Always override hashCode when you override equals",
+          "start_page": 71,
+          "end_page": 75,
+          "slug": "item_11_always_override_hashcode_when_you_override_equals"
+        },
+        {
+          "item_number": 12,
+          "title": "Always override toString",
+          "full_title": "Item 12: Always override toString",
+          "start_page": 76,
+          "end_page": 78,
+          "slug": "item_12_always_override_tostring"
+        },
+        {
+          "item_number": 13,
+          "title": "Override clone judiciously",
+          "full_title": "Item 13: Override clone judiciously",
+          "start_page": 79,
+          "end_page": 86,
+          "slug": "item_13_override_clone_judiciously"
+        },
+        {
+          "item_number": 14,
+          "title": "Consider implementing Comparable",
+          "full_title": "Item 14: Consider implementing Comparable",
+          "start_page": 87,
+          "end_page": 93,
+          "slug": "item_14_consider_implementing_comparable"
+        }
+      ],
+      "slug": "chapter_03_methods_common_to_all_objects",
+      "item_count": 5
+    },
+    {
+      "chapter_number": 4,
+      "title": "Classes and Interfaces",
+      "full_title": "4 Classes and Interfaces",
+      "start_page": 94,
+      "end_page": 137,
+      "items": [
+        {
+          "item_number": 15,
+          "title": "Minimize the accessibility of classes and members",
+          "full_title": "Item 15: Minimize the accessibility of classes and members",
+          "start_page": 94,
+          "end_page": 98,
+          "slug": "item_15_minimize_the_accessibility_of_classes_and_members"
+        },
+        {
+          "item_number": 16,
+          "title": "In public classes, use accessor methods, not public fields",
+          "full_title": "Item 16: In public classes, use accessor methods, not public fields",
+          "start_page": 99,
+          "end_page": 100,
+          "slug": "item_16_in_public_classes__use_accessor_methods__not_public_fields"
+        },
+        {
+          "item_number": 17,
+          "title": "Minimize mutability",
+          "full_title": "Item 17: Minimize mutability",
+          "start_page": 101,
+          "end_page": 107,
+          "slug": "item_17_minimize_mutability"
+        },
+        {
+          "item_number": 18,
+          "title": "Favor composition over inheritance",
+          "full_title": "Item 18: Favor composition over inheritance",
+          "start_page": 108,
+          "end_page": 113,
+          "slug": "item_18_favor_composition_over_inheritance"
+        },
+        {
+          "item_number": 19,
+          "title": "Design and document for inheritance or else prohibit it",
+          "full_title": "Item 19: Design and document for inheritance or else prohibit it",
+          "start_page": 114,
+          "end_page": 119,
+          "slug": "item_19_design_and_document_for_inheritance_or_else_prohibit_it"
+        },
+        {
+          "item_number": 20,
+          "title": "Prefer interfaces to abstract classes",
+          "full_title": "Item 20: Prefer interfaces to abstract classes",
+          "start_page": 120,
+          "end_page": 124,
+          "slug": "item_20_prefer_interfaces_to_abstract_classes"
+        },
+        {
+          "item_number": 21,
+          "title": "Design interfaces for posterity",
+          "full_title": "Item 21: Design interfaces for posterity",
+          "start_page": 125,
+          "end_page": 127,
+          "slug": "item_21_design_interfaces_for_posterity"
+        },
+        {
+          "item_number": 22,
+          "title": "Use interfaces only to define types",
+          "full_title": "Item 22: Use interfaces only to define types",
+          "start_page": 128,
+          "end_page": 129,
+          "slug": "item_22_use_interfaces_only_to_define_types"
+        },
+        {
+          "item_number": 23,
+          "title": "Prefer class hierarchies to tagged classes",
+          "full_title": "Item 23: Prefer class hierarchies to tagged classes",
+          "start_page": 130,
+          "end_page": 132,
+          "slug": "item_23_prefer_class_hierarchies_to_tagged_classes"
+        },
+        {
+          "item_number": 24,
+          "title": "Favor static member classes over nonstatic",
+          "full_title": "Item 24: Favor static member classes over nonstatic",
+          "start_page": 133,
+          "end_page": 135,
+          "slug": "item_24_favor_static_member_classes_over_nonstatic"
+        },
+        {
+          "item_number": 25,
+          "title": "Limit source files to a single top-level class",
+          "full_title": "Item 25: Limit source files to a single top-level class",
+          "start_page": 136,
+          "end_page": 137,
+          "slug": "item_25_limit_source_files_to_a_single_top-level_class"
+        }
+      ],
+      "slug": "chapter_04_classes_and_interfaces",
+      "item_count": 11
+    },
+    {
+      "chapter_number": 5,
+      "title": "Generics",
+      "full_title": "5 Generics",
+      "start_page": 138,
+      "end_page": 177,
+      "items": [
+        {
+          "item_number": 26,
+          "title": "Don\u2019t use raw types",
+          "full_title": "Item 26: Don\u2019t use raw types",
+          "start_page": 138,
+          "end_page": 143,
+          "slug": "item_26_don_t_use_raw_types"
+        },
+        {
+          "item_number": 27,
+          "title": "Eliminate unchecked warnings",
+          "full_title": "Item 27: Eliminate unchecked warnings",
+          "start_page": 144,
+          "end_page": 146,
+          "slug": "item_27_eliminate_unchecked_warnings"
+        },
+        {
+          "item_number": 28,
+          "title": "Prefer lists to arrays",
+          "full_title": "Item 28: Prefer lists to arrays",
+          "start_page": 147,
+          "end_page": 150,
+          "slug": "item_28_prefer_lists_to_arrays"
+        },
+        {
+          "item_number": 29,
+          "title": "Favor generic types",
+          "full_title": "Item 29: Favor generic types",
+          "start_page": 151,
+          "end_page": 155,
+          "slug": "item_29_favor_generic_types"
+        },
+        {
+          "item_number": 30,
+          "title": "Favor generic methods",
+          "full_title": "Item 30: Favor generic methods",
+          "start_page": 156,
+          "end_page": 159,
+          "slug": "item_30_favor_generic_methods"
+        },
+        {
+          "item_number": 31,
+          "title": "Use bounded wildcards to increase API flexibility",
+          "full_title": "Item 31: Use bounded wildcards to increase API flexibility",
+          "start_page": 160,
+          "end_page": 166,
+          "slug": "item_31_use_bounded_wildcards_to_increase_api_flexibility"
+        },
+        {
+          "item_number": 32,
+          "title": "Combine generics and varargs judiciously",
+          "full_title": "Item 32: Combine generics and varargs judiciously",
+          "start_page": 167,
+          "end_page": 171,
+          "slug": "item_32_combine_generics_and_varargs_judiciously"
+        },
+        {
+          "item_number": 33,
+          "title": "Consider typesafe heterogeneous containers",
+          "full_title": "Item 33: Consider typesafe heterogeneous containers",
+          "start_page": 172,
+          "end_page": 177,
+          "slug": "item_33_consider_typesafe_heterogeneous_containers"
+        }
+      ],
+      "slug": "chapter_05_generics",
+      "item_count": 8
+    },
+    {
+      "chapter_number": 6,
+      "title": "Enums and Annotations",
+      "full_title": "6 Enums and Annotations",
+      "start_page": 178,
+      "end_page": 213,
+      "items": [
+        {
+          "item_number": 34,
+          "title": "Use enums instead of int constants",
+          "full_title": "Item 34: Use enums instead of int constants",
+          "start_page": 178,
+          "end_page": 188,
+          "slug": "item_34_use_enums_instead_of_int_constants"
+        },
+        {
+          "item_number": 35,
+          "title": "Use instance fields instead of ordinals",
+          "full_title": "Item 35: Use instance fields instead of ordinals",
+          "start_page": 189,
+          "end_page": 189,
+          "slug": "item_35_use_instance_fields_instead_of_ordinals"
+        },
+        {
+          "item_number": 36,
+          "title": "Use EnumSet instead of bit fields",
+          "full_title": "Item 36: Use EnumSet instead of bit fields",
+          "start_page": 190,
+          "end_page": 191,
+          "slug": "item_36_use_enumset_instead_of_bit_fields"
+        },
+        {
+          "item_number": 37,
+          "title": "Use EnumMap instead of ordinal indexing",
+          "full_title": "Item 37: Use EnumMap instead of ordinal indexing",
+          "start_page": 192,
+          "end_page": 196,
+          "slug": "item_37_use_enummap_instead_of_ordinal_indexing"
+        },
+        {
+          "item_number": 38,
+          "title": "Emulate extensible enums with interfaces",
+          "full_title": "Item 38: Emulate extensible enums with interfaces",
+          "start_page": 197,
+          "end_page": 200,
+          "slug": "item_38_emulate_extensible_enums_with_interfaces"
+        },
+        {
+          "item_number": 39,
+          "title": "Prefer annotations to naming patterns",
+          "full_title": "Item 39: Prefer annotations to naming patterns",
+          "start_page": 201,
+          "end_page": 208,
+          "slug": "item_39_prefer_annotations_to_naming_patterns"
+        },
+        {
+          "item_number": 40,
+          "title": "Consistently use the Override annotation",
+          "full_title": "Item 40: Consistently use the Override annotation",
+          "start_page": 209,
+          "end_page": 211,
+          "slug": "item_40_consistently_use_the_override_annotation"
+        },
+        {
+          "item_number": 41,
+          "title": "Use marker interfaces to define types",
+          "full_title": "Item 41: Use marker interfaces to define types",
+          "start_page": 212,
+          "end_page": 213,
+          "slug": "item_41_use_marker_interfaces_to_define_types"
+        }
+      ],
+      "slug": "chapter_06_enums_and_annotations",
+      "item_count": 8
+    },
+    {
+      "chapter_number": 7,
+      "title": "Lambdas and Streams",
+      "full_title": "7 Lambdas and Streams",
+      "start_page": 214,
+      "end_page": 247,
+      "items": [
+        {
+          "item_number": 42,
+          "title": "Prefer lambdas to anonymous classes",
+          "full_title": "Item 42: Prefer lambdas to anonymous classes",
+          "start_page": 214,
+          "end_page": 217,
+          "slug": "item_42_prefer_lambdas_to_anonymous_classes"
+        },
+        {
+          "item_number": 43,
+          "title": "Prefer method references to lambdas",
+          "full_title": "Item 43: Prefer method references to lambdas",
+          "start_page": 218,
+          "end_page": 219,
+          "slug": "item_43_prefer_method_references_to_lambdas"
+        },
+        {
+          "item_number": 44,
+          "title": "Favor the use of standard functional interfaces",
+          "full_title": "Item 44: Favor the use of standard functional interfaces",
+          "start_page": 220,
+          "end_page": 223,
+          "slug": "item_44_favor_the_use_of_standard_functional_interfaces"
+        },
+        {
+          "item_number": 45,
+          "title": "Use streams judiciously",
+          "full_title": "Item 45: Use streams judiciously",
+          "start_page": 224,
+          "end_page": 230,
+          "slug": "item_45_use_streams_judiciously"
+        },
+        {
+          "item_number": 46,
+          "title": "Prefer side-effect-free functions in streams",
+          "full_title": "Item 46: Prefer side-effect-free functions in streams",
+          "start_page": 231,
+          "end_page": 236,
+          "slug": "item_46_prefer_side-effect-free_functions_in_streams"
+        },
+        {
+          "item_number": 47,
+          "title": "Prefer Collection to Stream as a return type",
+          "full_title": "Item 47: Prefer Collection to Stream as a return type",
+          "start_page": 237,
+          "end_page": 242,
+          "slug": "item_47_prefer_collection_to_stream_as_a_return_type"
+        },
+        {
+          "item_number": 48,
+          "title": "Use caution when making streams parallel",
+          "full_title": "Item 48: Use caution when making streams parallel",
+          "start_page": 243,
+          "end_page": 247,
+          "slug": "item_48_use_caution_when_making_streams_parallel"
+        }
+      ],
+      "slug": "chapter_07_lambdas_and_streams",
+      "item_count": 7
+    },
+    {
+      "chapter_number": 8,
+      "title": "Methods",
+      "full_title": "8 Methods",
+      "start_page": 248,
+      "end_page": 281,
+      "items": [
+        {
+          "item_number": 49,
+          "title": "Check parameters for validity",
+          "full_title": "Item 49: Check parameters for validity",
+          "start_page": 248,
+          "end_page": 251,
+          "slug": "item_49_check_parameters_for_validity"
+        },
+        {
+          "item_number": 50,
+          "title": "Make defensive copies when needed",
+          "full_title": "Item 50: Make defensive copies when needed",
+          "start_page": 252,
+          "end_page": 256,
+          "slug": "item_50_make_defensive_copies_when_needed"
+        },
+        {
+          "item_number": 51,
+          "title": "Design method signatures carefully",
+          "full_title": "Item 51: Design method signatures carefully",
+          "start_page": 257,
+          "end_page": 258,
+          "slug": "item_51_design_method_signatures_carefully"
+        },
+        {
+          "item_number": 52,
+          "title": "Use overloading judiciously",
+          "full_title": "Item 52: Use overloading judiciously",
+          "start_page": 259,
+          "end_page": 265,
+          "slug": "item_52_use_overloading_judiciously"
+        },
+        {
+          "item_number": 53,
+          "title": "Use varargs judiciously",
+          "full_title": "Item 53: Use varargs judiciously",
+          "start_page": 266,
+          "end_page": 267,
+          "slug": "item_53_use_varargs_judiciously"
+        },
+        {
+          "item_number": 54,
+          "title": "Return empty collections or arrays, not nulls",
+          "full_title": "Item 54: Return empty collections or arrays, not nulls",
+          "start_page": 268,
+          "end_page": 269,
+          "slug": "item_54_return_empty_collections_or_arrays__not_nulls"
+        },
+        {
+          "item_number": 55,
+          "title": "Return optionals judiciously",
+          "full_title": "Item 55: Return optionals judiciously",
+          "start_page": 270,
+          "end_page": 274,
+          "slug": "item_55_return_optionals_judiciously"
+        },
+        {
+          "item_number": 56,
+          "title": "Write doc comments for all exposed API elements",
+          "full_title": "Item 56: Write doc comments for all exposed API elements",
+          "start_page": 275,
+          "end_page": 281,
+          "slug": "item_56_write_doc_comments_for_all_exposed_api_elements"
+        }
+      ],
+      "slug": "chapter_08_methods",
+      "item_count": 8
+    },
+    {
+      "chapter_number": 9,
+      "title": "General Programming",
+      "full_title": "9 General Programming",
+      "start_page": 282,
+      "end_page": 313,
+      "items": [
+        {
+          "item_number": 57,
+          "title": "Minimize the scope of local variables",
+          "full_title": "Item 57: Minimize the scope of local variables",
+          "start_page": 282,
+          "end_page": 284,
+          "slug": "item_57_minimize_the_scope_of_local_variables"
+        },
+        {
+          "item_number": 58,
+          "title": "Prefer for-each loops to traditional for loops",
+          "full_title": "Item 58: Prefer for-each loops to traditional for loops",
+          "start_page": 285,
+          "end_page": 287,
+          "slug": "item_58_prefer_for-each_loops_to_traditional_for_loops"
+        },
+        {
+          "item_number": 59,
+          "title": "Know and use the libraries",
+          "full_title": "Item 59: Know and use the libraries",
+          "start_page": 288,
+          "end_page": 290,
+          "slug": "item_59_know_and_use_the_libraries"
+        },
+        {
+          "item_number": 60,
+          "title": "Avoid float and double if exact answers are required",
+          "full_title": "Item 60: Avoid float and double if exact answers are required",
+          "start_page": 291,
+          "end_page": 293,
+          "slug": "item_60_avoid_float_and_double_if_exact_answers_are_required"
+        },
+        {
+          "item_number": 61,
+          "title": "Prefer primitive types to boxed primitives",
+          "full_title": "Item 61: Prefer primitive types to boxed primitives",
+          "start_page": 294,
+          "end_page": 296,
+          "slug": "item_61_prefer_primitive_types_to_boxed_primitives"
+        },
+        {
+          "item_number": 62,
+          "title": "Avoid strings where other types are more appropriate",
+          "full_title": "Item 62: Avoid strings where other types are more appropriate",
+          "start_page": 297,
+          "end_page": 299,
+          "slug": "item_62_avoid_strings_where_other_types_are_more_appropriate"
+        },
+        {
+          "item_number": 63,
+          "title": "Beware the performance of string concatenation",
+          "full_title": "Item 63: Beware the performance of string concatenation",
+          "start_page": 300,
+          "end_page": 300,
+          "slug": "item_63_beware_the_performance_of_string_concatenation"
+        },
+        {
+          "item_number": 64,
+          "title": "Refer to objects by their interfaces",
+          "full_title": "Item 64: Refer to objects by their interfaces",
+          "start_page": 301,
+          "end_page": 302,
+          "slug": "item_64_refer_to_objects_by_their_interfaces"
+        },
+        {
+          "item_number": 65,
+          "title": "Prefer interfaces to reflection",
+          "full_title": "Item 65: Prefer interfaces to reflection",
+          "start_page": 303,
+          "end_page": 305,
+          "slug": "item_65_prefer_interfaces_to_reflection"
+        },
+        {
+          "item_number": 66,
+          "title": "Use native methods judiciously",
+          "full_title": "Item 66: Use native methods judiciously",
+          "start_page": 306,
+          "end_page": 306,
+          "slug": "item_66_use_native_methods_judiciously"
+        },
+        {
+          "item_number": 67,
+          "title": "Optimize judiciously",
+          "full_title": "Item 67: Optimize judiciously",
+          "start_page": 307,
+          "end_page": 309,
+          "slug": "item_67_optimize_judiciously"
+        },
+        {
+          "item_number": 68,
+          "title": "Adhere to generally accepted naming conventions",
+          "full_title": "Item 68: Adhere to generally accepted naming conventions",
+          "start_page": 310,
+          "end_page": 313,
+          "slug": "item_68_adhere_to_generally_accepted_naming_conventions"
+        }
+      ],
+      "slug": "chapter_09_general_programming",
+      "item_count": 12
+    },
+    {
+      "chapter_number": 10,
+      "title": "Exceptions",
+      "full_title": "10 Exceptions",
+      "start_page": 314,
+      "end_page": 331,
+      "items": [
+        {
+          "item_number": 69,
+          "title": "Use exceptions only for exceptional conditions",
+          "full_title": "Item 69: Use exceptions only for exceptional conditions",
+          "start_page": 314,
+          "end_page": 316,
+          "slug": "item_69_use_exceptions_only_for_exceptional_conditions"
+        },
+        {
+          "item_number": 70,
+          "title": "Use checked exceptions for recoverable conditions and runtime exceptions for programming errors",
+          "full_title": "Item 70: Use checked exceptions for recoverable conditions and runtime exceptions for programming errors",
+          "start_page": 317,
+          "end_page": 318,
+          "slug": "item_70_use_checked_exceptions_for_recoverable_conditions_and_runtime_exceptions_for_programming_errors"
+        },
+        {
+          "item_number": 71,
+          "title": "Avoid unnecessary use of checked exceptions",
+          "full_title": "Item 71: Avoid unnecessary use of checked exceptions",
+          "start_page": 319,
+          "end_page": 320,
+          "slug": "item_71_avoid_unnecessary_use_of_checked_exceptions"
+        },
+        {
+          "item_number": 72,
+          "title": "Favor the use of standard exceptions",
+          "full_title": "Item 72: Favor the use of standard exceptions",
+          "start_page": 321,
+          "end_page": 322,
+          "slug": "item_72_favor_the_use_of_standard_exceptions"
+        },
+        {
+          "item_number": 73,
+          "title": "Throw exceptions appropriate to the abstraction",
+          "full_title": "Item 73: Throw exceptions appropriate to the abstraction",
+          "start_page": 323,
+          "end_page": 324,
+          "slug": "item_73_throw_exceptions_appropriate_to_the_abstraction"
+        },
+        {
+          "item_number": 74,
+          "title": "Document all exceptions thrown by each method",
+          "full_title": "Item 74: Document all exceptions thrown by each method",
+          "start_page": 325,
+          "end_page": 326,
+          "slug": "item_74_document_all_exceptions_thrown_by_each_method"
+        },
+        {
+          "item_number": 75,
+          "title": "Include failure-capture information in detail messages",
+          "full_title": "Item 75: Include failure-capture information in detail messages",
+          "start_page": 327,
+          "end_page": 328,
+          "slug": "item_75_include_failure-capture_information_in_detail_messages"
+        },
+        {
+          "item_number": 76,
+          "title": "Strive for failure atomicity",
+          "full_title": "Item 76: Strive for failure atomicity",
+          "start_page": 329,
+          "end_page": 330,
+          "slug": "item_76_strive_for_failure_atomicity"
+        },
+        {
+          "item_number": 77,
+          "title": "Don\u2019t ignore exceptions",
+          "full_title": "Item 77: Don\u2019t ignore exceptions",
+          "start_page": 331,
+          "end_page": 331,
+          "slug": "item_77_don_t_ignore_exceptions"
+        }
+      ],
+      "slug": "chapter_10_exceptions",
+      "item_count": 9
+    },
+    {
+      "chapter_number": 11,
+      "title": "Concurrency",
+      "full_title": "11 Concurrency",
+      "start_page": 332,
+      "end_page": 359,
+      "items": [
+        {
+          "item_number": 78,
+          "title": "Synchronize access to shared mutable data",
+          "full_title": "Item 78: Synchronize access to shared mutable data",
+          "start_page": 332,
+          "end_page": 337,
+          "slug": "item_78_synchronize_access_to_shared_mutable_data"
+        },
+        {
+          "item_number": 79,
+          "title": "Avoid excessive synchronization",
+          "full_title": "Item 79: Avoid excessive synchronization",
+          "start_page": 338,
+          "end_page": 343,
+          "slug": "item_79_avoid_excessive_synchronization"
+        },
+        {
+          "item_number": 80,
+          "title": "Prefer executors, tasks, and streams to threads",
+          "full_title": "Item 80: Prefer executors, tasks, and streams to threads",
+          "start_page": 344,
+          "end_page": 345,
+          "slug": "item_80_prefer_executors__tasks__and_streams_to_threads"
+        },
+        {
+          "item_number": 81,
+          "title": "Prefer concurrency utilities to wait and notify",
+          "full_title": "Item 81: Prefer concurrency utilities to wait and notify",
+          "start_page": 346,
+          "end_page": 350,
+          "slug": "item_81_prefer_concurrency_utilities_to_wait_and_notify"
+        },
+        {
+          "item_number": 82,
+          "title": "Document thread safety",
+          "full_title": "Item 82: Document thread safety",
+          "start_page": 351,
+          "end_page": 353,
+          "slug": "item_82_document_thread_safety"
+        },
+        {
+          "item_number": 83,
+          "title": "Use lazy initialization judiciously",
+          "full_title": "Item 83: Use lazy initialization judiciously",
+          "start_page": 354,
+          "end_page": 356,
+          "slug": "item_83_use_lazy_initialization_judiciously"
+        },
+        {
+          "item_number": 84,
+          "title": "Don\u2019t depend on the thread scheduler",
+          "full_title": "Item 84: Don\u2019t depend on the thread scheduler",
+          "start_page": 357,
+          "end_page": 359,
+          "slug": "item_84_don_t_depend_on_the_thread_scheduler"
+        }
+      ],
+      "slug": "chapter_11_concurrency",
+      "item_count": 7
+    },
+    {
+      "chapter_number": 12,
+      "title": "Serialization",
+      "full_title": "12 Serialization",
+      "start_page": 360,
+      "end_page": 413,
+      "items": [
+        {
+          "item_number": 85,
+          "title": "Prefer alternatives to Java serialization",
+          "full_title": "Item 85: Prefer alternatives to Java serialization",
+          "start_page": 360,
+          "end_page": 363,
+          "slug": "item_85_prefer_alternatives_to_java_serialization"
+        },
+        {
+          "item_number": 86,
+          "title": "Implement Serializable with great caution",
+          "full_title": "Item 86: Implement Serializable with great caution",
+          "start_page": 364,
+          "end_page": 366,
+          "slug": "item_86_implement_serializable_with_great_caution"
+        },
+        {
+          "item_number": 87,
+          "title": "Consider using a custom serialized form",
+          "full_title": "Item 87: Consider using a custom serialized form",
+          "start_page": 367,
+          "end_page": 373,
+          "slug": "item_87_consider_using_a_custom_serialized_form"
+        },
+        {
+          "item_number": 88,
+          "title": "Write readObject methods defensively",
+          "full_title": "Item 88: Write readObject methods defensively",
+          "start_page": 374,
+          "end_page": 379,
+          "slug": "item_88_write_readobject_methods_defensively"
+        },
+        {
+          "item_number": 89,
+          "title": "For instance control, prefer enum types to readResolve",
+          "full_title": "Item 89: For instance control, prefer enum types to readResolve",
+          "start_page": 380,
+          "end_page": 383,
+          "slug": "item_89_for_instance_control__prefer_enum_types_to_readresolve"
+        },
+        {
+          "item_number": 90,
+          "title": "Consider serialization proxies instead of serialized instances",
+          "full_title": "Item 90: Consider serialization proxies instead of serialized instances",
+          "start_page": 384,
+          "end_page": 413,
+          "slug": "item_90_consider_serialization_proxies_instead_of_serialized_instances"
+        }
+      ],
+      "slug": "chapter_12_serialization",
+      "item_count": 6
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+CHAPTER 7
+LAMBDAS AND STREAMS
+202
+are several reasons that Comparator deserves its own interface. First, its name
+provides excellent documentation every time it is used in an API, and it’s used a
+lot. Second, the Comparator interface has strong requirements on what constitutes
+a valid instance, which comprise its general contract. By implementing the
+interface, you are pledging to adhere to its contract. Third, the interface is heavily
+outfitted with useful default methods to transform and combine comparators.
+You should seriously consider writing a purpose-built functional interface in
+preference to using a standard one if you need a functional interface that shares
+one or more of the following characteristics with Comparator:
+• It will be commonly used and could benefit from a descriptive name.
+• It has a strong contract associated with it.
+• It would benefit from custom default methods.
+If you elect to write your own functional interface, remember that it’s an interface
+and hence should be designed with great care (Item 21).
+Notice that the EldestEntryRemovalFunction interface (page 199) is labeled
+with the @FunctionalInterface annotation. This annotation type is similar in
+spirit to @Override. It is a statement of programmer intent that serves three
+purposes: it tells readers of the class and its documentation that the interface was
+designed to enable lambdas; it keeps you honest because the interface won’t com-
+pile unless it has exactly one abstract method; and it prevents maintainers from
+accidentally adding abstract methods to the interface as it evolves. Always anno-
+tate your functional interfaces with the @FunctionalInterface annotation.
+A final point should be made concerning the use of functional interfaces in
+APIs. Do not provide a method with multiple overloadings that take different
+functional interfaces in the same argument position if it could create a possible
+ambiguity in the client. This is not just a theoretical problem. The submit method
+of ExecutorService can take either a Callable<T> or a Runnable, and it is
+possible to write a client program that requires a cast to indicate the correct
+overloading (Item 52). The easiest way to avoid this problem is not to write
+overloadings that take different functional interfaces in the same argument
+position. This is a special case of the advice in Item 52, “use overloading
+judiciously.”
+In summary, now that Java has lambdas, it is imperative that you design your
+APIs with lambdas in mind. Accept functional interface types on input and return
+them on output. It is generally best to use the standard interfaces provided in
+java.util.function.Function, but keep your eyes open for the relatively rare
+cases where you would be better off writing your own functional interface.

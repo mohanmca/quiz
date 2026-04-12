@@ -1,0 +1,41 @@
+CHAPTER 9
+GENERAL PROGRAMMING
+262
+postpone the declaration until you do. One exception to this rule concerns try-
+catch statements. If a variable is initialized to an expression whose evaluation can
+throw a checked exception, the variable must be initialized inside a try block
+(unless the enclosing method can propagate the exception). If the value must be
+used outside of the try block, then it must be declared before the try block,
+where it cannot yet be “sensibly initialized.” For an example, see page 283.
+Loops present a special opportunity to minimize the scope of variables. The
+for loop, in both its traditional and for-each forms, allows you to declare loop
+variables, limiting their scope to the exact region where they’re needed. (This
+region consists of the body of the loop and the code in parentheses between the
+for keyword and the body.) Therefore, prefer for loops to while loops, assum-
+ing the contents of the loop variable aren’t needed after the loop terminates.
+For example, here is the preferred idiom for iterating over a collection (Item 58):
+// Preferred idiom for iterating over a collection or array
+for (Element e : c) {
+... // Do Something with e
+}
+If you need access to the iterator, perhaps to call its remove method, the preferred
+idiom uses a traditional for loop in place of the for-each loop:
+// Idiom for iterating when you need the iterator
+for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
+Element e = i.next();
+... // Do something with e and i
+}
+To see why these for loops are preferable to a while loop, consider the following
+code fragment, which contains two while loops and one bug:
+Iterator<Element> i = c.iterator();
+while (i.hasNext()) {
+doSomething(i.next());
+}
+...
+Iterator<Element> i2 = c2.iterator();
+while (i.hasNext()) {
+// BUG!
+doSomethingElse(i2.next());
+}
+The second loop contains a copy-and-paste error: it initializes a new loop variable,
+i2, but uses the old one, i, which is, unfortunately, still in scope. The resulting

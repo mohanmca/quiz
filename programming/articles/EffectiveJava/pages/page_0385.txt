@@ -1,0 +1,40 @@
+CHAPTER 12
+SERIALIZATION
+364
+The presence of this method on the enclosing class causes the serialization system
+to emit a SerializationProxy instance instead of an instance of the enclosing
+class. In other words, the writeReplace method translates an instance of the
+enclosing class to its serialization proxy prior to serialization.
+With this writeReplace method in place, the serialization system will never
+generate a serialized instance of the enclosing class, but an attacker might
+fabricate one in an attempt to violate the class’s invariants. To guarantee that such
+an attack would fail, merely add this readObject method to the enclosing class:
+// readObject method for the serialization proxy pattern
+private void readObject(ObjectInputStream stream) 
+        throws InvalidObjectException {
+    throw new InvalidObjectException("Proxy required");
+}
+Finally, provide a readResolve method on the SerializationProxy class
+that returns a logically equivalent instance of the enclosing class. The presence of
+this method causes the serialization system to translate the serialization proxy back
+into an instance of the enclosing class upon deserialization.
+This readResolve method creates an instance of the enclosing class using
+only its public API and therein lies the beauty of the pattern. It largely eliminates
+the extralinguistic character of serialization, because the deserialized instance is
+created using the same constructors, static factories, and methods as any other
+instance. This frees you from having to separately ensure that deserialized
+instances obey the class’s invariants. If the class’s static factories or constructors
+establish these invariants and its instance methods maintain them, you’ve ensured
+that the invariants will be maintained by serialization as well. 
+Here is the readResolve method for Period.SerializationProxy above:
+// readResolve method for Period.SerializationProxy 
+private Object readResolve() {
+return new Period(start, end);
+// Uses public constructor
+}
+Like the defensive copying approach (page 357), the serialization proxy
+approach stops the bogus byte-stream attack (page 354) and the internal field theft
+attack (page 356) dead in their tracks. Unlike the two previous approaches, this
+one allows the fields of Period to be final, which is required in order for the
+Period class to be truly immutable (Item 17). And unlike the two previous
+approaches, this one doesn’t involve a great deal of thought. You don’t have to

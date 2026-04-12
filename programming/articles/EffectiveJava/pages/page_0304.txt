@@ -1,0 +1,47 @@
+ITEM 65: PREFER INTERFACES TO REFLECTION
+283
+remaining command line arguments into the set and prints it. Regardless of the
+first argument, the program prints the remaining arguments with duplicates
+eliminated. The order in which these arguments are printed, however, depends on
+the class specified in the first argument. If you specify java.util.HashSet,
+they’re printed in apparently random order; if you specify java.util.TreeSet,
+they’re printed in alphabetical order because the elements in a TreeSet are sorted:
+// Reflective instantiation with interface access
+public static void main(String[] args) {
+// Translate the class name into a Class object
+Class<? extends Set<String>> cl = null;
+try {
+cl = (Class<? extends Set<String>>)
+// Unchecked cast!
+Class.forName(args[0]);
+} catch (ClassNotFoundException e) {
+fatalError("Class not found.");
+}
+// Get the constructor
+Constructor<? extends Set<String>> cons = null;
+try {
+cons = cl.getDeclaredConstructor();
+    } catch (NoSuchMethodException e) {
+fatalError("No parameterless constructor");
+    }
+// Instantiate the set
+Set<String> s = null;
+try {
+s = cons.newInstance();
+} catch (IllegalAccessException e) {
+fatalError("Constructor not accessible");
+} catch (InstantiationException e) {
+fatalError("Class not instantiable.");
+    } catch (InvocationTargetException e) {
+fatalError("Constructor threw " + e.getCause());
+} catch (ClassCastException e) {
+fatalError("Class doesn't implement Set");
+}
+// Exercise the set
+s.addAll(Arrays.asList(args).subList(1, args.length));
+System.out.println(s);
+}
+private static void fatalError(String msg) {
+    System.err.println(msg);
+    System.exit(1);
+}

@@ -1,0 +1,24 @@
+ITEM 31: USE BOUNDED WILDCARDS TO INCREASE API FLEXIBILITY
+145
+private helper method to capture the wildcard type. The helper method must be a
+generic method in order to capture the type. Here’s how it looks:
+public static void swap(List<?> list, int i, int j) {
+swapHelper(list, i, j);
+}
+// Private helper method for wildcard capture
+private static <E> void swapHelper(List<E> list, int i, int j) {
+list.set(i, list.set(j, list.get(i)));
+}
+The swapHelper method knows that list is a List<E>. Therefore, it knows
+that any value it gets out of this list is of type E and that it’s safe to put any value of
+type E into the list. This slightly convoluted implementation of swap compiles
+cleanly. It allows us to export the nice wildcard-based declaration, while taking
+advantage of the more complex generic method internally. Clients of the swap
+method don’t have to confront the more complex swapHelper declaration, but
+they do benefit from it. It is worth noting that the helper method has precisely the
+signature that we dismissed as too complex for the public method.
+In summary, using wildcard types in your APIs, while tricky, makes the APIs
+far more flexible. If you write a library that will be widely used, the proper use of
+wildcard types should be considered mandatory. Remember the basic rule:
+producer-extends, consumer-super (PECS). Also remember that all comparables
+and comparators are consumers.

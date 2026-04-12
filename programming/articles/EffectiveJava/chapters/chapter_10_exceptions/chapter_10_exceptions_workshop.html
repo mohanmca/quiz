@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exceptions</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Exceptions - Effective Java, Chapter 10: pages 314-331, Items 69-77", "version": "1.0", "totalQuestions": 15, "modules": [{"id": 0, "name": "Exceptional conditions and throwable choice", "questions": [{"question": "Why should exceptions not be used for ordinary loop control?", "options": ["Because the condition is expected and should be expressed directly", "Because exceptions cannot be caught inside loops", "Because loop control requires checked exceptions", "Because iteration with exceptions is always faster"], "answer": 0, "explanation": "An ordinary loop should spell out its termination condition; exceptions are for genuinely unusual failure.", "id": "chapter10_m1_q1"}, {"question": "When is a checked exception justified?", "options": ["When the caller can reasonably recover and should be forced to handle the condition", "Whenever the method is public", "Whenever the code is performance-critical", "Whenever a return value would be inconvenient"], "answer": 0, "explanation": "The checked/unchecked choice is about recoverability and caller burden, not style.", "id": "chapter10_m1_q2"}, {"question": "What should you throw for a programming error such as an invalid argument or illegal state?", "options": ["A runtime exception appropriate to the violation", "A checked exception so callers must catch it", "An Error subclass", "A Throwable subclass unrelated to Exception"], "answer": 0, "explanation": "Runtime exceptions model contract violations; checked exceptions model recoverable conditions.", "id": "chapter10_m1_q3"}, {"question": "What is wrong with defining a new Error subclass for application failure?", "options": ["Errors are reserved for unrecoverable VM-level conditions and should not be part of normal API design", "Errors cannot carry detail messages", "Errors are always checked", "Errors cannot be thrown from Java code"], "answer": 0, "explanation": "Application code should not invent new errors; it should use runtime exceptions or checked exceptions as appropriate.", "id": "chapter10_m1_q4"}, {"question": "What should a checked exception provide if recovery is expected?", "options": ["Typed accessors that expose the data needed to recover", "Only a stack trace", "A localized user message", "A private constructor"], "answer": 0, "explanation": "Callers should not need to parse exception text to recover from a known failure mode.", "id": "chapter10_m1_q5"}]}, {"id": 1, "name": "Checked exceptions, standard exceptions, and abstraction", "questions": [{"question": "Why can a checked exception make an API unpleasant to use?", "options": ["Because every caller must catch it or declare it, even when recovery is awkward", "Because checked exceptions are always slower at runtime", "Because checked exceptions cannot be documented", "Because they cannot be translated"], "answer": 0, "explanation": "A checked exception is a deliberate API burden, so it should be reserved for useful recovery scenarios.", "id": "chapter10_m2_q1"}, {"question": "When should `Optional` be preferred over a checked exception?", "options": ["When the failure can be represented as absence and no extra failure data is needed", "When the caller needs a stack trace", "When the method is private", "When the exception is recoverable"], "answer": 0, "explanation": "Optional is a cleaner replacement when the failure mode is simply “no result.”", "id": "chapter10_m2_q2"}, {"question": "Which exception best matches an illegal argument value?", "options": ["`IllegalArgumentException`", "`IllegalStateException`", "`ConcurrentModificationException`", "`UnsupportedOperationException`"], "answer": 0, "explanation": "Bad parameter values should map to `IllegalArgumentException` unless a more specific standard exception applies.", "id": "chapter10_m2_q3"}, {"question": "What is the purpose of exception translation?", "options": ["To convert a low-level failure into an exception that matches the higher-level abstraction", "To hide all failures from callers", "To avoid using stack traces", "To force all exceptions to become checked"], "answer": 0, "explanation": "Translation keeps implementation details out of the public contract while preserving useful diagnostics.", "id": "chapter10_m2_q4"}, {"question": "Why is chaining useful in translated exceptions?", "options": ["It preserves the original cause and its stack trace for debugging", "It eliminates the need for documentation", "It makes the exception unchecked", "It guarantees recovery"], "answer": 0, "explanation": "Chaining gives you the higher-level exception the API needs plus the lower-level cause you may need later.", "id": "chapter10_m2_q5"}]}, {"id": 2, "name": "Documentation, diagnostics, and failure atomicity", "questions": [{"question": "What is the best way to document a checked exception?", "options": ["With a precise `throws` declaration and a Javadoc `@throws` description of when it occurs", "Only in the class-level comment", "Only by naming the exception type well", "By omitting it so callers discover it from stack traces"], "answer": 0, "explanation": "The declaration and the Javadoc should tell clients exactly when the exception is expected.", "id": "chapter10_m3_q1"}, {"question": "What belongs in an exception detail message?", "options": ["The values that explain the failure, such as offending indexes or bounds", "A long prose narrative for end users", "Sensitive secrets so support can diagnose faster", "Only the exception class name"], "answer": 0, "explanation": "The detail message should capture the failure facts, not tell a story.", "id": "chapter10_m3_q2"}, {"question": "What is failure atomicity?", "options": ["A failed operation leaves the object in the same usable state it had before the call", "A method never throws exceptions", "A method always rolls back the heap", "A catch block always repairs every invariant automatically"], "answer": 0, "explanation": "Failure atomicity is about preserving object state when an operation aborts.", "id": "chapter10_m3_q3"}, {"question": "When is it acceptable to ignore an exception?", "options": ["Only when the code comments explicitly explain why ignoring it is safe or expected", "Whenever the exception is checked", "Whenever the catch block is empty but short", "Whenever the program is not in debug mode"], "answer": 0, "explanation": "Ignoring an exception without explanation is a silent failure mode.", "id": "chapter10_m3_q4"}, {"question": "Why can swallowing an exception make debugging harder?", "options": ["It can defer the visible failure to a later location that no longer obviously relates to the root cause", "It forces the VM to crash immediately", "It always improves throughput", "It prevents stack traces from being generated"], "answer": 0, "explanation": "An ignored exception removes the evidence that would otherwise point at the original fault.", "id": "chapter10_m3_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Item 69: exceptions are for exceptional conditions", "c": "<p>Do not use exceptions as an alternative loop construct or as a substitute for ordinary control flow.</p>\n<p>The canonical test is semantic, not syntactic: if the caller is expected to hit the condition routinely, the condition is not exceptional.</p>\n<p>For iteration and other state-sensitive APIs, prefer an explicit state-test method, an optional result, or a distinguished return value.</p>\n<ul><li>Exception-driven iteration is misleading and usually slower.</li><li>A state-testing method is only safe when the object cannot change between the test and the action.</li><li>Optional results and distinguished values are better when concurrency or duplicate work makes testing unsafe.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0314.png\" alt=\"Item 69 rejects exception-based loops and prefers explicit state testing, pages 314-316.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 69 rejects exception-based loops and prefers explicit state testing, pages 314-316.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 314-316.</div>"}, {"m": 0, "t": "Item 70: checked versus unchecked is a recovery question", "c": "<p>Use checked exceptions only when the caller can reasonably recover and the API should force recovery handling.</p>\n<p>Use runtime exceptions for programming errors and precondition violations; use errors for VM-level conditions, not for application design.</p>\n<p>If recovery is plausible, the exception should expose information that helps the caller recover rather than force string parsing.</p>\n<ul><li>Do not define new `Error` subclasses.</li><li>Do not define throwables outside `Exception`, `RuntimeException`, or `Error`.</li><li>Checked exceptions should provide accessors for recovery-relevant data when possible.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0317.png\" alt=\"Item 70 separates recoverable conditions from programming errors, pages 317-318.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 70 separates recoverable conditions from programming errors, pages 317-318.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 317-318.</div>"}, {"m": 0, "t": "Throwable design must preserve API clarity", "c": "<p>When the right classification is unclear, default to unchecked unless a caller can clearly take corrective action.</p>\n<p>Never hide recoverability behind a vague string; expose structured data with typed accessors.</p>\n<p>Exception objects are full-fledged objects, so they should carry machine-readable information, not just prose.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0318.png\" alt=\"Item 70 emphasizes typed recovery information and disciplined throwable design, page 318.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 70 emphasizes typed recovery information and disciplined throwable design, page 318.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 318.</div>"}, {"m": 0, "t": "Quiz: Exceptional conditions and throwable choice", "q": true}, {"m": 1, "t": "Item 71: avoid unnecessary checked exceptions", "c": "<p>Checked exceptions are valuable when they improve reliability, but they make APIs harder to use because every caller must handle or declare them.</p>\n<p>The burden is especially high when a method throws only one checked exception and therefore cannot be used directly in stream pipelines.</p>\n<p>If callers cannot do anything useful at the call site, the checked exception is probably a design mistake.</p>\n<ul><li>Prefer `Optional` when the failure is representable as absence.</li><li>Prefer an unchecked exception if callers cannot improve the outcome.</li><li>A separate state-test method is sometimes a cleaner API than a checked exception.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0319.png\" alt=\"Item 71 warns that checked exceptions create real caller burden, pages 319-320.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 71 warns that checked exceptions create real caller burden, pages 319-320.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 319-320.</div>"}, {"m": 1, "t": "Item 72: reuse standard exceptions first", "c": "<p>Prefer the standard exceptions that already encode the right semantics: they are familiar, compact, and easier to read than custom types.</p>\n<p>The choice should be based on documented meaning, not on class names alone.</p>\n<p>Treat `Exception`, `RuntimeException`, `Throwable`, and `Error` as if they were abstract; do not throw them directly as catch-all placeholders.</p>\n<ul><li>`IllegalArgumentException` for bad argument values.</li><li>`IllegalStateException` for illegal object state.</li><li>`NullPointerException` and `IndexOutOfBoundsException` for the conventional null and index cases.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0321.png\" alt=\"Item 72 maps common failure modes to standard exception classes, pages 321-322.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 72 maps common failure modes to standard exception classes, pages 321-322.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 321-322.</div>"}, {"m": 1, "t": "Item 73: translate exceptions to match the abstraction", "c": "<p>If a lower-level exception leaks through a higher-level API, the abstraction boundary is broken and the implementation detail becomes part of the contract.</p>\n<p>Catch low-level exceptions and translate them into exceptions that make sense in terms of the higher-level abstraction.</p>\n<p>When the original cause is useful for debugging, chain it rather than discard it.</p>\n<pre><code>try {\n    return i.next();\n} catch (NoSuchElementException cause) {\n    throw new IndexOutOfBoundsException(&quot;Index: &quot; + index);\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0323.png\" alt=\"Item 73 uses exception translation and chaining to preserve abstraction and cause, pages 323-324.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 73 uses exception translation and chaining to preserve abstraction and cause, pages 323-324.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 323-324.</div>"}, {"m": 1, "t": "Quiz: Checked exceptions, standard exceptions, and abstraction", "q": true}, {"m": 2, "t": "Item 74: document all thrown exceptions", "c": "<p>Public APIs must document both checked and unchecked exceptions; the former with `throws` and `@throws`, the latter with `@throws` only.</p>\n<p>Documenting unchecked exceptions is not optional trivia: it is how you communicate preconditions and expected failure modes.</p>\n<p>Interface documentation matters especially because it becomes part of the contract shared by all implementations.</p>\n<ul><li>Do not hide behind `Exception` or `Throwable` in declarations.</li><li>Document preconditions through the exceptions they imply.</li><li>Use `@throws` even when the exception is unchecked.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0325.png\" alt=\"Item 74 treats exception documentation as part of the API contract, pages 325-326.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 74 treats exception documentation as part of the API contract, pages 325-326.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 325-326.</div>"}, {"m": 2, "t": "Item 75: detail messages should capture failure data", "c": "<p>The detail message is for debugging, not for end users, so it should maximize diagnostic value and minimize fluff.</p>\n<p>Include the parameter and field values that explain the failure, especially when the message will be the only evidence in a production stack trace.</p>\n<p>Do not leak secrets or other sensitive data into exception messages that may be widely visible.</p>\n<ul><li>For bounds failures, record the lower bound, upper bound, and failing index.</li><li>Prefer structured data in the exception object when the caller may need it.</li><li>Keep prose short; the stack trace and source code already provide context.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0327.png\" alt=\"Item 75 says the message should capture the failure, not narrate it, pages 327-328.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 75 says the message should capture the failure, not narrate it, pages 327-328.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 327-328.</div>"}, {"m": 2, "t": "Item 76: strive for failure atomicity", "c": "<p>A failed method should leave the object in the same state it had before the call whenever practical.</p>\n<p>Immutable objects get failure atomicity for free; mutable objects usually need prevalidation or careful ordering of state changes.</p>\n<p>If an operation can fail in the middle, consider performing it on a temporary copy and committing only after success.</p>\n<ul><li>Validate before mutating when you can.</li><li>Order work so that likely failures happen before state changes.</li><li>Document any residual inconsistent state if atomicity cannot be provided.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0329.png\" alt=\"Item 76 explains how to preserve object state when operations fail, pages 329-330.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 76 explains how to preserve object state when operations fail, pages 329-330.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 329-330.</div>"}, {"m": 2, "t": "Item 77: never silently ignore exceptions", "c": "<p>An empty catch block is usually a defect, not a simplification.</p>\n<p>If ignoring an exception is truly correct, the catch block should explain why and the variable should be named `ignored`.</p>\n<p>Logging is often better than silence because it preserves evidence without forcing recovery when recovery is unnecessary.</p>\n<ul><li>The rule applies to checked and unchecked exceptions alike.</li><li>Swallowing an exception can defer failure to a unrelated location and time.</li><li>If the exception is ignorable, write that reason down in code.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0331.png\" alt=\"Item 77 rejects empty catch blocks and requires an explicit justification when ignoring is acceptable, page 331.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 77 rejects empty catch blocks and requires an explicit justification when ignoring is acceptable, page 331.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 331.</div>"}, {"m": 2, "t": "Quiz: Documentation, diagnostics, and failure atomicity", "q": true}];
+    const MODULE_NAMES = ["Exceptional conditions and throwable choice", "Checked exceptions, standard exceptions, and abstraction", "Documentation, diagnostics, and failure atomicity"];
+    const STORE_KEY = 'chapter_10_exceptions_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

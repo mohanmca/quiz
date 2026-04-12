@@ -1,0 +1,31 @@
+CHAPTER 5
+GENERICS
+134
+The foregoing example may appear to contradict Item 28, which encourages
+the use of lists in preference to arrays. It is not always possible or desirable to use
+lists inside your generic types. Java doesn’t support lists natively, so some generic
+types, such as ArrayList, must be implemented atop arrays. Other generic types,
+such as HashMap, are implemented atop arrays for performance.
+The great majority of generic types are like our Stack example in that their
+type parameters have no restrictions: you can create a Stack<Object>,
+Stack<int[]>, Stack<List<String>>, or Stack of any other object reference
+type. Note that you can’t create a Stack of a primitive type: trying to create a
+Stack<int> or Stack<double> will result in a compile-time error. This is a fun-
+damental limitation of Java’s generic type system. You can work around this
+restriction by using boxed primitive types (Item 61).
+There are some generic types that restrict the permissible values of their type
+parameters. For example, consider java.util.concurrent.DelayQueue, whose
+declaration looks like this:
+class DelayQueue<E extends Delayed> implements BlockingQueue<E>
+The type parameter list (<E extends Delayed>) requires that the actual type
+parameter E be a subtype of java.util.concurrent.Delayed. This allows the
+DelayQueue implementation and its clients to take advantage of Delayed methods
+on the elements of a DelayQueue, without the need for explicit casting or the risk
+of a ClassCastException. The type parameter E is known as a bounded type
+parameter. Note that the subtype relation is defined so that every type is a subtype
+of itself [JLS, 4.10], so it is legal to create a DelayQueue<Delayed>.
+In summary, generic types are safer and easier to use than types that require
+casts in client code. When you design new types, make sure that they can be used
+without such casts. This will often mean making the types generic. If you have any
+existing types that should be generic but aren’t, generify them. This will make life
+easier for new users of these types without breaking existing clients (Item 26).

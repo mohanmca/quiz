@@ -1,0 +1,35 @@
+CONTENTS
+viii
+Item 19: Design and document for inheritance or else prohibit it   93
+Item 20: Prefer interfaces to abstract classes . . . . . . . . . . . . . . . . . 99
+Item 21: Design interfaces for posterity . . . . . . . . . . . . . . . . . . . . 104
+Item 22: Use interfaces only to define types. . . . . . . . . . . . . . . . . 107
+Item 23: Prefer class hierarchies to tagged classes . . . . . . . . . . . . 109
+Item 24: Favor static member classes over nonstatic . . . . . . . . . . 112
+Item 25: Limit source files to a single top-level class  . . . . . . . . . 115
+5 Generics. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 117
+Item 26: Don’t use raw types . . . . . . . . . . . . . . . . . . . . . . . . . . . . 117
+Item 27: Eliminate unchecked warnings. . . . . . . . . . . . . . . . . . . . 123
+Item 28: Prefer lists to arrays . . . . . . . . . . . . . . . . . . . . . . . . . . . . 126
+Item 29: Favor generic types. . . . . . . . . . . . . . . . . . . . . . . . . . . . . 130
+Item 30: Favor generic methods . . . . . . . . . . . . . . . . . . . . . . . . . . 135
+Item 31: Use bounded wildcards to increase API flexibility  . . . . 139
+Item 32: Combine generics and varargs judiciously. . . . . . . . . . . 146
+Item 33: Consider typesafe heterogeneous containers . . . . . . . . . 151
+6 Enums and Annotations  . . . . . . . . . . . . . . . . . . . . . . . . . . . 157
+Item 34: Use enums instead of int constants. . . . . . . . . . . . . . . . 157
+Item 35: Use instance fields instead of ordinals . . . . . . . . . . . . . . 168
+Item 36: Use EnumSet instead of bit fields. . . . . . . . . . . . . . . . . . 169
+Item 37: Use EnumMap instead of ordinal indexing. . . . . . . . . . . . 171
+Item 38: Emulate extensible enums with interfaces . . . . . . . . . . . 176
+Item 39: Prefer annotations to naming patterns . . . . . . . . . . . . . . 180
+Item 40: Consistently use the Override annotation. . . . . . . . . . . 188
+Item 41: Use marker interfaces to define types  . . . . . . . . . . . . . . 191
+7 Lambdas and Streams . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 193
+Item 42: Prefer lambdas to anonymous classes  . . . . . . . . . . . . . . 193
+Item 43: Prefer method references to lambdas . . . . . . . . . . . . . . . 197
+Item 44: Favor the use of standard functional interfaces . . . . . . . 199
+Item 45: Use streams judiciously . . . . . . . . . . . . . . . . . . . . . . . . . 203
+Item 46: Prefer side-effect-free functions in streams . . . . . . . . . . 210
+Item 47: Prefer Collection to Stream as a return type. . . . . . . . . . 216
+Item 48: Use caution when making streams parallel  . . . . . . . . . . 222

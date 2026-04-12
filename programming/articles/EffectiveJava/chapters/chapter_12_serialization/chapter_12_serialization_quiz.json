@@ -1,0 +1,223 @@
+{
+  "title": "Chapter 12: Serialization - Effective Java, pages 360-413. Items 85-90: avoid Java serialization when possible, treat Serializable as a serious API commitment, design a custom serialized form when needed, defend readObject like a constructor, prefer enum instance control over readResolve, and use the serialization proxy pattern for robust deserialization.",
+  "version": "1.0",
+  "totalQuestions": 16,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Avoid Java serialization unless you are forced into it",
+      "questions": [
+        {
+          "question": "What is the safest default stance toward Java serialization in a new system?",
+          "options": [
+            "Avoid it and use a cross-platform structured-data format instead",
+            "Use it for every boundary because it is built into the JDK",
+            "Use it only with public fields",
+            "Use it only if the class has a serialVersionUID"
+          ],
+          "answer": 0,
+          "explanation": "Item 85 says to prefer alternatives such as JSON or protobuf.",
+          "id": "chapter12_m1_q1"
+        },
+        {
+          "question": "Why is Java deserialization dangerous even when the code does not look obviously broken?",
+          "options": [
+            "It can invoke code in many reachable classes during object reconstruction",
+            "It automatically encrypts the payload",
+            "It only works for final classes",
+            "It refuses to run if the stream is short"
+          ],
+          "answer": 0,
+          "explanation": "The class path itself becomes part of the attack surface.",
+          "id": "chapter12_m1_q2"
+        },
+        {
+          "question": "What is a deserialization bomb?",
+          "options": [
+            "A small stream that expands into very expensive work or deep recursion during deserialization",
+            "A stream that always throws `ClassNotFoundException`",
+            "A stream that only works on arrays",
+            "A stream that can only be produced by `ObjectOutputStream` in debug mode"
+          ],
+          "answer": 0,
+          "explanation": "The danger is denial of service, not necessarily gadget-based code execution.",
+          "id": "chapter12_m1_q3"
+        },
+        {
+          "question": "Why is whitelisting preferred over blacklisting when filtering input streams?",
+          "options": [
+            "Because blacklists only block known bad cases, while whitelists start from an explicit safe set",
+            "Because blacklists are slower in every JVM",
+            "Because whitelists always prevent bombs",
+            "Because blacklists only work with enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 85 treats whitelist-first filtering as the more defensible policy.",
+          "id": "chapter12_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Serializable is an exported API, not a private implementation detail",
+      "questions": [
+        {
+          "question": "Why does implementing `Serializable` affect future class evolution?",
+          "options": [
+            "Because the serialized form becomes part of the class's exported API",
+            "Because it prevents adding methods",
+            "Because it disables generics",
+            "Because it forces all fields to be public"
+          ],
+          "answer": 0,
+          "explanation": "The serialized form must remain compatible with deployed data.",
+          "id": "chapter12_m2_q1"
+        },
+        {
+          "question": "What is the main practical reason to declare an explicit `serialVersionUID`?",
+          "options": [
+            "To control compatibility instead of relying on a runtime-generated hash",
+            "To make serialization encrypt the stream",
+            "To force all subclasses to share the same stream",
+            "To make `readResolve` unnecessary"
+          ],
+          "answer": 0,
+          "explanation": "An explicit value avoids accidental incompatibility from unrelated source changes.",
+          "id": "chapter12_m2_q2"
+        },
+        {
+          "question": "Why does the book call deserialization a hidden constructor?",
+          "options": [
+            "Because object creation happens without an ordinary constructor call and still must establish invariants",
+            "Because it always invokes the no-arg constructor first",
+            "Because it only works for records",
+            "Because it can never fail"
+          ],
+          "answer": 0,
+          "explanation": "The point is that the class must defend itself even though construction is extralinguistic.",
+          "id": "chapter12_m2_q3"
+        },
+        {
+          "question": "Which kinds of classes should rarely implement `Serializable`?",
+          "options": [
+            "Extendable classes and active entities such as thread pools",
+            "Only final value objects",
+            "Only nested classes",
+            "Only enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 86 says inheritance makes serialization much harder to support safely.",
+          "id": "chapter12_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Design the serialized form, then defend readObject",
+      "questions": [
+        {
+          "question": "When is the default serialized form usually acceptable?",
+          "options": [
+            "When the physical representation is already a good description of the logical state",
+            "Whenever the class has many methods",
+            "Only when the class is final",
+            "Only when the class has no constructors"
+          ],
+          "answer": 0,
+          "explanation": "Item 87 says the default form is fine only if it matches the logical data closely.",
+          "id": "chapter12_m3_q1"
+        },
+        {
+          "question": "Why should derived or JVM-specific fields usually be declared `transient`?",
+          "options": [
+            "They are not part of the logical serialized state and should not be persisted",
+            "They make `Serializable` compile faster",
+            "They are automatically encrypted otherwise",
+            "They are required for `readResolve`"
+          ],
+          "answer": 0,
+          "explanation": "Transient fields should not leak implementation details into the stream.",
+          "id": "chapter12_m3_q2"
+        },
+        {
+          "question": "Why must `defaultWriteObject` and `defaultReadObject` still be called in a custom form?",
+          "options": [
+            "To preserve compatibility if nontransient fields are added later",
+            "Because the JVM rejects custom forms without them",
+            "Because they serialize transient fields too",
+            "Because they make the stream human-readable"
+          ],
+          "answer": 0,
+          "explanation": "Skipping them breaks backward and forward compatibility expectations.",
+          "id": "chapter12_m3_q3"
+        },
+        {
+          "question": "What is the most important rule for synchronization inside `writeObject`?",
+          "options": [
+            "It must follow the same lock-ordering and whole-object consistency rules as other methods",
+            "It should never use a lock",
+            "It must always be static",
+            "It should only synchronize on `this` if the class is immutable"
+          ],
+          "answer": 0,
+          "explanation": "Serialization must respect the class's concurrency discipline.",
+          "id": "chapter12_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Defensive deserialization, readResolve, and serialization proxies",
+      "questions": [
+        {
+          "question": "Why must `readObject` behave like a constructor?",
+          "options": [
+            "Because it creates an instance from attacker-controlled bytes and must establish all invariants",
+            "Because it is always invoked before fields are allocated",
+            "Because it can skip validation if `Serializable` is present",
+            "Because it only runs for enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 88 says to validate and copy just as a real constructor would.",
+          "id": "chapter12_m4_q1"
+        },
+        {
+          "question": "What is the point of defensively copying mutable components during `readObject`?",
+          "options": [
+            "To prevent outsiders from retaining references to private mutable state",
+            "To reduce the number of serialized fields",
+            "To make the stream shorter",
+            "To avoid `defaultReadObject`"
+          ],
+          "answer": 0,
+          "explanation": "Without the copy, an attacker can keep aliases to the object's internals.",
+          "id": "chapter12_m4_q2"
+        },
+        {
+          "question": "Why is an enum the preferred tool for a serializable singleton?",
+          "options": [
+            "It gives the JVM a built-in instance-control guarantee that `readResolve` cannot match as safely",
+            "It automatically makes all fields transient",
+            "It removes the need for constructors in every class",
+            "It allows any number of runtime instances"
+          ],
+          "answer": 0,
+          "explanation": "Item 89 recommends enums over fragile `readResolve` tricks whenever possible.",
+          "id": "chapter12_m4_q3"
+        },
+        {
+          "question": "What is the key benefit of the serialization proxy pattern?",
+          "options": [
+            "It reconstructs the object through the public API instead of exposing raw internal state",
+            "It makes the object serializable without `Serializable`",
+            "It eliminates the need for a nested class",
+            "It works best only for extendable classes"
+          ],
+          "answer": 0,
+          "explanation": "The proxy shifts deserialization back into ordinary, validated object construction.",
+          "id": "chapter12_m4_q4"
+        }
+      ]
+    }
+  ]
+}

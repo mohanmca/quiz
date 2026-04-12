@@ -1,0 +1,39 @@
+CHAPTER 9
+GENERAL PROGRAMMING
+264
+Item 58: Prefer for-each loops to traditional for loops
+As discussed in Item 45, some tasks are best accomplished with streams, others
+with iteration. Here is a traditional for loop to iterate over a collection:
+// Not the best way to iterate over a collection!
+for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
+Element e = i.next();
+... // Do something with e
+}
+and here is a traditional for loop to iterate over an array:
+// Not the best way to iterate over an array!
+for (int i = 0; i < a.length; i++) {
+... // Do something with a[i]
+}
+These idioms are better than while loops (Item 57), but they aren’t perfect. The
+iterator and the index variables are both just clutter—all you need are the elements.
+Furthermore, they represent opportunities for error. The iterator occurs three times
+in each loop and the index variable four, which gives you many chances to use the
+wrong variable. If you do, there is no guarantee that the compiler will catch the
+problem. Finally, the two loops are quite different, drawing unnecessary attention
+to the type of the container and adding a (minor) hassle to changing that type.
+The for-each loop (officially known as the “enhanced for statement”) solves
+all of these problems. It gets rid of the clutter and the opportunity for error by hid-
+ing the iterator or index variable. The resulting idiom applies equally to collec-
+tions and arrays, easing the process of switching the implementation type of a
+container from one to the other:
+// The preferred idiom for iterating over collections and arrays
+for (Element e : elements) {
+... // Do something with e
+}
+When you see the colon (:), read it as “in.” Thus, the loop above reads as “for
+each element e in elements.” There is no performance penalty for using for-each
+loops, even for arrays: the code they generate is essentially identical to the code
+you would write by hand.
+The advantages of the for-each loop over the traditional for loop are even
+greater when it comes to nested iteration. Here is a common mistake that people
+make when doing nested iteration:

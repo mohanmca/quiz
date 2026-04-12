@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 11: Concurrency</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Chapter 11: Concurrency - Effective Java, pages 332-359. Items 78-84: synchronization, excessive synchronization, executors and tasks, concurrency utilities, thread-safety documentation, lazy initialization, and scheduler dependence.", "version": "1.0", "totalQuestions": 12, "modules": [{"id": 0, "name": "Synchronize shared mutable state", "questions": [{"question": "Why is `count++` unsafe when multiple threads share the same counter?", "options": ["It is a read-modify-write sequence, so updates can be lost without synchronization.", "Because `int` values cannot be shared between threads.", "Because `++` is always compiled as a loop.", "Because `count` becomes immutable after the first increment."], "answer": 0, "explanation": "Compound operations need mutual exclusion or an atomic class; otherwise two threads can overwrite each other's work.", "id": "chapter_11_m1_q1"}, {"question": "What does `volatile` guarantee, and what does it not guarantee?", "options": ["It guarantees visibility of writes, but not mutual exclusion or atomicity of compound actions.", "It guarantees both mutual exclusion and atomicity.", "It makes every method in the class thread-safe automatically.", "It prevents all reordering everywhere in the JVM."], "answer": 0, "explanation": "A volatile field can still be involved in a race if you perform compound updates.", "id": "chapter_11_m1_q2"}, {"question": "What is the real target of synchronization in a mutable class?", "options": ["The object invariant and the visibility of state transitions, not just individual fields.", "Only the public methods.", "Only the constructor.", "Only the fields marked private."], "answer": 0, "explanation": "Synchronizing the invariant boundary is what keeps readers from seeing a half-updated object.", "id": "chapter_11_m1_q3"}, {"question": "When is a shared object usually safe without external synchronization?", "options": ["When it is immutable and safely published, or when it is internally thread-safe by design.", "Whenever it has only one mutable field.", "Whenever its methods are `final`.", "Whenever the code passes all unit tests on one machine."], "answer": 0, "explanation": "Thread safety comes from a documented policy and the memory-ordering guarantees behind it.", "id": "chapter_11_m1_q4"}]}, {"id": 1, "name": "Avoid excessive synchronization", "questions": [{"question": "Why are open calls dangerous inside synchronized methods?", "options": ["Because foreign or overridable code can run while your lock is held, causing deadlock or invariant violations.", "Because they prevent the JVM from compiling the method.", "Because they automatically make the method recursive.", "Because synchronized blocks cannot contain method calls."], "answer": 0, "explanation": "Calling out while holding a lock gives control to code you do not own, which is exactly where lock-order bugs appear.", "id": "chapter_11_m2_q1"}, {"question": "What is the best default when a synchronized region is larger than it needs to be?", "options": ["Shrink it to the minimal section required to preserve the invariant.", "Add more synchronized methods to compensate.", "Replace the lock with `volatile`.", "Move the lock to the caller automatically."], "answer": 0, "explanation": "Excessive synchronization hurts correctness and performance, so minimize the locked scope rather than masking the design flaw.", "id": "chapter_11_m2_q2"}, {"question": "Why can inheritance make synchronization fragile?", "options": ["Because overridden methods may run under a lock that the subclass does not control.", "Because inheritance disables thread safety completely.", "Because subclasses cannot access synchronized methods.", "Because locks are inherited but monitors are not."], "answer": 0, "explanation": "A superclass cannot safely assume what subclass code will do if it invokes overridable methods while locked.", "id": "chapter_11_m2_q3"}, {"question": "What is the practical benefit of copying state before calling foreign code?", "options": ["It lets you release the lock before the callback executes.", "It turns the method into a nonblocking algorithm automatically.", "It makes the object immutable.", "It removes the need for thread-safety documentation."], "answer": 0, "explanation": "A local copy narrows the critical section and avoids holding a lock across unpredictable code.", "id": "chapter_11_m2_q4"}]}, {"id": 2, "name": "Executors, utilities, and documentation", "questions": [{"question": "Why does Effective Java prefer executors over manually managed threads?", "options": ["Executors separate task submission from execution policy and make pooling and scheduling explicit.", "Because threads are illegal in modern Java.", "Because executors always outperform threads in every workload.", "Because executor tasks cannot block."], "answer": 0, "explanation": "An executor gives you a higher-level abstraction with fewer error-prone details to manage yourself.", "id": "chapter_11_m3_q1"}, {"question": "Why are `wait` and `notify` discouraged for most application code?", "options": ["Because higher-level concurrency utilities already encode the coordination protocol more safely.", "Because they do not work on synchronized objects.", "Because they are slower than every other API by definition.", "Because they can only be used in daemon threads."], "answer": 0, "explanation": "Monitor protocols are easy to get wrong; utilities such as latches and queues reduce that risk.", "id": "chapter_11_m3_q2"}, {"question": "What should thread-safety documentation tell clients?", "options": ["Whether the class is thread-safe, conditionally thread-safe, immutable, or externally synchronized, and what lock or rule governs use.", "Only whether the class uses `synchronized` internally.", "Only whether the class has a `main` method.", "Nothing, because thread safety should be obvious from the code."], "answer": 0, "explanation": "The thread-safety contract belongs in the API docs, not in guesswork.", "id": "chapter_11_m3_q3"}, {"question": "When is lazy initialization usually justified?", "options": ["When construction is expensive or may never be needed, and the lazy path can be implemented safely.", "Whenever a field is private.", "Whenever you want to avoid writing a constructor.", "Whenever the class is public."], "answer": 0, "explanation": "Lazy init is a tradeoff, not a default. Simpler eager initialization is often the better design.", "id": "chapter_11_m3_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Shared mutable data needs a happens-before edge", "c": "<p>If multiple threads can read and write the same state, you need a synchronization strategy. Otherwise updates can be lost, reads can be stale, and invariants can be observed half-updated.</p>\n<p>The book's rule is blunt: synchronize every access to shared mutable data unless the object is safely published and immutable, or you use a higher-level concurrent utility that provides the same ordering guarantees.</p>\n<p>Thread safety is not about being fast enough on your laptop. It is about establishing the visibility and atomicity that the Java Memory Model requires.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0332.png\" alt=\"Item 78 begins with the basic rule for shared mutable state: every access must be coordinated.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 78 begins with the basic rule for shared mutable state: every access must be coordinated.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 332-334.</div>"}, {"m": 0, "t": "Unsynchronized increment is not a minor bug", "c": "<p>A read-modify-write sequence such as `count++` is not atomic. Two threads can both read the same value and then overwrite each other's updates.</p>\n<p>Using `volatile` alone does not fix this. `volatile` gives visibility, not mutual exclusion or compound atomicity.</p>\n<p>If you need a count, use `AtomicLong`, `LongAdder`, or a lock around the entire critical section. Pick the abstraction that matches the invariant, not the one that merely compiles.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0334.png\" alt=\"Visibility and atomicity are different concerns; compound actions need a real synchronization boundary.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Visibility and atomicity are different concerns; compound actions need a real synchronization boundary.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 334-337.</div>"}, {"m": 0, "t": "Synchronization protects invariants, not just fields", "c": "<p>The point of synchronization is usually to preserve an invariant over several fields, not to protect one field in isolation.</p>\n<p>If a method updates one field and then another, the entire update should usually be inside one synchronized region so observers never see the object in an impossible intermediate state.</p>\n<p>When a class has a documented thread-safety policy, callers can reason about whether they need external locking or can use it concurrently as-is.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0336.png\" alt=\"Item 78 ties synchronization to object invariants and published thread-safety policy.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 78 ties synchronization to object invariants and published thread-safety policy.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 334-337.</div>"}, {"m": 0, "t": "Quiz: Synchronize shared mutable state", "q": true}, {"m": 1, "t": "Do not hold a lock while calling alien code", "c": "<p>Excessive synchronization is not just a performance problem. It can cause deadlock, contention, and surprise reentrancy when a callback runs while your lock is held.</p>\n<p>The dangerous pattern is an open call: invoke an overridable method, client callback, or foreign object method while still inside a synchronized region.</p>\n<p>Copy the data you need, drop the lock, and then call out if the callback does not require the lock. The rule is simpler than the edge cases it prevents.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0338.png\" alt=\"Item 79 warns against open calls and holding locks across foreign code.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 79 warns against open calls and holding locks across foreign code.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 338-340.</div>"}, {"m": 1, "t": "Synchronizing every method is often too blunt", "c": "<p>A blanket `synchronized` modifier on every method can turn one object's lock into a throughput bottleneck.</p>\n<p>It also increases the chance of deadlock if methods call each other across object boundaries or if client code tries to compose several locked objects.</p>\n<p>Lock only the critical section needed to preserve the invariant, and keep the synchronized region as small and simple as correctness allows.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0340.png\" alt=\"Item 79 prefers tight critical sections over class-wide locking by habit.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 79 prefers tight critical sections over class-wide locking by habit.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 339-343.</div>"}, {"m": 1, "t": "Inheritance and synchronization interact badly", "c": "<p>A synchronized base class can be fragile if subclasses override methods and the base class calls them while holding its lock.</p>\n<p>The safer design is often composition or a private helper method that is never overridden. That keeps the lock protocol under one author's control.</p>\n<p>If a class needs to be extensible, document the synchronization policy explicitly or prohibit overriding altogether.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0342.png\" alt=\"Excessive synchronization becomes much riskier when overridable methods enter the picture.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Excessive synchronization becomes much riskier when overridable methods enter the picture.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 340-343.</div>"}, {"m": 1, "t": "Quiz: Avoid excessive synchronization", "q": true}, {"m": 2, "t": "Prefer executors, tasks, and streams to raw threads", "c": "<p>Raw thread management is low-level and brittle. An executor decouples task submission from task execution, which gives you pooling, scheduling, and policy control in one abstraction.</p>\n<p>Tasks are the unit of work; threads are an implementation detail. Streams can also express bulk work more clearly than hand-managed thread farms when the problem is data-oriented.</p>\n<p>If the work is structured as independent units, start with an executor before inventing ad hoc thread control.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0344.png\" alt=\"Item 80 recommends executors and task abstractions over direct thread management.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 80 recommends executors and task abstractions over direct thread management.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 344-345.</div>"}, {"m": 2, "t": "Use concurrent utilities instead of wait and notify", "c": "<p>Low-level `wait` and `notify` are easy to misuse because they require the caller to manage condition predicates, missed signals, and spurious wakeups correctly.</p>\n<p>Prefer `BlockingQueue`, `CountDownLatch`, `Semaphore`, `CyclicBarrier`, `Exchanger`, and other utilities that package the protocol into a tested abstraction.</p>\n<p>If you are writing your own monitor protocol, that is usually a signal that the JDK already has a better fit.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0346.png\" alt=\"Item 81 moves most coordination problems out of handwritten monitor code.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 81 moves most coordination problems out of handwritten monitor code.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 346-350.</div>"}, {"m": 2, "t": "Document thread safety explicitly", "c": "<p>Clients cannot safely guess whether a class is thread-safe, conditionally thread-safe, or not thread-safe. The API must say so.</p>\n<p>Document which lock, if any, guards the object state, whether the class is immutable, whether instances are externally synchronized, and which methods may be called concurrently.</p>\n<p>Without that contract, even correct code becomes hard to compose because callers have no idea what concurrency assumptions are valid.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0351.png\" alt=\"Item 82 treats thread-safety documentation as part of the API contract.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 82 treats thread-safety documentation as part of the API contract.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 351-353.</div>"}, {"m": 2, "t": "Lazy initialization and scheduler dependence are edge cases", "c": "<p>Lazy initialization is only worth the complexity when initialization is genuinely expensive or may never be needed. Otherwise, eager initialization is simpler and usually safer.</p>\n<p>If you do use lazy initialization, prefer the static holder pattern or a correctly synchronized/volatile-based approach. Do not invent a racy double-checked solution unless you can prove it.</p>\n<p>For scheduler dependence, the lesson is the same: do not write concurrency that only works when the thread scheduler happens to be kind.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0354.png\" alt=\"Items 83 and 84 push you toward simple initialization and scheduler-independent design.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Items 83 and 84 push you toward simple initialization and scheduler-independent design.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 354-359.</div>"}, {"m": 2, "t": "Quiz: Executors, utilities, and documentation", "q": true}];
+    const MODULE_NAMES = ["Synchronize shared mutable state", "Avoid excessive synchronization", "Executors, utilities, and documentation"];
+    const STORE_KEY = 'chapter_11_concurrency_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

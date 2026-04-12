@@ -1,0 +1,41 @@
+CHAPTER 12
+SERIALIZATION
+342
+efficient; and that JSON is exclusively a data representation, whereas protobuf
+offers schemas (types) to document and enforce appropriate usage. Although
+protobuf is more efficient than JSON, JSON is extremely efficient for a text-based
+representation. And while protobuf is a binary representation, it does provide an
+alternative text representation for use where human-readability is desired (pbtxt).
+If you can’t avoid Java serialization entirely, perhaps because you’re working
+in the context of a legacy system that requires it, your next best alternative is to
+never deserialize untrusted data. In particular, you should never accept RMI
+traffic from untrusted sources. The official secure coding guidelines for Java say
+“Deserialization of untrusted data is inherently dangerous and should be avoided.”
+This sentence is set in large, bold, italic, red type, and it is the only text in the
+entire document that gets this treatment [Java-secure].
+If you can’t avoid serialization and you aren’t absolutely certain of the safety
+of the data you’re deserializing, use the object deserialization filtering added in
+Java 9 and backported to earlier releases (java.io.ObjectInputFilter). This
+facility lets you specify a filter that is applied to data streams before they’re
+deserialized. It operates at the class granularity, letting you accept or reject certain
+classes. Accepting classes by default and rejecting a list of potentially dangerous
+ones is known as blacklisting; rejecting classes by default and accepting a list of
+those that are presumed safe is known as whitelisting. Prefer whitelisting to
+blacklisting, as blacklisting only protects you against known threats. A tool called
+Serial Whitelist Application Trainer (SWAT) can be used to automatically prepare
+a whitelist for your application [Schneider16]. The filtering facility will also
+protect you against excessive memory usage, and excessively deep object graphs,
+but it will not protect you against serialization bombs like the one shown above.
+Unfortunately, serialization is still pervasive in the Java ecosystem. If you are
+maintaining a system that is based on Java serialization, seriously consider migrat-
+ing to a cross-platform structured-data representation, even though this may be a
+time-consuming endeavor. Realistically, you may still find yourself having to
+write or maintain a serializable class. It requires great care to write a serializable
+class that is correct, safe, and efficient. The remainder of this chapter provides
+advice on when and how to do this.
+In summary, serialization is dangerous and should be avoided. If you are
+designing a system from scratch, use a cross-platform structured-data representa-
+tion such as JSON or protobuf instead. Do not deserialize untrusted data. If you
+must do so, use object deserialization filtering, but be aware that it is not guaran-
+teed to thwart all attacks. Avoid writing serializable classes. If you must do so,
+exercise great caution.

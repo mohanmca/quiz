@@ -1,0 +1,94 @@
+390
+INDEX
+static factory methods, 5
+advantages of, 5–8
+anonymous classes within, 114
+in API documentation, 8
+vs. cloning, 65
+copy and conversion factories, 65
+flexibility in returned classes, 7–8
+for generic singletons, 18, 136
+immutable objects and, 22, 82, 84
+instance-controlled classes and, 6
+limitations of, 8–9
+naming conventions for, 9, 292
+replacing constructors with, 5–9, 22, 240
+return types of, 6–8
+for service provider frameworks, 8
+for singletons, 17
+subclassing and, 8
+static fields
+for defining constants, 290
+lazy initialization of, 334
+synchronization of mutable, 322
+static import facility, 108
+static imports, 70
+static member classes, 112
+cleaners and, 33
+common uses of, 112–113
+for enum types, 161
+vs. nonstatic, 112, 114
+for representing aggregates, 276
+for shortening parameter lists, 237
+static members, accessibility in interfaces, 7
+storage pools, 28
+strategy enum pattern, 166
+Strategy pattern, 193
+stream pipelines, 203
+side-effect free, 210–215
+stream unique identifiers
+See serial version UIDs
+streams, 193, 203–225
+char values and, 206
+collectors for, 211–215
+for functional programming, 210–215
+vs. maps, behavior of, 173
+parallelizing, 222–225
+preserving order from parallel, 224
+as return types, vs. collections, 216–221
+specifying collectors for, 173, 214
+strengths of, 207
+vs. threads, 323–324
+using, 203–209
+See also collectors
+String constants vs. enum types, 158
+string representations, 55–57, 306
+strings
+concatenating, 279
+as substitutes for other types, 276–278
+subclassing, 3, 87
+abstract classes, and equals, 45
+access levels and, 75
+appropriateness of, 92
+Cloneable and, 96
+compareTo and, 68
+equals and, 40, 42
+finalizer attacks and, 31
+fragility, 89
+invariant corruption and, 92
+method access levels and, 75
+prohibiting, 8, 18–19, 85, 97
+serialization and, 344
+skeletal implementations, 102
+static factory methods and, 8
+as test of design for inheritance, 95
+See also inheritance
+subtype relations, 134, 140
+summary descriptions in Javadoc, 257
+supertype relations, 141
+SuppressWarnings annotation, 123–125
+switch statements, and enum types, 164, 167
+symmetry requirements
+compareTo, 68
+equals, 38–39
+synchronization
+of atomic data, 312–314
+excessive, 317–322
+and performance, 321
+ramifications of, 317
+internal, 322
+for mutual exclusion, 311
+serialization and, 351
+for shared mutable data, 311–316
+techniques for, 314–316
+for thread communication, 312–314

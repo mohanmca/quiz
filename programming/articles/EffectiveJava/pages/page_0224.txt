@@ -1,0 +1,39 @@
+ITEM 45: USE STREAMS JUDICIOUSLY
+203
+Item 45: Use streams judiciously
+The streams API was added in Java 8 to ease the task of performing bulk operations,
+sequentially or in parallel. This API provides two key abstractions: the stream,
+which represents a finite or infinite sequence of data elements, and the stream pipe-
+line, which represents a multistage computation on these elements. The elements in
+a stream can come from anywhere. Common sources include collections, arrays,
+files, regular expression pattern matchers, pseudorandom number generators, and
+other streams. The data elements in a stream can be object references or primitive
+values. Three primitive types are supported: int, long, and double.
+A stream pipeline consists of a source stream followed by zero or more
+intermediate operations and one terminal operation. Each intermediate operation
+transforms the stream in some way, such as mapping each element to a function of
+that element or filtering out all elements that do not satisfy some condition.
+Intermediate operations all transform one stream into another, whose element type
+may be the same as the input stream or different from it. The terminal operation
+performs a final computation on the stream resulting from the last intermediate
+operation, such as storing its elements into a collection, returning a certain
+element, or printing all of its elements.
+Stream pipelines are evaluated lazily: evaluation doesn’t start until the
+terminal operation is invoked, and data elements that aren’t required in order to
+complete the terminal operation are never computed. This lazy evaluation is what
+makes it possible to work with infinite streams. Note that a stream pipeline
+without a terminal operation is a silent no-op, so don’t forget to include one.
+The streams API is fluent: it is designed to allow all of the calls that comprise
+a pipeline to be chained into a single expression. In fact, multiple pipelines can be
+chained together into a single expression. 
+By default, stream pipelines run sequentially. Making a pipeline execute in
+parallel is as simple as invoking the parallel method on any stream in the pipe-
+line, but it is seldom appropriate to do so (Item 48).
+The streams API is sufficiently versatile that practically any computation can
+be performed using streams, but just because you can doesn’t mean you should.
+When used appropriately, streams can make programs shorter and clearer; when
+used inappropriately, they can make programs difficult to read and maintain. There
+are no hard and fast rules for when to use streams, but there are heuristics.
+Consider the following program, which reads the words from a dictionary file
+and prints all the anagram groups whose size meets a user-specified minimum.
+Recall that two words are anagrams if they consist of the same letters in a different

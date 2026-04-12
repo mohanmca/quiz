@@ -1,0 +1,38 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+78
+Item 16: In public classes, use accessor methods, not public fields
+Occasionally, you may be tempted to write degenerate classes that serve no pur-
+pose other than to group instance fields:
+// Degenerate classes like this should not be public!
+class Point {
+public double x;
+public double y;
+}
+Because the data fields of such classes are accessed directly, these classes do
+not offer the benefits of encapsulation (Item 15). You can’t change the representa-
+tion without changing the API, you can’t enforce invariants, and you can’t take
+auxiliary action when a field is accessed. Hard-line object-oriented programmers
+feel that such classes are anathema and should always be replaced by classes with
+private fields and public accessor methods (getters) and, for mutable classes,
+mutators (setters):
+// Encapsulation of data by accessor methods and mutators
+class Point {
+private double x;
+private double y;
+public Point(double x, double y) {
+this.x = x;
+this.y = y;
+}
+public double getX() { return x; }
+public double getY() { return y; }
+public void setX(double x) { this.x = x; }
+public void setY(double y) { this.y = y; }
+}
+Certainly, the hard-liners are correct when it comes to public classes: if a class
+is accessible outside its package, provide accessor methods to preserve the
+flexibility to change the class’s internal representation. If a public class exposes its
+data fields, all hope of changing its representation is lost because client code can
+be distributed far and wide.
+However, if a class is package-private or is a private nested class, there is
+nothing inherently wrong with exposing its data fields—assuming they do an

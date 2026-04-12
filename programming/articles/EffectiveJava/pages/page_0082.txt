@@ -1,0 +1,40 @@
+ITEM 13: OVERRIDE CLONE JUDICIOUSLY
+61
+its size field, but its elements field will refer to the same array as the original
+Stack instance. Modifying the original will destroy the invariants in the clone and
+vice versa. You will quickly find that your program produces nonsensical results
+or throws a NullPointerException. 
+This situation could never occur as a result of calling the sole constructor in
+the Stack class. In effect, the clone method functions as a constructor; you
+must ensure that it does no harm to the original object and that it properly
+establishes invariants on the clone. In order for the clone method on Stack to
+work properly, it must copy the internals of the stack. The easiest way to do this is
+to call clone recursively on the elements array:
+// Clone method for class with references to mutable state
+@Override public Stack clone() {
+try {
+Stack result = (Stack) super.clone();
+result.elements = elements.clone();
+return result;
+} catch (CloneNotSupportedException e) {
+throw new AssertionError();
+}
+}
+Note that we do not have to cast the result of elements.clone to Object[].
+Calling clone on an array returns an array whose runtime and compile-time types
+are identical to those of the array being cloned. This is the preferred idiom to
+duplicate an array. In fact, arrays are the sole compelling use of the clone facility.
+Note also that the earlier solution would not work if the elements field were
+final because clone would be prohibited from assigning a new value to the field.
+This is a fundamental problem: like serialization, the Cloneable architecture is
+incompatible with normal use of final fields referring to mutable objects,
+except in cases where the mutable objects may be safely shared between an object
+and its clone. In order to make a class cloneable, it may be necessary to remove
+final modifiers from some fields.
+It is not always sufficient merely to call clone recursively. For example,
+suppose you are writing a clone method for a hash table whose internals consist
+of an array of buckets, each of which references the first entry in a linked list of
+key-value pairs. For performance, the class implements its own lightweight singly
+linked list instead of using java.util.LinkedList internally:
+public class HashTable implements Cloneable {
+private Entry[] buckets = ...;

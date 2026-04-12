@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 5: Generics</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Chapter 5: Generics - Effective Java, pages 138-177. Items 26-33: raw types, unchecked warnings, arrays vs lists, generic types and methods, bounded wildcards, varargs, and typesafe heterogeneous containers.", "version": "1.0", "totalQuestions": 20, "modules": [{"id": 0, "name": "Raw Types and Unchecked Warnings", "questions": [{"question": "Why is `List<?>` preferable to a raw `List` when the element type is unknown?", "options": ["It preserves compile-time type safety while still accepting any element type.", "It allows inserting any object into the list without warnings.", "It erases fewer runtime checks than a raw list.", "It makes the list reifiable at runtime."], "answer": 0, "explanation": "A wildcard expresses unknown type information without discarding generic checking; a raw type discards checking entirely.", "id": "chapter_05_m1_q1"}, {"question": "What should you do first when you see an unchecked warning?", "options": ["Try to eliminate the warning by fixing the declaration or implementation.", "Add `@SuppressWarnings(\"unchecked\")` to the class.", "Ignore it because the compiler already accepted the code.", "Convert the code to use raw types so the warning disappears."], "answer": 0, "explanation": "Unchecked warnings are defects until you can prove the code is actually safe.", "id": "chapter_05_m1_q2"}, {"question": "What is the danger of using a raw collection type in client code?", "options": ["It can let an invalid element through and defer the failure to runtime.", "It automatically makes the collection immutable.", "It prevents the collection from compiling with any methods.", "It forces all elements to become `Object` references at runtime."], "answer": 0, "explanation": "Raw types suppress generic checking, so a bad insertion can surface later as a `ClassCastException`.", "id": "chapter_05_m1_q3"}, {"question": "Where should `@SuppressWarnings(\"unchecked\")` normally be placed?", "options": ["On the smallest declaration or statement scope that you can prove is safe.", "On the entire package so all related warnings are silenced.", "On the whole class to keep the source file clean.", "On every method that uses generics."], "answer": 0, "explanation": "The book’s rule is narrow scope only; broad suppression hides new problems.", "id": "chapter_05_m1_q4"}, {"question": "Why are raw types retained in the language at all?", "options": ["To preserve binary and source compatibility with pre-generics code.", "Because generic types cannot interoperate with old libraries.", "Because the compiler requires raw types for all inheritance hierarchies.", "Because raw types are more efficient than parameterized types."], "answer": 0, "explanation": "Raw types are a compatibility escape hatch, not a recommended style.", "id": "chapter_05_m1_q5"}]}, {"id": 1, "name": "Generic Types and Generic Methods", "questions": [{"question": "Why is `public static <E> Set<E> union(Set<E> s1, Set<E> s2)` better than a raw version?", "options": ["It preserves the element type and eliminates unchecked warnings for callers.", "It allows any set type to be passed without compile-time checks.", "It removes the need for a return type.", "It makes the method usable only with `Set<Object>`."], "answer": 0, "explanation": "A generic method ties the inputs and output to a single type parameter.", "id": "chapter_05_m2_q1"}, {"question": "What does `<E extends Comparable<E>>` mean in practice?", "options": ["Values of `E` can be compared to other values of the same `E`.", "Values of `E` can be compared to any `Object`.", "Values of `E` must be arrays.", "Values of `E` must implement `Serializable`."], "answer": 0, "explanation": "This recursive bound captures the usual self-comparable case used by `max`.", "id": "chapter_05_m2_q2"}, {"question": "When generifying a class backed by an array, what is the usual safe pattern?", "options": ["Store an `Object[]`, cast once to `E[]`, and prove the cast is safe locally.", "Create a `new E[]` array and suppress the compiler error.", "Use a raw `List` internally to avoid warnings.", "Expose the backing array so callers can manage typing."], "answer": 0, "explanation": "The book’s preferred approach is a narrow, justified unchecked cast plus local suppression.", "id": "chapter_05_m2_q3"}, {"question": "Why are generic methods important even when the class itself is not generic?", "options": ["They let utility APIs preserve type relationships without forcing casts.", "They make every class automatically thread-safe.", "They disable type inference so callers must specify everything explicitly.", "They are only useful for collections libraries."], "answer": 0, "explanation": "Many algorithms are naturally method-level generic, not class-level generic.", "id": "chapter_05_m2_q4"}, {"question": "What is the benefit of a recursive type bound over an unchecked cast?", "options": ["The compiler can verify the intended ordering constraint at compile time.", "It makes the type non-reifiable.", "It allows raw types to compile faster.", "It turns runtime errors into warnings."], "answer": 0, "explanation": "A recursive bound encodes the contract directly instead of relying on comments or casts.", "id": "chapter_05_m2_q5"}]}, {"id": 2, "name": "Lists, Arrays, and Wildcards", "questions": [{"question": "Why is `List<String>` not a subtype of `List<Object>`?", "options": ["Because generic types are invariant.", "Because `String` is not a subtype of `Object`.", "Because lists are reified at runtime.", "Because wildcards are required only for arrays."], "answer": 0, "explanation": "Generics do not inherit subtype relationships the way arrays do.", "id": "chapter_05_m3_q1"}, {"question": "What is the most important difference between arrays and generics?", "options": ["Arrays are reified and checked at runtime; generics are erased and checked at compile time.", "Arrays are immutable; generics are mutable.", "Generics support covariance; arrays do not.", "Arrays never throw runtime exceptions."], "answer": 0, "explanation": "The runtime type information that arrays keep is exactly why they behave differently.", "id": "chapter_05_m3_q2"}, {"question": "What does PECS stand for?", "options": ["Producer-extends, consumer-super.", "Parameter-equals-class structure.", "Public APIs need capture-safe signatures.", "Prefer erased collections over specialized collections."], "answer": 0, "explanation": "It is the book’s mnemonic for choosing bounded wildcards.", "id": "chapter_05_m3_q3"}, {"question": "Why should return types generally not use bounded wildcards?", "options": ["They force callers to deal with wildcards instead of giving them a precise result type.", "They make the method less generic.", "They disable type inference.", "They always require a raw cast internally."], "answer": 0, "explanation": "Wildcards are for input flexibility; return types should be as specific as possible.", "id": "chapter_05_m3_q4"}, {"question": "What is wildcard capture used for?", "options": ["To let a private helper recover the exact type hidden behind `?`.", "To convert any raw type into a parameterized type automatically.", "To make arrays reified.", "To eliminate the need for type parameters."], "answer": 0, "explanation": "Capture lets implementation code regain precision without exposing it in the public API.", "id": "chapter_05_m3_q5"}]}, {"id": 3, "name": "Varargs and Heterogeneous Containers", "questions": [{"question": "What is heap pollution in the context of generic varargs?", "options": ["A parameterized type reference points to an object that is not actually of that type.", "Any array created by the JVM at runtime.", "A warning emitted whenever `List` is used.", "A situation where `@SafeVarargs` is missing."], "answer": 0, "explanation": "Heap pollution is the mismatch between the variable’s declared generic type and the object it refers to.", "id": "chapter_05_m4_q1"}, {"question": "When is `@SafeVarargs` appropriate?", "options": ["Only when the method cannot be overridden and you have proven the varargs usage is safe.", "On any method that takes at least one array parameter.", "On every generic method automatically.", "Only on methods that return arrays."], "answer": 0, "explanation": "The annotation is a trust statement about a specific generic-varargs implementation.", "id": "chapter_05_m4_q2"}, {"question": "Why is `List` often a better API shape than a generic varargs parameter?", "options": ["It avoids the array-backed varargs mechanism and the related heap-pollution warnings.", "It makes the method reifiable.", "It always performs better than arrays.", "It removes the need for generics entirely."], "answer": 0, "explanation": "A list parameter is often the simplest way to keep the API typesafe and warning-free.", "id": "chapter_05_m4_q3"}, {"question": "What is the key idea behind the `Favorites` pattern?", "options": ["Use a parameterized key, usually `Class<T>`, to store and retrieve values of many types safely.", "Store everything in a raw `Map` and cast at every call site.", "Use arrays so the runtime can enforce the key type.", "Use wildcard return types to maximize flexibility."], "answer": 0, "explanation": "The container stays heterogeneous, while each access remains typechecked through the key.", "id": "chapter_05_m4_q4"}, {"question": "Why can `Favorites` safely call `type.cast(...)` on retrieval?", "options": ["Because `Class.cast` performs a checked dynamic cast tied to the key’s runtime type.", "Because `cast` is just syntactic sugar for a raw cast.", "Because the map stores only primitive values.", "Because all `Class` objects are reifiable wildcards."], "answer": 0, "explanation": "The cast reestablishes the key/value type linkage at the point of use.", "id": "chapter_05_m4_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Raw types are legacy compatibility, not an API design choice", "c": "<p>A raw type is the erased name of a generic type, such as `List` instead of `List<String>`.</p>\n<p>Raw types exist for pre-generics compatibility, so they behave as if all type parameters were removed.</p>\n<p>Using a raw type throws away compile-time checking and pushes failures to runtime.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0138.png\" alt=\"Chapter 5 opener and the definition of raw types, page 138.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter 5 opener and the definition of raw types, page 138.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 138.</div>"}, {"m": 0, "t": "Unchecked warnings are evidence, not noise", "c": "<p>Unchecked cast, method-invocation, and conversion warnings mean the compiler cannot prove type safety.</p>\n<p>Do not suppress them globally. First fix the declaration, then suppress only the smallest provably safe scope.</p>\n<p>If you cannot prove safety, the warning is telling you something real about possible heap pollution or `ClassCastException`.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0144.png\" alt=\"Unchecked warnings and narrow `@SuppressWarnings` scope, page 144.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Unchecked warnings and narrow `@SuppressWarnings` scope, page 144.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 144-146.</div>"}, {"m": 0, "t": "Use unbounded wildcards when the element type is unknown", "c": "<p>If you only need to read from a generic type and do not care about the element type, use `?` instead of a raw type.</p>\n<p>For example, `Set<?>` is typesafe and flexible, while `Set` is neither.</p>\n<p>This is the correct way to express an unknown type argument in an API.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0144.png\" alt=\"Replace raw types with `&lt;?&gt;` when the element type is irrelevant, page 144.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Replace raw types with `&lt;?&gt;` when the element type is irrelevant, page 144.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 144-146.</div>"}, {"m": 0, "t": "Quiz: Raw Types and Unchecked Warnings", "q": true}, {"m": 1, "t": "Generify the type, then push casts to the boundary", "c": "<p>A generic class should expose its type parameter in the API instead of forcing clients to cast on every read.</p>\n<p>When an array-backed generic class needs an `E[]`, create an `Object[]`, cast once, and suppress the warning only after proving the cast is safe.</p>\n<p>The runtime array will still be `Object[]`; the generic type information exists only at compile time.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0148.png\" alt=\"Generic arrays are illegal; collections are often the safer backing store, page 148.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Generic arrays are illegal; collections are often the safer backing store, page 148.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 148-150.</div>"}, {"m": 1, "t": "Generic methods remove client-side casts", "c": "<p>A generic method declares its own type parameter list before the return type, such as `<E> Set<E> union(...)`.</p>\n<p>Use the same type variable consistently across parameters and the return type when they must match.</p>\n<p>A generic method should compile without warnings and should not force callers to cast its result.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0151.png\" alt=\"Generic method pattern and the typesafe heterogeneous container idea begin here, page 151.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Generic method pattern and the typesafe heterogeneous container idea begin here, page 151.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 151-155.</div>"}, {"m": 1, "t": "Recursive type bounds express mutual comparability", "c": "<p>The bound `<E extends Comparable<E>>` says that elements must be comparable to values of their own type.</p>\n<p>Use this when the algorithm depends on a natural ordering that is defined by the elements themselves.</p>\n<p>This is a precise constraint, not a guess: it tells the compiler which operations are legal on `E`.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0151.png\" alt=\"Recursive type bounds and the `max` method, pages 151-177 summary region.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Recursive type bounds and the `max` method, pages 151-177 summary region.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 151-177.</div>"}, {"m": 1, "t": "Quiz: Generic Types and Generic Methods", "q": true}, {"m": 2, "t": "Arrays and generics enforce type safety differently", "c": "<p>Arrays are covariant and reified, so their element type is checked at runtime.</p>\n<p>Generics are invariant and erased, so their type arguments are enforced at compile time only.</p>\n<p>That is why arrays can fail later with `ArrayStoreException`, while lists usually fail earlier with a compile-time error.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0147.png\" alt=\"Arrays versus generics and the generic-array restriction, page 147.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Arrays versus generics and the generic-array restriction, page 147.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 147-150.</div>"}, {"m": 2, "t": "Prefer `List<E>` to `E[]` when the API needs type safety", "c": "<p>If a generic array creation error or an unchecked array cast appears, a list is often the better abstraction.</p>\n<p>You may lose some compactness, but you gain type safety and smoother interaction with generic APIs.</p>\n<p>The book treats the list substitution as the normal escape hatch for generic-array problems.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0148.png\" alt=\"Use lists instead of generic arrays when the type system starts fighting you, page 148.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Use lists instead of generic arrays when the type system starts fighting you, page 148.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 147-150.</div>"}, {"m": 2, "t": "PECS is the rule for wildcard input parameters", "c": "<p>Use `? extends T` for producers and `? super T` for consumers.</p>\n<p>A producer gives you values of type `T` or a subtype; a consumer accepts values of type `T` or a supertype.</p>\n<p>If a parameter both produces and consumes the same type, wildcards usually do not help.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0160.png\" alt=\"Bounded wildcards and the PECS rule, page 160.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Bounded wildcards and the PECS rule, page 160.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 160-166.</div>"}, {"m": 2, "t": "Capture wildcards with a private helper when necessary", "c": "<p>A public `List<?>` API can be simple and flexible, even when the implementation needs a precise element type.</p>\n<p>Use a private generic helper to capture the wildcard and let the compiler reason about the exact `E` internally.</p>\n<p>This is how you keep the public API general without resorting to raw types or unsafe casts.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0165.png\" alt=\"Wildcard capture and helper methods, page 165.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Wildcard capture and helper methods, page 165.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 164-166.</div>"}, {"m": 2, "t": "Quiz: Lists, Arrays, and Wildcards", "q": true}, {"m": 3, "t": "Generic varargs are legal, but they are a sharp edge", "c": "<p>A varargs parameter is implemented as an array, so generic varargs can expose heap pollution if misused.</p>\n<p>If a method stores into the varargs array or leaks that array to untrusted code, it is not safe.</p>\n<p>A safe generic varargs method must treat the array as a read-only transport mechanism.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0167.png\" alt=\"Generic varargs, heap pollution, and why the array matters, page 167.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Generic varargs, heap pollution, and why the array matters, page 167.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 167-171.</div>"}, {"m": 3, "t": "@SafeVarargs is a promise, not decoration", "c": "<p>Annotate only methods that cannot be overridden and that you have proven safe.</p>\n<p>The annotation exists to silence client warnings for methods that are genuinely typesafe.</p>\n<p>If a better API shape exists, a `List` parameter often avoids the problem entirely.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0169.png\" alt=\"Safe generic varargs and `@SafeVarargs`, page 169.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Safe generic varargs and `@SafeVarargs`, page 169.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 167-171.</div>"}, {"m": 3, "t": "Typesafe heterogeneous containers move the type parameter to the key", "c": "<p>Normal containers parameterize the container itself; a heterogeneous container parameterizes the key instead.</p>\n<p>Using `Class<T>` as a key lets one map hold values of many unrelated types without losing type safety.</p>\n<p>This is the `Favorites` pattern: `putFavorite(Class<T>, T)` and `getFavorite(Class<T>)`.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0172.png\" alt=\"Typesafe heterogeneous containers and `Class&lt;T&gt;` type tokens, page 172.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Typesafe heterogeneous containers and `Class&lt;T&gt;` type tokens, page 172.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 172-177.</div>"}, {"m": 3, "t": "Bounded type tokens and `asSubclass` preserve runtime safety", "c": "<p>A bounded type token restricts which `Class` objects can be used as keys or reflective selectors.</p>\n<p>`Class.asSubclass` performs the checked narrowing from `Class<?>` to `Class<? extends Annotation>` or a similar bound.</p>\n<p>That lets reflection-heavy APIs keep compile-time and runtime type information aligned.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0176.png\" alt=\"Bounded type tokens and `Class.asSubclass`, page 176.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Bounded type tokens and `Class.asSubclass`, page 176.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 175-177.</div>"}, {"m": 3, "t": "Quiz: Varargs and Heterogeneous Containers", "q": true}];
+    const MODULE_NAMES = ["Raw Types and Unchecked Warnings", "Generic Types and Generic Methods", "Lists, Arrays, and Wildcards", "Varargs and Heterogeneous Containers"];
+    const STORE_KEY = 'chapter_05_generics_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

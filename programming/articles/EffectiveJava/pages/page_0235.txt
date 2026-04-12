@@ -1,0 +1,40 @@
+CHAPTER 7
+LAMBDAS AND STREAMS
+214
+elements in a category. The simplest use of this parameter is to pass toSet(),
+which results in a map whose values are sets of elements rather than lists.
+Alternatively, you can pass toCollection(collectionFactory), which lets
+you create the collections into which each category of elements is placed. This
+gives you the flexibility to choose any collection type you want. Another simple
+use of the two-argument form of groupingBy is to pass counting() as the down-
+stream collector. This results in a map that associates each category with the num-
+ber of elements in the category, rather than a collection containing the elements.
+That’s what you saw in the frequency table example at the beginning of this item:
+Map<String, Long> freq = words
+        .collect(groupingBy(String::toLowerCase, counting()));
+The third version of groupingBy lets you specify a map factory in addition to
+a downstream collector. Note that this method violates the standard telescoping
+argument list pattern: the mapFactory parameter precedes, rather than follows, the
+downStream parameter. This version of groupingBy gives you control over the
+containing map as well as the contained collections, so, for example, you can
+specify a collector that returns a TreeMap whose values are TreeSets. 
+The groupingByConcurrent method provides variants of all three overload-
+ings of groupingBy. These variants run efficiently in parallel and produce
+ConcurrentHashMap instances. There is also a rarely used relative of groupingBy
+called partitioningBy. In lieu of a classifier method, it takes a predicate and
+returns a map whose key is a Boolean. There are two overloadings of this method,
+one of which takes a downstream collector in addition to a predicate.
+The collectors returned by the counting method are intended only for use as
+downstream collectors. The same functionality is available directly on Stream, via
+the count method, so there is never a reason to say collect(counting()).
+There are fifteen more Collectors methods with this property. They include the
+nine methods whose names begin with summing, averaging, and summarizing
+(whose functionality is available on the corresponding primitive stream types).
+They also include all overloadings of the reducing method, and the filtering,
+mapping, flatMapping, and collectingAndThen methods. Most programmers
+can safely ignore the majority of these methods. From a design perspective, these
+collectors represent an attempt to partially duplicate the functionality of streams in
+collectors so that downstream collectors can act as “ministreams.”
+There are three Collectors methods we have yet to mention. Though they
+are in Collectors, they don’t involve collections. The first two are minBy and
+maxBy, which take a comparator and return the minimum or maximum element in

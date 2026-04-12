@@ -1,0 +1,29 @@
+xiii
+Preface
+Preface to the Third Edition
+IN 1997, when Java was new, James Gosling (the father of Java), described it as a
+“blue collar language” that was “pretty simple” [Gosling97]. At about the same time,
+Bjarne Stroustrup (the father of C++) described C++ as a “multi-paradigm language”
+that “deliberately differs from languages designed to support a single way of writing
+programs” [Stroustrup95]. Stroustrup warned:
+Much of the relative simplicity of Java is—like for most new languages—
+partly an illusion and partly a function of its incompleteness. As time passes,
+Java will grow significantly in size and complexity. It will double or triple in
+size and grow implementation-dependent extensions or libraries. [Stroustrup]
+Now, twenty years later, it’s fair to say that Gosling and Stroustrup were both right.
+Java is now large and complex, with multiple abstractions for many things, from
+parallel execution, to iteration, to the representation of dates and times. 
+I still like Java, though my ardor has cooled a bit as the platform has grown.
+Given its increased size and complexity, the need for an up-to-date best-practices
+guide is all the more critical. With this third edition of Effective Java, I did my
+best to provide you with one. I hope this edition continues to satisfy the need,
+while staying true to the spirit of the first two editions.
+Small is beautiful, but simple ain’t easy.
+San Jose, California
+November 2017
+P.S. I would be remiss if I failed to mention an industry-wide best practice that has
+occupied a fair amount of my time lately. Since the birth of our field in the 1950’s,
+we have freely reimplemented each others’ APIs. This practice was critical to the
+meteoric success of computer technology. I am active in the effort to preserve this
+freedom [CompSci17], and I encourage you to join me. It is crucial to the continued
+health of our profession that we retain the right to reimplement each others’ APIs.

@@ -1,0 +1,51 @@
+CHAPTER 5
+GENERICS
+122
+Note that once you’ve determined that o is a Set, you must cast it to the wildcard
+type Set<?>, not the raw type Set. This is a checked cast, so it will not cause a
+compiler warning.
+In summary, using raw types can lead to exceptions at runtime, so don’t use
+them. They are provided only for compatibility and interoperability with legacy
+code that predates the introduction of generics. As a quick review, Set<Object> is
+a parameterized type representing a set that can contain objects of any type,
+Set<?> is a wildcard type representing a set that can contain only objects of some
+unknown type, and Set is a raw type, which opts out of the generic type system.
+The first two are safe, and the last is not.
+For quick reference, the terms introduced in this item (and a few introduced
+later in this chapter) are summarized in the following table:
+Term
+Example
+Item
+Parameterized type
+List<String>
+Item 26
+Actual type parameter
+String
+Item 26
+Generic type
+List<E>
+Items 26, 29
+Formal type parameter
+E
+Item 26
+Unbounded wildcard type
+List<?>
+Item 26
+Raw type
+List
+Item 26
+Bounded type parameter
+<E extends Number>
+Item 29
+Recursive type bound
+<T extends Comparable<T>>
+Item 30
+Bounded wildcard type
+List<? extends Number>
+Item 31
+Generic method
+static <E> List<E> asList(E[] a)
+Item 30
+Type token
+String.class
+Item 33

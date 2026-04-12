@@ -1,0 +1,40 @@
+CHAPTER 12
+SERIALIZATION
+346
+Item 87: Consider using a custom serialized form
+When you are writing a class under time pressure, it is generally appropriate to
+concentrate your efforts on designing the best API. Sometimes this means releas-
+ing a “throwaway” implementation that you know you’ll replace in a future
+release. Normally this is not a problem, but if the class implements Serializable
+and uses the default serialized form, you’ll never be able to escape completely
+from the throwaway implementation. It will dictate the serialized form forever.
+This is not just a theoretical problem. It happened to several classes in the Java
+libraries, including BigInteger.
+Do not accept the default serialized form without first considering
+whether it is appropriate. Accepting the default serialized form should be a con-
+scious decision that this encoding is reasonable from the standpoint of flexibility,
+performance, and correctness. Generally speaking, you should accept the default
+serialized form only if it is largely identical to the encoding that you would choose
+if you were designing a custom serialized form.
+The default serialized form of an object is a reasonably efficient encoding of
+the physical representation of the object graph rooted at the object. In other words,
+it describes the data contained in the object and in every object that is reachable
+from this object. It also describes the topology by which all of these objects are
+interlinked. The ideal serialized form of an object contains only the logical data
+represented by the object. It is independent of the physical representation.
+The default serialized form is likely to be appropriate if an object’s phys-
+ical representation is identical to its logical content. For example, the default
+serialized form would be reasonable for the following class, which simplistically
+represents a person’s name:
+// Good candidate for default serialized form
+public class Name implements Serializable {
+/**
+* Last name. Must be non-null.
+* @serial
+*/
+private final String lastName;
+/**
+* First name. Must be non-null.
+* @serial
+*/
+private final String firstName;

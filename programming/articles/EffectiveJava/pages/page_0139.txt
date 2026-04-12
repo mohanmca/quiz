@@ -1,0 +1,37 @@
+CHAPTER 5
+GENERICS
+118
+Before generics were added to Java, this would have been an exemplary col-
+lection declaration. As of Java 9, it is still legal, but far from exemplary:
+// Raw collection type - don't do this!
+// My stamp collection. Contains only Stamp instances.
+private final Collection stamps = ... ;
+If you use this declaration today and then accidentally put a coin into your stamp
+collection, the erroneous insertion compiles and runs without error (though the
+compiler does emit a vague warning):
+// Erroneous insertion of coin into stamp collection
+stamps.add(new Coin( ... )); // Emits "unchecked call" warning
+You don’t get an error until you try to retrieve the coin from the stamp collection:
+// Raw iterator type - don't do this!
+for (Iterator i = stamps.iterator(); i.hasNext(); )
+Stamp stamp = (Stamp) i.next(); // Throws ClassCastException
+stamp.cancel();
+As mentioned throughout this book, it pays to discover errors as soon as pos-
+sible after they are made, ideally at compile time. In this case, you don’t discover
+the error until runtime, long after it has happened, and in code that may be distant
+from the code containing the error. Once you see the ClassCastException, you
+have to search through the codebase looking for the method invocation that put the
+coin into the stamp collection. The compiler can’t help you, because it can’t
+understand the comment that says, “Contains only Stamp instances.”
+With generics, the type declaration contains the information, not the comment:
+// Parameterized collection type - typesafe
+private final Collection<Stamp> stamps = ... ;
+From this declaration, the compiler knows that stamps should contain only Stamp
+instances and guarantees it to be true, assuming your entire codebase compiles
+without emitting (or suppressing; see Item 27) any warnings. When stamps is
+declared with a parameterized type declaration, the erroneous insertion generates
+a compile-time error message that tells you exactly what is wrong:
+Test.java:9: error: incompatible types: Coin cannot be converted 
+to Stamp
+c.add(new Coin());
+^

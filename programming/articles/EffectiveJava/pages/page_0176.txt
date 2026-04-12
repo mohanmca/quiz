@@ -1,0 +1,35 @@
+ITEM 33: CONSIDER TYPESAFE HETEROGENEOUS CONTAINERS
+155
+The argument, annotationType, is a bounded type token representing an annota-
+tion type. The method returns the element’s annotation of that type, if it has one,
+or null, if it doesn’t. In essence, an annotated element is a typesafe heterogeneous
+container whose keys are annotation types.
+Suppose you have an object of type Class<?> and you want to pass it to a
+method that requires a bounded type token, such as getAnnotation. You could
+cast the object to Class<? extends Annotation>, but this cast is unchecked, so it
+would generate a compile-time warning (Item 27). Luckily, class Class provides
+an instance method that performs this sort of cast safely (and dynamically). The
+method is called asSubclass, and it casts the Class object on which it is called to
+represent a subclass of the class represented by its argument. If the cast succeeds,
+the method returns its argument; if it fails, it throws a ClassCastException.
+Here’s how you use the asSubclass method to read an annotation whose type
+is unknown at compile time. This method compiles without error or warning:
+// Use of asSubclass to safely cast to a bounded type token
+static Annotation getAnnotation(AnnotatedElement element,
+                                String annotationTypeName) {
+Class<?> annotationType = null; // Unbounded type token
+try {
+annotationType = Class.forName(annotationTypeName);
+} catch (Exception ex) {
+throw new IllegalArgumentException(ex);
+}
+return element.getAnnotation(
+annotationType.asSubclass(Annotation.class));
+}
+In summary, the normal use of generics, exemplified by the collections APIs,
+restricts you to a fixed number of type parameters per container. You can get
+around this restriction by placing the type parameter on the key rather than the
+container. You can use Class objects as keys for such typesafe heterogeneous
+containers. A Class object used in this fashion is called a type token. You can also
+use a custom key type. For example, you could have a DatabaseRow type repre-
+senting a database row (the container), and a generic type Column<T> as its key.

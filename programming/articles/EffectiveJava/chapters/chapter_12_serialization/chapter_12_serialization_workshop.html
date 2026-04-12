@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 12: Serialization</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Chapter 12: Serialization - Effective Java, pages 360-413. Items 85-90: avoid Java serialization when possible, treat Serializable as a serious API commitment, design a custom serialized form when needed, defend readObject like a constructor, prefer enum instance control over readResolve, and use the serialization proxy pattern for robust deserialization.", "version": "1.0", "totalQuestions": 16, "modules": [{"id": 0, "name": "Avoid Java serialization unless you are forced into it", "questions": [{"question": "What is the safest default stance toward Java serialization in a new system?", "options": ["Avoid it and use a cross-platform structured-data format instead", "Use it for every boundary because it is built into the JDK", "Use it only with public fields", "Use it only if the class has a serialVersionUID"], "answer": 0, "explanation": "Item 85 says to prefer alternatives such as JSON or protobuf.", "id": "chapter12_m1_q1"}, {"question": "Why is Java deserialization dangerous even when the code does not look obviously broken?", "options": ["It can invoke code in many reachable classes during object reconstruction", "It automatically encrypts the payload", "It only works for final classes", "It refuses to run if the stream is short"], "answer": 0, "explanation": "The class path itself becomes part of the attack surface.", "id": "chapter12_m1_q2"}, {"question": "What is a deserialization bomb?", "options": ["A small stream that expands into very expensive work or deep recursion during deserialization", "A stream that always throws `ClassNotFoundException`", "A stream that only works on arrays", "A stream that can only be produced by `ObjectOutputStream` in debug mode"], "answer": 0, "explanation": "The danger is denial of service, not necessarily gadget-based code execution.", "id": "chapter12_m1_q3"}, {"question": "Why is whitelisting preferred over blacklisting when filtering input streams?", "options": ["Because blacklists only block known bad cases, while whitelists start from an explicit safe set", "Because blacklists are slower in every JVM", "Because whitelists always prevent bombs", "Because blacklists only work with enums"], "answer": 0, "explanation": "Item 85 treats whitelist-first filtering as the more defensible policy.", "id": "chapter12_m1_q4"}]}, {"id": 1, "name": "Serializable is an exported API, not a private implementation detail", "questions": [{"question": "Why does implementing `Serializable` affect future class evolution?", "options": ["Because the serialized form becomes part of the class's exported API", "Because it prevents adding methods", "Because it disables generics", "Because it forces all fields to be public"], "answer": 0, "explanation": "The serialized form must remain compatible with deployed data.", "id": "chapter12_m2_q1"}, {"question": "What is the main practical reason to declare an explicit `serialVersionUID`?", "options": ["To control compatibility instead of relying on a runtime-generated hash", "To make serialization encrypt the stream", "To force all subclasses to share the same stream", "To make `readResolve` unnecessary"], "answer": 0, "explanation": "An explicit value avoids accidental incompatibility from unrelated source changes.", "id": "chapter12_m2_q2"}, {"question": "Why does the book call deserialization a hidden constructor?", "options": ["Because object creation happens without an ordinary constructor call and still must establish invariants", "Because it always invokes the no-arg constructor first", "Because it only works for records", "Because it can never fail"], "answer": 0, "explanation": "The point is that the class must defend itself even though construction is extralinguistic.", "id": "chapter12_m2_q3"}, {"question": "Which kinds of classes should rarely implement `Serializable`?", "options": ["Extendable classes and active entities such as thread pools", "Only final value objects", "Only nested classes", "Only enums"], "answer": 0, "explanation": "Item 86 says inheritance makes serialization much harder to support safely.", "id": "chapter12_m2_q4"}]}, {"id": 2, "name": "Design the serialized form, then defend readObject", "questions": [{"question": "When is the default serialized form usually acceptable?", "options": ["When the physical representation is already a good description of the logical state", "Whenever the class has many methods", "Only when the class is final", "Only when the class has no constructors"], "answer": 0, "explanation": "Item 87 says the default form is fine only if it matches the logical data closely.", "id": "chapter12_m3_q1"}, {"question": "Why should derived or JVM-specific fields usually be declared `transient`?", "options": ["They are not part of the logical serialized state and should not be persisted", "They make `Serializable` compile faster", "They are automatically encrypted otherwise", "They are required for `readResolve`"], "answer": 0, "explanation": "Transient fields should not leak implementation details into the stream.", "id": "chapter12_m3_q2"}, {"question": "Why must `defaultWriteObject` and `defaultReadObject` still be called in a custom form?", "options": ["To preserve compatibility if nontransient fields are added later", "Because the JVM rejects custom forms without them", "Because they serialize transient fields too", "Because they make the stream human-readable"], "answer": 0, "explanation": "Skipping them breaks backward and forward compatibility expectations.", "id": "chapter12_m3_q3"}, {"question": "What is the most important rule for synchronization inside `writeObject`?", "options": ["It must follow the same lock-ordering and whole-object consistency rules as other methods", "It should never use a lock", "It must always be static", "It should only synchronize on `this` if the class is immutable"], "answer": 0, "explanation": "Serialization must respect the class's concurrency discipline.", "id": "chapter12_m3_q4"}]}, {"id": 3, "name": "Defensive deserialization, readResolve, and serialization proxies", "questions": [{"question": "Why must `readObject` behave like a constructor?", "options": ["Because it creates an instance from attacker-controlled bytes and must establish all invariants", "Because it is always invoked before fields are allocated", "Because it can skip validation if `Serializable` is present", "Because it only runs for enums"], "answer": 0, "explanation": "Item 88 says to validate and copy just as a real constructor would.", "id": "chapter12_m4_q1"}, {"question": "What is the point of defensively copying mutable components during `readObject`?", "options": ["To prevent outsiders from retaining references to private mutable state", "To reduce the number of serialized fields", "To make the stream shorter", "To avoid `defaultReadObject`"], "answer": 0, "explanation": "Without the copy, an attacker can keep aliases to the object's internals.", "id": "chapter12_m4_q2"}, {"question": "Why is an enum the preferred tool for a serializable singleton?", "options": ["It gives the JVM a built-in instance-control guarantee that `readResolve` cannot match as safely", "It automatically makes all fields transient", "It removes the need for constructors in every class", "It allows any number of runtime instances"], "answer": 0, "explanation": "Item 89 recommends enums over fragile `readResolve` tricks whenever possible.", "id": "chapter12_m4_q3"}, {"question": "What is the key benefit of the serialization proxy pattern?", "options": ["It reconstructs the object through the public API instead of exposing raw internal state", "It makes the object serializable without `Serializable`", "It eliminates the need for a nested class", "It works best only for extendable classes"], "answer": 0, "explanation": "The proxy shifts deserialization back into ordinary, validated object construction.", "id": "chapter12_m4_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Item 85: the default advice is to use something else", "c": "<p>Java serialization is not a neutral persistence format. It is an object-construction protocol with a large attack surface.</p>\n<p>The safe default is to avoid it in new systems and use cross-platform structured-data formats such as JSON or protobuf instead.</p>\n<p>If you inherit a legacy boundary that still uses serialization, treat every byte stream as hostile until proven otherwise.</p>\n<ul><li>Never deserialize untrusted data.</li><li>Prefer JSON or protobuf for new protocols and persistence boundaries.</li><li>Treat deserialization as code execution against the class path, not as passive parsing.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0360.png\" alt=\"Item 85 opens with the core warning: Java serialization is risky, broad, and easy to misuse, pages 360-361.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 85 opens with the core warning: Java serialization is risky, broad, and easy to misuse, pages 360-361.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 360-361.</div>"}, {"m": 0, "t": "Gadgets, gadget chains, and deserialization bombs", "c": "<p>The attack surface includes every serializable type that can be reached during deserialization, including platform classes and third-party libraries.</p>\n<p>A gadget is a method that is triggered during deserialization and does something dangerous; a gadget chain combines several such methods into an exploit.</p>\n<p>Even without gadgets, a short stream can cause extreme work or memory pressure. A deserialization bomb is still a denial-of-service attack.</p>\n<ul><li>RMI, JMX, and JMS can expose serialization indirectly.</li><li>A class does not need to be badly written to become part of an exploit chain.</li><li>A tiny input stream can expand into an enormous amount of work.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0361.png\" alt=\"Item 85 emphasizes gadget chains and deserialization bombs as practical exploit mechanisms, page 361.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 85 emphasizes gadget chains and deserialization bombs as practical exploit mechanisms, page 361.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 361-363.</div>"}, {"m": 0, "t": "If you cannot avoid it, filter and whitelist", "c": "<p>If you are forced to deserialize, use `ObjectInputFilter` so the stream is checked before objects are materialized.</p>\n<p>Prefer whitelisting over blacklisting. A blacklist only knows the threats you already recognize.</p>\n<p>Filtering helps with class selection, deep graphs, and excessive size, but it is not a proof of safety.</p>\n<pre><code>ObjectInputFilter filter = ObjectInputFilter.Config.createFilter(&quot;com.example.**;java.base/*;!com.bad.**&quot;);\nObjectInputStream in = new ObjectInputStream(input);\nin.setObjectInputFilter(filter);</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0363.png\" alt=\"Item 85 closes by recommending migration away from serialization and, if needed, filtering as a damage-control measure, pages 362-363.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 85 closes by recommending migration away from serialization and, if needed, filtering as a damage-control measure, pages 362-363.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 362-363.</div>"}, {"m": 0, "t": "Quiz: Avoid Java serialization unless you are forced into it", "q": true}, {"m": 1, "t": "Item 86: implementing Serializable is a long-term commitment", "c": "<p>Adding `implements Serializable` is easy, but the serialized form becomes part of the exported API of the class.</p>\n<p>If you accept the default form, private and package-private fields are no longer just implementation details.</p>\n<p>The price of serializability is reduced freedom to change the class later.</p>\n<ul><li>A generated serialized form is tied to the current internal representation.</li><li>The serialized form must be supported across releases if instances already exist in the wild.</li><li>Changing a class structure can break compatibility at runtime.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0364.png\" alt=\"Item 86 explains that the serialized form becomes part of the public contract, pages 364-365.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 86 explains that the serialized form becomes part of the public contract, pages 364-365.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 364-365.</div>"}, {"m": 1, "t": "serialVersionUID, hidden constructors, and inheritance cost", "c": "<p>Declare an explicit `serialVersionUID` in every serializable class. Do not let the runtime invent one for you.</p>\n<p>Deserialization is a hidden constructor, so it must preserve invariants just like any other constructor.</p>\n<p>Classes designed for inheritance and interfaces should rarely implement `Serializable`, because subclasses inherit the burden.</p>\n<pre><code>private static final long serialVersionUID = 1L;</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0365.png\" alt=\"Item 86 also warns about hidden constructors, version compatibility, and inheritance costs, pages 365-366.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 86 also warns about hidden constructors, version compatibility, and inheritance costs, pages 365-366.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 365-366.</div>"}, {"m": 1, "t": "Quiz: Serializable is an exported API, not a private implementation detail", "q": true}, {"m": 2, "t": "Item 87: choose logical state over physical representation", "c": "<p>The default serialized form mirrors the object's physical representation. That is only acceptable when physical structure and logical content are nearly identical.</p>\n<p>A class like `Name` is a good fit for the default form. A linked structure like `StringList` is not.</p>\n<p>If you choose a custom serialized form, design it deliberately and document it with `@serial` and `@serialData`.</p>\n<ul><li>Do not accept the default form by habit.</li><li>Use `transient` for fields that are derived or VM-specific.</li><li>Preserve the logical sequence, not the in-memory structure.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0364.png\" alt=\"Item 87 contrasts a good default form with a bad one and pushes designers toward logical state.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 87 contrasts a good default form with a bad one and pushes designers toward logical state.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 367-373.</div>"}, {"m": 2, "t": "Custom forms still need the serialization protocol methods", "c": "<p>Even if every field is transient, call `defaultWriteObject` and `defaultReadObject` to preserve compatibility for future fields.</p>\n<p>Serialize logical content explicitly in `writeObject` and rebuild it explicitly in `readObject`.</p>\n<p>If the class is synchronized, `writeObject` must honor the same locking discipline as other whole-object operations.</p>\n<pre><code>private void writeObject(ObjectOutputStream s) throws IOException {\n    s.defaultWriteObject();\n    s.writeInt(size);\n    for (Entry e = head; e != null; e = e.next)\n        s.writeObject(e.data);\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0365.png\" alt=\"Item 87 shows the `StringList` custom form with explicit writeObject/readObject logic.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 87 shows the `StringList` custom form with explicit writeObject/readObject logic.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 367-373.</div>"}, {"m": 2, "t": "Always declare an explicit serialVersionUID", "c": "<p>An explicit `serialVersionUID` removes one more source of accidental incompatibility and avoids runtime computation.</p>\n<p>If you want compatibility with an old serialized form, you must preserve the old value.</p>\n<p>If you want to break compatibility intentionally, changing the value is the clean way to do it.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0366.png\" alt=\"Item 87 closes by requiring an explicit `serialVersionUID` for every serializable class.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 87 closes by requiring an explicit `serialVersionUID` for every serializable class.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 367-373.</div>"}, {"m": 2, "t": "Quiz: Design the serialized form, then defend readObject", "q": true}, {"m": 3, "t": "Item 88: readObject must act like a constructor with adversarial input", "c": "<p>A `readObject` method must validate invariants and make defensive copies before exposing any mutable component.</p>\n<p>Treat the byte stream as untrusted input, even if the class was originally serialized by your own code.</p>\n<p>Do not call overridable methods from `readObject`, directly or indirectly, because the object is not fully formed yet.</p>\n<ul><li>Copy mutable fields before checking invariants.</li><li>Throw `InvalidObjectException` when validation fails.</li><li>Never assume the stream came from a real instance of the class.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0360.png\" alt=\"Item 88 treats readObject as a public constructor that must defend invariants.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 88 treats readObject as a public constructor that must defend invariants.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 374-379.</div>"}, {"m": 3, "t": "Defensive copying closes the MutablePeriod-style attack", "c": "<p>If a serializable immutable class contains private mutable components, the deserialized object can be attacked unless those components are copied defensively.</p>\n<p>Validation must happen after the copy, not before it.</p>\n<p>Final fields are inconvenient here: the defense may require removing `final` so the copied values can be reassigned safely during deserialization.</p>\n<pre><code>private void readObject(ObjectInputStream s)\n        throws IOException, ClassNotFoundException {\n    s.defaultReadObject();\n    start = new Date(start.getTime());\n    end = new Date(end.getTime());\n    if (start.compareTo(end) &gt; 0)\n        throw new InvalidObjectException(start + &quot; after &quot; + end);\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0361.png\" alt=\"Item 88 shows how rogue object references can steal mutable components unless readObject defends them.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 88 shows how rogue object references can steal mutable components unless readObject defends them.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 374-379.</div>"}, {"m": 3, "t": "Item 89 and Item 90: enum first, proxy second", "c": "<p>If you need instance control, prefer an enum. `readResolve` works, but it is fragile and can be bypassed if you are careless with fields or subclassing.</p>\n<p>A serialization proxy is safer still: `writeReplace` emits a nested proxy, `readObject` rejects direct deserialization, and the proxy's `readResolve` rebuilds the object through the public API.</p>\n<p>Use the proxy pattern for non-extendable classes with real invariants. It is the cleanest way to make serialization behave like ordinary construction.</p>\n<ul><li>Enums guarantee one instance per constant in ordinary use.</li><li>`readResolve` must be carefully scoped on nonfinal classes.</li><li>Serialization proxies are not for extendable classes or circular object graphs.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0363.png\" alt=\"Items 89 and 90 contrast fragile `readResolve` tricks with the serialization proxy pattern.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Items 89 and 90 contrast fragile `readResolve` tricks with the serialization proxy pattern.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 380-413.</div>"}, {"m": 3, "t": "Quiz: Defensive deserialization, readResolve, and serialization proxies", "q": true}];
+    const MODULE_NAMES = ["Avoid Java serialization unless you are forced into it", "Serializable is an exported API, not a private implementation detail", "Design the serialized form, then defend readObject", "Defensive deserialization, readResolve, and serialization proxies"];
+    const STORE_KEY = 'chapter_12_serialization_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

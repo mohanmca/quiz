@@ -1,0 +1,40 @@
+ITEM 8: AVOID FINALIZERS AND CLEANERS
+33
+Room’s close method calling Cleanable’s clean method. If the client fails to call
+the close method by the time a Room instance is eligible for garbage collection,
+the cleaner will (hopefully) call State’s run method.
+It is critical that a State instance does not refer to its Room instance. If it did, it
+would create a circularity that would prevent the Room instance from becoming
+eligible for garbage collection (and from being automatically cleaned). Therefore,
+State must be a static nested class because nonstatic nested classes contain
+references to their enclosing instances (Item 24). It is similarly inadvisable to use
+a lambda because they can easily capture references to enclosing objects.
+As we said earlier, Room’s cleaner is used only as a safety net. If clients
+surround all Room instantiations in try-with-resource blocks, automatic cleaning
+will never be required. This well-behaved client demonstrates that behavior:
+public class Adult {
+    public static void main(String[] args) {
+        try (Room myRoom = new Room(7)) {
+            System.out.println("Goodbye");
+        }
+    }
+}
+As you’d expect, running the Adult program prints Goodbye, followed by Clean-
+ing room. But what about this ill-behaved program, which never cleans its room?
+public class Teenager {
+    public static void main(String[] args) {
+        new Room(99);
+        System.out.println("Peace out");
+    }
+}
+You might expect it to print Peace out, followed by Cleaning room, but on my
+machine, it never prints Cleaning room; it just exits. This is the unpredictability
+we spoke of earlier. The Cleaner spec says, “The behavior of cleaners during Sys-
+tem.exit is implementation specific. No guarantees are made relating to whether
+cleaning actions are invoked or not.” While the spec does not say it, the same holds
+true for normal program exit. On my machine, adding the line System.gc() to
+Teenager’s main method is enough to make it print Cleaning room prior to exit,
+but there’s no guarantee that you’ll see the same behavior on your machine.
+In summary, don’t use cleaners, or in releases prior to Java 9, finalizers,
+except as a safety net or to terminate noncritical native resources. Even then,
+beware the indeterminacy and performance consequences.

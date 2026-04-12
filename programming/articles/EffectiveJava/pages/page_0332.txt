@@ -1,0 +1,28 @@
+311
+C H A P T E R 11
+Concurrency
+THREADS allow multiple activities to proceed concurrently. Concurrent pro-
+gramming is harder than single-threaded programming, because more things can go
+wrong, and failures can be hard to reproduce. You can’t avoid concurrency. It is
+inherent in the platform and a requirement if you are to obtain good performance
+from multicore processors, which are now ubiquitous. This chapter contains advice
+to help you write clear, correct, well-documented concurrent programs.
+Item 78: Synchronize access to shared mutable data
+The synchronized keyword ensures that only a single thread can execute a method
+or block at one time. Many programmers think of synchronization solely as a
+means of mutual exclusion, to prevent an object from being seen in an inconsistent
+state by one thread while it’s being modified by another. In this view, an object is
+created in a consistent state (Item 17) and locked by the methods that access it.
+These methods observe the state and optionally cause a state transition, transform-
+ing the object from one consistent state to another. Proper use of synchronization
+guarantees that no method will ever observe the object in an inconsistent state. 
+This view is correct, but it’s only half the story. Without synchronization, one
+thread’s changes might not be visible to other threads. Not only does synchroniza-
+tion prevent threads from observing an object in an inconsistent state, but it
+ensures that each thread entering a synchronized method or block sees the effects
+of all previous modifications that were guarded by the same lock.
+The language specification guarantees that reading or writing a variable is
+atomic unless the variable is of type long or double [JLS, 17.4, 17.7]. In other
+words, reading a variable other than a long or double is guaranteed to return a
+value that was stored into that variable by some thread, even if multiple threads
+modify the variable concurrently and without synchronization.

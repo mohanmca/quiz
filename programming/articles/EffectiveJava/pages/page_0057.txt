@@ -1,0 +1,29 @@
+CHAPTER 2
+CREATING AND DESTROYING OBJECTS
+36
+method. If exceptions are thrown by both the readLine call and the (invisible)
+close, the latter exception is suppressed in favor of the former. In fact, multiple
+exceptions may be suppressed in order to preserve the exception that you actually
+want to see. These suppressed exceptions are not merely discarded; they are
+printed in the stack trace with a notation saying that they were suppressed. You
+can also access them programmatically with the getSuppressed method, which
+was added to Throwable in Java 7.
+You can put catch clauses on try-with-resources statements, just as you can
+on regular try-finally statements. This allows you to handle exceptions without
+sullying your code with another layer of nesting. As a slightly contrived example,
+here’s a version our firstLineOfFile method that does not throw exceptions, but
+takes a default value to return if it can’t open the file or read from it:
+// try-with-resources with a catch clause
+static String firstLineOfFile(String path, String defaultVal) {
+try (BufferedReader br = new BufferedReader(
+new FileReader(path))) {
+return br.readLine();
+} catch (IOException e) {
+return defaultVal;
+}
+}
+The lesson is clear: Always use try-with-resources in preference to try-
+finally when working with resources that must be closed. The resulting code is
+shorter and clearer, and the exceptions that it generates are more useful. The try-
+with-resources statement makes it easy to write correct code using resources that
+must be closed, which was practically impossible using try-finally.

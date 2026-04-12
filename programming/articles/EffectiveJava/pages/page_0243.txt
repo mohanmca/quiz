@@ -1,0 +1,40 @@
+CHAPTER 7
+LAMBDAS AND STREAMS
+222
+Item 48: Use caution when making streams parallel
+Among mainstream languages, Java has always been at the forefront of providing
+facilities to ease the task of concurrent programming. When Java was released in
+1996, it had built-in support for threads, with synchronization and wait/notify.
+Java 5 introduced the java.util.concurrent library, with concurrent collections
+and the executor framework. Java 7 introduced the fork-join package, a high-
+performance framework for parallel decomposition. Java 8 introduced streams,
+which can be parallelized with a single call to the parallel method. Writing con-
+current programs in Java keeps getting easier, but writing concurrent programs
+that are correct and fast is as difficult as it ever was. Safety and liveness violations
+are a fact of life in concurrent programming, and parallel stream pipelines are no
+exception.
+Consider this program from Item 45:
+// Stream-based program to generate the first 20 Mersenne primes
+public static void main(String[] args) {
+    primes().map(p -> TWO.pow(p.intValueExact()).subtract(ONE))
+        .filter(mersenne -> mersenne.isProbablePrime(50))
+        .limit(20)
+        .forEach(System.out::println);
+}
+static Stream<BigInteger> primes() {
+    return Stream.iterate(TWO, BigInteger::nextProbablePrime);
+}
+On my machine, this program immediately starts printing primes and takes
+12.5 seconds to run to completion. Suppose I naively try to speed it up by adding a
+call to parallel() to the stream pipeline. What do you think will happen to its
+performance? Will it get a few percent faster? A few percent slower? Sadly, what
+happens is that it doesn’t print anything, but CPU usage spikes to 90 percent and
+stays there indefinitely (a liveness failure). The program might terminate eventu-
+ally, but I was unwilling to find out; I stopped it forcibly after half an hour.
+What’s going on here? Simply put, the streams library has no idea how to par-
+allelize this pipeline and the heuristics fail. Even under the best of circumstances,
+parallelizing a pipeline is unlikely to increase its performance if the source is
+from Stream.iterate, or the intermediate operation limit is used. This pipe-
+line has to contend with both of these issues. Worse, the default parallelization
+strategy deals with the unpredictability of limit by assuming there’s no harm in
+processing a few extra elements and discarding any unneeded results. In this case,

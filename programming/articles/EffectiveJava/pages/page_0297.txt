@@ -1,0 +1,37 @@
+CHAPTER 9
+GENERAL PROGRAMMING
+276
+Item 62: Avoid strings where other types are more appropriate
+Strings are designed to represent text, and they do a fine job of it. Because strings
+are so common and so well supported by the language, there is a natural tendency
+to use strings for purposes other than those for which they were designed. This
+item discusses a few things that you shouldn’t do with strings.
+Strings are poor substitutes for other value types. When a piece of data
+comes into a program from a file, from the network, or from keyboard input, it is
+often in string form. There is a natural tendency to leave it that way, but this ten-
+dency is justified only if the data really is textual in nature. If it’s numeric, it
+should be translated into the appropriate numeric type, such as int, float, or
+BigInteger. If it’s the answer to a yes-or-no question, it should be translated into
+an appropriate enum type or a boolean. More generally, if there’s an appropriate
+value type, whether primitive or object reference, you should use it; if there isn’t,
+you should write one. While this advice may seem obvious, it is often violated.
+Strings are poor substitutes for enum types. As discussed in Item 34,
+enums make far better enumerated type constants than strings.
+Strings are poor substitutes for aggregate types. If an entity has multiple
+components, it is usually a bad idea to represent it as a single string. For example,
+here’s a line of code that comes from a real system—identifier names have been
+changed to protect the guilty:
+// Inappropriate use of string as aggregate type
+String compoundKey = className + "#" + i.next();
+This approach has many disadvantages. If the character used to separate fields
+occurs in one of the fields, chaos may result. To access individual fields, you have
+to parse the string, which is slow, tedious, and error-prone. You can’t provide
+equals, toString, or compareTo methods but are forced to accept the behavior
+that String provides. A better approach is simply to write a class to represent the
+aggregate, often a private static member class (Item 24).
+Strings are poor substitutes for capabilities. Occasionally, strings are used
+to grant access to some functionality. For example, consider the design of a
+thread-local variable facility. Such a facility provides variables for which each
+thread has its own value. The Java libraries have had a thread-local variable facil-
+ity since release 1.2, but prior to that, programmers had to roll their own. When
+confronted with the task of designing such a facility many years ago, several

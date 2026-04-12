@@ -1,0 +1,39 @@
+ITEM 8: AVOID FINALIZERS AND CLEANERS
+31
+thrown from a constructor or its serialization equivalents—the readObject and
+readResolve methods (Chapter 12)—the finalizer of a malicious subclass can run
+on the partially constructed object that should have “died on the vine.” This final-
+izer can record a reference to the object in a static field, preventing it from being
+garbage collected. Once the malformed object has been recorded, it is a simple
+matter to invoke arbitrary methods on this object that should never have been
+allowed to exist in the first place. Throwing an exception from a constructor
+should be sufficient to prevent an object from coming into existence; in the
+presence of finalizers, it is not. Such attacks can have dire consequences. Final
+classes are immune to finalizer attacks because no one can write a malicious
+subclass of a final class. To protect nonfinal classes from finalizer attacks,
+write a final finalize method that does nothing.
+So what should you do instead of writing a finalizer or cleaner for a class
+whose objects encapsulate resources that require termination, such as files or
+threads? Just have your class implement AutoCloseable, and require its clients
+to invoke the close method on each instance when it is no longer needed,
+typically using try-with-resources to ensure termination even in the face of
+exceptions (Item 9). One detail worth mentioning is that the instance must keep
+track of whether it has been closed: the close method must record in a field that
+the object is no longer valid, and other methods must check this field and throw an
+IllegalStateException if they are called after the object has been closed.
+So what, if anything, are cleaners and finalizers good for? They have perhaps
+two legitimate uses. One is to act as a safety net in case the owner of a resource
+neglects to call its close method. While there’s no guarantee that the cleaner or
+finalizer will run promptly (or at all), it is better to free the resource late than never
+if the client fails to do so. If you’re considering writing such a safety-net finalizer,
+think long and hard about whether the protection is worth the cost. Some Java
+library classes, such as FileInputStream, FileOutputStream, ThreadPoolEx-
+ecutor, and java.sql.Connection, have finalizers that serve as safety nets.
+A second legitimate use of cleaners concerns objects with native peers. A
+native peer is a native (non-Java) object to which a normal object delegates via
+native methods. Because a native peer is not a normal object, the garbage collector
+doesn’t know about it and can’t reclaim it when its Java peer is reclaimed. A
+cleaner or finalizer may be an appropriate vehicle for this task, assuming the
+performance is acceptable and the native peer holds no critical resources. If the
+performance is unacceptable or the native peer holds resources that must be
+reclaimed promptly, the class should have a close method, as described earlier.

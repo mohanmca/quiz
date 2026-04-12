@@ -1,0 +1,223 @@
+{
+  "title": "Classes and Interfaces - Effective Java Chapter 4, Items 15-25",
+  "version": "1.0",
+  "totalQuestions": 16,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Encapsulation and public API shape",
+      "questions": [
+        {
+          "question": "For a public class, what is the preferred access level for a helper type that is only used inside the package?",
+          "options": [
+            "package-private",
+            "public",
+            "protected",
+            "private"
+          ],
+          "answer": 0,
+          "explanation": "Package-private keeps the type usable inside the package without exporting it as part of the public API.",
+          "id": "chapter4_m1_q1"
+        },
+        {
+          "question": "Why are public mutable fields discouraged in exported classes?",
+          "options": [
+            "They freeze representation into the API and prevent invariant enforcement",
+            "They make the class abstract",
+            "They speed up serialization automatically",
+            "They improve binary compatibility"
+          ],
+          "answer": 0,
+          "explanation": "A public mutable field exposes implementation details and removes the class's ability to control updates.",
+          "id": "chapter4_m1_q2"
+        },
+        {
+          "question": "What is wrong with a public static final array field?",
+          "options": [
+            "Its reference is final, but the array contents remain mutable",
+            "Arrays cannot be final",
+            "The compiler rejects all array constants",
+            "It cannot be read from other classes"
+          ],
+          "answer": 0,
+          "explanation": "The array object itself can still be modified through the returned reference.",
+          "id": "chapter4_m1_q3"
+        },
+        {
+          "question": "Which statement about protected members of exported classes is correct?",
+          "options": [
+            "They are part of the exported API and should be rare",
+            "They are invisible outside the package",
+            "They are always safer than private members",
+            "They are only relevant to interfaces"
+          ],
+          "answer": 0,
+          "explanation": "Protected members are a long-term compatibility promise, so they should be used sparingly.",
+          "id": "chapter4_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Immutability and composition",
+      "questions": [
+        {
+          "question": "Which rule is part of making a class immutable?",
+          "options": [
+            "Make all fields private and final, and do not expose mutable internals",
+            "Make every method static",
+            "Avoid constructors entirely",
+            "Use public setters for all fields"
+          ],
+          "answer": 0,
+          "explanation": "Immutability requires fixed state and no external mutation channel.",
+          "id": "chapter4_m2_q1"
+        },
+        {
+          "question": "Why are immutable objects attractive for concurrent code?",
+          "options": [
+            "They are inherently thread-safe and need no synchronization",
+            "They cannot be serialized",
+            "They always allocate less memory",
+            "They eliminate the need for equals"
+          ],
+          "answer": 0,
+          "explanation": "If state never changes, concurrent readers cannot observe a race on that state.",
+          "id": "chapter4_m2_q2"
+        },
+        {
+          "question": "What is the main risk of implementation inheritance across package boundaries?",
+          "options": [
+            "The subclass can break when superclass internals change",
+            "The subclass cannot compile at all",
+            "The JVM forbids it",
+            "It automatically duplicates all methods"
+          ],
+          "answer": 0,
+          "explanation": "A subclass can depend on superclass behavior that was never part of the public contract.",
+          "id": "chapter4_m2_q3"
+        },
+        {
+          "question": "What is the best general replacement for fragile subclassing of a concrete class?",
+          "options": [
+            "Composition plus forwarding methods",
+            "A public tag field",
+            "More protected methods",
+            "A larger abstract superclass"
+          ],
+          "answer": 0,
+          "explanation": "Composition lets you control the exposed API and avoids tight coupling to internals.",
+          "id": "chapter4_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Inheritance contracts and interface design",
+      "questions": [
+        {
+          "question": "What must a class document if it is designed for inheritance?",
+          "options": [
+            "Its self-use of overridable methods and the effects of overriding them",
+            "Only its package name",
+            "Only its private fields",
+            "Nothing, because inheritance is self-documenting"
+          ],
+          "answer": 0,
+          "explanation": "Subclass authors need to know exactly which overridable methods the superclass calls and when.",
+          "id": "chapter4_m3_q1"
+        },
+        {
+          "question": "Why are default methods risky when added to an existing interface?",
+          "options": [
+            "They can silently break preexisting implementations at runtime",
+            "They cannot be compiled by javac",
+            "They are always ignored by clients",
+            "They forbid all abstract methods"
+          ],
+          "answer": 0,
+          "explanation": "Existing classes may inherit behavior that does not preserve their invariants.",
+          "id": "chapter4_m3_q2"
+        },
+        {
+          "question": "Which is the best use of an interface according to Item 22?",
+          "options": [
+            "To define a type that clients can use to refer to instances",
+            "To export constants without qualification",
+            "To store instance fields",
+            "To replace every utility class"
+          ],
+          "answer": 0,
+          "explanation": "Interfaces should describe what a type is, not merely provide a bag of constants.",
+          "id": "chapter4_m3_q3"
+        },
+        {
+          "question": "What is a skeletal implementation class for?",
+          "options": [
+            "It supplies reusable method bodies while leaving the type as an interface",
+            "It prevents all subclassing",
+            "It replaces every default method",
+            "It is only for constants"
+          ],
+          "answer": 0,
+          "explanation": "Skeletal implementations reduce the work of implementing an interface without forcing inheritance for clients.",
+          "id": "chapter4_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Tagged classes, member classes, and source files",
+      "questions": [
+        {
+          "question": "Why are tagged classes discouraged?",
+          "options": [
+            "They force irrelevant fields and switch logic into one brittle type",
+            "They cannot be instantiated",
+            "They are illegal in Java",
+            "They always use abstract methods"
+          ],
+          "answer": 0,
+          "explanation": "A tagged class mixes multiple flavors in one type, which is verbose and error-prone.",
+          "id": "chapter4_m4_q1"
+        },
+        {
+          "question": "What is the hidden cost of a nonstatic member class?",
+          "options": [
+            "It stores an implicit reference to its enclosing instance",
+            "It cannot access private fields",
+            "It is always abstract",
+            "It cannot be serialized"
+          ],
+          "answer": 0,
+          "explanation": "That enclosing-instance reference consumes space and can extend object lifetime unintentionally.",
+          "id": "chapter4_m4_q2"
+        },
+        {
+          "question": "When is an anonymous class appropriate?",
+          "options": [
+            "For a short one-off use where naming the type is unnecessary",
+            "For implementing multiple interfaces at once",
+            "For defining a public API class",
+            "For replacing every nested class"
+          ],
+          "answer": 0,
+          "explanation": "Anonymous classes are limited and should stay small; lambdas are usually preferred for function objects.",
+          "id": "chapter4_m4_q3"
+        },
+        {
+          "question": "What is the rule for top-level source files in this chapter?",
+          "options": [
+            "Limit each source file to one top-level class or interface",
+            "Put all utility classes in one file",
+            "Use multiple files only for public classes",
+            "Keep every nested type top-level"
+          ],
+          "answer": 0,
+          "explanation": "One top-level type per file avoids duplicate-definition and order-dependent compiler behavior.",
+          "id": "chapter4_m4_q4"
+        }
+      ]
+    }
+  ]
+}

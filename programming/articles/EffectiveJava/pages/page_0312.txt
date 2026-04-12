@@ -1,0 +1,38 @@
+ITEM 68: ADHERE TO GENERALLY ACCEPTED NAMING CONVENTIONS
+291
+Grammatical naming conventions are more flexible and more controversial
+than typographical conventions. There are no grammatical naming conventions to
+speak of for packages. Instantiable classes, including enum types, are generally
+named with a singular noun or noun phrase, such as Thread, PriorityQueue, or
+ChessPiece. Non-instantiable utility classes (Item 4) are often named with a
+plural noun, such as Collectors or Collections. Interfaces are named like
+classes, for example, Collection or Comparator, or with an adjective ending in
+able or ible, for example, Runnable, Iterable, or Accessible. Because anno-
+tation types have so many uses, no part of speech predominates. Nouns, verbs,
+prepositions, and adjectives are all common, for example, BindingAnnotation,
+Inject, ImplementedBy, or Singleton.
+Methods that perform some action are generally named with a verb or verb
+phrase (including object), for example, append or drawImage. Methods that return
+a boolean value usually have names that begin with the word is or, less com-
+monly, has, followed by a noun, noun phrase, or any word or phrase that functions
+as an adjective, for example, isDigit, isProbablePrime, isEmpty, isEnabled,
+or hasSiblings.
+Methods that return a non-boolean function or attribute of the object on
+which they’re invoked are usually named with a noun, a noun phrase, or a verb
+phrase beginning with the verb get, for example, size, hashCode, or getTime.
+There is a vocal contingent that claims that only the third form (beginning with
+get) is acceptable, but there is little basis for this claim. The first two forms usu-
+ally lead to more readable code, for example:
+if (car.speed() > 2 * SPEED_LIMIT)
+generateAudibleAlert("Watch out for cops!");
+The form beginning with get has its roots in the largely obsolete Java Beans
+specification, which formed the basis of an early reusable component architecture.
+There are modern tools that continue to rely on the Beans naming convention, and
+you should feel free to use it in any code that is to be used in conjunction with
+these tools. There is also a strong precedent for following this naming convention
+if a class contains both a setter and a getter for the same attribute. In this case, the
+two methods are typically named getAttribute and setAttribute.
+A few method names deserve special mention. Instance methods that convert
+the type of an object, returning an independent object of a different type, are often
+called toType, for example, toString or toArray. Methods that return a view
+(Item 6) whose type differs from that of the receiving object are often called

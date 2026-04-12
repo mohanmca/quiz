@@ -1,0 +1,40 @@
+ITEM 57: MINIMIZE THE SCOPE OF LOCAL VARIABLES
+263
+code compiles without error and runs without throwing an exception, but it does
+the wrong thing. Instead of iterating over c2, the second loop terminates immedi-
+ately, giving the false impression that c2 is empty. Because the program errs
+silently, the error can remain undetected for a long time.
+If a similar copy-and-paste error were made in conjunction with either of the
+for loops (for-each or traditional), the resulting code wouldn’t even compile. The
+element (or iterator) variable from the first loop would not be in scope in the
+second loop. Here’s how it looks with the traditional for loop:
+for (Iterator<Element> i = c.iterator(); i.hasNext(); ) {
+Element e = i.next();
+... // Do something with e and i
+}
+...
+// Compile-time error - cannot find symbol i
+for (Iterator<Element> i2 = c2.iterator(); i.hasNext(); ) {
+Element e2 = i2.next();
+... // Do something with e2 and i2
+}
+Moreover, if you use a for loop, it’s much less likely that you’ll make the
+copy-and-paste error because there’s no incentive to use different variable names
+in the two loops. The loops are completely independent, so there’s no harm in
+reusing the element (or iterator) variable name. In fact, it’s often stylish to do so. 
+The for loop has one more advantage over the while loop: it is shorter, which
+enhances readability.
+Here is another loop idiom that minimizes the scope of local variables:
+for (int i = 0, n = expensiveComputation(); i < n; i++) {
+... // Do something with i;
+}
+The important thing to notice about this idiom is that it has two loop variables, i
+and n, both of which have exactly the right scope. The second variable, n, is used
+to store the limit of the first, thus avoiding the cost of a redundant computation in
+every iteration. As a rule, you should use this idiom if the loop test involves a
+method invocation that is guaranteed to return the same result on each iteration.
+A final technique to minimize the scope of local variables is to keep methods
+small and focused. If you combine two activities in the same method, local
+variables relevant to one activity may be in the scope of the code performing the
+other activity. To prevent this from happening, simply separate the method into
+two: one for each activity.

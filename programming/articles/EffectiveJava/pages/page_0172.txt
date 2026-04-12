@@ -1,0 +1,39 @@
+ITEM 33: CONSIDER TYPESAFE HETEROGENEOUS CONTAINERS
+151
+Item 33: Consider typesafe heterogeneous containers
+Common uses of generics include collections, such as Set<E> and Map<K,V>, and
+single-element containers, such as ThreadLocal<T> and AtomicReference<T>.
+In all of these uses, it is the container that is parameterized. This limits you to a
+fixed number of type parameters per container. Normally that is exactly what you
+want. A Set has a single type parameter, representing its element type; a Map has
+two, representing its key and value types; and so forth.
+Sometimes, however, you need more flexibility. For example, a database row
+can have arbitrarily many columns, and it would be nice to be able to access all of
+them in a typesafe manner. Luckily, there is an easy way to achieve this effect. The
+idea is to parameterize the key instead of the container. Then present the parame-
+terized key to the container to insert or retrieve a value. The generic type system is
+used to guarantee that the type of the value agrees with its key.
+As a simple example of this approach, consider a Favorites class that allows
+its clients to store and retrieve a favorite instance of arbitrarily many types. The
+Class object for the type will play the part of the parameterized key. The reason
+this works is that class Class is generic. The type of a class literal is not simply
+Class, but Class<T>. For example, String.class is of type Class<String>, and
+Integer.class is of type Class<Integer>. When a class literal is passed among
+methods to communicate both compile-time and runtime type information, it is
+called a type token [Bracha04].
+The API for the Favorites class is simple. It looks just like a simple map,
+except that the key is parameterized instead of the map. The client presents a
+Class object when setting and getting favorites. Here is the API:
+// Typesafe heterogeneous container pattern - API
+public class Favorites {
+public <T> void putFavorite(Class<T> type, T instance);
+public <T> T getFavorite(Class<T> type);
+}
+Here is a sample program that exercises the Favorites class, storing, retriev-
+ing, and printing a favorite String, Integer, and Class instance:
+// Typesafe heterogeneous container pattern - client
+public static void main(String[] args) {
+Favorites f = new Favorites();
+f.putFavorite(String.class, "Java");
+f.putFavorite(Integer.class, 0xcafebabe);
+f.putFavorite(Class.class, Favorites.class);

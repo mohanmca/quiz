@@ -1,0 +1,41 @@
+ITEM 34: USE ENUMS INSTEAD OF INT CONSTANTS
+161
+by overriding the toString method. Here is the result of running our WeightTable
+program (which doesn’t override toString) with the command line argument 185:
+Weight on MERCURY is 69.912739
+Weight on VENUS is 167.434436
+Weight on EARTH is 185.000000
+Weight on MARS is 70.226739
+Weight on JUPITER is 467.990696
+Weight on SATURN is 197.120111
+Weight on URANUS is 167.398264
+Weight on NEPTUNE is 210.208751
+Until 2006, two years after enums were added to Java, Pluto was a planet. This
+raises the question “what happens when you remove an element from an enum
+type?” The answer is that any client program that doesn’t refer to the removed
+element will continue to work fine. So, for example, our WeightTable program
+would simply print a table with one fewer row. And what of a client program that
+refers to the removed element (in this case, Planet.Pluto)? If you recompile the
+client program, the compilation will fail with a helpful error message at the line
+that refers to the erstwhile planet; if you fail to recompile the client, it will throw a
+helpful exception from this line at runtime. This is the best behavior you could
+hope for, far better than what you’d get with the int enum pattern.
+Some behaviors associated with enum constants may need to be used only
+from within the class or package in which the enum is defined. Such behaviors are
+best implemented as private or package-private methods. Each constant then
+carries with it a hidden collection of behaviors that allows the class or package
+containing the enum to react appropriately when presented with the constant. Just
+as with other classes, unless you have a compelling reason to expose an enum
+method to its clients, declare it private or, if need be, package-private (Item 15).
+If an enum is generally useful, it should be a top-level class; if its use is tied to
+a specific top-level class, it should be a member class of that top-level class
+(Item 24). For example, the java.math.RoundingMode enum represents a round-
+ing mode for decimal fractions. These rounding modes are used by the BigDeci-
+mal class, but they provide a useful abstraction that is not fundamentally tied to
+BigDecimal. By making RoundingMode a top-level enum, the library designers
+encourage any programmer who needs rounding modes to reuse this enum, lead-
+ing to increased consistency across APIs.
+The techniques demonstrated in the Planet example are sufficient for most
+enum types, but sometimes you need more. There is different data associated with
+each Planet constant, but sometimes you need to associate fundamentally differ-
+ent behavior with each constant. For example, suppose you are writing an enum

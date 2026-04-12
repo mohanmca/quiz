@@ -1,0 +1,40 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+102
+The beauty of skeletal implementation classes is that they provide all of the
+implementation assistance of abstract classes without imposing the severe con-
+straints that abstract classes impose when they serve as type definitions. For most
+implementors of an interface with a skeletal implementation class, extending this
+class is the obvious choice, but it is strictly optional. If a class cannot be made to
+extend the skeletal implementation, the class can always implement the interface
+directly. The class still benefits from any default methods present on the interface
+itself. Furthermore, the skeletal implementation can still aid the implementor’s
+task. The class implementing the interface can forward invocations of interface
+methods to a contained instance of a private inner class that extends the skeletal
+implementation. This technique, known as simulated multiple inheritance, is
+closely related to the wrapper class idiom discussed in Item 18. It provides many
+of the benefits of multiple inheritance, while avoiding the pitfalls.
+Writing a skeletal implementation is a relatively simple, if somewhat tedious,
+process. First, study the interface and decide which methods are the primitives in
+terms of which the others can be implemented. These primitives will be the
+abstract methods in your skeletal implementation. Next, provide default methods
+in the interface for all of the methods that can be implemented directly atop the
+primitives, but recall that you may not provide default methods for Object
+methods such as equals and hashCode. If the primitives and default methods
+cover the interface, you’re done, and have no need for a skeletal implementation
+class. Otherwise, write a class declared to implement the interface, with
+implementations of all of the remaining interface methods. The class may contain
+any nonpublic fields ands methods appropriate to the task.
+As a simple example, consider the Map.Entry interface. The obvious primi-
+tives are getKey, getValue, and (optionally) setValue. The interface specifies the
+behavior of equals and hashCode, and there is an obvious implementation of
+toString in terms of the primitives. Since you are not allowed to provide default
+implementations for the Object methods, all implementations are placed in the
+skeletal implementation class:
+// Skeletal implementation class
+public abstract class AbstractMapEntry<K,V>
+implements Map.Entry<K,V> {
+// Entries in a modifiable map must override this method
+@Override public V setValue(V value) {
+throw new UnsupportedOperationException();
+}

@@ -1,0 +1,34 @@
+ITEM 31: USE BOUNDED WILDCARDS TO INCREASE API FLEXIBILITY
+143
+argument [JLS, 15.12]. Even prior to the introduction of target typing in Java 8,
+this isn’t something that you had to do often, which is good because explicit type
+arguments aren’t very pretty. With the addition of an explicit type argument, as
+shown here, the code fragment compiles cleanly in versions prior to Java 8:
+// Explicit type parameter - required prior to Java 8
+Set<Number> numbers = Union.<Number>union(integers, doubles);
+Next let’s turn our attention to the max method in Item 30. Here is the original
+declaration:
+public static <T extends Comparable<T>> T max(List<T> list)
+Here is a revised declaration that uses wildcard types:
+public static <T extends Comparable<? super T>> T max(
+List<? extends T> list)
+To get the revised declaration from the original, we applied the PECS heuris-
+tic twice. The straightforward application is to the parameter list. It produces T
+instances, so we change the type from List<T> to List<? extends T>. The tricky
+application is to the type parameter T. This is the first time we’ve seen a wildcard
+applied to a type parameter. Originally, T was specified to extend Comparable<T>,
+but a comparable of T consumes T instances (and produces integers indicating
+order relations). Therefore, the parameterized type Comparable<T> is replaced by
+the bounded wildcard type Comparable<? super T>. Comparables are always
+consumers, so you should generally use Comparable<? super T> in preference to
+Comparable<T>. The same is true of comparators; therefore, you should generally
+use Comparator<? super T> in preference to Comparator<T>.
+The revised max declaration is probably the most complex method declaration
+in this book. Does the added complexity really buy you anything? Again, it does.
+Here is a simple example of a list that would be excluded by the original declara-
+tion but is permitted by the revised one:
+List<ScheduledFuture<?>> scheduledFutures = ... ;
+The reason that you can’t apply the original method declaration to this list is
+that ScheduledFuture does not implement Comparable<ScheduledFuture>.
+Instead, it is a subinterface of Delayed, which extends Comparable<Delayed>. In
+other words, a ScheduledFuture instance isn’t merely comparable to other

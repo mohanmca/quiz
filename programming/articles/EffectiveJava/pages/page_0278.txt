@@ -1,0 +1,38 @@
+ITEM 56: WRITE DOC COMMENTS FOR ALL EXPOSED API ELEMENTS
+257
+The first “sentence” of each doc comment (as defined below) becomes the
+summary description of the element to which the comment pertains. For example,
+the summary description in the doc comment on page 255 is “Returns the element
+at the specified position in this list.” The summary description must stand on its
+own to describe the functionality of the element it summarizes. To avoid confu-
+sion, no two members or constructors in a class or interface should have the
+same summary description. Pay particular attention to overloadings, for which it
+is often natural to use the same first sentence (but unacceptable in doc comments).
+Be careful if the intended summary description contains a period, because the
+period can prematurely terminate the description. For example, a doc comment that
+begins with the phrase “A college degree, such as B.S., M.S. or Ph.D.” will
+result in the summary description “A college degree, such as B.S., M.S.” The
+problem is that the summary description ends at the first period that is followed by
+a space, tab, or line terminator (or at the first block tag) [Javadoc-ref]. Here, the
+second period in the abbreviation “M.S.” is followed by a space. The best solution
+is to surround the offending period and any associated text with an {@literal}
+tag, so the period is no longer followed by a space in the source code:
+/**
+ * A college degree, such as B.S., {@literal M.S.} or Ph.D.
+ */
+public class Degree { ... }
+It is a bit misleading to say that the summary description is the first sentence in
+a doc comment. Convention dictates that it should seldom be a complete sentence.
+For methods and constructors, the summary description should be a verb phrase
+(including any object) describing the action performed by the method. For example:
+• ArrayList(int initialCapacity)—Constructs an empty list with the spec-
+ified initial capacity.
+• Collection.size()—Returns the number of elements in this collection.
+As shown in these examples, use the third person declarative tense (“returns the
+number”) rather than the second person imperative (“return the number”).
+For classes, interfaces, and fields, the summary description should be a noun
+phrase describing the thing represented by an instance of the class or interface or
+by the field itself. For example:
+• Instant—An instantaneous point on the time-line.
+• Math.PI—The double value that is closer than any other to pi, the ratio of the
+circumference of a circle to its diameter.

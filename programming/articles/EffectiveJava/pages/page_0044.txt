@@ -1,0 +1,39 @@
+ITEM 6: AVOID CREATING UNNECESSARY OBJECTS
+23
+The problem with this implementation is that it relies on the String.matches
+method. While String.matches is the easiest way to check if a string matches
+a regular expression, it’s not suitable for repeated use in performance-critical
+situations. The problem is that it internally creates a Pattern instance for the
+regular expression and uses it only once, after which it becomes eligible for
+garbage collection. Creating a Pattern instance is expensive because it requires
+compiling the regular expression into a finite state machine.
+To improve the performance, explicitly compile the regular expression into a
+Pattern instance (which is immutable) as part of class initialization, cache it, and
+reuse the same instance for every invocation of the isRomanNumeral method:
+// Reusing expensive object for improved performance
+public class RomanNumerals {
+private static final Pattern ROMAN = Pattern.compile(
+"^(?=.)M*(C[MD]|D?C{0,3})"
++ "(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$");
+static boolean isRomanNumeral(String s) {
+return ROMAN.matcher(s).matches();
+}
+}
+The improved version of isRomanNumeral provides significant performance
+gains if invoked frequently. On my machine, the original version takes 1.1 µs on
+an 8-character input string, while the improved version takes 0.17 µs, which is 6.5
+times faster. Not only is the performance improved, but arguably, so is clarity.
+Making a static final field for the otherwise invisible Pattern instance allows us
+to give it a name, which is far more readable than the regular expression itself.
+If the class containing the improved version of the isRomanNumeral method is
+initialized but the method is never invoked, the field ROMAN will be initialized
+needlessly. It would be possible to eliminate the initialization by lazily initializing
+the field (Item 83) the first time the isRomanNumeral method is invoked, but this
+is not recommended. As is often the case with lazy initialization, it would compli-
+cate the implementation with no measurable performance improvement (Item 67).
+When an object is immutable, it is obvious it can be reused safely, but there
+are other situations where it is far less obvious, even counterintuitive. Consider the
+case of adapters [Gamma95], also known as views. An adapter is an object that
+delegates to a backing object, providing an alternative interface. Because an
+adapter has no state beyond that of its backing object, there’s no need to create
+more than one instance of a given adapter to a given object.

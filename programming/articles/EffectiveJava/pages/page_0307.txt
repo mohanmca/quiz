@@ -1,0 +1,39 @@
+CHAPTER 9
+GENERAL PROGRAMMING
+286
+Item 67: Optimize judiciously
+There are three aphorisms concerning optimization that everyone should know: 
+More computing sins are committed in the name of efficiency (without neces-
+sarily achieving it) than for any other single reason—including blind stupidity.
+—William A. Wulf [Wulf72]
+We should forget about small efficiencies, say about 97% of the time: prema-
+ture optimization is the root of all evil.
+—Donald E. Knuth [Knuth74]
+We follow two rules in the matter of optimization:
+Rule 1. Don’t do it.
+Rule 2 (for experts only). Don’t do it yet—that is, not until you have a
+perfectly clear and unoptimized solution.
+—M. A. Jackson [Jackson75]
+All of these aphorisms predate the Java programming language by two
+decades. They tell a deep truth about optimization: it is easy to do more harm than
+good, especially if you optimize prematurely. In the process, you may produce
+software that is neither fast nor correct and cannot easily be fixed.
+Don’t sacrifice sound architectural principles for performance. Strive to write
+good programs rather than fast ones. If a good program is not fast enough, its
+architecture will allow it to be optimized. Good programs embody the principle of
+information hiding: where possible, they localize design decisions within individ-
+ual components, so individual decisions can be changed without affecting the
+remainder of the system (Item 15).
+This does not mean that you can ignore performance concerns until your pro-
+gram is complete. Implementation problems can be fixed by later optimization,
+but pervasive architectural flaws that limit performance can be impossible to fix
+without rewriting the system. Changing a fundamental facet of your design after
+the fact can result in an ill-structured system that is difficult to maintain and
+evolve. Therefore you must think about performance during the design process.
+Strive to avoid design decisions that limit performance. The components
+of a design that are most difficult to change after the fact are those specifying
+interactions between components and with the outside world. Chief among these
+design components are APIs, wire-level protocols, and persistent data formats.
+Not only are these design components difficult or impossible to change after the
+fact, but all of them can place significant limitations on the performance that a
+system can ever achieve.

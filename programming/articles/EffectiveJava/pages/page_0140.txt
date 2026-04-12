@@ -1,0 +1,40 @@
+ITEM 26: DON’T USE RAW TYPES
+119
+The compiler inserts invisible casts for you when retrieving elements from
+collections and guarantees that they won’t fail (assuming, again, that all of your
+code did not generate or suppress any compiler warnings). While the prospect of
+accidentally inserting a coin into a stamp collection may appear far-fetched, the
+problem is real. For example, it is easy to imagine putting a BigInteger into a
+collection that is supposed to contain only BigDecimal instances.
+As noted earlier, it is legal to use raw types (generic types without their type
+parameters), but you should never do it. If you use raw types, you lose all the
+safety and expressiveness benefits of generics. Given that you shouldn’t use
+them, why did the language designers permit raw types in the first place? For
+compatibility. Java was about to enter its second decade when generics were
+added, and there was an enormous amount of code in existence that did not use
+generics. It was deemed critical that all of this code remain legal and interoperate
+with newer code that does use generics. It had to be legal to pass instances of
+parameterized types to methods that were designed for use with raw types, and
+vice versa. This requirement, known as migration compatibility, drove the deci-
+sions to support raw types and to implement generics using erasure (Item 28).
+While you shouldn’t use raw types such as List, it is fine to use types that are
+parameterized to allow insertion of arbitrary objects, such as List<Object>. Just
+what is the difference between the raw type List and the parameterized type
+List<Object>? Loosely speaking, the former has opted out of the generic type
+system, while the latter has explicitly told the compiler that it is capable of hold-
+ing objects of any type. While you can pass a List<String> to a parameter of
+type List, you can’t pass it to a parameter of type List<Object>. There are sub-
+typing rules for generics, and List<String> is a subtype of the raw type List, but
+not of the parameterized type List<Object> (Item 28). As a consequence, you
+lose type safety if you use a raw type such as List, but not if you use a param-
+eterized type such as List<Object>.
+To make this concrete, consider the following program:
+// Fails at runtime - unsafeAdd method uses a raw type (List)!
+public static void main(String[] args) {
+List<String> strings = new ArrayList<>();
+unsafeAdd(strings, Integer.valueOf(42));
+String s = strings.get(0); // Has compiler-generated cast
+}
+private static void unsafeAdd(List list, Object o) {
+list.add(o);
+}

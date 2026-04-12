@@ -1,0 +1,41 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+96
+Here’s a subclass that overrides the overrideMe method, which is erroneously
+invoked by Super’s sole constructor:
+public final class Sub extends Super {
+// Blank final, set by constructor
+private final Instant instant;
+Sub() {
+instant = Instant.now();
+}
+// Overriding method invoked by superclass constructor
+@Override public void overrideMe() {
+System.out.println(instant);
+}
+public static void main(String[] args) {
+Sub sub = new Sub();
+sub.overrideMe();
+}
+}
+You might expect this program to print out the instant twice, but it prints out null
+the first time because overrideMe is invoked by the Super constructor before the
+Sub constructor has a chance to initialize the instant field. Note that this program
+observes a final field in two different states! Note also that if overrideMe had
+invoked any method on instant, it would have thrown a NullPointerException
+when the Super constructor invoked overrideMe. The only reason this program
+doesn’t throw a NullPointerException as it stands is that the println method
+tolerates null parameters.
+Note that it is safe to invoke private methods, final methods, and static meth-
+ods, none of which are overridable, from a constructor.
+The Cloneable and Serializable interfaces present special difficulties
+when designing for inheritance. It is generally not a good idea for a class designed
+for inheritance to implement either of these interfaces because they place a sub-
+stantial burden on programmers who extend the class. There are, however, special
+actions that you can take to allow subclasses to implement these interfaces without
+mandating that they do so. These actions are described in Item 13 and Item 86.
+If you do decide to implement either Cloneable or Serializable in a class
+that is designed for inheritance, you should be aware that because the clone and
+readObject methods behave a lot like constructors, a similar restriction applies:
+neither clone nor readObject may invoke an overridable method, directly or
+indirectly. In the case of readObject, the overriding method will run before the

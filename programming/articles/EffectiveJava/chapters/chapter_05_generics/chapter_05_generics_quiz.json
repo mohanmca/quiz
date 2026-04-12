@@ -1,0 +1,271 @@
+{
+  "title": "Chapter 5: Generics - Effective Java, pages 138-177. Items 26-33: raw types, unchecked warnings, arrays vs lists, generic types and methods, bounded wildcards, varargs, and typesafe heterogeneous containers.",
+  "version": "1.0",
+  "totalQuestions": 20,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Raw Types and Unchecked Warnings",
+      "questions": [
+        {
+          "question": "Why is `List<?>` preferable to a raw `List` when the element type is unknown?",
+          "options": [
+            "It preserves compile-time type safety while still accepting any element type.",
+            "It allows inserting any object into the list without warnings.",
+            "It erases fewer runtime checks than a raw list.",
+            "It makes the list reifiable at runtime."
+          ],
+          "answer": 0,
+          "explanation": "A wildcard expresses unknown type information without discarding generic checking; a raw type discards checking entirely.",
+          "id": "chapter_05_m1_q1"
+        },
+        {
+          "question": "What should you do first when you see an unchecked warning?",
+          "options": [
+            "Try to eliminate the warning by fixing the declaration or implementation.",
+            "Add `@SuppressWarnings(\"unchecked\")` to the class.",
+            "Ignore it because the compiler already accepted the code.",
+            "Convert the code to use raw types so the warning disappears."
+          ],
+          "answer": 0,
+          "explanation": "Unchecked warnings are defects until you can prove the code is actually safe.",
+          "id": "chapter_05_m1_q2"
+        },
+        {
+          "question": "What is the danger of using a raw collection type in client code?",
+          "options": [
+            "It can let an invalid element through and defer the failure to runtime.",
+            "It automatically makes the collection immutable.",
+            "It prevents the collection from compiling with any methods.",
+            "It forces all elements to become `Object` references at runtime."
+          ],
+          "answer": 0,
+          "explanation": "Raw types suppress generic checking, so a bad insertion can surface later as a `ClassCastException`.",
+          "id": "chapter_05_m1_q3"
+        },
+        {
+          "question": "Where should `@SuppressWarnings(\"unchecked\")` normally be placed?",
+          "options": [
+            "On the smallest declaration or statement scope that you can prove is safe.",
+            "On the entire package so all related warnings are silenced.",
+            "On the whole class to keep the source file clean.",
+            "On every method that uses generics."
+          ],
+          "answer": 0,
+          "explanation": "The book’s rule is narrow scope only; broad suppression hides new problems.",
+          "id": "chapter_05_m1_q4"
+        },
+        {
+          "question": "Why are raw types retained in the language at all?",
+          "options": [
+            "To preserve binary and source compatibility with pre-generics code.",
+            "Because generic types cannot interoperate with old libraries.",
+            "Because the compiler requires raw types for all inheritance hierarchies.",
+            "Because raw types are more efficient than parameterized types."
+          ],
+          "answer": 0,
+          "explanation": "Raw types are a compatibility escape hatch, not a recommended style.",
+          "id": "chapter_05_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Generic Types and Generic Methods",
+      "questions": [
+        {
+          "question": "Why is `public static <E> Set<E> union(Set<E> s1, Set<E> s2)` better than a raw version?",
+          "options": [
+            "It preserves the element type and eliminates unchecked warnings for callers.",
+            "It allows any set type to be passed without compile-time checks.",
+            "It removes the need for a return type.",
+            "It makes the method usable only with `Set<Object>`."
+          ],
+          "answer": 0,
+          "explanation": "A generic method ties the inputs and output to a single type parameter.",
+          "id": "chapter_05_m2_q1"
+        },
+        {
+          "question": "What does `<E extends Comparable<E>>` mean in practice?",
+          "options": [
+            "Values of `E` can be compared to other values of the same `E`.",
+            "Values of `E` can be compared to any `Object`.",
+            "Values of `E` must be arrays.",
+            "Values of `E` must implement `Serializable`."
+          ],
+          "answer": 0,
+          "explanation": "This recursive bound captures the usual self-comparable case used by `max`.",
+          "id": "chapter_05_m2_q2"
+        },
+        {
+          "question": "When generifying a class backed by an array, what is the usual safe pattern?",
+          "options": [
+            "Store an `Object[]`, cast once to `E[]`, and prove the cast is safe locally.",
+            "Create a `new E[]` array and suppress the compiler error.",
+            "Use a raw `List` internally to avoid warnings.",
+            "Expose the backing array so callers can manage typing."
+          ],
+          "answer": 0,
+          "explanation": "The book’s preferred approach is a narrow, justified unchecked cast plus local suppression.",
+          "id": "chapter_05_m2_q3"
+        },
+        {
+          "question": "Why are generic methods important even when the class itself is not generic?",
+          "options": [
+            "They let utility APIs preserve type relationships without forcing casts.",
+            "They make every class automatically thread-safe.",
+            "They disable type inference so callers must specify everything explicitly.",
+            "They are only useful for collections libraries."
+          ],
+          "answer": 0,
+          "explanation": "Many algorithms are naturally method-level generic, not class-level generic.",
+          "id": "chapter_05_m2_q4"
+        },
+        {
+          "question": "What is the benefit of a recursive type bound over an unchecked cast?",
+          "options": [
+            "The compiler can verify the intended ordering constraint at compile time.",
+            "It makes the type non-reifiable.",
+            "It allows raw types to compile faster.",
+            "It turns runtime errors into warnings."
+          ],
+          "answer": 0,
+          "explanation": "A recursive bound encodes the contract directly instead of relying on comments or casts.",
+          "id": "chapter_05_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Lists, Arrays, and Wildcards",
+      "questions": [
+        {
+          "question": "Why is `List<String>` not a subtype of `List<Object>`?",
+          "options": [
+            "Because generic types are invariant.",
+            "Because `String` is not a subtype of `Object`.",
+            "Because lists are reified at runtime.",
+            "Because wildcards are required only for arrays."
+          ],
+          "answer": 0,
+          "explanation": "Generics do not inherit subtype relationships the way arrays do.",
+          "id": "chapter_05_m3_q1"
+        },
+        {
+          "question": "What is the most important difference between arrays and generics?",
+          "options": [
+            "Arrays are reified and checked at runtime; generics are erased and checked at compile time.",
+            "Arrays are immutable; generics are mutable.",
+            "Generics support covariance; arrays do not.",
+            "Arrays never throw runtime exceptions."
+          ],
+          "answer": 0,
+          "explanation": "The runtime type information that arrays keep is exactly why they behave differently.",
+          "id": "chapter_05_m3_q2"
+        },
+        {
+          "question": "What does PECS stand for?",
+          "options": [
+            "Producer-extends, consumer-super.",
+            "Parameter-equals-class structure.",
+            "Public APIs need capture-safe signatures.",
+            "Prefer erased collections over specialized collections."
+          ],
+          "answer": 0,
+          "explanation": "It is the book’s mnemonic for choosing bounded wildcards.",
+          "id": "chapter_05_m3_q3"
+        },
+        {
+          "question": "Why should return types generally not use bounded wildcards?",
+          "options": [
+            "They force callers to deal with wildcards instead of giving them a precise result type.",
+            "They make the method less generic.",
+            "They disable type inference.",
+            "They always require a raw cast internally."
+          ],
+          "answer": 0,
+          "explanation": "Wildcards are for input flexibility; return types should be as specific as possible.",
+          "id": "chapter_05_m3_q4"
+        },
+        {
+          "question": "What is wildcard capture used for?",
+          "options": [
+            "To let a private helper recover the exact type hidden behind `?`.",
+            "To convert any raw type into a parameterized type automatically.",
+            "To make arrays reified.",
+            "To eliminate the need for type parameters."
+          ],
+          "answer": 0,
+          "explanation": "Capture lets implementation code regain precision without exposing it in the public API.",
+          "id": "chapter_05_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Varargs and Heterogeneous Containers",
+      "questions": [
+        {
+          "question": "What is heap pollution in the context of generic varargs?",
+          "options": [
+            "A parameterized type reference points to an object that is not actually of that type.",
+            "Any array created by the JVM at runtime.",
+            "A warning emitted whenever `List` is used.",
+            "A situation where `@SafeVarargs` is missing."
+          ],
+          "answer": 0,
+          "explanation": "Heap pollution is the mismatch between the variable’s declared generic type and the object it refers to.",
+          "id": "chapter_05_m4_q1"
+        },
+        {
+          "question": "When is `@SafeVarargs` appropriate?",
+          "options": [
+            "Only when the method cannot be overridden and you have proven the varargs usage is safe.",
+            "On any method that takes at least one array parameter.",
+            "On every generic method automatically.",
+            "Only on methods that return arrays."
+          ],
+          "answer": 0,
+          "explanation": "The annotation is a trust statement about a specific generic-varargs implementation.",
+          "id": "chapter_05_m4_q2"
+        },
+        {
+          "question": "Why is `List` often a better API shape than a generic varargs parameter?",
+          "options": [
+            "It avoids the array-backed varargs mechanism and the related heap-pollution warnings.",
+            "It makes the method reifiable.",
+            "It always performs better than arrays.",
+            "It removes the need for generics entirely."
+          ],
+          "answer": 0,
+          "explanation": "A list parameter is often the simplest way to keep the API typesafe and warning-free.",
+          "id": "chapter_05_m4_q3"
+        },
+        {
+          "question": "What is the key idea behind the `Favorites` pattern?",
+          "options": [
+            "Use a parameterized key, usually `Class<T>`, to store and retrieve values of many types safely.",
+            "Store everything in a raw `Map` and cast at every call site.",
+            "Use arrays so the runtime can enforce the key type.",
+            "Use wildcard return types to maximize flexibility."
+          ],
+          "answer": 0,
+          "explanation": "The container stays heterogeneous, while each access remains typechecked through the key.",
+          "id": "chapter_05_m4_q4"
+        },
+        {
+          "question": "Why can `Favorites` safely call `type.cast(...)` on retrieval?",
+          "options": [
+            "Because `Class.cast` performs a checked dynamic cast tied to the key’s runtime type.",
+            "Because `cast` is just syntactic sugar for a raw cast.",
+            "Because the map stores only primitive values.",
+            "Because all `Class` objects are reifiable wildcards."
+          ],
+          "answer": 0,
+          "explanation": "The cast reestablishes the key/value type linkage at the point of use.",
+          "id": "chapter_05_m4_q5"
+        }
+      ]
+    }
+  ]
+}

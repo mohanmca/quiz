@@ -1,0 +1,40 @@
+CHAPTER 10
+EXCEPTIONS
+298
+Item 71: Avoid unnecessary use of checked exceptions
+Many Java programmers dislike checked exceptions, but used properly, they can
+improve APIs and programs. Unlike return codes and unchecked exceptions, they
+force programmers to deal with problems, enhancing reliability. That said, overuse of
+checked exceptions in APIs can make them far less pleasant to use. If a method throws
+checked exceptions, the code that invokes it must handle them in one or more catch
+blocks, or declare that it throws them and let them propagate outward. Either way, it
+places a burden on the user of the API. The burden increased in Java 8, as methods
+throwing checked exceptions can’t be used directly in streams (Items 45–48).
+This burden may be justified if the exceptional condition cannot be prevented
+by proper use of the API and the programmer using the API can take some useful
+action once confronted with the exception. Unless both of these conditions are
+met, an unchecked exception is appropriate. As a litmus test, ask yourself how the
+programmer will handle the exception. Is this the best that can be done?
+} catch (TheCheckedException e) {
+throw new AssertionError(); // Can't happen!
+}
+Or this?
+} catch (TheCheckedException e) {
+e.printStackTrace();  
+ // Oh well, we lose.
+System.exit(1);
+}
+If the programmer can do no better, an unchecked exception is called for.
+The additional burden on the programmer caused by a checked exception is
+substantially higher if it is the sole checked exception thrown by a method. If there
+are others, the method must already appear in a try block, and this exception
+requires, at most, another catch block. If a method throws a single checked
+exception, this exception is the sole reason the method must appear in a try block
+and can’t be used directly in streams. Under these circumstances, it pays to ask
+yourself if there is a way to avoid the checked exception.
+The easiest way to eliminate a checked exception is to return an optional of
+the desired result type (Item 55). Instead of throwing a checked exception, the
+method simply returns an empty optional. The disadvantage of this technique is
+that the method can’t return any additional information detailing its inability to
+perform the desired computation. Exceptions, by contrast, have descriptive types,
+and can export methods to provide additional information (Item 70).

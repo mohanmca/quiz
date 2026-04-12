@@ -1,0 +1,40 @@
+ITEM 46: PREFER SIDE-EFFECT-FREE FUNCTIONS IN STREAMS
+211
+This snippet does the same thing as the previous one but makes proper use of
+the streams API. It’s shorter and clearer. So why would anyone write it the other
+way? Because it uses tools they’re already familiar with. Java programmers know
+how to use for-each loops, and the forEach terminal operation is similar. But the
+forEach operation is among the least powerful of the terminal operations and the
+least stream-friendly. It’s explicitly iterative, and hence not amenable to paral-
+lelization. The forEach operation should be used only to report the result of a
+stream computation, not to perform the computation. Occasionally, it makes
+sense to use forEach for some other purpose, such as adding the results of a
+stream computation to a preexisting collection.
+The improved code uses a collector, which is a new concept that you have to
+learn in order to use streams. The Collectors API is intimidating: it has thirty-
+nine methods, some of which have as many as five type parameters. The good
+news is that you can derive most of the benefit from this API without delving into
+its full complexity. For starters, you can ignore the Collector interface and think
+of a collector as an opaque object that encapsulates a reduction strategy. In this
+context, reduction means combining the elements of a stream into a single object.
+The object produced by a collector is typically a collection (which accounts for
+the name collector). 
+The collectors for gathering the elements of a stream into a true Collection
+are straightforward. There are three such collectors: toList(), toSet(), and
+toCollection(collectionFactory). They return, respectively, a set, a list, and
+a programmer-specified collection type. Armed with this knowledge, we can write
+a stream pipeline to extract a top-ten list from our frequency table.
+// Pipeline to get a top-ten list of words from a frequency table
+List<String> topTen = freq.keySet().stream()
+    .sorted(comparing(freq::get).reversed())
+    .limit(10)
+    .collect(toList());
+Note that we haven’t qualified the toList method with its class, Collectors. It is
+customary and wise to statically import all members of Collectors because
+it makes stream pipelines more readable. 
+The only tricky part of this code is the comparator that we pass to sorted,
+comparing(freq::get).reversed(). The comparing method is a comparator
+construction method (Item 14) that takes a key extraction function. The function
+takes a word, and the “extraction” is actually a table lookup: the bound method
+reference freq::get looks up the word in the frequency table and returns the
+number of times the word appears in the file. Finally, we call reversed on the

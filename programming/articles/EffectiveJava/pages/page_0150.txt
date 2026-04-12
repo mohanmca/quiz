@@ -1,0 +1,38 @@
+ITEM 28: PREFER LISTS TO ARRAYS
+129
+No big deal, you say, I’ll cast the Object array to a T array:
+choiceArray = (T[]) choices.toArray();
+This gets rid of the error, but instead you get a warning:
+Chooser.java:9: warning: [unchecked] unchecked cast
+choiceArray = (T[]) choices.toArray();
+                                           ^
+  required: T[], found: Object[]
+  where T is a type-variable:
+T extends Object declared in class Chooser
+The compiler is telling you that it can’t vouch for the safety of the cast at runtime
+because the program won’t know what type T represents—remember, element
+type information is erased from generics at runtime. Will the program work? Yes,
+but the compiler can’t prove it. You could prove it to yourself, put the proof in a
+comment and suppress the warning with an annotation, but you’re better off
+eliminating the cause of warning (Item 27).
+To eliminate the unchecked cast warning, use a list instead of an array. Here is
+a version of the Chooser class that compiles without error or warning:
+// List-based Chooser - typesafe
+public class Chooser<T> {
+private final List<T> choiceList;
+public Chooser(Collection<T> choices) {
+choiceList = new ArrayList<>(choices);
+}
+public T choose() {
+Random rnd = ThreadLocalRandom.current();
+return choiceList.get(rnd.nextInt(choiceList.size()));
+}
+}
+This version is a tad more verbose, and perhaps a tad slower, but it’s worth it for
+the peace of mind that you won’t get a ClassCastException at runtime. 
+In summary, arrays and generics have very different type rules. Arrays are
+covariant and reified; generics are invariant and erased. As a consequence, arrays
+provide runtime type safety but not compile-time type safety, and vice versa for
+generics. As a rule, arrays and generics don’t mix well. If you find yourself
+mixing them and getting compile-time errors or warnings, your first impulse
+should be to replace the arrays with lists.

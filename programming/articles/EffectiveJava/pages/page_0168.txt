@@ -1,0 +1,40 @@
+ITEM 32: COMBINE GENERICS AND VARARGS JUDICIOUSLY
+147
+answer is that methods with varargs parameters of generic or parameterized types
+can be very useful in practice, so the language designers opted to live with this
+inconsistency. In fact, the Java libraries export several such methods, including
+Arrays.asList(T... a), Collections.addAll(Collection<? super T> c,
+T... elements), and EnumSet.of(E first, E... rest). Unlike the dangerous
+method shown earlier, these library methods are typesafe.
+Prior to Java 7, there was nothing the author of a method with a generic
+varargs parameter could do about the warnings at the call sites. This made these
+APIs unpleasant to use. Users had to put up with the warnings or, preferably, to
+eliminate them with @SuppressWarnings("unchecked") annotations at every
+call site (Item 27). This was tedious, harmed readability, and hid warnings that
+flagged real issues.
+In Java 7, the SafeVarargs annotation was added to the platform, to allow the
+author of a method with a generic varargs parameter to suppress client warnings
+automatically. In essence, the SafeVarargs annotation constitutes a promise by
+the author of a method that it is typesafe. In exchange for this promise, the com-
+piler agrees not to warn the users of the method that calls may be unsafe.
+It is critical that you do not annotate a method with @SafeVarargs unless it
+actually is safe. So what does it take to ensure this? Recall that a generic array is
+created when the method is invoked, to hold the varargs parameters. If the method
+doesn’t store anything into the array (which would overwrite the parameters) and
+doesn’t allow a reference to the array to escape (which would enable untrusted
+code to access the array), then it’s safe. In other words, if the varargs parameter
+array is used only to transmit a variable number of arguments from the caller to
+the method—which is, after all, the purpose of varargs—then the method is safe.
+It is worth noting that you can violate type safety without ever storing any-
+thing in the varargs parameter array. Consider the following generic varargs
+method, which returns an array containing its parameters. At first glance, it may
+look like a handy little utility:
+// UNSAFE - Exposes a reference to its generic parameter array!
+static <T> T[] toArray(T... args) {
+    return args;
+}
+This method simply returns its varargs parameter array. The method may not look
+dangerous, but it is! The type of this array is determined by the compile-time types
+of the arguments passed in to the method, and the compiler may not have enough
+information to make an accurate determination. Because this method returns its
+varargs parameter array, it can propagate heap pollution up the call stack.

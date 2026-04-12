@@ -1,0 +1,39 @@
+CHAPTER 5
+GENERICS
+154
+method check that instance is actually an instance of the type represented by
+type, and we already know how to do this. Just use a dynamic cast:
+// Achieving runtime type safety with a dynamic cast
+public <T> void putFavorite(Class<T> type, T instance) {
+favorites.put(type, type.cast(instance));
+}
+There are collection wrappers in java.util.Collections that play the same
+trick. They are called checkedSet, checkedList, checkedMap, and so forth. Their
+static factories take a Class object (or two) in addition to a collection (or map).
+The static factories are generic methods, ensuring that the compile-time types of
+the Class object and the collection match. The wrappers add reification to the col-
+lections they wrap. For example, the wrapper throws a ClassCastException at
+runtime if someone tries to put a Coin into your Collection<Stamp>. These
+wrappers are useful for tracking down client code that adds an incorrectly typed
+element to a collection, in an application that mixes generic and raw types.
+The second limitation of the Favorites class is that it cannot be used on a
+non-reifiable type (Item 28). In other words, you can store your favorite String or
+String[], but not your favorite List<String>. If you try to store your favorite
+List<String>, your program won’t compile. The reason is that you can’t get a
+Class object for List<String>. The class literal List<String>.class is a syn-
+tax error, and it’s a good thing, too. List<String> and List<Integer> share a
+single Class object, which is List.class. It would wreak havoc with the inter-
+nals of a Favorites object if the “type literals” List<String>.class and
+List<Integer>.class were legal and returned the same object reference. There
+is no entirely satisfactory workaround for this limitation.
+The type tokens used by Favorites are unbounded: getFavorite and put-
+Favorite accept any Class object. Sometimes you may need to limit the types
+that can be passed to a method. This can be achieved with a bounded type token,
+which is simply a type token that places a bound on what type can be represented,
+using a bounded type parameter (Item 30) or a bounded wildcard (Item 31).
+The annotations API (Item 39) makes extensive use of bounded type tokens.
+For example, here is the method to read an annotation at runtime. This method
+comes from the AnnotatedElement interface, which is implemented by the reflec-
+tive types that represent classes, methods, fields, and other program elements:
+public <T extends Annotation>
+T getAnnotation(Class<T> annotationType);

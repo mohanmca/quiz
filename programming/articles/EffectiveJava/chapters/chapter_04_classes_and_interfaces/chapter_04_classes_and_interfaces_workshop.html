@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Classes and Interfaces</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Classes and Interfaces - Effective Java Chapter 4, Items 15-25", "version": "1.0", "totalQuestions": 16, "modules": [{"id": 0, "name": "Encapsulation and public API shape", "questions": [{"question": "For a public class, what is the preferred access level for a helper type that is only used inside the package?", "options": ["package-private", "public", "protected", "private"], "answer": 0, "explanation": "Package-private keeps the type usable inside the package without exporting it as part of the public API.", "id": "chapter4_m1_q1"}, {"question": "Why are public mutable fields discouraged in exported classes?", "options": ["They freeze representation into the API and prevent invariant enforcement", "They make the class abstract", "They speed up serialization automatically", "They improve binary compatibility"], "answer": 0, "explanation": "A public mutable field exposes implementation details and removes the class's ability to control updates.", "id": "chapter4_m1_q2"}, {"question": "What is wrong with a public static final array field?", "options": ["Its reference is final, but the array contents remain mutable", "Arrays cannot be final", "The compiler rejects all array constants", "It cannot be read from other classes"], "answer": 0, "explanation": "The array object itself can still be modified through the returned reference.", "id": "chapter4_m1_q3"}, {"question": "Which statement about protected members of exported classes is correct?", "options": ["They are part of the exported API and should be rare", "They are invisible outside the package", "They are always safer than private members", "They are only relevant to interfaces"], "answer": 0, "explanation": "Protected members are a long-term compatibility promise, so they should be used sparingly.", "id": "chapter4_m1_q4"}]}, {"id": 1, "name": "Immutability and composition", "questions": [{"question": "Which rule is part of making a class immutable?", "options": ["Make all fields private and final, and do not expose mutable internals", "Make every method static", "Avoid constructors entirely", "Use public setters for all fields"], "answer": 0, "explanation": "Immutability requires fixed state and no external mutation channel.", "id": "chapter4_m2_q1"}, {"question": "Why are immutable objects attractive for concurrent code?", "options": ["They are inherently thread-safe and need no synchronization", "They cannot be serialized", "They always allocate less memory", "They eliminate the need for equals"], "answer": 0, "explanation": "If state never changes, concurrent readers cannot observe a race on that state.", "id": "chapter4_m2_q2"}, {"question": "What is the main risk of implementation inheritance across package boundaries?", "options": ["The subclass can break when superclass internals change", "The subclass cannot compile at all", "The JVM forbids it", "It automatically duplicates all methods"], "answer": 0, "explanation": "A subclass can depend on superclass behavior that was never part of the public contract.", "id": "chapter4_m2_q3"}, {"question": "What is the best general replacement for fragile subclassing of a concrete class?", "options": ["Composition plus forwarding methods", "A public tag field", "More protected methods", "A larger abstract superclass"], "answer": 0, "explanation": "Composition lets you control the exposed API and avoids tight coupling to internals.", "id": "chapter4_m2_q4"}]}, {"id": 2, "name": "Inheritance contracts and interface design", "questions": [{"question": "What must a class document if it is designed for inheritance?", "options": ["Its self-use of overridable methods and the effects of overriding them", "Only its package name", "Only its private fields", "Nothing, because inheritance is self-documenting"], "answer": 0, "explanation": "Subclass authors need to know exactly which overridable methods the superclass calls and when.", "id": "chapter4_m3_q1"}, {"question": "Why are default methods risky when added to an existing interface?", "options": ["They can silently break preexisting implementations at runtime", "They cannot be compiled by javac", "They are always ignored by clients", "They forbid all abstract methods"], "answer": 0, "explanation": "Existing classes may inherit behavior that does not preserve their invariants.", "id": "chapter4_m3_q2"}, {"question": "Which is the best use of an interface according to Item 22?", "options": ["To define a type that clients can use to refer to instances", "To export constants without qualification", "To store instance fields", "To replace every utility class"], "answer": 0, "explanation": "Interfaces should describe what a type is, not merely provide a bag of constants.", "id": "chapter4_m3_q3"}, {"question": "What is a skeletal implementation class for?", "options": ["It supplies reusable method bodies while leaving the type as an interface", "It prevents all subclassing", "It replaces every default method", "It is only for constants"], "answer": 0, "explanation": "Skeletal implementations reduce the work of implementing an interface without forcing inheritance for clients.", "id": "chapter4_m3_q4"}]}, {"id": 3, "name": "Tagged classes, member classes, and source files", "questions": [{"question": "Why are tagged classes discouraged?", "options": ["They force irrelevant fields and switch logic into one brittle type", "They cannot be instantiated", "They are illegal in Java", "They always use abstract methods"], "answer": 0, "explanation": "A tagged class mixes multiple flavors in one type, which is verbose and error-prone.", "id": "chapter4_m4_q1"}, {"question": "What is the hidden cost of a nonstatic member class?", "options": ["It stores an implicit reference to its enclosing instance", "It cannot access private fields", "It is always abstract", "It cannot be serialized"], "answer": 0, "explanation": "That enclosing-instance reference consumes space and can extend object lifetime unintentionally.", "id": "chapter4_m4_q2"}, {"question": "When is an anonymous class appropriate?", "options": ["For a short one-off use where naming the type is unnecessary", "For implementing multiple interfaces at once", "For defining a public API class", "For replacing every nested class"], "answer": 0, "explanation": "Anonymous classes are limited and should stay small; lambdas are usually preferred for function objects.", "id": "chapter4_m4_q3"}, {"question": "What is the rule for top-level source files in this chapter?", "options": ["Limit each source file to one top-level class or interface", "Put all utility classes in one file", "Use multiple files only for public classes", "Keep every nested type top-level"], "answer": 0, "explanation": "One top-level type per file avoids duplicate-definition and order-dependent compiler behavior.", "id": "chapter4_m4_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Item 15: Hide implementation details", "c": "<p>Information hiding is the main difference between a clean API and a brittle one.</p>\n<p>Make each class or member as inaccessible as possible, then raise the level only when the design actually requires it.</p>\n<ul><li>Top-level types are only package-private or public.</li><li>Members can be private, package-private, protected, or public.</li><li>Package-private is usually better than public for helper types.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0094.png\" alt=\"Chapter opening and Item 15: encapsulation is the first design gate.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter opening and Item 15: encapsulation is the first design gate.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 94-95.</div>"}, {"m": 0, "t": "Member access levels are not symmetric", "c": "<p>Private is for implementation only.</p>\n<p>Package-private is for package-local cooperation.</p>\n<p>Protected is a public commitment for subclasses and package peers, so treat it as API surface, not an internal convenience.</p>\n<pre><code>private -&gt; top-level class only\npackage-private -&gt; any class in package\nprotected -&gt; package + subclasses\npublic -&gt; everywhere</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0095.png\" alt=\"Item 15: access control exists to minimize what the outside world can depend on.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 15: access control exists to minimize what the outside world can depend on.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 95-96.</div>\n<div class=\"note\">If a public class needs many package-private helpers, revisit the package split instead of leaking more access.</div>"}, {"m": 0, "t": "Item 16: Prefer accessors to public fields", "c": "<p>A public field freezes the representation into the API.</p>\n<p>For public classes, use private fields plus accessors and mutators when mutation is actually needed.</p>\n<p>Public fields are mostly tolerable only for package-private or private nested classes, or for public constants with immutable values.</p>\n<ul><li>You lose invariant checking.</li><li>You lose the ability to change representation later.</li><li>You lose the chance to run logic on field access or update.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0099.png\" alt=\"Item 16: public fields destroy encapsulation for exported classes.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 16: public fields destroy encapsulation for exported classes.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 99-100.</div>"}, {"m": 0, "t": "Public fields, arrays, and constants", "c": "<p>A public static final array is still mutable through its elements, so it is a security hole.</p>\n<p>Expose an unmodifiable list or return a clone of a private array instead.</p>\n<p>Public immutable fields are less harmful than mutable ones, but they are still an API commitment.</p>\n<pre><code>private static final Thing[] VALUES = { ... };\npublic static final List&lt;Thing&gt; VIEW =\n    Collections.unmodifiableList(Arrays.asList(VALUES));\n\npublic static Thing[] values() {\n    return VALUES.clone();\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0100.png\" alt=\"Item 16: the Time example shows that immutable fields are still a compromise, not a default.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 16: the Time example shows that immutable fields are still a compromise, not a default.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 100.</div>\n<div class=\"warn\">Never return a direct reference to a mutable array field from a public API.</div>"}, {"m": 0, "t": "Quiz: Encapsulation and public API shape", "q": true}, {"m": 1, "t": "Item 17: Make classes immutable when possible", "c": "<p>An immutable object cannot be observed in more than one state.</p>\n<p>The five rules are strict: no mutators, no subclassing, all fields final, all fields private, and no external access to mutable components.</p>\n<p>Defensive copies belong in constructors, accessors, and deserialization hooks when mutable inputs or outputs are involved.</p>\n<ul><li>Immutable objects are easier to reason about.</li><li>They are inherently thread-safe.</li><li>They make failure atomicity easier because state never changes after construction.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0101.png\" alt=\"Item 17: the immutable Complex example uses pure operations instead of in-place mutation.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 17: the immutable Complex example uses pure operations instead of in-place mutation.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 101-103.</div>"}, {"m": 1, "t": "Immutability trades speed for simplicity", "c": "<p>Immutability can be expensive for large values or multistep updates because each step may allocate a fresh object.</p>\n<p>Use static factories and cached instances when it helps, and consider a mutable companion class only if you actually need the performance win.</p>\n<p>Small value objects should usually be immutable; larger values should be immutable unless profiling shows a real problem.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0103.png\" alt=\"Item 17: sharing immutable objects is safe, and caching becomes practical.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 17: sharing immutable objects is safe, and caching becomes practical.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 103-104.</div>\n<div class=\"note\">If a class cannot be fully immutable, keep its state space small and its fields private final unless there is a concrete reason not to.</div>"}, {"m": 1, "t": "Item 18: Favor composition over inheritance", "c": "<p>Implementation inheritance is fragile because subclasses depend on superclass internals.</p>\n<p>Composition keeps the existing class as a private component, and forwarding methods expose only the behavior you choose.</p>\n<p>Use inheritance only when the subclass is truly an is-a subtype and the superclass is designed for extension.</p>\n<pre><code>public class InstrumentedSet&lt;E&gt; extends ForwardingSet&lt;E&gt; {\n    private int addCount;\n    public InstrumentedSet(Set&lt;E&gt; s) { super(s); }\n    @Override public boolean add(E e) {\n        addCount++;\n        return super.add(e);\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0108.png\" alt=\"Item 18: the wrapper pattern replaces fragile extension with forwarding.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 18: the wrapper pattern replaces fragile extension with forwarding.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 108-110.</div>"}, {"m": 1, "t": "Inheritance is a subtype test, not a convenience", "c": "<p>Ask one blunt question: is every B really an A?</p>\n<p>If the answer is no, inheritance is the wrong model even if it looks shorter.</p>\n<p>Wrappers are usually more robust because they avoid superclass API surprises and preserve your own abstraction boundaries.</p>\n<ul><li>Stack is not a Vector.</li><li>Properties is not a Hashtable.</li><li>Wrapper classes can add behavior without depending on superclass internals.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0110.png\" alt=\"Item 18: tagged classes and fragile subclasses both leak implementation choices.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 18: tagged classes and fragile subclasses both leak implementation choices.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 110-112.</div>"}, {"m": 1, "t": "Quiz: Immutability and composition", "q": true}, {"m": 2, "t": "Item 19: Document or prohibit inheritance", "c": "<p>If a class is meant to be subclassed, its documentation must describe self-use of overridable methods precisely.</p>\n<p>Constructors, clone, and readObject must never invoke overridable methods directly or indirectly.</p>\n<p>If the class is not designed for extension, make that explicit by preventing subclassing.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0114.png\" alt=\"Item 19: overridable self-use is a contract, not an accident.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 19: overridable self-use is a contract, not an accident.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 114-117.</div>\n<div class=\"warn\">A constructor calling an override can observe a partially initialized subclass and break before the subclass finishes constructing.</div>"}, {"m": 2, "t": "Prohibit inheritance when you do not intend it", "c": "<p>Declare the class final, or make constructors private or package-private and expose static factories instead.</p>\n<p>If a concrete class is not meant for extension, do not leave it half-open just for convenience.</p>\n<p>If you must allow inheritance, remove self-use of overridable methods and document the safe hooks very carefully.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0115.png\" alt=\"Item 19: final is often the cleanest way to keep fragile subclasses out.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 19: final is often the cleanest way to keep fragile subclasses out.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 117-119.</div>"}, {"m": 2, "t": "Item 20: Prefer interfaces to abstract classes", "c": "<p>Interfaces let unrelated classes share a type without forcing a hierarchy.</p>\n<p>Abstract classes constrain you to single inheritance, which is expensive when the type should be mixin-like or retrofitted onto existing code.</p>\n<p>If you need reusable implementation, pair the interface with a skeletal implementation class or default methods where appropriate.</p>\n<ul><li>Interfaces define type without ownership of state.</li><li>Skeletal implementations shift repeated logic out of client code.</li><li>Default methods help, but they are not a blank check.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0120.png\" alt=\"Item 20: interfaces scale better for multiple implementations and mixins.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 20: interfaces scale better for multiple implementations and mixins.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 120-123.</div>"}, {"m": 2, "t": "Items 21 and 22: design interfaces carefully", "c": "<p>Default methods can break existing implementations if they assume behavior the old code never promised.</p>\n<p>Test new interfaces with multiple independent implementations before release.</p>\n<p>Use interfaces to define types, not to dump constants into the namespace; constants belong in classes or enums, not constant interfaces.</p>\n<pre><code>public class PhysicalConstants {\n    private PhysicalConstants() { }\n    public static final double AVOGADROS_NUMBER = 6.022_140_857e23;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0125.png\" alt=\"Item 21 and Item 22: interface design should survive future releases, not just compile today.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 21 and Item 22: interface design should survive future releases, not just compile today.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 125-129.</div>"}, {"m": 2, "t": "Quiz: Inheritance contracts and interface design", "q": true}, {"m": 3, "t": "Item 23: Replace tagged classes with hierarchies", "c": "<p>A tagged class hides multiple flavors behind a tag field and switch statements, which makes the code verbose and fragile.</p>\n<p>Use a class hierarchy instead: one abstract root and one concrete subclass per flavor.</p>\n<p>The compiler then checks that each flavor initializes only its own state and implements the required behavior.</p>\n<ul><li>No irrelevant fields per instance.</li><li>No giant switch statement over tag values.</li><li>No runtime surprise when a new flavor is added.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0130.png\" alt=\"Item 23: the Figure example is the warning sign; the hierarchy is the fix.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 23: the Figure example is the warning sign; the hierarchy is the fix.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 130-132.</div>"}, {"m": 3, "t": "Item 24: Prefer static member classes", "c": "<p>Use a static member class when the nested type does not need an enclosing instance.</p>\n<p>A nonstatic member class carries an implicit reference to the outer instance, which costs space and can accidentally retain objects longer than intended.</p>\n<p>Choose nonstatic only when the nested object truly needs the enclosing object.</p>\n<pre><code>private static class Entry {\n    private final K key;\n    private V value;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0133.png\" alt=\"Item 24: hidden outer-instance references are easy to miss and hard to debug.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 24: hidden outer-instance references are easy to miss and hard to debug.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 133-134.</div>"}, {"m": 3, "t": "Nested class forms and when to use them", "c": "<p>Anonymous classes are for short, one-off uses; local classes are for named helpers that stay inside a method; member classes are for reusable nested types.</p>\n<p>Lambdas usually replace anonymous classes when you only need a function object.</p>\n<p>If the nested type is public or protected and belongs to an exported API, the static-versus-nonstatic choice becomes a compatibility commitment.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0134.png\" alt=\"Item 24: anonymous and local classes have tight limits and should stay short.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 24: anonymous and local classes have tight limits and should stay short.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 134-135.</div>"}, {"m": 3, "t": "Item 25: One top-level class per source file", "c": "<p>Multiple top-level classes in one source file create brittle compiler-order behavior and allow accidental duplicate definitions.</p>\n<p>If helper types belong to one owner, prefer private static member classes instead of packing unrelated top-level types together.</p>\n<p>One source file, one top-level class or interface, is the stable rule.</p>\n<pre><code>// Good\npublic class Main { }\n\n// Better for helpers\nprivate static class Helper { }</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0136.png\" alt=\"Item 25: separate source files avoid order-dependent surprises.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 25: separate source files avoid order-dependent surprises.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 136-137.</div>"}, {"m": 3, "t": "Quiz: Tagged classes, member classes, and source files", "q": true}];
+    const MODULE_NAMES = ["Encapsulation and public API shape", "Immutability and composition", "Inheritance contracts and interface design", "Tagged classes, member classes, and source files"];
+    const STORE_KEY = 'chapter_04_classes_and_interfaces_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

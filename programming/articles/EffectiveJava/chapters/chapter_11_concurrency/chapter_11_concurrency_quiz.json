@@ -1,0 +1,169 @@
+{
+  "title": "Chapter 11: Concurrency - Effective Java, pages 332-359. Items 78-84: synchronization, excessive synchronization, executors and tasks, concurrency utilities, thread-safety documentation, lazy initialization, and scheduler dependence.",
+  "version": "1.0",
+  "totalQuestions": 12,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Synchronize shared mutable state",
+      "questions": [
+        {
+          "question": "Why is `count++` unsafe when multiple threads share the same counter?",
+          "options": [
+            "It is a read-modify-write sequence, so updates can be lost without synchronization.",
+            "Because `int` values cannot be shared between threads.",
+            "Because `++` is always compiled as a loop.",
+            "Because `count` becomes immutable after the first increment."
+          ],
+          "answer": 0,
+          "explanation": "Compound operations need mutual exclusion or an atomic class; otherwise two threads can overwrite each other's work.",
+          "id": "chapter_11_m1_q1"
+        },
+        {
+          "question": "What does `volatile` guarantee, and what does it not guarantee?",
+          "options": [
+            "It guarantees visibility of writes, but not mutual exclusion or atomicity of compound actions.",
+            "It guarantees both mutual exclusion and atomicity.",
+            "It makes every method in the class thread-safe automatically.",
+            "It prevents all reordering everywhere in the JVM."
+          ],
+          "answer": 0,
+          "explanation": "A volatile field can still be involved in a race if you perform compound updates.",
+          "id": "chapter_11_m1_q2"
+        },
+        {
+          "question": "What is the real target of synchronization in a mutable class?",
+          "options": [
+            "The object invariant and the visibility of state transitions, not just individual fields.",
+            "Only the public methods.",
+            "Only the constructor.",
+            "Only the fields marked private."
+          ],
+          "answer": 0,
+          "explanation": "Synchronizing the invariant boundary is what keeps readers from seeing a half-updated object.",
+          "id": "chapter_11_m1_q3"
+        },
+        {
+          "question": "When is a shared object usually safe without external synchronization?",
+          "options": [
+            "When it is immutable and safely published, or when it is internally thread-safe by design.",
+            "Whenever it has only one mutable field.",
+            "Whenever its methods are `final`.",
+            "Whenever the code passes all unit tests on one machine."
+          ],
+          "answer": 0,
+          "explanation": "Thread safety comes from a documented policy and the memory-ordering guarantees behind it.",
+          "id": "chapter_11_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Avoid excessive synchronization",
+      "questions": [
+        {
+          "question": "Why are open calls dangerous inside synchronized methods?",
+          "options": [
+            "Because foreign or overridable code can run while your lock is held, causing deadlock or invariant violations.",
+            "Because they prevent the JVM from compiling the method.",
+            "Because they automatically make the method recursive.",
+            "Because synchronized blocks cannot contain method calls."
+          ],
+          "answer": 0,
+          "explanation": "Calling out while holding a lock gives control to code you do not own, which is exactly where lock-order bugs appear.",
+          "id": "chapter_11_m2_q1"
+        },
+        {
+          "question": "What is the best default when a synchronized region is larger than it needs to be?",
+          "options": [
+            "Shrink it to the minimal section required to preserve the invariant.",
+            "Add more synchronized methods to compensate.",
+            "Replace the lock with `volatile`.",
+            "Move the lock to the caller automatically."
+          ],
+          "answer": 0,
+          "explanation": "Excessive synchronization hurts correctness and performance, so minimize the locked scope rather than masking the design flaw.",
+          "id": "chapter_11_m2_q2"
+        },
+        {
+          "question": "Why can inheritance make synchronization fragile?",
+          "options": [
+            "Because overridden methods may run under a lock that the subclass does not control.",
+            "Because inheritance disables thread safety completely.",
+            "Because subclasses cannot access synchronized methods.",
+            "Because locks are inherited but monitors are not."
+          ],
+          "answer": 0,
+          "explanation": "A superclass cannot safely assume what subclass code will do if it invokes overridable methods while locked.",
+          "id": "chapter_11_m2_q3"
+        },
+        {
+          "question": "What is the practical benefit of copying state before calling foreign code?",
+          "options": [
+            "It lets you release the lock before the callback executes.",
+            "It turns the method into a nonblocking algorithm automatically.",
+            "It makes the object immutable.",
+            "It removes the need for thread-safety documentation."
+          ],
+          "answer": 0,
+          "explanation": "A local copy narrows the critical section and avoids holding a lock across unpredictable code.",
+          "id": "chapter_11_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Executors, utilities, and documentation",
+      "questions": [
+        {
+          "question": "Why does Effective Java prefer executors over manually managed threads?",
+          "options": [
+            "Executors separate task submission from execution policy and make pooling and scheduling explicit.",
+            "Because threads are illegal in modern Java.",
+            "Because executors always outperform threads in every workload.",
+            "Because executor tasks cannot block."
+          ],
+          "answer": 0,
+          "explanation": "An executor gives you a higher-level abstraction with fewer error-prone details to manage yourself.",
+          "id": "chapter_11_m3_q1"
+        },
+        {
+          "question": "Why are `wait` and `notify` discouraged for most application code?",
+          "options": [
+            "Because higher-level concurrency utilities already encode the coordination protocol more safely.",
+            "Because they do not work on synchronized objects.",
+            "Because they are slower than every other API by definition.",
+            "Because they can only be used in daemon threads."
+          ],
+          "answer": 0,
+          "explanation": "Monitor protocols are easy to get wrong; utilities such as latches and queues reduce that risk.",
+          "id": "chapter_11_m3_q2"
+        },
+        {
+          "question": "What should thread-safety documentation tell clients?",
+          "options": [
+            "Whether the class is thread-safe, conditionally thread-safe, immutable, or externally synchronized, and what lock or rule governs use.",
+            "Only whether the class uses `synchronized` internally.",
+            "Only whether the class has a `main` method.",
+            "Nothing, because thread safety should be obvious from the code."
+          ],
+          "answer": 0,
+          "explanation": "The thread-safety contract belongs in the API docs, not in guesswork.",
+          "id": "chapter_11_m3_q3"
+        },
+        {
+          "question": "When is lazy initialization usually justified?",
+          "options": [
+            "When construction is expensive or may never be needed, and the lazy path can be implemented safely.",
+            "Whenever a field is private.",
+            "Whenever you want to avoid writing a constructor.",
+            "Whenever the class is public."
+          ],
+          "answer": 0,
+          "explanation": "Lazy init is a tradeoff, not a default. Simpler eager initialization is often the better design.",
+          "id": "chapter_11_m3_q4"
+        }
+      ]
+    }
+  ]
+}

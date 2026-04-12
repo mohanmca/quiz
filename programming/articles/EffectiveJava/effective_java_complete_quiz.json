@@ -1,0 +1,2557 @@
+{
+  "title": "Effective Java Complete Workshop - Merged single-file workshop covering Chapters 1-12",
+  "version": "1.0",
+  "totalQuestions": 191,
+  "modules": [
+    {
+      "id": 0,
+      "name": "1 Introduction - Purpose and audience",
+      "questions": [
+        {
+          "question": "What audience does the book target?",
+          "options": [
+            "Java developers who already know the language and want practical guidance for better design",
+            "Absolute beginners learning their first programming language",
+            "Only library authors working on the JDK itself",
+            "Only engineers writing concurrency-heavy systems"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is not for beginners and assumes working knowledge of Java.",
+          "id": "intro_m1_q1"
+        },
+        {
+          "question": "How is the book structured?",
+          "options": [
+            "Ninety independent items grouped into eleven chapters",
+            "Twelve chapters, each split into exactly eight items",
+            "A single continuous tutorial meant to be read in order",
+            "One chapter per Java release"
+          ],
+          "answer": 0,
+          "explanation": "The text explicitly says the book consists of ninety items loosely grouped into eleven chapters.",
+          "id": "intro_m1_q2"
+        },
+        {
+          "question": "What is the recommended reading model?",
+          "options": [
+            "Read items selectively and follow cross references as needed",
+            "Read strictly from the first page to the last page",
+            "Skip all code examples and focus on prose only",
+            "Treat the items as exhaustive formal proofs"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says each item stands on its own and the cross references help you plot your own course.",
+          "id": "intro_m1_q3"
+        },
+        {
+          "question": "What kind of examples does the book emphasize?",
+          "options": [
+            "Code examples, including patterns and idioms that can be adapted directly",
+            "Only mathematical proofs of correctness",
+            "Only UML diagrams with no Java code",
+            "Only contrived toy examples with no production relevance"
+          ],
+          "answer": 0,
+          "explanation": "The book says it is heavily illustrated with code examples and design patterns/idioms.",
+          "id": "intro_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "1 Introduction - Edition updates and release map",
+      "questions": [
+        {
+          "question": "Why does the book prefer release nicknames?",
+          "options": [
+            "To make repeated version references easier to read",
+            "To avoid discussing any Java versions by number",
+            "To hide the fact that the book covers Java 8 and Java 9 features",
+            "To replace all technical terminology with informal language"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says nicknames are used in preference to official names for convenience.",
+          "id": "intro_m2_q1"
+        },
+        {
+          "question": "Which feature is explicitly associated with Java 9?",
+          "options": [
+            "Modules",
+            "Streams",
+            "Lambdas",
+            "try-with-resources"
+          ],
+          "answer": 0,
+          "explanation": "The release table maps modules to Java 9.",
+          "id": "intro_m2_q2"
+        },
+        {
+          "question": "What is the book's stance on terminology?",
+          "options": [
+            "Mostly JLS-aligned, with a few pragmatic terms used consistently throughout",
+            "It invents a new vocabulary unrelated to the JLS",
+            "It avoids all formal terminology",
+            "It uses only vendor-specific terms from one IDE"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says most terms follow the JLS, but some are adjusted for clarity and convention.",
+          "id": "intro_m2_q3"
+        },
+        {
+          "question": "What does the book mean by an API?",
+          "options": [
+            "The exported classes, interfaces, constructors, members, and serialized forms a programmer uses",
+            "Any internal helper method in a class",
+            "Only public static methods",
+            "Only a package's source files"
+          ],
+          "answer": 0,
+          "explanation": "The introduction defines exported API and API elements explicitly.",
+          "id": "intro_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "1 Introduction - How to read the rules",
+      "questions": [
+        {
+          "question": "What is the main purpose of the examples in the book?",
+          "options": [
+            "To illustrate design patterns, idioms, and mistakes with concrete Java code",
+            "To provide complete production-ready source files for reuse",
+            "To avoid any discussion of implementation details",
+            "To compare Java against unrelated languages"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is heavily illustrated with code examples and anti-examples.",
+          "id": "intro_m3_q1"
+        },
+        {
+          "question": "What is the book's position on performance?",
+          "options": [
+            "It is secondary to clarity, correctness, usability, robustness, flexibility, and maintainability",
+            "It is the only concern that matters",
+            "It is ignored entirely",
+            "It replaces all other design goals"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is mostly not about performance.",
+          "id": "intro_m3_q2"
+        },
+        {
+          "question": "How should the rules be applied?",
+          "options": [
+            "Generally, but not slavishly; violate them only occasionally and with good reason",
+            "Always, even when the rule conflicts with the problem",
+            "Never, because they are only historical notes",
+            "Only after consulting external style guides"
+          ],
+          "answer": 0,
+          "explanation": "The introduction explicitly warns that the rules are best practices, not absolute laws.",
+          "id": "intro_m3_q3"
+        },
+        {
+          "question": "What is the book's definition of a component?",
+          "options": [
+            "Any reusable software element, from a method to a multi-package framework",
+            "Only a Maven artifact",
+            "Only a class file",
+            "Only a user interface widget"
+          ],
+          "answer": 0,
+          "explanation": "The introduction defines component broadly so the same rules can apply at different levels of reuse.",
+          "id": "intro_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "2 Creating and Destroying Objects - Construction APIs",
+      "questions": [
+        {
+          "question": "Which is the clearest reason to prefer a static factory over a constructor when the creation path needs a descriptive name?",
+          "options": [
+            "The name can encode the construction semantics directly.",
+            "Constructors cannot return objects.",
+            "Constructors cannot be public.",
+            "Static factories are always faster than constructors."
+          ],
+          "answer": 0,
+          "explanation": "A static factory can communicate intent with a name such as `valueOf` or `of`, which is more readable than a bare constructor signature.",
+          "id": "chapter02_m1_q1"
+        },
+        {
+          "question": "Why can a static factory be more flexible than a constructor?",
+          "options": [
+            "It can return any subtype of the declared return type.",
+            "It must always allocate a fresh object.",
+            "It cannot be overloaded.",
+            "It cannot hide implementation classes."
+          ],
+          "answer": 0,
+          "explanation": "The returned object may vary by subtype, by input, or by release, which is impossible with a constructor.",
+          "id": "chapter02_m1_q2"
+        },
+        {
+          "question": "What is the main failure mode of telescoping constructors for many optional parameters?",
+          "options": [
+            "Callers must pass long positional lists of identically typed values.",
+            "They cannot be made public.",
+            "They force all fields to be mutable.",
+            "They cannot validate parameters."
+          ],
+          "answer": 0,
+          "explanation": "The core problem is readability and the risk of swapping same-typed arguments without compiler help.",
+          "id": "chapter02_m1_q3"
+        },
+        {
+          "question": "What is the main technical drawback of the JavaBeans pattern for object construction?",
+          "options": [
+            "The object can be observed in an inconsistent intermediate state.",
+            "It prevents the use of setters.",
+            "It requires private constructors.",
+            "It forbids optional parameters."
+          ],
+          "answer": 0,
+          "explanation": "Construction is split across multiple calls, so invariants cannot be enforced atomically and immutability becomes awkward.",
+          "id": "chapter02_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "2 Creating and Destroying Objects - Controlled Instantiation",
+      "questions": [
+        {
+          "question": "What is the strongest modern choice for a singleton that also needs serialization and reflection resistance by default?",
+          "options": [
+            "An enum singleton.",
+            "A public constructor.",
+            "An abstract class with one instance field.",
+            "A static utility class."
+          ],
+          "answer": 0,
+          "explanation": "An enum singleton gives the strongest built-in instance-control guarantee in Java.",
+          "id": "chapter02_m2_q1"
+        },
+        {
+          "question": "Why is making a utility class abstract not a valid way to prevent instantiation?",
+          "options": [
+            "A subclass can still be instantiated.",
+            "The compiler removes all constructors.",
+            "Abstract classes cannot have static methods.",
+            "Abstract classes cannot be final."
+          ],
+          "answer": 0,
+          "explanation": "Abstract only blocks direct instantiation; it does not prevent subclass construction.",
+          "id": "chapter02_m2_q2"
+        },
+        {
+          "question": "What is the purpose of throwing `AssertionError` in a private utility-class constructor?",
+          "options": [
+            "It prevents accidental construction even from inside the class.",
+            "It makes the class serializable.",
+            "It enables dependency injection.",
+            "It avoids the need for a private constructor."
+          ],
+          "answer": 0,
+          "explanation": "The exception is a defensive backstop in case the constructor is invoked by mistake during maintenance or reflection.",
+          "id": "chapter02_m2_q3"
+        },
+        {
+          "question": "What is the core benefit of dependency injection for resource-dependent classes?",
+          "options": [
+            "It lets clients supply the dependency they actually need.",
+            "It forces the resource to be static.",
+            "It makes the class impossible to test.",
+            "It eliminates constructors."
+          ],
+          "answer": 0,
+          "explanation": "Injecting the resource gives the class flexibility, makes tests deterministic, and avoids hardwired global state.",
+          "id": "chapter02_m2_q4"
+        },
+        {
+          "question": "Why is `Supplier<? extends Tile>` a good input type for a factory dependency?",
+          "options": [
+            "It allows the client to provide any factory that creates a Tile subtype.",
+            "It forces the factory to return `null` on failure.",
+            "It prevents lambdas from being used.",
+            "It requires the factory to be a singleton."
+          ],
+          "answer": 0,
+          "explanation": "The bounded wildcard preserves subtype flexibility while still expressing a factory contract.",
+          "id": "chapter02_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "2 Creating and Destroying Objects - Allocation Discipline",
+      "questions": [
+        {
+          "question": "Which allocation is most clearly unnecessary?",
+          "options": [
+            "Creating `new String(\"bikini\")` instead of reusing the string literal.",
+            "Creating a small immutable value object once.",
+            "Using a builder for a complex object.",
+            "Returning an interface from a factory."
+          ],
+          "answer": 0,
+          "explanation": "The string literal is already an object and can be reused directly.",
+          "id": "chapter02_m3_q1"
+        },
+        {
+          "question": "Why is caching a compiled `Pattern` often better than calling `String.matches` repeatedly?",
+          "options": [
+            "The regular expression compilation is expensive and can be reused.",
+            "`String.matches` is not part of the JDK.",
+            "A `Pattern` cannot be immutable.",
+            "Caching only helps for boxed primitives."
+          ],
+          "answer": 0,
+          "explanation": "Repeatedly compiling the same regex creates avoidable work; a cached `Pattern` avoids that cost.",
+          "id": "chapter02_m3_q2"
+        },
+        {
+          "question": "What is the best general response when a custom stack or array-backed container removes an element?",
+          "options": [
+            "Null out the now-obsolete slot.",
+            "Leave the reference in place for debugging.",
+            "Clone the entire array on every pop.",
+            "Convert the array to a `WeakHashMap`."
+          ],
+          "answer": 0,
+          "explanation": "The slot is no longer part of the active set, so clearing it lets the GC reclaim the object graph behind it.",
+          "id": "chapter02_m3_q3"
+        },
+        {
+          "question": "When is `WeakHashMap` the right cache implementation?",
+          "options": [
+            "When entry lifetime should follow external references to the key.",
+            "When entries must stay forever.",
+            "When all values are primitives.",
+            "When the cache is only used once."
+          ],
+          "answer": 0,
+          "explanation": "Weak references are useful only when the cache entry is relevant for as long as the key is externally reachable.",
+          "id": "chapter02_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "2 Creating and Destroying Objects - Cleanup and Resource Safety",
+      "questions": [
+        {
+          "question": "Why are finalizers and cleaners poor choices for ordinary resource management?",
+          "options": [
+            "They are not guaranteed to run promptly or at all.",
+            "They are required by every closeable type.",
+            "They run only on the main thread.",
+            "They cannot be used with native resources."
+          ],
+          "answer": 0,
+          "explanation": "The timing and even execution of cleanup are not reliable enough for correctness or resource limits.",
+          "id": "chapter02_m4_q1"
+        },
+        {
+          "question": "What is the best modern pattern for a class that owns a resource requiring explicit termination?",
+          "options": [
+            "Implement `AutoCloseable` and require clients to call `close()`.",
+            "Rely on a finalizer as the primary cleanup path.",
+            "Make the resource static.",
+            "Hide the resource inside a singleton."
+          ],
+          "answer": 0,
+          "explanation": "The class should expose explicit closure and, if desired, keep a cleaner only as a fallback safety net.",
+          "id": "chapter02_m4_q2"
+        },
+        {
+          "question": "What happens when both the body of a try-finally block and the `close()` call throw?",
+          "options": [
+            "The later exception can obscure the earlier one.",
+            "Both exceptions are always printed equally.",
+            "The compiler rewrites it as try-with-resources.",
+            "The close exception is ignored by definition."
+          ],
+          "answer": 0,
+          "explanation": "Old try-finally code often loses the primary failure, which is one of the reasons try-with-resources was introduced.",
+          "id": "chapter02_m4_q3"
+        },
+        {
+          "question": "Which interface must a resource implement to be usable in try-with-resources?",
+          "options": [
+            "`AutoCloseable`.",
+            "`Serializable`.",
+            "`CloseableFactory`.",
+            "`Runnable`."
+          ],
+          "answer": 0,
+          "explanation": "`AutoCloseable` is the contract that gives the compiler a resource to close automatically.",
+          "id": "chapter02_m4_q4"
+        },
+        {
+          "question": "Can a try-with-resources statement also have a catch clause?",
+          "options": [
+            "Yes, it can handle exceptions without extra nesting.",
+            "No, the syntax forbids it.",
+            "Only if the resource is finalizable.",
+            "Only inside a loop."
+          ],
+          "answer": 0,
+          "explanation": "A catch clause may follow the resource specification exactly as it can follow a try-finally statement.",
+          "id": "chapter02_m4_q5"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "3 Methods Common to All Objects - Equality and hash codes",
+      "questions": [
+        {
+          "question": "When is it reasonable to leave equals inherited from Object?",
+          "options": [
+            "When each instance is inherently unique or the class has no logical equality concept",
+            "Whenever the class has many fields",
+            "Only when the class is final and public",
+            "Only when the class also overrides hashCode"
+          ],
+          "answer": 0,
+          "explanation": "Object identity is the right semantics for active entities and for classes that do not need logical equality.",
+          "id": "m1_q1"
+        },
+        {
+          "question": "Which equals property is violated by one-way comparisons against String?",
+          "options": [
+            "Symmetry",
+            "Reflexivity",
+            "Consistency",
+            "Null handling"
+          ],
+          "answer": 0,
+          "explanation": "If cis.equals(s) can be true while s.equals(cis) is false, the two objects do not agree on equality.",
+          "id": "m1_q2"
+        },
+        {
+          "question": "Why does a getClass-based equals method often fail for subclasses?",
+          "options": [
+            "It prevents a subtype from being equal to a valid supertype view of the same value",
+            "It makes hash codes slower to compute",
+            "It violates reflexivity for final classes",
+            "It forces every object to be mutable"
+          ],
+          "answer": 0,
+          "explanation": "A subclass is still an instance of the supertype, but getClass equality rejects that relationship outright.",
+          "id": "m1_q3"
+        },
+        {
+          "question": "What is the main problem with a constant hashCode such as 42?",
+          "options": [
+            "It is legal but collapses all entries into one bucket and destroys hash table performance",
+            "It makes equal objects unequal",
+            "It breaks reflexivity",
+            "It prevents compilation on modern JDKs"
+          ],
+          "answer": 0,
+          "explanation": "The contract allows collisions, but one bucket for everything is effectively a denial of service for hash tables.",
+          "id": "m1_q4"
+        },
+        {
+          "question": "Which fields should participate in hashCode?",
+          "options": [
+            "Only the significant fields used by equals",
+            "Every field, including transient and derived fields",
+            "Only primitive fields",
+            "Only fields declared final"
+          ],
+          "answer": 0,
+          "explanation": "hashCode must mirror equals, so it should be built from the same state that determines logical equality.",
+          "id": "m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "3 Methods Common to All Objects - String form and copying",
+      "questions": [
+        {
+          "question": "What should a good toString method provide?",
+          "options": [
+            "A concise but informative representation that a person can read",
+            "The exact hash code in hexadecimal",
+            "A full binary dump of every field",
+            "A string that cannot be parsed or logged"
+          ],
+          "answer": 0,
+          "explanation": "The contract explicitly favors human readability and useful diagnostics.",
+          "id": "m2_q1"
+        },
+        {
+          "question": "When is it most useful to document the exact toString format?",
+          "options": [
+            "For value classes where the string may be used as stable human-readable input and output",
+            "Only for private helper classes",
+            "Only when the class is mutable",
+            "Never, because formats should always be hidden"
+          ],
+          "answer": 0,
+          "explanation": "A precise format is helpful when the string representation is intended to be a standard representation.",
+          "id": "m2_q2"
+        },
+        {
+          "question": "What is the required first step in a well-behaved clone implementation?",
+          "options": [
+            "Call super.clone",
+            "Allocate the copy with new",
+            "Serialize the object to bytes",
+            "Throw CloneNotSupportedException immediately"
+          ],
+          "answer": 0,
+          "explanation": "The Object contract and the chapter both emphasize super.clone as the field-by-field base copy.",
+          "id": "m2_q3"
+        },
+        {
+          "question": "Why can a shallow clone be dangerous for mutable internals?",
+          "options": [
+            "The clone and the original may share mutable subobjects",
+            "It always violates equals",
+            "It makes the object non-final",
+            "It removes all constructors"
+          ],
+          "answer": 0,
+          "explanation": "If both objects point at the same mutable array or list, changes in one leak into the other.",
+          "id": "m2_q4"
+        },
+        {
+          "question": "What is the preferred copy mechanism for most new classes?",
+          "options": [
+            "A copy constructor or copy factory",
+            "A public clone method",
+            "A protected finalize method",
+            "A custom readObject method"
+          ],
+          "answer": 0,
+          "explanation": "The chapter treats constructors and factories as simpler, safer, and more flexible than Cloneable.",
+          "id": "m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "3 Methods Common to All Objects - Comparable and ordering",
+      "questions": [
+        {
+          "question": "What does implementing Comparable advertise about a class?",
+          "options": [
+            "That its instances have a natural ordering",
+            "That its instances are immutable",
+            "That its instances can be cloned safely",
+            "That its instances always have unique hash codes"
+          ],
+          "answer": 0,
+          "explanation": "Comparable is the marker for a class whose instances can be ordered without an external comparator.",
+          "id": "m3_q1"
+        },
+        {
+          "question": "Why should you avoid subtracting one field value from another in compareTo?",
+          "options": [
+            "Overflow and floating point edge cases can break the ordering",
+            "It cannot compile for any primitive type",
+            "It always returns zero",
+            "It makes the method abstract"
+          ],
+          "answer": 0,
+          "explanation": "The chapter calls difference-based comparison broken because arithmetic overflow can reverse the sign.",
+          "id": "m3_q2"
+        },
+        {
+          "question": "Which statement about compareTo and equals is correct?",
+          "options": [
+            "Consistency with equals is recommended but not required",
+            "They must always return the same result for every pair of objects",
+            "compareTo must never throw ClassCastException",
+            "equals is ignored by all sorted collections"
+          ],
+          "answer": 0,
+          "explanation": "The contract allows inconsistency, but the class should document it clearly when it exists.",
+          "id": "m3_q3"
+        },
+        {
+          "question": "What do TreeSet and TreeMap use to decide element equality?",
+          "options": [
+            "The ordering imposed by compareTo",
+            "Only object identity",
+            "Only hashCode",
+            "The finalize method"
+          ],
+          "answer": 0,
+          "explanation": "Sorted collections rely on ordering, so compareTo takes the role that equals plays in hash-based collections.",
+          "id": "m3_q4"
+        },
+        {
+          "question": "Which helper is preferred for primitive comparisons inside compareTo?",
+          "options": [
+            "The static compare methods such as Integer.compare and Short.compare",
+            "The minus operator",
+            "The instanceof operator",
+            "The clone method"
+          ],
+          "answer": 0,
+          "explanation": "Static compare helpers are clearer, safer, and less error-prone than subtraction.",
+          "id": "m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "4 Classes and Interfaces - Encapsulation and public API shape",
+      "questions": [
+        {
+          "question": "For a public class, what is the preferred access level for a helper type that is only used inside the package?",
+          "options": [
+            "package-private",
+            "public",
+            "protected",
+            "private"
+          ],
+          "answer": 0,
+          "explanation": "Package-private keeps the type usable inside the package without exporting it as part of the public API.",
+          "id": "chapter4_m1_q1"
+        },
+        {
+          "question": "Why are public mutable fields discouraged in exported classes?",
+          "options": [
+            "They freeze representation into the API and prevent invariant enforcement",
+            "They make the class abstract",
+            "They speed up serialization automatically",
+            "They improve binary compatibility"
+          ],
+          "answer": 0,
+          "explanation": "A public mutable field exposes implementation details and removes the class's ability to control updates.",
+          "id": "chapter4_m1_q2"
+        },
+        {
+          "question": "What is wrong with a public static final array field?",
+          "options": [
+            "Its reference is final, but the array contents remain mutable",
+            "Arrays cannot be final",
+            "The compiler rejects all array constants",
+            "It cannot be read from other classes"
+          ],
+          "answer": 0,
+          "explanation": "The array object itself can still be modified through the returned reference.",
+          "id": "chapter4_m1_q3"
+        },
+        {
+          "question": "Which statement about protected members of exported classes is correct?",
+          "options": [
+            "They are part of the exported API and should be rare",
+            "They are invisible outside the package",
+            "They are always safer than private members",
+            "They are only relevant to interfaces"
+          ],
+          "answer": 0,
+          "explanation": "Protected members are a long-term compatibility promise, so they should be used sparingly.",
+          "id": "chapter4_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "4 Classes and Interfaces - Immutability and composition",
+      "questions": [
+        {
+          "question": "Which rule is part of making a class immutable?",
+          "options": [
+            "Make all fields private and final, and do not expose mutable internals",
+            "Make every method static",
+            "Avoid constructors entirely",
+            "Use public setters for all fields"
+          ],
+          "answer": 0,
+          "explanation": "Immutability requires fixed state and no external mutation channel.",
+          "id": "chapter4_m2_q1"
+        },
+        {
+          "question": "Why are immutable objects attractive for concurrent code?",
+          "options": [
+            "They are inherently thread-safe and need no synchronization",
+            "They cannot be serialized",
+            "They always allocate less memory",
+            "They eliminate the need for equals"
+          ],
+          "answer": 0,
+          "explanation": "If state never changes, concurrent readers cannot observe a race on that state.",
+          "id": "chapter4_m2_q2"
+        },
+        {
+          "question": "What is the main risk of implementation inheritance across package boundaries?",
+          "options": [
+            "The subclass can break when superclass internals change",
+            "The subclass cannot compile at all",
+            "The JVM forbids it",
+            "It automatically duplicates all methods"
+          ],
+          "answer": 0,
+          "explanation": "A subclass can depend on superclass behavior that was never part of the public contract.",
+          "id": "chapter4_m2_q3"
+        },
+        {
+          "question": "What is the best general replacement for fragile subclassing of a concrete class?",
+          "options": [
+            "Composition plus forwarding methods",
+            "A public tag field",
+            "More protected methods",
+            "A larger abstract superclass"
+          ],
+          "answer": 0,
+          "explanation": "Composition lets you control the exposed API and avoids tight coupling to internals.",
+          "id": "chapter4_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "4 Classes and Interfaces - Inheritance contracts and interface design",
+      "questions": [
+        {
+          "question": "What must a class document if it is designed for inheritance?",
+          "options": [
+            "Its self-use of overridable methods and the effects of overriding them",
+            "Only its package name",
+            "Only its private fields",
+            "Nothing, because inheritance is self-documenting"
+          ],
+          "answer": 0,
+          "explanation": "Subclass authors need to know exactly which overridable methods the superclass calls and when.",
+          "id": "chapter4_m3_q1"
+        },
+        {
+          "question": "Why are default methods risky when added to an existing interface?",
+          "options": [
+            "They can silently break preexisting implementations at runtime",
+            "They cannot be compiled by javac",
+            "They are always ignored by clients",
+            "They forbid all abstract methods"
+          ],
+          "answer": 0,
+          "explanation": "Existing classes may inherit behavior that does not preserve their invariants.",
+          "id": "chapter4_m3_q2"
+        },
+        {
+          "question": "Which is the best use of an interface according to Item 22?",
+          "options": [
+            "To define a type that clients can use to refer to instances",
+            "To export constants without qualification",
+            "To store instance fields",
+            "To replace every utility class"
+          ],
+          "answer": 0,
+          "explanation": "Interfaces should describe what a type is, not merely provide a bag of constants.",
+          "id": "chapter4_m3_q3"
+        },
+        {
+          "question": "What is a skeletal implementation class for?",
+          "options": [
+            "It supplies reusable method bodies while leaving the type as an interface",
+            "It prevents all subclassing",
+            "It replaces every default method",
+            "It is only for constants"
+          ],
+          "answer": 0,
+          "explanation": "Skeletal implementations reduce the work of implementing an interface without forcing inheritance for clients.",
+          "id": "chapter4_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "4 Classes and Interfaces - Tagged classes, member classes, and source files",
+      "questions": [
+        {
+          "question": "Why are tagged classes discouraged?",
+          "options": [
+            "They force irrelevant fields and switch logic into one brittle type",
+            "They cannot be instantiated",
+            "They are illegal in Java",
+            "They always use abstract methods"
+          ],
+          "answer": 0,
+          "explanation": "A tagged class mixes multiple flavors in one type, which is verbose and error-prone.",
+          "id": "chapter4_m4_q1"
+        },
+        {
+          "question": "What is the hidden cost of a nonstatic member class?",
+          "options": [
+            "It stores an implicit reference to its enclosing instance",
+            "It cannot access private fields",
+            "It is always abstract",
+            "It cannot be serialized"
+          ],
+          "answer": 0,
+          "explanation": "That enclosing-instance reference consumes space and can extend object lifetime unintentionally.",
+          "id": "chapter4_m4_q2"
+        },
+        {
+          "question": "When is an anonymous class appropriate?",
+          "options": [
+            "For a short one-off use where naming the type is unnecessary",
+            "For implementing multiple interfaces at once",
+            "For defining a public API class",
+            "For replacing every nested class"
+          ],
+          "answer": 0,
+          "explanation": "Anonymous classes are limited and should stay small; lambdas are usually preferred for function objects.",
+          "id": "chapter4_m4_q3"
+        },
+        {
+          "question": "What is the rule for top-level source files in this chapter?",
+          "options": [
+            "Limit each source file to one top-level class or interface",
+            "Put all utility classes in one file",
+            "Use multiple files only for public classes",
+            "Keep every nested type top-level"
+          ],
+          "answer": 0,
+          "explanation": "One top-level type per file avoids duplicate-definition and order-dependent compiler behavior.",
+          "id": "chapter4_m4_q4"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "5 Generics - Raw Types and Unchecked Warnings",
+      "questions": [
+        {
+          "question": "Why is `List<?>` preferable to a raw `List` when the element type is unknown?",
+          "options": [
+            "It preserves compile-time type safety while still accepting any element type.",
+            "It allows inserting any object into the list without warnings.",
+            "It erases fewer runtime checks than a raw list.",
+            "It makes the list reifiable at runtime."
+          ],
+          "answer": 0,
+          "explanation": "A wildcard expresses unknown type information without discarding generic checking; a raw type discards checking entirely.",
+          "id": "chapter_05_m1_q1"
+        },
+        {
+          "question": "What should you do first when you see an unchecked warning?",
+          "options": [
+            "Try to eliminate the warning by fixing the declaration or implementation.",
+            "Add `@SuppressWarnings(\"unchecked\")` to the class.",
+            "Ignore it because the compiler already accepted the code.",
+            "Convert the code to use raw types so the warning disappears."
+          ],
+          "answer": 0,
+          "explanation": "Unchecked warnings are defects until you can prove the code is actually safe.",
+          "id": "chapter_05_m1_q2"
+        },
+        {
+          "question": "What is the danger of using a raw collection type in client code?",
+          "options": [
+            "It can let an invalid element through and defer the failure to runtime.",
+            "It automatically makes the collection immutable.",
+            "It prevents the collection from compiling with any methods.",
+            "It forces all elements to become `Object` references at runtime."
+          ],
+          "answer": 0,
+          "explanation": "Raw types suppress generic checking, so a bad insertion can surface later as a `ClassCastException`.",
+          "id": "chapter_05_m1_q3"
+        },
+        {
+          "question": "Where should `@SuppressWarnings(\"unchecked\")` normally be placed?",
+          "options": [
+            "On the smallest declaration or statement scope that you can prove is safe.",
+            "On the entire package so all related warnings are silenced.",
+            "On the whole class to keep the source file clean.",
+            "On every method that uses generics."
+          ],
+          "answer": 0,
+          "explanation": "The book’s rule is narrow scope only; broad suppression hides new problems.",
+          "id": "chapter_05_m1_q4"
+        },
+        {
+          "question": "Why are raw types retained in the language at all?",
+          "options": [
+            "To preserve binary and source compatibility with pre-generics code.",
+            "Because generic types cannot interoperate with old libraries.",
+            "Because the compiler requires raw types for all inheritance hierarchies.",
+            "Because raw types are more efficient than parameterized types."
+          ],
+          "answer": 0,
+          "explanation": "Raw types are a compatibility escape hatch, not a recommended style.",
+          "id": "chapter_05_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "5 Generics - Generic Types and Generic Methods",
+      "questions": [
+        {
+          "question": "Why is `public static <E> Set<E> union(Set<E> s1, Set<E> s2)` better than a raw version?",
+          "options": [
+            "It preserves the element type and eliminates unchecked warnings for callers.",
+            "It allows any set type to be passed without compile-time checks.",
+            "It removes the need for a return type.",
+            "It makes the method usable only with `Set<Object>`."
+          ],
+          "answer": 0,
+          "explanation": "A generic method ties the inputs and output to a single type parameter.",
+          "id": "chapter_05_m2_q1"
+        },
+        {
+          "question": "What does `<E extends Comparable<E>>` mean in practice?",
+          "options": [
+            "Values of `E` can be compared to other values of the same `E`.",
+            "Values of `E` can be compared to any `Object`.",
+            "Values of `E` must be arrays.",
+            "Values of `E` must implement `Serializable`."
+          ],
+          "answer": 0,
+          "explanation": "This recursive bound captures the usual self-comparable case used by `max`.",
+          "id": "chapter_05_m2_q2"
+        },
+        {
+          "question": "When generifying a class backed by an array, what is the usual safe pattern?",
+          "options": [
+            "Store an `Object[]`, cast once to `E[]`, and prove the cast is safe locally.",
+            "Create a `new E[]` array and suppress the compiler error.",
+            "Use a raw `List` internally to avoid warnings.",
+            "Expose the backing array so callers can manage typing."
+          ],
+          "answer": 0,
+          "explanation": "The book’s preferred approach is a narrow, justified unchecked cast plus local suppression.",
+          "id": "chapter_05_m2_q3"
+        },
+        {
+          "question": "Why are generic methods important even when the class itself is not generic?",
+          "options": [
+            "They let utility APIs preserve type relationships without forcing casts.",
+            "They make every class automatically thread-safe.",
+            "They disable type inference so callers must specify everything explicitly.",
+            "They are only useful for collections libraries."
+          ],
+          "answer": 0,
+          "explanation": "Many algorithms are naturally method-level generic, not class-level generic.",
+          "id": "chapter_05_m2_q4"
+        },
+        {
+          "question": "What is the benefit of a recursive type bound over an unchecked cast?",
+          "options": [
+            "The compiler can verify the intended ordering constraint at compile time.",
+            "It makes the type non-reifiable.",
+            "It allows raw types to compile faster.",
+            "It turns runtime errors into warnings."
+          ],
+          "answer": 0,
+          "explanation": "A recursive bound encodes the contract directly instead of relying on comments or casts.",
+          "id": "chapter_05_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "5 Generics - Lists, Arrays, and Wildcards",
+      "questions": [
+        {
+          "question": "Why is `List<String>` not a subtype of `List<Object>`?",
+          "options": [
+            "Because generic types are invariant.",
+            "Because `String` is not a subtype of `Object`.",
+            "Because lists are reified at runtime.",
+            "Because wildcards are required only for arrays."
+          ],
+          "answer": 0,
+          "explanation": "Generics do not inherit subtype relationships the way arrays do.",
+          "id": "chapter_05_m3_q1"
+        },
+        {
+          "question": "What is the most important difference between arrays and generics?",
+          "options": [
+            "Arrays are reified and checked at runtime; generics are erased and checked at compile time.",
+            "Arrays are immutable; generics are mutable.",
+            "Generics support covariance; arrays do not.",
+            "Arrays never throw runtime exceptions."
+          ],
+          "answer": 0,
+          "explanation": "The runtime type information that arrays keep is exactly why they behave differently.",
+          "id": "chapter_05_m3_q2"
+        },
+        {
+          "question": "What does PECS stand for?",
+          "options": [
+            "Producer-extends, consumer-super.",
+            "Parameter-equals-class structure.",
+            "Public APIs need capture-safe signatures.",
+            "Prefer erased collections over specialized collections."
+          ],
+          "answer": 0,
+          "explanation": "It is the book’s mnemonic for choosing bounded wildcards.",
+          "id": "chapter_05_m3_q3"
+        },
+        {
+          "question": "Why should return types generally not use bounded wildcards?",
+          "options": [
+            "They force callers to deal with wildcards instead of giving them a precise result type.",
+            "They make the method less generic.",
+            "They disable type inference.",
+            "They always require a raw cast internally."
+          ],
+          "answer": 0,
+          "explanation": "Wildcards are for input flexibility; return types should be as specific as possible.",
+          "id": "chapter_05_m3_q4"
+        },
+        {
+          "question": "What is wildcard capture used for?",
+          "options": [
+            "To let a private helper recover the exact type hidden behind `?`.",
+            "To convert any raw type into a parameterized type automatically.",
+            "To make arrays reified.",
+            "To eliminate the need for type parameters."
+          ],
+          "answer": 0,
+          "explanation": "Capture lets implementation code regain precision without exposing it in the public API.",
+          "id": "chapter_05_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "5 Generics - Varargs and Heterogeneous Containers",
+      "questions": [
+        {
+          "question": "What is heap pollution in the context of generic varargs?",
+          "options": [
+            "A parameterized type reference points to an object that is not actually of that type.",
+            "Any array created by the JVM at runtime.",
+            "A warning emitted whenever `List` is used.",
+            "A situation where `@SafeVarargs` is missing."
+          ],
+          "answer": 0,
+          "explanation": "Heap pollution is the mismatch between the variable’s declared generic type and the object it refers to.",
+          "id": "chapter_05_m4_q1"
+        },
+        {
+          "question": "When is `@SafeVarargs` appropriate?",
+          "options": [
+            "Only when the method cannot be overridden and you have proven the varargs usage is safe.",
+            "On any method that takes at least one array parameter.",
+            "On every generic method automatically.",
+            "Only on methods that return arrays."
+          ],
+          "answer": 0,
+          "explanation": "The annotation is a trust statement about a specific generic-varargs implementation.",
+          "id": "chapter_05_m4_q2"
+        },
+        {
+          "question": "Why is `List` often a better API shape than a generic varargs parameter?",
+          "options": [
+            "It avoids the array-backed varargs mechanism and the related heap-pollution warnings.",
+            "It makes the method reifiable.",
+            "It always performs better than arrays.",
+            "It removes the need for generics entirely."
+          ],
+          "answer": 0,
+          "explanation": "A list parameter is often the simplest way to keep the API typesafe and warning-free.",
+          "id": "chapter_05_m4_q3"
+        },
+        {
+          "question": "What is the key idea behind the `Favorites` pattern?",
+          "options": [
+            "Use a parameterized key, usually `Class<T>`, to store and retrieve values of many types safely.",
+            "Store everything in a raw `Map` and cast at every call site.",
+            "Use arrays so the runtime can enforce the key type.",
+            "Use wildcard return types to maximize flexibility."
+          ],
+          "answer": 0,
+          "explanation": "The container stays heterogeneous, while each access remains typechecked through the key.",
+          "id": "chapter_05_m4_q4"
+        },
+        {
+          "question": "Why can `Favorites` safely call `type.cast(...)` on retrieval?",
+          "options": [
+            "Because `Class.cast` performs a checked dynamic cast tied to the key’s runtime type.",
+            "Because `cast` is just syntactic sugar for a raw cast.",
+            "Because the map stores only primitive values.",
+            "Because all `Class` objects are reifiable wildcards."
+          ],
+          "answer": 0,
+          "explanation": "The cast reestablishes the key/value type linkage at the point of use.",
+          "id": "chapter_05_m4_q5"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "6 Enums and Annotations - Enums are real types",
+      "questions": [
+        {
+          "question": "Why is the int-enum pattern inferior to a real enum type?",
+          "options": [
+            "It provides type safety, a namespace, and stable binaries for clients.",
+            "It is faster than enums in every case.",
+            "It supports inheritance better than enums.",
+            "It automatically gives you set operations."
+          ],
+          "answer": 0,
+          "explanation": "Int constants are brittle: they can be mixed accidentally, collide by name, and are compiled into client code. Real enums are type-safe classes.",
+          "id": "effective_java_complete_m18_q1"
+        },
+        {
+          "question": "What is the main reason to prefer instance fields over ordinal() for associated data?",
+          "options": [
+            "Ordinal changes when constants are reordered; a stored field does not.",
+            "Ordinal is always slower than a stored field.",
+            "Ordinal cannot be called on enums with methods.",
+            "Stored fields cannot be final."
+          ],
+          "answer": 0,
+          "explanation": "An enum's ordinal is only the declaration position, so it is not a semantic value and must not drive program logic.",
+          "id": "effective_java_complete_m18_q2"
+        },
+        {
+          "question": "When should you use a switch on an enum?",
+          "options": [
+            "When you are augmenting an enum you do not control, or the logic does not belong in the enum itself.",
+            "Whenever you want compile-time checking for missing constants.",
+            "Whenever the enum has instance fields.",
+            "Whenever you need constant-specific behavior."
+          ],
+          "answer": 0,
+          "explanation": "A switch is appropriate as a client-side adapter, not as the primary way to model per-constant behavior inside the enum.",
+          "id": "effective_java_complete_m18_q3"
+        },
+        {
+          "question": "What does an enum constructor give you that int constants cannot?",
+          "options": [
+            "A place to bind per-constant data and compute derived state once.",
+            "A way to create multiple instances per constant.",
+            "Access to mutable static fields before initialization.",
+            "A namespace shared across unrelated enums."
+          ],
+          "answer": 0,
+          "explanation": "Each enum constant can carry its own state and behavior, which is impossible with bare ints.",
+          "id": "effective_java_complete_m18_q4"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "6 Enums and Annotations - EnumSet and EnumMap",
+      "questions": [
+        {
+          "question": "Why is EnumSet preferred over a manual bit field?",
+          "options": [
+            "It preserves Set semantics and type safety while keeping bit-vector performance.",
+            "It uses more memory than any other Set implementation.",
+            "It can represent sets with more than 64 elements in one long.",
+            "It is immutable by default."
+          ],
+          "answer": 0,
+          "explanation": "EnumSet gives you compact representation and normal Set operations without manual bit masks.",
+          "id": "effective_java_complete_m19_q1"
+        },
+        {
+          "question": "Why should public APIs take Set<Style> instead of EnumSet<Style>?",
+          "options": [
+            "So callers are not forced to use one specific implementation.",
+            "Because EnumSet cannot be passed to methods.",
+            "Because Set is always faster than EnumSet.",
+            "Because EnumSet is not a valid parameter type."
+          ],
+          "answer": 0,
+          "explanation": "Program to the interface. Accepting Set keeps the API flexible even if EnumSet is the best implementation choice.",
+          "id": "effective_java_complete_m19_q2"
+        },
+        {
+          "question": "What is the main advantage of EnumMap over ordinal-indexed arrays?",
+          "options": [
+            "It is type-safe and self-describing while staying close to array speed.",
+            "It supports non-enum keys better than HashMap.",
+            "It avoids the need for a key type token.",
+            "It is automatically immutable."
+          ],
+          "answer": 0,
+          "explanation": "EnumMap hides the ordinal arithmetic and still uses array-backed storage internally.",
+          "id": "effective_java_complete_m19_q3"
+        },
+        {
+          "question": "When should you specify a map factory with groupingBy?",
+          "options": [
+            "When you care that the collector produce EnumMap rather than an implementation chosen by the library.",
+            "Whenever the stream has more than one element.",
+            "Only when collecting to a Set.",
+            "Only when the source is already a map."
+          ],
+          "answer": 0,
+          "explanation": "The default groupingBy collector may choose a different Map implementation; provide a factory if EnumMap behavior matters.",
+          "id": "effective_java_complete_m19_q4"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "6 Enums and Annotations - Extensible enums and annotations",
+      "questions": [
+        {
+          "question": "Why are annotations better than naming patterns for framework hooks?",
+          "options": [
+            "They are checked by the compiler and can carry structured metadata.",
+            "They execute faster at runtime.",
+            "They automatically fix invalid code.",
+            "They are only available for methods."
+          ],
+          "answer": 0,
+          "explanation": "Annotations avoid silent typos and let tools inspect explicit metadata instead of parsing names.",
+          "id": "effective_java_complete_m20_q1"
+        },
+        {
+          "question": "What does @Retention(RetentionPolicy.RUNTIME) do for a test annotation?",
+          "options": [
+            "It keeps the annotation visible to reflection at runtime.",
+            "It makes the annotation compile faster.",
+            "It allows the annotation only on types.",
+            "It forces the annotation to be repeatable."
+          ],
+          "answer": 0,
+          "explanation": "Without runtime retention, a reflection-based test runner cannot see the annotation.",
+          "id": "effective_java_complete_m20_q2"
+        },
+        {
+          "question": "What is the main point of a bounded type token like Class<? extends Throwable>?",
+          "options": [
+            "It lets the annotation accept only class literals for throwable subtypes.",
+            "It forces the value to be a String at runtime.",
+            "It makes annotation processing unnecessary.",
+            "It allows any unrelated class to be passed in."
+          ],
+          "answer": 0,
+          "explanation": "The wildcard constrains the class literal to a Throwable subtype and keeps the API type-safe.",
+          "id": "effective_java_complete_m20_q3"
+        },
+        {
+          "question": "Why can repeated annotations be easy to process incorrectly?",
+          "options": [
+            "Because the repeated form is represented through a synthetic container annotation.",
+            "Because Java forbids runtime reflection on annotations.",
+            "Because repeated annotations cannot carry parameters.",
+            "Because repeatable annotations are not retained."
+          ],
+          "answer": 0,
+          "explanation": "A processor must look for the direct annotation and its container, or use getAnnotationsByType.",
+          "id": "effective_java_complete_m20_q4"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "name": "6 Enums and Annotations - Override and marker interfaces",
+      "questions": [
+        {
+          "question": "What bug does @Override most directly prevent?",
+          "options": [
+            "Accidentally overloading a method when you intended to override it.",
+            "Using final fields in enums.",
+            "Missing import statements for superclasses.",
+            "Unchecked generic casts."
+          ],
+          "answer": 0,
+          "explanation": "It forces the compiler to confirm that the signature actually matches a supertype method.",
+          "id": "effective_java_complete_m21_q1"
+        },
+        {
+          "question": "What is the key advantage of a marker interface over a marker annotation?",
+          "options": [
+            "It creates a real type that APIs can require in method signatures.",
+            "It can be applied to methods and fields.",
+            "It is always shorter to write.",
+            "It does not require any inheritance relationship."
+          ],
+          "answer": 0,
+          "explanation": "A marker interface can be used for compile-time type checking and subtype restriction.",
+          "id": "effective_java_complete_m21_q2"
+        },
+        {
+          "question": "When is a marker annotation the better choice?",
+          "options": [
+            "When the marker applies to non-type elements or fits an annotation-driven framework.",
+            "Whenever you need subtype checking at compile time.",
+            "Whenever the marker should be inherited by default.",
+            "Whenever the marker adds methods."
+          ],
+          "answer": 0,
+          "explanation": "Annotations are the right fit for metadata on methods, fields, parameters, and framework hooks.",
+          "id": "effective_java_complete_m21_q3"
+        },
+        {
+          "question": "Why is Serializable a marker interface rather than a marker annotation?",
+          "options": [
+            "Because serialization is a capability that is naturally modeled as a type.",
+            "Because annotations did not exist when serialization was invented.",
+            "Because marker annotations cannot have runtime retention.",
+            "Because interfaces cannot be checked by the compiler."
+          ],
+          "answer": 0,
+          "explanation": "The interface lets APIs express and enforce a type-level contract for serializability.",
+          "id": "effective_java_complete_m21_q4"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "7 Lambdas and Streams - Lambdas, anonymous classes, and method references",
+      "questions": [
+        {
+          "question": "When is a lambda usually preferable to an anonymous class?",
+          "options": [
+            "When you need a concise implementation of a functional interface and do not need a separate named type",
+            "When you need to override `equals` and `hashCode`",
+            "When you want the class to be reusable through inheritance",
+            "When the callback must access private members of any object"
+          ],
+          "answer": 0,
+          "explanation": "Lambdas are the preferred syntax for function objects; anonymous classes are still useful when you need a distinct class body.",
+          "id": "chapter7_m1_q1"
+        },
+        {
+          "question": "What is the main reason to extract a long lambda into a method?",
+          "options": [
+            "It improves readability by giving the behavior a real name and documentation site",
+            "It makes the code parallel by default",
+            "It guarantees allocation-free execution",
+            "It changes the lambda into a singleton"
+          ],
+          "answer": 0,
+          "explanation": "The book favors small lambdas; complex behavior should move into named methods.",
+          "id": "chapter7_m1_q2"
+        },
+        {
+          "question": "What is the normal advantage of a method reference over the equivalent lambda?",
+          "options": [
+            "It is usually shorter and clearer when the lambda only forwards to an existing method",
+            "It can express more behavior than a lambda",
+            "It avoids type inference",
+            "It works only for static methods"
+          ],
+          "answer": 0,
+          "explanation": "Method references are a shorthand, not a new capability.",
+          "id": "chapter7_m1_q3"
+        },
+        {
+          "question": "Why is `Integer::sum` better than `(count, incr) -> count + incr` in some contexts?",
+          "options": [
+            "It removes boilerplate without losing meaning",
+            "It is the only legal syntax for `merge`",
+            "It avoids boxing overhead entirely",
+            "It makes the lambda stateful"
+          ],
+          "answer": 0,
+          "explanation": "Use the method reference when the intent is obviously simple forwarding to a known method.",
+          "id": "chapter7_m1_q4"
+        },
+        {
+          "question": "What should make you hesitate before replacing a lambda with a method reference?",
+          "options": [
+            "The lambda parameter names carry useful semantic documentation",
+            "The target type is a functional interface",
+            "The method reference compiles",
+            "The code is inside a stream pipeline"
+          ],
+          "answer": 0,
+          "explanation": "A lambda can be clearer when naming the parameters explains the computation better than the method name does.",
+          "id": "chapter7_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "name": "7 Lambdas and Streams - Functional interfaces and stream fundamentals",
+      "questions": [
+        {
+          "question": "When should you prefer a standard functional interface over a custom one?",
+          "options": [
+            "When the standard type matches the required signature and semantics",
+            "Only when the API is internal",
+            "Only if the interface has exactly two abstract methods",
+            "Only when you need generics"
+          ],
+          "answer": 0,
+          "explanation": "The standard interfaces are shared vocabulary; custom interfaces are for genuinely new contracts.",
+          "id": "chapter7_m2_q1"
+        },
+        {
+          "question": "Why should a custom functional interface be annotated with `@FunctionalInterface`?",
+          "options": [
+            "It enforces the single-abstract-method contract and documents intent",
+            "It makes the interface serializable",
+            "It guarantees lambda performance",
+            "It prevents the interface from being public"
+          ],
+          "answer": 0,
+          "explanation": "The annotation is a compile-time guard and an API signal.",
+          "id": "chapter7_m2_q2"
+        },
+        {
+          "question": "What is the key evaluation rule for a stream pipeline?",
+          "options": [
+            "Nothing runs until the terminal operation is invoked",
+            "Every stage runs immediately when it is declared",
+            "Only the source stage is lazy",
+            "Intermediate operations always materialize collections"
+          ],
+          "answer": 0,
+          "explanation": "Laziness is what makes stream pipelines compositional and sometimes able to handle infinite sources.",
+          "id": "chapter7_m2_q3"
+        },
+        {
+          "question": "Why does Item 45 warn that streams are not a universal replacement for iteration?",
+          "options": [
+            "Because some problems are clearer or simpler with loops, and some APIs still need iterable results",
+            "Because stream operations cannot filter data",
+            "Because streams are slower by definition",
+            "Because streams cannot be used on collections"
+          ],
+          "answer": 0,
+          "explanation": "The book treats streams as a tool with a strong fit for bulk transformations, not a mandate.",
+          "id": "chapter7_m2_q4"
+        },
+        {
+          "question": "What is a terminal operation doing in a stream pipeline?",
+          "options": [
+            "It forces evaluation and produces the final result",
+            "It only renames the pipeline",
+            "It converts the stream back to an array automatically",
+            "It makes all intermediate operations parallel"
+          ],
+          "answer": 0,
+          "explanation": "Without a terminal operation, a stream pipeline is a no-op.",
+          "id": "chapter7_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "name": "7 Lambdas and Streams - Side effects, return types, and parallelism",
+      "questions": [
+        {
+          "question": "What is wrong with using `forEach` to build a frequency table by mutating an external map?",
+          "options": [
+            "It turns the pipeline into imperative code with side effects instead of a pure stream computation",
+            "It prevents compilation unless the map is immutable",
+            "It always executes in parallel",
+            "It cannot read lowercase words"
+          ],
+          "answer": 0,
+          "explanation": "Item 46 says the stream should compute the result, not merely drive mutation in a terminal action.",
+          "id": "chapter7_m3_q1"
+        },
+        {
+          "question": "Which collector family best matches the idea of building results without side effects?",
+          "options": [
+            "Collectors such as `groupingBy`, `counting`, `toList`, `toSet`, and `toMap`",
+            "Only `forEach` and `peek`",
+            "Only `parallel()`",
+            "Only `reduce` with mutable accumulators"
+          ],
+          "answer": 0,
+          "explanation": "Collectors are the intended mutable-reduction mechanism for stream pipelines.",
+          "id": "chapter7_m3_q2"
+        },
+        {
+          "question": "What is the preferred return type when a method can naturally materialize its results and clients may want to iterate?",
+          "options": [
+            "A standard collection such as `ArrayList`, `Set`, or `Collection`",
+            "Always `Stream`",
+            "Always `Iterable`",
+            "Always an array"
+          ],
+          "answer": 0,
+          "explanation": "Returning a collection supports both iteration and streaming and is usually the least surprising API.",
+          "id": "chapter7_m3_q3"
+        },
+        {
+          "question": "When is `parallel()` most promising?",
+          "options": [
+            "When the source splits cheaply and the computation is substantial and well-structured",
+            "Whenever the pipeline contains `filter`",
+            "Whenever the stream is infinite",
+            "Whenever the code is short"
+          ],
+          "answer": 0,
+          "explanation": "Parallel stream performance depends on splittability, locality, and terminal-operation behavior.",
+          "id": "chapter7_m3_q4"
+        },
+        {
+          "question": "Why does Item 48 insist on measurements before enabling parallel streams in production?",
+          "options": [
+            "Because parallelism can regress correctness or performance, and the effect is workload-specific",
+            "Because `parallel()` is deprecated",
+            "Because the JVM never uses more than one core",
+            "Because streams cannot run in parallel on collections"
+          ],
+          "answer": 0,
+          "explanation": "The book treats parallelism as a proof obligation, not a guess.",
+          "id": "chapter7_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "name": "8 Methods - Parameter validity and object boundaries",
+      "questions": [
+        {
+          "question": "Why should a public method validate bad parameters at entry?",
+          "options": [
+            "So the method fails fast, preserves object invariants, and reports the documented exception.",
+            "So the method can avoid all documentation for its parameters.",
+            "So the method can always continue with a default value.",
+            "So the caller can inspect the object state after the failure."
+          ],
+          "answer": 0,
+          "explanation": "Parameter checks are about contract enforcement and failure atomicity, not just defensive programming.",
+          "id": "chapter_08_m1_q1"
+        },
+        {
+          "question": "When is a separate validity check not worth doing?",
+          "options": [
+            "When the main computation will naturally validate the inputs and the extra check would be redundant or expensive.",
+            "Whenever the method is public.",
+            "Whenever the method returns void.",
+            "Whenever the input type is an interface."
+          ],
+          "answer": 0,
+          "explanation": "The item allows implicit validation, but only if you understand the trade-off and the resulting exception behavior.",
+          "id": "chapter_08_m1_q2"
+        },
+        {
+          "question": "Why should a constructor copy a mutable argument before storing it?",
+          "options": [
+            "To prevent later caller mutations from corrupting the object's invariants.",
+            "To make the field final.",
+            "To avoid the need for Javadoc.",
+            "To allow the object to share state intentionally."
+          ],
+          "answer": 0,
+          "explanation": "Storing the caller's object creates an alias into your representation; a defensive copy breaks that alias.",
+          "id": "chapter_08_m1_q3"
+        },
+        {
+          "question": "Why do defensive copies on accessors matter even for immutable-looking classes?",
+          "options": [
+            "Because returning a mutable internal reference hands callers a back door into the object's state.",
+            "Because accessors are slower than constructors.",
+            "Because `Date` cannot be returned from a method.",
+            "Because the JVM automatically copies every return value anyway."
+          ],
+          "answer": 0,
+          "explanation": "Returning a live mutable object exposes the representation; returning a copy preserves encapsulation.",
+          "id": "chapter_08_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "name": "8 Methods - Signature shape and overloads",
+      "questions": [
+        {
+          "question": "Why are long parameter lists a smell?",
+          "options": [
+            "They are hard to remember, easy to transpose, and difficult to use without constant reference to docs.",
+            "Because Java forbids methods with more than four parameters.",
+            "Because they always allocate arrays at runtime.",
+            "Because they prevent JIT inlining."
+          ],
+          "answer": 0,
+          "explanation": "The practical issue is API usability, not language restriction.",
+          "id": "chapter_08_m2_q1"
+        },
+        {
+          "question": "Why prefer an interface type over a class type in a parameter list?",
+          "options": [
+            "It keeps the API flexible and avoids forcing callers into a particular implementation.",
+            "It makes the method more abstract and slower.",
+            "It guarantees immutability.",
+            "It lets the compiler skip null checks."
+          ],
+          "answer": 0,
+          "explanation": "Programming to the interface avoids unnecessary copying and needless coupling.",
+          "id": "chapter_08_m2_q2"
+        },
+        {
+          "question": "Why is overloading with the same arity risky?",
+          "options": [
+            "Because the compiler chooses based on compile-time types, so the obvious-looking call can bind to the wrong method.",
+            "Because the JVM randomly picks one overload at runtime.",
+            "Because overloaded methods cannot be public.",
+            "Because autoboxing eliminates all ambiguity."
+          ],
+          "answer": 0,
+          "explanation": "This is the core lesson of `CollectionClassifier` and the `remove(int)` versus `remove(Integer)` problem.",
+          "id": "chapter_08_m2_q3"
+        },
+        {
+          "question": "When is overload ambiguity least likely to confuse users?",
+          "options": [
+            "When the parameter types are radically different and no actual argument can plausibly fit both signatures.",
+            "Whenever the methods have the same name.",
+            "Whenever one overload is static.",
+            "Whenever the return types differ."
+          ],
+          "answer": 0,
+          "explanation": "Radically different types make the choice obvious; otherwise, prefer different method names.",
+          "id": "chapter_08_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "name": "8 Methods - Varargs and absence",
+      "questions": [
+        {
+          "question": "Why does every varargs invocation have a cost?",
+          "options": [
+            "Because the compiler creates and initializes an array for the arguments at the call site.",
+            "Because varargs force reflection.",
+            "Because varargs disable inlining.",
+            "Because the JVM boxes every argument twice."
+          ],
+          "answer": 0,
+          "explanation": "The flexibility is convenient, but it still compiles to array creation.",
+          "id": "chapter_08_m3_q1"
+        },
+        {
+          "question": "What is the correct pattern for a method that needs at least one value and then any number more?",
+          "options": [
+            "Take one normal argument first, then a trailing varargs parameter.",
+            "Take only a varargs parameter and check `args.length` at runtime.",
+            "Take an `Optional<T>` and a varargs parameter together.",
+            "Overload the method with a separate empty signature."
+          ],
+          "answer": 0,
+          "explanation": "The leading required parameter makes the contract compile-time explicit.",
+          "id": "chapter_08_m3_q2"
+        },
+        {
+          "question": "Why should an API return an empty collection or array instead of null?",
+          "options": [
+            "It removes special-case client code and avoids null handling without real performance gain.",
+            "Because empty containers are always allocated on the stack.",
+            "Because null is illegal as a return value.",
+            "Because callers cannot test for null in Java."
+          ],
+          "answer": 0,
+          "explanation": "Returning null for absence pushes avoidable complexity into every caller.",
+          "id": "chapter_08_m3_q3"
+        },
+        {
+          "question": "When is `Optional<T>` the right return type?",
+          "options": [
+            "When the method may not be able to return a value and the caller should be forced to think about that possibility.",
+            "Whenever a method returns a collection.",
+            "Whenever a field is optional.",
+            "Whenever you want to avoid exceptions entirely."
+          ],
+          "answer": 0,
+          "explanation": "Optional is a return-value tool, not a general replacement for null everywhere.",
+          "id": "chapter_08_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "8 Methods - Documentation",
+      "questions": [
+        {
+          "question": "What is the main purpose of a doc comment on an exported API element?",
+          "options": [
+            "To specify the contract a client relies on, including preconditions, postconditions, and side effects.",
+            "To restate the implementation line by line.",
+            "To replace code review.",
+            "To satisfy the compiler."
+          ],
+          "answer": 0,
+          "explanation": "Documentation is part of the API, not a paraphrase of the source code.",
+          "id": "chapter_08_m4_q1"
+        },
+        {
+          "question": "Which tags are expected for a normal method contract?",
+          "options": [
+            "`@param`, `@return`, and `@throws`.",
+            "`@implSpec`, `@index`, and `@literal`.",
+            "`@override`, `@serial`, and `@code`.",
+            "Only `@return`."
+          ],
+          "answer": 0,
+          "explanation": "Those three tags are the standard way to document parameters, results, and exception conditions.",
+          "id": "chapter_08_m4_q2"
+        },
+        {
+          "question": "When should `{@implSpec}` be used?",
+          "options": [
+            "When documenting the self-use contract for subclasses or overriding code.",
+            "Whenever a method is public.",
+            "Whenever the method is generic.",
+            "Whenever you want to hide implementation details from callers."
+          ],
+          "answer": 0,
+          "explanation": "It is for inheritance contracts, not for client-facing behavior descriptions.",
+          "id": "chapter_08_m4_q3"
+        },
+        {
+          "question": "What should you document for generic types, enums, annotations, and packages?",
+          "options": [
+            "Type parameters, constants, annotation members, and package/module-level comments where appropriate.",
+            "Only the public constructors.",
+            "Only the top-level class summary.",
+            "Nothing extra, because Javadoc infers it."
+          ],
+          "answer": 0,
+          "explanation": "Those elements have API meaning and need explicit documentation to stay usable.",
+          "id": "chapter_08_m4_q4"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "name": "9 General Programming - Local Scope and for-each",
+      "questions": [
+        {
+          "question": "What is the primary benefit of declaring a local variable at first use?",
+          "options": [
+            "It minimizes scope and reduces clutter and accidental misuse.",
+            "It avoids the need for an initializer.",
+            "It makes the variable visible to later methods.",
+            "It guarantees the variable is final."
+          ],
+          "answer": 0,
+          "explanation": "Narrow scope improves readability and reduces the chance that a variable is observed outside its intended region.",
+          "id": "chapter_09_m1_q1"
+        },
+        {
+          "question": "When is a traditional for loop justified over for-each?",
+          "options": [
+            "When you need the iterator, index, removal, replacement, or parallel traversal control.",
+            "Whenever the container is a collection rather than an array.",
+            "Whenever performance matters.",
+            "Whenever the body contains more than one statement."
+          ],
+          "answer": 0,
+          "explanation": "For-each is the default; explicit control is for the few cases where the iterator or index is semantically required.",
+          "id": "chapter_09_m1_q2"
+        },
+        {
+          "question": "Why are while loops more error-prone for simple iteration?",
+          "options": [
+            "They leave the loop variable in scope longer and make copy-and-paste mistakes harder to catch.",
+            "They are slower than for loops.",
+            "They cannot iterate over arrays.",
+            "They require recursion behind the scenes."
+          ],
+          "answer": 0,
+          "explanation": "The book's concern is scope and clarity, not raw execution speed.",
+          "id": "chapter_09_m1_q3"
+        },
+        {
+          "question": "Why does the enhanced for statement not hurt performance?",
+          "options": [
+            "The generated code is essentially identical to the hand-written iterator or index loop.",
+            "It uses a specialized JVM instruction.",
+            "It caches all elements automatically.",
+            "It disables bounds checks entirely."
+          ],
+          "answer": 0,
+          "explanation": "The gain is readability and safety, not a special runtime optimization.",
+          "id": "chapter_09_m1_q4"
+        },
+        {
+          "question": "When should you implement `Iterable` on a custom element group?",
+          "options": [
+            "Whenever you want clients to use the for-each loop naturally.",
+            "Only when the type also implements `Collection`.",
+            "Only when the elements are primitive values.",
+            "Only when the type is immutable."
+          ],
+          "answer": 0,
+          "explanation": "Any type that represents a group of elements should be iterable if possible.",
+          "id": "chapter_09_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "name": "9 General Programming - Libraries and Exact Arithmetic",
+      "questions": [
+        {
+          "question": "Why is `Math.abs(rnd.nextInt()) % n` a bad way to generate a bounded random integer?",
+          "options": [
+            "It is biased and can fail catastrophically on `Integer.MIN_VALUE`.",
+            "It is too slow for small `n`.",
+            "It always returns negative values.",
+            "It only works for prime `n`."
+          ],
+          "answer": 0,
+          "explanation": "Item 59 explicitly calls out bias and the `Integer.MIN_VALUE` edge case.",
+          "id": "chapter_09_m2_q1"
+        },
+        {
+          "question": "What is the preferred modern random generator for most uses?",
+          "options": [
+            "`ThreadLocalRandom`.",
+            "`Random`.",
+            "`Math.random()`.",
+            "`SplittableRandom` only, in all cases."
+          ],
+          "answer": 0,
+          "explanation": "The book says `ThreadLocalRandom` is the usual choice, with `SplittableRandom` for fork-join and parallel work.",
+          "id": "chapter_09_m2_q2"
+        },
+        {
+          "question": "Why should you use `BigDecimal` for exact money calculations?",
+          "options": [
+            "Binary floating-point cannot represent decimal fractions like `0.1` exactly.",
+            "Because `BigDecimal` is always faster than primitives.",
+            "Because `BigDecimal` automatically rounds to cents.",
+            "Because `double` is always imprecise for all numbers."
+          ],
+          "answer": 0,
+          "explanation": "The issue is exact decimal representation and controlled rounding, not general numeric validity.",
+          "id": "chapter_09_m2_q3"
+        },
+        {
+          "question": "When is `int` or `long` a reasonable alternative to `BigDecimal`?",
+          "options": [
+            "When the quantity can be represented as a scaled integer within the range you need.",
+            "Whenever exact answers are not required.",
+            "Only for scientific calculations.",
+            "Never; primitives are always unsafe."
+          ],
+          "answer": 0,
+          "explanation": "Scaled integers are a deliberate exact-arithmetic strategy when the magnitude is bounded.",
+          "id": "chapter_09_m2_q4"
+        },
+        {
+          "question": "What should you do if a standard library almost solves the problem but misses a feature?",
+          "options": [
+            "Check for a high-quality third-party library before implementing it yourself.",
+            "Rewrite the entire standard library function.",
+            "Use reflection to patch the library class.",
+            "Ignore the gap and duplicate the missing piece in every project."
+          ],
+          "answer": 0,
+          "explanation": "The book's order is: platform library, then third-party library, then custom code.",
+          "id": "chapter_09_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "name": "9 General Programming - Primitives, Strings, and Interfaces",
+      "questions": [
+        {
+          "question": "Why is `Long sum = 0L` a problem in a tight accumulation loop?",
+          "options": [
+            "It forces repeated boxing and unboxing and can be much slower than `long`.",
+            "It makes the sum exact when `long` would not.",
+            "It prevents the loop from compiling.",
+            "It disables integer overflow."
+          ],
+          "answer": 0,
+          "explanation": "The issue is unnecessary object creation and auto-unboxing overhead.",
+          "id": "chapter_09_m3_q1"
+        },
+        {
+          "question": "When is a boxed primitive appropriate?",
+          "options": [
+            "In collections, type parameters, and other places where a reference type is required.",
+            "Whenever the value might be `null`.",
+            "Whenever a method has more than one parameter.",
+            "Whenever you want better performance."
+          ],
+          "answer": 0,
+          "explanation": "Boxed primitives are sometimes necessary, but only because the type system requires references there.",
+          "id": "chapter_09_m3_q2"
+        },
+        {
+          "question": "Why are strings a poor substitute for aggregate types?",
+          "options": [
+            "They hide structure, require parsing, and cannot express invariants directly.",
+            "They cannot be compared for equality.",
+            "They are always slower than arrays.",
+            "They are mutable by default."
+          ],
+          "answer": 0,
+          "explanation": "A dedicated type can expose the fields and contracts explicitly instead of encoding them in delimiters.",
+          "id": "chapter_09_m3_q3"
+        },
+        {
+          "question": "What is the main reason to prefer an interface type for a variable or field?",
+          "options": [
+            "It keeps the implementation swappable without changing client code.",
+            "It makes the code shorter.",
+            "It guarantees iteration order.",
+            "It forces the use of factory methods."
+          ],
+          "answer": 0,
+          "explanation": "The point is decoupling from a concrete implementation choice.",
+          "id": "chapter_09_m3_q4"
+        },
+        {
+          "question": "When is it acceptable to refer to an object by its concrete class?",
+          "options": [
+            "When no suitable interface exists or when class-specific behavior is required.",
+            "Whenever the class is public.",
+            "Whenever you want better compile times.",
+            "Whenever the class is final."
+          ],
+          "answer": 0,
+          "explanation": "The concrete class is appropriate only when the interface abstraction would be lossy or unavailable.",
+          "id": "chapter_09_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "name": "9 General Programming - Reflection, Native Code, Optimization, and Naming",
+      "questions": [
+        {
+          "question": "What is the main technical downside of reflection?",
+          "options": [
+            "It bypasses compile-time type checking and is slower and more verbose than normal calls.",
+            "It cannot construct objects.",
+            "It only works for private members.",
+            "It makes code immutable."
+          ],
+          "answer": 0,
+          "explanation": "Reflection is useful, but it shifts correctness checks from compile time to runtime.",
+          "id": "chapter_09_m4_q1"
+        },
+        {
+          "question": "What is the preferred way to use a class found reflectively?",
+          "options": [
+            "Instantiate it reflectively, then interact with it through a known interface or superclass.",
+            "Invoke all methods reflectively forever.",
+            "Cast it to `Object` and inspect fields manually.",
+            "Avoid constructors and use native code instead."
+          ],
+          "answer": 0,
+          "explanation": "This keeps the reflective cost at the boundary and the rest of the code normal.",
+          "id": "chapter_09_m4_q2"
+        },
+        {
+          "question": "When are native methods justified?",
+          "options": [
+            "For platform-specific facilities or truly necessary native libraries, not as a default performance trick.",
+            "Whenever Java code allocates objects.",
+            "Whenever reflection feels verbose.",
+            "Only in test code."
+          ],
+          "answer": 0,
+          "explanation": "Native code is a narrow interoperability tool, not a general optimization strategy.",
+          "id": "chapter_09_m4_q3"
+        },
+        {
+          "question": "What is the correct first step in optimization?",
+          "options": [
+            "Measure with a profiler or `jmh` and identify the real hot spots.",
+            "Replace all strings with `StringBuilder`.",
+            "Inline every method.",
+            "Convert everything to native code."
+          ],
+          "answer": 0,
+          "explanation": "The book is explicit: don't guess, measure, then fix the right problem.",
+          "id": "chapter_09_m4_q4"
+        },
+        {
+          "question": "Which naming rule is most conventional for a constant field?",
+          "options": [
+            "Uppercase words separated by underscores.",
+            "lowerCamelCase.",
+            "PascalCase.",
+            "A single lowercase word."
+          ],
+          "answer": 0,
+          "explanation": "Constant fields are the standard exception to the normal member-name casing rules.",
+          "id": "chapter_09_m4_q5"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "10 Exceptions - Exceptional conditions and throwable choice",
+      "questions": [
+        {
+          "question": "Why should exceptions not be used for ordinary loop control?",
+          "options": [
+            "Because the condition is expected and should be expressed directly",
+            "Because exceptions cannot be caught inside loops",
+            "Because loop control requires checked exceptions",
+            "Because iteration with exceptions is always faster"
+          ],
+          "answer": 0,
+          "explanation": "An ordinary loop should spell out its termination condition; exceptions are for genuinely unusual failure.",
+          "id": "chapter10_m1_q1"
+        },
+        {
+          "question": "When is a checked exception justified?",
+          "options": [
+            "When the caller can reasonably recover and should be forced to handle the condition",
+            "Whenever the method is public",
+            "Whenever the code is performance-critical",
+            "Whenever a return value would be inconvenient"
+          ],
+          "answer": 0,
+          "explanation": "The checked/unchecked choice is about recoverability and caller burden, not style.",
+          "id": "chapter10_m1_q2"
+        },
+        {
+          "question": "What should you throw for a programming error such as an invalid argument or illegal state?",
+          "options": [
+            "A runtime exception appropriate to the violation",
+            "A checked exception so callers must catch it",
+            "An Error subclass",
+            "A Throwable subclass unrelated to Exception"
+          ],
+          "answer": 0,
+          "explanation": "Runtime exceptions model contract violations; checked exceptions model recoverable conditions.",
+          "id": "chapter10_m1_q3"
+        },
+        {
+          "question": "What is wrong with defining a new Error subclass for application failure?",
+          "options": [
+            "Errors are reserved for unrecoverable VM-level conditions and should not be part of normal API design",
+            "Errors cannot carry detail messages",
+            "Errors are always checked",
+            "Errors cannot be thrown from Java code"
+          ],
+          "answer": 0,
+          "explanation": "Application code should not invent new errors; it should use runtime exceptions or checked exceptions as appropriate.",
+          "id": "chapter10_m1_q4"
+        },
+        {
+          "question": "What should a checked exception provide if recovery is expected?",
+          "options": [
+            "Typed accessors that expose the data needed to recover",
+            "Only a stack trace",
+            "A localized user message",
+            "A private constructor"
+          ],
+          "answer": 0,
+          "explanation": "Callers should not need to parse exception text to recover from a known failure mode.",
+          "id": "chapter10_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "name": "10 Exceptions - Checked exceptions, standard exceptions, and abstraction",
+      "questions": [
+        {
+          "question": "Why can a checked exception make an API unpleasant to use?",
+          "options": [
+            "Because every caller must catch it or declare it, even when recovery is awkward",
+            "Because checked exceptions are always slower at runtime",
+            "Because checked exceptions cannot be documented",
+            "Because they cannot be translated"
+          ],
+          "answer": 0,
+          "explanation": "A checked exception is a deliberate API burden, so it should be reserved for useful recovery scenarios.",
+          "id": "chapter10_m2_q1"
+        },
+        {
+          "question": "When should `Optional` be preferred over a checked exception?",
+          "options": [
+            "When the failure can be represented as absence and no extra failure data is needed",
+            "When the caller needs a stack trace",
+            "When the method is private",
+            "When the exception is recoverable"
+          ],
+          "answer": 0,
+          "explanation": "Optional is a cleaner replacement when the failure mode is simply “no result.”",
+          "id": "chapter10_m2_q2"
+        },
+        {
+          "question": "Which exception best matches an illegal argument value?",
+          "options": [
+            "`IllegalArgumentException`",
+            "`IllegalStateException`",
+            "`ConcurrentModificationException`",
+            "`UnsupportedOperationException`"
+          ],
+          "answer": 0,
+          "explanation": "Bad parameter values should map to `IllegalArgumentException` unless a more specific standard exception applies.",
+          "id": "chapter10_m2_q3"
+        },
+        {
+          "question": "What is the purpose of exception translation?",
+          "options": [
+            "To convert a low-level failure into an exception that matches the higher-level abstraction",
+            "To hide all failures from callers",
+            "To avoid using stack traces",
+            "To force all exceptions to become checked"
+          ],
+          "answer": 0,
+          "explanation": "Translation keeps implementation details out of the public contract while preserving useful diagnostics.",
+          "id": "chapter10_m2_q4"
+        },
+        {
+          "question": "Why is chaining useful in translated exceptions?",
+          "options": [
+            "It preserves the original cause and its stack trace for debugging",
+            "It eliminates the need for documentation",
+            "It makes the exception unchecked",
+            "It guarantees recovery"
+          ],
+          "answer": 0,
+          "explanation": "Chaining gives you the higher-level exception the API needs plus the lower-level cause you may need later.",
+          "id": "chapter10_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "name": "10 Exceptions - Documentation, diagnostics, and failure atomicity",
+      "questions": [
+        {
+          "question": "What is the best way to document a checked exception?",
+          "options": [
+            "With a precise `throws` declaration and a Javadoc `@throws` description of when it occurs",
+            "Only in the class-level comment",
+            "Only by naming the exception type well",
+            "By omitting it so callers discover it from stack traces"
+          ],
+          "answer": 0,
+          "explanation": "The declaration and the Javadoc should tell clients exactly when the exception is expected.",
+          "id": "chapter10_m3_q1"
+        },
+        {
+          "question": "What belongs in an exception detail message?",
+          "options": [
+            "The values that explain the failure, such as offending indexes or bounds",
+            "A long prose narrative for end users",
+            "Sensitive secrets so support can diagnose faster",
+            "Only the exception class name"
+          ],
+          "answer": 0,
+          "explanation": "The detail message should capture the failure facts, not tell a story.",
+          "id": "chapter10_m3_q2"
+        },
+        {
+          "question": "What is failure atomicity?",
+          "options": [
+            "A failed operation leaves the object in the same usable state it had before the call",
+            "A method never throws exceptions",
+            "A method always rolls back the heap",
+            "A catch block always repairs every invariant automatically"
+          ],
+          "answer": 0,
+          "explanation": "Failure atomicity is about preserving object state when an operation aborts.",
+          "id": "chapter10_m3_q3"
+        },
+        {
+          "question": "When is it acceptable to ignore an exception?",
+          "options": [
+            "Only when the code comments explicitly explain why ignoring it is safe or expected",
+            "Whenever the exception is checked",
+            "Whenever the catch block is empty but short",
+            "Whenever the program is not in debug mode"
+          ],
+          "answer": 0,
+          "explanation": "Ignoring an exception without explanation is a silent failure mode.",
+          "id": "chapter10_m3_q4"
+        },
+        {
+          "question": "Why can swallowing an exception make debugging harder?",
+          "options": [
+            "It can defer the visible failure to a later location that no longer obviously relates to the root cause",
+            "It forces the VM to crash immediately",
+            "It always improves throughput",
+            "It prevents stack traces from being generated"
+          ],
+          "answer": 0,
+          "explanation": "An ignored exception removes the evidence that would otherwise point at the original fault.",
+          "id": "chapter10_m3_q5"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "name": "11 Concurrency - Synchronize shared mutable state",
+      "questions": [
+        {
+          "question": "Why is `count++` unsafe when multiple threads share the same counter?",
+          "options": [
+            "It is a read-modify-write sequence, so updates can be lost without synchronization.",
+            "Because `int` values cannot be shared between threads.",
+            "Because `++` is always compiled as a loop.",
+            "Because `count` becomes immutable after the first increment."
+          ],
+          "answer": 0,
+          "explanation": "Compound operations need mutual exclusion or an atomic class; otherwise two threads can overwrite each other's work.",
+          "id": "chapter_11_m1_q1"
+        },
+        {
+          "question": "What does `volatile` guarantee, and what does it not guarantee?",
+          "options": [
+            "It guarantees visibility of writes, but not mutual exclusion or atomicity of compound actions.",
+            "It guarantees both mutual exclusion and atomicity.",
+            "It makes every method in the class thread-safe automatically.",
+            "It prevents all reordering everywhere in the JVM."
+          ],
+          "answer": 0,
+          "explanation": "A volatile field can still be involved in a race if you perform compound updates.",
+          "id": "chapter_11_m1_q2"
+        },
+        {
+          "question": "What is the real target of synchronization in a mutable class?",
+          "options": [
+            "The object invariant and the visibility of state transitions, not just individual fields.",
+            "Only the public methods.",
+            "Only the constructor.",
+            "Only the fields marked private."
+          ],
+          "answer": 0,
+          "explanation": "Synchronizing the invariant boundary is what keeps readers from seeing a half-updated object.",
+          "id": "chapter_11_m1_q3"
+        },
+        {
+          "question": "When is a shared object usually safe without external synchronization?",
+          "options": [
+            "When it is immutable and safely published, or when it is internally thread-safe by design.",
+            "Whenever it has only one mutable field.",
+            "Whenever its methods are `final`.",
+            "Whenever the code passes all unit tests on one machine."
+          ],
+          "answer": 0,
+          "explanation": "Thread safety comes from a documented policy and the memory-ordering guarantees behind it.",
+          "id": "chapter_11_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "name": "11 Concurrency - Avoid excessive synchronization",
+      "questions": [
+        {
+          "question": "Why are open calls dangerous inside synchronized methods?",
+          "options": [
+            "Because foreign or overridable code can run while your lock is held, causing deadlock or invariant violations.",
+            "Because they prevent the JVM from compiling the method.",
+            "Because they automatically make the method recursive.",
+            "Because synchronized blocks cannot contain method calls."
+          ],
+          "answer": 0,
+          "explanation": "Calling out while holding a lock gives control to code you do not own, which is exactly where lock-order bugs appear.",
+          "id": "chapter_11_m2_q1"
+        },
+        {
+          "question": "What is the best default when a synchronized region is larger than it needs to be?",
+          "options": [
+            "Shrink it to the minimal section required to preserve the invariant.",
+            "Add more synchronized methods to compensate.",
+            "Replace the lock with `volatile`.",
+            "Move the lock to the caller automatically."
+          ],
+          "answer": 0,
+          "explanation": "Excessive synchronization hurts correctness and performance, so minimize the locked scope rather than masking the design flaw.",
+          "id": "chapter_11_m2_q2"
+        },
+        {
+          "question": "Why can inheritance make synchronization fragile?",
+          "options": [
+            "Because overridden methods may run under a lock that the subclass does not control.",
+            "Because inheritance disables thread safety completely.",
+            "Because subclasses cannot access synchronized methods.",
+            "Because locks are inherited but monitors are not."
+          ],
+          "answer": 0,
+          "explanation": "A superclass cannot safely assume what subclass code will do if it invokes overridable methods while locked.",
+          "id": "chapter_11_m2_q3"
+        },
+        {
+          "question": "What is the practical benefit of copying state before calling foreign code?",
+          "options": [
+            "It lets you release the lock before the callback executes.",
+            "It turns the method into a nonblocking algorithm automatically.",
+            "It makes the object immutable.",
+            "It removes the need for thread-safety documentation."
+          ],
+          "answer": 0,
+          "explanation": "A local copy narrows the critical section and avoids holding a lock across unpredictable code.",
+          "id": "chapter_11_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "name": "11 Concurrency - Executors, utilities, and documentation",
+      "questions": [
+        {
+          "question": "Why does Effective Java prefer executors over manually managed threads?",
+          "options": [
+            "Executors separate task submission from execution policy and make pooling and scheduling explicit.",
+            "Because threads are illegal in modern Java.",
+            "Because executors always outperform threads in every workload.",
+            "Because executor tasks cannot block."
+          ],
+          "answer": 0,
+          "explanation": "An executor gives you a higher-level abstraction with fewer error-prone details to manage yourself.",
+          "id": "chapter_11_m3_q1"
+        },
+        {
+          "question": "Why are `wait` and `notify` discouraged for most application code?",
+          "options": [
+            "Because higher-level concurrency utilities already encode the coordination protocol more safely.",
+            "Because they do not work on synchronized objects.",
+            "Because they are slower than every other API by definition.",
+            "Because they can only be used in daemon threads."
+          ],
+          "answer": 0,
+          "explanation": "Monitor protocols are easy to get wrong; utilities such as latches and queues reduce that risk.",
+          "id": "chapter_11_m3_q2"
+        },
+        {
+          "question": "What should thread-safety documentation tell clients?",
+          "options": [
+            "Whether the class is thread-safe, conditionally thread-safe, immutable, or externally synchronized, and what lock or rule governs use.",
+            "Only whether the class uses `synchronized` internally.",
+            "Only whether the class has a `main` method.",
+            "Nothing, because thread safety should be obvious from the code."
+          ],
+          "answer": 0,
+          "explanation": "The thread-safety contract belongs in the API docs, not in guesswork.",
+          "id": "chapter_11_m3_q3"
+        },
+        {
+          "question": "When is lazy initialization usually justified?",
+          "options": [
+            "When construction is expensive or may never be needed, and the lazy path can be implemented safely.",
+            "Whenever a field is private.",
+            "Whenever you want to avoid writing a constructor.",
+            "Whenever the class is public."
+          ],
+          "answer": 0,
+          "explanation": "Lazy init is a tradeoff, not a default. Simpler eager initialization is often the better design.",
+          "id": "chapter_11_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "name": "12 Serialization - Avoid Java serialization unless you are forced into it",
+      "questions": [
+        {
+          "question": "What is the safest default stance toward Java serialization in a new system?",
+          "options": [
+            "Avoid it and use a cross-platform structured-data format instead",
+            "Use it for every boundary because it is built into the JDK",
+            "Use it only with public fields",
+            "Use it only if the class has a serialVersionUID"
+          ],
+          "answer": 0,
+          "explanation": "Item 85 says to prefer alternatives such as JSON or protobuf.",
+          "id": "chapter12_m1_q1"
+        },
+        {
+          "question": "Why is Java deserialization dangerous even when the code does not look obviously broken?",
+          "options": [
+            "It can invoke code in many reachable classes during object reconstruction",
+            "It automatically encrypts the payload",
+            "It only works for final classes",
+            "It refuses to run if the stream is short"
+          ],
+          "answer": 0,
+          "explanation": "The class path itself becomes part of the attack surface.",
+          "id": "chapter12_m1_q2"
+        },
+        {
+          "question": "What is a deserialization bomb?",
+          "options": [
+            "A small stream that expands into very expensive work or deep recursion during deserialization",
+            "A stream that always throws `ClassNotFoundException`",
+            "A stream that only works on arrays",
+            "A stream that can only be produced by `ObjectOutputStream` in debug mode"
+          ],
+          "answer": 0,
+          "explanation": "The danger is denial of service, not necessarily gadget-based code execution.",
+          "id": "chapter12_m1_q3"
+        },
+        {
+          "question": "Why is whitelisting preferred over blacklisting when filtering input streams?",
+          "options": [
+            "Because blacklists only block known bad cases, while whitelists start from an explicit safe set",
+            "Because blacklists are slower in every JVM",
+            "Because whitelists always prevent bombs",
+            "Because blacklists only work with enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 85 treats whitelist-first filtering as the more defensible policy.",
+          "id": "chapter12_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "name": "12 Serialization - Serializable is an exported API, not a private implementation detail",
+      "questions": [
+        {
+          "question": "Why does implementing `Serializable` affect future class evolution?",
+          "options": [
+            "Because the serialized form becomes part of the class's exported API",
+            "Because it prevents adding methods",
+            "Because it disables generics",
+            "Because it forces all fields to be public"
+          ],
+          "answer": 0,
+          "explanation": "The serialized form must remain compatible with deployed data.",
+          "id": "chapter12_m2_q1"
+        },
+        {
+          "question": "What is the main practical reason to declare an explicit `serialVersionUID`?",
+          "options": [
+            "To control compatibility instead of relying on a runtime-generated hash",
+            "To make serialization encrypt the stream",
+            "To force all subclasses to share the same stream",
+            "To make `readResolve` unnecessary"
+          ],
+          "answer": 0,
+          "explanation": "An explicit value avoids accidental incompatibility from unrelated source changes.",
+          "id": "chapter12_m2_q2"
+        },
+        {
+          "question": "Why does the book call deserialization a hidden constructor?",
+          "options": [
+            "Because object creation happens without an ordinary constructor call and still must establish invariants",
+            "Because it always invokes the no-arg constructor first",
+            "Because it only works for records",
+            "Because it can never fail"
+          ],
+          "answer": 0,
+          "explanation": "The point is that the class must defend itself even though construction is extralinguistic.",
+          "id": "chapter12_m2_q3"
+        },
+        {
+          "question": "Which kinds of classes should rarely implement `Serializable`?",
+          "options": [
+            "Extendable classes and active entities such as thread pools",
+            "Only final value objects",
+            "Only nested classes",
+            "Only enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 86 says inheritance makes serialization much harder to support safely.",
+          "id": "chapter12_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "name": "12 Serialization - Design the serialized form, then defend readObject",
+      "questions": [
+        {
+          "question": "When is the default serialized form usually acceptable?",
+          "options": [
+            "When the physical representation is already a good description of the logical state",
+            "Whenever the class has many methods",
+            "Only when the class is final",
+            "Only when the class has no constructors"
+          ],
+          "answer": 0,
+          "explanation": "Item 87 says the default form is fine only if it matches the logical data closely.",
+          "id": "chapter12_m3_q1"
+        },
+        {
+          "question": "Why should derived or JVM-specific fields usually be declared `transient`?",
+          "options": [
+            "They are not part of the logical serialized state and should not be persisted",
+            "They make `Serializable` compile faster",
+            "They are automatically encrypted otherwise",
+            "They are required for `readResolve`"
+          ],
+          "answer": 0,
+          "explanation": "Transient fields should not leak implementation details into the stream.",
+          "id": "chapter12_m3_q2"
+        },
+        {
+          "question": "Why must `defaultWriteObject` and `defaultReadObject` still be called in a custom form?",
+          "options": [
+            "To preserve compatibility if nontransient fields are added later",
+            "Because the JVM rejects custom forms without them",
+            "Because they serialize transient fields too",
+            "Because they make the stream human-readable"
+          ],
+          "answer": 0,
+          "explanation": "Skipping them breaks backward and forward compatibility expectations.",
+          "id": "chapter12_m3_q3"
+        },
+        {
+          "question": "What is the most important rule for synchronization inside `writeObject`?",
+          "options": [
+            "It must follow the same lock-ordering and whole-object consistency rules as other methods",
+            "It should never use a lock",
+            "It must always be static",
+            "It should only synchronize on `this` if the class is immutable"
+          ],
+          "answer": 0,
+          "explanation": "Serialization must respect the class's concurrency discipline.",
+          "id": "chapter12_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "name": "12 Serialization - Defensive deserialization, readResolve, and serialization proxies",
+      "questions": [
+        {
+          "question": "Why must `readObject` behave like a constructor?",
+          "options": [
+            "Because it creates an instance from attacker-controlled bytes and must establish all invariants",
+            "Because it is always invoked before fields are allocated",
+            "Because it can skip validation if `Serializable` is present",
+            "Because it only runs for enums"
+          ],
+          "answer": 0,
+          "explanation": "Item 88 says to validate and copy just as a real constructor would.",
+          "id": "chapter12_m4_q1"
+        },
+        {
+          "question": "What is the point of defensively copying mutable components during `readObject`?",
+          "options": [
+            "To prevent outsiders from retaining references to private mutable state",
+            "To reduce the number of serialized fields",
+            "To make the stream shorter",
+            "To avoid `defaultReadObject`"
+          ],
+          "answer": 0,
+          "explanation": "Without the copy, an attacker can keep aliases to the object's internals.",
+          "id": "chapter12_m4_q2"
+        },
+        {
+          "question": "Why is an enum the preferred tool for a serializable singleton?",
+          "options": [
+            "It gives the JVM a built-in instance-control guarantee that `readResolve` cannot match as safely",
+            "It automatically makes all fields transient",
+            "It removes the need for constructors in every class",
+            "It allows any number of runtime instances"
+          ],
+          "answer": 0,
+          "explanation": "Item 89 recommends enums over fragile `readResolve` tricks whenever possible.",
+          "id": "chapter12_m4_q3"
+        },
+        {
+          "question": "What is the key benefit of the serialization proxy pattern?",
+          "options": [
+            "It reconstructs the object through the public API instead of exposing raw internal state",
+            "It makes the object serializable without `Serializable`",
+            "It eliminates the need for a nested class",
+            "It works best only for extendable classes"
+          ],
+          "answer": 0,
+          "explanation": "The proxy shifts deserialization back into ordinary, validated object construction.",
+          "id": "chapter12_m4_q4"
+        }
+      ]
+    }
+  ]
+}

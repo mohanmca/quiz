@@ -1,0 +1,36 @@
+ITEM 25: LIMIT SOURCE FILES TO A SINGLE TOP-LEVEL CLASS
+115
+Item 25: Limit source files to a single top-level class
+While the Java compiler lets you define multiple top-level classes in a single source
+file, there are no benefits associated with doing so, and there are significant risks.
+The risks stem from the fact that defining multiple top-level classes in a source file
+makes it possible to provide multiple definitions for a class. Which definition gets
+used is affected by the order in which the source files are passed to the compiler. 
+To make this concrete, consider this source file, which contains only a Main
+class that refers to members of two other top-level classes (Utensil and Dessert):
+public class Main {
+    public static void main(String[] args) {
+        System.out.println(Utensil.NAME + Dessert.NAME);
+    }
+}
+Now suppose you define both Utensil and Dessert in a single source file named
+Utensil.java:
+// Two classes defined in one file. Don't ever do this!
+class Utensil {
+    static final String NAME = "pan";
+}
+class Dessert {
+    static final String NAME = "cake";
+}
+Of course the main program prints pancake.
+Now suppose you accidentally make another source file named
+Dessert.java that defines the same two classes:
+// Two classes defined in one file. Don't ever do this!
+class Utensil {
+    static final String NAME = "pot";
+}
+class Dessert {
+    static final String NAME = "pie";
+}
+If you’re lucky enough to compile the program with the command
+javac Main.java Dessert.java, the compilation will fail, and the compiler will

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Methods</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Methods - Effective Java, pages 248-281. Items 49-56: parameter validity, defensive copies, method signatures, overloading, varargs, empty results, optionals, and doc comments.", "version": "1.0", "totalQuestions": 16, "modules": [{"id": 0, "name": "Parameter validity and object boundaries", "questions": [{"question": "Why should a public method validate bad parameters at entry?", "options": ["So the method fails fast, preserves object invariants, and reports the documented exception.", "So the method can avoid all documentation for its parameters.", "So the method can always continue with a default value.", "So the caller can inspect the object state after the failure."], "answer": 0, "explanation": "Parameter checks are about contract enforcement and failure atomicity, not just defensive programming.", "id": "chapter_08_m1_q1"}, {"question": "When is a separate validity check not worth doing?", "options": ["When the main computation will naturally validate the inputs and the extra check would be redundant or expensive.", "Whenever the method is public.", "Whenever the method returns void.", "Whenever the input type is an interface."], "answer": 0, "explanation": "The item allows implicit validation, but only if you understand the trade-off and the resulting exception behavior.", "id": "chapter_08_m1_q2"}, {"question": "Why should a constructor copy a mutable argument before storing it?", "options": ["To prevent later caller mutations from corrupting the object's invariants.", "To make the field final.", "To avoid the need for Javadoc.", "To allow the object to share state intentionally."], "answer": 0, "explanation": "Storing the caller's object creates an alias into your representation; a defensive copy breaks that alias.", "id": "chapter_08_m1_q3"}, {"question": "Why do defensive copies on accessors matter even for immutable-looking classes?", "options": ["Because returning a mutable internal reference hands callers a back door into the object's state.", "Because accessors are slower than constructors.", "Because `Date` cannot be returned from a method.", "Because the JVM automatically copies every return value anyway."], "answer": 0, "explanation": "Returning a live mutable object exposes the representation; returning a copy preserves encapsulation.", "id": "chapter_08_m1_q4"}]}, {"id": 1, "name": "Signature shape and overloads", "questions": [{"question": "Why are long parameter lists a smell?", "options": ["They are hard to remember, easy to transpose, and difficult to use without constant reference to docs.", "Because Java forbids methods with more than four parameters.", "Because they always allocate arrays at runtime.", "Because they prevent JIT inlining."], "answer": 0, "explanation": "The practical issue is API usability, not language restriction.", "id": "chapter_08_m2_q1"}, {"question": "Why prefer an interface type over a class type in a parameter list?", "options": ["It keeps the API flexible and avoids forcing callers into a particular implementation.", "It makes the method more abstract and slower.", "It guarantees immutability.", "It lets the compiler skip null checks."], "answer": 0, "explanation": "Programming to the interface avoids unnecessary copying and needless coupling.", "id": "chapter_08_m2_q2"}, {"question": "Why is overloading with the same arity risky?", "options": ["Because the compiler chooses based on compile-time types, so the obvious-looking call can bind to the wrong method.", "Because the JVM randomly picks one overload at runtime.", "Because overloaded methods cannot be public.", "Because autoboxing eliminates all ambiguity."], "answer": 0, "explanation": "This is the core lesson of `CollectionClassifier` and the `remove(int)` versus `remove(Integer)` problem.", "id": "chapter_08_m2_q3"}, {"question": "When is overload ambiguity least likely to confuse users?", "options": ["When the parameter types are radically different and no actual argument can plausibly fit both signatures.", "Whenever the methods have the same name.", "Whenever one overload is static.", "Whenever the return types differ."], "answer": 0, "explanation": "Radically different types make the choice obvious; otherwise, prefer different method names.", "id": "chapter_08_m2_q4"}]}, {"id": 2, "name": "Varargs and absence", "questions": [{"question": "Why does every varargs invocation have a cost?", "options": ["Because the compiler creates and initializes an array for the arguments at the call site.", "Because varargs force reflection.", "Because varargs disable inlining.", "Because the JVM boxes every argument twice."], "answer": 0, "explanation": "The flexibility is convenient, but it still compiles to array creation.", "id": "chapter_08_m3_q1"}, {"question": "What is the correct pattern for a method that needs at least one value and then any number more?", "options": ["Take one normal argument first, then a trailing varargs parameter.", "Take only a varargs parameter and check `args.length` at runtime.", "Take an `Optional<T>` and a varargs parameter together.", "Overload the method with a separate empty signature."], "answer": 0, "explanation": "The leading required parameter makes the contract compile-time explicit.", "id": "chapter_08_m3_q2"}, {"question": "Why should an API return an empty collection or array instead of null?", "options": ["It removes special-case client code and avoids null handling without real performance gain.", "Because empty containers are always allocated on the stack.", "Because null is illegal as a return value.", "Because callers cannot test for null in Java."], "answer": 0, "explanation": "Returning null for absence pushes avoidable complexity into every caller.", "id": "chapter_08_m3_q3"}, {"question": "When is `Optional<T>` the right return type?", "options": ["When the method may not be able to return a value and the caller should be forced to think about that possibility.", "Whenever a method returns a collection.", "Whenever a field is optional.", "Whenever you want to avoid exceptions entirely."], "answer": 0, "explanation": "Optional is a return-value tool, not a general replacement for null everywhere.", "id": "chapter_08_m3_q4"}]}, {"id": 3, "name": "Documentation", "questions": [{"question": "What is the main purpose of a doc comment on an exported API element?", "options": ["To specify the contract a client relies on, including preconditions, postconditions, and side effects.", "To restate the implementation line by line.", "To replace code review.", "To satisfy the compiler."], "answer": 0, "explanation": "Documentation is part of the API, not a paraphrase of the source code.", "id": "chapter_08_m4_q1"}, {"question": "Which tags are expected for a normal method contract?", "options": ["`@param`, `@return`, and `@throws`.", "`@implSpec`, `@index`, and `@literal`.", "`@override`, `@serial`, and `@code`.", "Only `@return`."], "answer": 0, "explanation": "Those three tags are the standard way to document parameters, results, and exception conditions.", "id": "chapter_08_m4_q2"}, {"question": "When should `{@implSpec}` be used?", "options": ["When documenting the self-use contract for subclasses or overriding code.", "Whenever a method is public.", "Whenever the method is generic.", "Whenever you want to hide implementation details from callers."], "answer": 0, "explanation": "It is for inheritance contracts, not for client-facing behavior descriptions.", "id": "chapter_08_m4_q3"}, {"question": "What should you document for generic types, enums, annotations, and packages?", "options": ["Type parameters, constants, annotation members, and package/module-level comments where appropriate.", "Only the public constructors.", "Only the top-level class summary.", "Nothing extra, because Javadoc infers it."], "answer": 0, "explanation": "Those elements have API meaning and need explicit documentation to stay usable.", "id": "chapter_08_m4_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Validate at the boundary", "c": "<p>Check public and protected parameters at method entry, before any state change or expensive work. Invalid inputs should fail fast, with the exception the API documents, not with some later accident.</p>\n<p>Use the narrowest check that proves the contract: `Objects.requireNonNull`, range checks, and explicit type/shape tests. If the computation itself naturally validates the inputs, a separate pre-check is optional, but only if you understand the failure mode.</p>\n<ul><li>Document restrictions, then enforce them immediately.</li><li>Prefer the documented exception to an arbitrary downstream failure.</li><li>Do not add checks that are pure overhead when the algorithm already validates naturally.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0248.png\" alt=\"Item 49: parameter validity, failure atomicity, and explicit preconditions.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 49: parameter validity, failure atomicity, and explicit preconditions.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 248-251.</div>"}, {"m": 0, "t": "Copy before you trust", "c": "<p>If a method or constructor accepts a mutable object, copy it before storing or validating it. Otherwise a caller can mutate your internal state through an alias.</p>\n<p>For mutable internals, return defensive copies, not direct references. That applies to arrays too: nonempty arrays are always mutable, so accessors must not expose them raw.</p>\n<ul><li>Copy mutable inputs before validation to close the TOCTOU window.</li><li>Do not use `clone` on a parameter whose runtime type may be a malicious subclass.</li><li>Prefer immutable value types so copies disappear from the design.</li></ul>\n<pre><code>public Period(Date start, Date end) {\n    this.start = new Date(start.getTime());\n    this.end = new Date(end.getTime());\n    if (this.start.compareTo(this.end) &gt; 0) {\n        throw new IllegalArgumentException();\n    }\n}\n\npublic Date start() {\n    return new Date(start.getTime());\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0252.png\" alt=\"Item 50: the Period example, TOCTOU risk, and defensive accessors.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 50: the Period example, TOCTOU risk, and defensive accessors.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 252-255.</div>"}, {"m": 0, "t": "Quiz: Parameter validity and object boundaries", "q": true}, {"m": 1, "t": "Keep signatures small and typed to interfaces", "c": "<p>Method names should be short, consistent, and unsurprising. Parameter lists should usually stay at four or fewer arguments; beyond that, users cannot reliably remember the order.</p>\n<p>When a repeated parameter cluster means a real concept, factor it into a helper type. When several parameters are optional, consider a builder-like parameter object. Accept interfaces such as `Map`, not concrete classes such as `HashMap`.</p>\n<ul><li>Use helper types when a parameter bundle represents one domain concept.</li><li>Use a builder-style object when optional parameters start to dominate the signature.</li><li>Prefer enums to boolean flags unless the meaning is already self-evident.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0257.png\" alt=\"Item 51: name choice, parameter count, helper types, and interface parameters.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 51: name choice, parameter count, helper types, and interface parameters.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 257-258.</div>"}, {"m": 1, "t": "Overload only when the call is obvious", "c": "<p>Overload resolution is compile-time only. The runtime type of an argument does not select an overload the way it selects an override.</p>\n<p>That is why overload sets with the same arity, autoboxing, varargs, or functional interfaces are easy to misuse. If two overloads can both accept the same actual arguments, the API is already fragile.</p>\n<ul><li>Overloading and overriding are not interchangeable.</li><li>Avoid same-arity overloads unless the type sets are radically different.</li><li>If overloads must coexist, make them behave identically on the same inputs.</li></ul>\n<pre><code>public static String classify(Collection&lt;?&gt; c) {\n    return c instanceof Set ? &quot;Set&quot;\n         : c instanceof List ? &quot;List&quot;\n         : &quot;Unknown Collection&quot;;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0259.png\" alt=\"Item 52: compile-time overload selection and the `CollectionClassifier` trap.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 52: compile-time overload selection and the `CollectionClassifier` trap.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 259-265.</div>"}, {"m": 1, "t": "Quiz: Signature shape and overloads", "q": true}, {"m": 2, "t": "Varargs are not free", "c": "<p>A varargs call allocates and initializes an array on every invocation. That overhead is acceptable when you truly need a flexible arity, but it is still real work.</p>\n<p>If the method requires at least one argument, put the required argument first and use a trailing varargs parameter. For hot paths, use fixed-arity overloads for the common cases and reserve varargs for the tail.</p>\n<ul><li>Use varargs when the flexibility is genuinely part of the contract.</li><li>Expect array allocation on each call.</li><li>Do not force callers to pass zero arguments when the method is ill-defined without one.</li></ul>\n<pre><code>static int min(int firstArg, int... remainingArgs) {\n    int min = firstArg;\n    for (int arg : remainingArgs)\n        if (arg &lt; min)\n            min = arg;\n    return min;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0266.png\" alt=\"Item 53: varargs syntax, required leading arguments, and the fixed-arity fast path.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 53: varargs syntax, required leading arguments, and the fixed-arity fast path.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 266-267.</div>"}, {"m": 2, "t": "Return empty containers, not null", "c": "<p>If a method has no elements to return, return an empty collection or a zero-length array. Returning null shifts special-case handling onto every caller.</p>\n<p>The usual implementation is simple: `new ArrayList<>(...)` for collections, `toArray(new T[0])` for arrays, and `Collections.emptyList()` only when profiling proves it matters.</p>\n<ul><li>Empty containers are clearer than null and are usually cheap enough.</li><li>Do not preallocate the `toArray` target array in hopes of a speedup.</li><li>Use cached empty arrays only when measurement says the allocation matters.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0268.png\" alt=\"Item 54: empty collection and array returns, plus the zero-length-array pattern.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 54: empty collection and array returns, plus the zero-length-array pattern.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 268-269.</div>"}, {"m": 2, "t": "Optional is for absent results", "c": "<p>Use `Optional<T>` when the method conceptually returns a `T` but may not be able to produce one, and the caller should have to confront that possibility.</p>\n<p>Do not return null from an `Optional`-returning method. Do not use `Optional` as a collection element, map value, or field unless you have a very specific reason. For primitives, prefer `OptionalInt`, `OptionalLong`, or `OptionalDouble` over boxed optionals.</p>\n<ul><li>Choose `orElse`, `orElseGet`, or `orElseThrow` based on the cost of the fallback.</li><li>Use `map`, `flatMap`, and `filter` before falling back to `isPresent` and `get`.</li><li>Prefer an empty container when the logical result is a container.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0270.png\" alt=\"Item 55: Optional as a return type, and nowhere else by default.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 55: Optional as a return type, and nowhere else by default.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 270-273.</div>"}, {"m": 2, "t": "Quiz: Varargs and absence", "q": true}, {"m": 3, "t": "Doc comments are the contract", "c": "<p>Every exported class, interface, constructor, method, and field needs a doc comment. The comment should describe the contract, not the implementation, and it should enumerate preconditions, postconditions, and side effects.</p>\n<p>For methods, use third-person declarative wording and keep the summary sentence self-contained. For public/protected members, `@param`, `@return`, and `@throws` are part of the API surface, not decorative noise.</p>\n<ul><li>Document unchecked exceptions when they represent precondition violations.</li><li>Use `@throws` for the contract, not just checked exceptions.</li><li>Treat missing docs as a usability defect, not a style nit.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0275.png\" alt=\"Item 56: method contracts, preconditions, postconditions, and side effects.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 56: method contracts, preconditions, postconditions, and side effects.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 275-276.</div>"}, {"m": 3, "t": "Use Javadoc tags precisely", "c": "<p>Use `{@code}` for code fragments, `{@literal}` when you need HTML metacharacters without code font, and `{@implSpec}` when documenting self-use and subclass contracts.</p>\n<p>The summary description must stand on its own, which is why overloads should not reuse the same first sentence. Generics, enums, and annotations need their own documentation conventions: type parameters, constants, and annotation members all need comments.</p>\n<ul><li>Document generic type parameters with `@param <T>` style tags.</li><li>Document enum constants and annotation members, not just the type itself.</li><li>Use `{@inheritDoc}` only when reusing inherited contract text is actually correct.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0277.png\" alt=\"Item 56: summary text, tags, type parameters, enums, annotations, and inherited docs.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 56: summary text, tags, type parameters, enums, annotations, and inherited docs.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 277-280.</div>"}, {"m": 3, "t": "Document the whole API surface", "c": "<p>Package-level comments live in `package-info.java`; module-level comments live in `module-info.java`. If a class is serializable or a type has a thread-safety guarantee, say so explicitly.</p>\n<p>Javadoc is only useful when you read the generated output. That is the final check for readability, HTML correctness, and whether the summary sentence actually communicates the API.</p>\n<ul><li>Document thread-safety and serialized form when they matter.</li><li>Use external architecture docs when the API surface alone is not enough.</li><li>Generated docs should be read, not merely produced.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0281.png\" alt=\"Item 56 closes with package/module docs, serializability, and thread safety.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 56 closes with package/module docs, serializability, and thread safety.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 281.</div>"}, {"m": 3, "t": "Quiz: Documentation", "q": true}];
+    const MODULE_NAMES = ["Parameter validity and object boundaries", "Signature shape and overloads", "Varargs and absence", "Documentation"];
+    const STORE_KEY = 'chapter_08_methods_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

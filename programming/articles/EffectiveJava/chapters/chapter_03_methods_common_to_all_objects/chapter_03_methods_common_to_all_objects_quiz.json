@@ -1,0 +1,205 @@
+{
+  "title": "Methods Common to All Objects - Items 10-14: equals, hashCode, toString, clone, and Comparable",
+  "version": "1.0",
+  "totalQuestions": 15,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Equality and hash codes",
+      "questions": [
+        {
+          "question": "When is it reasonable to leave equals inherited from Object?",
+          "options": [
+            "When each instance is inherently unique or the class has no logical equality concept",
+            "Whenever the class has many fields",
+            "Only when the class is final and public",
+            "Only when the class also overrides hashCode"
+          ],
+          "answer": 0,
+          "explanation": "Object identity is the right semantics for active entities and for classes that do not need logical equality.",
+          "id": "m1_q1"
+        },
+        {
+          "question": "Which equals property is violated by one-way comparisons against String?",
+          "options": [
+            "Symmetry",
+            "Reflexivity",
+            "Consistency",
+            "Null handling"
+          ],
+          "answer": 0,
+          "explanation": "If cis.equals(s) can be true while s.equals(cis) is false, the two objects do not agree on equality.",
+          "id": "m1_q2"
+        },
+        {
+          "question": "Why does a getClass-based equals method often fail for subclasses?",
+          "options": [
+            "It prevents a subtype from being equal to a valid supertype view of the same value",
+            "It makes hash codes slower to compute",
+            "It violates reflexivity for final classes",
+            "It forces every object to be mutable"
+          ],
+          "answer": 0,
+          "explanation": "A subclass is still an instance of the supertype, but getClass equality rejects that relationship outright.",
+          "id": "m1_q3"
+        },
+        {
+          "question": "What is the main problem with a constant hashCode such as 42?",
+          "options": [
+            "It is legal but collapses all entries into one bucket and destroys hash table performance",
+            "It makes equal objects unequal",
+            "It breaks reflexivity",
+            "It prevents compilation on modern JDKs"
+          ],
+          "answer": 0,
+          "explanation": "The contract allows collisions, but one bucket for everything is effectively a denial of service for hash tables.",
+          "id": "m1_q4"
+        },
+        {
+          "question": "Which fields should participate in hashCode?",
+          "options": [
+            "Only the significant fields used by equals",
+            "Every field, including transient and derived fields",
+            "Only primitive fields",
+            "Only fields declared final"
+          ],
+          "answer": 0,
+          "explanation": "hashCode must mirror equals, so it should be built from the same state that determines logical equality.",
+          "id": "m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "String form and copying",
+      "questions": [
+        {
+          "question": "What should a good toString method provide?",
+          "options": [
+            "A concise but informative representation that a person can read",
+            "The exact hash code in hexadecimal",
+            "A full binary dump of every field",
+            "A string that cannot be parsed or logged"
+          ],
+          "answer": 0,
+          "explanation": "The contract explicitly favors human readability and useful diagnostics.",
+          "id": "m2_q1"
+        },
+        {
+          "question": "When is it most useful to document the exact toString format?",
+          "options": [
+            "For value classes where the string may be used as stable human-readable input and output",
+            "Only for private helper classes",
+            "Only when the class is mutable",
+            "Never, because formats should always be hidden"
+          ],
+          "answer": 0,
+          "explanation": "A precise format is helpful when the string representation is intended to be a standard representation.",
+          "id": "m2_q2"
+        },
+        {
+          "question": "What is the required first step in a well-behaved clone implementation?",
+          "options": [
+            "Call super.clone",
+            "Allocate the copy with new",
+            "Serialize the object to bytes",
+            "Throw CloneNotSupportedException immediately"
+          ],
+          "answer": 0,
+          "explanation": "The Object contract and the chapter both emphasize super.clone as the field-by-field base copy.",
+          "id": "m2_q3"
+        },
+        {
+          "question": "Why can a shallow clone be dangerous for mutable internals?",
+          "options": [
+            "The clone and the original may share mutable subobjects",
+            "It always violates equals",
+            "It makes the object non-final",
+            "It removes all constructors"
+          ],
+          "answer": 0,
+          "explanation": "If both objects point at the same mutable array or list, changes in one leak into the other.",
+          "id": "m2_q4"
+        },
+        {
+          "question": "What is the preferred copy mechanism for most new classes?",
+          "options": [
+            "A copy constructor or copy factory",
+            "A public clone method",
+            "A protected finalize method",
+            "A custom readObject method"
+          ],
+          "answer": 0,
+          "explanation": "The chapter treats constructors and factories as simpler, safer, and more flexible than Cloneable.",
+          "id": "m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Comparable and ordering",
+      "questions": [
+        {
+          "question": "What does implementing Comparable advertise about a class?",
+          "options": [
+            "That its instances have a natural ordering",
+            "That its instances are immutable",
+            "That its instances can be cloned safely",
+            "That its instances always have unique hash codes"
+          ],
+          "answer": 0,
+          "explanation": "Comparable is the marker for a class whose instances can be ordered without an external comparator.",
+          "id": "m3_q1"
+        },
+        {
+          "question": "Why should you avoid subtracting one field value from another in compareTo?",
+          "options": [
+            "Overflow and floating point edge cases can break the ordering",
+            "It cannot compile for any primitive type",
+            "It always returns zero",
+            "It makes the method abstract"
+          ],
+          "answer": 0,
+          "explanation": "The chapter calls difference-based comparison broken because arithmetic overflow can reverse the sign.",
+          "id": "m3_q2"
+        },
+        {
+          "question": "Which statement about compareTo and equals is correct?",
+          "options": [
+            "Consistency with equals is recommended but not required",
+            "They must always return the same result for every pair of objects",
+            "compareTo must never throw ClassCastException",
+            "equals is ignored by all sorted collections"
+          ],
+          "answer": 0,
+          "explanation": "The contract allows inconsistency, but the class should document it clearly when it exists.",
+          "id": "m3_q3"
+        },
+        {
+          "question": "What do TreeSet and TreeMap use to decide element equality?",
+          "options": [
+            "The ordering imposed by compareTo",
+            "Only object identity",
+            "Only hashCode",
+            "The finalize method"
+          ],
+          "answer": 0,
+          "explanation": "Sorted collections rely on ordering, so compareTo takes the role that equals plays in hash-based collections.",
+          "id": "m3_q4"
+        },
+        {
+          "question": "Which helper is preferred for primitive comparisons inside compareTo?",
+          "options": [
+            "The static compare methods such as Integer.compare and Short.compare",
+            "The minus operator",
+            "The instanceof operator",
+            "The clone method"
+          ],
+          "answer": 0,
+          "explanation": "Static compare helpers are clearer, safer, and less error-prone than subtraction.",
+          "id": "m3_q5"
+        }
+      ]
+    }
+  ]
+}

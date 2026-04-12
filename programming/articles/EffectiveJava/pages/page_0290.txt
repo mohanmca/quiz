@@ -1,0 +1,40 @@
+ITEM 59: KNOW AND USE THE LIBRARIES
+269
+program to print the contents of a URL specified on the command line (which is
+roughly what the Linux curl command does). Prior to Java 9, this code was a bit
+tedious, but in Java 9 the transferTo method was added to InputStream. Here is
+a complete program to perform this task using this new method:
+// Printing the contents of a URL with transferTo, added in Java 9
+public static void main(String[] args) throws IOException {
+try (InputStream in = new URL(args[0]).openStream()) {
+in.transferTo(System.out);
+}
+}
+The libraries are too big to study all the documentation [Java9-api], but every
+programmer should be familiar with the basics of java.lang, java.util, and
+java.io, and their subpackages. Knowledge of other libraries can be acquired
+on an as-needed basis. It is beyond the scope of this item to summarize the facili-
+ties in the libraries, which have grown immense over the years. 
+Several libraries bear special mention. The collections framework and the
+streams library (Items 45–48) should be part of every programmer’s basic toolkit,
+as should parts of the concurrency utilities in java.util.concurrent. This
+package contains both high-level utilities to simplify the task of multithreaded
+programming and low-level primitives to allow experts to write their own higher-
+level concurrent abstractions. The high-level parts of java.util.concurrent are
+discussed in Items 80 and 81.
+Occasionally, a library facility can fail to meet your needs. The more special-
+ized your needs, the more likely this is to happen. While your first impulse should
+be to use the libraries, if you’ve looked at what they have to offer in some area and
+it doesn’t meet your needs, then use an alternate implementation. There will
+always be holes in the functionality provided by any finite set of libraries. If you
+can’t find what you need in Java platform libraries, your next choice should be to
+look in high-quality third-party libraries, such as Google’s excellent, open source
+Guava library [Guava]. If you can’t find the functionality that you need in any
+appropriate library, you may have no choice but to implement it yourself.
+To summarize, don’t reinvent the wheel. If you need to do something that
+seems like it should be reasonably common, there may already be a facility in the
+libraries that does what you want. If there is, use it; if you don’t know, check.
+Generally speaking, library code is likely to be better than code that you’d write
+yourself and is likely to improve over time. This is no reflection on your abilities
+as a programmer. Economies of scale dictate that library code receives far more
+attention than most developers could afford to devote to the same functionality.

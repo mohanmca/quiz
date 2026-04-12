@@ -1,0 +1,37 @@
+ITEM 45: USE STREAMS JUDICIOUSLY
+207
+When you start using streams, you may feel the urge to convert all your loops
+into streams, but resist the urge. While it may be possible, it will likely harm the
+readability and maintainability of your code base. As a rule, even moderately
+complex tasks are best accomplished using some combination of streams and iter-
+ation, as illustrated by the Anagrams programs above. So refactor existing code
+to use streams and use them in new code only where it makes sense to do so.
+As shown in the programs in this item, stream pipelines express repeated com-
+putation using function objects (typically lambdas or method references), while
+iterative code expresses repeated computation using code blocks. There are some
+things you can do from code blocks that you can’t do from function objects:
+• From a code block, you can read or modify any local variable in scope; from a
+lambda, you can only read final or effectively final variables [JLS 4.12.4], and
+you can’t modify any local variables.
+• From a code block, you can return from the enclosing method, break or
+continue an enclosing loop, or throw any checked exception that this method
+is declared to throw; from a lambda you can do none of these things.
+If a computation is best expressed using these techniques, then it’s probably not a
+good match for streams. Conversely, streams make it very easy to do some things:
+• Uniformly transform sequences of elements
+• Filter sequences of elements
+• Combine sequences of elements using a single operation (for example to add
+them, concatenate them, or compute their minimum)
+• Accumulate sequences of elements into a collection, perhaps grouping them by
+some common attribute
+• Search a sequence of elements for an element satisfying some criterion
+If a computation is best expressed using these techniques, then it is a good candi-
+date for streams.
+One thing that is hard to do with streams is to access corresponding elements
+from multiple stages of a pipeline simultaneously: once you map a value to some
+other value, the original value is lost. One workaround is to map each value to a
+pair object containing the original value and the new value, but this is not a
+satisfying solution, especially if the pair objects are required for multiple stages of
+a pipeline. The resulting code is messy and verbose, which defeats a primary
+purpose of streams. When it is applicable, a better workaround is to invert the
+mapping when you need access to the earlier-stage value.

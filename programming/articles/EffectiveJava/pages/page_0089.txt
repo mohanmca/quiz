@@ -1,0 +1,41 @@
+CHAPTER 3
+METHODS COMMON TO ALL OBJECTS
+68
+One consequence of these three provisions is that the equality test imposed by
+a compareTo method must obey the same restrictions imposed by the equals con-
+tract: reflexivity, symmetry, and transitivity. Therefore, the same caveat applies:
+there is no way to extend an instantiable class with a new value component while
+preserving the compareTo contract, unless you are willing to forgo the benefits of
+object-oriented abstraction (Item 10). The same workaround applies, too. If you
+want to add a value component to a class that implements Comparable, don’t
+extend it; write an unrelated class containing an instance of the first class. Then
+provide a “view” method that returns the contained instance. This frees you to
+implement whatever compareTo method you like on the containing class, while
+allowing its client to view an instance of the containing class as an instance of the
+contained class when needed.
+The final paragraph of the compareTo contract, which is a strong suggestion
+rather than a true requirement, simply states that the equality test imposed by the
+compareTo method should generally return the same results as the equals
+method. If this provision is obeyed, the ordering imposed by the compareTo
+method is said to be consistent with equals. If it’s violated, the ordering is said to
+be inconsistent with equals. A class whose compareTo method imposes an order
+that is inconsistent with equals will still work, but sorted collections containing
+elements of the class may not obey the general contract of the appropriate collec-
+tion interfaces (Collection, Set, or Map). This is because the general contracts
+for these interfaces are defined in terms of the equals method, but sorted collec-
+tions use the equality test imposed by compareTo in place of equals. It is not a
+catastrophe if this happens, but it’s something to be aware of.
+For example, consider the BigDecimal class, whose compareTo method is
+inconsistent with equals. If you create an empty HashSet instance and then add
+new BigDecimal("1.0") and new BigDecimal("1.00"), the set will contain two
+elements because the two BigDecimal instances added to the set are unequal
+when compared using the equals method. If, however, you perform the same
+procedure using a TreeSet instead of a HashSet, the set will contain only one
+element because the two BigDecimal instances are equal when compared using
+the compareTo method. (See the BigDecimal documentation for details.)
+Writing a compareTo method is similar to writing an equals method, but
+there are a few key differences. Because the Comparable interface is parameter-
+ized, the compareTo method is statically typed, so you don’t need to type check or
+cast its argument. If the argument is of the wrong type, the invocation won’t even
+compile. If the argument is null, the invocation should throw a NullPointer-
+Exception, and it will, as soon as the method attempts to access its members.

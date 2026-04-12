@@ -1,0 +1,39 @@
+ITEM 10: OBEY THE GENERAL CONTRACT WHEN OVERRIDING EQUALS
+43
+You may hear it said that you can extend an instantiable class and add a value
+component while preserving the equals contract by using a getClass test in
+place of the instanceof test in the equals method:
+// Broken - violates Liskov substitution principle (page 43)
+@Override public boolean equals(Object o) {
+if (o == null || o.getClass() != getClass())
+return false;
+Point p = (Point) o;
+return p.x == x && p.y == y;
+}
+This has the effect of equating objects only if they have the same implementation
+class. This may not seem so bad, but the consequences are unacceptable: An
+instance of a subclass of Point is still a Point, and it still needs to function as one,
+but it fails to do so if you take this approach! Let’s suppose we want to write a
+method to tell whether a point is on the unit circle. Here is one way we could do it:
+// Initialize unitCircle to contain all Points on the unit circle
+private static final Set<Point> unitCircle = Set.of(
+new Point( 1,  0), new Point( 0,  1),
+new Point(-1,  0), new Point( 0, -1));
+public static boolean onUnitCircle(Point p) {
+return unitCircle.contains(p);
+}
+While this may not be the fastest way to implement the functionality, it works fine.
+Suppose you extend Point in some trivial way that doesn’t add a value component,
+say, by having its constructor keep track of how many instances have been created:
+public class CounterPoint extends Point {
+private static final AtomicInteger counter =
+new AtomicInteger();
+public CounterPoint(int x, int y) {
+super(x, y);
+counter.incrementAndGet();
+}
+public static int numberCreated() { return counter.get(); }
+}
+The Liskov substitution principle says that any important property of a type
+should also hold for all its subtypes so that any method written for the type should
+work equally well on its subtypes [Liskov87]. This is the formal statement of our

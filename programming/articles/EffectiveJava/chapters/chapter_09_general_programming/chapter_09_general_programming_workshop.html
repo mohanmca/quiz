@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 9: General Programming</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Chapter 9: General Programming - Effective Java, pages 282-313. Items 57-68: local scope, for-each, libraries, exact arithmetic, primitives vs boxed primitives, strings, concatenation, interfaces, reflection, native methods, optimization, and naming.", "version": "1.0", "totalQuestions": 20, "modules": [{"id": 0, "name": "Local Scope and for-each", "questions": [{"question": "What is the primary benefit of declaring a local variable at first use?", "options": ["It minimizes scope and reduces clutter and accidental misuse.", "It avoids the need for an initializer.", "It makes the variable visible to later methods.", "It guarantees the variable is final."], "answer": 0, "explanation": "Narrow scope improves readability and reduces the chance that a variable is observed outside its intended region.", "id": "chapter_09_m1_q1"}, {"question": "When is a traditional for loop justified over for-each?", "options": ["When you need the iterator, index, removal, replacement, or parallel traversal control.", "Whenever the container is a collection rather than an array.", "Whenever performance matters.", "Whenever the body contains more than one statement."], "answer": 0, "explanation": "For-each is the default; explicit control is for the few cases where the iterator or index is semantically required.", "id": "chapter_09_m1_q2"}, {"question": "Why are while loops more error-prone for simple iteration?", "options": ["They leave the loop variable in scope longer and make copy-and-paste mistakes harder to catch.", "They are slower than for loops.", "They cannot iterate over arrays.", "They require recursion behind the scenes."], "answer": 0, "explanation": "The book's concern is scope and clarity, not raw execution speed.", "id": "chapter_09_m1_q3"}, {"question": "Why does the enhanced for statement not hurt performance?", "options": ["The generated code is essentially identical to the hand-written iterator or index loop.", "It uses a specialized JVM instruction.", "It caches all elements automatically.", "It disables bounds checks entirely."], "answer": 0, "explanation": "The gain is readability and safety, not a special runtime optimization.", "id": "chapter_09_m1_q4"}, {"question": "When should you implement `Iterable` on a custom element group?", "options": ["Whenever you want clients to use the for-each loop naturally.", "Only when the type also implements `Collection`.", "Only when the elements are primitive values.", "Only when the type is immutable."], "answer": 0, "explanation": "Any type that represents a group of elements should be iterable if possible.", "id": "chapter_09_m1_q5"}]}, {"id": 1, "name": "Libraries and Exact Arithmetic", "questions": [{"question": "Why is `Math.abs(rnd.nextInt()) % n` a bad way to generate a bounded random integer?", "options": ["It is biased and can fail catastrophically on `Integer.MIN_VALUE`.", "It is too slow for small `n`.", "It always returns negative values.", "It only works for prime `n`."], "answer": 0, "explanation": "Item 59 explicitly calls out bias and the `Integer.MIN_VALUE` edge case.", "id": "chapter_09_m2_q1"}, {"question": "What is the preferred modern random generator for most uses?", "options": ["`ThreadLocalRandom`.", "`Random`.", "`Math.random()`.", "`SplittableRandom` only, in all cases."], "answer": 0, "explanation": "The book says `ThreadLocalRandom` is the usual choice, with `SplittableRandom` for fork-join and parallel work.", "id": "chapter_09_m2_q2"}, {"question": "Why should you use `BigDecimal` for exact money calculations?", "options": ["Binary floating-point cannot represent decimal fractions like `0.1` exactly.", "Because `BigDecimal` is always faster than primitives.", "Because `BigDecimal` automatically rounds to cents.", "Because `double` is always imprecise for all numbers."], "answer": 0, "explanation": "The issue is exact decimal representation and controlled rounding, not general numeric validity.", "id": "chapter_09_m2_q3"}, {"question": "When is `int` or `long` a reasonable alternative to `BigDecimal`?", "options": ["When the quantity can be represented as a scaled integer within the range you need.", "Whenever exact answers are not required.", "Only for scientific calculations.", "Never; primitives are always unsafe."], "answer": 0, "explanation": "Scaled integers are a deliberate exact-arithmetic strategy when the magnitude is bounded.", "id": "chapter_09_m2_q4"}, {"question": "What should you do if a standard library almost solves the problem but misses a feature?", "options": ["Check for a high-quality third-party library before implementing it yourself.", "Rewrite the entire standard library function.", "Use reflection to patch the library class.", "Ignore the gap and duplicate the missing piece in every project."], "answer": 0, "explanation": "The book's order is: platform library, then third-party library, then custom code.", "id": "chapter_09_m2_q5"}]}, {"id": 2, "name": "Primitives, Strings, and Interfaces", "questions": [{"question": "Why is `Long sum = 0L` a problem in a tight accumulation loop?", "options": ["It forces repeated boxing and unboxing and can be much slower than `long`.", "It makes the sum exact when `long` would not.", "It prevents the loop from compiling.", "It disables integer overflow."], "answer": 0, "explanation": "The issue is unnecessary object creation and auto-unboxing overhead.", "id": "chapter_09_m3_q1"}, {"question": "When is a boxed primitive appropriate?", "options": ["In collections, type parameters, and other places where a reference type is required.", "Whenever the value might be `null`.", "Whenever a method has more than one parameter.", "Whenever you want better performance."], "answer": 0, "explanation": "Boxed primitives are sometimes necessary, but only because the type system requires references there.", "id": "chapter_09_m3_q2"}, {"question": "Why are strings a poor substitute for aggregate types?", "options": ["They hide structure, require parsing, and cannot express invariants directly.", "They cannot be compared for equality.", "They are always slower than arrays.", "They are mutable by default."], "answer": 0, "explanation": "A dedicated type can expose the fields and contracts explicitly instead of encoding them in delimiters.", "id": "chapter_09_m3_q3"}, {"question": "What is the main reason to prefer an interface type for a variable or field?", "options": ["It keeps the implementation swappable without changing client code.", "It makes the code shorter.", "It guarantees iteration order.", "It forces the use of factory methods."], "answer": 0, "explanation": "The point is decoupling from a concrete implementation choice.", "id": "chapter_09_m3_q4"}, {"question": "When is it acceptable to refer to an object by its concrete class?", "options": ["When no suitable interface exists or when class-specific behavior is required.", "Whenever the class is public.", "Whenever you want better compile times.", "Whenever the class is final."], "answer": 0, "explanation": "The concrete class is appropriate only when the interface abstraction would be lossy or unavailable.", "id": "chapter_09_m3_q5"}]}, {"id": 3, "name": "Reflection, Native Code, Optimization, and Naming", "questions": [{"question": "What is the main technical downside of reflection?", "options": ["It bypasses compile-time type checking and is slower and more verbose than normal calls.", "It cannot construct objects.", "It only works for private members.", "It makes code immutable."], "answer": 0, "explanation": "Reflection is useful, but it shifts correctness checks from compile time to runtime.", "id": "chapter_09_m4_q1"}, {"question": "What is the preferred way to use a class found reflectively?", "options": ["Instantiate it reflectively, then interact with it through a known interface or superclass.", "Invoke all methods reflectively forever.", "Cast it to `Object` and inspect fields manually.", "Avoid constructors and use native code instead."], "answer": 0, "explanation": "This keeps the reflective cost at the boundary and the rest of the code normal.", "id": "chapter_09_m4_q2"}, {"question": "When are native methods justified?", "options": ["For platform-specific facilities or truly necessary native libraries, not as a default performance trick.", "Whenever Java code allocates objects.", "Whenever reflection feels verbose.", "Only in test code."], "answer": 0, "explanation": "Native code is a narrow interoperability tool, not a general optimization strategy.", "id": "chapter_09_m4_q3"}, {"question": "What is the correct first step in optimization?", "options": ["Measure with a profiler or `jmh` and identify the real hot spots.", "Replace all strings with `StringBuilder`.", "Inline every method.", "Convert everything to native code."], "answer": 0, "explanation": "The book is explicit: don't guess, measure, then fix the right problem.", "id": "chapter_09_m4_q4"}, {"question": "Which naming rule is most conventional for a constant field?", "options": ["Uppercase words separated by underscores.", "lowerCamelCase.", "PascalCase.", "A single lowercase word."], "answer": 0, "explanation": "Constant fields are the standard exception to the normal member-name casing rules.", "id": "chapter_09_m4_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Declare local variables at the point of first use", "c": "<p>The default rule is narrow scope: declare a local variable only when you have enough information to initialize it sensibly.</p>\n<p>Premature declarations create visual clutter and keep names visible longer than necessary, which increases the chance of accidental reuse.</p>\n<p>A try block is the main exception: if initialization can throw a checked exception, declare the variable before the try only when later use requires it.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0282.png\" alt=\"Item 57 starts with scope minimization and the try-block exception, pages 282-283.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 57 starts with scope minimization and the try-block exception, pages 282-283.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 282-283.</div>"}, {"m": 0, "t": "Prefer for-each unless you need explicit iteration control", "c": "<p>The enhanced for statement removes iterator and index clutter for collections and arrays.</p>\n<p>It has no performance penalty over the hand-written loop, and it makes nested iteration much less error-prone.</p>\n<p>Use the traditional for loop only when you need destructive filtering, element replacement, or parallel traversal.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0285.png\" alt=\"Item 58 explains why for-each is the normal choice, pages 285-287.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 58 explains why for-each is the normal choice, pages 285-287.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 285-287.</div>"}, {"m": 0, "t": "Keep loops and methods small so scope stays obvious", "c": "<p>A for loop limits the lifetime of the loop variable to the loop body, which blocks copy-and-paste mistakes that are easy in while loops.</p>\n<p>If a loop test depends on an invariant result, cache it in a second loop variable with the correct scope instead of recomputing it every iteration.</p>\n<p>If a method has multiple unrelated phases, split it; local variables should not remain in scope just because the method is long.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0284.png\" alt=\"Item 57&#x27;s bug example and loop-scope techniques, pages 283-284.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 57&#x27;s bug example and loop-scope techniques, pages 283-284.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 283-284.</div>"}, {"m": 0, "t": "Quiz: Local Scope and for-each", "q": true}, {"m": 1, "t": "Use the standard libraries before writing ad hoc code", "c": "<p>The library version is usually correct, battle-tested, and cheaper to maintain than a home-grown copy.</p>\n<p>For random numbers, use the current library facility rather than `Math.abs(rnd.nextInt()) % n`, which is biased and can fail catastrophically.</p>\n<p>Know the core packages well: `java.lang`, `java.util`, `java.io`, the collections framework, streams, and the concurrency utilities.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0288.png\" alt=\"Item 59 argues for the standard libraries and current random-number APIs, pages 288-289.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 59 argues for the standard libraries and current random-number APIs, pages 288-289.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 288-289.</div>"}, {"m": 1, "t": "Library code improves over time; so does your leverage", "c": "<p>Standard libraries tend to gain functionality and performance across releases with no code change on your side.</p>\n<p>If the platform library does not fit, try a high-quality third-party library before writing your own implementation.</p>\n<p>The point is not dependency avoidance; it is not duplicating infrastructure that the ecosystem already maintains better than you will.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0290.png\" alt=\"Item 59&#x27;s practical advice: use common library types and naming carefully, pages 289-290.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 59&#x27;s practical advice: use common library types and naming carefully, pages 289-290.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 289-290.</div>"}, {"m": 1, "t": "Use exact arithmetic when the answer must be exact", "c": "<p>`float` and `double` are binary floating-point types; they are for approximation, not exact decimal accounting.</p>\n<p>For money and other exact decimal quantities, use `BigDecimal` when you need decimal-point tracking and controlled rounding.</p>\n<p>If the scale is bounded and performance matters, use `int` or `long` and track the unit explicitly, such as cents instead of dollars.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0291.png\" alt=\"Item 60 shows why floating-point is wrong for exact decimal answers, pages 291-293.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 60 shows why floating-point is wrong for exact decimal answers, pages 291-293.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 291-293.</div>"}, {"m": 1, "t": "Quiz: Libraries and Exact Arithmetic", "q": true}, {"m": 2, "t": "Prefer primitives unless you need reference semantics", "c": "<p>Boxed primitives add identity, null, and allocation overhead; primitives have only values and are simpler and faster.</p>\n<p>Mixed primitive/boxed operations auto-unbox, so `null` can trigger a `NullPointerException` in places that look harmless.</p>\n<p>Use boxed primitives only where the language requires a reference type, such as collections, type parameters, or reflective APIs.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0294.png\" alt=\"Item 61&#x27;s boxed-primitive pitfalls: identity, null, and performance, pages 294-296.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 61&#x27;s boxed-primitive pitfalls: identity, null, and performance, pages 294-296.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 294-296.</div>"}, {"m": 2, "t": "Use strings for text, not for structure or capability", "c": "<p>If the data is numeric, boolean, enum-like, or composite, represent it as that type instead of forcing it through a string.</p>\n<p>Strings are a poor capability mechanism because they are forgeable and often share a global namespace.</p>\n<p>A typesafe redesign usually moves the type parameter into the API itself, as with `ThreadLocal<T>`.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0297.png\" alt=\"Item 62 replaces stringly typed APIs with proper types and capabilities, pages 297-299.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 62 replaces stringly typed APIs with proper types and capabilities, pages 297-299.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 297-299.</div>"}, {"m": 2, "t": "Repeated string concatenation is quadratic", "c": "<p>The `+` operator is fine for a few strings, but repeated concatenation copies intermediate results and scales poorly.</p>\n<p>Use `StringBuilder` for loops or any nontrivial accumulation; pre-size it when you can estimate the final length.</p>\n<p>The rule is about asymptotic behavior, not stylistic preference.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0300.png\" alt=\"Item 63 shows why `StringBuilder` beats repeated `+`, page 300.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 63 shows why `StringBuilder` beats repeated `+`, page 300.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 300.</div>"}, {"m": 2, "t": "Refer to objects by interfaces, not concrete classes", "c": "<p>Use the least specific type that still exposes the operations you need, usually an interface.</p>\n<p>This keeps implementations swappable and prevents client code from depending on incidental methods or iteration order.</p>\n<p>Refer to a class directly only when no appropriate interface exists or when the class-specific behavior is required.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0301.png\" alt=\"Item 64 keeps variables, fields, parameters, and returns interface-based when possible, pages 301-302.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 64 keeps variables, fields, parameters, and returns interface-based when possible, pages 301-302.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 301-302.</div>"}, {"m": 2, "t": "Quiz: Primitives, Strings, and Interfaces", "q": true}, {"m": 3, "t": "Treat reflection as a controlled escape hatch", "c": "<p>Reflection discards compile-time type checking, produces verbose code, and is slower than ordinary invocation.</p>\n<p>If you need to load a class unknown at compile time, reflect only to instantiate it and then use a known interface or superclass normally.</p>\n<p>The technique is powerful, but the cost belongs in the smallest possible boundary layer.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0303.png\" alt=\"Item 65 recommends reflection only at the boundary and normally through an interface, pages 303-305.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 65 recommends reflection only at the boundary and normally through an interface, pages 303-305.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 303-305.</div>"}, {"m": 3, "t": "Use native methods only when the tradeoff is real", "c": "<p>JNI can access platform-specific facilities or legacy native libraries, but it increases portability, debugging difficulty, and memory-management risk.</p>\n<p>Use native code sparingly, and assume Java is fast enough until you have evidence otherwise.</p>\n<p>If you must cross the boundary, keep the native surface area small and test it aggressively.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0306.png\" alt=\"Item 66 explains the legitimate uses and risks of JNI, page 306.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 66 explains the legitimate uses and risks of JNI, page 306.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 306.</div>"}, {"m": 3, "t": "Optimize only after measurement, and start at the algorithm level", "c": "<p>Do not warp an API for speculative performance gains; design well first, then measure.</p>\n<p>Use a profiler or `jmh` to find where time is really going, and fix algorithmic mistakes before micro-optimizing code paths.</p>\n<p>Optimization must be iterative and evidence-driven because Java performance varies across VMs, releases, and hardware.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0307.png\" alt=\"Item 67 ties optimization to profiling, measurement, and algorithm choice, pages 307-309.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 67 ties optimization to profiling, measurement, and algorithm choice, pages 307-309.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 307-309.</div>"}, {"m": 3, "t": "Follow the platform's naming conventions", "c": "<p>Package names are lowercase and hierarchical; class and interface names are PascalCase; methods and fields use lowerCamelCase.</p>\n<p>Constant fields are the exception: use uppercase words separated by underscores, and reserve underscores for that purpose.</p>\n<p>Type variables are short and conventional: `T`, `E`, `K`, `V`, `X`, `R`, and friends. The conventions are conventions, but they matter.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0310.png\" alt=\"Item 68 summarizes typographical and grammatical naming rules, pages 310-313.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 68 summarizes typographical and grammatical naming rules, pages 310-313.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 310-313.</div>"}, {"m": 3, "t": "Quiz: Reflection, Native Code, Optimization, and Naming", "q": true}];
+    const MODULE_NAMES = ["Local Scope and for-each", "Libraries and Exact Arithmetic", "Primitives, Strings, and Interfaces", "Reflection, Native Code, Optimization, and Naming"];
+    const STORE_KEY = 'chapter_09_general_programming_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

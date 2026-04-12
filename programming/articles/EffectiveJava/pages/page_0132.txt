@@ -1,0 +1,39 @@
+ITEM 23: PREFER CLASS HIERARCHIES TO TAGGED CLASSES
+111
+class Rectangle extends Figure {
+final double length;
+final double width;
+Rectangle(double length, double width) {
+this.length = length;
+this.width  = width;
+}
+@Override double area() { return length * width; }
+}
+This class hierarchy corrects every shortcoming of tagged classes noted previ-
+ously. The code is simple and clear, containing none of the boilerplate found in the
+original. The implementation of each flavor is allotted its own class, and none of
+these classes is encumbered by irrelevant data fields. All fields are final. The com-
+piler ensures that each class’s constructor initializes its data fields and that each
+class has an implementation for every abstract method declared in the root class.
+This eliminates the possibility of a runtime failure due to a missing switch case.
+Multiple programmers can extend the hierarchy independently and interoperably
+without access to the source for the root class. There is a separate data type associ-
+ated with each flavor, allowing programmers to indicate the flavor of a variable
+and to restrict variables and input parameters to a particular flavor.
+Another advantage of class hierarchies is that they can be made to reflect
+natural hierarchical relationships among types, allowing for increased flexibility
+and better compile-time type checking. Suppose the tagged class in the original
+example also allowed for squares. The class hierarchy could be made to reflect the
+fact that a square is a special kind of rectangle (assuming both are immutable):
+class Square extends Rectangle {
+Square(double side) {
+super(side, side);
+}
+}
+Note that the fields in the above hierarchy are accessed directly rather than by
+accessor methods. This was done for brevity and would be a poor design if the
+hierarchy were public (Item 16).
+In summary, tagged classes are seldom appropriate. If you’re tempted to write
+a class with an explicit tag field, think about whether the tag could be eliminated
+and the class replaced by a hierarchy. When you encounter an existing class with a
+tag field, consider refactoring it into a hierarchy.

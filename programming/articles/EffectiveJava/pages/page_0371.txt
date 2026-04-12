@@ -1,0 +1,41 @@
+CHAPTER 12
+SERIALIZATION
+350
+The first thing writeObject does is to invoke defaultWriteObject, and the
+first thing readObject does is to invoke defaultReadObject, even though all of
+StringList’s fields are transient. You may hear it said that if all of a class’s
+instance fields are transient, you can dispense with invoking defaultWriteObject
+and defaultReadObject, but the serialization specification requires you to invoke
+them regardless. The presence of these calls makes it possible to add nontransient
+instance fields in a later release while preserving backward and forward compati-
+bility. If an instance is serialized in a later version and deserialized in an earlier
+version, the added fields will be ignored. Had the earlier version’s readObject
+method failed to invoke defaultReadObject, the deserialization would fail with a
+StreamCorruptedException.
+Note that there is a documentation comment on the writeObject method,
+even though it is private. This is analogous to the documentation comment on the
+private fields in the Name class. This private method defines a public API, which is
+the serialized form, and that public API should be documented. Like the @serial
+tag for fields, the @serialData tag for methods tells the Javadoc utility to place
+this documentation on the serialized forms page.
+To lend some sense of scale to the earlier performance discussion, if the
+average string length is ten characters, the serialized form of the revised version of
+StringList occupies about half as much space as the serialized form of the
+original. On my machine, serializing the revised version of StringList is over
+twice as fast as serializing the original version, with a list length of ten. Finally,
+there is no stack overflow problem in the revised form and hence no practical
+upper limit to the size of StringList that can be serialized.
+While the default serialized form would be bad for StringList, there are
+classes for which it would be far worse. For StringList, the default serialized
+form is inflexible and performs badly, but it is correct in the sense that serializing
+and deserializing a StringList instance yields a faithful copy of the original
+object with all of its invariants intact. This is not the case for any object whose
+invariants are tied to implementation-specific details.
+For example, consider the case of a hash table. The physical representation is
+a sequence of hash buckets containing key-value entries. The bucket that an entry
+resides in is a function of the hash code of its key, which is not, in general,
+guaranteed to be the same from implementation to implementation. In fact, it isn’t
+even guaranteed to be the same from run to run. Therefore, accepting the default
+serialized form for a hash table would constitute a serious bug. Serializing and
+deserializing the hash table could yield an object whose invariants were seriously
+corrupt.

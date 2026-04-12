@@ -1,0 +1,39 @@
+ITEM 31: USE BOUNDED WILDCARDS TO INCREASE API FLEXIBILITY
+139
+Item 31: Use bounded wildcards to increase API flexibility
+As noted in Item 28, parameterized types are invariant. In other words, for any
+two distinct types Type1 and Type2, List<Type1> is neither a subtype nor a
+supertype of List<Type2>. Although it is counterintuitive that List<String> is
+not a subtype of List<Object>, it really does make sense. You can put any object
+into a List<Object>, but you can put only strings into a List<String>. Since a
+List<String> can’t do everything a List<Object> can, it isn’t a subtype (by the
+Liskov substitution principal, Item 10).
+Sometimes you need more flexibility than invariant typing can provide. Con-
+sider the Stack class from Item 29. To refresh your memory, here is its public API:
+public class Stack<E> {
+public Stack();
+public void push(E e);
+public E pop();
+public boolean isEmpty();
+}
+Suppose we want to add a method that takes a sequence of elements and
+pushes them all onto the stack. Here’s a first attempt:
+// pushAll method without wildcard type - deficient!
+public void pushAll(Iterable<E> src) {
+for (E e : src)
+push(e);
+}
+This method compiles cleanly, but it isn’t entirely satisfactory. If the element type
+of the Iterable src exactly matches that of the stack, it works fine. But suppose
+you have a Stack<Number> and you invoke push(intVal), where intVal is of
+type Integer. This works because Integer is a subtype of Number. So logically, it
+seems that this should work, too:
+Stack<Number> numberStack = new Stack<>();
+Iterable<Integer> integers = ... ;
+numberStack.pushAll(integers);
+If you try it, however, you’ll get this error message because parameterized types
+are invariant:
+StackTest.java:7: error: incompatible types: Iterable<Integer> 
+cannot be converted to Iterable<Number>
+numberStack.pushAll(integers);
+^

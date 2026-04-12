@@ -1,0 +1,41 @@
+ITEM 10: OBEY THE GENERAL CONTRACT WHEN OVERRIDING EQUALS
+41
+information that affects equals comparisons. Let’s start with a simple immutable
+two-dimensional integer point class:
+public class Point {
+private final int x;
+private final int y;
+public Point(int x, int y) {
+this.x = x;
+this.y = y;
+}
+@Override public boolean equals(Object o) {
+if (!(o instanceof Point))
+return false;
+Point p = (Point)o;
+return p.x == x && p.y == y;
+}
+...
+// Remainder omitted
+}
+Suppose you want to extend this class, adding the notion of color to a point:
+public class ColorPoint extends Point {
+private final Color color;
+public ColorPoint(int x, int y, Color color) {
+super(x, y);
+this.color = color;
+}
+...
+// Remainder omitted
+}
+How should the equals method look? If you leave it out entirely, the imple-
+mentation is inherited from Point and color information is ignored in equals
+comparisons. While this does not violate the equals contract, it is clearly unac-
+ceptable. Suppose you write an equals method that returns true only if its argu-
+ment is another color point with the same position and color:
+// Broken - violates symmetry!
+@Override public boolean equals(Object o) {
+if (!(o instanceof ColorPoint))
+return false;
+return super.equals(o) && ((ColorPoint) o).color == color;
+}

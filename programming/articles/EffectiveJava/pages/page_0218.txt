@@ -1,0 +1,37 @@
+ITEM 43: PREFER METHOD REFERENCES TO LAMBDAS
+197
+Item 43: Prefer method references to lambdas
+The primary advantage of lambdas over anonymous classes is that they are more
+succinct. Java provides a way to generate function objects even more succinct than
+lambdas: method references. Here is a code snippet from a program that maintains
+a map from arbitrary keys to Integer values. If the value is interpreted as a count
+of the number of instances of the key, then the program is a multiset implementation.
+The function of the code snippet is to associate the number 1 with the key if it is not
+in the map and to increment the associated value if the key is already present:
+map.merge(key, 1, (count, incr) -> count + incr);
+Note that this code uses the merge method, which was added to the Map
+interface in Java 8. If no mapping is present for the given key, the method simply
+inserts the given value; if a mapping is already present, merge applies the given
+function to the current value and the given value and overwrites the current value
+with the result. This code represents a typical use case for the merge method.
+The code reads nicely, but there’s still some boilerplate. The parameters count
+and incr don’t add much value, and they take up a fair amount of space. Really,
+all the lambda tells you is that the function returns the sum of its two arguments.
+As of Java 8, Integer (and all the other boxed numerical primitive types) pro-
+vides a static method sum that does exactly the same thing. We can simply pass a
+reference to this method and get the same result with less visual clutter:
+map.merge(key, 1, Integer::sum);
+The more parameters a method has, the more boilerplate you can eliminate with a
+method reference. In some lambdas, however, the parameter names you choose
+provide useful documentation, making the lambda more readable and maintain-
+able than a method reference, even if the lambda is longer.
+There’s nothing you can do with a method reference that you can’t also do
+with a lambda (with one obscure exception—see JLS, 9.9-2 if you’re curious).
+That said, method references usually result in shorter, clearer code. They also give
+you an out if a lambda gets too long or complex: You can extract the code from the
+lambda into a new method and replace the lambda with a reference to that method.
+You can give the method a good name and document it to your heart’s content.
+If you’re programming with an IDE, it will offer to replace a lambda with a
+method reference wherever it can. You should usually, but not always, take the
+IDE up on the offer. Occasionally, a lambda will be more succinct than a method
+reference. This happens most often when the method is in the same class as the

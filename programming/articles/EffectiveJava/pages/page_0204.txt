@@ -1,0 +1,42 @@
+ITEM 39: PREFER ANNOTATIONS TO NAMING PATTERNS
+183
+and prints an appropriate error message. Here is the output that is printed if
+RunTests is run on Sample:
+public static void Sample.m3() failed: RuntimeException: Boom
+Invalid @Test: public void Sample.m5()
+public static void Sample.m7() failed: RuntimeException: Crash
+Passed: 1, Failed: 3
+Now let’s add support for tests that succeed only if they throw a particular
+exception. We’ll need a new annotation type for this:
+// Annotation type with a parameter
+import java.lang.annotation.*;
+/**
+ * Indicates that the annotated method is a test method that
+ * must throw the designated exception to succeed.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ExceptionTest {
+Class<? extends Throwable> value();
+}
+The type of the parameter for this annotation is Class<? extends
+Throwable>. This wildcard type is, admittedly, a mouthful. In English, it means
+“the Class object for some class that extends Throwable,” and it allows the user
+of the annotation to specify any exception (or error) type. This usage is an exam-
+ple of a bounded type token (Item 33). Here’s how the annotation looks in prac-
+tice. Note that class literals are used as the values for the annotation parameter:
+// Program containing annotations with a parameter
+public class Sample2 {
+@ExceptionTest(ArithmeticException.class)
+public static void m1() {  // Test should pass
+int i = 0;
+i = i / i;
+}
+@ExceptionTest(ArithmeticException.class)
+public static void m2() {  // Should fail (wrong exception)
+int[] a = new int[0];
+int i = a[1];
+}
+@ExceptionTest(ArithmeticException.class)
+public static void m3() { }  // Should fail (no exception)
+}

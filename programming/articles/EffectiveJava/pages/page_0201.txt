@@ -1,0 +1,41 @@
+CHAPTER 6
+ENUMS AND ANNOTATIONS
+180
+Item 39: Prefer annotations to naming patterns
+Historically, it was common to use naming patterns to indicate that some program
+elements demanded special treatment by a tool or framework. For example, prior
+to release 4, the JUnit testing framework required its users to designate test meth-
+ods by beginning their names with the characters test [Beck04]. This technique
+works, but it has several big disadvantages. First, typographical errors result in
+silent failures. For example, suppose you accidentally named a test method
+tsetSafetyOverride instead of testSafetyOverride. JUnit 3 wouldn’t com-
+plain, but it wouldn’t execute the test either, leading to a false sense of security.
+A second disadvantage of naming patterns is that there is no way to ensure
+that they are used only on appropriate program elements. For example, suppose
+you called a class TestSafetyMechanisms in hopes that JUnit 3 would automati-
+cally test all of its methods, regardless of their names. Again, JUnit 3 wouldn’t
+complain, but it wouldn’t execute the tests either.
+A third disadvantage of naming patterns is that they provide no good way to
+associate parameter values with program elements. For example, suppose you
+want to support a category of test that succeeds only if it throws a particular
+exception. The exception type is essentially a parameter of the test. You could
+encode the exception type name into the test method name using some elaborate
+naming pattern, but this would be ugly and fragile (Item 62). The compiler would
+have no way of knowing to check that the string that was supposed to name an
+exception actually did. If the named class didn’t exist or wasn’t an exception, you
+wouldn’t find out until you tried to run the test.
+Annotations [JLS, 9.7] solve all of these problems nicely, and JUnit adopted
+them starting with release 4. In this item, we’ll write our own toy testing frame-
+work to show how annotations work. Suppose you want to define an annotation
+type to designate simple tests that are run automatically and fail if they throw an
+exception. Here’s how such an annotation type, named Test, might look:
+// Marker annotation type declaration
+import java.lang.annotation.*;
+/**
+ * Indicates that the annotated method is a test method.
+ * Use only on parameterless static methods.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Test {
+}

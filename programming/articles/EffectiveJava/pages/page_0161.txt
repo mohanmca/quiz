@@ -1,0 +1,38 @@
+CHAPTER 5
+GENERICS
+140
+Luckily, there’s a way out. The language provides a special kind of parameter-
+ized type call a bounded wildcard type to deal with situations like this. The type of
+the input parameter to pushAll should not be “Iterable of E” but “Iterable of
+some subtype of E,” and there is a wildcard type that means precisely that: Iter-
+able<? extends E>. (The use of the keyword extends is slightly misleading:
+recall from Item 29 that subtype is defined so that every type is a subtype of itself,
+even though it does not extend itself.) Let’s modify pushAll to use this type:
+// Wildcard type for a parameter that serves as an E producer
+public void pushAll(Iterable<? extends E> src) {
+for (E e : src)
+push(e);
+}
+With this change, not only does Stack compile cleanly, but so does the client code
+that wouldn’t compile with the original pushAll declaration. Because Stack and
+its client compile cleanly, you know that everything is typesafe.
+Now suppose you want to write a popAll method to go with pushAll. The
+popAll method pops each element off the stack and adds the elements to the given
+collection. Here’s how a first attempt at writing the popAll method might look:
+// popAll method without wildcard type - deficient!
+public void popAll(Collection<E> dst) {
+while (!isEmpty())
+dst.add(pop());
+}
+Again, this compiles cleanly and works fine if the element type of the destination
+collection exactly matches that of the stack. But again, it isn’t entirely satisfactory.
+Suppose you have a Stack<Number> and variable of type Object. If you pop an
+element from the stack and store it in the variable, it compiles and runs without
+error. So shouldn’t you be able to do this, too?
+Stack<Number> numberStack = new Stack<Number>();
+Collection<Object> objects = ... ;
+numberStack.popAll(objects);
+If you try to compile this client code against the version of popAll shown earlier,
+you’ll get an error very similar to the one that we got with our first version of
+pushAll: Collection<Object> is not a subtype of Collection<Number>. Once
+again, wildcard types provide a way out. The type of the input parameter to

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chapter 7: Lambdas and Streams</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Chapter 7: Lambdas and Streams - Effective Java, pages 214-247. Items 42-48: lambdas, method references, functional interfaces, streams, side-effect-free functions, return types, and parallel stream caution.", "version": "1.0", "totalQuestions": 15, "modules": [{"id": 0, "name": "Lambdas, anonymous classes, and method references", "questions": [{"question": "When is a lambda usually preferable to an anonymous class?", "options": ["When you need a concise implementation of a functional interface and do not need a separate named type", "When you need to override `equals` and `hashCode`", "When you want the class to be reusable through inheritance", "When the callback must access private members of any object"], "answer": 0, "explanation": "Lambdas are the preferred syntax for function objects; anonymous classes are still useful when you need a distinct class body.", "id": "chapter7_m1_q1"}, {"question": "What is the main reason to extract a long lambda into a method?", "options": ["It improves readability by giving the behavior a real name and documentation site", "It makes the code parallel by default", "It guarantees allocation-free execution", "It changes the lambda into a singleton"], "answer": 0, "explanation": "The book favors small lambdas; complex behavior should move into named methods.", "id": "chapter7_m1_q2"}, {"question": "What is the normal advantage of a method reference over the equivalent lambda?", "options": ["It is usually shorter and clearer when the lambda only forwards to an existing method", "It can express more behavior than a lambda", "It avoids type inference", "It works only for static methods"], "answer": 0, "explanation": "Method references are a shorthand, not a new capability.", "id": "chapter7_m1_q3"}, {"question": "Why is `Integer::sum` better than `(count, incr) -> count + incr` in some contexts?", "options": ["It removes boilerplate without losing meaning", "It is the only legal syntax for `merge`", "It avoids boxing overhead entirely", "It makes the lambda stateful"], "answer": 0, "explanation": "Use the method reference when the intent is obviously simple forwarding to a known method.", "id": "chapter7_m1_q4"}, {"question": "What should make you hesitate before replacing a lambda with a method reference?", "options": ["The lambda parameter names carry useful semantic documentation", "The target type is a functional interface", "The method reference compiles", "The code is inside a stream pipeline"], "answer": 0, "explanation": "A lambda can be clearer when naming the parameters explains the computation better than the method name does.", "id": "chapter7_m1_q5"}]}, {"id": 1, "name": "Functional interfaces and stream fundamentals", "questions": [{"question": "When should you prefer a standard functional interface over a custom one?", "options": ["When the standard type matches the required signature and semantics", "Only when the API is internal", "Only if the interface has exactly two abstract methods", "Only when you need generics"], "answer": 0, "explanation": "The standard interfaces are shared vocabulary; custom interfaces are for genuinely new contracts.", "id": "chapter7_m2_q1"}, {"question": "Why should a custom functional interface be annotated with `@FunctionalInterface`?", "options": ["It enforces the single-abstract-method contract and documents intent", "It makes the interface serializable", "It guarantees lambda performance", "It prevents the interface from being public"], "answer": 0, "explanation": "The annotation is a compile-time guard and an API signal.", "id": "chapter7_m2_q2"}, {"question": "What is the key evaluation rule for a stream pipeline?", "options": ["Nothing runs until the terminal operation is invoked", "Every stage runs immediately when it is declared", "Only the source stage is lazy", "Intermediate operations always materialize collections"], "answer": 0, "explanation": "Laziness is what makes stream pipelines compositional and sometimes able to handle infinite sources.", "id": "chapter7_m2_q3"}, {"question": "Why does Item 45 warn that streams are not a universal replacement for iteration?", "options": ["Because some problems are clearer or simpler with loops, and some APIs still need iterable results", "Because stream operations cannot filter data", "Because streams are slower by definition", "Because streams cannot be used on collections"], "answer": 0, "explanation": "The book treats streams as a tool with a strong fit for bulk transformations, not a mandate.", "id": "chapter7_m2_q4"}, {"question": "What is a terminal operation doing in a stream pipeline?", "options": ["It forces evaluation and produces the final result", "It only renames the pipeline", "It converts the stream back to an array automatically", "It makes all intermediate operations parallel"], "answer": 0, "explanation": "Without a terminal operation, a stream pipeline is a no-op.", "id": "chapter7_m2_q5"}]}, {"id": 2, "name": "Side effects, return types, and parallelism", "questions": [{"question": "What is wrong with using `forEach` to build a frequency table by mutating an external map?", "options": ["It turns the pipeline into imperative code with side effects instead of a pure stream computation", "It prevents compilation unless the map is immutable", "It always executes in parallel", "It cannot read lowercase words"], "answer": 0, "explanation": "Item 46 says the stream should compute the result, not merely drive mutation in a terminal action.", "id": "chapter7_m3_q1"}, {"question": "Which collector family best matches the idea of building results without side effects?", "options": ["Collectors such as `groupingBy`, `counting`, `toList`, `toSet`, and `toMap`", "Only `forEach` and `peek`", "Only `parallel()`", "Only `reduce` with mutable accumulators"], "answer": 0, "explanation": "Collectors are the intended mutable-reduction mechanism for stream pipelines.", "id": "chapter7_m3_q2"}, {"question": "What is the preferred return type when a method can naturally materialize its results and clients may want to iterate?", "options": ["A standard collection such as `ArrayList`, `Set`, or `Collection`", "Always `Stream`", "Always `Iterable`", "Always an array"], "answer": 0, "explanation": "Returning a collection supports both iteration and streaming and is usually the least surprising API.", "id": "chapter7_m3_q3"}, {"question": "When is `parallel()` most promising?", "options": ["When the source splits cheaply and the computation is substantial and well-structured", "Whenever the pipeline contains `filter`", "Whenever the stream is infinite", "Whenever the code is short"], "answer": 0, "explanation": "Parallel stream performance depends on splittability, locality, and terminal-operation behavior.", "id": "chapter7_m3_q4"}, {"question": "Why does Item 48 insist on measurements before enabling parallel streams in production?", "options": ["Because parallelism can regress correctness or performance, and the effect is workload-specific", "Because `parallel()` is deprecated", "Because the JVM never uses more than one core", "Because streams cannot run in parallel on collections"], "answer": 0, "explanation": "The book treats parallelism as a proof obligation, not a guess.", "id": "chapter7_m3_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Item 42: lambdas replace most anonymous function objects", "c": "<p>Anonymous classes were the historical way to create function objects, but they are verbose and visually noisy.</p>\n<p>A lambda is the right tool when you need a function object and you do not need a named class, a distinct identity, or extra state beyond the captured variables.</p>\n<p>Prefer lambdas for single-abstract-method interfaces such as `Comparator`, `Runnable`, and the standard `java.util.function` types.</p>\n<ul><li>Use lambdas for behavior, not for representing a rich object with state and methods.</li><li>A lambda captures effectively final variables from the enclosing scope.</li><li>If you need `this` to name the enclosing instance, prefer an anonymous class or refactor the code.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0214.png\" alt=\"Chapter opener and Item 42: lambdas formalize function objects for functional interfaces, pages 214-215.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Chapter opener and Item 42: lambdas formalize function objects for functional interfaces, pages 214-215.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 214-215.</div>"}, {"m": 0, "t": "Lambda bodies should stay short and local", "c": "<p>A lambda should usually fit on one screen and do one thing.</p>\n<p>If the body grows complex, extract it to a properly named method and use a method reference or a simpler lambda at the call site.</p>\n<p>Do not use lambdas to smuggle imperative control flow into APIs that are designed around functional callbacks.</p>\n<pre><code>Collections.sort(words, (s1, s2) -&gt; Integer.compare(s1.length(), s2.length()));</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0215.png\" alt=\"Item 42: keep lambda bodies small enough to read as behavior, not mini-methods, page 215.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 42: keep lambda bodies small enough to read as behavior, not mini-methods, page 215.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 215-217.</div>"}, {"m": 0, "t": "Item 43: method references are a clearer shorthand when they fit", "c": "<p>Method references are just another way to express a function object, but they remove boilerplate when the lambda would only forward arguments.</p>\n<p>Use them when they are shorter and clearer than the equivalent lambda, not as an aesthetic default.</p>\n<p>If the parameter names in the lambda convey useful meaning, keep the lambda; the names can be documentation.</p>\n<pre><code>map.merge(key, 1, Integer::sum);\nservice.execute(GoshThisClassNameIsHumongous::action);</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0218.png\" alt=\"Item 43: method references trim ceremony when the lambda is only forwarding arguments, pages 218-219.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 43: method references trim ceremony when the lambda is only forwarding arguments, pages 218-219.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 218-219.</div>"}, {"m": 0, "t": "Quiz: Lambdas, anonymous classes, and method references", "q": true}, {"m": 1, "t": "Item 44: prefer standard functional interfaces when they fit", "c": "<p>Use the standard interfaces in `java.util.function` whenever their signatures and contracts match your need.</p>\n<p>A purpose-built functional interface is justified only when the name adds real documentation, the contract is strong, or custom default methods are valuable.</p>\n<p>A `@FunctionalInterface` annotation is not optional decoration; it documents intent and protects the single-abstract-method contract.</p>\n<ul><li>Prefer `Function`, `Predicate`, `Supplier`, `Consumer`, `UnaryOperator`, `BinaryOperator`, and their primitive specializations.</li><li>Do not define a new interface just to avoid importing one.</li><li>Annotate true functional interfaces with `@FunctionalInterface`.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0220.png\" alt=\"Item 44: standard functional interfaces should be the default API choice, pages 220-223.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 44: standard functional interfaces should be the default API choice, pages 220-223.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 220-223.</div>"}, {"m": 1, "t": "Do not overload on incompatible functional interfaces at the same call site", "c": "<p>Overloading methods on different functional interfaces in the same argument position invites ambiguity.</p>\n<p>Executor-style APIs are the cautionary example: a lambda may fit more than one overload, forcing the client to cast.</p>\n<p>If the overload set is likely to confuse the compiler or the reader, prefer distinct method names or a single well-chosen functional type.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0222.png\" alt=\"Item 44: functional-interface overloads can create real ambiguity for lambda clients, page 222.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 44: functional-interface overloads can create real ambiguity for lambda clients, page 222.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 222-223.</div>"}, {"m": 1, "t": "Item 45: streams are a pipeline abstraction, not a blanket replacement for iteration", "c": "<p>A stream is a finite or infinite sequence of elements; a pipeline is a source, zero or more intermediate operations, and one terminal operation.</p>\n<p>Intermediate operations are lazy and do not run until the terminal operation starts evaluation.</p>\n<p>Streams are fluent and expressive, but they are not automatically better than loops or collections.</p>\n<pre><code>words.stream()\n    .map(String::toLowerCase)\n    .collect(groupingBy(Function.identity(), counting()));</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0224.png\" alt=\"Item 45: stream pipelines are lazy and compositional, pages 224-230.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 45: stream pipelines are lazy and compositional, pages 224-230.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 224-230.</div>"}, {"m": 1, "t": "Quiz: Functional interfaces and stream fundamentals", "q": true}, {"m": 2, "t": "Item 46: stream functions should be side-effect-free", "c": "<p>Stream pipelines work best when each stage is a pure transformation of the previous stage.</p>\n<p>Function objects passed to stream operations should not mutate external state unless you are deliberately using a collector or other API designed for mutation.</p>\n<p>A `forEach` that performs the computation, rather than reporting a completed computation, is a strong smell.</p>\n<ul><li>Use collectors such as `groupingBy`, `counting`, `toList`, `toSet`, and `toMap` for aggregation.</li><li>Side effects make stream code harder to reason about and harder to parallelize correctly.</li><li>Pure functions preserve the algebraic structure that streams rely on.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0231.png\" alt=\"Item 46: frequency-table examples show why mutating external state is the wrong stream style, pages 231-236.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 46: frequency-table examples show why mutating external state is the wrong stream style, pages 231-236.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 231-236.</div>"}, {"m": 2, "t": "Item 47: return a collection when clients may want both iteration and streaming", "c": "<p>If a method naturally returns a finite sequence and you can realize it as a collection, prefer a standard collection return type.</p>\n<p>A `Collection` gives clients both iteration and stream access, and it is usually the least surprising choice.</p>\n<p>Return `Stream` only when a collection is impractical or when the result is naturally a pipeline rather than a reusable materialized sequence.</p>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0237.png\" alt=\"Item 47: collection return types are the default when a materialized sequence is feasible, pages 237-242.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 47: collection return types are the default when a materialized sequence is feasible, pages 237-242.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 237-242.</div>"}, {"m": 2, "t": "Item 48: parallel streams need evidence, not optimism", "c": "<p>Parallelism can help, but only when the source splits cheaply, the workload is substantial, and the terminal operation scales well.</p>\n<p>Do not assume that `parallel()` is a free speedup; it can cause incorrect results, liveness failures, or slower execution.</p>\n<p>Measure under realistic conditions before shipping parallel stream code, and prefer simple, splittable sources such as arrays and `ArrayList` when parallelism is justified.</p>\n<pre><code>return LongStream.rangeClosed(2, n)\n    .parallel()\n    .mapToObj(BigInteger::valueOf)\n    .filter(i -&gt; i.isProbablePrime(50))\n    .count();</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0243.png\" alt=\"Item 48: parallel streams are conditional, expensive to get wrong, and highly workload-dependent, pages 243-247.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 48: parallel streams are conditional, expensive to get wrong, and highly workload-dependent, pages 243-247.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 243-247.</div>"}, {"m": 2, "t": "Quiz: Side effects, return types, and parallelism", "q": true}];
+    const MODULE_NAMES = ["Lambdas, anonymous classes, and method references", "Functional interfaces and stream fundamentals", "Side effects, return types, and parallelism"];
+    const STORE_KEY = 'chapter_07_lambdas_and_streams_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

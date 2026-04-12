@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creating and Destroying Objects</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Creating and Destroying Objects - Items 1-9: construction, ownership, reuse, cleanup, and resource safety", "version": "1.0", "totalQuestions": 18, "modules": [{"id": 0, "name": "Construction APIs", "questions": [{"question": "Which is the clearest reason to prefer a static factory over a constructor when the creation path needs a descriptive name?", "options": ["The name can encode the construction semantics directly.", "Constructors cannot return objects.", "Constructors cannot be public.", "Static factories are always faster than constructors."], "answer": 0, "explanation": "A static factory can communicate intent with a name such as `valueOf` or `of`, which is more readable than a bare constructor signature.", "id": "chapter02_m1_q1"}, {"question": "Why can a static factory be more flexible than a constructor?", "options": ["It can return any subtype of the declared return type.", "It must always allocate a fresh object.", "It cannot be overloaded.", "It cannot hide implementation classes."], "answer": 0, "explanation": "The returned object may vary by subtype, by input, or by release, which is impossible with a constructor.", "id": "chapter02_m1_q2"}, {"question": "What is the main failure mode of telescoping constructors for many optional parameters?", "options": ["Callers must pass long positional lists of identically typed values.", "They cannot be made public.", "They force all fields to be mutable.", "They cannot validate parameters."], "answer": 0, "explanation": "The core problem is readability and the risk of swapping same-typed arguments without compiler help.", "id": "chapter02_m1_q3"}, {"question": "What is the main technical drawback of the JavaBeans pattern for object construction?", "options": ["The object can be observed in an inconsistent intermediate state.", "It prevents the use of setters.", "It requires private constructors.", "It forbids optional parameters."], "answer": 0, "explanation": "Construction is split across multiple calls, so invariants cannot be enforced atomically and immutability becomes awkward.", "id": "chapter02_m1_q4"}]}, {"id": 1, "name": "Controlled Instantiation", "questions": [{"question": "What is the strongest modern choice for a singleton that also needs serialization and reflection resistance by default?", "options": ["An enum singleton.", "A public constructor.", "An abstract class with one instance field.", "A static utility class."], "answer": 0, "explanation": "An enum singleton gives the strongest built-in instance-control guarantee in Java.", "id": "chapter02_m2_q1"}, {"question": "Why is making a utility class abstract not a valid way to prevent instantiation?", "options": ["A subclass can still be instantiated.", "The compiler removes all constructors.", "Abstract classes cannot have static methods.", "Abstract classes cannot be final."], "answer": 0, "explanation": "Abstract only blocks direct instantiation; it does not prevent subclass construction.", "id": "chapter02_m2_q2"}, {"question": "What is the purpose of throwing `AssertionError` in a private utility-class constructor?", "options": ["It prevents accidental construction even from inside the class.", "It makes the class serializable.", "It enables dependency injection.", "It avoids the need for a private constructor."], "answer": 0, "explanation": "The exception is a defensive backstop in case the constructor is invoked by mistake during maintenance or reflection.", "id": "chapter02_m2_q3"}, {"question": "What is the core benefit of dependency injection for resource-dependent classes?", "options": ["It lets clients supply the dependency they actually need.", "It forces the resource to be static.", "It makes the class impossible to test.", "It eliminates constructors."], "answer": 0, "explanation": "Injecting the resource gives the class flexibility, makes tests deterministic, and avoids hardwired global state.", "id": "chapter02_m2_q4"}, {"question": "Why is `Supplier<? extends Tile>` a good input type for a factory dependency?", "options": ["It allows the client to provide any factory that creates a Tile subtype.", "It forces the factory to return `null` on failure.", "It prevents lambdas from being used.", "It requires the factory to be a singleton."], "answer": 0, "explanation": "The bounded wildcard preserves subtype flexibility while still expressing a factory contract.", "id": "chapter02_m2_q5"}]}, {"id": 2, "name": "Allocation Discipline", "questions": [{"question": "Which allocation is most clearly unnecessary?", "options": ["Creating `new String(\"bikini\")` instead of reusing the string literal.", "Creating a small immutable value object once.", "Using a builder for a complex object.", "Returning an interface from a factory."], "answer": 0, "explanation": "The string literal is already an object and can be reused directly.", "id": "chapter02_m3_q1"}, {"question": "Why is caching a compiled `Pattern` often better than calling `String.matches` repeatedly?", "options": ["The regular expression compilation is expensive and can be reused.", "`String.matches` is not part of the JDK.", "A `Pattern` cannot be immutable.", "Caching only helps for boxed primitives."], "answer": 0, "explanation": "Repeatedly compiling the same regex creates avoidable work; a cached `Pattern` avoids that cost.", "id": "chapter02_m3_q2"}, {"question": "What is the best general response when a custom stack or array-backed container removes an element?", "options": ["Null out the now-obsolete slot.", "Leave the reference in place for debugging.", "Clone the entire array on every pop.", "Convert the array to a `WeakHashMap`."], "answer": 0, "explanation": "The slot is no longer part of the active set, so clearing it lets the GC reclaim the object graph behind it.", "id": "chapter02_m3_q3"}, {"question": "When is `WeakHashMap` the right cache implementation?", "options": ["When entry lifetime should follow external references to the key.", "When entries must stay forever.", "When all values are primitives.", "When the cache is only used once."], "answer": 0, "explanation": "Weak references are useful only when the cache entry is relevant for as long as the key is externally reachable.", "id": "chapter02_m3_q4"}]}, {"id": 3, "name": "Cleanup and Resource Safety", "questions": [{"question": "Why are finalizers and cleaners poor choices for ordinary resource management?", "options": ["They are not guaranteed to run promptly or at all.", "They are required by every closeable type.", "They run only on the main thread.", "They cannot be used with native resources."], "answer": 0, "explanation": "The timing and even execution of cleanup are not reliable enough for correctness or resource limits.", "id": "chapter02_m4_q1"}, {"question": "What is the best modern pattern for a class that owns a resource requiring explicit termination?", "options": ["Implement `AutoCloseable` and require clients to call `close()`.", "Rely on a finalizer as the primary cleanup path.", "Make the resource static.", "Hide the resource inside a singleton."], "answer": 0, "explanation": "The class should expose explicit closure and, if desired, keep a cleaner only as a fallback safety net.", "id": "chapter02_m4_q2"}, {"question": "What happens when both the body of a try-finally block and the `close()` call throw?", "options": ["The later exception can obscure the earlier one.", "Both exceptions are always printed equally.", "The compiler rewrites it as try-with-resources.", "The close exception is ignored by definition."], "answer": 0, "explanation": "Old try-finally code often loses the primary failure, which is one of the reasons try-with-resources was introduced.", "id": "chapter02_m4_q3"}, {"question": "Which interface must a resource implement to be usable in try-with-resources?", "options": ["`AutoCloseable`.", "`Serializable`.", "`CloseableFactory`.", "`Runnable`."], "answer": 0, "explanation": "`AutoCloseable` is the contract that gives the compiler a resource to close automatically.", "id": "chapter02_m4_q4"}, {"question": "Can a try-with-resources statement also have a catch clause?", "options": ["Yes, it can handle exceptions without extra nesting.", "No, the syntax forbids it.", "Only if the resource is finalizable.", "Only inside a loop."], "answer": 0, "explanation": "A catch clause may follow the resource specification exactly as it can follow a try-finally statement.", "id": "chapter02_m4_q5"}]}]};
+    const SLIDES = [{"m": 0, "t": "Item 1: Static factories", "c": "<p>Static factory methods give the creator a name, which is often the first clue about intent when constructor parameters are not self-describing.</p>\n<p>They can return cached instances, hide implementation classes, and even return a subtype of the declared return type.</p>\n<p>They are not the GoF Factory Method pattern; this item is about public static creation entry points.</p>\n<ul><li>Use names such as `of`, `from`, `valueOf`, `getInstance`, or `newInstance` when they clarify construction semantics.</li><li>Prefer interface return types when the implementation class should stay hidden.</li><li>Do not assume a static factory must allocate a new object; instance control is often the point.</li></ul>\n<pre><code>Boolean yes = Boolean.valueOf(true);\nBigInteger prime = BigInteger.valueOf(17);</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0026.png\" alt=\"Item 1: static factories as a named alternative to constructors\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 1: static factories as a named alternative to constructors</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 26-30.</div>\n<div class=\"note\">Pedantic point: static factories trade discoverability for flexibility, so document them aggressively in API docs.</div>"}, {"m": 0, "t": "Item 2: Builders for many parameters", "c": "<p>Telescoping constructors scale poorly because callers must supply long positional argument lists and cannot see which values are optional.</p>\n<p>JavaBeans improve readability but allow inconsistent intermediate state and make immutability awkward.</p>\n<p>A builder restores readability and safety by collecting optional values first and constructing the target object only at `build()` time.</p>\n<ul><li>Use builders when a constructor or static factory would need many parameters, especially when several are optional or same-typed.</li><li>Validate cheap invariants in the builder and cross-field invariants in the target constructor or `build()` path.</li><li>For hierarchies, use recursive generic builders plus a `self()` method to preserve fluent chaining.</li></ul>\n<pre><code>NutritionFacts cocaCola = new NutritionFacts.Builder(240, 8)\n    .calories(100)\n    .sodium(35)\n    .carbohydrate(27)\n    .build();</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0031.png\" alt=\"Item 2: builder pattern for required and optional parameters\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 2: builder pattern for required and optional parameters</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 31-37.</div>\n<div class=\"tip\">Once a class is likely to accrete more optional parameters, starting with a builder is often less painful than migrating later.</div>"}, {"m": 0, "t": "Quiz: Construction APIs", "q": true}, {"m": 1, "t": "Item 3: Singleton control", "c": "<p>A singleton is a class that has exactly one instance, and the implementation must prevent any other instance from being created.</p>\n<p>The traditional forms are a public static final instance field or a private static instance accessor; an enum singleton gives the strongest guarantee in modern Java.</p>\n<p>If you need to defend against reflection or serialization attacks, the constructor must actively reject second-instance creation.</p>\n<ul><li>Use a private constructor plus a single exported instance path.</li><li>Prefer an enum singleton when you want the strongest built-in instance guarantee.</li><li>Singletons make testing harder when clients cannot substitute a mock implementation.</li></ul>\n<pre><code>public enum Elvis {\n    INSTANCE;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0038.png\" alt=\"Item 3: singleton control with a private constructor\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 3: singleton control with a private constructor</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 38-39.</div>\n<div class=\"warning\">A singleton is instance control, not convenience. If the object has real state or resource dependencies, treat it as a design smell until proven otherwise.</div>"}, {"m": 1, "t": "Item 4: Noninstantiable utility classes", "c": "<p>A utility class groups stateless helpers or static factories, but it should not be instantiable because an instance would be meaningless.</p>\n<p>Marking such a class abstract is wrong because the class can still be subclassed and instantiated through the subclass.</p>\n<p>The standard idiom is a private constructor that throws `AssertionError`; this prevents accidental construction and also blocks subclassing.</p>\n<ul><li>Use this pattern for collections of static methods and fields, not as a substitute for object design.</li><li>The explicit constructor exists only to make construction impossible outside the class.</li><li>A comment is appropriate here because the pattern is intentionally counterintuitive.</li></ul>\n<pre><code>public final class UtilityClass {\n    private UtilityClass() {\n        throw new AssertionError();\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0040.png\" alt=\"Item 4: private constructor for a utility class\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 4: private constructor for a utility class</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source page 40.</div>"}, {"m": 1, "t": "Item 5: Dependency injection", "c": "<p>If a class depends on an external resource whose behavior matters, do not hardwire that resource inside the class.</p>\n<p>Inject the dependency through the constructor, a static factory, or a builder so the class can be tested and reused with different implementations.</p>\n<p>If the dependency is itself a factory, `Supplier<? extends T>` is a natural input type because it allows subtype creation without losing flexibility.</p>\n<ul><li>Dependency injection preserves flexibility, reusability, and testability.</li><li>It works for one dependency or many, and it composes well with immutable classes.</li><li>Large systems often hide the wiring behind a DI framework, but the manual API should still be clean.</li></ul>\n<pre><code>public class SpellChecker {\n    private final Lexicon dictionary;\n\n    public SpellChecker(Lexicon dictionary) {\n        this.dictionary = Objects.requireNonNull(dictionary);\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0041.png\" alt=\"Item 5: inject resources instead of baking them in\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 5: inject resources instead of baking them in</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 41-42.</div>\n<div class=\"note\">Do not use a singleton or static utility class for behavior that varies by resource, such as a spell checker bound to different dictionaries.</div>"}, {"m": 1, "t": "Quiz: Controlled Instantiation", "q": true}, {"m": 2, "t": "Item 6: Avoid unnecessary objects", "c": "<p>Do not create a new object when an existing immutable object, cached instance, or reusable mutable object will do the same job.</p>\n<p>String literals, cached factory results, precompiled regular expressions, and view objects are the standard reuse opportunities in this chapter.</p>\n<p>Autoboxing can silently allocate massive numbers of wrapper objects when a primitive would have been faster and clearer.</p>\n<ul><li>Prefer literals or cached factory results to `new` when the object has no stateful identity requirement.</li><li>Cache expensive objects such as `Pattern` instances when a method is invoked repeatedly.</li><li>Do not build your own object pool for cheap objects; modern JVM garbage collectors already optimize that path well.</li></ul>\n<pre><code>private static final Pattern ROMAN = Pattern.compile(\n    &quot;^(?=.)M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$&quot;\n);\n\nstatic boolean isRomanNumeral(String s) {\n    return ROMAN.matcher(s).matches();\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0043.png\" alt=\"Item 6: reuse immutable and expensive objects\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 6: reuse immutable and expensive objects</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 43-46.</div>"}, {"m": 2, "t": "Item 7: Eliminate obsolete references", "c": "<p>Garbage collection only helps when objects are no longer reachable; a container that retains stale references is leaking memory even in a managed language.</p>\n<p>When a custom data structure owns its own storage, it must null out references as soon as those slots become inactive.</p>\n<p>Caches and listener registries are the two classic places where forgotten references quietly keep large object graphs alive.</p>\n<ul><li>Null out references when an element leaves the active portion of a custom storage structure.</li><li>Use `WeakHashMap` only when cache lifetime should track external references to the key.</li><li>A heap profiler is often how this bug is found after the code has shipped.</li></ul>\n<pre><code>Object result = elements[--size];\nelements[size] = null;\nreturn result;</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0047.png\" alt=\"Item 7: clear stale references in custom containers\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 7: clear stale references in custom containers</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 47-49.</div>\n<div class=\"note\">Do not null every reference eagerly. The rule applies to references that are genuinely obsolete, not to variables that can simply fall out of scope.</div>"}, {"m": 2, "t": "Quiz: Allocation Discipline", "q": true}, {"m": 3, "t": "Item 8: Finalizers and cleaners", "c": "<p>Finalizers and cleaners are not normal cleanup mechanisms. They are unpredictable, slow, and unsuitable for time-critical or correctness-critical work.</p>\n<p>A finalizer may never run, may run very late, may run on the wrong thread, and may silently hide exceptions.</p>\n<p>Cleaners are less dangerous than finalizers, but they are still only background safety nets, not reliable resource management.</p>\n<ul><li>Do not depend on finalizers or cleaners for closing files, releasing locks, or updating persistent state.</li><li>The main legitimate uses are safety nets and noncritical native peer cleanup.</li><li>Finalizers also create attack surface because they can run on partially constructed objects.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0050.png\" alt=\"Item 8: finalizers and cleaners are a last resort\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 8: finalizers and cleaners are a last resort</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 50-51.</div>\n<div class=\"warning\">If the object owns a resource that must be released promptly, the class should expose `close()` and make clients call it explicitly.</div>"}, {"m": 3, "t": "Item 8: Cleaner as a safety net only", "c": "<p>If you use a cleaner, keep the cleaning state separate from the owner object and make the state a static nested class so it cannot accidentally retain the owner.</p>\n<p>The owner should still implement `AutoCloseable`; the cleaner exists only to cover client mistakes.</p>\n<p>For native peers, a cleaner may be acceptable when the resource is not critical and performance costs are tolerable.</p>\n<ul><li>The cleaner action must not capture the owning object.</li><li>A `close()` method should trigger cleanup explicitly and mark the object invalid.</li><li>Treat the cleaner as insurance, not as part of the normal control path.</li></ul>\n<pre><code>public class Room implements AutoCloseable {\n    private static final Cleaner cleaner = Cleaner.create();\n    private static class State implements Runnable {\n        @Override public void run() { /* cleanup */ }\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0053.png\" alt=\"Item 8: cleaner safety-net pattern\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 8: cleaner safety-net pattern</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 52-54.</div>"}, {"m": 3, "t": "Item 9: Try-with-resources", "c": "<p>Try-with-resources is the correct way to close closeable resources in Java 7 and later.</p>\n<p>It preserves the primary exception and suppresses later close failures, which makes debugging far better than the old try-finally pattern.</p>\n<p>The resource type must implement `AutoCloseable`, and multiple resources can be declared in one resource specification.</p>\n<ul><li>Use try-with-resources for anything with a `close()` method that must be called.</li><li>You can still attach `catch` clauses to handle failures without nested try blocks.</li><li>The compiler-generated suppression behavior keeps the most useful exception visible.</li></ul>\n<pre><code>static String firstLineOfFile(String path) throws IOException {\n    try (BufferedReader br = new BufferedReader(new FileReader(path))) {\n        return br.readLine();\n    }\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0055.png\" alt=\"Item 9: try-with-resources instead of try-finally\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 9: try-with-resources instead of try-finally</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 55-57.</div>"}, {"m": 3, "t": "Quiz: Cleanup and Resource Safety", "q": true}];
+    const MODULE_NAMES = ["Construction APIs", "Controlled Instantiation", "Allocation Discipline", "Cleanup and Resource Safety"];
+    const STORE_KEY = 'chapter_02_creating_and_destroying_objects_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

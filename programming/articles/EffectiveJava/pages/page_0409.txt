@@ -1,0 +1,92 @@
+388
+INDEX
+protected access level, 74–75
+public access level, 74
+public fields vs. accessor methods, 78–79
+publicly accessible locks, 331
+Q
+qualified this construct, 112
+R
+racy single check idiom, 335
+range checking, 229
+raw types, 117–122
+readObject method, 353–358
+defensive copies and, 80
+how to write, 358
+incompatible with instance-controlled 
+objects, 359
+overridable methods and, 96, 358
+readResolve method
+access levels of, 97
+choosing access levels of, 362
+prefer enum types to, 359–362
+using for instance-controlled classes, 359
+recipes
+adding behaviors to individual enum 
+constants, 162
+adding data to enum types, 160
+builder pattern, 12
+checking significant fields in equals, 47
+clone, 64
+compareTo, 68
+eliminating self-use, 98
+equals, 46
+generifying a class, 130–133
+hashCode, 51
+implementing generics atop arrays, 131–133
+method chaining, 14
+noninstantiable classes, 19
+readObject, 358
+serialization proxies, 363–364
+serialized singletons, 18
+singletons as single-element enums, 18
+singletons with private constructors, 17
+skeletal implementations, 102
+tagged classes to class hierarchies, 110–111
+See also rules
+recursive type bounds, 137
+recursive type parameters, 14
+reduction strategy, 211
+reductions, 223
+reentrant locks, 320
+reference types, 3, 273
+reflection, 282–284
+AccessibleObject.setAccessible 
+attacks, 17
+clone and, 58
+drawbacks of, 282
+reflective interface instantiation, 283
+uses for, 282, 284
+reflexivity requirements
+compareTo, 68
+equals, 38–39
+reified types, 126
+resource factories, 21
+resource-ordering deadlocks, 351
+resources
+locked, and finalizers, 30
+releasing, 31
+restricted marker interfaces, 191
+return classes, varied
+serialization proxy pattern and, 365
+static factory methods and, 7–8
+return statements, SuppressWarnings 
+annotation and, 124
+return types
+bounded wildcard types as, 142
+collections vs. streams, 216–221
+static factory methods and, 6
+reusable forwarding classes, 89–91
+rules
+accessibility, 74–75
+appropriateness of checked exceptions, 298
+choosing bounded wildcard types, 141
+choosing exception types, 296–297
+decreasing serialization dangers, 341–342
+for immutable objects, 80
+mapping domains to package names, 289
+marker interfaces vs. annotations, 192
+optimization, 286
+for performance of parallel streams, 223
+replacing type parameters with wildcards, 
+144

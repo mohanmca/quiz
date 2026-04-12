@@ -1,0 +1,39 @@
+ITEM 34: USE ENUMS INSTEAD OF INT CONSTANTS
+163
+Constant-specific method implementations can be combined with constant-
+specific data. For example, here is a version of Operation that overrides the
+toString method to return the symbol commonly associated with the operation:
+// Enum type with constant-specific class bodies and data
+public enum Operation {
+PLUS("+") {
+public double apply(double x, double y) { return x + y; }
+},
+MINUS("-") {
+public double apply(double x, double y) { return x - y; }
+},
+TIMES("*") {
+public double apply(double x, double y) { return x * y; }
+},
+DIVIDE("/") {
+public double apply(double x, double y) { return x / y; }
+};
+private final String symbol;
+Operation(String symbol) { this.symbol = symbol; }
+@Override public String toString() { return symbol; }
+public abstract double apply(double x, double y);
+}
+The toString implementation shown makes it easy to print arithmetic expres-
+sions, as demonstrated by this little program:
+public static void main(String[] args) {
+double x = Double.parseDouble(args[0]);
+double y = Double.parseDouble(args[1]);
+for (Operation op : Operation.values())
+System.out.printf("%f %s %f = %f%n",
+x, op, y, op.apply(x, y));
+}
+Running this program with 2 and 4 as command line arguments produces the
+following output:
+2.000000 + 4.000000 = 6.000000
+2.000000 - 4.000000 = -2.000000
+2.000000 * 4.000000 = 8.000000
+2.000000 / 4.000000 = 0.500000

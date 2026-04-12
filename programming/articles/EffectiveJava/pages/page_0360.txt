@@ -1,0 +1,29 @@
+339
+C H A P T E R 12
+Serialization
+THIS chapter concerns object serialization, which is Java’s framework for
+encoding objects as byte streams (serializing) and reconstructing objects from
+their encodings (deserializing). Once an object has been serialized, its encoding
+can be sent from one VM to another or stored on disk for later deserialization. This
+chapter focuses on the dangers of serialization and how to minimize them.
+Item 85: Prefer alternatives to Java serialization
+When serialization was added to Java in 1997, it was known to be somewhat risky.
+The approach had been tried in a research language (Modula-3) but never in a
+production language. While the promise of distributed objects with little effort on
+the part of the programmer was appealing, the price was invisible constructors and
+blurred lines between API and implementation, with the potential for problems
+with correctness, performance, security, and maintenance. Proponents believed
+the benefits outweighed the risks, but history has shown otherwise.
+The security issues described in previous editions of this book turned out to be
+every bit as serious as some had feared. The vulnerabilities discussed in the early
+2000s were transformed into serious exploits over the next decade, famously
+including a ransomware attack on the San Francisco Metropolitan Transit Agency
+Municipal Railway (SFMTA Muni) that shut down the entire fare collection
+system for two days in November 2016 [Gallagher16].
+A fundamental problem with serialization is that its attack surface is too big to
+protect, and constantly growing: Object graphs are deserialized by invoking the
+readObject method on an ObjectInputStream. This method is essentially a
+magic constructor that can be made to instantiate objects of almost any type on the
+class path, so long as the type implements the Serializable interface. In the
+process of deserializing a byte stream, this method can execute code from any of
+these types, so the code for all of these types is part of the attack surface.

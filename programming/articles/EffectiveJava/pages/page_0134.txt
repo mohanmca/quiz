@@ -1,0 +1,39 @@
+ITEM 24: FAVOR STATIC MEMBER CLASSES OVER NONSTATIC
+113
+One common use of a nonstatic member class is to define an Adapter
+[Gamma95] that allows an instance of the outer class to be viewed as an instance
+of some unrelated class. For example, implementations of the Map interface typi-
+cally use nonstatic member classes to implement their collection views, which are
+returned by Map’s keySet, entrySet, and values methods. Similarly, implemen-
+tations of the collection interfaces, such as Set and List, typically use nonstatic
+member classes to implement their iterators:
+// Typical use of a nonstatic member class
+public class MySet<E> extends AbstractSet<E> {
+... // Bulk of the class omitted
+@Override public Iterator<E> iterator() {
+return new MyIterator();
+}
+private class MyIterator implements Iterator<E> {
+...
+}
+}
+If you declare a member class that does not require access to an enclosing
+instance, always put the static modifier in its declaration, making it a static
+rather than a nonstatic member class. If you omit this modifier, each instance will
+have a hidden extraneous reference to its enclosing instance. As previously men-
+tioned, storing this reference takes time and space. More seriously, it can result in
+the enclosing instance being retained when it would otherwise be eligible for gar-
+bage collection (Item 7). The resulting memory leak can be catastrophic. It is
+often difficult to detect because the reference is invisible.
+A common use of private static member classes is to represent components of
+the object represented by their enclosing class. For example, consider a Map
+instance, which associates keys with values. Many Map implementations have an
+internal Entry object for each key-value pair in the map. While each entry is asso-
+ciated with a map, the methods on an entry (getKey, getValue, and setValue) do
+not need access to the map. Therefore, it would be wasteful to use a nonstatic
+member class to represent entries: a private static member class is best. If you
+accidentally omit the static modifier in the entry declaration, the map will still
+work, but each entry will contain a superfluous reference to the map, which wastes
+space and time.
+It is doubly important to choose correctly between a static and a nonstatic
+member class if the class in question is a public or protected member of an

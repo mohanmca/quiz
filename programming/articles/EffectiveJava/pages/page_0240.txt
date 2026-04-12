@@ -1,0 +1,40 @@
+ITEM 47: PREFER COLLECTION TO STREAM AS A RETURN TYPE
+219
+Note that PowerSet.of throws an exception if the input set has more than 30
+elements. This highlights a disadvantage of using Collection as a return type
+rather than Stream or Iterable: Collection has an int-returning size method,
+which limits the length of the returned sequence to Integer.MAX_VALUE, or 231 − 1.
+The Collection specification does allow the size method to return 231 − 1 if the
+collection is larger, even infinite, but this is not a wholly satisfying solution.
+In order to write a Collection implementation atop AbstractCollection,
+you need implement only two methods beyond the one required for Iterable:
+contains and size. Often it’s easy to write efficient implementations of these
+methods. If it isn’t feasible, perhaps because the contents of the sequence aren’t
+predetermined before iteration takes place, return a stream or iterable, whichever
+feels more natural. If you choose, you can return both using two separate methods.
+There are times when you’ll choose the return type based solely on ease of
+implementation. For example, suppose you want to write a method that returns all
+of the (contiguous) sublists of an input list. It takes only three lines of code to
+generate these sublists and put them in a standard collection, but the memory
+required to hold this collection is quadratic in the size of the source list. While this
+is not as bad as the power set, which is exponential, it is clearly unacceptable.
+Implementing a custom collection, as we did for the power set, would be tedious,
+more so because the JDK lacks a skeletal Iterator implementation to help us.
+It is, however, straightforward to implement a stream of all the sublists of an
+input list, though it does require a minor insight. Let’s call a sublist that contains
+the first element of a list a prefix of the list. For example, the prefixes of (a, b, c)
+are (a), (a, b), and (a, b, c). Similarly, let’s call a sublist that contains the last ele-
+ment a suffix, so the suffixes of (a, b, c) are (a, b, c), (b, c), and (c). The insight is
+that the sublists of a list are simply the suffixes of the prefixes (or identically, the
+prefixes of the suffixes) and the empty list. This observation leads directly to a
+clear, reasonably concise implementation:
+// Returns a stream of all the sublists of its input list
+public class SubLists {
+public static <E> Stream<List<E>> of(List<E> list) {
+return Stream.concat(Stream.of(Collections.emptyList()),
+prefixes(list).flatMap(SubLists::suffixes));
+}
+private static <E> Stream<List<E>> prefixes(List<E> list) {
+return IntStream.rangeClosed(1, list.size())
+.mapToObj(end -> list.subList(0, end));
+}

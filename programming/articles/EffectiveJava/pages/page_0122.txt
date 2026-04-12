@@ -1,0 +1,45 @@
+ITEM 20: PREFER INTERFACES TO ABSTRACT CLASSES
+101
+methods atop the primitive interface methods. Extending a skeletal implementa-
+tion takes most of the work out of implementing an interface. This is the Template
+Method pattern [Gamma95].
+By convention, skeletal implementation classes are called AbstractInterface,
+where Interface is the name of the interface they implement. For example, the
+Collections Framework provides a skeletal implementation to go along with each
+main collection interface: AbstractCollection, AbstractSet, AbstractList,
+and AbstractMap. Arguably it would have made sense to call them
+SkeletalCollection, SkeletalSet, SkeletalList, and SkeletalMap, but the
+Abstract convention is now firmly established. When properly designed, skeletal
+implementations (whether a separate abstract class, or consisting solely of default
+methods on an interface) can make it very easy for programmers to provide their
+own implementations of an interface. For example, here’s a static factory method
+containing a complete, fully functional List implementation atop AbstractList:
+// Concrete implementation built atop skeletal implementation
+static List<Integer> intArrayAsList(int[] a) {
+Objects.requireNonNull(a);
+// The diamond operator is only legal here in Java 9 and later
+// If you're using an earlier release, specify <Integer>
+return new AbstractList<>() {
+@Override public Integer get(int i) {
+return a[i];
+// Autoboxing (Item 6)
+}
+@Override public Integer set(int i, Integer val) {
+int oldVal = a[i];
+a[i] = val;
+// Auto-unboxing
+return oldVal;
+// Autoboxing
+}
+@Override public int size() {
+return a.length;
+}
+};
+}
+When you consider all that a List implementation does for you, this example
+is an impressive demonstration of the power of skeletal implementations. Inciden-
+tally, this example is an Adapter [Gamma95] that allows an int array to be viewed
+as a list of Integer instances. Because of all the translation back and forth
+between int values and Integer instances (boxing and unboxing), its perfor-
+mance is not terribly good. Note that the implementation takes the form of an
+anonymous class (Item 24).

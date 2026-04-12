@@ -1,0 +1,22 @@
+CONTENTS
+x
+11 Concurrency  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 311
+Item 78: Synchronize access to shared mutable data . . . . . . . . . . 311
+Item 79: Avoid excessive synchronization . . . . . . . . . . . . . . . . . . 317
+Item 80: Prefer executors, tasks, and streams to threads  . . . . . . . 323
+Item 81: Prefer concurrency utilities to wait and notify . . . . . . 325
+Item 82: Document thread safety . . . . . . . . . . . . . . . . . . . . . . . . . 330
+Item 83: Use lazy initialization judiciously  . . . . . . . . . . . . . . . . . 333
+Item 84: Don’t depend on the thread scheduler . . . . . . . . . . . . . . 336
+12 Serialization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 339
+Item 85: Prefer alternatives to Java serialization . . . . . . . . . . . . . 339
+Item 86: Implement Serializable with great caution . . . . . . . . 343
+Item 87: Consider using a custom serialized form . . . . . . . . . . . . 346
+Item 88: Write readObject methods defensively . . . . . . . . . . . . 353
+Item 89: For instance control, prefer enum types to 
+readResolve . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 359
+Item 90: Consider serialization proxies instead of serialized 
+instances . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 363
+Items Corresponding to Second Edition . . . . . . . . . . . . . . . 367
+References. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 371
+Index. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .  377

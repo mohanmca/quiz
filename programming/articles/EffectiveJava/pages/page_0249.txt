@@ -1,0 +1,40 @@
+CHAPTER 8
+METHODS
+228
+(Item 74). Typically, the resulting exception will be IllegalArgumentException,
+IndexOutOfBoundsException, or NullPointerException (Item 72). Once
+you’ve documented the restrictions on a method’s parameters and you’ve docu-
+mented the exceptions that will be thrown if these restrictions are violated, it is a
+simple matter to enforce the restrictions. Here’s a typical example:
+/**
+* Returns a BigInteger whose value is (this mod m).  This method
+* differs from the remainder method in that it always returns a
+* non-negative BigInteger.
+*
+* @param  m the modulus, which must be positive
+* @return this mod m
+* @throws ArithmeticException if m is less than or equal to 0
+*/
+public BigInteger mod(BigInteger m) {
+if (m.signum() <= 0)
+throw new ArithmeticException("Modulus <= 0: " + m);
+... // Do the computation
+}
+Note that the doc comment does not say “mod throws NullPointerException
+if m is null,” even though the method does exactly that, as a byproduct of invoking
+m.signum(). This exception is documented in the class-level doc comment for the
+enclosing BigInteger class. The class-level comment applies to all parameters in
+all of the class’s public methods. This is a good way to avoid the clutter of
+documenting every NullPointerException on every method individually. It may
+be combined with the use of @Nullable or a similar annotation to indicate that a
+particular parameter may be null, but this practice is not standard, and multiple
+annotations are in use for this purpose.
+The Objects.requireNonNull method, added in Java 7, is flexible and
+convenient, so there’s no reason to perform null checks manually anymore.
+You can specify your own exception detail message if you wish. The method
+returns its input, so you can perform a null check at the same time as you use a
+value:
+// Inline use of Java's null-checking facility
+this.strategy = Objects.requireNonNull(strategy, "strategy");
+You can also ignore the return value and use Objects.requireNonNull as a
+freestanding null check where that suits your needs.

@@ -1,0 +1,38 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+108
+them with an enum type (Item 34). Otherwise, you should export the constants
+with a noninstantiable utility class (Item 4). Here is a utility class version of the
+PhysicalConstants example shown earlier:
+// Constant utility class
+package com.effectivejava.science;
+public class PhysicalConstants {
+private PhysicalConstants() { }  // Prevents instantiation
+public static final double AVOGADROS_NUMBER = 6.022_140_857e23;
+public static final double BOLTZMANN_CONST
+= 1.380_648_52e-23;
+public static final double ELECTRON_MASS
+= 9.109_383_56e-31;
+}
+Incidentally, note the use of the underscore character (_) in the numeric liter-
+als. Underscores, which have been legal since Java 7, have no effect on the values
+of numeric literals, but can make them much easier to read if used with discretion.
+Consider adding underscores to numeric literals, whether fixed of floating point, if
+they contain five or more consecutive digits. For base ten literals, whether integral
+or floating point, you should use underscores to separate literals into groups of
+three digits indicating positive and negative powers of one thousand.
+Normally a utility class requires clients to qualify constant names with a class
+name, for example, PhysicalConstants.AVOGADROS_NUMBER. If you make heavy
+use of the constants exported by a utility class, you can avoid the need for qualify-
+ing the constants with the class name by making use of the static import facility:
+// Use of static import to avoid qualifying constants
+import static com.effectivejava.science.PhysicalConstants.*;
+public class Test {
+double atoms(double mols) {
+return AVOGADROS_NUMBER * mols;
+}
+...
+// Many more uses of PhysicalConstants justify static import
+}
+In summary, interfaces should be used only to define types. They should not
+be used merely to export constants.

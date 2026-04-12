@@ -1,0 +1,37 @@
+CHAPTER 5
+GENERICS
+144
+ScheduledFuture instances; it is comparable to any Delayed instance, and that’s
+enough to cause the original declaration to reject it. More generally, the wildcard
+is required to support types that do not implement Comparable (or Comparator)
+directly but extend a type that does.
+There is one more wildcard-related topic that bears discussing. There is a
+duality between type parameters and wildcards, and many methods can be
+declared using one or the other. For example, here are two possible declarations
+for a static method to swap two indexed items in a list. The first uses an
+unbounded type parameter (Item 30) and the second an unbounded wildcard:
+// Two possible declarations for the swap method
+public static <E> void swap(List<E> list, int i, int j);
+public static void swap(List<?> list, int i, int j);
+Which of these two declarations is preferable, and why? In a public API, the
+second is better because it’s simpler. You pass in a list—any list—and the method
+swaps the indexed elements. There is no type parameter to worry about. As a rule,
+if a type parameter appears only once in a method declaration, replace it with
+a wildcard. If it’s an unbounded type parameter, replace it with an unbounded
+wildcard; if it’s a bounded type parameter, replace it with a bounded wildcard.
+There’s one problem with the second declaration for swap. The straightfor-
+ward implementation won’t compile:
+public static void swap(List<?> list, int i, int j) {
+list.set(i, list.set(j, list.get(i)));
+}
+Trying to compile it produces this less-than-helpful error message:
+Swap.java:5: error: incompatible types: Object cannot be 
+converted to CAP#1
+        list.set(i, list.set(j, list.get(i)));
+                                        ^
+  where CAP#1 is a fresh type-variable:
+    CAP#1 extends Object from capture of ?
+It doesn’t seem right that we can’t put an element back into the list that we just
+took it out of. The problem is that the type of list is List<?>, and you can’t put
+any value except null into a List<?>. Fortunately, there is a way to implement
+this method without resorting to an unsafe cast or a raw type. The idea is to write a

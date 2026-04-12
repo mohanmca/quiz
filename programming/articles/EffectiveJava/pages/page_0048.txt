@@ -1,0 +1,40 @@
+ITEM 7: ELIMINATE OBSOLETE OBJECT REFERENCES
+27
+increased garbage collector activity or increased memory footprint. In extreme
+cases, such memory leaks can cause disk paging and even program failure with an
+OutOfMemoryError, but such failures are relatively rare.
+So where is the memory leak? If a stack grows and then shrinks, the objects
+that were popped off the stack will not be garbage collected, even if the program
+using the stack has no more references to them. This is because the stack main-
+tains obsolete references to these objects. An obsolete reference is simply a refer-
+ence that will never be dereferenced again. In this case, any references outside of
+the “active portion” of the element array are obsolete. The active portion consists
+of the elements whose index is less than size.
+Memory leaks in garbage-collected languages (more properly known as unin-
+tentional object retentions) are insidious. If an object reference is unintentionally
+retained, not only is that object excluded from garbage collection, but so too are
+any objects referenced by that object, and so on. Even if only a few object refer-
+ences are unintentionally retained, many, many objects may be prevented from
+being garbage collected, with potentially large effects on performance.
+The fix for this sort of problem is simple: null out references once they
+become obsolete. In the case of our Stack class, the reference to an item becomes
+obsolete as soon as it’s popped off the stack. The corrected version of the pop
+method looks like this:
+public Object pop() {
+if (size == 0)
+throw new EmptyStackException();
+Object result = elements[--size];
+elements[size] = null; // Eliminate obsolete reference
+return result;
+}
+An added benefit of nulling out obsolete references is that if they are subse-
+quently dereferenced by mistake, the program will immediately fail with a
+NullPointerException, rather than quietly doing the wrong thing. It is always
+beneficial to detect programming errors as quickly as possible.
+When programmers are first stung by this problem, they may overcompensate
+by nulling out every object reference as soon as the program is finished using it.
+This is neither necessary nor desirable; it clutters up the program unnecessarily.
+Nulling out object references should be the exception rather than the norm.
+The best way to eliminate an obsolete reference is to let the variable that contained
+the reference fall out of scope. This occurs naturally if you define each variable in
+the narrowest possible scope (Item 57).

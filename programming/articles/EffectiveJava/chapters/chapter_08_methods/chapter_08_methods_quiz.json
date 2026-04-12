@@ -1,0 +1,223 @@
+{
+  "title": "Methods - Effective Java, pages 248-281. Items 49-56: parameter validity, defensive copies, method signatures, overloading, varargs, empty results, optionals, and doc comments.",
+  "version": "1.0",
+  "totalQuestions": 16,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Parameter validity and object boundaries",
+      "questions": [
+        {
+          "question": "Why should a public method validate bad parameters at entry?",
+          "options": [
+            "So the method fails fast, preserves object invariants, and reports the documented exception.",
+            "So the method can avoid all documentation for its parameters.",
+            "So the method can always continue with a default value.",
+            "So the caller can inspect the object state after the failure."
+          ],
+          "answer": 0,
+          "explanation": "Parameter checks are about contract enforcement and failure atomicity, not just defensive programming.",
+          "id": "chapter_08_m1_q1"
+        },
+        {
+          "question": "When is a separate validity check not worth doing?",
+          "options": [
+            "When the main computation will naturally validate the inputs and the extra check would be redundant or expensive.",
+            "Whenever the method is public.",
+            "Whenever the method returns void.",
+            "Whenever the input type is an interface."
+          ],
+          "answer": 0,
+          "explanation": "The item allows implicit validation, but only if you understand the trade-off and the resulting exception behavior.",
+          "id": "chapter_08_m1_q2"
+        },
+        {
+          "question": "Why should a constructor copy a mutable argument before storing it?",
+          "options": [
+            "To prevent later caller mutations from corrupting the object's invariants.",
+            "To make the field final.",
+            "To avoid the need for Javadoc.",
+            "To allow the object to share state intentionally."
+          ],
+          "answer": 0,
+          "explanation": "Storing the caller's object creates an alias into your representation; a defensive copy breaks that alias.",
+          "id": "chapter_08_m1_q3"
+        },
+        {
+          "question": "Why do defensive copies on accessors matter even for immutable-looking classes?",
+          "options": [
+            "Because returning a mutable internal reference hands callers a back door into the object's state.",
+            "Because accessors are slower than constructors.",
+            "Because `Date` cannot be returned from a method.",
+            "Because the JVM automatically copies every return value anyway."
+          ],
+          "answer": 0,
+          "explanation": "Returning a live mutable object exposes the representation; returning a copy preserves encapsulation.",
+          "id": "chapter_08_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Signature shape and overloads",
+      "questions": [
+        {
+          "question": "Why are long parameter lists a smell?",
+          "options": [
+            "They are hard to remember, easy to transpose, and difficult to use without constant reference to docs.",
+            "Because Java forbids methods with more than four parameters.",
+            "Because they always allocate arrays at runtime.",
+            "Because they prevent JIT inlining."
+          ],
+          "answer": 0,
+          "explanation": "The practical issue is API usability, not language restriction.",
+          "id": "chapter_08_m2_q1"
+        },
+        {
+          "question": "Why prefer an interface type over a class type in a parameter list?",
+          "options": [
+            "It keeps the API flexible and avoids forcing callers into a particular implementation.",
+            "It makes the method more abstract and slower.",
+            "It guarantees immutability.",
+            "It lets the compiler skip null checks."
+          ],
+          "answer": 0,
+          "explanation": "Programming to the interface avoids unnecessary copying and needless coupling.",
+          "id": "chapter_08_m2_q2"
+        },
+        {
+          "question": "Why is overloading with the same arity risky?",
+          "options": [
+            "Because the compiler chooses based on compile-time types, so the obvious-looking call can bind to the wrong method.",
+            "Because the JVM randomly picks one overload at runtime.",
+            "Because overloaded methods cannot be public.",
+            "Because autoboxing eliminates all ambiguity."
+          ],
+          "answer": 0,
+          "explanation": "This is the core lesson of `CollectionClassifier` and the `remove(int)` versus `remove(Integer)` problem.",
+          "id": "chapter_08_m2_q3"
+        },
+        {
+          "question": "When is overload ambiguity least likely to confuse users?",
+          "options": [
+            "When the parameter types are radically different and no actual argument can plausibly fit both signatures.",
+            "Whenever the methods have the same name.",
+            "Whenever one overload is static.",
+            "Whenever the return types differ."
+          ],
+          "answer": 0,
+          "explanation": "Radically different types make the choice obvious; otherwise, prefer different method names.",
+          "id": "chapter_08_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Varargs and absence",
+      "questions": [
+        {
+          "question": "Why does every varargs invocation have a cost?",
+          "options": [
+            "Because the compiler creates and initializes an array for the arguments at the call site.",
+            "Because varargs force reflection.",
+            "Because varargs disable inlining.",
+            "Because the JVM boxes every argument twice."
+          ],
+          "answer": 0,
+          "explanation": "The flexibility is convenient, but it still compiles to array creation.",
+          "id": "chapter_08_m3_q1"
+        },
+        {
+          "question": "What is the correct pattern for a method that needs at least one value and then any number more?",
+          "options": [
+            "Take one normal argument first, then a trailing varargs parameter.",
+            "Take only a varargs parameter and check `args.length` at runtime.",
+            "Take an `Optional<T>` and a varargs parameter together.",
+            "Overload the method with a separate empty signature."
+          ],
+          "answer": 0,
+          "explanation": "The leading required parameter makes the contract compile-time explicit.",
+          "id": "chapter_08_m3_q2"
+        },
+        {
+          "question": "Why should an API return an empty collection or array instead of null?",
+          "options": [
+            "It removes special-case client code and avoids null handling without real performance gain.",
+            "Because empty containers are always allocated on the stack.",
+            "Because null is illegal as a return value.",
+            "Because callers cannot test for null in Java."
+          ],
+          "answer": 0,
+          "explanation": "Returning null for absence pushes avoidable complexity into every caller.",
+          "id": "chapter_08_m3_q3"
+        },
+        {
+          "question": "When is `Optional<T>` the right return type?",
+          "options": [
+            "When the method may not be able to return a value and the caller should be forced to think about that possibility.",
+            "Whenever a method returns a collection.",
+            "Whenever a field is optional.",
+            "Whenever you want to avoid exceptions entirely."
+          ],
+          "answer": 0,
+          "explanation": "Optional is a return-value tool, not a general replacement for null everywhere.",
+          "id": "chapter_08_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Documentation",
+      "questions": [
+        {
+          "question": "What is the main purpose of a doc comment on an exported API element?",
+          "options": [
+            "To specify the contract a client relies on, including preconditions, postconditions, and side effects.",
+            "To restate the implementation line by line.",
+            "To replace code review.",
+            "To satisfy the compiler."
+          ],
+          "answer": 0,
+          "explanation": "Documentation is part of the API, not a paraphrase of the source code.",
+          "id": "chapter_08_m4_q1"
+        },
+        {
+          "question": "Which tags are expected for a normal method contract?",
+          "options": [
+            "`@param`, `@return`, and `@throws`.",
+            "`@implSpec`, `@index`, and `@literal`.",
+            "`@override`, `@serial`, and `@code`.",
+            "Only `@return`."
+          ],
+          "answer": 0,
+          "explanation": "Those three tags are the standard way to document parameters, results, and exception conditions.",
+          "id": "chapter_08_m4_q2"
+        },
+        {
+          "question": "When should `{@implSpec}` be used?",
+          "options": [
+            "When documenting the self-use contract for subclasses or overriding code.",
+            "Whenever a method is public.",
+            "Whenever the method is generic.",
+            "Whenever you want to hide implementation details from callers."
+          ],
+          "answer": 0,
+          "explanation": "It is for inheritance contracts, not for client-facing behavior descriptions.",
+          "id": "chapter_08_m4_q3"
+        },
+        {
+          "question": "What should you document for generic types, enums, annotations, and packages?",
+          "options": [
+            "Type parameters, constants, annotation members, and package/module-level comments where appropriate.",
+            "Only the public constructors.",
+            "Only the top-level class summary.",
+            "Nothing extra, because Javadoc infers it."
+          ],
+          "answer": 0,
+          "explanation": "Those elements have API meaning and need explicit documentation to stay usable.",
+          "id": "chapter_08_m4_q4"
+        }
+      ]
+    }
+  ]
+}

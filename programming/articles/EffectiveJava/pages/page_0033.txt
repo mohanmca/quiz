@@ -1,0 +1,47 @@
+CHAPTER 2
+CREATING AND DESTROYING OBJECTS
+12
+// Setters
+public void setServingSize(int val)
+{ servingSize = val; }
+public void setServings(int val)
+{ servings = val; }
+public void setCalories(int val)
+{ calories = val; }
+public void setFat(int val)
+{ fat = val; }
+public void setSodium(int val)
+{ sodium = val; }
+public void setCarbohydrate(int val) { carbohydrate = val; }
+}
+This pattern has none of the disadvantages of the telescoping constructor pattern.
+It is easy, if a bit wordy, to create instances, and easy to read the resulting code:
+NutritionFacts cocaCola = new NutritionFacts();
+cocaCola.setServingSize(240);
+cocaCola.setServings(8);
+cocaCola.setCalories(100);
+cocaCola.setSodium(35);
+cocaCola.setCarbohydrate(27);
+Unfortunately, the JavaBeans pattern has serious disadvantages of its own.
+Because construction is split across multiple calls, a JavaBean may be in an
+inconsistent state partway through its construction. The class does not have
+the option of enforcing consistency merely by checking the validity of the
+constructor parameters. Attempting to use an object when it’s in an inconsistent
+state may cause failures that are far removed from the code containing the bug and
+hence difficult to debug. A related disadvantage is that the JavaBeans pattern
+precludes the possibility of making a class immutable (Item 17) and requires
+added effort on the part of the programmer to ensure thread safety.
+It is possible to reduce these disadvantages by manually “freezing” the object
+when its construction is complete and not allowing it to be used until frozen, but
+this variant is unwieldy and rarely used in practice. Moreover, it can cause errors
+at runtime because the compiler cannot ensure that the programmer calls the
+freeze method on an object before using it.
+Luckily, there is a third alternative that combines the safety of the telescoping
+constructor pattern with the readability of the JavaBeans pattern. It is a form of the
+Builder pattern [Gamma95]. Instead of making the desired object directly, the
+client calls a constructor (or static factory) with all of the required parameters and
+gets a builder object. Then the client calls setter-like methods on the builder object
+to set each optional parameter of interest. Finally, the client calls a parameterless
+build method to generate the object, which is typically immutable. The builder is
+typically a static member class (Item 24) of the class it builds. Here’s how it looks
+in practice:

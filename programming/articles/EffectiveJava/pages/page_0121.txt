@@ -1,0 +1,41 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+100
+public interface Songwriter {
+Song compose(int chartPosition);
+}
+In real life, some singers are also songwriters. Because we used interfaces
+rather than abstract classes to define these types, it is perfectly permissible for a
+single class to implement both Singer and Songwriter. In fact, we can define a
+third interface that extends both Singer and Songwriter and adds new methods
+that are appropriate to the combination:
+public interface SingerSongwriter extends Singer, Songwriter {
+AudioClip strum();
+void actSensitive();
+}
+You don’t always need this level of flexibility, but when you do, interfaces are
+a lifesaver. The alternative is a bloated class hierarchy containing a separate class
+for every supported combination of attributes. If there are n attributes in the type
+system, there are 2n possible combinations that you might have to support. This is
+what’s known as a combinatorial explosion. Bloated class hierarchies can lead to
+bloated classes with many methods that differ only in the type of their arguments
+because there are no types in the class hierarchy to capture common behaviors.
+Interfaces enable safe, powerful functionality enhancements via the wrap-
+per class idiom (Item 18). If you use abstract classes to define types, you leave the
+programmer who wants to add functionality with no alternative but inheritance.
+The resulting classes are less powerful and more fragile than wrapper classes.
+When there is an obvious implementation of an interface method in terms of
+other interface methods, consider providing implementation assistance to pro-
+grammers in the form of a default method. For an example of this technique, see
+the removeIf method on page 104. If you provide default methods, be sure to doc-
+ument them for inheritance using the @implSpec Javadoc tag (Item 19). 
+There are limits on how much implementation assistance you can provide
+with default methods. Although many interfaces specify the behavior of Object
+methods such as equals and hashCode, you are not permitted to provide default
+methods for them. Also, interfaces are not permitted to contain instance fields or
+nonpublic static members (with the exception of private static methods). Finally,
+you can’t add default methods to an interface that you don’t control.
+You can, however, combine the advantages of interfaces and abstract classes
+by providing an abstract skeletal implementation class to go with an interface. The
+interface defines the type, perhaps providing some default methods, while the
+skeletal implementation class implements the remaining non-primitive interface

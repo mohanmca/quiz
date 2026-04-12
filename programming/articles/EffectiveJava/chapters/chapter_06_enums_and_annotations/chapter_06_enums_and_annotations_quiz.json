@@ -1,0 +1,223 @@
+{
+  "title": "Enums and Annotations - Effective Java, Chapter 6: pages 178-213, Items 34-41",
+  "version": "1.0",
+  "totalQuestions": 16,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Enums are real types",
+      "questions": [
+        {
+          "question": "Why is the int-enum pattern inferior to a real enum type?",
+          "options": [
+            "It provides type safety, a namespace, and stable binaries for clients.",
+            "It is faster than enums in every case.",
+            "It supports inheritance better than enums.",
+            "It automatically gives you set operations."
+          ],
+          "answer": 0,
+          "explanation": "Int constants are brittle: they can be mixed accidentally, collide by name, and are compiled into client code. Real enums are type-safe classes.",
+          "id": "chapter_06_enums_and_annotations_m0_q1"
+        },
+        {
+          "question": "What is the main reason to prefer instance fields over ordinal() for associated data?",
+          "options": [
+            "Ordinal changes when constants are reordered; a stored field does not.",
+            "Ordinal is always slower than a stored field.",
+            "Ordinal cannot be called on enums with methods.",
+            "Stored fields cannot be final."
+          ],
+          "answer": 0,
+          "explanation": "An enum's ordinal is only the declaration position, so it is not a semantic value and must not drive program logic.",
+          "id": "chapter_06_enums_and_annotations_m0_q2"
+        },
+        {
+          "question": "When should you use a switch on an enum?",
+          "options": [
+            "When you are augmenting an enum you do not control, or the logic does not belong in the enum itself.",
+            "Whenever you want compile-time checking for missing constants.",
+            "Whenever the enum has instance fields.",
+            "Whenever you need constant-specific behavior."
+          ],
+          "answer": 0,
+          "explanation": "A switch is appropriate as a client-side adapter, not as the primary way to model per-constant behavior inside the enum.",
+          "id": "chapter_06_enums_and_annotations_m0_q3"
+        },
+        {
+          "question": "What does an enum constructor give you that int constants cannot?",
+          "options": [
+            "A place to bind per-constant data and compute derived state once.",
+            "A way to create multiple instances per constant.",
+            "Access to mutable static fields before initialization.",
+            "A namespace shared across unrelated enums."
+          ],
+          "answer": 0,
+          "explanation": "Each enum constant can carry its own state and behavior, which is impossible with bare ints.",
+          "id": "chapter_06_enums_and_annotations_m0_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "EnumSet and EnumMap",
+      "questions": [
+        {
+          "question": "Why is EnumSet preferred over a manual bit field?",
+          "options": [
+            "It preserves Set semantics and type safety while keeping bit-vector performance.",
+            "It uses more memory than any other Set implementation.",
+            "It can represent sets with more than 64 elements in one long.",
+            "It is immutable by default."
+          ],
+          "answer": 0,
+          "explanation": "EnumSet gives you compact representation and normal Set operations without manual bit masks.",
+          "id": "chapter_06_enums_and_annotations_m1_q1"
+        },
+        {
+          "question": "Why should public APIs take Set<Style> instead of EnumSet<Style>?",
+          "options": [
+            "So callers are not forced to use one specific implementation.",
+            "Because EnumSet cannot be passed to methods.",
+            "Because Set is always faster than EnumSet.",
+            "Because EnumSet is not a valid parameter type."
+          ],
+          "answer": 0,
+          "explanation": "Program to the interface. Accepting Set keeps the API flexible even if EnumSet is the best implementation choice.",
+          "id": "chapter_06_enums_and_annotations_m1_q2"
+        },
+        {
+          "question": "What is the main advantage of EnumMap over ordinal-indexed arrays?",
+          "options": [
+            "It is type-safe and self-describing while staying close to array speed.",
+            "It supports non-enum keys better than HashMap.",
+            "It avoids the need for a key type token.",
+            "It is automatically immutable."
+          ],
+          "answer": 0,
+          "explanation": "EnumMap hides the ordinal arithmetic and still uses array-backed storage internally.",
+          "id": "chapter_06_enums_and_annotations_m1_q3"
+        },
+        {
+          "question": "When should you specify a map factory with groupingBy?",
+          "options": [
+            "When you care that the collector produce EnumMap rather than an implementation chosen by the library.",
+            "Whenever the stream has more than one element.",
+            "Only when collecting to a Set.",
+            "Only when the source is already a map."
+          ],
+          "answer": 0,
+          "explanation": "The default groupingBy collector may choose a different Map implementation; provide a factory if EnumMap behavior matters.",
+          "id": "chapter_06_enums_and_annotations_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Extensible enums and annotations",
+      "questions": [
+        {
+          "question": "Why are annotations better than naming patterns for framework hooks?",
+          "options": [
+            "They are checked by the compiler and can carry structured metadata.",
+            "They execute faster at runtime.",
+            "They automatically fix invalid code.",
+            "They are only available for methods."
+          ],
+          "answer": 0,
+          "explanation": "Annotations avoid silent typos and let tools inspect explicit metadata instead of parsing names.",
+          "id": "chapter_06_enums_and_annotations_m2_q1"
+        },
+        {
+          "question": "What does @Retention(RetentionPolicy.RUNTIME) do for a test annotation?",
+          "options": [
+            "It keeps the annotation visible to reflection at runtime.",
+            "It makes the annotation compile faster.",
+            "It allows the annotation only on types.",
+            "It forces the annotation to be repeatable."
+          ],
+          "answer": 0,
+          "explanation": "Without runtime retention, a reflection-based test runner cannot see the annotation.",
+          "id": "chapter_06_enums_and_annotations_m2_q2"
+        },
+        {
+          "question": "What is the main point of a bounded type token like Class<? extends Throwable>?",
+          "options": [
+            "It lets the annotation accept only class literals for throwable subtypes.",
+            "It forces the value to be a String at runtime.",
+            "It makes annotation processing unnecessary.",
+            "It allows any unrelated class to be passed in."
+          ],
+          "answer": 0,
+          "explanation": "The wildcard constrains the class literal to a Throwable subtype and keeps the API type-safe.",
+          "id": "chapter_06_enums_and_annotations_m2_q3"
+        },
+        {
+          "question": "Why can repeated annotations be easy to process incorrectly?",
+          "options": [
+            "Because the repeated form is represented through a synthetic container annotation.",
+            "Because Java forbids runtime reflection on annotations.",
+            "Because repeated annotations cannot carry parameters.",
+            "Because repeatable annotations are not retained."
+          ],
+          "answer": 0,
+          "explanation": "A processor must look for the direct annotation and its container, or use getAnnotationsByType.",
+          "id": "chapter_06_enums_and_annotations_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Override and marker interfaces",
+      "questions": [
+        {
+          "question": "What bug does @Override most directly prevent?",
+          "options": [
+            "Accidentally overloading a method when you intended to override it.",
+            "Using final fields in enums.",
+            "Missing import statements for superclasses.",
+            "Unchecked generic casts."
+          ],
+          "answer": 0,
+          "explanation": "It forces the compiler to confirm that the signature actually matches a supertype method.",
+          "id": "chapter_06_enums_and_annotations_m3_q1"
+        },
+        {
+          "question": "What is the key advantage of a marker interface over a marker annotation?",
+          "options": [
+            "It creates a real type that APIs can require in method signatures.",
+            "It can be applied to methods and fields.",
+            "It is always shorter to write.",
+            "It does not require any inheritance relationship."
+          ],
+          "answer": 0,
+          "explanation": "A marker interface can be used for compile-time type checking and subtype restriction.",
+          "id": "chapter_06_enums_and_annotations_m3_q2"
+        },
+        {
+          "question": "When is a marker annotation the better choice?",
+          "options": [
+            "When the marker applies to non-type elements or fits an annotation-driven framework.",
+            "Whenever you need subtype checking at compile time.",
+            "Whenever the marker should be inherited by default.",
+            "Whenever the marker adds methods."
+          ],
+          "answer": 0,
+          "explanation": "Annotations are the right fit for metadata on methods, fields, parameters, and framework hooks.",
+          "id": "chapter_06_enums_and_annotations_m3_q3"
+        },
+        {
+          "question": "Why is Serializable a marker interface rather than a marker annotation?",
+          "options": [
+            "Because serialization is a capability that is naturally modeled as a type.",
+            "Because annotations did not exist when serialization was invented.",
+            "Because marker annotations cannot have runtime retention.",
+            "Because interfaces cannot be checked by the compiler."
+          ],
+          "answer": 0,
+          "explanation": "The interface lets APIs express and enforce a type-level contract for serializability.",
+          "id": "chapter_06_enums_and_annotations_m3_q4"
+        }
+      ]
+    }
+  ]
+}

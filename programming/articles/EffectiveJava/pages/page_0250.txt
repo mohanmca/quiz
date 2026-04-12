@@ -1,0 +1,40 @@
+ITEM 49: CHECK PARAMETERS FOR VALIDITY
+229
+In Java 9, a range-checking facility was added to java.util.Objects. This
+facility consists of three methods: checkFromIndexSize, checkFromToIndex, and
+checkIndex. This facility is not as flexible as the null-checking method. It doesn’t
+let you specify your own exception detail message, and it is designed solely for
+use on list and array indices. It does not handle closed ranges (which contain both
+of their endpoints). But if it does what you need, it’s a useful convenience.
+For an unexported method, you, as the package author, control the
+circumstances under which the method is called, so you can and should ensure
+that only valid parameter values are ever passed in. Therefore, nonpublic methods
+can check their parameters using assertions, as shown below:
+// Private helper function for a recursive sort
+private static void sort(long a[], int offset, int length) {
+assert a != null;
+assert offset >= 0 && offset <= a.length;
+assert length >= 0 && length <= a.length - offset;
+... // Do the computation
+}
+In essence, these assertions are claims that the asserted condition will be true,
+regardless of how the enclosing package is used by its clients. Unlike normal
+validity checks, assertions throw AssertionError if they fail. And unlike normal
+validity checks, they have no effect and essentially no cost unless you enable
+them, which you do by passing the -ea (or -enableassertions) flag to the java
+command. For more information on assertions, see the tutorial [Asserts].
+It is particularly important to check the validity of parameters that are not used
+by a method, but stored for later use. For example, consider the static factory
+method on page 101, which takes an int array and returns a List view of the array.
+If a client were to pass in null, the method would throw a NullPointerException
+because the method has an explicit check (the call to Objects.requireNonNull).
+Had the check been omitted, the method would return a reference to a newly
+created List instance that would throw a NullPointerException as soon as a
+client attempted to use it. By that time, the origin of the List instance might be
+difficult to determine, which could greatly complicate the task of debugging.
+Constructors represent a special case of the principle that you should check
+the validity of parameters that are to be stored away for later use. It is critical to
+check the validity of constructor parameters to prevent the construction of an
+object that violates its class invariants.
+There are exceptions to the rule that you should explicitly check a method’s
+parameters before performing its computation. An important exception is the case

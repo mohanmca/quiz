@@ -1,0 +1,27 @@
+37
+C H A P T E R 3
+Methods Common to All Objects
+ALTHOUGH Object is a concrete class, it is designed primarily for extension.
+All of its nonfinal methods (equals, hashCode, toString, clone, and finalize)
+have explicit general contracts because they are designed to be overridden. It is
+the responsibility of any class overriding these methods to obey their general con-
+tracts; failure to do so will prevent other classes that depend on the contracts (such
+as HashMap and HashSet) from functioning properly in conjunction with the class.
+This chapter tells you when and how to override the nonfinal Object methods.
+The finalize method is omitted from this chapter because it was discussed in
+Item 8. While not an Object method, Comparable.compareTo is discussed in this
+chapter because it has a similar character.
+Item 10: Obey the general contract when overriding equals
+Overriding the equals method seems simple, but there are many ways to get it
+wrong, and consequences can be dire. The easiest way to avoid problems is not to
+override the equals method, in which case each instance of the class is equal only
+to itself. This is the right thing to do if any of the following conditions apply:
+• Each instance of the class is inherently unique. This is true for classes such
+as Thread that represent active entities rather than values. The equals imple-
+mentation provided by Object has exactly the right behavior for these classes.
+• There is no need for the class to provide a “logical equality” test. For
+example, java.util.regex.Pattern could have overridden equals to check
+whether two Pattern instances represented exactly the same regular
+expression, but the designers didn’t think that clients would need or want this
+functionality. Under these circumstances, the equals implementation
+inherited from Object is ideal.

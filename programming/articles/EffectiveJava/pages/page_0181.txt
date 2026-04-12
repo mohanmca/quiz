@@ -1,0 +1,44 @@
+CHAPTER 6
+ENUMS AND ANNOTATIONS
+160
+// Universal gravitational constant in m^3 / kg s^2
+private static final double G = 6.67300E-11;
+// Constructor
+Planet(double mass, double radius) {
+this.mass = mass;
+this.radius = radius;
+surfaceGravity = G * mass / (radius * radius);
+}
+public double mass()           { return mass; }
+public double radius()         { return radius; }
+public double surfaceGravity() { return surfaceGravity; }
+public double surfaceWeight(double mass) {
+return mass * surfaceGravity;
+// F = ma
+}
+}
+It is easy to write a rich enum type such as Planet. To associate data with
+enum constants, declare instance fields and write a constructor that takes the
+data and stores it in the fields. Enums are by their nature immutable, so all fields
+should be final (Item 17). Fields can be public, but it is better to make them private
+and provide public accessors (Item 16). In the case of Planet, the constructor also
+computes and stores the surface gravity, but this is just an optimization. The
+gravity could be recomputed from the mass and radius each time it was used by
+the surfaceWeight method, which takes an object’s mass and returns its weight
+on the planet represented by the constant. 
+While the Planet enum is simple, it is surprisingly powerful. Here is a short
+program that takes the earth weight of an object (in any unit) and prints a nice
+table of the object’s weight on all eight planets (in the same unit):
+public class WeightTable {
+public static void main(String[] args) {
+double earthWeight = Double.parseDouble(args[0]);
+double mass = earthWeight / Planet.EARTH.surfaceGravity();
+for (Planet p : Planet.values())
+System.out.printf("Weight on %s is %f%n",
+p, p.surfaceWeight(mass));
+}
+}
+Note that Planet, like all enums, has a static values method that returns an array
+of its values in the order they were declared. Note also that the toString method
+returns the declared name of each enum value, enabling easy printing by println
+and printf. If you’re dissatisfied with this string representation, you can change it

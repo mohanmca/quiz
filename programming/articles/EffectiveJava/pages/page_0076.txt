@@ -1,0 +1,37 @@
+ITEM 12: ALWAYS OVERRIDE TOSTRING
+55
+Item 12: Always override toString
+While Object provides an implementation of the toString method, the string that
+it returns is generally not what the user of your class wants to see. It consists of the
+class name followed by an “at” sign (@) and the unsigned hexadecimal representa-
+tion of the hash code, for example, PhoneNumber@163b91. The general contract for
+toString says that the returned string should be “a concise but informative repre-
+sentation that is easy for a person to read.” While it could be argued that
+PhoneNumber@163b91 is concise and easy to read, it isn’t very informative when
+compared to 707-867-5309. The toString contract goes on to say, “It is recom-
+mended that all subclasses override this method.” Good advice, indeed!
+While it isn’t as critical as obeying the equals and hashCode contracts (Items
+10 and 11), providing a good toString implementation makes your class
+much more pleasant to use and makes systems using the class easier to debug.
+The toString method is automatically invoked when an object is passed to
+println, printf, the string concatenation operator, or assert, or is printed by a
+debugger. Even if you never call toString on an object, others may. For example,
+a component that has a reference to your object may include the string representa-
+tion of the object in a logged error message. If you fail to override toString, the
+message may be all but useless.
+If you’ve provided a good toString method for PhoneNumber, generating a
+useful diagnostic message is as easy as this:
+System.out.println("Failed to connect to " + phoneNumber);
+Programmers will generate diagnostic messages in this fashion whether or not
+you override toString, but the messages won’t be useful unless you do. The ben-
+efits of providing a good toString method extend beyond instances of the class to
+objects containing references to these instances, especially collections. Which
+would you rather see when printing a map, {Jenny=PhoneNumber@163b91} or
+{Jenny=707-867-5309}?
+When practical, the toString method should return all of the interesting
+information contained in the object, as shown in the phone number example. It
+is impractical if the object is large or if it contains state that is not conducive to
+string representation. Under these circumstances, toString should return a sum-
+mary such as Manhattan residential phone directory (1487536 listings)
+or Thread[main,5,main]. Ideally, the string should be self-explanatory. (The
+Thread example flunks this test.) A particularly annoying penalty for failing to

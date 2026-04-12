@@ -1,0 +1,41 @@
+CHAPTER 11
+CONCURRENCY
+322
+imposed by the need to ensure that every core has a consistent view of memory.
+Another hidden cost of oversynchronization is that it can limit the VM’s ability to
+optimize code execution.
+If you are writing a mutable class, you have two options: you can omit all
+synchronization and allow the client to synchronize externally if concurrent use is
+desired, or you can synchronize internally, making the class thread-safe (Item 82).
+You should choose the latter option only if you can achieve significantly higher
+concurrency with internal synchronization than you could by having the client
+lock the entire object externally. The collections in java.util (with the exception
+of the obsolete Vector and Hashtable) take the former approach, while those in
+java.util.concurrent take the latter (Item 81).
+In the early days of Java, many classes violated these guidelines. For example,
+StringBuffer instances are almost always used by a single thread, yet they per-
+form internal synchronization. It is for this reason that StringBuffer was sup-
+planted by StringBuilder, which is just an unsynchronized StringBuffer.
+Similarly, it’s a large part of the reason that the thread-safe pseudorandom number
+generator in java.util.Random was supplanted by the unsynchronized imple-
+mentation in java.util.concurrent.ThreadLocalRandom. When in doubt, do
+not synchronize your class, but document that it is not thread-safe.
+If you do synchronize your class internally, you can use various techniques to
+achieve high concurrency, such as lock splitting, lock striping, and nonblocking
+concurrency control. These techniques are beyond the scope of this book, but they
+are discussed elsewhere [Goetz06, Herlihy08].
+If a method modifies a static field and there is any possibility that the method
+will be called from multiple threads, you must synchronize access to the field
+internally (unless the class can tolerate nondeterministic behavior). It is not
+possible for a multithreaded client to perform external synchronization on such a
+method, because unrelated clients can invoke the method without synchronization.
+The field is essentially a global variable even if it is private because it can be read
+and modified by unrelated clients. The nextSerialNumber field used by the
+method generateSerialNumber in Item 78 exemplifies this situation.
+In summary, to avoid deadlock and data corruption, never call an alien method
+from within a synchronized region. More generally, keep the amount of work that
+you do from within synchronized regions to a minimum. When you are designing
+a mutable class, think about whether it should do its own synchronization. In the
+multicore era, it is more important than ever not to oversynchronize. Synchronize
+your class internally only if there is a good reason to do so, and document your
+decision clearly (Item 82).

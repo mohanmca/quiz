@@ -1,0 +1,40 @@
+ITEM 11: ALWAYS OVERRIDE HASHCODE WHEN YOU OVERRIDE EQUALS
+51
+Fixing this problem is as simple as writing a proper hashCode method for
+PhoneNumber. So what should a hashCode method look like? It’s trivial to write a
+bad one. This one, for example, is always legal but should never be used:
+// The worst possible legal hashCode implementation - never use!
+@Override public int hashCode() { return 42; }
+It’s legal because it ensures that equal objects have the same hash code. It’s
+atrocious because it ensures that every object has the same hash code. Therefore,
+every object hashes to the same bucket, and hash tables degenerate to linked lists.
+Programs that should run in linear time instead run in quadratic time. For large
+hash tables, this is the difference between working and not working.
+A good hash function tends to produce unequal hash codes for unequal
+instances. This is exactly what is meant by the third part of the hashCode contract.
+Ideally, a hash function should distribute any reasonable collection of unequal
+instances uniformly across all int values. Achieving this ideal can be difficult.
+Luckily it’s not too hard to achieve a fair approximation. Here is a simple recipe:
+1. Declare an int variable named result, and initialize it to the hash code c for
+the first significant field in your object, as computed in step 2.a. (Recall from
+Item 10 that a significant field is a field that affects equals comparisons.)
+2. For every remaining significant field f in your object, do the following:
+a. Compute an int hash code c for the field:
+i.
+If the field is of a primitive type, compute Type.hashCode(f), where
+Type is the boxed primitive class corresponding to f’s type.
+ii.
+If the field is an object reference and this class’s equals method
+compares the field by recursively invoking equals, recursively
+invoke hashCode on the field. If a more complex comparison is
+required, compute a “canonical representation” for this field and
+invoke hashCode on the canonical representation. If the value of the
+field is null, use 0 (or some other constant, but 0 is traditional).
+iii. If the field is an array, treat it as if each significant element were a
+separate field. That is, compute a hash code for each significant
+element by applying these rules recursively, and combine the values
+per step 2.b. If the array has no significant elements, use a constant,
+preferably not 0. If all elements are significant, use Arrays.hashCode.
+b. Combine the hash code c computed in step 2.a into result as follows:
+        result = 31 * result + c;
+3. Return result.

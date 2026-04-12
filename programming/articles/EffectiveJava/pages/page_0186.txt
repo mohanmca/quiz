@@ -1,0 +1,40 @@
+ITEM 34: USE ENUMS INSTEAD OF INT CONSTANTS
+165
+to do this calculation by applying multiple case labels to each of two code frag-
+ments:
+// Enum that switches on its value to share code - questionable
+enum PayrollDay {
+MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY,
+SATURDAY, SUNDAY;
+private static final int MINS_PER_SHIFT = 8 * 60;
+int pay(int minutesWorked, int payRate) {
+int basePay = minutesWorked * payRate;
+int overtimePay;
+switch(this) {
+case SATURDAY: case SUNDAY: // Weekend
+overtimePay = basePay / 2;
+break;
+default: // Weekday
+overtimePay = minutesWorked <= MINS_PER_SHIFT ?
+0 : (minutesWorked - MINS_PER_SHIFT) * payRate / 2;
+}
+return basePay + overtimePay;
+}
+}
+This code is undeniably concise, but it is dangerous from a maintenance
+perspective. Suppose you add an element to the enum, perhaps a special value to
+represent a vacation day, but forget to add a corresponding case to the switch
+statement. The program will still compile, but the pay method will silently pay the
+worker the same amount for a vacation day as for an ordinary weekday.
+To perform the pay calculation safely with constant-specific method imple-
+mentations, you would have to duplicate the overtime pay computation for each
+constant, or move the computation into two helper methods, one for weekdays and
+one for weekend days, and invoke the appropriate helper method from each con-
+stant. Either approach would result in a fair amount of boilerplate code, substan-
+tially reducing readability and increasing the opportunity for error. 
+The boilerplate could be reduced by replacing the abstract overtimePay
+method on PayrollDay with a concrete method that performs the overtime calcu-
+lation for weekdays. Then only the weekend days would have to override the
+method. But this would have the same disadvantage as the switch statement: if
+you added another day without overriding the overtimePay method, you would
+silently inherit the weekday calculation.

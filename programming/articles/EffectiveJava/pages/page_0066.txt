@@ -1,0 +1,39 @@
+ITEM 10: OBEY THE GENERAL CONTRACT WHEN OVERRIDING EQUALS
+45
+extends java.util.Date and adds a nanoseconds field. The equals implementa-
+tion for Timestamp does violate symmetry and can cause erratic behavior if
+Timestamp and Date objects are used in the same collection or are otherwise inter-
+mixed. The Timestamp class has a disclaimer cautioning programmers against
+mixing dates and timestamps. While you won’t get into trouble as long as you
+keep them separate, there’s nothing to prevent you from mixing them, and the
+resulting errors can be hard to debug. This behavior of the Timestamp class was a
+mistake and should not be emulated.
+Note that you can add a value component to a subclass of an abstract class
+without violating the equals contract. This is important for the sort of class hier-
+archies that you get by following the advice in Item 23, “Prefer class hierarchies to
+tagged classes.” For example, you could have an abstract class Shape with no
+value components, a subclass Circle that adds a radius field, and a subclass
+Rectangle that adds length and width fields. Problems of the sort shown earlier
+won’t occur so long as it is impossible to create a superclass instance directly.
+Consistency—The fourth requirement of the equals contract says that if two
+objects are equal, they must remain equal for all time unless one (or both) of them
+is modified. In other words, mutable objects can be equal to different objects at
+different times while immutable objects can’t. When you write a class, think hard
+about whether it should be immutable (Item 17). If you conclude that it should,
+make sure that your equals method enforces the restriction that equal objects
+remain equal and unequal objects remain unequal for all time.
+Whether or not a class is immutable, do not write an equals method that
+depends on unreliable resources. It’s extremely difficult to satisfy the consis-
+tency requirement if you violate this prohibition. For example, java.net.URL’s
+equals method relies on comparison of the IP addresses of the hosts associated
+with the URLs. Translating a host name to an IP address can require network
+access, and it isn’t guaranteed to yield the same results over time. This can cause
+the URL equals method to violate the equals contract and has caused problems in
+practice. The behavior of URL’s equals method was a big mistake and should not
+be emulated. Unfortunately, it cannot be changed due to compatibility require-
+ments. To avoid this sort of problem, equals methods should perform only deter-
+ministic computations on memory-resident objects.
+Non-nullity—The final requirement lacks an official name, so I have taken
+the liberty of calling it “non-nullity.” It says that all objects must be unequal to
+null. While it is hard to imagine accidentally returning true in response to the
+invocation o.equals(null), it isn’t hard to imagine accidentally throwing a

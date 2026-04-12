@@ -1,0 +1,18 @@
+ITEM 50: MAKE DEFENSIVE COPIES WHEN NEEDED
+235
+promises that it will no longer modify the object directly. A method or constructor
+that expects to take ownership of a client-provided mutable object must make this
+clear in its documentation.
+Classes containing methods or constructors whose invocation indicates a
+transfer of control cannot defend themselves against malicious clients. Such
+classes are acceptable only when there is mutual trust between a class and its client
+or when damage to the class’s invariants would harm no one but the client. An
+example of the latter situation is the wrapper class pattern (Item 18). Depending on
+the nature of the wrapper class, the client could destroy the class’s invariants by
+directly accessing an object after it has been wrapped, but this typically would
+harm only the client.
+In summary, if a class has mutable components that it gets from or returns to
+its clients, the class must defensively copy these components. If the cost of the
+copy would be prohibitive and the class trusts its clients not to modify the compo-
+nents inappropriately, then the defensive copy may be replaced by documentation
+outlining the client’s responsibility not to modify the affected components.

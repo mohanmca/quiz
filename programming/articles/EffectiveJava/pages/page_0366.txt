@@ -1,0 +1,38 @@
+ITEM 86: IMPLEMENT SERIALIZABLE WITH GREAT CAUTION
+345
+Classes designed for inheritance that do implement Serializable include
+Throwable and Component. Throwable implements Serializable so RMI can
+send exceptions from server to client. Component implements Serializable so
+GUIs can be sent, saved, and restored, but even in the heyday of Swing and AWT,
+this facility was little-used in practice.
+If you implement a class with instance fields that is both serializable and
+extendable, there are several risks to be aware of. If there are any invariants on the
+instance field values, it is critical to prevent subclasses from overriding the
+finalize method, which the class can do by overriding finalize and declaring it
+final. Otherwise, the class will be susceptible to finalizer attacks (Item 8). Finally,
+if the class has invariants that would be violated if its instance fields were
+initialized to their default values (zero for integral types, false for boolean, and
+null for object reference types), you must add this readObjectNoData method:
+// readObjectNoData for stateful extendable serializable classes
+private void readObjectNoData() throws InvalidObjectException {
+    throw new InvalidObjectException("Stream data required");
+}
+This method was added in Java 4 to cover a corner case involving the addition of a
+serializable superclass to an existing serializable class [Serialization, 3.5]. 
+There is one caveat regarding the decision not to implement Serializable. If
+a class designed for inheritance is not serializable, it may require extra effort to
+write a serializable subclass. Normal deserialization of such a class requires the
+superclass to have an accessible parameterless constructor [Serialization, 1.10]. If
+you don’t provide such a constructor, subclasses are forced to use the serialization
+proxy pattern (Item 90).
+Inner classes (Item 24) should not implement Serializable. They use
+compiler-generated synthetic fields to store references to enclosing instances and
+to store values of local variables from enclosing scopes. How these fields corre-
+spond to the class definition is unspecified, as are the names of anonymous and
+local classes. Therefore, the default serialized form of an inner class is ill-defined.
+A static member class can, however, implement Serializable.
+To summarize, the ease of implementing Serializable is specious. Unless a
+class is to be used only in a protected environment where versions will never have
+to interoperate and servers will never be exposed to untrusted data, implementing
+Serializable is a serious commitment that should be made with great care. Extra
+caution is warranted if a class permits inheritance.

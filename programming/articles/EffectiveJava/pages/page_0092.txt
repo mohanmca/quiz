@@ -1,0 +1,40 @@
+ITEM 14: CONSIDER IMPLEMENTING COMPARABLE
+71
+The Comparator class has a full complement of construction methods. There
+are analogues to comparingInt and thenComparingInt for the primitive types
+long and double. The int versions can also be used for narrower integral types,
+such as short, as in our PhoneNumber example. The double versions can also be
+used for float. This provides coverage of all of Java’s numerical primitive types. 
+There are also comparator construction methods for object reference types.
+The static method, named comparing, has two overloadings. One takes a key
+extractor and uses the keys’ natural order. The second takes both a key extractor
+and a comparator to be used on the extracted keys. There are three overloadings of
+the instance method, which is named thenComparing. One overloading takes only
+a comparator and uses it to provide a secondary order. A second overloading takes
+only a key extractor and uses the key’s natural order as a secondary order. The
+final overloading takes both a key extractor and a comparator to be used on the
+extracted keys.
+Occasionally you may see compareTo or compare methods that rely on the fact
+that the difference between two values is negative if the first value is less than the
+second, zero if the two values are equal, and positive if the first value is greater. Here
+is an example:
+// BROKEN difference-based comparator - violates transitivity!
+static Comparator<Object> hashCodeOrder = new Comparator<>() {
+    public int compare(Object o1, Object o2) {
+        return o1.hashCode() - o2.hashCode();
+    }
+};
+Do not use this technique. It is fraught with danger from integer overflow and
+IEEE 754 floating point arithmetic artifacts [JLS 15.20.1, 15.21.1]. Furthermore,
+the resulting methods are unlikely to be significantly faster than those written
+using the techniques described in this item. Use either a static compare method:
+// Comparator based on static compare method
+static Comparator<Object> hashCodeOrder = new Comparator<>() {
+    public int compare(Object o1, Object o2) {
+        return Integer.compare(o1.hashCode(), o2.hashCode());
+    }
+};
+or a comparator construction method:
+// Comparator based on Comparator construction method
+static Comparator<Object> hashCodeOrder =
+        Comparator.comparingInt(o -> o.hashCode());

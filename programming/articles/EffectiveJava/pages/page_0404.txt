@@ -1,0 +1,92 @@
+INDEX
+383
+fork-join tasks and pools, 324
+formal type parameters, 117
+forwarding methods, 89, 102
+frameworks
+callback, 91
+class-based, 281
+executor, 323
+interface-based, 6
+nonhierarchical type, 99
+service provider, 8
+function objects, 114
+vs. code blocks, 207
+functional interfaces, 193
+method overloading and, 243
+organization of standard, 200–201
+using standard, 199–202
+functional programming, 82
+G
+gadgets, 340
+garbage collection, 27, 29–30, 113
+general contracts
+See contracts
+generic array creation errors, 126–127, 133
+generic classes and interfaces, 117
+generic methods, 135–138
+vs. unbounded wildcard types, 121
+generic singleton factories, 18, 136
+generic type parameters
+See type parameters
+generic types, 14, 117, 130–134
+documenting, 258
+immutability and, 136
+generic varargs parameter arrays
+heap pollution from, 147–148
+replacing with lists, 149
+unsafe as storage, 146
+unsafe to expose, 147–148
+generics, 117–155
+boxed primitives and, 134
+compiler-generated casts and, 117
+erasure and, 126
+implementing atop arrays, 131–133
+incompatibility with primitive types, 134
+invariant typing, 126
+varargs and, 127, 146–150
+generifying existing code, 130
+Get and Put Principle, 141
+H
+hashCode method
+equals and, 48, 50–54
+general contract for, 50
+how to write, 51
+immutable objects and, 53
+heap pollution, 133, 146–148
+heap profilers, 28
+helper classes, 112
+for shortening parameter lists, 237
+hidden constructors, 61, 96, 339, 344, 353
+See also extralinguistic mechanisms
+hierarchical builder pattern, 16
+I
+immutable objects
+canonical forms and, 47
+clone and, 59
+dependency injection and, 21
+empty arrays and, 248
+enum types and, 160
+EnumSets and, 170
+failure atomicity and, 308
+functional approach and, 82
+hashCode and, 53
+JavaBeans and, 12
+mutable companion classes for, 84
+object reuse and, 22
+rules for, 80
+serialization and, 85, 353–358
+static factory methods and, 84
+subclassing and, 97
+thread safety and, 82
+imperative programming, 82
+implementation details
+documenting for inheritance, 94
+exposing, 92
+implementation inheritance, 87
+implementing interfaces, 4
+default methods and, 105
+inconsistent with equals, 67–68
+unreliable resources and, 45
+information hiding
+See encapsulation

@@ -1,0 +1,48 @@
+CHAPTER 10
+EXCEPTIONS
+302
+Item 73: Throw exceptions appropriate to the abstraction
+It is disconcerting when a method throws an exception that has no apparent
+connection to the task that it performs. This often happens when a method
+propagates an exception thrown by a lower-level abstraction. Not only is it
+disconcerting, but it pollutes the API of the higher layer with implementation
+details. If the implementation of the higher layer changes in a later release, the
+exceptions it throws will change too, potentially breaking existing client programs.
+To avoid this problem, higher layers should catch lower-level exceptions
+and, in their place, throw exceptions that can be explained in terms of the
+higher-level abstraction. This idiom is known as exception translation:
+// Exception Translation
+try {
+... // Use lower-level abstraction to do our bidding
+} catch (LowerLevelException e) {
+throw new HigherLevelException(...);
+}
+Here 
+is 
+an 
+example 
+of 
+exception 
+translation 
+taken 
+from 
+the
+AbstractSequentialList class, which is a skeletal implementation (Item 20) of
+the List interface. In this example, exception translation is mandated by the
+specification of the get method in the List<E> interface:
+/**
+* Returns the element at the specified position in this list.
+* @throws IndexOutOfBoundsException if the index is out of range
+*         ({@code index < 0 || index >= size()}).
+*/
+public E get(int index) {
+ListIterator<E> i = listIterator(index);
+try {
+return i.next();
+} catch (NoSuchElementException e) {
+throw new IndexOutOfBoundsException("Index: " + index);
+}
+}
+A special form of exception translation called exception chaining is called for
+in cases where the lower-level exception might be helpful to someone debugging
+the problem that caused the higher-level exception. The lower-level exception (the

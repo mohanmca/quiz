@@ -1,0 +1,10 @@
+CHAPTER 3
+METHODS COMMON TO ALL OBJECTS
+72
+In summary, whenever you implement a value class that has a sensible order-
+ing, you should have the class implement the Comparable interface so that its
+instances can be easily sorted, searched, and used in comparison-based collec-
+tions. When comparing field values in the implementations of the compareTo
+methods, avoid the use of the < and > operators. Instead, use the static compare
+methods in the boxed primitive classes or the comparator construction methods in
+the Comparator interface.

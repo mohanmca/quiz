@@ -1,0 +1,41 @@
+CHAPTER 2
+CREATING AND DESTROYING OBJECTS
+30
+antees as to which thread will execute finalizers, so there is no portable way to
+prevent this sort of problem other than to refrain from using finalizers. Cleaners
+are a bit better than finalizers in this regard because class authors have control
+over their own cleaner threads, but cleaners still run in the background, under the
+control of the garbage collector, so there can be no guarantee of prompt cleaning.
+Not only does the specification provide no guarantee that finalizers or
+cleaners will run promptly; it provides no guarantee that they’ll run at all. It is
+entirely possible, even likely, that a program terminates without running them on
+some objects that are no longer reachable. As a consequence, you should never
+depend on a finalizer or cleaner to update persistent state. For example,
+depending on a finalizer or cleaner to release a persistent lock on a shared
+resource such as a database is a good way to bring your entire distributed system
+to a grinding halt.
+Don’t be seduced by the methods System.gc and System.runFinalization.
+They may increase the odds of finalizers or cleaners getting executed, but they don’t
+guarantee it. Two methods once claimed to make this guarantee: System.run-
+FinalizersOnExit and its evil twin, Runtime.runFinalizersOnExit. These
+methods are fatally flawed and have been deprecated for decades [ThreadStop].
+Another problem with finalizers is that an uncaught exception thrown during
+finalization is ignored, and finalization of that object terminates [JLS, 12.6].
+Uncaught exceptions can leave other objects in a corrupt state. If another thread
+attempts to use such a corrupted object, arbitrary nondeterministic behavior may
+result. Normally, an uncaught exception will terminate the thread and print a stack
+trace, but not if it occurs in a finalizer—it won’t even print a warning. Cleaners do
+not have this problem because a library using a cleaner has control over its thread.
+There is a severe performance penalty for using finalizers and cleaners. On
+my machine, the time to create a simple AutoCloseable object, to close it using
+try-with-resources, and to have the garbage collector reclaim it is about 12 ns.
+Using a finalizer instead increases the time to 550 ns. In other words, it is about 50
+times slower to create and destroy objects with finalizers. This is primarily because
+finalizers inhibit efficient garbage collection. Cleaners are comparable in speed to
+finalizers if you use them to clean all instances of the class (about 500 ns per
+instance on my machine), but cleaners are much faster if you use them only as a
+safety net, as discussed below. Under these circumstances, creating, cleaning, and
+destroying an object takes about 66 ns on my machine, which means you pay a
+factor of five (not fifty) for the insurance of a safety net if you don’t use it.
+Finalizers have a serious security problem: they open your class up to
+finalizer attacks. The idea behind a finalizer attack is simple: If an exception is

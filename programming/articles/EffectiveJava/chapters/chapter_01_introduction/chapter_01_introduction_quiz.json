@@ -1,0 +1,169 @@
+{
+  "title": "Introduction - Purpose, scope, notation, and reading strategy for Effective Java",
+  "version": "1.0",
+  "totalQuestions": 12,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Purpose and audience",
+      "questions": [
+        {
+          "question": "What audience does the book target?",
+          "options": [
+            "Java developers who already know the language and want practical guidance for better design",
+            "Absolute beginners learning their first programming language",
+            "Only library authors working on the JDK itself",
+            "Only engineers writing concurrency-heavy systems"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is not for beginners and assumes working knowledge of Java.",
+          "id": "intro_m1_q1"
+        },
+        {
+          "question": "How is the book structured?",
+          "options": [
+            "Ninety independent items grouped into eleven chapters",
+            "Twelve chapters, each split into exactly eight items",
+            "A single continuous tutorial meant to be read in order",
+            "One chapter per Java release"
+          ],
+          "answer": 0,
+          "explanation": "The text explicitly says the book consists of ninety items loosely grouped into eleven chapters.",
+          "id": "intro_m1_q2"
+        },
+        {
+          "question": "What is the recommended reading model?",
+          "options": [
+            "Read items selectively and follow cross references as needed",
+            "Read strictly from the first page to the last page",
+            "Skip all code examples and focus on prose only",
+            "Treat the items as exhaustive formal proofs"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says each item stands on its own and the cross references help you plot your own course.",
+          "id": "intro_m1_q3"
+        },
+        {
+          "question": "What kind of examples does the book emphasize?",
+          "options": [
+            "Code examples, including patterns and idioms that can be adapted directly",
+            "Only mathematical proofs of correctness",
+            "Only UML diagrams with no Java code",
+            "Only contrived toy examples with no production relevance"
+          ],
+          "answer": 0,
+          "explanation": "The book says it is heavily illustrated with code examples and design patterns/idioms.",
+          "id": "intro_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Edition updates and release map",
+      "questions": [
+        {
+          "question": "Why does the book prefer release nicknames?",
+          "options": [
+            "To make repeated version references easier to read",
+            "To avoid discussing any Java versions by number",
+            "To hide the fact that the book covers Java 8 and Java 9 features",
+            "To replace all technical terminology with informal language"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says nicknames are used in preference to official names for convenience.",
+          "id": "intro_m2_q1"
+        },
+        {
+          "question": "Which feature is explicitly associated with Java 9?",
+          "options": [
+            "Modules",
+            "Streams",
+            "Lambdas",
+            "try-with-resources"
+          ],
+          "answer": 0,
+          "explanation": "The release table maps modules to Java 9.",
+          "id": "intro_m2_q2"
+        },
+        {
+          "question": "What is the book's stance on terminology?",
+          "options": [
+            "Mostly JLS-aligned, with a few pragmatic terms used consistently throughout",
+            "It invents a new vocabulary unrelated to the JLS",
+            "It avoids all formal terminology",
+            "It uses only vendor-specific terms from one IDE"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says most terms follow the JLS, but some are adjusted for clarity and convention.",
+          "id": "intro_m2_q3"
+        },
+        {
+          "question": "What does the book mean by an API?",
+          "options": [
+            "The exported classes, interfaces, constructors, members, and serialized forms a programmer uses",
+            "Any internal helper method in a class",
+            "Only public static methods",
+            "Only a package's source files"
+          ],
+          "answer": 0,
+          "explanation": "The introduction defines exported API and API elements explicitly.",
+          "id": "intro_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "How to read the rules",
+      "questions": [
+        {
+          "question": "What is the main purpose of the examples in the book?",
+          "options": [
+            "To illustrate design patterns, idioms, and mistakes with concrete Java code",
+            "To provide complete production-ready source files for reuse",
+            "To avoid any discussion of implementation details",
+            "To compare Java against unrelated languages"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is heavily illustrated with code examples and anti-examples.",
+          "id": "intro_m3_q1"
+        },
+        {
+          "question": "What is the book's position on performance?",
+          "options": [
+            "It is secondary to clarity, correctness, usability, robustness, flexibility, and maintainability",
+            "It is the only concern that matters",
+            "It is ignored entirely",
+            "It replaces all other design goals"
+          ],
+          "answer": 0,
+          "explanation": "The introduction says the book is mostly not about performance.",
+          "id": "intro_m3_q2"
+        },
+        {
+          "question": "How should the rules be applied?",
+          "options": [
+            "Generally, but not slavishly; violate them only occasionally and with good reason",
+            "Always, even when the rule conflicts with the problem",
+            "Never, because they are only historical notes",
+            "Only after consulting external style guides"
+          ],
+          "answer": 0,
+          "explanation": "The introduction explicitly warns that the rules are best practices, not absolute laws.",
+          "id": "intro_m3_q3"
+        },
+        {
+          "question": "What is the book's definition of a component?",
+          "options": [
+            "Any reusable software element, from a method to a multi-package framework",
+            "Only a Maven artifact",
+            "Only a class file",
+            "Only a user interface widget"
+          ],
+          "answer": 0,
+          "explanation": "The introduction defines component broadly so the same rules can apply at different levels of reuse.",
+          "id": "intro_m3_q4"
+        }
+      ]
+    }
+  ]
+}

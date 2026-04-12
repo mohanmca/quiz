@@ -1,0 +1,41 @@
+ITEM 12: ALWAYS OVERRIDE TOSTRING
+57
+If you decide not to specify a format, the documentation comment should read
+something like this:
+/**
+* Returns a brief description of this potion. The exact details
+* of the representation are unspecified and subject to change,
+* but the following may be regarded as typical:
+*
+* "[Potion #9: type=love, smell=turpentine, look=india ink]"
+*/
+@Override public String toString() { ... }
+After reading this comment, programmers who produce code or persistent data
+that depends on the details of the format will have no one but themselves to blame
+when the format is changed.
+Whether or not you specify the format, provide programmatic access to the
+information contained in the value returned by toString. For example, the
+PhoneNumber class should contain accessors for the area code, prefix, and line
+number. If you fail to do this, you force programmers who need this information to
+parse the string. Besides reducing performance and making unnecessary work for
+programmers, this process is error-prone and results in fragile systems that break
+if you change the format. By failing to provide accessors, you turn the string for-
+mat into a de facto API, even if you’ve specified that it’s subject to change.
+It makes no sense to write a toString method in a static utility class (Item 4).
+Nor should you write a toString method in most enum types (Item 34) because
+Java provides a perfectly good one for you. You should, however, write a
+toString method in any abstract class whose subclasses share a common string
+representation. For example, the toString methods on most collection implemen-
+tations are inherited from the abstract collection classes.
+Google’s open source AutoValue facility, discussed in Item 10, will generate a
+toString method for you, as will most IDEs. These methods are great for telling
+you the contents of each field but aren’t specialized to the meaning of the class.
+So, for example, it would be inappropriate to use an automatically generated
+toString method for our PhoneNumber class (as phone numbers have a standard
+string representation), but it would be perfectly acceptable for our Potion class.
+That said, an automatically generated toString method is far preferable to the
+one inherited from Object, which tells you nothing about an object’s value.
+To recap, override Object’s toString implementation in every instantiable
+class you write, unless a superclass has already done so. It makes classes much
+more pleasant to use and aids in debugging. The toString method should return a
+concise, useful description of the object, in an aesthetically pleasing format.

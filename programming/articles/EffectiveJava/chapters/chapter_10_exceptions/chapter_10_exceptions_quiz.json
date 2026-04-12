@@ -1,0 +1,205 @@
+{
+  "title": "Exceptions - Effective Java, Chapter 10: pages 314-331, Items 69-77",
+  "version": "1.0",
+  "totalQuestions": 15,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Exceptional conditions and throwable choice",
+      "questions": [
+        {
+          "question": "Why should exceptions not be used for ordinary loop control?",
+          "options": [
+            "Because the condition is expected and should be expressed directly",
+            "Because exceptions cannot be caught inside loops",
+            "Because loop control requires checked exceptions",
+            "Because iteration with exceptions is always faster"
+          ],
+          "answer": 0,
+          "explanation": "An ordinary loop should spell out its termination condition; exceptions are for genuinely unusual failure.",
+          "id": "chapter10_m1_q1"
+        },
+        {
+          "question": "When is a checked exception justified?",
+          "options": [
+            "When the caller can reasonably recover and should be forced to handle the condition",
+            "Whenever the method is public",
+            "Whenever the code is performance-critical",
+            "Whenever a return value would be inconvenient"
+          ],
+          "answer": 0,
+          "explanation": "The checked/unchecked choice is about recoverability and caller burden, not style.",
+          "id": "chapter10_m1_q2"
+        },
+        {
+          "question": "What should you throw for a programming error such as an invalid argument or illegal state?",
+          "options": [
+            "A runtime exception appropriate to the violation",
+            "A checked exception so callers must catch it",
+            "An Error subclass",
+            "A Throwable subclass unrelated to Exception"
+          ],
+          "answer": 0,
+          "explanation": "Runtime exceptions model contract violations; checked exceptions model recoverable conditions.",
+          "id": "chapter10_m1_q3"
+        },
+        {
+          "question": "What is wrong with defining a new Error subclass for application failure?",
+          "options": [
+            "Errors are reserved for unrecoverable VM-level conditions and should not be part of normal API design",
+            "Errors cannot carry detail messages",
+            "Errors are always checked",
+            "Errors cannot be thrown from Java code"
+          ],
+          "answer": 0,
+          "explanation": "Application code should not invent new errors; it should use runtime exceptions or checked exceptions as appropriate.",
+          "id": "chapter10_m1_q4"
+        },
+        {
+          "question": "What should a checked exception provide if recovery is expected?",
+          "options": [
+            "Typed accessors that expose the data needed to recover",
+            "Only a stack trace",
+            "A localized user message",
+            "A private constructor"
+          ],
+          "answer": 0,
+          "explanation": "Callers should not need to parse exception text to recover from a known failure mode.",
+          "id": "chapter10_m1_q5"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Checked exceptions, standard exceptions, and abstraction",
+      "questions": [
+        {
+          "question": "Why can a checked exception make an API unpleasant to use?",
+          "options": [
+            "Because every caller must catch it or declare it, even when recovery is awkward",
+            "Because checked exceptions are always slower at runtime",
+            "Because checked exceptions cannot be documented",
+            "Because they cannot be translated"
+          ],
+          "answer": 0,
+          "explanation": "A checked exception is a deliberate API burden, so it should be reserved for useful recovery scenarios.",
+          "id": "chapter10_m2_q1"
+        },
+        {
+          "question": "When should `Optional` be preferred over a checked exception?",
+          "options": [
+            "When the failure can be represented as absence and no extra failure data is needed",
+            "When the caller needs a stack trace",
+            "When the method is private",
+            "When the exception is recoverable"
+          ],
+          "answer": 0,
+          "explanation": "Optional is a cleaner replacement when the failure mode is simply “no result.”",
+          "id": "chapter10_m2_q2"
+        },
+        {
+          "question": "Which exception best matches an illegal argument value?",
+          "options": [
+            "`IllegalArgumentException`",
+            "`IllegalStateException`",
+            "`ConcurrentModificationException`",
+            "`UnsupportedOperationException`"
+          ],
+          "answer": 0,
+          "explanation": "Bad parameter values should map to `IllegalArgumentException` unless a more specific standard exception applies.",
+          "id": "chapter10_m2_q3"
+        },
+        {
+          "question": "What is the purpose of exception translation?",
+          "options": [
+            "To convert a low-level failure into an exception that matches the higher-level abstraction",
+            "To hide all failures from callers",
+            "To avoid using stack traces",
+            "To force all exceptions to become checked"
+          ],
+          "answer": 0,
+          "explanation": "Translation keeps implementation details out of the public contract while preserving useful diagnostics.",
+          "id": "chapter10_m2_q4"
+        },
+        {
+          "question": "Why is chaining useful in translated exceptions?",
+          "options": [
+            "It preserves the original cause and its stack trace for debugging",
+            "It eliminates the need for documentation",
+            "It makes the exception unchecked",
+            "It guarantees recovery"
+          ],
+          "answer": 0,
+          "explanation": "Chaining gives you the higher-level exception the API needs plus the lower-level cause you may need later.",
+          "id": "chapter10_m2_q5"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Documentation, diagnostics, and failure atomicity",
+      "questions": [
+        {
+          "question": "What is the best way to document a checked exception?",
+          "options": [
+            "With a precise `throws` declaration and a Javadoc `@throws` description of when it occurs",
+            "Only in the class-level comment",
+            "Only by naming the exception type well",
+            "By omitting it so callers discover it from stack traces"
+          ],
+          "answer": 0,
+          "explanation": "The declaration and the Javadoc should tell clients exactly when the exception is expected.",
+          "id": "chapter10_m3_q1"
+        },
+        {
+          "question": "What belongs in an exception detail message?",
+          "options": [
+            "The values that explain the failure, such as offending indexes or bounds",
+            "A long prose narrative for end users",
+            "Sensitive secrets so support can diagnose faster",
+            "Only the exception class name"
+          ],
+          "answer": 0,
+          "explanation": "The detail message should capture the failure facts, not tell a story.",
+          "id": "chapter10_m3_q2"
+        },
+        {
+          "question": "What is failure atomicity?",
+          "options": [
+            "A failed operation leaves the object in the same usable state it had before the call",
+            "A method never throws exceptions",
+            "A method always rolls back the heap",
+            "A catch block always repairs every invariant automatically"
+          ],
+          "answer": 0,
+          "explanation": "Failure atomicity is about preserving object state when an operation aborts.",
+          "id": "chapter10_m3_q3"
+        },
+        {
+          "question": "When is it acceptable to ignore an exception?",
+          "options": [
+            "Only when the code comments explicitly explain why ignoring it is safe or expected",
+            "Whenever the exception is checked",
+            "Whenever the catch block is empty but short",
+            "Whenever the program is not in debug mode"
+          ],
+          "answer": 0,
+          "explanation": "Ignoring an exception without explanation is a silent failure mode.",
+          "id": "chapter10_m3_q4"
+        },
+        {
+          "question": "Why can swallowing an exception make debugging harder?",
+          "options": [
+            "It can defer the visible failure to a later location that no longer obviously relates to the root cause",
+            "It forces the VM to crash immediately",
+            "It always improves throughput",
+            "It prevents stack traces from being generated"
+          ],
+          "answer": 0,
+          "explanation": "An ignored exception removes the evidence that would otherwise point at the original fault.",
+          "id": "chapter10_m3_q5"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+CHAPTER 8
+METHODS
+234
+In the accessors, unlike the constructor, it would be permissible to use the
+clone method to make the defensive copies. This is so because we know that the
+class of Period’s internal Date objects is java.util.Date, and not some
+untrusted subclass. That said, you are generally better off using a constructor or
+static factory to copy an instance, for reasons outlined in Item 13.
+Defensive copying of parameters is not just for immutable classes. Any time
+you write a method or constructor that stores a reference to a client-provided
+object in an internal data structure, think about whether the client-provided object
+is potentially mutable. If it is, think about whether your class could tolerate a
+change in the object after it was entered into the data structure. If the answer is no,
+you must defensively copy the object and enter the copy into the data structure in
+place of the original. For example, if you are considering using a client-provided
+object reference as an element in an internal Set instance or as a key in an internal
+Map instance, you should be aware that the invariants of the set or map would be
+corrupted if the object were modified after it is inserted.
+The same is true for defensive copying of internal components prior to
+returning them to clients. Whether or not your class is immutable, you should
+think twice before returning a reference to an internal component that is mutable.
+Chances are, you should return a defensive copy. Remember that nonzero-length
+arrays are always mutable. Therefore, you should always make a defensive copy
+of an internal array before returning it to a client. Alternatively, you could return
+an immutable view of the array. Both of these techniques are shown in Item 15.
+Arguably, the real lesson in all of this is that you should, where possible, use
+immutable objects as components of your objects so that you that don’t have to
+worry about defensive copying (Item 17). In the case of our Period example, use
+Instant (or LocalDateTime or ZonedDateTime), unless you’re using a release
+prior to Java 8. If you are using an earlier release, one option is to store the
+primitive long returned by Date.getTime() in place of a Date reference.
+There may be a performance penalty associated with defensive copying and it
+isn’t always justified. If a class trusts its caller not to modify an internal
+component, perhaps because the class and its client are both part of the same
+package, then it may be appropriate to dispense with defensive copying. Under
+these circumstances, the class documentation should make it clear that the caller
+must not modify the affected parameters or return values.
+Even across package boundaries, it is not always appropriate to make a
+defensive copy of a mutable parameter before integrating it into an object. There
+are some methods and constructors whose invocation indicates an explicit handoff
+of the object referenced by a parameter. When invoking such a method, the client

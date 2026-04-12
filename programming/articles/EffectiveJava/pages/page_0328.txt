@@ -1,0 +1,42 @@
+ITEM 75: INCLUDE FAILURE-CAPTURE INFORMATION IN DETAIL MESSAGES
+307
+One way to ensure that exceptions contain adequate failure-capture
+information in their detail messages is to require this information in their
+constructors instead of a string detail message. The detail message can then be
+generated automatically to include the information. For example, instead of a
+String constructor, IndexOutOfBoundsException could have had a constructor
+that looks like this:
+/**
+* Constructs an IndexOutOfBoundsException.
+*
+* @param lowerBound the lowest legal index value
+* @param upperBound the highest legal index value plus one
+* @param index      the actual index value
+*/
+public IndexOutOfBoundsException(int lowerBound, int upperBound,
+int index) {
+// Generate a detail message that captures the failure
+super(String.format(
+"Lower bound: %d, Upper bound: %d, Index: %d", 
+lowerBound, upperBound, index));
+// Save failure information for programmatic access
+this.lowerBound = lowerBound;
+this.upperBound = upperBound;
+this.index = index;
+}
+As of Java 9, IndexOutOfBoundsException finally acquired a constructor
+that takes an int valued index parameter, but sadly it omits the lowerBound and
+upperBound parameters. More generally, the Java libraries don’t make heavy use
+of this idiom, but it is highly recommended. It makes it easy for the programmer
+throwing an exception to capture the failure. In fact, it makes it hard for the
+programmer not to capture the failure! In effect, the idiom centralizes the code to
+generate a high-quality detail message in the exception class, rather than requiring
+each user of the class to generate the detail message redundantly.
+As suggested in Item 70, it may be appropriate for an exception to provide
+accessor methods for its failure-capture information (lowerBound, upperBound,
+and index in the above example). It is more important to provide such accessor
+methods on checked exceptions than unchecked, because the failure-capture
+information could be useful in recovering from the failure. It is rare (although not
+inconceivable) that a programmer might want programmatic access to the details
+of an unchecked exception. Even for unchecked exceptions, however, it seems
+advisable to provide these accessors on general principle (Item 12, page 57).

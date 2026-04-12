@@ -1,0 +1,41 @@
+CHAPTER 11
+CONCURRENCY
+328
+A few more details bear noting. The executor passed to the time method must
+allow for the creation of at least as many threads as the given concurrency level, or
+the test will never complete. This is known as a thread starvation deadlock
+[Goetz06, 8.1.1]. If a worker thread catches an InterruptedException, it
+reasserts the interrupt using the idiom Thread.currentThread().interrupt()
+and returns from its run method. This allows the executor to deal with the interrupt
+as it sees fit. Note that System.nanoTime is used to time the activity. For interval
+timing, always use System.nanoTime rather than System.currentTimeMillis.
+System.nanoTime is both more accurate and more precise and is unaffected by
+adjustments to the system’s real-time clock. Finally, note that the code in this
+example won’t yield accurate timings unless action does a fair amount of work,
+say a second or more. Accurate microbenchmarking is notoriously hard and is best
+done with the aid of a specialized framework such as jmh [JMH].
+This item only scratches the surface of what you can do with the concurrency
+utilities. For example, the three countdown latches in the previous example could
+be replaced by a single CyclicBarrier or Phaser instance. The resulting code
+would be a bit more concise but perhaps more difficult to understand. 
+While you should always use the concurrency utilities in preference to wait
+and notify, you might have to maintain legacy code that uses wait and notify.
+The wait method is used to make a thread wait for some condition. It must be
+invoked inside a synchronized region that locks the object on which it is invoked.
+Here is the standard idiom for using the wait method:
+// The standard idiom for using the wait method
+synchronized (obj) {
+while (<condition does not hold>)
+obj.wait(); // (Releases lock, and reacquires on wakeup)
+... // Perform action appropriate to condition
+}
+Always use the wait loop idiom to invoke the wait method; never invoke it
+outside of a loop. The loop serves to test the condition before and after waiting.
+Testing the condition before waiting and skipping the wait if the condition
+already holds are necessary to ensure liveness. If the condition already holds and
+the notify (or notifyAll) method has already been invoked before a thread
+waits, there is no guarantee that the thread will ever wake from the wait.
+Testing the condition after waiting and waiting again if the condition does not
+hold are necessary to ensure safety. If the thread proceeds with the action when
+the condition does not hold, it can destroy the invariant guarded by the lock. There
+are several reasons a thread might wake up when the condition does not hold:

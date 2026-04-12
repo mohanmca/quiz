@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enums and Annotations</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --text: #1a1a2e;
+      --muted: #64748b;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --good: #16a34a;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 32%),
+        radial-gradient(circle at top right, rgba(124, 58, 237, 0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    code, pre, .diagram {
+      font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+    }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      z-index: 1000;
+    }
+    #app {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+    #header {
+      position: sticky;
+      top: 6px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      z-index: 100;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    }
+    #header .left,
+    #header .center,
+    #header .right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #header .center {
+      justify-content: center;
+      flex: 1;
+    }
+    #header .left {
+      min-width: 220px;
+      font-weight: 600;
+    }
+    #pct {
+      min-width: 46px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover {
+      border-color: var(--primary);
+    }
+    #slide {
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      padding: 40px 48px;
+      min-height: 520px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+    }
+    #slide h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+    #slide h2 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+    #slide p,
+    #slide li,
+    #slide td,
+    #slide th {
+      line-height: 1.7;
+      font-size: 1.03rem;
+    }
+    #slide pre {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    #slide table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+    #slide th,
+    #slide td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    #slide tr:hover td {
+      background: #f8fafc;
+    }
+    .diagram {
+      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 16px;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 18px 0;
+    }
+    .note,
+    .tip,
+    .warn,
+    .real {
+      border-left: 5px solid;
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin: 18px 0;
+    }
+    .note { border-color: #2563eb; background: #eff6ff; }
+    .tip { border-color: #22c55e; background: #f0fdf4; }
+    .warn { border-color: #eab308; background: #fefce8; }
+    .real { border-color: #7c3aed; background: #faf5ff; }
+    .quiz-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .quiz-opt {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 12px;
+      border: 2px solid var(--border);
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .quiz-opt.correct {
+      border-color: var(--good);
+      background: #f0fdf4;
+    }
+    .quiz-opt.wrong {
+      border-color: var(--bad);
+      background: #fef2f2;
+    }
+    .quiz-opt.disabled {
+      pointer-events: none;
+      opacity: 0.78;
+    }
+    .quiz-feedback {
+      display: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 16px;
+    }
+    .quiz-feedback.show { display: block; }
+    .quiz-feedback.pass {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .quiz-feedback.fail {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    #nav .prev {
+      background: #e2e8f0;
+    }
+    #nav .next {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    #toc {
+      position: fixed;
+      top: 0;
+      left: -360px;
+      width: 350px;
+      height: 100vh;
+      background: #ffffff;
+      border-right: 1px solid var(--border);
+      z-index: 201;
+      transition: left 0.2s ease;
+      padding: 24px 18px;
+      overflow-y: auto;
+      box-shadow: 8px 0 24px rgba(15, 23, 42, 0.1);
+    }
+    #toc.open {
+      left: 0;
+    }
+    #toc-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.32);
+      z-index: 200;
+    }
+    #toc-overlay.open {
+      display: block;
+    }
+    .toc-module {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #eef2f7;
+    }
+    .toc-module h3 {
+      margin: 0 0 10px 0;
+      color: var(--secondary);
+    }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 6px;
+      background: #fff;
+    }
+    .toc-link.current {
+      border-color: var(--primary);
+      background: #eff6ff;
+    }
+    .quiz-meta {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    @media (max-width: 768px) {
+      #slide { padding: 20px 24px; }
+      #header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #header .left,
+      #header .center,
+      #header .right {
+        justify-content: space-between;
+        min-width: 0;
+      }
+    }
+    @media print {
+      #header, #nav, #progress-bar, #toc, #toc-overlay { display: none !important; }
+      #slide { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress-bar"></div>
+  <div id="app">
+    <div id="header">
+      <div class="left" id="module-label">Module 0</div>
+      <div class="center" id="slide-counter">1 / 1</div>
+      <div class="right">
+        <button onclick="toggleTOC()" title="Table of Contents (T)">TOC</button>
+        <button onclick="retryFailed()" title="Retry failed quiz questions (R)">Retry</button>
+        <span id="pct">0%</span>
+      </div>
+    </div>
+    <div id="slide"></div>
+    <div id="nav">
+      <button class="prev" onclick="go(-1)">Prev</button>
+      <button class="next" onclick="go(1)">Next</button>
+    </div>
+  </div>
+  <div id="toc-overlay" onclick="toggleTOC(false)"></div>
+  <div id="toc">
+    <h2>Table of Contents</h2>
+    <div id="toc-body"></div>
+  </div>
+
+  <script>
+    const QUIZ_DATA = {"title": "Enums and Annotations - Effective Java, Chapter 6: pages 178-213, Items 34-41", "version": "1.0", "totalQuestions": 16, "modules": [{"id": 0, "name": "Enums are real types", "questions": [{"question": "Why is the int-enum pattern inferior to a real enum type?", "options": ["It provides type safety, a namespace, and stable binaries for clients.", "It is faster than enums in every case.", "It supports inheritance better than enums.", "It automatically gives you set operations."], "answer": 0, "explanation": "Int constants are brittle: they can be mixed accidentally, collide by name, and are compiled into client code. Real enums are type-safe classes.", "id": "chapter_06_enums_and_annotations_m0_q1"}, {"question": "What is the main reason to prefer instance fields over ordinal() for associated data?", "options": ["Ordinal changes when constants are reordered; a stored field does not.", "Ordinal is always slower than a stored field.", "Ordinal cannot be called on enums with methods.", "Stored fields cannot be final."], "answer": 0, "explanation": "An enum's ordinal is only the declaration position, so it is not a semantic value and must not drive program logic.", "id": "chapter_06_enums_and_annotations_m0_q2"}, {"question": "When should you use a switch on an enum?", "options": ["When you are augmenting an enum you do not control, or the logic does not belong in the enum itself.", "Whenever you want compile-time checking for missing constants.", "Whenever the enum has instance fields.", "Whenever you need constant-specific behavior."], "answer": 0, "explanation": "A switch is appropriate as a client-side adapter, not as the primary way to model per-constant behavior inside the enum.", "id": "chapter_06_enums_and_annotations_m0_q3"}, {"question": "What does an enum constructor give you that int constants cannot?", "options": ["A place to bind per-constant data and compute derived state once.", "A way to create multiple instances per constant.", "Access to mutable static fields before initialization.", "A namespace shared across unrelated enums."], "answer": 0, "explanation": "Each enum constant can carry its own state and behavior, which is impossible with bare ints.", "id": "chapter_06_enums_and_annotations_m0_q4"}]}, {"id": 1, "name": "EnumSet and EnumMap", "questions": [{"question": "Why is EnumSet preferred over a manual bit field?", "options": ["It preserves Set semantics and type safety while keeping bit-vector performance.", "It uses more memory than any other Set implementation.", "It can represent sets with more than 64 elements in one long.", "It is immutable by default."], "answer": 0, "explanation": "EnumSet gives you compact representation and normal Set operations without manual bit masks.", "id": "chapter_06_enums_and_annotations_m1_q1"}, {"question": "Why should public APIs take Set<Style> instead of EnumSet<Style>?", "options": ["So callers are not forced to use one specific implementation.", "Because EnumSet cannot be passed to methods.", "Because Set is always faster than EnumSet.", "Because EnumSet is not a valid parameter type."], "answer": 0, "explanation": "Program to the interface. Accepting Set keeps the API flexible even if EnumSet is the best implementation choice.", "id": "chapter_06_enums_and_annotations_m1_q2"}, {"question": "What is the main advantage of EnumMap over ordinal-indexed arrays?", "options": ["It is type-safe and self-describing while staying close to array speed.", "It supports non-enum keys better than HashMap.", "It avoids the need for a key type token.", "It is automatically immutable."], "answer": 0, "explanation": "EnumMap hides the ordinal arithmetic and still uses array-backed storage internally.", "id": "chapter_06_enums_and_annotations_m1_q3"}, {"question": "When should you specify a map factory with groupingBy?", "options": ["When you care that the collector produce EnumMap rather than an implementation chosen by the library.", "Whenever the stream has more than one element.", "Only when collecting to a Set.", "Only when the source is already a map."], "answer": 0, "explanation": "The default groupingBy collector may choose a different Map implementation; provide a factory if EnumMap behavior matters.", "id": "chapter_06_enums_and_annotations_m1_q4"}]}, {"id": 2, "name": "Extensible enums and annotations", "questions": [{"question": "Why are annotations better than naming patterns for framework hooks?", "options": ["They are checked by the compiler and can carry structured metadata.", "They execute faster at runtime.", "They automatically fix invalid code.", "They are only available for methods."], "answer": 0, "explanation": "Annotations avoid silent typos and let tools inspect explicit metadata instead of parsing names.", "id": "chapter_06_enums_and_annotations_m2_q1"}, {"question": "What does @Retention(RetentionPolicy.RUNTIME) do for a test annotation?", "options": ["It keeps the annotation visible to reflection at runtime.", "It makes the annotation compile faster.", "It allows the annotation only on types.", "It forces the annotation to be repeatable."], "answer": 0, "explanation": "Without runtime retention, a reflection-based test runner cannot see the annotation.", "id": "chapter_06_enums_and_annotations_m2_q2"}, {"question": "What is the main point of a bounded type token like Class<? extends Throwable>?", "options": ["It lets the annotation accept only class literals for throwable subtypes.", "It forces the value to be a String at runtime.", "It makes annotation processing unnecessary.", "It allows any unrelated class to be passed in."], "answer": 0, "explanation": "The wildcard constrains the class literal to a Throwable subtype and keeps the API type-safe.", "id": "chapter_06_enums_and_annotations_m2_q3"}, {"question": "Why can repeated annotations be easy to process incorrectly?", "options": ["Because the repeated form is represented through a synthetic container annotation.", "Because Java forbids runtime reflection on annotations.", "Because repeated annotations cannot carry parameters.", "Because repeatable annotations are not retained."], "answer": 0, "explanation": "A processor must look for the direct annotation and its container, or use getAnnotationsByType.", "id": "chapter_06_enums_and_annotations_m2_q4"}]}, {"id": 3, "name": "Override and marker interfaces", "questions": [{"question": "What bug does @Override most directly prevent?", "options": ["Accidentally overloading a method when you intended to override it.", "Using final fields in enums.", "Missing import statements for superclasses.", "Unchecked generic casts."], "answer": 0, "explanation": "It forces the compiler to confirm that the signature actually matches a supertype method.", "id": "chapter_06_enums_and_annotations_m3_q1"}, {"question": "What is the key advantage of a marker interface over a marker annotation?", "options": ["It creates a real type that APIs can require in method signatures.", "It can be applied to methods and fields.", "It is always shorter to write.", "It does not require any inheritance relationship."], "answer": 0, "explanation": "A marker interface can be used for compile-time type checking and subtype restriction.", "id": "chapter_06_enums_and_annotations_m3_q2"}, {"question": "When is a marker annotation the better choice?", "options": ["When the marker applies to non-type elements or fits an annotation-driven framework.", "Whenever you need subtype checking at compile time.", "Whenever the marker should be inherited by default.", "Whenever the marker adds methods."], "answer": 0, "explanation": "Annotations are the right fit for metadata on methods, fields, parameters, and framework hooks.", "id": "chapter_06_enums_and_annotations_m3_q3"}, {"question": "Why is Serializable a marker interface rather than a marker annotation?", "options": ["Because serialization is a capability that is naturally modeled as a type.", "Because annotations did not exist when serialization was invented.", "Because marker annotations cannot have runtime retention.", "Because interfaces cannot be checked by the compiler."], "answer": 0, "explanation": "The interface lets APIs express and enforce a type-level contract for serializability.", "id": "chapter_06_enums_and_annotations_m3_q4"}]}]};
+    const SLIDES = [{"m": 0, "t": "Why int constants fail", "c": "<p>Before enum types, the int-enum pattern encoded a closed set of constants as public static final ints. That buys syntax, not type safety.</p>\n<p>The failure modes are predictable: namespace collisions, accidental arithmetic on values, brittle client binaries, and debugger output that is just a number.</p>\n<ul><li>A constant group has no namespace, so names must be prefixed manually.</li><li>The compiler cannot stop you from mixing unrelated constant groups.</li><li>Changing an int constant can require recompiling clients.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0178.png\" alt=\"Item 34 begins by contrasting int constants with real enum types.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 34 begins by contrasting int constants with real enum types.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 178-179.</div>"}, {"m": 0, "t": "Enum types are classes", "c": "<p>An enum constant is a singleton instance exported by the enum class. The type is effectively final, instance-controlled, and much more than a glorified integer.</p>\n<p>Enums can declare fields, constructors, methods, and interfaces. Use private final state and expose behavior through accessors, not ordinals.</p>\n<ul><li>values() returns constants in declaration order.</li><li>toString() defaults to the constant name but can be overridden.</li><li>Enum constructors cannot access mutable static state during initialization.</li></ul>\n<pre><code>public enum Planet {\n    EARTH(5.975e+24, 6.378e6);\n    private final double mass;\n    private final double radius;\n    private final double surfaceGravity;\n}</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0180.png\" alt=\"A rich enum can carry data and behavior, not just names.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">A rich enum can carry data and behavior, not just names.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 180-183.</div>"}, {"m": 0, "t": "Constant-specific behavior", "c": "<p>If each enum constant has different behavior, prefer constant-specific class bodies over a switch that dispatches on this.</p>\n<p>The switch style is fragile: adding a constant compiles cleanly and then fails at runtime if you forget to update the switch.</p>\n<ul><li>Abstract methods in an enum force every constant to provide an implementation.</li><li>A strategy enum is useful when multiple constants share a behavior family.</li><li>Use a switch on an enum only when augmenting an enum you do not control.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0182.png\" alt=\"Constant-specific method implementations push behavior next to the constant.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Constant-specific method implementations push behavior next to the constant.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 182-187.</div>"}, {"m": 0, "t": "Quiz: Enums are real types", "q": true}, {"m": 1, "t": "EnumSet replaces bit fields", "c": "<p>If a set of enum constants is being represented as a bit field, stop. EnumSet gives you the compactness of bit vectors with the API and safety of Set.</p>\n<p>The client sees a normal Set<Style>; the implementation can still be bit-vector fast for small enums.</p>\n<ul><li>Use Set<Style> in signatures, not EnumSet<Style>.</li><li>Bulk operations remain efficient because EnumSet is internally bit based.</li><li>You do not need to precompute bit masks or choose int versus long up front.</li></ul>\n<pre><code>public void applyStyles(Set&lt;Style&gt; styles) {\n    ...\n}\ntext.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0190.png\" alt=\"Item 36 replaces manual bit twiddling with EnumSet.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 36 replaces manual bit twiddling with EnumSet.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 190-191.</div>"}, {"m": 1, "t": "EnumMap replaces ordinal indexing", "c": "<p>If an array is really a map from enum key to value, use EnumMap. It is type-safe, self-documenting, and comparable in speed to ordinal-indexed arrays.</p>\n<p>EnumMap hides the array implementation detail and makes the key type explicit via the Class token.</p>\n<ul><li>Use Map<EnumType, V> in APIs, not ordinal-based arrays.</li><li>The constructor takes the enum Class object as a bounded type token.</li><li>For multidimensional relationships, use nested EnumMap instances.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0192.png\" alt=\"Item 37 shows how EnumMap eliminates unchecked casts and index math.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 37 shows how EnumMap eliminates unchecked casts and index math.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 192-196.</div>"}, {"m": 1, "t": "Nested EnumMap for enum pairs", "c": "<p>A two-dimensional enum relationship should usually be represented as Map<A, Map<B, V>> backed by EnumMap at each level.</p>\n<p>This is safer than an array-of-arrays indexed by ordinals, and it is far easier to extend when the enum grows.</p>\n<ul><li>Adding a new enum constant should not require reshaping a 2D array manually.</li><li>Let the map-of-maps be initialized from the enum values.</li><li>Use groupingBy(..., mapFactory, ...) if stream collectors should produce EnumMap.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0194.png\" alt=\"The phase-transition example shows how nested EnumMap scales to enum pairs.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The phase-transition example shows how nested EnumMap scales to enum pairs.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 194-196.</div>"}, {"m": 1, "t": "Quiz: EnumSet and EnumMap", "q": true}, {"m": 2, "t": "Extensible enums use interfaces", "c": "<p>Java enums are not extensible, and that is usually correct. If you need an extensible opcode-like family, define an interface and let enums implement it.</p>\n<p>Clients should depend on the interface type, not on a concrete base enum.</p>\n<ul><li>The interface is the stable API surface.</li><li>A base enum can implement the interface, and extension enums can implement the same interface.</li><li>Use bounded type tokens when you want to iterate over a specific enum class.</li></ul>\n<pre><code>public interface Operation {\n    double apply(double x, double y);\n}\npublic enum BasicOperation implements Operation { ... }</code></pre>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0197.png\" alt=\"Item 38 replaces enum inheritance with an interface plus implementations.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 38 replaces enum inheritance with an interface plus implementations.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 197-199.</div>"}, {"m": 2, "t": "Annotations encode intent", "c": "<p>Naming patterns are fragile. An annotation makes the intent machine-readable, type-checked, and less likely to fail silently.</p>\n<p>For runtime tools, combine RetentionPolicy.RUNTIME with an appropriate Target meta-annotation.</p>\n<ul><li>Marker annotations carry no parameters; they simply mark an element.</li><li>A parameterized annotation can carry a Class<? extends Throwable> token.</li><li>Repeatable annotations are syntactic sugar over a synthetic container annotation.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0201.png\" alt=\"Item 39 moves special handling from naming conventions to annotations.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 39 moves special handling from naming conventions to annotations.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 201-208.</div>"}, {"m": 2, "t": "Repeatable annotations are not free", "c": "<p>Repeatable annotations improve source readability when you need multiple logical instances on one element, but the processing rules are easy to get wrong.</p>\n<p>isAnnotationPresent sees the annotation or the container, not both. getAnnotationsByType is the API that normalizes the repeated form.</p>\n<ul><li>Repeated annotations generate a synthetic container annotation.</li><li>Processors must not assume isAnnotationPresent covers both forms.</li><li>Use repeatable annotations only when the source form really reads better.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0206.png\" alt=\"The repeatable annotation form requires explicit handling in the processor.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The repeatable annotation form requires explicit handling in the processor.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 186-187.</div>"}, {"m": 2, "t": "Quiz: Extensible enums and annotations", "q": true}, {"m": 3, "t": "Override catches overloads", "c": "<p>Use @Override everywhere you believe a method overrides a supertype declaration. It turns accidental overloads into compiler errors.</p>\n<p>The classic failure mode is equals(Bigram) instead of equals(Object): the code compiles, but the method does not override anything.</p>\n<ul><li>It applies to superclass and interface methods.</li><li>In concrete classes, overriding an abstract superclass method is already compiler-enforced, but the annotation is still useful for clarity.</li><li>IDE warnings can complement compiler checks when the annotation is used consistently.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0209.png\" alt=\"Item 40 shows how @Override turns a subtle bug into a compiler error.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 40 shows how @Override turns a subtle bug into a compiler error.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 209-211.</div>"}, {"m": 3, "t": "Marker interfaces define a type", "c": "<p>A marker interface does more than mark. It creates a real type that compile-time checks can use, which is impossible with a marker annotation alone.</p>\n<p>Serializable is the canonical example: it denotes a capability that can be enforced by type checking if APIs choose to use it that way.</p>\n<ul><li>Use a marker interface when clients may want methods that accept only marked instances.</li><li>Use a marker interface to restrict a marker to a specific family of subtypes.</li><li>Use a marker annotation when the marker must apply to non-type program elements or fit an annotation framework.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0210.png\" alt=\"Item 41 argues that a marker interface is still the right tool when the marker is a type.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">Item 41 argues that a marker interface is still the right tool when the marker is a type.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 191-193.</div>"}, {"m": 3, "t": "Choosing between annotation and interface", "c": "<p>If the marker is part of a type relationship, prefer an interface. If it is just metadata on a class, method, field, or parameter, prefer an annotation.</p>\n<p>The question is not whether annotations are newer. The question is whether the marker should participate in the type system.</p>\n<ul><li>Use interfaces for compile-time filtering on accepted argument types.</li><li>Use annotations for frameworks that scan program elements.</li><li>If a TYPE-targeted annotation feels like a type, re-check the design.</li></ul>\n<div style=\"margin:18px 0 10px;\"><img src=\"../../page_previews/page_0212.png\" alt=\"The decision rule is simple: type system first, metadata second.\" style=\"width:100%;max-height:420px;object-fit:contain;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;\"><p style=\"font-size:0.95rem;color:#475569;margin-top:8px;\">The decision rule is simple: type system first, metadata second.</p></div>\n<div class=\"note\"><strong>Source span:</strong> Source pages 212-213.</div>"}, {"m": 3, "t": "Quiz: Override and marker interfaces", "q": true}];
+    const MODULE_NAMES = ["Enums are real types", "EnumSet and EnumMap", "Extensible enums and annotations", "Override and marker interfaces"];
+    const STORE_KEY = 'chapter_06_enums_and_annotations_workshop';
+
+    let cur = 0;
+    let quizState = {};
+    let failedQs = [];
+
+    function save() {
+      const data = { cur, quizState, failedQs, ts: Date.now() };
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {}
+      try { document.cookie = STORE_KEY + '=' + cur + ';max-age=31536000;path=/'; } catch (e) {}
+    }
+
+    function load() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STORE_KEY));
+        if (data) {
+          cur = data.cur || 0;
+          quizState = data.quizState || {};
+          failedQs = data.failedQs || [];
+        }
+      } catch (e) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    function hashSeed(seed) {
+      let h = 2166136261;
+      for (let i = 0; i < seed.length; i += 1) {
+        h ^= seed.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function shuffleOpts(opts, seed) {
+      const items = opts.map((text, index) => ({ text, correct: index === 0 }));
+      let state = hashSeed(seed) || 1;
+      for (let i = items.length - 1; i > 0; i -= 1) {
+        state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+        const j = state % (i + 1);
+        const tmp = items[i];
+        items[i] = items[j];
+        items[j] = tmp;
+      }
+      return items;
+    }
+
+    function getModule(moduleId) {
+      return QUIZ_DATA.modules.find((module) => module.id === moduleId);
+    }
+
+    function ensureQuizState(moduleId) {
+      const module = getModule(moduleId);
+      if (!quizState[moduleId]) {
+        quizState[moduleId] = { answers: {}, score: 0, total: module.questions.length, done: false };
+      }
+      return quizState[moduleId];
+    }
+
+    function renderQuiz(moduleId) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      state.total = module.questions.length;
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      const nextQuestion = module.questions.find((question) => !state.answers[question.id]);
+      if (!nextQuestion) {
+        state.done = true;
+        const pct = Math.round((state.score / state.total) * 100);
+        return `
+          <div class="quiz-container">
+            <h1>${esc(module.name)} Quiz</h1>
+            <p class="quiz-meta">You completed ${state.total} questions for this module.</p>
+            <div class="${pct >= 70 ? 'quiz-feedback pass show' : 'quiz-feedback fail show'}">
+              Score: ${state.score} / ${state.total} (${pct}%).
+              Use Retry to revisit questions answered incorrectly.
+            </div>
+          </div>
+        `;
+      }
+
+      const questionIndex = module.questions.findIndex((question) => question.id === nextQuestion.id);
+      const options = shuffleOpts(nextQuestion.options, nextQuestion.id);
+
+      return `
+        <div class="quiz-container">
+          <h1>${esc(module.name)} Quiz</h1>
+          <p class="quiz-meta">Question ${questionIndex + 1} of ${module.questions.length}</p>
+          <h2>${esc(nextQuestion.question)}</h2>
+          ${options.map((option, index) => `
+            <button class="quiz-opt" id="opt-${index}" onclick="answerQuiz(${moduleId}, '${nextQuestion.id}', ${index})">${esc(option.text)}</button>
+          `).join('')}
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+        </div>
+      `;
+    }
+
+    function answerQuiz(moduleId, questionId, chosenIndex) {
+      const module = getModule(moduleId);
+      const state = ensureQuizState(moduleId);
+      if (state.answers[questionId]) {
+        return;
+      }
+
+      const question = module.questions.find((item) => item.id === questionId);
+      const options = shuffleOpts(question.options, question.id);
+      const chosen = options[chosenIndex];
+      const isCorrect = !!chosen.correct;
+
+      state.answers[questionId] = { chosen: chosen.text, correct: isCorrect };
+      state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+
+      if (!isCorrect && !failedQs.some((item) => item.moduleId === moduleId && item.qId === questionId)) {
+        failedQs.push({ moduleId, qId: questionId });
+      }
+      if (Object.keys(state.answers).length === module.questions.length) {
+        state.done = true;
+      }
+
+      options.forEach((option, index) => {
+        const button = document.getElementById(`opt-${index}`);
+        if (!button) return;
+        button.classList.add('disabled');
+        if (option.correct) {
+          button.classList.add('correct');
+        } else if (index === chosenIndex) {
+          button.classList.add('wrong');
+        }
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      if (feedback) {
+        feedback.className = `quiz-feedback show ${isCorrect ? 'pass' : 'fail'}`;
+        feedback.innerHTML = `<strong>${isCorrect ? 'Correct.' : 'Not quite.'}</strong> ${esc(question.explanation)}`;
+      }
+
+      save();
+      setTimeout(render, isCorrect ? 1200 : 3000);
+    }
+
+    function retryFailed() {
+      if (!failedQs.length) {
+        alert('No failed quiz questions are currently tracked.');
+        return;
+      }
+
+      const retryItems = failedQs.slice();
+      retryItems.forEach((item) => {
+        const state = ensureQuizState(item.moduleId);
+        delete state.answers[item.qId];
+        state.score = Object.values(state.answers).filter((answer) => answer.correct).length;
+        state.done = false;
+      });
+
+      const first = retryItems[0];
+      failedQs = [];
+      cur = SLIDES.findIndex((slide) => slide.q && slide.m === first.moduleId);
+      render();
+    }
+
+    function go(dir) {
+      cur = Math.max(0, Math.min(SLIDES.length - 1, cur + dir));
+      render();
+    }
+
+    function jump(index) {
+      cur = index;
+      render();
+      toggleTOC(false);
+    }
+
+    function toggleTOC(force) {
+      const toc = document.getElementById('toc');
+      const overlay = document.getElementById('toc-overlay');
+      const shouldOpen = typeof force === 'boolean' ? force : !toc.classList.contains('open');
+      toc.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function buildTOC() {
+      const tocBody = document.getElementById('toc-body');
+      const html = MODULE_NAMES.map((moduleName, moduleIndex) => {
+        const links = SLIDES.map((slide, slideIndex) => ({ slide, slideIndex }))
+          .filter((entry) => entry.slide.m === moduleIndex)
+          .map((entry) => `
+            <button class="toc-link ${entry.slideIndex === cur ? 'current' : ''}" onclick="jump(${entry.slideIndex})">
+              ${entry.slide.q ? 'Quiz' : esc(entry.slide.t)}
+            </button>
+          `)
+          .join('');
+        return `<div class="toc-module"><h3>${esc(moduleName)}</h3>${links}</div>`;
+      }).join('');
+      tocBody.innerHTML = html;
+    }
+
+    function render() {
+      const slide = SLIDES[cur];
+      const progress = Math.round(((cur + 1) / SLIDES.length) * 100);
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('pct').textContent = progress + '%';
+      document.getElementById('slide-counter').textContent = `${cur + 1} / ${SLIDES.length}`;
+      document.getElementById('module-label').textContent = MODULE_NAMES[slide.m];
+      document.getElementById('slide').innerHTML = slide.q ? renderQuiz(slide.m) : `<h1>${esc(slide.t)}</h1>${slide.c}`;
+      save();
+      buildTOC();
+    }
+
+    document.addEventListener('keydown', (event) => {
+      const tag = (event.target && event.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') {
+        return;
+      }
+      if (event.key === ' ' && !event.shiftKey) {
+        event.preventDefault();
+        go(1);
+      } else if ((event.key === ' ' && event.shiftKey) || event.key === 'ArrowLeft') {
+        event.preventDefault();
+        go(-1);
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        go(1);
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        cur = 0;
+        render();
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        cur = SLIDES.length - 1;
+        render();
+      } else if (event.key === 't' || event.key === 'T') {
+        event.preventDefault();
+        toggleTOC();
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        retryFailed();
+      }
+    });
+
+    load();
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+ITEM 11: ALWAYS OVERRIDE HASHCODE WHEN YOU OVERRIDE EQUALS
+53
+The Objects class has a static method that takes an arbitrary number of
+objects and returns a hash code for them. This method, named hash, lets you write
+one-line hashCode methods whose quality is comparable to those written accord-
+ing to the recipe in this item. Unfortunately, they run more slowly because they
+entail array creation to pass a variable number of arguments, as well as boxing and
+unboxing if any of the arguments are of primitive type. This style of hash function
+is recommended for use only in situations where performance is not critical. Here
+is a hash function for PhoneNumber written using this technique:
+// One-line hashCode method - mediocre performance
+@Override public int hashCode() {
+   return Objects.hash(lineNum, prefix, areaCode);
+}
+If a class is immutable and the cost of computing the hash code is significant,
+you might consider caching the hash code in the object rather than recalculating it
+each time it is requested. If you believe that most objects of this type will be used
+as hash keys, then you should calculate the hash code when the instance is created.
+Otherwise, you might choose to lazily initialize the hash code the first time hash-
+Code is invoked. Some care is required to ensure that the class remains thread-safe
+in the presence of a lazily initialized field (Item 83). Our PhoneNumber class does
+not merit this treatment, but just to show you how it’s done, here it is. Note that the
+initial value for the hashCode field (in this case, 0) should not be the hash code of
+a commonly created instance:
+// hashCode method with lazily initialized cached hash code
+private int hashCode; // Automatically initialized to 0
+@Override public int hashCode() {
+int result = hashCode;
+if (result == 0) {
+result = Short.hashCode(areaCode);
+result = 31 * result + Short.hashCode(prefix);
+result = 31 * result + Short.hashCode(lineNum);
+hashCode = result;
+}
+return result;
+}
+Do not be tempted to exclude significant fields from the hash code com-
+putation to improve performance. While the resulting hash function may run
+faster, its poor quality may degrade hash tables’ performance to the point where
+they become unusable. In particular, the hash function may be confronted with a

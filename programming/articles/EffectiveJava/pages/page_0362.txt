@@ -1,0 +1,40 @@
+ITEM 85: PREFER ALTERNATIVES TO JAVA SERIALIZATION
+341
+The object graph consists of 201 HashSet instances, each of which contains 3
+or fewer object references. The entire stream is 5,744 bytes long, yet the sun
+would burn out long before you could deserialize it. The problem is that
+deserializing a HashSet instance requires computing the hash codes of its
+elements. The 2 elements of the root hash set are themselves hash sets containing
+2 hash-set elements, each of which contains 2 hash-set elements, and so on,
+100 levels deep. Therefore, deserializing the set causes the hashCode method to
+be invoked over 2100 times. Other than the fact that the deserialization is taking
+forever, the deserializer has no indication that anything is amiss. Few objects are
+produced, and the stack depth is bounded.
+So what can you do defend against these problems? You open yourself up to
+attack whenever you deserialize a byte stream that you don’t trust. The best way
+to avoid serialization exploits is never to deserialize anything. In the words of
+the computer named Joshua in the 1983 movie WarGames, “the only winning
+move is not to play.” There is no reason to use Java serialization in any new
+system you write. There are other mechanisms for translating between objects
+and byte sequences that avoid many of the dangers of Java serialization, while
+offering numerous advantages, such as cross-platform support, high performance,
+a large ecosystem of tools, and a broad community of expertise. In this book, we
+refer to these mechanisms as cross-platform structured-data representations.
+While others sometimes refer to them as serialization systems, this book avoids
+that usage to prevent confusion with Java serialization.
+What these representations have in common is that they’re far simpler than
+Java serialization. They don’t support automatic serialization and deserialization
+of arbitrary object graphs. Instead, they support simple, structured data-objects
+consisting of a collection of attribute-value pairs. Only a few primitive and array
+data types are supported. This simple abstraction turns out to be sufficient for
+building extremely powerful distributed systems and simple enough to avoid the
+serious problems that have plagued Java serialization since its inception.
+The leading cross-platform structured data representations are JSON [JSON]
+and Protocol Buffers, also known as protobuf [Protobuf]. JSON was designed by
+Douglas Crockford for browser-server communication, and protocol buffers were
+designed by Google for storing and interchanging structured data among its serv-
+ers. Even though these representations are sometimes called language-neutral,
+JSON was originally developed for JavaScript and protobuf for C++; both repre-
+sentations retain vestiges of their origins. 
+The most significant differences between JSON and protobuf are that JSON is
+text-based and human-readable, whereas protobuf is binary and substantially more

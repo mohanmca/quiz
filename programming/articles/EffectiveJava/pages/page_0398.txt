@@ -1,0 +1,73 @@
+377
+Index
+Symbols
+_ in numeric literals, 108
+... variable arity argument
+See varargs
+< > type parameter delimiters, 117, 123
+<?> unbounded wildcard type, 120
+A
+abstract classes
+designing for inheritance, 97
+vs. interfaces, 99–103
+noninstantiability and, 19
+subclassing, and equals, 45
+access control mechanisms, 74
+access levels, 73–77
+module-level, 76–77
+of readResolve, 362
+rules of thumb for, 74–75
+of static member classes, 112
+access modifiers, 74
+accessor methods, 78
+defensive copies and, 80, 233
+for failure-capture data, 297, 307
+immutability and, 80
+naming conventions for, 291–292
+vs. public fields, 78–79
+for toString data, 57
+actual type parameters, 117
+Adapter pattern, 23, 101, 113
+aggregate types vs. strings, 276
+alien methods, 317
+annotations, 157, 180–192
+defining, 180
+detecting repeated and non-repeated, 186
+documenting, 259
+functional interfaces and, 202
+vs. naming patterns, 180–187
+synthetic, 186
+See also marker annotations
+anonymous classes, 112, 114, 193
+in adapters, 101
+prefer lambdas to, 193–196
+serialization and, 196
+antipatterns, 2
+bit field enum pattern, 169
+bounded wildcard types as return types, 142
+breaking from naming conventions, 82
+busy waits, 336
+constant as a hashCode, 51
+constant interface, 107–108
+copy constructor of immutable object, 83
+difference-based comparators, 71
+empty catch blocks, 310
+equals with unreliable resources, 45
+exceptions for flow control, 293
+excessive string concatenation, 279
+floating point for monetary calculations, 270
+hardwiring resources, 20
+hashCode missing significant fields, 54
+immutable classes not effectively final, 85
+inappropriate subclassing, 92
+int enum pattern, 157
+naming patterns, 180
+null returns for collections, arrays, 247–248
+ordinal abuse, 168, 171
+overriding equals but not hashCode, 50
+serializable inner classes, 345
+signatures differ by parameter type order, 6
+String enum pattern, 158
+string overuse, 276
+tagged classes, 109–111
+value-component subclasses and equals, 44

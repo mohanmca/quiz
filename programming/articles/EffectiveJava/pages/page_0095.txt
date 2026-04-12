@@ -1,0 +1,40 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+74
+developed. Finally, information hiding decreases the risk in building large systems
+because individual components may prove successful even if the system does not.
+Java has many facilities to aid in information hiding. The access control mecha-
+nism [JLS, 6.6] specifies the accessibility of classes, interfaces, and members. The
+accessibility of an entity is determined by the location of its declaration and by
+which, if any, of the access modifiers (private, protected, and public) is present
+on the declaration. Proper use of these modifiers is essential to information hiding.
+The rule of thumb is simple: make each class or member as inaccessible as
+possible. In other words, use the lowest possible access level consistent with the
+proper functioning of the software that you are writing. 
+For top-level (non-nested) classes and interfaces, there are only two possible
+access levels: package-private and public. If you declare a top-level class or
+interface with the public modifier, it will be public; otherwise, it will be package-
+private. If a top-level class or interface can be made package-private, it should be.
+By making it package-private, you make it part of the implementation rather than
+the exported API, and you can modify it, replace it, or eliminate it in a subsequent
+release without fear of harming existing clients. If you make it public, you are
+obligated to support it forever to maintain compatibility.
+If a package-private top-level class or interface is used by only one class,
+consider making the top-level class a private static nested class of the sole class
+that uses it (Item 24). This reduces its accessibility from all the classes in its
+package to the one class that uses it. But it is far more important to reduce the
+accessibility of a gratuitously public class than of a package-private top-level
+class: the public class is part of the package’s API, while the package-private top-
+level class is already part of its implementation.
+For members (fields, methods, nested classes, and nested interfaces), there are
+four possible access levels, listed here in order of increasing accessibility:
+• private—The member is accessible only from the top-level class where it is
+declared.
+• package-private—The member is accessible from any class in the package
+where it is declared. Technically known as default access, this is the access
+level you get if no access modifier is specified (except for interface members,
+which are public by default).
+• protected—The member is accessible from subclasses of the class where it is
+declared (subject to a few restrictions [JLS, 6.6.2]) and from any class in the
+package where it is declared.
+• public—The member is accessible from anywhere.

@@ -1,0 +1,38 @@
+CHAPTER 11
+CONCURRENCY
+330
+Item 82: Document thread safety
+How a class behaves when its methods are used concurrently is an important part
+of its contract with its clients. If you fail to document this aspect of a class’s
+behavior, its users will be forced to make assumptions. If these assumptions are
+wrong, the resulting program may perform insufficient synchronization (Item 78)
+or excessive synchronization (Item 79). In either case, serious errors may result.
+You may hear it said that you can tell if a method is thread-safe by looking for
+the synchronized modifier in its documentation. This is wrong on several counts.
+In normal operation, Javadoc does not include the synchronized modifier in its
+output, and with good reason. The presence of the synchronized modifier in a
+method declaration is an implementation detail, not a part of its API. It does
+not reliably indicate that a method is thread-safe.
+Moreover, the claim that the presence of the synchronized modifier is suffi-
+cient to document thread safety embodies the misconception that thread safety is
+an all-or-nothing property. In fact, there are several levels of thread safety. To
+enable safe concurrent use, a class must clearly document what level of
+thread safety it supports. The following list summarizes levels of thread safety.
+It is not exhaustive but covers the common cases:
+• Immutable—Instances of this class appear constant. No external synchroniza-
+tion is necessary. Examples include String, Long, and BigInteger (Item 17).
+• Unconditionally thread-safe—Instances of this class are mutable, but the
+class has sufficient internal synchronization that its instances can be used
+concurrently without the need for any external synchronization. Examples
+include AtomicLong and ConcurrentHashMap.
+• Conditionally thread-safe—Like unconditionally thread-safe, except that
+some methods require external synchronization for safe concurrent use.
+Examples include the collections returned by the Collections.synchronized
+wrappers, whose iterators require external synchronization.
+• Not thread-safe—Instances of this class are mutable. To use them concurrent-
+ly, clients must surround each method invocation (or invocation sequence)
+with external synchronization of the clients’ choosing. Examples include the
+general-purpose collection implementations, such as ArrayList and HashMap.
+• Thread-hostile—This class is unsafe for concurrent use even if every method
+invocation is surrounded by external synchronization. Thread hostility usually
+results from modifying static data without synchronization. No one writes a

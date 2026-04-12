@@ -1,0 +1,39 @@
+ITEM 14: CONSIDER IMPLEMENTING COMPARABLE
+67
+In the following description, the notation sgn(expression) designates the math-
+ematical signum function, which is defined to return -1, 0, or 1, according to
+whether the value of expression is negative, zero, or positive.
+• The implementor must ensure that sgn(x.compareTo(y)) == -sgn(y.
+compareTo(x)) for all x and y. (This implies that x.compareTo(y) must
+throw an exception if and only if y.compareTo(x) throws an exception.)
+• The implementor must also ensure that the relation is transitive: (x.
+compareTo(y) > 0 && y.compareTo(z) > 0) implies x.compareTo(z) > 0.
+• Finally, the implementor must ensure that x.compareTo(y) == 0 implies that
+sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
+• It is strongly recommended, but not required, that (x.compareTo(y) == 0)
+== (x.equals(y)). Generally speaking, any class that implements the
+Comparable interface and violates this condition should clearly indicate this
+fact. The recommended language is “Note: This class has a natural ordering
+that is inconsistent with equals.”
+Don’t be put off by the mathematical nature of this contract. Like the equals
+contract (Item 10), this contract isn’t as complicated as it looks. Unlike the equals
+method, which imposes a global equivalence relation on all objects, compareTo
+doesn’t have to work across objects of different types: when confronted with
+objects of different types, compareTo is permitted to throw ClassCastException.
+Usually, that is exactly what it does. The contract does permit intertype compari-
+sons, which are typically defined in an interface implemented by the objects being
+compared.
+Just as a class that violates the hashCode contract can break other classes that
+depend on hashing, a class that violates the compareTo contract can break other
+classes that depend on comparison. Classes that depend on comparison include
+the sorted collections TreeSet and TreeMap and the utility classes Collections
+and Arrays, which contain searching and sorting algorithms.
+Let’s go over the provisions of the compareTo contract. The first provision
+says that if you reverse the direction of a comparison between two object refer-
+ences, the expected thing happens: if the first object is less than the second, then
+the second must be greater than the first; if the first object is equal to the second,
+then the second must be equal to the first; and if the first object is greater than the
+second, then the second must be less than the first. The second provision says that
+if one object is greater than a second and the second is greater than a third, then
+the first must be greater than the third. The final provision says that all objects that
+compare as equal must yield the same results when compared to any other object.

@@ -1,0 +1,42 @@
+CHAPTER 4
+CLASSES AND INTERFACES
+88
+@Override public boolean add(E e) {
+addCount++;
+return super.add(e);
+}
+@Override public boolean addAll(Collection<? extends E> c) {
+addCount += c.size();
+return super.addAll(c);
+}
+public int getAddCount() {
+return addCount;
+}
+}
+This class looks reasonable, but it doesn’t work. Suppose we create an instance
+and add three elements using the addAll method. Incidentally, note that we create
+a list using the static factory method List.of, which was added in Java 9; if you’re
+using an earlier release, use Arrays.asList instead:
+InstrumentedHashSet<String> s = new InstrumentedHashSet<>();
+s.addAll(List.of("Snap", "Crackle", "Pop"));
+We would expect the getAddCount method to return three at this point, but it
+returns six. What went wrong? Internally, HashSet’s addAll method is imple-
+mented on top of its add method, although HashSet, quite reasonably, does not
+document this implementation detail. The addAll method in Instrumented-
+HashSet added three to addCount and then invoked HashSet’s addAll implemen-
+tation using super.addAll. This in turn invoked the add method, as overridden in
+InstrumentedHashSet, once for each element. Each of these three invocations
+added one more to addCount, for a total increase of six: each element added with
+the addAll method is double-counted.
+We could “fix” the subclass by eliminating its override of the addAll method.
+While the resulting class would work, it would depend for its proper function on
+the fact that HashSet’s addAll method is implemented on top of its add method.
+This “self-use” is an implementation detail, not guaranteed to hold in all imple-
+mentations of the Java platform and subject to change from release to release.
+Therefore, the resulting InstrumentedHashSet class would be fragile.
+It would be slightly better to override the addAll method to iterate over the
+specified collection, calling the add method once for each element. This would
+guarantee the correct result whether or not HashSet’s addAll method were
+implemented atop its add method because HashSet’s addAll implementation
+would no longer be invoked. This technique, however, does not solve all our
+problems. It amounts to reimplementing superclass methods that may or may not

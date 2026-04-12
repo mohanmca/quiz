@@ -1,0 +1,40 @@
+ITEM 67: OPTIMIZE JUDICIOUSLY
+287
+Consider the performance consequences of your API design decisions.
+Making a public type mutable may require a lot of needless defensive copying
+(Item 50). Similarly, using inheritance in a public class where composition would
+have been appropriate ties the class forever to its superclass, which can place
+artificial limits on the performance of the subclass (Item 18). As a final example,
+using an implementation type rather than an interface in an API ties you to a
+specific implementation, even though faster implementations may be written in
+the future (Item 64). 
+The effects of API design on performance are very real. Consider the getSize
+method in the java.awt.Component class. The decision that this performance-
+critical method was to return a Dimension instance, coupled with the decision that
+Dimension instances are mutable, forces any implementation of this method to
+allocate a new Dimension instance on every invocation. Even though allocating
+small objects is inexpensive on a modern VM, allocating millions of objects
+needlessly can do real harm to performance. 
+Several API design alternatives existed. Ideally, Dimension should have been
+immutable (Item 17); alternatively, getSize could have been replaced by two
+methods returning the individual primitive components of a Dimension object. In
+fact, two such methods were added to Component in Java 2 for performance
+reasons. Preexisting client code, however, still uses the getSize method and still
+suffers the performance consequences of the original API design decisions.
+Luckily, it is generally the case that good API design is consistent with good
+performance. It is a very bad idea to warp an API to achieve good perfor-
+mance. The performance issue that caused you to warp the API may go away in a
+future release of the platform or other underlying software, but the warped API
+and the support headaches that come with it will be with you forever.
+Once you’ve carefully designed your program and produced a clear, concise,
+and well-structured implementation, then it may be time to consider optimization,
+assuming you’re not already satisfied with the performance of the program. 
+Recall that Jackson’s two rules of optimization were “Don’t do it,” and “(for
+experts only). Don’t do it yet.” He could have added one more: measure perfor-
+mance before and after each attempted optimization. You may be surprised by
+what you find. Often, attempted optimizations have no measurable effect on per-
+formance; sometimes, they make it worse. The main reason is that it’s difficult to
+guess where your program is spending its time. The part of the program that you
+think is slow may not be at fault, in which case you’d be wasting your time trying
+to optimize it. Common wisdom says that programs spend 90 percent of their time
+in 10 percent of their code.

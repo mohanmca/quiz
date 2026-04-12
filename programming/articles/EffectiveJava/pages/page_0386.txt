@@ -1,0 +1,40 @@
+ITEM 90: CONSIDER SERIALIZATION PROXIES INSTEAD OF SERIALIZED INSTANCES
+365
+figure out which fields might be compromised by devious serialization attacks,
+nor do you have to explicitly perform validity checking as part of deserialization.
+There is another way in which the serialization proxy pattern is more powerful
+than defensive copying in readObject. The serialization proxy pattern allows the
+deserialized instance to have a different class from the originally serialized
+instance. You might not think that this would be useful in practice, but it is.
+Consider the case of EnumSet (Item 36). This class has no public constructors,
+only static factories. From the client’s perspective, they return EnumSet instances,
+but in the current OpenJDK implementation, they return one of two subclasses,
+depending on the size of the underlying enum type. If the underlying enum type
+has sixty-four or fewer elements, the static factories return a RegularEnumSet;
+otherwise, they return a JumboEnumSet.
+Now consider what happens if you serialize an enum set whose enum type has
+sixty elements, then add five more elements to the enum type, and then deserialize
+the enum set. It was a RegularEnumSet instance when it was serialized, but it had
+better be a JumboEnumSet instance once it is deserialized. In fact that’s exactly
+what happens, because EnumSet uses the serialization proxy pattern. In case
+you’re curious, here is EnumSet’s serialization proxy. It really is this simple:
+// EnumSet's serialization proxy
+private static class SerializationProxy <E extends Enum<E>>
+implements Serializable {
+// The element type of this enum set.
+private final Class<E> elementType;
+// The elements contained in this enum set.
+private final Enum<?>[] elements;
+SerializationProxy(EnumSet<E> set) {
+elementType = set.elementType;
+elements = set.toArray(new Enum<?>[0]);
+}
+private Object readResolve() {
+EnumSet<E> result = EnumSet.noneOf(elementType);
+for (Enum<?> e : elements)
+result.add((E)e);
+return result;
+}
+private static final long serialVersionUID =
+362491234563181265L;
+}
