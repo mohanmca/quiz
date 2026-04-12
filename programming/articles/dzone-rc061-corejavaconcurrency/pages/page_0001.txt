@@ -1,0 +1,97 @@
+INTRODUCTION
+ 
+From its creation, Java has supported key concurrency 
+concepts such as threads and locks. This Refcard will help 
+Java developers working with multi-threaded programs to 
+understand core concurrency concepts and how to apply them.
+CONCEPTS
+ 
+CONCEPT
+DESCRIPTION
+Atomicity
+An atomic operation is one which is executed in 
+an all or nothing fashion, therefore partial state is 
+impossible.
+Visibility
+The conditions when one thread sees changes made 
+by another thread
+Table 1: Concurrency concepts
+RACE CONDITION
+A race condition occurs when more than one thread is 
+performing a series of actions on shared resources, and 
+several possible outcomes can exist based on the order of the 
+actions from each thread. The below code is not thread-safe 
+and the value could be initialized more than once, as check-
+then-act (check for null, then initialize) that lazily initializes 
+the field is not atomic.
+class Lazy <T> {
+  private volatile T value;
+  
+  T get() {
+    if (value == null)
+      value = initialize();
+    return value;
+  }
+}
+DATA RACE
+A data race occurs when 2 or more threads try to access the 
+same non-final variable without synchronization. Not using 
+synchronization may lead to making changes which are not 
+visible to other threads, so reading the stale data is possible, 
+which in turn may have consequences such as infinite loops, 
+corrupted data structures, or inaccurate computations. This 
+code might result in an infinite loop, because the reader thread 
+may never observe the changes made by the writer threads:
+class Waiter implements Runnable {
+  private boolean shouldFinish;
+  void finish() { shouldFinish = true; }
+  
+  public void run() {
+    long iteration = 0;
+    while (!shouldFinish) {
+      iteration++;
+    }
+    System.out.println("Finished after: " + 
+iteration);
+  }
+}
+class DataRace {
+  public static void main(String[] args)  
+    throws InterruptedException {
+    Waiter waiter = new Waiter();
+    Thread waiterThread = new Thread(waiter);
+    waiterThread.start();
+    waiter.finish();
+    waiterThread.join();
+  }
+}
+JAVA MEMORY MODEL: HAPPENS-BEFORE RELATIONSHIP
+ 
+The Java memory model is defined in terms of actions like 
+reading and writing fields, and synchronizing on a monitor. 
+Actions can be ordered by a happens-before relationship, 
+that can be used to reason about when a thread sees the 
+result of another thread's actions, and what constitutes a 
+properly synchronized program.
+Happens-before relationships have the following properties:
+•	 The invocation of Thread #start happens before any 
+action in this thread.
+•	 Releasing a monitor happens before any subsequent 
+acquisition of the same monitor.
+•	 A write to a volatile variable happens before any 
+subsequent read of a volatile variable.
+•	 A write to a final variable happens before the reference of 
+the object is published.
+   Introduction 
+   Concepts
+   Java Memory Model
+   Standard synchronization features
+   Safe publication
+   Threads
+   java.util.concurrent
+C O N T E N T S
+DZONE.COM  |  © DZONE, INC.
+VISIT DZONE.COM/REFCARDZ FOR MORE!
+Core Java Concurrency
+ORIGINAL BY ALEX MILLER UPDATE BY IGOR SOROKIN
+61

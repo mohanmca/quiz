@@ -1,0 +1,114 @@
+class Account {
+  private long id;
+  private long amount;
+  // Some methods are omitted
+  static void transferWithLockOrdering(long 
+amount, Account first, Account second){
+    boolean lockOnFirstAccountFirst = first.id < 
+second.id;
+    Account firstLock = lockOnFirstAccountFirst  ? 
+first  : second;
+    Account secondLock = lockOnFirstAccountFirst 
+? second : first;
+    synchronized (firstLock) {
+      synchronized (secondLock) {
+        first.minus(amount);
+        second.plus(amount);
+      }
+    }
+  }
+}
+•	 Lock with timeout — do not block indefinitely upon 
+acquiring the lock, but rather release all locks and try again. 
+class Account {
+  private long amount;
+  // Some methods are omitted
+  static void transferWithTimeout(
+      long amount, Account first, Account second, 
+      int retries, long timeoutMillis
+  ) throws InterruptedException {
+    for (int attempt = 0; attempt < retries;  
+    attempt++) {
+      if (first.lock.tryLock(timeoutMillis,  
+      TimeUnit.MILLISECONDS)){
+        try {
+          if (second.lock.tryLock(timeoutMillis, 
+          TimeUnit.MILLISECONDS)){
+            try {
+              first.minus(amount);
+              second.plus(amount);
+            }finally {
+              second.lock.unlock();
+            }
+          }
+        }finally {
+          first.lock.unlock();
+        }
+      }
+    }
+  }
+}
+The JVM can detect monitor deadlocks and will print deadlock 
+information in thread dumps.
+LIVELOCK AND THREAD STARVATION
+Livelock occurs when threads spend all of their time 
+negotiating access to a resource or detecting and avoiding 
+deadlock such that no thread actually makes progress. 
+Starvation occurs when threads hold a lock for long periods 
+such that some threads "starve" without making progress.
+JAVA.UTIL.CONCURRENT
+ 
+THREAD POOLS
+The core interface for thread pools is ExecutorService. 
+java.util.concurrent also provides a static factory class 
+Executors, which contains factory methods for the creation 
+of a thread pool with the most common configurations.
+METHOD
+DESCRIPTION
+newSingleThreadExecutor
+Returns an ExecutorService 
+with exactly one thread.
+newFixedThreadPool
+Returns an ExecutorService 
+with a fixed number of threads.
+newCachedThreadPool
+Returns an ExecutorService 
+with a varying size thread pool.
+newSingleThreadScheduled 
+Executor
+Returns a ScheduledExecutor 
+Service with a single thread.
+newScheduledThreadPool
+Returns a ScheduledExecutor 
+Service with a core set of 
+threads.
+newWorkStealingPool
+Returns an work-stealing 
+ExecutorService.
+Table 6: Static factory methods
+When sizing thread pools, it is often useful to base the size 
+on the number of logical cores in the machine running the 
+application. In Java, you can get that value by calling  
+Runtime.getRuntime().availableProcessors().
+IMPLEMENTATION
+DESCRIPTION
+ThreadPoolExecutor
+Default implementation with an 
+optionally resizing pool of threads, a 
+single working queue and configurable 
+policy for rejected tasks (via 
+RejectedExecutionHandler), and 
+thread creation (via ThreadFactory).
+ScheduledThread 
+PoolExecutor
+An extension of ThreadPoolExecutor 
+that provides the ability to schedule 
+periodical tasks.
+ForkJoinPool
+Work stealing pool: all threads in the pool 
+try to find and run either submitted tasks 
+or tasks created by other active tasks.
+Table 7: Thread pool implementations
+6
+CORE JAVA CONCURRENCY
+DZONE.COM  |  © DZONE, INC.

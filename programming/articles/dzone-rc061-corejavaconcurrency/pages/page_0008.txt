@@ -1,0 +1,113 @@
+completed when all futures are completed, or 
+CompletableFuture#anyOf, which is completed as soon as 
+any future is completed.
+ExecutorService executor0 = Executors.
+newWorkStealingPool();
+ExecutorService executor1 = Executors.
+newWorkStealingPool();
+//Completed when both of the futures are completed
+CompletableFuture<String> waitingForAll = 
+CompletableFuture
+    .allOf(
+        CompletableFuture.supplyAsync(() -> "first"),
+        CompletableFuture.supplyAsync(() -> "second",  
+        executor1)
+    )
+    .thenApply(ignored -> " is completed.");
+CompletableFuture<Void> future = CompletableFuture.
+supplyAsync(() -> "Concurrency Refcard", executor0)
+    //Using same executor
+    .thenApply(result -> "Java " + result)
+    //Using different executor
+    .thenApplyAsync(result -> "Dzone " + result,  
+    executor1)
+    //Completed when this and other future are  
+    //completed
+    .thenCombine(waitingForAll, (first, second) -> first  
+    + second)
+    //Implicitly using ForkJoinPool#commonPool as the  
+    //executor
+    .thenAcceptAsync(result -> {
+      System.out.println("Result is '" + result +  
+    "'.");
+    })
+    //Generic handler
+    .whenComplete((ignored, exception) -> {
+      if (exception != null)
+        exception.printStackTrace();
+    });
+//First blocking call - blocks until it is not finished.
+future.join();
+future
+    //Executes in the current thread (which is main).
+    .thenRun(() -> System.out.println("Current thread  
+    is '" + Thread.currentThread().getName() + "'."))
+    
+    //Implicitly using ForkJoinPool#commonPool as the  
+    //executor
+    .thenRunAsync(() -> System.out.println("Current" + 
+    "thread is '" + Thread.currentThread().getName() +  
+    "'."));
+CONCURRENT COLLECTIONS
+The easiest way to make a collection thread-safe is to use 
+Collections#synchronized family methods. Because this 
+solution performs poorly under high contention, java.util.
+concurrent provides a variety of data structures which are 
+optimized for concurrent usage.
+LIST
+IMPLEMENTATION
+DESCRIPTION
+CopyOnWriteArrayList
+It provides copy-on-write semantics 
+where each modification of the data 
+structure results in a new internal 
+copy of the data (writes are thus very 
+expensive, whereas reads are cheap). 
+Iterators on the data structure always 
+see a snapshot of the data from when 
+the iterator was created.
+Table 9: Lists in java.util.concurrent
+MAPS
+IMPLEMENTATION
+DESCRIPTION
+ConcurrentHashMap
+It usually acts as a bucketed hash 
+table. Read operations, generally, do 
+not block and reflect the results of the 
+most recently completed write. The 
+write of the first node in an empty bin 
+is performed by just CASing (compare-
+and-set) it to the bin, whereas other 
+writes require locks (the first node of a 
+bucket is used as a lock).
+ConcurrentSkipListMap
+It provides concurrent access along 
+with sorted map functionality similar 
+to TreeMap. Performance bounds are 
+similar to TreeMap although multiple 
+threads can generally read and write 
+from the map without contention as 
+long as they are not modifying the 
+same portion of the map.
+Table 10: Maps in java.util.concurrent
+SETS
+IMPLEMENTATION
+DESCRIPTION
+CopyOnWriteArraySet
+Similar to CopyOnWriteArrayList, 
+it uses copy-on-write semantics to 
+implement the Set interface.
+ConcurrentSkipListSet
+Similar to ConcurrentSkipListMap, 
+but implements the Set interface.
+Table 11: Sets in java.util.concurrent
+Another approach to create a concurrent set is to wrap a 
+concurrent map:
+Set<T> concurrentSet = Collections.newSetFromMap(
+new ConcurrentHashMap<T, Boolean>());
+QUEUES
+Queues act as pipes between "producers" and "consumers." 
+Items are put in one end of the pipe and emerge from the 
+8
+CORE JAVA CONCURRENCY
+DZONE.COM  |  © DZONE, INC.

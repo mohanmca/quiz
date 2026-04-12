@@ -1,0 +1,60 @@
+9
+CORE JAVA CONCURRENCY
+other end of the pipe in the same "first-in first-out" (FIFO) 
+order. The BlockingQueue interface extends Queue to 
+provide additional choices of how to handle the scenario 
+where a queue may be full (when a producer adds an item) or 
+empty (when a consumer reads or removes an item). In these 
+cases, BlockingQueue provides methods that either block 
+forever or block for a specified time period, waiting for the 
+condition to change due to the actions of another thread.
+IMPLEMENTATION
+DESCRIPTION
+ConcurrentLinkedQueue
+An unbounded non-blocking 
+queue backed by a linked list.
+LinkedBlockingQueue
+An optionally bounded blocking 
+queue backed by a linked list.
+PriorityBlockingQueue
+An unbounded blocking queue 
+backed by a min heap. Items are 
+removed from the queue in an 
+order based on the Comparator 
+associated with the queue 
+(instead of FIFO order).
+IMPLEMENTATION
+DESCRIPTION
+DelayQueue
+An unbounded blocking queue of 
+elements, each with a delay value. 
+Elements can only be removed 
+when their delay has passed and 
+are removed in the order of the 
+oldest expired item.
+SynchronousQueue
+A 0-length queue where the 
+producer and consumer block 
+until the other arrives. When 
+both threads arrive, the value is 
+transferred directly from producer 
+to consumer. Useful when 
+transferring data between threads.
+Table 12: Queues in java.util.concurrent
+ABOUT THE AUTHOR
+IGOR SOROKIN  is a Java and Scala developer. He has working experience with big data analytics companies 
+(comScore), highload web projects (Yandex.Music), and big financial institutions (Moscow Exchange). 
+He has expertise in a wide range of technologies (i.e. Apache Spark, Spring, MongoDB, Akka) and a passion 
+for continuous learning. 
+Currently, resides in Amsterdam, Netherlands working as a Senior Java Developer at comScore. You can find 
+him on GitHub here, LinkedIn here, and DZone here.
+Copyright © 2017 DZone, Inc. All rights reserved. No part of this publication may be reproduced, stored in a retrieval 
+system, or transmitted, in any form or by means electronic, mechanical, photocopying, or otherwise, without prior 
+written permission of the publisher. 
+DZone communities deliver over 6 million pages each month to more than 3.3 million software developers, architects and decision makers. 
+DZone offers something for everyone, including news, tutorials, cheat sheets, research guides, feature articles, source code and more. 
+"DZone is a developer's dream," says PC Magazine.
+Refcardz Feedback Welcome: refcardz@dzone.com 
+Sponsorship Opportunities:  sales@dzone.com 
+DZone, Inc.  150 Preston Executive Dr.  Cary, NC 27513
+888.678.0399  -  919.678.0300

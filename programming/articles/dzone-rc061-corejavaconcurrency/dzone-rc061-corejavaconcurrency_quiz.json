@@ -1,0 +1,477 @@
+{
+  "title": "Core Java Concurrency Consolidated Workshop Quiz",
+  "source": "dzone-rc061-corejavaconcurrency.pdf",
+  "version": "1.0",
+  "answerConvention": "Correct answer is stored first in options and answer is 0; the HTML deterministically shuffles display order.",
+  "totalQuestions": 34,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Foundations: races, visibility, and happens-before",
+      "source_pages": [
+        1,
+        2
+      ],
+      "questions": [
+        {
+          "id": "m1_q1",
+          "question": "What does atomicity mean in this guide?",
+          "options": [
+            "An operation cannot be observed partially complete",
+            "A thread always runs on one CPU core",
+            "A variable must be final",
+            "A method cannot throw exceptions"
+          ],
+          "answer": 0,
+          "explanation": "Atomicity is about all-or-nothing execution of an operation."
+        },
+        {
+          "id": "m1_q2",
+          "question": "What is visibility about?",
+          "options": [
+            "Whether one thread is guaranteed to see another thread's write",
+            "Whether a class is public",
+            "Whether a variable has a short name",
+            "Whether logs are printed to stdout"
+          ],
+          "answer": 0,
+          "explanation": "Visibility is the condition under which writes from one thread become observable by another."
+        },
+        {
+          "id": "m1_q3",
+          "question": "Which statement best describes a race condition?",
+          "options": [
+            "Behavior depends on the ordering of actions across threads",
+            "The program has too many classes",
+            "The JVM always exits early",
+            "Only one thread is ever created"
+          ],
+          "answer": 0,
+          "explanation": "A race condition is about an unsafe interleaving of operations."
+        },
+        {
+          "id": "m1_q4",
+          "question": "Which situation is closest to a data race?",
+          "options": [
+            "Two threads access the same non-final variable without proper synchronization and one writes",
+            "Two threads read a final constant",
+            "One thread creates an object and keeps it local",
+            "A program uses a queue with one producer"
+          ],
+          "answer": 0,
+          "explanation": "Data races involve conflicting unsynchronized access to shared non-final state."
+        },
+        {
+          "id": "m1_q5",
+          "question": "Why is happens-before useful?",
+          "options": [
+            "It tells you when one thread's effects must be visible to another",
+            "It makes all code run single-threaded",
+            "It replaces all tests",
+            "It disables CPU caches"
+          ],
+          "answer": 0,
+          "explanation": "Happens-before is the Java Memory Model relation used to reason about visibility and ordering."
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Intrinsic synchronization and condition waiting",
+      "source_pages": [
+        2
+      ],
+      "questions": [
+        {
+          "id": "m2_q1",
+          "question": "What does synchronized provide when used correctly?",
+          "options": [
+            "Mutual exclusion and visibility through the same monitor",
+            "A guaranteed new CPU thread",
+            "A sorted collection",
+            "A non-blocking algorithm"
+          ],
+          "answer": 0,
+          "explanation": "synchronized protects code with a monitor and creates visibility between release and later acquisition of that monitor."
+        },
+        {
+          "id": "m2_q2",
+          "question": "What monitor does a non-static synchronized method use?",
+          "options": [
+            "The current instance, this",
+            "The class object",
+            "A new ReentrantLock",
+            "The current Thread object"
+          ],
+          "answer": 0,
+          "explanation": "A non-static synchronized method locks the receiver object."
+        },
+        {
+          "id": "m2_q3",
+          "question": "What does it mean that intrinsic locks are reentrant?",
+          "options": [
+            "A thread that already owns the monitor can acquire it again",
+            "The lock is always fair",
+            "The lock cannot block",
+            "The lock is stored in ThreadLocal"
+          ],
+          "answer": 0,
+          "explanation": "Reentrancy allows nested acquisition by the same thread."
+        },
+        {
+          "id": "m2_q4",
+          "question": "What must be true before calling wait on an object?",
+          "options": [
+            "The current thread must hold that object's monitor",
+            "The object must be immutable",
+            "The object must be a Thread",
+            "The method must be static"
+          ],
+          "answer": 0,
+          "explanation": "wait/notify/notifyAll require ownership of the target object's monitor."
+        },
+        {
+          "id": "m2_q5",
+          "question": "Why should wait be used inside a loop?",
+          "options": [
+            "To re-check the condition after timing races or spurious wakeups",
+            "To make the loop consume CPU while blocked",
+            "To avoid acquiring a monitor",
+            "To prevent InterruptedException from existing"
+          ],
+          "answer": 0,
+          "explanation": "The loop waits for the condition, not just for a notification event."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Volatile, atomics, ThreadLocal, and safe publication",
+      "source_pages": [
+        3,
+        4
+      ],
+      "questions": [
+        {
+          "id": "m3_q1",
+          "question": "What guarantee does a volatile write provide for a later read of the same variable?",
+          "options": [
+            "The write happens-before the later read",
+            "The field becomes final",
+            "The operation becomes a transaction across all fields",
+            "The JVM creates a new thread"
+          ],
+          "answer": 0,
+          "explanation": "Volatile creates a happens-before relationship from write to later read of the same volatile variable."
+        },
+        {
+          "id": "m3_q2",
+          "question": "Which use case fits volatile best?",
+          "options": [
+            "A simple stop flag",
+            "A multi-field invariant",
+            "A compound money transfer",
+            "A check-then-act lazy initialization across several fields"
+          ],
+          "answer": 0,
+          "explanation": "Volatile is best for simple one-variable visibility protocols."
+        },
+        {
+          "id": "m3_q3",
+          "question": "What is compareAndSet commonly used for?",
+          "options": [
+            "An atomic conditional state transition",
+            "Rendering HTML",
+            "Starting all JVM threads",
+            "Ignoring interruptions"
+          ],
+          "answer": 0,
+          "explanation": "compareAndSet lets one thread update a value only if it still has the expected value."
+        },
+        {
+          "id": "m3_q4",
+          "question": "What problem does ThreadLocal mainly avoid?",
+          "options": [
+            "Sharing a value between threads",
+            "Class loading",
+            "Checked exceptions",
+            "Final fields"
+          ],
+          "answer": 0,
+          "explanation": "ThreadLocal gives each thread its own value, reducing shared-state locking needs."
+        },
+        {
+          "id": "m3_q5",
+          "question": "Which action is unsafe during construction?",
+          "options": [
+            "Allowing this to escape before the object is fully built",
+            "Assigning a final field",
+            "Making a defensive copy",
+            "Using a static initializer"
+          ],
+          "answer": 0,
+          "explanation": "If this escapes during construction, another thread may observe incomplete state."
+        },
+        {
+          "id": "m3_q6",
+          "question": "Why are immutable objects useful in concurrent programs?",
+          "options": [
+            "Their observable state cannot change after construction",
+            "They always use wait/notify",
+            "They require synchronized on every getter",
+            "They cannot be stored in collections"
+          ],
+          "answer": 0,
+          "explanation": "Immutable objects are thread-safe when they are safely constructed and published."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Threads, interruption, exception handling, and liveness",
+      "source_pages": [
+        5,
+        6
+      ],
+      "questions": [
+        {
+          "id": "m4_q1",
+          "question": "What does BLOCKED usually mean for a Java thread?",
+          "options": [
+            "It is waiting to acquire a monitor",
+            "It has not been constructed",
+            "It has finished",
+            "It is sorting a list"
+          ],
+          "answer": 0,
+          "explanation": "BLOCKED is the state for waiting to enter a monitor-protected section."
+        },
+        {
+          "id": "m4_q2",
+          "question": "What does Thread.join do?",
+          "options": [
+            "Waits until the target thread finishes",
+            "Stops the target thread immediately",
+            "Starts a new executor",
+            "Makes a field volatile"
+          ],
+          "answer": 0,
+          "explanation": "join blocks until the joined thread terminates."
+        },
+        {
+          "id": "m4_q3",
+          "question": "What should code often do if it catches InterruptedException but cannot throw it?",
+          "options": [
+            "Restore the interrupted status before throwing an appropriate exception",
+            "Ignore it",
+            "Call Thread.stop",
+            "Start a new JVM"
+          ],
+          "answer": 0,
+          "explanation": "Restoring the interrupt flag gives higher-level code a chance to notice cancellation."
+        },
+        {
+          "id": "m4_q4",
+          "question": "What is the classic cause of deadlock in the account-transfer pattern?",
+          "options": [
+            "Different threads acquire the same locks in opposite orders",
+            "The accounts use final fields",
+            "Only one account exists",
+            "The code uses too few comments"
+          ],
+          "answer": 0,
+          "explanation": "Opposite lock acquisition order can create a waiting cycle."
+        },
+        {
+          "id": "m4_q5",
+          "question": "Which technique directly helps avoid deadlock with multiple locks?",
+          "options": [
+            "Lock ordering",
+            "Using random sleeps",
+            "Suppressing exceptions",
+            "Using more mutable state"
+          ],
+          "answer": 0,
+          "explanation": "A consistent lock order prevents cycles in lock acquisition."
+        },
+        {
+          "id": "m4_q6",
+          "question": "How does livelock differ from deadlock?",
+          "options": [
+            "Threads keep reacting but still make no useful progress",
+            "Threads are all terminated",
+            "No thread exists",
+            "The JVM refuses to load classes"
+          ],
+          "answer": 0,
+          "explanation": "Livelock has activity without progress."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "ExecutorService, Future, locks, and CompletableFuture",
+      "source_pages": [
+        6,
+        7,
+        8
+      ],
+      "questions": [
+        {
+          "id": "m5_q1",
+          "question": "What is the main role of ExecutorService?",
+          "options": [
+            "Submitting and managing task execution without manually creating a Thread per task",
+            "Making every field volatile",
+            "Replacing the Java Memory Model",
+            "Creating immutable objects only"
+          ],
+          "answer": 0,
+          "explanation": "ExecutorService is the central task-execution abstraction in java.util.concurrent."
+        },
+        {
+          "id": "m5_q2",
+          "question": "Which task type returns a value?",
+          "options": [
+            "Callable",
+            "Runnable",
+            "Thread.State",
+            "Lock"
+          ],
+          "answer": 0,
+          "explanation": "Callable represents a computation with a return value."
+        },
+        {
+          "id": "m5_q3",
+          "question": "What does Future.get commonly risk if used without a timeout?",
+          "options": [
+            "Blocking indefinitely",
+            "Making the object immutable",
+            "Skipping the task",
+            "Deleting the executor"
+          ],
+          "answer": 0,
+          "explanation": "Future.get waits for the result and can block."
+        },
+        {
+          "id": "m5_q4",
+          "question": "Why use ReentrantLock instead of synchronized?",
+          "options": [
+            "For capabilities such as tryLock or interruptible lock acquisition",
+            "Because it never needs unlock",
+            "Because it disables deadlocks",
+            "Because it turns lists into maps"
+          ],
+          "answer": 0,
+          "explanation": "ReentrantLock provides features not available through intrinsic synchronization."
+        },
+        {
+          "id": "m5_q5",
+          "question": "What is CountDownLatch best suited for?",
+          "options": [
+            "A one-time gate that opens after a count reaches zero",
+            "A resettable cyclic barrier in this guide",
+            "A sorted concurrent map",
+            "A lock-free counter"
+          ],
+          "answer": 0,
+          "explanation": "CountDownLatch is initialized with a count and is not reusable after it reaches zero."
+        },
+        {
+          "id": "m5_q6",
+          "question": "What is a CompletableFuture advantage over plain Future?",
+          "options": [
+            "It can compose async callbacks and pipelines without only blocking for results",
+            "It prevents all exceptions",
+            "It makes all callbacks run in the main thread",
+            "It removes the need for executors forever"
+          ],
+          "answer": 0,
+          "explanation": "CompletableFuture supports chained stages and completion callbacks."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Concurrent collections and selection heuristics",
+      "source_pages": [
+        8,
+        9
+      ],
+      "questions": [
+        {
+          "id": "m6_q1",
+          "question": "When is CopyOnWriteArrayList usually a good fit?",
+          "options": [
+            "Many reads and rare writes",
+            "Very frequent writes",
+            "Strict FIFO producer-consumer handoff",
+            "Atomic numeric counters"
+          ],
+          "answer": 0,
+          "explanation": "Copy-on-write makes writes expensive but reads and iteration cheap."
+        },
+        {
+          "id": "m6_q2",
+          "question": "Which collection is the general high-throughput concurrent map choice?",
+          "options": [
+            "ConcurrentHashMap",
+            "ArrayList",
+            "HashSet",
+            "StringBuilder"
+          ],
+          "answer": 0,
+          "explanation": "ConcurrentHashMap is designed for concurrent key/value access."
+        },
+        {
+          "id": "m6_q3",
+          "question": "Which map/set family is useful when sorted concurrent access matters?",
+          "options": [
+            "ConcurrentSkipListMap and ConcurrentSkipListSet",
+            "CopyOnWriteArrayList only",
+            "SynchronousQueue",
+            "ThreadLocal"
+          ],
+          "answer": 0,
+          "explanation": "Skip-list collections provide sorted concurrent structures."
+        },
+        {
+          "id": "m6_q4",
+          "question": "What does BlockingQueue add to Queue?",
+          "options": [
+            "Methods that handle full or empty cases by blocking or timing out",
+            "A final-field guarantee",
+            "A monitor state table",
+            "A way to stop all threads"
+          ],
+          "answer": 0,
+          "explanation": "BlockingQueue supports producer-consumer waiting behavior."
+        },
+        {
+          "id": "m6_q5",
+          "question": "Which queue performs direct handoff with no queue capacity?",
+          "options": [
+            "SynchronousQueue",
+            "PriorityBlockingQueue",
+            "DelayQueue",
+            "ConcurrentLinkedQueue"
+          ],
+          "answer": 0,
+          "explanation": "SynchronousQueue has zero capacity and pairs producer with consumer."
+        },
+        {
+          "id": "m6_q6",
+          "question": "What should guide collection choice?",
+          "options": [
+            "Access pattern, ordering needs, blocking behavior, and contention",
+            "Class name length",
+            "Whether it appears first in documentation",
+            "Whether it avoids all exceptions"
+          ],
+          "answer": 0,
+          "explanation": "Concurrent collection choice depends on workload and semantics."
+        }
+      ]
+    }
+  ]
+}

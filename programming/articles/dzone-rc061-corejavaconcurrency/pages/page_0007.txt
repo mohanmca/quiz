@@ -1,0 +1,115 @@
+Tasks are submitted with ExecutorService#submit, 
+ExecutorService#invokeAll, or 
+ExecutorService#invokeAny, which have multiple 
+overloads for different types of tasks.
+INTERFACE
+DESCRIPTION
+Runnable
+Represent a task without a return value.
+Callable
+Represents a computation with a return value. It 
+also declares to throw raw Exception, so no 
+wrapping for a checked exception is necessary.
+Table 8: Tasks' functional interfaces
+FUTURE
+Future is an abstraction for asynchronous computation. It 
+represents the result of the computation, which might be 
+available at some point: either a computed value or an 
+exception. Most of the methods of the ExecutorService use 
+Future as a return type. It exposes methods to examine the 
+current state of the future or block until the result is available.
+ExecutorService executorService = Executors.
+newSingleThreadExecutor();
+Future<String> future = executorService.submit(() 
+-> "result");
+try {
+  String result = future.get(1L, TimeUnit.SECONDS);
+  System.out.println("Result is '" + result + "'.");
+} 
+catch (InterruptedException e) {
+  Thread.currentThread().interrupt();
+  throw new RuntimeException(e);
+} 
+catch (ExecutionException e) {
+  throw new RuntimeException(e.getCause());
+} 
+catch (TimeoutException e) {
+  throw new RuntimeException(e);
+}
+assert future.isDone();
+LOCKS
+LOCK
+The java.util.concurrent.locks package has a standard 
+Lock interface. The ReentrantLock implementation duplicates 
+the functionality of the synchronized keyword but also provides 
+additional functionality such as obtaining information about the 
+state of the lock, non-blocking tryLock(), and interruptible 
+locking. Example of using an explicit ReentrantLock instance:
+class Counter {
+  private final Lock lock = new ReentrantLock();
+  private int value;
+  
+  int increment() {
+    lock.lock();
+    try {
+      return ++value;
+    } finally {
+      lock.unlock();
+    }
+  }
+}
+READWRITELOCK
+The java.util.concurrent.locks package also contains 
+a ReadWriteLock interface (and ReentrantReadWriteLock 
+implementation) which is defined by a pair of locks for reading 
+and writing, typically allowing multiple concurrent readers but 
+only one writer.
+class Statistic {
+  private final ReadWriteLock lock =  
+new ReentrantReadWriteLock();
+  private int value;
+  
+  void increment() {
+    lock.writeLock().lock();
+    try {
+      value++;
+    } finally {
+      lock.writeLock().unlock();
+    }
+  }
+  
+  int current() {
+    lock.readLock().lock();
+    try {
+      return value;
+    } finally {
+      lock.readLock().unlock();
+    }
+  }
+}
+COUNTDOWNLATCH
+The CountDownLatch is initialized with a count. Threads may 
+call await() to wait for the count to reach 0. Other threads 
+(or the same thread) may call countDown() to reduce the 
+count. Not reusable once the count has reached 0. Used to 
+trigger an unknown set of threads once some number of 
+actions has occurred. 
+COMPLETABLEFUTURE
+CompletableFuture is an abstraction for async computation. 
+Unlike plain Future, where the only possibility to get the 
+result is to block, it's encouraged to register callbacks 
+to create a pipeline of tasks to be executed when either 
+the result or an exception is available. Either during 
+creation (via CompletableFuture#supplyAsync/runAsync) 
+or during adding callbacks (*async family's methods), an 
+executor, where the computation should happen, can be 
+specified (if it is not specified, it is the standard global 
+ForkJoinPool#commonPool).
+Take into consideration that if the CompletableFuture is 
+already completed, the callbacks registered via non *async 
+methods are going to be executed in the caller's thread.
+If there are several futures you can use 
+CompletableFuture#allOf to get a future, which is 
+7
+CORE JAVA CONCURRENCY
+DZONE.COM  |  © DZONE, INC.

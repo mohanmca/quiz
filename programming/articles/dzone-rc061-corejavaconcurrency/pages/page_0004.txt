@@ -1,0 +1,113 @@
+recent value because a write to a volatile variable 
+happens before any subsequent read. 
+ 
+class Volatile {
+  private volatile String state;
+  void setState(String state) {
+    this.state = state;
+  }
+  
+  String getState() {
+    return state; 
+  }
+}
+•	 Atomics. For example, AtomicInteger stores the value 
+in a volatile field, so the same rule for volatile variables is 
+applicable here. 
+ 
+class Atomics {
+  private final AtomicInteger state =  
+new AtomicInteger();
+  void initializeState(int state) {
+    this.state.compareAndSet(0, state);
+  }
+  int getState() {
+    return state.get();
+  }
+}
+•	 Final Fields 
+class Final {
+  private final String state;
+  Final(String state) {
+    this.state = state;
+  }
+  
+  String getState() {
+    return state;
+  }
+}
+Make sure that the this reference is not escaped during 
+construction. 
+class ThisEscapes {
+ private final String name;
+ ThisEscapes(String name) {
+   Cache.putIntoCache(this);
+   this.name = name;
+ }
+ String getName() { return name; }
+}
+class Cache {
+ private static final Map<String, ThisEscapes> 
+CACHE = new ConcurrentHashMap<>();
+ 
+ static void putIntoCache( 
+ThisEscapes thisEscapes) {
+   // 'this' reference escaped before the object 
+//is fully constructed.
+  
+ CACHE.putIfAbsent(thisEscapes.getName(), 
+thisEscapes);
+ }
+}
+•	 Correctly synchronized field. 
+class Synchronization {
+  
+  private String state;
+  synchronized String getState() {
+    if (state == null)
+      state = "Initial";
+    return state;
+  }
+}
+IMMUTABLE OBJECTS
+ 
+A great property of immutable objects is that they are thread-
+safe, so no synchronization is necessary. The requirements for 
+an object to be immutable are:
+•	 All fields are final.
+•	 All fields must be either mutable or immutable objects 
+too, but do not escape the scope of the object so the 
+state of the object cannot be altered after construction.
+•	 this reference does not escape during construction.
+•	 The class is final, so it is not possible to override this 
+behavior in subclasses.
+Example of an immutable object:
+// Marked as final - subclassing is forbidden
+public final class Artist {
+  // Immutable object, field is final
+  private final String name; 
+  // Collection of immutable objects, field is final
+  private final List<Track> tracks; 
+ public Artist(String name, List<Track> tracks) {
+    this.name = name;
+     // Defensive copy
+    List<Track> copy = new ArrayList<>(tracks); 
+    // Making mutable collection unmodifiable
+    this.tracks = Collections.unmodifiableList(copy); 
+    // 'this' is not passed to anywhere during  
+    // construction
+  }
+  // Getters, equals, hashCode, toString
+}
+// Marked as final - subclassing is forbidden
+public final class Track { 
+  // Immutable object, field is final
+  private final String title; 
+  public Track(String title) {
+    this.title = title;
+  }
+  // Getters, equals, hashCode, toString
+}
+4
+DZONE.COM  |  © DZONE, INC.
+CORE JAVA CONCURRENCY

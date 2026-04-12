@@ -1,0 +1,114 @@
+THE VOLATILE KEYWORD
+volatile solves the problem of visibility, and makes 
+changes of the variable’s value to be atomic, because there 
+is a happens-before relationship: write to a volatile variable 
+happens before any subsequent read from the volatile variable.
+Therefore, it guarantees that any subsequent reads of the field 
+will see the value, which was set by the most recent write.
+class VolatileFlag implements Runnable {
+  private volatile boolean shouldStop;
+  public void run() {
+    while (!shouldStop) {
+      //do smth
+    }
+    System.out.println("Stopped.");
+  }
+  void stop() {
+    shouldStop = true;
+  }
+  public static void main(String[] args) throws 
+InterruptedException {
+    VolatileFlag flag = new VolatileFlag();
+    Thread thread = new Thread(flag);
+    thread.start();
+    
+    flag.stop();
+    thread.join();
+  }
+}
+ATOMICS
+The java.util.concurrent.atomic package contains a set 
+of classes that support atomic compound actions on a single 
+value in a lock-free manner similar to volatile.
+Using AtomicXXX classes, it is possible to implement an 
+atomic check-then-act operation:
+class CheckThenAct {
+  private final AtomicReference<String> value =  
+new AtomicReference<>();
+  void initialize() {
+    if (value.compareAndSet(null, "value")) {
+      System.out.println("Initialized only once.");
+    }
+  }
+}
+Both AtomicInteger and AtomicLong have atomic 
+increment/decrement operation:
+class Increment {
+  private final AtomicInteger state =  
+new AtomicInteger();
+  void advance() {
+    int oldState = state.getAndIncrement();
+    System.out.println("Advanced: '" + oldState + 
+ "' -> '" + (oldState + 1) + "'.");
+  }
+} 
+If you want to have a counter and do not need to get its 
+value atomically, consider using LongAdder instead of 
+AtomicLong/AtomicInteger. LongAdder maintains the value 
+across several cells and grows their number if it's needed, 
+consequently it performs better under high contention.
+THREADLOCAL
+One way to contain data within a thread and make locking 
+unnecessary is to use ThreadLocal storage. Conceptually, 
+ThreadLocal acts as if there is a variable with its own version 
+in every Thread. ThreadLocals are commonly used for stashing 
+per-Thread values like the "current transaction" or other 
+resources. Also, they are used to maintain per-thread counters, 
+statistics, or ID generators.
+class TransactionManager {
+  private final 
+  ThreadLocal<Transaction> currentTransaction 
+  = ThreadLocal.withInitial(NullTransaction::new);
+  
+  Transaction currentTransaction() {
+    Transaction current = currentTransaction.get();
+    if (current.isNull()) {
+      current = new TransactionImpl();
+      currentTransaction.set(current);
+    }
+    return current;
+  }
+}
+SAFE PUBLICATION
+ 
+Publishing an object is making its reference available outside 
+of the current scope (for example: return a reference from a 
+getter). Ensuring that object is published safely (only when 
+it is fully constructed) may require synchronization. The safe 
+publication could be achieved using:
+•	 Static initializers. Only one thread can initialize static 
+variables because initialization of the class is done under 
+an exclusive lock. 
+ 
+class StaticInitializer {
+  // Publishing an immutable object without  
+  //additional initialization
+  public static final Year year = Year.of(2017); 
+  public static final Set<String> keywords;
+  // Using static initializer to construct a  
+  //complex object
+  static {
+    // Creating mutable set
+    Set<String> keywordsSet = new HashSet<>(); 
+    // Initializing state
+    keywordsSet.add("java");
+    keywordsSet.add("concurrency");
+    // Making set unmodifiable 
+    keywords = Collections.
+unmodifiableSet(keywordsSet); 
+  }
+}
+•	 Volatile field. The reader thread will always read the most 
+3
+DZONE.COM  |  © DZONE, INC.
+CORE JAVA CONCURRENCY

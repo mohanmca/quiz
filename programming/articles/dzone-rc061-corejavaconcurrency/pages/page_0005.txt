@@ -1,0 +1,105 @@
+THREADS
+The java.lang.Thread class is used to represent an 
+application or JVM thread. The code is always being 
+executed in the context of some Thread class (use 
+Thread#currentThread() to obtain your own Thread).
+STATE
+DESCRIPTION
+NEW
+Not started.
+RUNNABLE
+Up and running
+BLOCKED
+Waiting on a monitor — it is trying to acquire the 
+lock and enter the critical section.
+WAITING
+Waiting for another thread to perform a 
+particular action (notify/notifyAll, 
+LockSupport#unpark).
+TIMED_WAITING
+Same as WAITING, but with a timeout.
+TERMINATED
+Stopped.
+Table 4: Thread states
+THREAD METHOD
+DESCRIPTION
+start
+Starts a Thread instance and execute its  
+run() method.
+join
+Blocks until the Thread finishes.
+interrupt
+Interrupts the thread. If the thread is blocked 
+in a method that responds to interrupts, an 
+InterruptedException will be thrown in the 
+other thread, otherwise the interrupt status is set.
+stop, suspend, 
+resume, destroy
+These methods are all deprecated. They 
+perform dangerous operations depending on 
+the state of the thread in question. Instead, 
+use Thread#interrupt() or a volatile flag to 
+indicate to a thread what it should do
+Table 5: Thread coordination methods
+HOW TO HANDLE INTERRUPTEDEXCEPTION?
+•	 Clean up all resources and finish the thread execution if it 
+is possible at the current level.
+•	 Declare that the current method throws 
+InterruptedException.
+•	 If a method is not declared to throw 
+InterruptedException, the interrupted flag should be 
+restored to true by calling Thread.currentThread().
+interrupt() and an exception, which is more 
+appropriate at this level, should be thrown. It is highly 
+important to set the flag back to true in order to give a 
+chance to handle interruptions at a higher level.
+UNEXPECTED EXCEPTION HANDLING
+Threads can specify an UncaughtExceptionHandler that will 
+receive a notification of any uncaught exception that causes a 
+thread to abruptly terminate.
+Thread thread = new Thread(runnable);
+thread.setUncaughtExceptionHandler((failedThread, 
+exception) -> {
+  logger.error("Caught unexpected exception in thread
+      ‘{}’.", failedThread.getName(), exception);
+});
+thread.start();
+LIVENESS
+ 
+DEADLOCK
+A deadlock occurs when there is more than one thread, each 
+waiting for a resource held by another, such that a cycle of 
+resources and acquiring threads is formed. The most obvious 
+kind of resource is an object monitor but any resource that 
+causes blocking (such as wait/notify) can qualify.
+Potential deadlock example:
+class Account {
+  private long amount;
+  void plus(long amount) { this.amount += amount; }
+  void minus(long amount) {
+    if (this.amount < amount)
+      throw new IllegalArgumentException();
+    else
+      this.amount -= amount;
+  }
+  static void transferWithDeadlock(long amount, 
+Account first, Account second){
+    synchronized (first) {
+      synchronized (second) {
+        first.minus(amount);
+        second.plus(amount);
+      }
+    }
+  }
+}
+The deadlock happens if at the same time: 
+•	 One thread is trying to transfer from the first account to the 
+second, and has already acquired the lock on the first account.
+•	 Another thread is trying to transfer from the second 
+account to the first one, and has already acquired the lock 
+on the second account.
+Techniques for avoiding deadlock:
+•	 Lock ordering — always acquire the locks in the same order. 
+5
+DZONE.COM  |  © DZONE, INC.
+CORE JAVA CONCURRENCY

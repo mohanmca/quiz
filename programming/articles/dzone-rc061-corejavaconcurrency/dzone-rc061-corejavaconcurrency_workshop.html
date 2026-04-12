@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Core Java Concurrency Consolidated Workshop</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --bg: #f5f8f6;
+      --surface: #ffffff;
+      --surface-alt: #edf5f2;
+      --text: #18231f;
+      --muted: #5b6963;
+      --border: #c9d8d1;
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --accent: #b45309;
+      --danger: #be123c;
+      --ok: #15803d;
+    }
+    * { box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    button, select { font: inherit; letter-spacing: 0; }
+    button {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 0.65rem 0.85rem;
+      cursor: pointer;
+    }
+    button.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    button.warning { background: #fff7ed; border-color: #fed7aa; color: #7c2d12; }
+    button:focus-visible { outline: 3px solid #facc15; outline-offset: 2px; }
+    #progress {
+      position: fixed;
+      inset: 0 auto auto 0;
+      height: 5px;
+      width: 0;
+      background: linear-gradient(90deg, var(--primary), var(--accent), var(--danger));
+      z-index: 50;
+    }
+    #shell { max-width: 1180px; margin: 0 auto; padding: 1rem 1rem 2rem; }
+    header {
+      position: sticky;
+      top: 0.75rem;
+      z-index: 20;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 8px 22px rgba(24, 35, 31, 0.10);
+    }
+    .brand strong { display: block; font-size: 1.05rem; }
+    .brand span { color: var(--muted); font-size: 0.92rem; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end; align-items: center; }
+    #meta { color: var(--muted); font-weight: 700; min-width: 7rem; text-align: right; }
+    #module-label { margin-top: 0.35rem; color: var(--primary-dark); font-weight: 800; }
+    #slide {
+      margin-top: 1rem;
+      min-height: 62vh;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 16px 36px rgba(24, 35, 31, 0.12);
+    }
+    .lesson {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+      gap: 0;
+    }
+    .lesson-content { padding: 1.35rem; }
+    .eyebrow { color: var(--accent); font-size: 0.84rem; font-weight: 900; margin-bottom: 0.55rem; }
+    h1 { font-size: 2rem; line-height: 1.12; margin: 0 0 1rem; }
+    h2 { font-size: 1.35rem; line-height: 1.2; margin: 0 0 0.7rem; }
+    p, li { line-height: 1.68; }
+    ul { padding-left: 1.25rem; }
+    li + li { margin-top: 0.35rem; }
+    pre {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #101a17;
+      color: #ecfdf5;
+      border-radius: 8px;
+      overflow: auto;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .callout {
+      margin-top: 1rem;
+      padding: 0.85rem;
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: 8px;
+      background: var(--surface-alt);
+    }
+    .callout p { margin: 0.35rem 0 0; }
+    figure {
+      margin: 0;
+      min-height: 100%;
+      padding: 1rem;
+      background: #eef5f1;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    figure img {
+      width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+    }
+    figcaption { color: var(--muted); font-size: 0.92rem; }
+    .quiz { padding: 1.35rem; }
+    .quiz-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+    .quiz-summary { color: var(--muted); font-weight: 700; }
+    .question {
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+    .question h2 { margin-bottom: 0.7rem; }
+    .options { display: grid; gap: 0.55rem; }
+    .option {
+      width: 100%;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 0.65rem;
+      align-items: start;
+    }
+    .option span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 1.55rem;
+      min-width: 1.55rem;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      color: var(--primary-dark);
+      font-weight: 900;
+    }
+    .option.correct { border-color: #86efac; background: #f0fdf4; }
+    .option.wrong { border-color: #fecdd3; background: #fff1f2; }
+    .option.locked { cursor: default; }
+    .feedback {
+      display: none;
+      margin-top: 0.7rem;
+      padding: 0.85rem;
+      border-radius: 8px;
+    }
+    .feedback.show { display: block; }
+    .feedback.good { border: 1px solid #86efac; background: #f0fdf4; color: #14532d; }
+    .feedback.bad { border: 1px solid #fecdd3; background: #fff1f2; color: #881337; }
+    nav {
+      display: flex;
+      gap: 0.65rem;
+      justify-content: space-between;
+      margin-top: 0.85rem;
+    }
+    #toc-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      background: rgba(24, 35, 31, 0.35);
+      z-index: 30;
+    }
+    #toc-backdrop.open { display: block; }
+    #toc {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: -390px;
+      width: min(380px, 92vw);
+      background: #fff;
+      border-right: 1px solid var(--border);
+      z-index: 40;
+      padding: 1rem;
+      overflow: auto;
+      transition: left 0.18s ease;
+    }
+    #toc.open { left: 0; }
+    .toc-link {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-top: 0.45rem;
+    }
+    .toc-link.current { border-color: var(--primary); background: var(--surface-alt); font-weight: 800; }
+    @media (max-width: 840px) {
+      #shell { padding: 0.65rem; }
+      header { grid-template-columns: 1fr; position: static; }
+      .toolbar { justify-content: flex-start; }
+      #meta { text-align: left; }
+      .lesson { grid-template-columns: 1fr; }
+      figure { border-left: 0; border-top: 1px solid var(--border); }
+      figure img { max-height: 55vh; }
+      .quiz-top { grid-template-columns: 1fr; }
+      nav { flex-wrap: wrap; }
+      h1 { font-size: 1.65rem; }
+    }
+    @media print {
+      header, nav, #progress, #toc, #toc-backdrop { display: none !important; }
+      #shell { max-width: none; padding: 0; }
+      #slide { box-shadow: none; border: 0; }
+      .lesson { break-after: page; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <aside id="toc">
+    <button id="close-toc">Close</button>
+    <h2>Contents</h2>
+    <p>Jump between study units and quizzes.</p>
+    <div id="toc-body"></div>
+  </aside>
+  <div id="toc-backdrop"></div>
+  <div id="shell">
+    <header>
+      <div class="brand">
+        <strong>Core Java Concurrency Consolidated Workshop</strong>
+        <span>A developer-focused study deck built from dzone-rc061-corejavaconcurrency.pdf</span>
+        <div id="module-label"></div>
+      </div>
+      <div class="toolbar">
+        <button id="open-toc">Contents</button>
+        <button id="retry-missed" class="warning">Retry missed</button>
+        <button id="reset-quiz">Reset quiz</button>
+        <span id="meta">1 / 1</span>
+      </div>
+    </header>
+    <main id="slide"></main>
+    <nav>
+      <button id="prev">Previous</button>
+      <button id="next" class="primary">Next</button>
+    </nav>
+  </div>
+  <script>
+    const MODULES = [{"name": "Foundations: races, visibility, and happens-before"}, {"name": "Intrinsic synchronization and condition waiting"}, {"name": "Volatile, atomics, ThreadLocal, and safe publication"}, {"name": "Threads, interruption, exception handling, and liveness"}, {"name": "ExecutorService, Future, locks, and CompletableFuture"}, {"name": "Concurrent collections and selection heuristics"}];
+    const SLIDES = [{"type": "lesson", "module": 0, "title": "Concurrency starts with atomicity and visibility", "label": "Concept map 1", "sourcePage": 1, "image": "page_previews/page_0001.png", "content": "<p>The refcard begins with the two ideas that explain most Java concurrency bugs: atomicity and visibility. Atomicity asks whether an operation can be observed half-done. Visibility asks whether one thread is guaranteed to see another thread&#x27;s write.</p>\n<p>A program can be wrong even if every individual line looks harmless. The risky boundary is usually a multi-step action against shared state.</p>\n<ul><li>Atomic operations behave as all-or-nothing actions.</li><li>Visibility requires a defined relationship between the writer and the reader.</li><li>Shared mutable state needs a guard: a lock, volatile, atomics, immutable publication, or another concurrency abstraction.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>When a shared field crosses thread boundaries, first ask: who writes it, who reads it, and what makes the read see the write?</p></div>"}, {"type": "lesson", "module": 0, "title": "Race condition vs data race", "label": "Study unit 2", "sourcePage": 1, "image": "page_previews/page_0001.png", "content": "<p>A race condition is a broader design problem: the result depends on an unlucky ordering between threads. Lazy initialization is a typical example when the check and the initialization are not one atomic action.</p>\n<p>A data race is a memory-model problem: multiple threads access the same non-final variable, at least one access writes, and the program does not use synchronization that orders those accesses.</p>\n<ul><li>Race condition: the interleaving changes behavior.</li><li>Data race: unsynchronized conflicting access can produce stale reads and broken assumptions.</li><li>A data race may trigger symptoms such as loops that never stop, corrupted state, or incorrect computations.</li></ul>\n<pre><code>// Safer lazy initialization: make the state transition atomic.\nprivate final AtomicReference&lt;Service&gt; service = new AtomicReference&lt;&gt;();\n\nService current() {\n  service.compareAndSet(null, createService());\n  return service.get();\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Do not treat volatile or synchronization as decoration. They are the mechanism that makes shared-state communication meaningful.</p></div>"}, {"type": "lesson", "module": 0, "title": "Happens-before is the reasoning tool", "label": "Memory model 3", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": "<p>The Java Memory Model gives developers a way to reason about visibility through happens-before relationships. If action A happens-before action B, the effects of A must be visible to the thread performing B.</p>\n<p>The refcard highlights common edges: Thread.start before actions inside the started thread, releasing a monitor before a later acquisition of the same monitor, volatile write before later volatile read, final-field construction rules, and actions in a thread before a successful join on that thread.</p>\n<ul><li>Use start and join to reason about thread lifecycle visibility.</li><li>Use the same monitor to pair lock release and lock acquisition.</li><li>Use volatile for simple state publication where one variable carries the signal.</li><li>Use final fields and safe construction to publish immutable state.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>A concurrency fix is not complete until you can name the happens-before edge it creates.</p></div>"}, {"type": "quiz", "module": 0, "title": "Foundations: races, visibility, and happens-before - check", "label": "Quiz", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": ""}, {"type": "lesson", "module": 1, "title": "synchronized gives mutual exclusion and visibility", "label": "Locks 1", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": "<p>The synchronized keyword makes a block or method run while holding a monitor. That protects the guarded data from simultaneous mutation and creates a visibility edge when another thread later acquires the same monitor.</p>\n<p>A static synchronized method locks the class object. A non-static synchronized method locks the receiver, the current this object.</p>\n<ul><li>Use one consistent monitor for the state it protects.</li><li>Do not split related fields across unrelated locks unless you have a clear design reason.</li><li>A synchronized method is shorthand for acquiring the associated monitor around the whole method body.</li></ul>\n<pre><code>final class PairCounter {\n  private int left;\n  private int right;\n\n  synchronized void incrementBoth() {\n    left++;\n    right++;\n  }\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>A lock protects a specific invariant. Name that invariant before deciding what monitor to use.</p></div>"}, {"type": "lesson", "module": 1, "title": "Intrinsic locks are reentrant", "label": "Study unit 2", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": "<p>The refcard points out that Java intrinsic locks are reentrant. If a thread already owns a monitor, it can enter another synchronized method or block guarded by the same monitor without deadlocking itself.</p>\n<p>This matters in object-oriented code where public synchronized methods call private synchronized helpers. Reentrancy makes that pattern legal, but it does not make the design automatically simple.</p>\n<ul><li>Reentrancy prevents self-deadlock on the same monitor.</li><li>Nested synchronized calls can still increase coupling and make lock scope harder to audit.</li><li>Contention changes the implementation cost of monitor acquisition.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Reentrancy is a convenience, not a reason to make every method synchronized.</p></div>"}, {"type": "lesson", "module": 1, "title": "wait/notify needs a condition loop", "label": "Coordination 3", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": "<p>wait, notify, and notifyAll live on Object because they operate on an object&#x27;s monitor. A thread must hold that monitor before using them.</p>\n<p>The durable pattern is a loop: while the condition is false, wait. Another thread changes the condition while holding the same monitor and then notifies waiters. The loop handles timing races and spurious wakeups.</p>\n<ul><li>Acquire the object&#x27;s monitor before calling wait, notify, or notifyAll.</li><li>Wait in a loop that checks the real condition.</li><li>Change the condition before notifying.</li><li>Prefer notifyAll when multiple condition types may be waiting on the same monitor.</li></ul>\n<pre><code>synchronized void awaitReady() throws InterruptedException {\n  while (!ready) {\n    wait();\n  }\n}\n\nsynchronized void markReady() {\n  ready = true;\n  notifyAll();\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Never wait for a notification alone. Wait for a condition, and re-check it after waking.</p></div>"}, {"type": "quiz", "module": 1, "title": "Intrinsic synchronization and condition waiting - check", "label": "Quiz", "sourcePage": 2, "image": "page_previews/page_0002.png", "content": ""}, {"type": "lesson", "module": 2, "title": "volatile is a visibility tool for simple state", "label": "Visibility 1", "sourcePage": 3, "image": "page_previews/page_0003.png", "content": "<p>A volatile write happens-before a later read of that same volatile variable. That makes it a good fit for a simple signal, such as a stop flag.</p>\n<p>Volatile does not make a multi-step compound action magically safe. If the operation is read-modify-write, use an atomic class or a lock.</p>\n<ul><li>Good volatile use: simple flags, latest-value publication, one-variable signals.</li><li>Bad volatile use: counters that require atomic increment, compound invariants, check-then-act sequences.</li><li>The variable carrying the signal should be the one declared volatile.</li></ul>\n<pre><code>private volatile boolean stopRequested;\n\nvoid runLoop() {\n  while (!stopRequested) {\n    doOneUnitOfWork();\n  }\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Use volatile when one variable is the protocol. Use a stronger tool when the protocol spans multiple steps or fields.</p></div>"}, {"type": "lesson", "module": 2, "title": "Atomics make single-value compound actions safe", "label": "Study unit 2", "sourcePage": 3, "image": "page_previews/page_0003.png", "content": "<p>The java.util.concurrent.atomic package supports lock-free atomic operations on single values. compareAndSet is the key operation for safe check-then-act transitions.</p>\n<p>AtomicInteger and AtomicLong are useful for exact atomic updates. LongAdder is often a better fit for high-contention counters where exact read-on-every-update is not required.</p>\n<ul><li>AtomicReference handles one-reference state transitions.</li><li>AtomicInteger and AtomicLong handle exact numeric updates.</li><li>LongAdder spreads contention across cells and can perform better for hot counters.</li></ul>\n<pre><code>private final AtomicInteger requests = new AtomicInteger();\n\nint recordRequest() {\n  return requests.incrementAndGet();\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Choose atomics when the invariant fits inside one atomic variable. Use a lock when it does not.</p></div>"}, {"type": "lesson", "module": 2, "title": "ThreadLocal removes sharing by making state per-thread", "label": "Thread confinement 3", "sourcePage": 3, "image": "page_previews/page_0003.png", "content": "<p>ThreadLocal gives each thread its own value. That can remove the need for locking because the state is no longer shared between threads.</p>\n<p>This pattern is useful for per-thread context such as transaction state, request metadata, counters, or ID generation. The tradeoff is lifecycle management: stale ThreadLocal values in pooled threads can surprise later tasks.</p>\n<ul><li>Use ThreadLocal for thread-confined state, not as a hidden global variable.</li><li>Clear values when a pooled thread may be reused for unrelated work.</li><li>Prefer explicit context passing when it keeps ownership clearer.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>ThreadLocal is a confinement tool. It is strongest when the lifecycle is obvious.</p></div>"}, {"type": "lesson", "module": 2, "title": "Safe publication means no one sees a half-built object", "label": "Publication 4", "sourcePage": 4, "image": "page_previews/page_0004.png", "content": "<p>Publishing an object means making its reference available outside the current scope. Safe publication means other threads can only see a fully constructed object with its intended state.</p>\n<p>The refcard highlights static initialization, volatile references, atomics, final fields, and synchronized access as safe publication strategies. It also warns against letting this escape during construction.</p>\n<ul><li>Static initializers run under class initialization rules.</li><li>Volatile and atomics publish through volatile semantics.</li><li>Final fields help when the object is correctly constructed.</li><li>Correct synchronization can lazily initialize shared state.</li><li>Do not register this with caches, listeners, or other threads before construction finishes.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>An object is not safely published just because its constructor returned somewhere. The reference must cross threads through a safe mechanism.</p></div>"}, {"type": "lesson", "module": 2, "title": "Immutable objects are the easiest shared objects", "label": "Immutability 5", "sourcePage": 4, "image": "page_previews/page_0004.png", "content": "<p>Immutable objects are naturally thread-safe because their observable state does not change after construction.</p>\n<p>The guide&#x27;s requirements are practical: final class or no unsafe subclassing, final fields, no mutable internals escaping, defensive copies for mutable inputs, and no this escape during construction.</p>\n<ul><li>Copy mutable constructor inputs before storing them.</li><li>Expose unmodifiable views or copies instead of mutable internals.</li><li>Prefer immutable value objects for data passed across threads.</li></ul>\n<pre><code>public final class Snapshot {\n  private final List&lt;String&gt; names;\n\n  public Snapshot(List&lt;String&gt; names) {\n    this.names = List.copyOf(names);\n  }\n\n  public List&lt;String&gt; names() {\n    return names;\n  }\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>The best lock is often the one you do not need because the object cannot change.</p></div>"}, {"type": "quiz", "module": 2, "title": "Volatile, atomics, ThreadLocal, and safe publication - check", "label": "Quiz", "sourcePage": 4, "image": "page_previews/page_0004.png", "content": ""}, {"type": "lesson", "module": 3, "title": "Thread states explain why code is not moving", "label": "Diagnostics 1", "sourcePage": 5, "image": "page_previews/page_0005.png", "content": "<p>The Thread class represents JVM and application threads. The refcard summarizes the core states: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED.</p>\n<p>These states are diagnostic vocabulary. BLOCKED usually means a thread is trying to enter a monitor. WAITING and TIMED_WAITING usually mean it is waiting for another action, such as notification, unpark, join, sleep, or a timeout.</p>\n<ul><li>NEW: constructed but not started.</li><li>RUNNABLE: eligible to run or currently running.</li><li>BLOCKED: waiting to acquire a monitor.</li><li>WAITING/TIMED_WAITING: waiting for another action, optionally with timeout.</li><li>TERMINATED: execution has ended.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Thread states are a debugging map. They tell you what kind of wait to investigate first.</p></div>"}, {"type": "lesson", "module": 3, "title": "Use start, join, and interrupt deliberately", "label": "Lifecycle 2", "sourcePage": 5, "image": "page_previews/page_0005.png", "content": "<p>Thread.start begins execution of the thread&#x27;s run method. Thread.join waits for that thread to finish. Thread.interrupt is the cooperative cancellation signal.</p>\n<p>The guide warns against deprecated methods such as stop, suspend, resume, and destroy. They can leave shared state damaged because they act without respecting the thread&#x27;s current invariant.</p>\n<ul><li>Use interrupt or a volatile flag for cooperative shutdown.</li><li>When catching InterruptedException, either finish cleanly, declare it, or restore the interrupt status before throwing a more appropriate exception.</li><li>Use an UncaughtExceptionHandler for failures that terminate a thread unexpectedly.</li></ul>\n<pre><code>catch (InterruptedException e) {\n  Thread.currentThread().interrupt();\n  throw new IllegalStateException(&quot;Interrupted while waiting&quot;, e);\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Interruption is a request, not a kill switch. Preserve the signal unless you fully handle it.</p></div>"}, {"type": "lesson", "module": 3, "title": "Deadlock is a cycle of ownership and waiting", "label": "Liveness 3", "sourcePage": 5, "image": "page_previews/page_0005.png", "content": "<p>A deadlock occurs when threads wait on resources held by each other, forming a cycle. The refcard&#x27;s account-transfer example illustrates the classic mistake: one transfer locks account A then B, while another locks B then A.</p>\n<p>The practical fix is to eliminate the cycle. Lock ordering is the most direct technique: all code paths acquire related locks in the same global order.</p>\n<ul><li>Look for nested locks acquired in different orders.</li><li>Assign an ordering key and always lock in that order.</li><li>For explicit locks, time-bounded tryLock can back out and retry instead of waiting forever.</li><li>Thread dumps can report monitor deadlocks.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Deadlock prevention is design work. Once a cycle is possible, testing may only find it by luck.</p></div>"}, {"type": "lesson", "module": 3, "title": "Livelock and starvation are progress failures too", "label": "Study unit 4", "sourcePage": 6, "image": "page_previews/page_0006.png", "content": "<p>Not every liveness bug is a deadlock. Livelock happens when threads keep reacting to each other but no useful work completes. Starvation happens when some threads rarely or never get access because another thread or group monopolizes a resource.</p>\n<p>These bugs often require looking beyond stack traces into scheduling, lock hold times, retry policies, fairness settings, and workload shape.</p>\n<ul><li>Livelock: high activity, low progress.</li><li>Starvation: one participant keeps losing access.</li><li>Long lock scopes, unfair acquisition, and aggressive retries can all contribute.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>A healthy concurrent system needs progress, not just absence of crashes.</p></div>"}, {"type": "quiz", "module": 3, "title": "Threads, interruption, exception handling, and liveness - check", "label": "Quiz", "sourcePage": 6, "image": "page_previews/page_0006.png", "content": ""}, {"type": "lesson", "module": 4, "title": "ExecutorService separates tasks from threads", "label": "Execution 1", "sourcePage": 6, "image": "page_previews/page_0006.png", "content": "<p>The java.util.concurrent executor APIs let code submit work without manually managing Thread objects for every task. ExecutorService is the central interface; Executors supplies common factory methods.</p>\n<p>The refcard also points to implementations such as ThreadPoolExecutor, ScheduledThreadPoolExecutor, and ForkJoinPool. Pool sizing often starts with Runtime.getRuntime().availableProcessors(), then adjusts for workload and blocking behavior.</p>\n<ul><li>Use fixed pools for bounded parallelism.</li><li>Use scheduled pools for delayed or periodic tasks.</li><li>Use ForkJoinPool/work stealing for divide-and-conquer or many small tasks.</li><li>Prefer explicit ThreadPoolExecutor configuration for production services that need clear queue, rejection, and thread-factory policies.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Do not hide capacity decisions inside a convenient factory call if the service needs predictable production behavior.</p></div>"}, {"type": "lesson", "module": 4, "title": "Runnable, Callable, and Future shape task results", "label": "Async results 2", "sourcePage": 7, "image": "page_previews/page_0007.png", "content": "<p>Runnable represents work with no return value. Callable represents a computation that returns a value and can throw Exception.</p>\n<p>Future represents the result of asynchronous work. Calling get can block, throw if the task failed, or time out if a timeout overload is used. InterruptedException, ExecutionException, and TimeoutException should be handled distinctly.</p>\n<ul><li>Use Runnable when completion is enough.</li><li>Use Callable when the caller needs a value or checked failure.</li><li>Use timed Future.get when indefinite waiting would be unsafe.</li><li>Unwrap ExecutionException to handle the task failure rather than the wrapper.</li></ul>\n<pre><code>Future&lt;Result&gt; future = executor.submit(this::loadResult);\ntry {\n  return future.get(500, TimeUnit.MILLISECONDS);\n} catch (TimeoutException e) {\n  future.cancel(true);\n  throw e;\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>A Future is a handle to a result, not a promise that waiting forever is acceptable.</p></div>"}, {"type": "lesson", "module": 4, "title": "Explicit locks add capabilities to mutual exclusion", "label": "Lock APIs 3", "sourcePage": 7, "image": "page_previews/page_0007.png", "content": "<p>ReentrantLock overlaps with synchronized but adds useful operations such as tryLock, interruptible acquisition, and lock state inspection.</p>\n<p>ReadWriteLock separates read and write access. A ReentrantReadWriteLock can allow many readers at the same time while still restricting mutation to one writer.</p>\n<ul><li>Always unlock in a finally block.</li><li>Use tryLock when backing out is better than waiting indefinitely.</li><li>Use read/write locks when reads dominate and write sections are clear.</li><li>Measure before assuming a read/write lock will beat a simpler lock.</li></ul>\n<pre><code>lock.lock();\ntry {\n  updateSharedState();\n} finally {\n  lock.unlock();\n}</code></pre>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Explicit locks buy control. They also require stricter discipline because the compiler will not add finally for you.</p></div>"}, {"type": "lesson", "module": 4, "title": "Coordination utilities reduce custom waiting code", "label": "Coordination APIs 4", "sourcePage": 7, "image": "page_previews/page_0007.png", "content": "<p>CountDownLatch starts with a count. Threads can await the count reaching zero while other work calls countDown. Once it reaches zero, it is not reset.</p>\n<p>CompletableFuture extends the Future idea with pipelines and callbacks. supplyAsync and runAsync create stages, thenApply transforms results, thenCombine joins results, whenComplete observes success or failure, and allOf/anyOf aggregate multiple futures.</p>\n<ul><li>Use CountDownLatch for one-time gates.</li><li>Use CompletableFuture when composing async steps is clearer than blocking.</li><li>Remember that non-async CompletableFuture callbacks may run in the completing or caller thread.</li><li>Specify an Executor when the default common pool is not appropriate.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Prefer library coordination primitives over custom wait/notify when they match the shape of the problem.</p></div>"}, {"type": "quiz", "module": 4, "title": "ExecutorService, Future, locks, and CompletableFuture - check", "label": "Quiz", "sourcePage": 8, "image": "page_previews/page_0008.png", "content": ""}, {"type": "lesson", "module": 5, "title": "Concurrent collections encode synchronization policy", "label": "Collections 1", "sourcePage": 8, "image": "page_previews/page_0008.png", "content": "<p>Collections.synchronized wrappers can make a collection thread-safe, but the refcard notes that they can perform poorly under high contention. java.util.concurrent offers specialized structures with concurrency behavior built into their design.</p>\n<p>The right collection depends on the read/write ratio, ordering needs, blocking requirements, and contention pattern.</p>\n<ul><li>Copy-on-write collections favor many reads and rare writes.</li><li>ConcurrentHashMap favors scalable concurrent map access.</li><li>ConcurrentSkipListMap and ConcurrentSkipListSet add sorted access.</li><li>Queues model producer-consumer handoff.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Pick collections by access pattern, not by the word concurrent in the class name.</p></div>"}, {"type": "lesson", "module": 5, "title": "Lists, maps, and sets have different tradeoffs", "label": "Study unit 2", "sourcePage": 8, "image": "page_previews/page_0008.png", "content": "<p>CopyOnWriteArrayList and CopyOnWriteArraySet create a fresh internal copy on mutation. That makes writes expensive but lets readers work against a stable snapshot.</p>\n<p>ConcurrentHashMap avoids blocking most reads and uses finer-grained internal coordination for writes. ConcurrentSkipListMap and ConcurrentSkipListSet provide sorted concurrent access with different performance tradeoffs.</p>\n<ul><li>Use copy-on-write when iteration is common and mutation is rare.</li><li>Use ConcurrentHashMap for high-throughput key/value access.</li><li>Use skip-list variants when sorted traversal matters.</li><li>A concurrent set can also be backed by a concurrent map.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>A collection optimized for reads can be terrible for write-heavy paths. Match it to the workload.</p></div>"}, {"type": "lesson", "module": 5, "title": "Queues connect producers and consumers", "label": "Queues 3", "sourcePage": 9, "image": "page_previews/page_0009.png", "content": "<p>Queues behave like pipes between producer and consumer code. The BlockingQueue interface adds choices for full and empty cases: wait forever, wait for a bounded time, fail, or return a sentinel depending on the method used.</p>\n<p>The guide lists common options: ConcurrentLinkedQueue, LinkedBlockingQueue, PriorityBlockingQueue, DelayQueue, and SynchronousQueue.</p>\n<ul><li>Use ConcurrentLinkedQueue for unbounded non-blocking FIFO needs.</li><li>Use LinkedBlockingQueue when producers and consumers should block across a bounded or optionally bounded pipe.</li><li>Use PriorityBlockingQueue when priority order matters more than FIFO.</li><li>Use DelayQueue when items become available after a delay.</li><li>Use SynchronousQueue for direct producer-to-consumer handoff with no queue capacity.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>The queue is part of your backpressure design. Its capacity and blocking behavior matter as much as its type.</p></div>"}, {"type": "lesson", "module": 5, "title": "A practical decision checklist", "label": "Consolidation 4", "sourcePage": 9, "image": "page_previews/page_0009.png", "content": "<p>The refcard is broad, so a useful consolidated takeaway is a selection checklist. Start with ownership and sharing. Then choose the simplest tool that creates the necessary visibility, atomicity, and progress guarantees.</p>\n<p>Many bugs come from using a low-level primitive where a higher-level utility would express intent better.</p>\n<ul><li>Can you remove sharing with immutability or ThreadLocal?</li><li>Is the state transition one variable? Consider volatile or an atomic.</li><li>Is there a multi-field invariant? Use a lock or a higher-level abstraction.</li><li>Is this task execution? Use an executor, not ad hoc thread creation.</li><li>Is this producer-consumer coordination? Use a queue.</li><li>Is this async composition? Consider CompletableFuture with an explicit executor.</li></ul>\n<div class=\"callout takeaway\"><strong>Working rule</strong><p>Prefer the tool whose contract matches the problem. Lower-level primitives should have a clear reason.</p></div>"}, {"type": "quiz", "module": 5, "title": "Concurrent collections and selection heuristics - check", "label": "Quiz", "sourcePage": 9, "image": "page_previews/page_0009.png", "content": ""}];
+    const QUIZ = {"title": "Core Java Concurrency Consolidated Workshop Quiz", "source": "dzone-rc061-corejavaconcurrency.pdf", "version": "1.0", "answerConvention": "Correct answer is stored first in options and answer is 0; the HTML deterministically shuffles display order.", "totalQuestions": 34, "modules": [{"id": 0, "name": "Foundations: races, visibility, and happens-before", "source_pages": [1, 2], "questions": [{"id": "m1_q1", "question": "What does atomicity mean in this guide?", "options": ["An operation cannot be observed partially complete", "A thread always runs on one CPU core", "A variable must be final", "A method cannot throw exceptions"], "answer": 0, "explanation": "Atomicity is about all-or-nothing execution of an operation."}, {"id": "m1_q2", "question": "What is visibility about?", "options": ["Whether one thread is guaranteed to see another thread's write", "Whether a class is public", "Whether a variable has a short name", "Whether logs are printed to stdout"], "answer": 0, "explanation": "Visibility is the condition under which writes from one thread become observable by another."}, {"id": "m1_q3", "question": "Which statement best describes a race condition?", "options": ["Behavior depends on the ordering of actions across threads", "The program has too many classes", "The JVM always exits early", "Only one thread is ever created"], "answer": 0, "explanation": "A race condition is about an unsafe interleaving of operations."}, {"id": "m1_q4", "question": "Which situation is closest to a data race?", "options": ["Two threads access the same non-final variable without proper synchronization and one writes", "Two threads read a final constant", "One thread creates an object and keeps it local", "A program uses a queue with one producer"], "answer": 0, "explanation": "Data races involve conflicting unsynchronized access to shared non-final state."}, {"id": "m1_q5", "question": "Why is happens-before useful?", "options": ["It tells you when one thread's effects must be visible to another", "It makes all code run single-threaded", "It replaces all tests", "It disables CPU caches"], "answer": 0, "explanation": "Happens-before is the Java Memory Model relation used to reason about visibility and ordering."}]}, {"id": 1, "name": "Intrinsic synchronization and condition waiting", "source_pages": [2], "questions": [{"id": "m2_q1", "question": "What does synchronized provide when used correctly?", "options": ["Mutual exclusion and visibility through the same monitor", "A guaranteed new CPU thread", "A sorted collection", "A non-blocking algorithm"], "answer": 0, "explanation": "synchronized protects code with a monitor and creates visibility between release and later acquisition of that monitor."}, {"id": "m2_q2", "question": "What monitor does a non-static synchronized method use?", "options": ["The current instance, this", "The class object", "A new ReentrantLock", "The current Thread object"], "answer": 0, "explanation": "A non-static synchronized method locks the receiver object."}, {"id": "m2_q3", "question": "What does it mean that intrinsic locks are reentrant?", "options": ["A thread that already owns the monitor can acquire it again", "The lock is always fair", "The lock cannot block", "The lock is stored in ThreadLocal"], "answer": 0, "explanation": "Reentrancy allows nested acquisition by the same thread."}, {"id": "m2_q4", "question": "What must be true before calling wait on an object?", "options": ["The current thread must hold that object's monitor", "The object must be immutable", "The object must be a Thread", "The method must be static"], "answer": 0, "explanation": "wait/notify/notifyAll require ownership of the target object's monitor."}, {"id": "m2_q5", "question": "Why should wait be used inside a loop?", "options": ["To re-check the condition after timing races or spurious wakeups", "To make the loop consume CPU while blocked", "To avoid acquiring a monitor", "To prevent InterruptedException from existing"], "answer": 0, "explanation": "The loop waits for the condition, not just for a notification event."}]}, {"id": 2, "name": "Volatile, atomics, ThreadLocal, and safe publication", "source_pages": [3, 4], "questions": [{"id": "m3_q1", "question": "What guarantee does a volatile write provide for a later read of the same variable?", "options": ["The write happens-before the later read", "The field becomes final", "The operation becomes a transaction across all fields", "The JVM creates a new thread"], "answer": 0, "explanation": "Volatile creates a happens-before relationship from write to later read of the same volatile variable."}, {"id": "m3_q2", "question": "Which use case fits volatile best?", "options": ["A simple stop flag", "A multi-field invariant", "A compound money transfer", "A check-then-act lazy initialization across several fields"], "answer": 0, "explanation": "Volatile is best for simple one-variable visibility protocols."}, {"id": "m3_q3", "question": "What is compareAndSet commonly used for?", "options": ["An atomic conditional state transition", "Rendering HTML", "Starting all JVM threads", "Ignoring interruptions"], "answer": 0, "explanation": "compareAndSet lets one thread update a value only if it still has the expected value."}, {"id": "m3_q4", "question": "What problem does ThreadLocal mainly avoid?", "options": ["Sharing a value between threads", "Class loading", "Checked exceptions", "Final fields"], "answer": 0, "explanation": "ThreadLocal gives each thread its own value, reducing shared-state locking needs."}, {"id": "m3_q5", "question": "Which action is unsafe during construction?", "options": ["Allowing this to escape before the object is fully built", "Assigning a final field", "Making a defensive copy", "Using a static initializer"], "answer": 0, "explanation": "If this escapes during construction, another thread may observe incomplete state."}, {"id": "m3_q6", "question": "Why are immutable objects useful in concurrent programs?", "options": ["Their observable state cannot change after construction", "They always use wait/notify", "They require synchronized on every getter", "They cannot be stored in collections"], "answer": 0, "explanation": "Immutable objects are thread-safe when they are safely constructed and published."}]}, {"id": 3, "name": "Threads, interruption, exception handling, and liveness", "source_pages": [5, 6], "questions": [{"id": "m4_q1", "question": "What does BLOCKED usually mean for a Java thread?", "options": ["It is waiting to acquire a monitor", "It has not been constructed", "It has finished", "It is sorting a list"], "answer": 0, "explanation": "BLOCKED is the state for waiting to enter a monitor-protected section."}, {"id": "m4_q2", "question": "What does Thread.join do?", "options": ["Waits until the target thread finishes", "Stops the target thread immediately", "Starts a new executor", "Makes a field volatile"], "answer": 0, "explanation": "join blocks until the joined thread terminates."}, {"id": "m4_q3", "question": "What should code often do if it catches InterruptedException but cannot throw it?", "options": ["Restore the interrupted status before throwing an appropriate exception", "Ignore it", "Call Thread.stop", "Start a new JVM"], "answer": 0, "explanation": "Restoring the interrupt flag gives higher-level code a chance to notice cancellation."}, {"id": "m4_q4", "question": "What is the classic cause of deadlock in the account-transfer pattern?", "options": ["Different threads acquire the same locks in opposite orders", "The accounts use final fields", "Only one account exists", "The code uses too few comments"], "answer": 0, "explanation": "Opposite lock acquisition order can create a waiting cycle."}, {"id": "m4_q5", "question": "Which technique directly helps avoid deadlock with multiple locks?", "options": ["Lock ordering", "Using random sleeps", "Suppressing exceptions", "Using more mutable state"], "answer": 0, "explanation": "A consistent lock order prevents cycles in lock acquisition."}, {"id": "m4_q6", "question": "How does livelock differ from deadlock?", "options": ["Threads keep reacting but still make no useful progress", "Threads are all terminated", "No thread exists", "The JVM refuses to load classes"], "answer": 0, "explanation": "Livelock has activity without progress."}]}, {"id": 4, "name": "ExecutorService, Future, locks, and CompletableFuture", "source_pages": [6, 7, 8], "questions": [{"id": "m5_q1", "question": "What is the main role of ExecutorService?", "options": ["Submitting and managing task execution without manually creating a Thread per task", "Making every field volatile", "Replacing the Java Memory Model", "Creating immutable objects only"], "answer": 0, "explanation": "ExecutorService is the central task-execution abstraction in java.util.concurrent."}, {"id": "m5_q2", "question": "Which task type returns a value?", "options": ["Callable", "Runnable", "Thread.State", "Lock"], "answer": 0, "explanation": "Callable represents a computation with a return value."}, {"id": "m5_q3", "question": "What does Future.get commonly risk if used without a timeout?", "options": ["Blocking indefinitely", "Making the object immutable", "Skipping the task", "Deleting the executor"], "answer": 0, "explanation": "Future.get waits for the result and can block."}, {"id": "m5_q4", "question": "Why use ReentrantLock instead of synchronized?", "options": ["For capabilities such as tryLock or interruptible lock acquisition", "Because it never needs unlock", "Because it disables deadlocks", "Because it turns lists into maps"], "answer": 0, "explanation": "ReentrantLock provides features not available through intrinsic synchronization."}, {"id": "m5_q5", "question": "What is CountDownLatch best suited for?", "options": ["A one-time gate that opens after a count reaches zero", "A resettable cyclic barrier in this guide", "A sorted concurrent map", "A lock-free counter"], "answer": 0, "explanation": "CountDownLatch is initialized with a count and is not reusable after it reaches zero."}, {"id": "m5_q6", "question": "What is a CompletableFuture advantage over plain Future?", "options": ["It can compose async callbacks and pipelines without only blocking for results", "It prevents all exceptions", "It makes all callbacks run in the main thread", "It removes the need for executors forever"], "answer": 0, "explanation": "CompletableFuture supports chained stages and completion callbacks."}]}, {"id": 5, "name": "Concurrent collections and selection heuristics", "source_pages": [8, 9], "questions": [{"id": "m6_q1", "question": "When is CopyOnWriteArrayList usually a good fit?", "options": ["Many reads and rare writes", "Very frequent writes", "Strict FIFO producer-consumer handoff", "Atomic numeric counters"], "answer": 0, "explanation": "Copy-on-write makes writes expensive but reads and iteration cheap."}, {"id": "m6_q2", "question": "Which collection is the general high-throughput concurrent map choice?", "options": ["ConcurrentHashMap", "ArrayList", "HashSet", "StringBuilder"], "answer": 0, "explanation": "ConcurrentHashMap is designed for concurrent key/value access."}, {"id": "m6_q3", "question": "Which map/set family is useful when sorted concurrent access matters?", "options": ["ConcurrentSkipListMap and ConcurrentSkipListSet", "CopyOnWriteArrayList only", "SynchronousQueue", "ThreadLocal"], "answer": 0, "explanation": "Skip-list collections provide sorted concurrent structures."}, {"id": "m6_q4", "question": "What does BlockingQueue add to Queue?", "options": ["Methods that handle full or empty cases by blocking or timing out", "A final-field guarantee", "A monitor state table", "A way to stop all threads"], "answer": 0, "explanation": "BlockingQueue supports producer-consumer waiting behavior."}, {"id": "m6_q5", "question": "Which queue performs direct handoff with no queue capacity?", "options": ["SynchronousQueue", "PriorityBlockingQueue", "DelayQueue", "ConcurrentLinkedQueue"], "answer": 0, "explanation": "SynchronousQueue has zero capacity and pairs producer with consumer."}, {"id": "m6_q6", "question": "What should guide collection choice?", "options": ["Access pattern, ordering needs, blocking behavior, and contention", "Class name length", "Whether it appears first in documentation", "Whether it avoids all exceptions"], "answer": 0, "explanation": "Concurrent collection choice depends on workload and semantics."}]}]};
+    const STORE_KEY = "bookSimplifier:dzone-rc061-corejavaconcurrency:v1";
+    const state = {
+      slide: 0,
+      answers: {},
+      missed: {}
+    };
+
+    function readState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}");
+        if (Number.isInteger(saved.slide)) state.slide = saved.slide;
+        if (saved.answers && typeof saved.answers === "object") state.answers = saved.answers;
+        if (saved.missed && typeof saved.missed === "object") state.missed = saved.missed;
+      } catch (error) {}
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORE_KEY, JSON.stringify(state));
+      } catch (error) {}
+    }
+
+    function esc(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function seedFor(text) {
+      let hash = 2166136261;
+      for (let i = 0; i < text.length; i += 1) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
+    }
+
+    function optionOrder(question) {
+      const order = question.options.map((_, index) => index);
+      let seed = seedFor(question.id);
+      for (let i = order.length - 1; i > 0; i -= 1) {
+        seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+        const j = seed % (i + 1);
+        const tmp = order[i];
+        order[i] = order[j];
+        order[j] = tmp;
+      }
+      return order;
+    }
+
+    function flattenQuestions() {
+      return QUIZ.modules.flatMap(module => module.questions.map(question => ({ module, question })));
+    }
+
+    function scoreForModule(moduleIndex) {
+      const questions = QUIZ.modules[moduleIndex].questions;
+      const answered = questions.filter(question => state.answers[question.id] !== undefined).length;
+      const correct = questions.filter(question => state.answers[question.id] === question.answer).length;
+      return { answered, correct, total: questions.length };
+    }
+
+    function renderLesson(slide) {
+      return `
+        <section class="lesson">
+          <div class="lesson-content">
+            <div class="eyebrow">${esc(slide.label)} | Source page ${slide.sourcePage}</div>
+            <h1>${esc(slide.title)}</h1>
+            ${slide.content}
+          </div>
+          <figure>
+            <img src="${esc(slide.image)}" alt="Page ${slide.sourcePage} preview">
+            <figcaption>Local page preview from dzone-rc061-corejavaconcurrency.pdf, page ${slide.sourcePage}.</figcaption>
+          </figure>
+        </section>
+      `;
+    }
+
+    function renderQuestion(question) {
+      const chosen = state.answers[question.id];
+      const order = optionOrder(question);
+      const isAnswered = chosen !== undefined;
+      const options = order.map((originalIndex, displayIndex) => {
+        const classNames = ["option"];
+        if (isAnswered) {
+          classNames.push("locked");
+          if (originalIndex === question.answer) classNames.push("correct");
+          if (originalIndex === chosen && chosen !== question.answer) classNames.push("wrong");
+        }
+        return `
+          <button class="${classNames.join(" ")}" data-question="${esc(question.id)}" data-answer="${originalIndex}" ${isAnswered ? "disabled" : ""}>
+            <span>${String.fromCharCode(65 + displayIndex)}</span>
+            <em>${esc(question.options[originalIndex])}</em>
+          </button>
+        `;
+      }).join("");
+      const feedbackClass = isAnswered ? `feedback show ${chosen === question.answer ? "good" : "bad"}` : "feedback";
+      const feedback = isAnswered
+        ? `<strong>${chosen === question.answer ? "Correct." : "Not quite."}</strong> ${esc(question.explanation)}`
+        : "";
+      return `
+        <article class="question">
+          <h2>${esc(question.question)}</h2>
+          <div class="options">${options}</div>
+          <div class="${feedbackClass}">${feedback}</div>
+        </article>
+      `;
+    }
+
+    function renderQuiz(slide) {
+      const moduleIndex = slide.module;
+      const module = QUIZ.modules[moduleIndex];
+      const score = scoreForModule(moduleIndex);
+      return `
+        <section class="quiz">
+          <div class="quiz-top">
+            <div>
+              <div class="eyebrow">Quiz | Source pages ${module.source_pages.join(", ")}</div>
+              <h1>${esc(module.name)}</h1>
+              <p>Answer the questions for this module. The choices are shuffled in the page, but the JSON keeps the correct answer first with <code>answer: 0</code>.</p>
+            </div>
+            <div class="quiz-summary">${score.correct} correct / ${score.answered} answered / ${score.total} total</div>
+          </div>
+          ${module.questions.map(renderQuestion).join("")}
+        </section>
+      `;
+    }
+
+    function buildTOC() {
+      const body = document.getElementById("toc-body");
+      body.innerHTML = SLIDES.map((slide, index) => `
+        <button class="toc-link ${index === state.slide ? "current" : ""}" data-jump="${index}">
+          ${index + 1}. ${esc(MODULES[slide.module].name)} - ${esc(slide.type === "quiz" ? "Quiz" : slide.title)}
+        </button>
+      `).join("");
+      body.querySelectorAll("[data-jump]").forEach(button => {
+        button.addEventListener("click", () => {
+          show(Number(button.dataset.jump));
+          setTOC(false);
+        });
+      });
+    }
+
+    function setTOC(open) {
+      document.getElementById("toc").classList.toggle("open", open);
+      document.getElementById("toc-backdrop").classList.toggle("open", open);
+    }
+
+    function show(index) {
+      state.slide = Math.max(0, Math.min(index, SLIDES.length - 1));
+      const slide = SLIDES[state.slide];
+      document.getElementById("slide").innerHTML = slide.type === "quiz" ? renderQuiz(slide) : renderLesson(slide);
+      document.getElementById("module-label").textContent = MODULES[slide.module].name;
+      document.getElementById("meta").textContent = `${state.slide + 1} / ${SLIDES.length}`;
+      document.getElementById("progress").style.width = `${((state.slide + 1) / SLIDES.length) * 100}%`;
+      document.getElementById("prev").disabled = state.slide === 0;
+      document.getElementById("next").disabled = state.slide === SLIDES.length - 1;
+      document.querySelectorAll("[data-question]").forEach(button => {
+        button.addEventListener("click", () => answer(button.dataset.question, Number(button.dataset.answer)));
+      });
+      buildTOC();
+      saveState();
+    }
+
+    function answer(questionId, answerIndex) {
+      const entry = flattenQuestions().find(item => item.question.id === questionId);
+      if (!entry || state.answers[questionId] !== undefined) return;
+      state.answers[questionId] = answerIndex;
+      if (answerIndex !== entry.question.answer) {
+        state.missed[questionId] = true;
+      } else {
+        delete state.missed[questionId];
+      }
+      show(state.slide);
+    }
+
+    function retryMissed() {
+      const missedIds = Object.keys(state.missed);
+      if (!missedIds.length) {
+        alert("No missed questions are currently tracked.");
+        return;
+      }
+      missedIds.forEach(id => delete state.answers[id]);
+      const firstMissed = flattenQuestions().find(item => missedIds.includes(item.question.id));
+      const targetSlide = SLIDES.findIndex(slide => slide.type === "quiz" && slide.module === firstMissed.module.id);
+      show(targetSlide >= 0 ? targetSlide : state.slide);
+    }
+
+    function resetQuiz() {
+      state.answers = {};
+      state.missed = {};
+      show(state.slide);
+    }
+
+    readState();
+    document.getElementById("prev").addEventListener("click", () => show(state.slide - 1));
+    document.getElementById("next").addEventListener("click", () => show(state.slide + 1));
+    document.getElementById("open-toc").addEventListener("click", () => setTOC(true));
+    document.getElementById("close-toc").addEventListener("click", () => setTOC(false));
+    document.getElementById("toc-backdrop").addEventListener("click", () => setTOC(false));
+    document.getElementById("retry-missed").addEventListener("click", retryMissed);
+    document.getElementById("reset-quiz").addEventListener("click", resetQuiz);
+    document.addEventListener("keydown", event => {
+      const tag = event.target && event.target.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (event.key === "ArrowRight" || event.key === " ") {
+        event.preventDefault();
+        show(state.slide + 1);
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        show(state.slide - 1);
+      } else if (event.key === "Home") {
+        show(0);
+      } else if (event.key === "End") {
+        show(SLIDES.length - 1);
+      } else if (event.key.toLowerCase() === "t" || event.key.toLowerCase() === "m") {
+        setTOC(!document.getElementById("toc").classList.contains("open"));
+      } else if (event.key.toLowerCase() === "r") {
+        retryMissed();
+      } else if (event.key === "Escape") {
+        setTOC(false);
+      }
+    });
+    show(state.slide);
+  </script>
+</body>
+</html>

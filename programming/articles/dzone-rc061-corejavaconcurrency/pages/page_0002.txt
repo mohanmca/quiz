@@ -1,0 +1,105 @@
+•	 All actions in a thread happen before returning from a 
+Thread#join on that thread.
+In Image 1, Action X happens before Action Y, therefore in 
+Thread 2 all operations to the right of Action Y will see all 
+the operations to the left of Action X in Thread 1.
+Image 1: Happens-before illustration
+STANDARD SYNCHRONIZATION FEATURES
+ 
+THE SYNCHRONIZED KEYWORD
+The synchronized keyword is used to prevent different 
+threads executing the same code block simultaneously. It 
+guarantees that since you acquire a lock (by entering the 
+synchronized block), data, which is protected by this lock, can 
+be manipulated in exclusive mode, so the operation can be 
+atomic. Also, it guarantees that other threads will observe the 
+result of the operation after they acquire the same lock.
+class AtomicOperation {
+  private int counter0;
+  private int counter1;
+  void increment() {
+    synchronized (this) {
+      counter0++;
+      counter1++;
+    }
+  }
+}
+The synchronized keyword can be also specified on a 
+method level.
+TYPE OF METHOD
+REFERENCE WHICH IS USED AS A MONITOR
+static
+The class object of the class with the method
+non-static
+The this reference
+Table 2: Monitors, which are used when the whole method is synchronized
+The lock is reentrant, so if the thread already holds the lock, it 
+can successfully acquire it again.
+class Reentrantcy {
+  synchronized void doAll() {
+    doFirst();
+    doSecond();
+  }
+  synchronized void doFirst() {
+    System.out.println("First operation is" +
+    "successful.");
+  }
+  synchronized void doSecond() {
+    System.out.println("Second operation is" +    
+    "successful.");
+  }
+}
+The level of contention affects how the monitor is acquired:
+STATE
+DESCRIPTION
+init
+Just created, never acquired.
+biased
+There is no contention and the code protected by the lock is 
+executed only by one thread. The cheapest one to acquire.
+thin
+Monitor is acquired by several threads with no contention. 
+Relatively cheap CAS is used for taking the lock.
+fat
+There is contention. The JVM requests an OS mutex and 
+lets the OS scheduler handle thread-parking and wake ups.
+Table 3: Monitor states
+WAIT/NOTIFY
+wait/notify/notifyAll methods are declared in the Object 
+class. wait is used to make a thread to advance to the WAITING 
+or TIMED_WAITING (if the time-out value is passed) status. In 
+order to wake up a thread, any of these actions can be done: 
+•	 Another thread invokes notify, which wakes up an 
+arbitrary thread waiting on the monitor. 
+•	 Another thread invokes notifyAll, which wakes up all the 
+threads waiting on the monitor. 
+•	 Thread#interrupt is invoked. In this case, 
+InterruptedException is thrown.
+The most common pattern is a condition loop:
+class ConditionLoop {
+  private boolean condition;
+  synchronized void waitForCondition()  
+    throws InterruptedException {
+    while (!condition) {
+      wait();
+    }
+  }
+  synchronized void satisfyCondition() {
+    condition = true;
+    notifyAll();
+  }
+}
+•	 Keep in mind that in order to use wait/notify/notifyAll 
+on an object, you need to acquire the lock on this object first.
+•	 Always wait inside a loop that checks the condition being 
+waited on – this addresses the timing issue if another 
+thread satisfies the condition before the wait begins. Also, it 
+protects your code from spurious wake-ups that can (and 
+do) occur.
+•	 Always ensure that you satisfy the waiting condition 
+before calling notify/notifyAll. Failing to do so will 
+cause a notification but no thread will ever be able to 
+escape its wait loop.
+2
+DZONE.COM  |  © DZONE, INC.
+CORE JAVA CONCURRENCY
