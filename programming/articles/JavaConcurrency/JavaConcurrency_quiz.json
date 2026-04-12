@@ -1,0 +1,871 @@
+{
+  "title": "Java Concurrency in Practice Workshop - Chapter-based workshop with 10 content slides per chapter",
+  "version": "1.0",
+  "totalQuestions": 64,
+  "modules": [
+    {
+      "id": 0,
+      "name": "Chapter 1: Introduction",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 1?",
+          "options": [
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects",
+            "Composing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about introduction.",
+          "id": "javaconcurrency_m0_q1"
+        },
+        {
+          "question": "Which section belongs to the Introduction chapter?",
+          "options": [
+            "A (Very) Brief History of Concurrency",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Introduction.",
+          "id": "javaconcurrency_m0_q2"
+        },
+        {
+          "question": "Which review habit best matches the Introduction chapter?",
+          "options": [
+            "Name the problem concurrency is solving",
+            "Building Blocks",
+            "Task Execution",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m0_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Introduction chapter?",
+          "options": [
+            "Adding threads before identifying a bottleneck",
+            "Separate benefits from hazards",
+            "Notice where asynchronous work becomes simpler or riskier",
+            "Use the later chapters as a map for the failure modes introduced here"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m0_q4"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Chapter 2: Thread Safety",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 2?",
+          "options": [
+            "Thread Safety",
+            "Introduction",
+            "Sharing Objects",
+            "Composing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about thread safety.",
+          "id": "javaconcurrency_m1_q1"
+        },
+        {
+          "question": "Which section belongs to the Thread Safety chapter?",
+          "options": [
+            "What is Thread Safety?",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Thread Safety.",
+          "id": "javaconcurrency_m1_q2"
+        },
+        {
+          "question": "Which review habit best matches the Thread Safety chapter?",
+          "options": [
+            "List the mutable state",
+            "Building Blocks",
+            "Task Execution",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m1_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Thread Safety chapter?",
+          "options": [
+            "Exposing shared mutable state casually",
+            "Identify who may touch it concurrently",
+            "Protect compound actions as one unit",
+            "Prefer simpler designs such as statelessness when possible"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m1_q4"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Chapter 3: Sharing Objects",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 3?",
+          "options": [
+            "Sharing Objects",
+            "Introduction",
+            "Thread Safety",
+            "Composing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about sharing objects.",
+          "id": "javaconcurrency_m2_q1"
+        },
+        {
+          "question": "Which section belongs to the Sharing Objects chapter?",
+          "options": [
+            "Visibility",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Sharing Objects.",
+          "id": "javaconcurrency_m2_q2"
+        },
+        {
+          "question": "Which review habit best matches the Sharing Objects chapter?",
+          "options": [
+            "Prefer confinement when possible",
+            "Building Blocks",
+            "Task Execution",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m2_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Sharing Objects chapter?",
+          "options": [
+            "Publishing objects before construction is complete",
+            "Use immutability aggressively",
+            "Publish shared objects safely",
+            "Treat visibility rules as first-class correctness rules"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m2_q4"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Chapter 4: Composing Objects",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 4?",
+          "options": [
+            "Composing Objects",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about composing objects.",
+          "id": "javaconcurrency_m3_q1"
+        },
+        {
+          "question": "Which section belongs to the Composing Objects chapter?",
+          "options": [
+            "Designing a Thread-safe Class",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Composing Objects.",
+          "id": "javaconcurrency_m3_q2"
+        },
+        {
+          "question": "Which review habit best matches the Composing Objects chapter?",
+          "options": [
+            "Name the invariants that span fields",
+            "Building Blocks",
+            "Task Execution",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m3_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Composing Objects chapter?",
+          "options": [
+            "Assuming thread-safe fields imply a thread-safe class",
+            "Decide whether safety is delegated or owned locally",
+            "Keep confinement boundaries explicit",
+            "Document the lock and the state it guards"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m3_q4"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Chapter 5: Building Blocks",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 5?",
+          "options": [
+            "Building Blocks",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about building blocks.",
+          "id": "javaconcurrency_m4_q1"
+        },
+        {
+          "question": "Which section belongs to the Building Blocks chapter?",
+          "options": [
+            "Synchronized Collections",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Building Blocks.",
+          "id": "javaconcurrency_m4_q2"
+        },
+        {
+          "question": "Which review habit best matches the Building Blocks chapter?",
+          "options": [
+            "Start with JDK building blocks",
+            "Composing Objects",
+            "Task Execution",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m4_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Building Blocks chapter?",
+          "options": [
+            "Relying on synchronized wrappers for compound workflows",
+            "Prefer BlockingQueue for producer-consumer work",
+            "Use concurrent collections where shared access is hot",
+            "Let abstractions carry synchronization policy when they fit the problem"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m4_q4"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Chapter 6: Task Execution",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 6?",
+          "options": [
+            "Task Execution",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about task execution.",
+          "id": "javaconcurrency_m5_q1"
+        },
+        {
+          "question": "Which section belongs to the Task Execution chapter?",
+          "options": [
+            "Executing Tasks in Threads",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Task Execution.",
+          "id": "javaconcurrency_m5_q2"
+        },
+        {
+          "question": "Which review habit best matches the Task Execution chapter?",
+          "options": [
+            "Define sensible task boundaries",
+            "Composing Objects",
+            "Building Blocks",
+            "Cancellation and Shutdown"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m5_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Task Execution chapter?",
+          "options": [
+            "Embedding execution policy inside business logic",
+            "Separate task logic from execution policy",
+            "Use executors for lifecycle control",
+            "Look for parallelism only after independence is clear"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m5_q4"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Chapter 7: Cancellation and Shutdown",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 7?",
+          "options": [
+            "Cancellation and Shutdown",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about cancellation and shutdown.",
+          "id": "javaconcurrency_m6_q1"
+        },
+        {
+          "question": "Which section belongs to the Cancellation and Shutdown chapter?",
+          "options": [
+            "Task Cancellation",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Cancellation and Shutdown.",
+          "id": "javaconcurrency_m6_q2"
+        },
+        {
+          "question": "Which review habit best matches the Cancellation and Shutdown chapter?",
+          "options": [
+            "Use interruption deliberately",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m6_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Cancellation and Shutdown chapter?",
+          "options": [
+            "Trying to stop work forcibly",
+            "Design services with explicit lifecycle methods",
+            "Restore or propagate interrupt status correctly",
+            "Test how cancellation behaves under partial progress"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m6_q4"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Chapter 8: Applying Thread Pools",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 8?",
+          "options": [
+            "Applying Thread Pools",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about applying thread pools.",
+          "id": "javaconcurrency_m7_q1"
+        },
+        {
+          "question": "Which section belongs to the Applying Thread Pools chapter?",
+          "options": [
+            "Implicit Couplings Between Tasks and Execution Policies",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Applying Thread Pools.",
+          "id": "javaconcurrency_m7_q2"
+        },
+        {
+          "question": "Which review habit best matches the Applying Thread Pools chapter?",
+          "options": [
+            "Size pools from workload data",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m7_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Applying Thread Pools chapter?",
+          "options": [
+            "Copying pool sizes from other systems",
+            "Watch for blocked or dependent tasks",
+            "Choose queues and rejection policies intentionally",
+            "Use executor extension points for visibility and control"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m7_q4"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Chapter 9: GUI Applications",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 9?",
+          "options": [
+            "GUI Applications",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about gui applications.",
+          "id": "javaconcurrency_m8_q1"
+        },
+        {
+          "question": "Which section belongs to the GUI Applications chapter?",
+          "options": [
+            "Why are GUIs Single-threaded?",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under GUI Applications.",
+          "id": "javaconcurrency_m8_q2"
+        },
+        {
+          "question": "Which review habit best matches the GUI Applications chapter?",
+          "options": [
+            "Keep owner-thread tasks short",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m8_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the GUI Applications chapter?",
+          "options": [
+            "Running long work on the event thread",
+            "Push heavy work to background execution",
+            "Marshal results back carefully",
+            "Treat responsiveness budgets as a real design constraint"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m8_q4"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Chapter 10: Avoiding Liveness Hazards",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 10?",
+          "options": [
+            "Avoiding Liveness Hazards",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about avoiding liveness hazards.",
+          "id": "javaconcurrency_m9_q1"
+        },
+        {
+          "question": "Which section belongs to the Avoiding Liveness Hazards chapter?",
+          "options": [
+            "Deadlock",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Avoiding Liveness Hazards.",
+          "id": "javaconcurrency_m9_q2"
+        },
+        {
+          "question": "Which review habit best matches the Avoiding Liveness Hazards chapter?",
+          "options": [
+            "Establish lock ordering",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m9_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Avoiding Liveness Hazards chapter?",
+          "options": [
+            "Acquiring multiple locks in inconsistent orders",
+            "Prefer open calls",
+            "Diagnose wait cycles early",
+            "Design retries with timeouts, randomness, or backoff when needed"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m9_q4"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Chapter 11: Performance and Scalability",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 11?",
+          "options": [
+            "Performance and Scalability",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about performance and scalability.",
+          "id": "javaconcurrency_m10_q1"
+        },
+        {
+          "question": "Which section belongs to the Performance and Scalability chapter?",
+          "options": [
+            "Thinking about Performance",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Performance and Scalability.",
+          "id": "javaconcurrency_m10_q2"
+        },
+        {
+          "question": "Which review habit best matches the Performance and Scalability chapter?",
+          "options": [
+            "Measure where work serializes",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m10_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Performance and Scalability chapter?",
+          "options": [
+            "Holding locks longer than necessary",
+            "Reduce lock hold time",
+            "Choose data structures that lower contention",
+            "Tune only after correctness and liveness are stable"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m10_q4"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Chapter 12: Testing Concurrent Programs",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 12?",
+          "options": [
+            "Testing Concurrent Programs",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about testing concurrent programs.",
+          "id": "javaconcurrency_m11_q1"
+        },
+        {
+          "question": "Which section belongs to the Testing Concurrent Programs chapter?",
+          "options": [
+            "Testing for Correctness",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Testing Concurrent Programs.",
+          "id": "javaconcurrency_m11_q2"
+        },
+        {
+          "question": "Which review habit best matches the Testing Concurrent Programs chapter?",
+          "options": [
+            "Test safety and liveness separately",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m11_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Testing Concurrent Programs chapter?",
+          "options": [
+            "Assuming a passing unit test proves concurrency safety",
+            "Run stress tests long enough",
+            "Measure performance under representative load",
+            "Design code so concurrency rules are observable in tests"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m11_q4"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Chapter 13: Explicit Locks",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 13?",
+          "options": [
+            "Explicit Locks",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about explicit locks.",
+          "id": "javaconcurrency_m12_q1"
+        },
+        {
+          "question": "Which section belongs to the Explicit Locks chapter?",
+          "options": [
+            "Lock and ReentrantLock",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Explicit Locks.",
+          "id": "javaconcurrency_m12_q2"
+        },
+        {
+          "question": "Which review habit best matches the Explicit Locks chapter?",
+          "options": [
+            "Know why Lock is needed",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m12_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Explicit Locks chapter?",
+          "options": [
+            "Using explicit locks without a clear need",
+            "Pair every acquisition with explicit release discipline",
+            "Use advanced features only when they solve a real problem",
+            "Measure before claiming a lock strategy is better"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m12_q4"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Chapter 14: Building Custom Synchronizers",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 14?",
+          "options": [
+            "Building Custom Synchronizers",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about building custom synchronizers.",
+          "id": "javaconcurrency_m13_q1"
+        },
+        {
+          "question": "Which section belongs to the Building Custom Synchronizers chapter?",
+          "options": [
+            "Managing State Dependence",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Building Custom Synchronizers.",
+          "id": "javaconcurrency_m13_q2"
+        },
+        {
+          "question": "Which review habit best matches the Building Custom Synchronizers chapter?",
+          "options": [
+            "Define the condition predicate clearly",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m13_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Building Custom Synchronizers chapter?",
+          "options": [
+            "Using wait or condition queues without a clear predicate",
+            "Bind conditions to the right lock and state",
+            "Prefer existing utilities when they fit",
+            "Use AQS only with a clean acquisition and release model"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m13_q4"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Chapter 15: Atomic Variables and Non-blocking Synchronization",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 15?",
+          "options": [
+            "Atomic Variables and Non-blocking Synchronization",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about atomic variables and non-blocking synchronization.",
+          "id": "javaconcurrency_m14_q1"
+        },
+        {
+          "question": "Which section belongs to the Atomic Variables and Non-blocking Synchronization chapter?",
+          "options": [
+            "Disadvantages of Locking",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under Atomic Variables and Non-blocking Synchronization.",
+          "id": "javaconcurrency_m14_q2"
+        },
+        {
+          "question": "Which review habit best matches the Atomic Variables and Non-blocking Synchronization chapter?",
+          "options": [
+            "Use atomics for narrow transitions",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m14_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the Atomic Variables and Non-blocking Synchronization chapter?",
+          "options": [
+            "Replacing locks with atomics without checking invariant scope",
+            "Keep retry loops bounded and measurable",
+            "Compare lock-based and non-blocking behavior under real contention",
+            "Choose the simplest primitive that preserves the invariant"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m14_q4"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Chapter 16: The Java Memory Model",
+      "questions": [
+        {
+          "question": "What is the main concern of Chapter 16?",
+          "options": [
+            "The Java Memory Model",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "This chapter is specifically about the java memory model.",
+          "id": "javaconcurrency_m15_q1"
+        },
+        {
+          "question": "Which section belongs to the The Java Memory Model chapter?",
+          "options": [
+            "Publication",
+            "Introduction",
+            "Thread Safety",
+            "Sharing Objects"
+          ],
+          "answer": 0,
+          "explanation": "The chapter manifest lists this topic under The Java Memory Model.",
+          "id": "javaconcurrency_m15_q2"
+        },
+        {
+          "question": "Which review habit best matches the The Java Memory Model chapter?",
+          "options": [
+            "Know what creates visibility guarantees",
+            "Composing Objects",
+            "Building Blocks",
+            "Task Execution"
+          ],
+          "answer": 0,
+          "explanation": "The checklist slide turns the chapter into a practical review lens.",
+          "id": "javaconcurrency_m15_q3"
+        },
+        {
+          "question": "Which trap is explicitly called out for the The Java Memory Model chapter?",
+          "options": [
+            "Assuming source-code order is what other threads observe",
+            "Publish shared state safely",
+            "Use synchronization edges intentionally",
+            "Fall back to higher-level patterns when low-level reasoning gets fragile"
+          ],
+          "answer": 0,
+          "explanation": "The Common Traps slide highlights recurring mistakes tied to this chapter's topic.",
+          "id": "javaconcurrency_m15_q4"
+        }
+      ]
+    }
+  ]
+}
