@@ -23,7 +23,7 @@
     <div class="page-header mb-4">
       <h1>July 2024 Hacker News Hiring Trends (Go)</h1>
       <p class="lead">Generated locally from 159 historical hiring threads with the expanded Go dictionary.</p>
-      <p class="text-muted mb-0">Generated on Sunday, April 26, 2026 from <a href="https://news.ycombinator.com/item?id=40846428">the target Hacker News thread</a>.</p>
+      <p class="text-muted mb-0">Generated on Monday, April 27, 2026 from <a href="https://news.ycombinator.com/item?id=40846428">the target Hacker News thread</a>.</p>
     </div>
 
     <div class="chart-filters mb-2">
@@ -55,6 +55,33 @@
     </div>
 
     <div id="chart" class="mb-5" style="width:100%; height:400px;"></div>
+
+    <section id="compare-details" class="compare-details mb-5 d-none" aria-labelledby="compare-details-title">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
+        <div>
+          <p class="section-kicker mb-1">Selected terms</p>
+          <h2 id="compare-details-title" class="h4 mb-0">Compare details</h2>
+        </div>
+        <p id="compare-details-caption" class="text-muted mb-0">Category, family, tags, and latest month metrics.</p>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Term</th>
+              <th>Kind</th>
+              <th>Family</th>
+              <th>Tags</th>
+              <th>Latest count</th>
+              <th>Latest %</th>
+              <th>Latest rank</th>
+              <th>Total mentions</th>
+            </tr>
+          </thead>
+          <tbody id="compare-details-body"></tbody>
+        </table>
+      </div>
+    </section>
 
     <div class="row">
       <div class="col-md-9">
@@ -103,6 +130,9 @@
   <thead>
     <tr>
       <th>Tech</th>
+      <th>Kind</th>
+      <th>Family</th>
+      <th>Tags</th>
       <th>Rank</th>
       <th>Last Month</th>
       <th>Change</th>
@@ -114,6 +144,9 @@
     
     <tr>
       <td><a href="?compare=Remote">Remote</a></td>
+      <td>Work Attribute</td>
+      <td>Work Mode</td>
+      <td>remote, work-mode</td>
       <td>1</td>
       <td>1</td>
       <td class="">0</td>
@@ -123,173 +156,230 @@
     
     <tr>
       <td><a href="?compare=Senior">Senior</a></td>
+      <td>Work Attribute</td>
+      <td>Seniority</td>
+      <td>senior, seniority</td>
       <td>2</td>
       <td>2</td>
       <td class="">0</td>
       <td>2</td>
-      <td class="">0</td>
-    </tr>
-    
-    <tr>
-      <td><a href="?compare=CAN">CAN</a></td>
-      <td>3</td>
-      <td>3</td>
-      <td class="">0</td>
-      <td>3</td>
       <td class="">0</td>
     </tr>
     
     <tr>
       <td><a href="?compare=AI">AI</a></td>
-      <td>4</td>
-      <td>4</td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, ml, llm</td>
+      <td>3</td>
+      <td>3</td>
       <td class="">0</td>
       <td>8</td>
-      <td class="positive table-success">&#43;4</td>
+      <td class="positive table-success">&#43;5</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Full&#43;Stack">Full Stack</a></td>
-      <td>5</td>
-      <td>5</td>
-      <td class="">0</td>
+      <td>Work Attribute</td>
+      <td>Work Area</td>
+      <td>frontend, backend, work-area</td>
       <td>4</td>
+      <td>4</td>
+      <td class="">0</td>
+      <td>3</td>
       <td class="negative table-danger">-1</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Onsite">Onsite</a></td>
+      <td>Work Attribute</td>
+      <td>Work Mode</td>
+      <td>onsite, work-mode</td>
+      <td>5</td>
       <td>6</td>
-      <td>7</td>
       <td class="positive table-success">&#43;1</td>
-      <td>6</td>
+      <td>5</td>
       <td class="">0</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Back&#43;End">Back End</a></td>
-      <td>7</td>
+      <td>Work Attribute</td>
+      <td>Work Area</td>
+      <td>backend, work-area</td>
       <td>6</td>
+      <td>5</td>
       <td class="negative table-danger">-1</td>
-      <td>9</td>
-      <td class="positive table-success">&#43;2</td>
+      <td>7</td>
+      <td class="positive table-success">&#43;1</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Python">Python</a></td>
-      <td>8</td>
-      <td>9</td>
-      <td class="positive table-success">&#43;1</td>
+      <td>Technology</td>
+      <td>Language</td>
+      <td>language, backend, ml, data</td>
       <td>7</td>
+      <td>8</td>
+      <td class="positive table-success">&#43;1</td>
+      <td>6</td>
       <td class="negative table-danger">-1</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Hybrid">Hybrid</a></td>
-      <td>9</td>
-      <td>11</td>
+      <td>Work Attribute</td>
+      <td>Work Mode</td>
+      <td>hybrid, work-mode</td>
+      <td>8</td>
+      <td>10</td>
       <td class="positive table-success">&#43;2</td>
       <td>11</td>
-      <td class="positive table-success">&#43;2</td>
+      <td class="positive table-success">&#43;3</td>
     </tr>
     
     <tr>
       <td><a href="?compare=React">React</a></td>
-      <td>10</td>
+      <td>Technology</td>
+      <td>Frontend</td>
+      <td>frontend, web, javascript, framework</td>
+      <td>9</td>
       <td>12</td>
-      <td class="positive table-success">&#43;2</td>
-      <td>5</td>
+      <td class="positive table-success">&#43;3</td>
+      <td>4</td>
       <td class="negative table-danger">-5</td>
     </tr>
     
     <tr>
       <td><a href="?compare=TypeScript">TypeScript</a></td>
-      <td>11</td>
+      <td>Technology</td>
+      <td>Language</td>
+      <td>language, frontend, backend, javascript</td>
       <td>10</td>
+      <td>9</td>
       <td class="negative table-danger">-1</td>
-      <td>10</td>
+      <td>9</td>
       <td class="negative table-danger">-1</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Machine&#43;Learning">Machine Learning</a></td>
-      <td>12</td>
-      <td>8</td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, ml</td>
+      <td>11</td>
+      <td>7</td>
       <td class="negative table-danger">-4</td>
       <td>12</td>
-      <td class="">0</td>
+      <td class="positive table-success">&#43;1</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Front&#43;End">Front End</a></td>
-      <td>13</td>
-      <td>13</td>
-      <td class="">0</td>
-      <td>13</td>
-      <td class="">0</td>
+      <td>Work Attribute</td>
+      <td>Work Area</td>
+      <td>frontend, work-area</td>
+      <td>12</td>
+      <td>11</td>
+      <td class="negative table-danger">-1</td>
+      <td>10</td>
+      <td class="negative table-danger">-2</td>
     </tr>
     
     <tr>
       <td><a href="?compare=AWS">AWS</a></td>
-      <td>14</td>
-      <td>20</td>
+      <td>Technology</td>
+      <td>Cloud</td>
+      <td>cloud, cloud-provider, infrastructure</td>
+      <td>13</td>
+      <td>19</td>
       <td class="positive table-success">&#43;6</td>
-      <td>16</td>
+      <td>15</td>
       <td class="positive table-success">&#43;2</td>
     </tr>
     
     <tr>
       <td><a href="?compare=PostgreSQL">PostgreSQL</a></td>
-      <td>15</td>
-      <td>18</td>
+      <td>Technology</td>
+      <td>Database</td>
+      <td>database, sql, storage, backend</td>
+      <td>14</td>
+      <td>17</td>
       <td class="positive table-success">&#43;3</td>
-      <td>15</td>
+      <td>14</td>
       <td class="">0</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Cloud">Cloud</a></td>
-      <td>16</td>
-      <td>14</td>
+      <td>Technology</td>
+      <td>Cloud</td>
+      <td>cloud, infrastructure</td>
+      <td>15</td>
+      <td>13</td>
       <td class="negative table-danger">-2</td>
-      <td>14</td>
+      <td>13</td>
       <td class="negative table-danger">-2</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Security">Security</a></td>
-      <td>17</td>
-      <td>19</td>
+      <td>Technology</td>
+      <td>Security</td>
+      <td>security</td>
+      <td>16</td>
+      <td>18</td>
       <td class="positive table-success">&#43;2</td>
-      <td>17</td>
+      <td>16</td>
       <td class="">0</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Open&#43;Source">Open Source</a></td>
-      <td>18</td>
-      <td>15</td>
+      <td>Work Attribute</td>
+      <td>Work Attribute</td>
+      <td>open-source</td>
+      <td>17</td>
+      <td>14</td>
       <td class="negative table-danger">-3</td>
-      <td>18</td>
+      <td>17</td>
       <td class="">0</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Staff">Staff</a></td>
-      <td>19</td>
-      <td>17</td>
+      <td>Work Attribute</td>
+      <td>Seniority</td>
+      <td>staff, seniority</td>
+      <td>18</td>
+      <td>16</td>
       <td class="negative table-danger">-2</td>
-      <td>23</td>
+      <td>22</td>
       <td class="positive table-success">&#43;4</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Go">Go</a></td>
-      <td>20</td>
-      <td>16</td>
-      <td class="negative table-danger">-4</td>
+      <td>Technology</td>
+      <td>Language</td>
+      <td>language, backend, systems, cloud</td>
       <td>19</td>
+      <td>15</td>
+      <td class="negative table-danger">-4</td>
+      <td>18</td>
       <td class="negative table-danger">-1</td>
+    </tr>
+    
+    <tr>
+      <td><a href="?compare=Large&#43;Language&#43;Model">Large Language Model</a></td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, llm</td>
+      <td>20</td>
+      <td>22</td>
+      <td class="positive table-success">&#43;2</td>
+      <td>28</td>
+      <td class="positive table-success">&#43;8</td>
     </tr>
     
   </tbody>
@@ -302,6 +392,9 @@
   <thead>
     <tr>
       <th>Tech</th>
+      <th>Kind</th>
+      <th>Family</th>
+      <th>Tags</th>
       <th>Mentions</th>
       <th>Rank</th>
       <th>Last Year Mentions</th>
@@ -313,6 +406,9 @@
     
     <tr>
       <td><a href="?compare=RAG">RAG</a></td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, llm, rag, search</td>
       <td>5</td>
       <td>81</td>
       <td>0</td>
@@ -322,6 +418,9 @@
     
     <tr>
       <td><a href="?compare=Phoenix">Phoenix</a></td>
+      <td>Technology</td>
+      <td>Backend</td>
+      <td>backend, framework, elixir</td>
       <td>5</td>
       <td>79</td>
       <td>0</td>
@@ -331,6 +430,9 @@
     
     <tr>
       <td><a href="?compare=Elasticsearch">Elasticsearch</a></td>
+      <td>Technology</td>
+      <td>Database</td>
+      <td>database, search, storage, observability</td>
       <td>5</td>
       <td>75</td>
       <td>0</td>
@@ -340,42 +442,57 @@
     
     <tr>
       <td><a href="?compare=ClickHouse">ClickHouse</a></td>
+      <td>Technology</td>
+      <td>Database</td>
+      <td>database, analytics, storage, olap</td>
       <td>6</td>
       <td>69</td>
       <td>1</td>
-      <td>153</td>
-      <td class="positive table-success">&#43;84</td>
+      <td>152</td>
+      <td class="positive table-success">&#43;83</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Fintech">Fintech</a></td>
+      <td>Domain</td>
+      <td>Industry</td>
+      <td>industry, finance</td>
       <td>13</td>
       <td>37</td>
       <td>3</td>
-      <td>96</td>
-      <td class="positive table-success">&#43;59</td>
+      <td>97</td>
+      <td class="positive table-success">&#43;60</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Snowflake">Snowflake</a></td>
+      <td>Technology</td>
+      <td>Database</td>
+      <td>database, warehouse, cloud, analytics</td>
       <td>6</td>
       <td>74</td>
       <td>2</td>
-      <td>133</td>
-      <td class="positive table-success">&#43;59</td>
+      <td>132</td>
+      <td class="positive table-success">&#43;58</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Observability">Observability</a></td>
+      <td>Technology</td>
+      <td>SRE</td>
+      <td>sre, observability, monitoring</td>
       <td>9</td>
       <td>53</td>
       <td>3</td>
-      <td>104</td>
-      <td class="positive table-success">&#43;51</td>
+      <td>105</td>
+      <td class="positive table-success">&#43;52</td>
     </tr>
     
     <tr>
       <td><a href="?compare=GCP">GCP</a></td>
+      <td>Technology</td>
+      <td>Cloud</td>
+      <td>cloud, cloud-provider, google</td>
       <td>15</td>
       <td>30</td>
       <td>6</td>
@@ -385,20 +502,26 @@
     
     <tr>
       <td><a href="?compare=MySQL">MySQL</a></td>
+      <td>Technology</td>
+      <td>Database</td>
+      <td>database, sql, storage, backend</td>
       <td>9</td>
       <td>52</td>
       <td>4</td>
-      <td>83</td>
-      <td class="positive table-success">&#43;31</td>
+      <td>84</td>
+      <td class="positive table-success">&#43;32</td>
     </tr>
     
     <tr>
       <td><a href="?compare=Kotlin">Kotlin</a></td>
+      <td>Technology</td>
+      <td>Language</td>
+      <td>language, mobile, backend, jvm</td>
       <td>8</td>
       <td>54</td>
       <td>4</td>
-      <td>82</td>
-      <td class="positive table-success">&#43;28</td>
+      <td>83</td>
+      <td class="positive table-success">&#43;29</td>
     </tr>
     
   </tbody>
@@ -411,6 +534,9 @@
   <thead>
     <tr>
       <th>Tech</th>
+      <th>Kind</th>
+      <th>Family</th>
+      <th>Tags</th>
       <th>Mentions</th>
       <th>Rank</th>
       <th>Last Year Mentions</th>
@@ -422,6 +548,9 @@
     
     <tr>
       <td><a href="?compare=SRE">SRE</a></td>
+      <td>Work Attribute</td>
+      <td>Work Area</td>
+      <td>sre, observability, infrastructure, work-area</td>
       <td>7</td>
       <td>65</td>
       <td>13</td>
@@ -431,6 +560,9 @@
     
     <tr>
       <td><a href="?compare=Principal">Principal</a></td>
+      <td>Work Attribute</td>
+      <td>Seniority</td>
+      <td>principal, seniority</td>
       <td>5</td>
       <td>80</td>
       <td>9</td>
@@ -439,7 +571,22 @@
     </tr>
     
     <tr>
+      <td><a href="?compare=Linux">Linux</a></td>
+      <td>Technology</td>
+      <td>Infrastructure</td>
+      <td>linux, systems, infrastructure</td>
+      <td>8</td>
+      <td>56</td>
+      <td>13</td>
+      <td>30</td>
+      <td class="negative table-danger">-26</td>
+    </tr>
+    
+    <tr>
       <td><a href="?compare=OpenAI">OpenAI</a></td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, llm, platform</td>
       <td>5</td>
       <td>78</td>
       <td>8</td>
@@ -448,16 +595,10 @@
     </tr>
     
     <tr>
-      <td><a href="?compare=Linux">Linux</a></td>
-      <td>8</td>
-      <td>56</td>
-      <td>13</td>
-      <td>31</td>
-      <td class="negative table-danger">-25</td>
-    </tr>
-    
-    <tr>
       <td><a href="?compare=Junior">Junior</a></td>
+      <td>Work Attribute</td>
+      <td>Seniority</td>
+      <td>junior, seniority</td>
       <td>6</td>
       <td>70</td>
       <td>9</td>
@@ -466,7 +607,22 @@
     </tr>
     
     <tr>
+      <td><a href="?compare=Vue">Vue</a></td>
+      <td>Technology</td>
+      <td>Frontend</td>
+      <td>frontend, web, javascript, framework</td>
+      <td>11</td>
+      <td>47</td>
+      <td>16</td>
+      <td>26</td>
+      <td class="negative table-danger">-21</td>
+    </tr>
+    
+    <tr>
       <td><a href="?compare=React&#43;Native">React Native</a></td>
+      <td>Technology</td>
+      <td>Mobile</td>
+      <td>mobile, frontend, javascript, react</td>
       <td>8</td>
       <td>58</td>
       <td>12</td>
@@ -475,16 +631,10 @@
     </tr>
     
     <tr>
-      <td><a href="?compare=Vue">Vue</a></td>
-      <td>11</td>
-      <td>47</td>
-      <td>16</td>
-      <td>27</td>
-      <td class="negative table-danger">-20</td>
-    </tr>
-    
-    <tr>
       <td><a href="?compare=Computer&#43;Vision">Computer Vision</a></td>
+      <td>Technology</td>
+      <td>AI / Machine Learning</td>
+      <td>ai, ml, computer-vision</td>
       <td>10</td>
       <td>48</td>
       <td>12</td>
@@ -494,6 +644,9 @@
     
     <tr>
       <td><a href="?compare=Git">Git</a></td>
+      <td>Technology</td>
+      <td>Tooling</td>
+      <td>developer-tooling, version-control</td>
       <td>7</td>
       <td>62</td>
       <td>9</td>
@@ -503,11 +656,14 @@
     
     <tr>
       <td><a href="?compare=Ruby">Ruby</a></td>
+      <td>Technology</td>
+      <td>Language</td>
+      <td>language, backend, web</td>
       <td>12</td>
       <td>42</td>
       <td>14</td>
-      <td>30</td>
-      <td class="negative table-danger">-12</td>
+      <td>29</td>
+      <td class="negative table-danger">-13</td>
     </tr>
     
   </tbody>
@@ -538,7 +694,7 @@
   </script>
   <script src="../vendor/highcharts/highcharts.js"></script>
   <script src="../data/data-20240701-go.js"></script>
-  <script src="../js/builder-v22.js"></script>
+  <script src="../js/builder-v22.js?v=4"></script>
   <script src="../vendor/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
 </html>

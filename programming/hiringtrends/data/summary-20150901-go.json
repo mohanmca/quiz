@@ -1,0 +1,863 @@
+{
+  "target_item_id": 10152809,
+  "target_title": "Ask HN: Who is hiring? (September 2015)",
+  "target_month": "Sep15",
+  "target_created_at": "2015-09-01T15:08:36.000Z",
+  "data_filename": "data-20150901-go.js",
+  "data_path": "/Users/mohannarayanaswamy/git/gohiringtrends/web/data/data-20150901-go.js",
+  "html_filename": "september-go.html",
+  "html_path": "/Users/mohannarayanaswamy/git/gohiringtrends/web/2015/september-go.html",
+  "summary_path": "/Users/mohannarayanaswamy/git/gohiringtrends/web/data/summary-20150901-go.json",
+  "items_analyzed": 53,
+  "comments_in_item": 699,
+  "top_terms": [
+    {
+      "name": "Onsite",
+      "metrics": {
+        "count": 238,
+        "percentage": 34.0486,
+        "rank": 1,
+        "full_term": "Onsite/alias[Onsite|On-site]",
+        "kind": "Work Attribute",
+        "primary_family": "Work Mode",
+        "tags": [
+          "onsite",
+          "work-mode"
+        ],
+        "count_last_month": 265,
+        "count_last_year": 15,
+        "rank_last_month": 1,
+        "rank_last_year": 47,
+        "rank_change_year": 46
+      }
+    },
+    {
+      "name": "Front End",
+      "metrics": {
+        "count": 193,
+        "percentage": 27.6109,
+        "rank": 2,
+        "full_term": "Front End/alias[Front End|Front-end|Frontend|FrontEnd]",
+        "kind": "Work Attribute",
+        "primary_family": "Work Area",
+        "tags": [
+          "frontend",
+          "work-area"
+        ],
+        "count_last_month": 183,
+        "count_last_year": 86,
+        "rank_last_month": 2,
+        "rank_last_year": 2
+      }
+    },
+    {
+      "name": "Back End",
+      "metrics": {
+        "count": 142,
+        "percentage": 20.3147,
+        "rank": 3,
+        "full_term": "Back End/alias[Back End|Backend|Back-end|BackEnd]",
+        "kind": "Work Attribute",
+        "primary_family": "Work Area",
+        "tags": [
+          "backend",
+          "work-area"
+        ],
+        "count_last_month": 142,
+        "count_last_year": 75,
+        "rank_last_month": 4,
+        "rank_last_year": 4,
+        "rank_change_month": 1,
+        "rank_change_year": 1
+      }
+    },
+    {
+      "name": "Full Stack",
+      "metrics": {
+        "count": 135,
+        "percentage": 19.3133,
+        "rank": 4,
+        "full_term": "Full Stack/alias[Full Stack|Full-Stack|Fullstack|FullStack]",
+        "kind": "Work Attribute",
+        "primary_family": "Work Area",
+        "tags": [
+          "frontend",
+          "backend",
+          "work-area"
+        ],
+        "count_last_month": 129,
+        "count_last_year": 54,
+        "rank_last_month": 6,
+        "rank_last_year": 7,
+        "rank_change_month": 2,
+        "rank_change_year": 3
+      }
+    },
+    {
+      "name": "Python",
+      "metrics": {
+        "count": 131,
+        "percentage": 18.7411,
+        "rank": 5,
+        "full_term": "Python",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "ml",
+          "data"
+        ],
+        "count_last_month": 161,
+        "count_last_year": 77,
+        "rank_last_month": 3,
+        "rank_last_year": 3,
+        "rank_change_month": -2,
+        "rank_change_year": -2
+      }
+    },
+    {
+      "name": "Remote",
+      "metrics": {
+        "count": 112,
+        "percentage": 16.0229,
+        "rank": 6,
+        "full_term": "Remote",
+        "kind": "Work Attribute",
+        "primary_family": "Work Mode",
+        "tags": [
+          "remote",
+          "work-mode"
+        ],
+        "count_last_month": 127,
+        "count_last_year": 64,
+        "rank_last_month": 7,
+        "rank_last_year": 5,
+        "rank_change_month": 1,
+        "rank_change_year": -1
+      }
+    },
+    {
+      "name": "iOS",
+      "metrics": {
+        "count": 109,
+        "percentage": 15.5937,
+        "rank": 7,
+        "full_term": "iOS",
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "ios",
+          "swift"
+        ],
+        "count_last_month": 116,
+        "count_last_year": 50,
+        "rank_last_month": 8,
+        "rank_last_year": 9,
+        "rank_change_month": 1,
+        "rank_change_year": 2
+      }
+    },
+    {
+      "name": "JavaScript",
+      "metrics": {
+        "count": 106,
+        "percentage": 15.1645,
+        "rank": 8,
+        "full_term": "JavaScript",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "backend",
+          "web"
+        ],
+        "count_last_month": 140,
+        "count_last_year": 92,
+        "rank_last_month": 5,
+        "rank_last_year": 1,
+        "rank_change_month": -3,
+        "rank_change_year": -7
+      }
+    },
+    {
+      "name": "Senior",
+      "metrics": {
+        "count": 106,
+        "percentage": 15.1645,
+        "rank": 9,
+        "full_term": "Senior",
+        "kind": "Work Attribute",
+        "primary_family": "Seniority",
+        "tags": [
+          "senior",
+          "seniority"
+        ],
+        "count_last_month": 111,
+        "count_last_year": 36,
+        "rank_last_month": 9,
+        "rank_last_year": 16,
+        "rank_change_year": 7
+      }
+    },
+    {
+      "name": "Android",
+      "metrics": {
+        "count": 101,
+        "percentage": 14.4492,
+        "rank": 10,
+        "full_term": "Android",
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "kotlin",
+          "java"
+        ],
+        "count_last_month": 98,
+        "count_last_year": 50,
+        "rank_last_month": 11,
+        "rank_last_year": 8,
+        "rank_change_month": 1,
+        "rank_change_year": -2
+      }
+    },
+    {
+      "name": "Ruby",
+      "metrics": {
+        "count": 84,
+        "percentage": 12.0172,
+        "rank": 11,
+        "full_term": "Ruby",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "web"
+        ],
+        "count_last_month": 100,
+        "count_last_year": 55,
+        "rank_last_month": 10,
+        "rank_last_year": 6,
+        "rank_change_month": -1,
+        "rank_change_year": -5
+      }
+    },
+    {
+      "name": "Node.js",
+      "metrics": {
+        "count": 82,
+        "percentage": 11.731,
+        "rank": 12,
+        "full_term": "Node.js/js[node]",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "javascript",
+          "runtime"
+        ],
+        "count_last_month": 89,
+        "count_last_year": 36,
+        "rank_last_month": 12,
+        "rank_last_year": 15,
+        "rank_change_year": 3
+      }
+    },
+    {
+      "name": "Rails",
+      "metrics": {
+        "count": 79,
+        "percentage": 11.3019,
+        "rank": 13,
+        "full_term": "Rails",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "ruby",
+          "web"
+        ],
+        "count_last_month": 82,
+        "count_last_year": 44,
+        "rank_last_month": 16,
+        "rank_last_year": 10,
+        "rank_change_month": 3,
+        "rank_change_year": -3
+      }
+    },
+    {
+      "name": "AWS",
+      "metrics": {
+        "count": 75,
+        "percentage": 10.7296,
+        "rank": 14,
+        "full_term": "AWS",
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "cloud-provider",
+          "infrastructure"
+        ],
+        "count_last_month": 86,
+        "count_last_year": 34,
+        "rank_last_month": 13,
+        "rank_last_year": 17,
+        "rank_change_month": -1,
+        "rank_change_year": 3
+      }
+    },
+    {
+      "name": "AngularJS",
+      "metrics": {
+        "count": 72,
+        "percentage": 10.3004,
+        "rank": 15,
+        "full_term": "AngularJS/js[Angular]",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework"
+        ],
+        "count_last_month": 84,
+        "count_last_year": 40,
+        "rank_last_month": 14,
+        "rank_last_year": 11,
+        "rank_change_month": -1,
+        "rank_change_year": -4
+      }
+    },
+    {
+      "name": "Java",
+      "metrics": {
+        "count": 68,
+        "percentage": 9.7282,
+        "rank": 16,
+        "full_term": "Java",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "jvm"
+        ],
+        "count_last_month": 83,
+        "count_last_year": 37,
+        "rank_last_month": 15,
+        "rank_last_year": 13,
+        "rank_change_month": -1,
+        "rank_change_year": -3
+      }
+    },
+    {
+      "name": "React",
+      "metrics": {
+        "count": 67,
+        "percentage": 9.5851,
+        "rank": 17,
+        "full_term": "React/js[react]",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework"
+        ],
+        "count_last_month": 69,
+        "count_last_year": 7,
+        "rank_last_month": 17,
+        "rank_last_year": 73,
+        "rank_change_year": 56
+      }
+    },
+    {
+      "name": "DevOps",
+      "metrics": {
+        "count": 63,
+        "percentage": 9.0129,
+        "rank": 18,
+        "full_term": "DevOps",
+        "kind": "Work Attribute",
+        "primary_family": "Work Area",
+        "tags": [
+          "devops",
+          "infrastructure",
+          "work-area"
+        ],
+        "count_last_month": 65,
+        "count_last_year": 20,
+        "rank_last_month": 18,
+        "rank_last_year": 34,
+        "rank_change_year": 16
+      }
+    },
+    {
+      "name": "Machine Learning",
+      "metrics": {
+        "count": 61,
+        "percentage": 8.7268,
+        "rank": 19,
+        "full_term": "Machine Learning/alias[Machine Learning|ML]",
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml"
+        ],
+        "count_last_month": 64,
+        "count_last_year": 28,
+        "rank_last_month": 19,
+        "rank_last_year": 22,
+        "rank_change_year": 3
+      }
+    },
+    {
+      "name": "GitHub",
+      "metrics": {
+        "count": 51,
+        "percentage": 7.2961,
+        "rank": 20,
+        "full_term": "GitHub",
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "version-control",
+          "ci"
+        ],
+        "count_last_month": 52,
+        "count_last_year": 30,
+        "rank_last_month": 26,
+        "rank_last_year": 19,
+        "rank_change_month": 6,
+        "rank_change_year": -1
+      }
+    }
+  ],
+  "gainers": [
+    {
+      "name": "VR",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 106,
+        "full_term": "VR/alias[VR|Virtual Reality]",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend"
+        ],
+        "count_last_month": 3,
+        "rank_last_month": 157,
+        "rank_last_year": 491,
+        "rank_change_month": 51,
+        "rank_change_year": 385
+      }
+    },
+    {
+      "name": "Mesos",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 102,
+        "full_term": "Mesos",
+        "kind": "Other",
+        "primary_family": "Other",
+        "count_last_month": 5,
+        "rank_last_month": 124,
+        "rank_last_year": 377,
+        "rank_change_month": 22,
+        "rank_change_year": 275
+      }
+    },
+    {
+      "name": "Neo4j",
+      "metrics": {
+        "count": 5,
+        "percentage": 0.7153,
+        "rank": 113,
+        "full_term": "Neo4j",
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "graph",
+          "storage"
+        ],
+        "count_last_month": 4,
+        "rank_last_month": 128,
+        "rank_last_year": 385,
+        "rank_change_month": 15,
+        "rank_change_year": 272
+      }
+    },
+    {
+      "name": "Flux",
+      "metrics": {
+        "count": 14,
+        "percentage": 2.0029,
+        "rank": 66,
+        "full_term": "Flux",
+        "kind": "Other",
+        "primary_family": "Other",
+        "count_last_month": 16,
+        "rank_last_month": 64,
+        "rank_last_year": 308,
+        "rank_change_month": -2,
+        "rank_change_year": 242
+      }
+    },
+    {
+      "name": "GPU",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 96,
+        "full_term": "GPU/alias[GPU|GPUs]",
+        "kind": "Other",
+        "primary_family": "Other",
+        "count_last_month": 5,
+        "rank_last_month": 120,
+        "rank_last_year": 326,
+        "rank_change_month": 24,
+        "rank_change_year": 230
+      }
+    },
+    {
+      "name": "Kafka",
+      "metrics": {
+        "count": 20,
+        "percentage": 2.8612,
+        "rank": 56,
+        "full_term": "Kafka",
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "streaming",
+          "messaging",
+          "distributed",
+          "backend",
+          "data-engineering"
+        ],
+        "count_last_month": 26,
+        "count_last_year": 1,
+        "rank_last_month": 51,
+        "rank_last_year": 177,
+        "rank_change_month": -5,
+        "rank_change_year": 121
+      }
+    },
+    {
+      "name": "Scrum",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 104,
+        "full_term": "Scrum",
+        "kind": "Process",
+        "primary_family": "Methodology",
+        "tags": [
+          "process",
+          "agile"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 1,
+        "rank_last_month": 97,
+        "rank_last_year": 196,
+        "rank_change_month": -7,
+        "rank_change_year": 92
+      }
+    },
+    {
+      "name": "Redshift",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 103,
+        "full_term": "Redshift",
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "warehouse",
+          "cloud",
+          "aws",
+          "analytics"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 1,
+        "rank_last_month": 96,
+        "rank_last_year": 194,
+        "rank_change_month": -7,
+        "rank_change_year": 91
+      }
+    },
+    {
+      "name": "WordPress",
+      "metrics": {
+        "count": 5,
+        "percentage": 0.7153,
+        "rank": 119,
+        "full_term": "WordPress",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "cms",
+          "php",
+          "web"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 1,
+        "rank_last_month": 101,
+        "rank_last_year": 205,
+        "rank_change_month": -18,
+        "rank_change_year": 86
+      }
+    },
+    {
+      "name": "WebRTC",
+      "metrics": {
+        "count": 5,
+        "percentage": 0.7153,
+        "rank": 118,
+        "full_term": "WebRTC",
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "realtime",
+          "frontend",
+          "web"
+        ],
+        "count_last_month": 2,
+        "count_last_year": 1,
+        "rank_last_month": 189,
+        "rank_last_year": 203,
+        "rank_change_month": 71,
+        "rank_change_year": 85
+      }
+    }
+  ],
+  "losers": [
+    {
+      "name": "HTML5",
+      "metrics": {
+        "count": 12,
+        "percentage": 1.7167,
+        "rank": 73,
+        "full_term": "HTML5",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "html",
+          "web"
+        ],
+        "count_last_month": 19,
+        "count_last_year": 22,
+        "rank_last_month": 60,
+        "rank_last_year": 30,
+        "rank_change_month": -13,
+        "rank_change_year": -43
+      }
+    },
+    {
+      "name": "Staff",
+      "metrics": {
+        "count": 7,
+        "percentage": 1.0014,
+        "rank": 91,
+        "full_term": "Staff",
+        "kind": "Work Attribute",
+        "primary_family": "Seniority",
+        "tags": [
+          "staff",
+          "seniority"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 10,
+        "rank_last_month": 99,
+        "rank_last_year": 57,
+        "rank_change_month": 8,
+        "rank_change_year": -34
+      }
+    },
+    {
+      "name": "Bash",
+      "metrics": {
+        "count": 5,
+        "percentage": 0.7153,
+        "rank": 109,
+        "full_term": "Bash",
+        "kind": "Other",
+        "primary_family": "Other",
+        "count_last_month": 6,
+        "count_last_year": 6,
+        "rank_last_month": 110,
+        "rank_last_year": 75,
+        "rank_change_month": 1,
+        "rank_change_year": -34
+      }
+    },
+    {
+      "name": "D3.js",
+      "metrics": {
+        "count": 9,
+        "percentage": 1.2876,
+        "rank": 85,
+        "full_term": "D3.js/js[D3]",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "visualization",
+          "javascript"
+        ],
+        "count_last_month": 14,
+        "count_last_year": 11,
+        "rank_last_month": 69,
+        "rank_last_year": 54,
+        "rank_change_month": -16,
+        "rank_change_year": -31
+      }
+    },
+    {
+      "name": "Git",
+      "metrics": {
+        "count": 25,
+        "percentage": 3.5765,
+        "rank": 49,
+        "full_term": "Git",
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "version-control"
+        ],
+        "count_last_month": 26,
+        "count_last_year": 29,
+        "rank_last_month": 50,
+        "rank_last_year": 20,
+        "rank_change_month": 1,
+        "rank_change_year": -29
+      }
+    },
+    {
+      "name": "statistics",
+      "metrics": {
+        "count": 9,
+        "percentage": 1.2876,
+        "rank": 86,
+        "full_term": "statistics",
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "statistics",
+          "data",
+          "ml"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 10,
+        "rank_last_month": 100,
+        "rank_last_year": 58,
+        "rank_change_month": 14,
+        "rank_change_year": -28
+      }
+    },
+    {
+      "name": "jQuery",
+      "metrics": {
+        "count": 24,
+        "percentage": 3.4335,
+        "rank": 50,
+        "full_term": "jQuery",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "web"
+        ],
+        "count_last_month": 18,
+        "count_last_year": 27,
+        "rank_last_month": 61,
+        "rank_last_year": 25,
+        "rank_change_month": 11,
+        "rank_change_year": -25
+      }
+    },
+    {
+      "name": "REST",
+      "metrics": {
+        "count": 22,
+        "percentage": 3.1474,
+        "rank": 53,
+        "full_term": "REST",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "web"
+        ],
+        "count_last_month": 29,
+        "count_last_year": 23,
+        "rank_last_month": 48,
+        "rank_last_year": 29,
+        "rank_change_month": -5,
+        "rank_change_year": -24
+      }
+    },
+    {
+      "name": "Apache",
+      "metrics": {
+        "count": 6,
+        "percentage": 0.8584,
+        "rank": 92,
+        "full_term": "Apache",
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "infrastructure",
+          "web-server",
+          "backend"
+        ],
+        "count_last_month": 8,
+        "count_last_year": 7,
+        "rank_last_month": 92,
+        "rank_last_year": 68,
+        "rank_change_year": -24
+      }
+    },
+    {
+      "name": "CoffeeScript",
+      "metrics": {
+        "count": 15,
+        "percentage": 2.1459,
+        "rank": 61,
+        "full_term": "CoffeeScript",
+        "kind": "Other",
+        "primary_family": "Other",
+        "count_last_month": 19,
+        "count_last_year": 18,
+        "rank_last_month": 59,
+        "rank_last_year": 38,
+        "rank_change_month": -2,
+        "rank_change_year": -23
+      }
+    }
+  ]
+}

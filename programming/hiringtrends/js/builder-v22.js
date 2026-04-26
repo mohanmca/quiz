@@ -1,5 +1,6 @@
 'use strict';
 
+const EXCLUDED_TERMS = new Set(['CAN']);
 let terms;
 let categories;
 let series;
@@ -10,6 +11,77 @@ const populateTermsDatalist = (dataListElement, optionList) => {
     let option = document.createElement('option');
     option.value = item;   
     list.appendChild(option);
+  });
+};
+
+const formatPercentage = value => {
+  const number = Number(value || 0);
+  return `${number.toFixed(4)}%`;
+};
+
+const termPercentage = (term, datapoint) => {
+  if (!term || !datapoint || !datapoint.num_comments) {
+    return 0;
+  }
+  return (Number(term.count || 0) / Number(datapoint.num_comments)) * 100;
+};
+
+const formatTags = tags => {
+  if (!Array.isArray(tags) || tags.length === 0) {
+    return '';
+  }
+  return tags.slice(0, 6).join(', ');
+};
+
+const escapeHTML = value => String(value ?? '')
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&#39;');
+
+const renderCompareDetails = selectedSeries => {
+  const panel = document.getElementById('compare-details');
+  const body = document.getElementById('compare-details-body');
+  const caption = document.getElementById('compare-details-caption');
+  if (!panel || !body) {
+    return;
+  }
+
+  if (!Array.isArray(selectedSeries) || selectedSeries.length === 0) {
+    panel.classList.add('d-none');
+    body.innerHTML = '';
+    return;
+  }
+
+  const latestMonth = data[data.length - 1];
+  caption.textContent = `Category, family, tags, and ${latestMonth.month} metrics.`;
+  body.innerHTML = selectedSeries.map(item => {
+    const latest = latestMonth.terms[item.name] || {};
+    return [
+      '<tr>',
+      '<td>', escapeHTML(item.name), '</td>',
+      '<td>', escapeHTML(latest.kind || 'Other'), '</td>',
+      '<td>', escapeHTML(latest.primary_family || 'Other'), '</td>',
+      '<td>', escapeHTML(formatTags(latest.tags)), '</td>',
+      '<td>', String(latest.count || 0), '</td>',
+      '<td>', formatPercentage(termPercentage(latest, latestMonth)), '</td>',
+      '<td>', latest.count > 0 ? String(latest.rank) : 'n/a', '</td>',
+      '<td>', String(item.total_mentions || 0), '</td>',
+      '</tr>'
+    ].join('');
+  }).join('');
+  panel.classList.remove('d-none');
+};
+
+const isExcludedTerm = term => EXCLUDED_TERMS.has(String(term || '').trim());
+
+const removeStaticExcludedTermRows = () => {
+  document.querySelectorAll('#top20 tbody tr, #rising tbody tr, #falling tbody tr').forEach(row => {
+    const termCell = row.querySelector('td');
+    if (termCell && isExcludedTerm(termCell.textContent)) {
+      row.remove();
+    }
   });
 };
 
@@ -38,7 +110,7 @@ const highChartConverter = (function () {
         const term_data = { "name": term, "data": [], "total_mentions": 0 }
         // build data
         data.map(function ( datapoint, i ) {
-          term_data["data"].push( datapoint["terms"][term]["percentage"] );
+          term_data["data"].push( termPercentage(datapoint["terms"][term], datapoint) );
           term_data["total_mentions"] += datapoint["terms"][term]["count"];
         });
 
@@ -92,6 +164,9 @@ const chartBuilder = (function () {
         renderTo: 'chart',
         type: 'line'
       },
+      accessibility: {
+        enabled: false
+      },
       title: {
         text: window.chartTitle || 'Hacker News Hiring Trends'
       },
@@ -117,6 +192,7 @@ const chartBuilder = (function () {
         min: 0
       },
       tooltip: {
+        valueDecimals: 4
       },
       series: seriesData
     });
@@ -125,7 +201,9 @@ const chartBuilder = (function () {
   return {
 
     renderTopTerms: function( numTerms ) {
-      render( series.slice( 0, numTerms ) );
+      const selectedSeries = series.slice( 0, numTerms );
+      render( selectedSeries );
+      renderCompareDetails([]);
     },
 
     renderComparison: function() {
@@ -138,6 +216,7 @@ const chartBuilder = (function () {
       });
 
       render( compareSeries );
+      renderCompareDetails(compareSeries);
     }
   }
 
@@ -145,7 +224,8 @@ const chartBuilder = (function () {
 
 window.addEventListener('DOMContentLoaded', (event) => {
   data.reverse();
-  terms = Object.keys( data[0]["terms"] );
+  terms = Object.keys( data[0]["terms"] ).filter(term => !isExcludedTerm(term));
+  removeStaticExcludedTermRows();
 
   // transform raw data in to format consumable by highcharts
   categories = highChartConverter.convertCategories();
@@ -181,6 +261,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
       input.type = 'text';
       input.className = 'term-compare form-control';
       input.name = 'compare';
+      input.setAttribute('list', 'datalistTerms');
       div.appendChild(input);
       fragment.appendChild(div);
     });
@@ -194,6 +275,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
   Highcharts.chart('total_postings_history_chart',{
     chart: {
       type: 'line'
+    },
+    accessibility: {
+      enabled: false
     },
     legend: {
       enabled: false
