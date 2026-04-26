@@ -67,7 +67,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "integration"
+          "integration",
+          "web"
         ]
       },
       "AR": {
@@ -75,40 +76,82 @@ data = [
         "percentage": 0,
         "rank": 142,
         "full_term": "AR/alias[AR|Augmented Reality]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "ar",
+          "augmented-reality",
+          "xr"
+        ]
       },
       "ASM": {
         "count": 0,
         "percentage": 0,
         "rank": 149,
         "full_term": "ASM/alias[ASM|Attack Surface Monitoring]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "attack-surface",
+          "osint",
+          "monitoring"
+        ]
       },
       "ASP": {
         "count": 3,
         "percentage": 1.1811,
         "rank": 53,
         "full_term": "ASP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "ASP.NET": {
         "count": 2,
         "percentage": 0.7874,
         "rank": 59,
         "full_term": "ASP.NET",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "ASP.NET MVC": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 86,
         "full_term": "ASP.NET MVC",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework",
+          "mvc"
+        ]
       },
       "AWS": {
         "count": 12,
@@ -120,7 +163,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "infrastructure"
+          "infrastructure",
+          "amazon"
         ]
       },
       "AWS Bedrock": {
@@ -134,7 +178,8 @@ data = [
           "ai",
           "llm",
           "cloud",
-          "aws"
+          "aws",
+          "generative-ai"
         ]
       },
       "AWS CDK": {
@@ -148,7 +193,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "AWS Lambda": {
@@ -162,7 +208,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "aws"
+          "aws",
+          "compute"
         ]
       },
       "ActionScript": {
@@ -170,80 +217,157 @@ data = [
         "percentage": 0.3937,
         "rank": 84,
         "full_term": "ActionScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "flash",
+          "web",
+          "adobe",
+          "legacy"
+        ]
       },
       "ActiveMQ": {
         "count": 0,
         "percentage": 0,
         "rank": 123,
         "full_term": "ActiveMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "distributed",
+          "queue",
+          "apache"
+        ]
       },
       "Ada": {
         "count": 0,
         "percentage": 0,
         "rank": 124,
         "full_term": "Ada",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "embedded",
+          "legacy"
+        ]
       },
       "Aerospike": {
         "count": 0,
         "percentage": 0,
         "rank": 125,
         "full_term": "Aerospike",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value",
+          "real-time"
+        ]
       },
       "Agentic AI": {
         "count": 0,
         "percentage": 0,
         "rank": 126,
         "full_term": "Agentic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "agents",
+          "llm",
+          "automation",
+          "concept"
+        ]
       },
       "Agentic Coding": {
         "count": 0,
         "percentage": 0,
         "rank": 127,
         "full_term": "Agentic Coding",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "developer-tooling",
+          "coding",
+          "automation",
+          "practice"
+        ]
       },
       "Agile": {
         "count": 10,
         "percentage": 3.937,
         "rank": 24,
         "full_term": "Agile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Process",
+        "primary_family": "Methodology",
+        "tags": [
+          "process",
+          "agile",
+          "methodology",
+          "management"
+        ]
       },
       "Aider": {
         "count": 0,
         "percentage": 0,
         "rank": 129,
         "full_term": "Aider",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "coding-assistant",
+          "coding",
+          "assistant",
+          "cli"
+        ]
       },
       "Airflow": {
         "count": 0,
         "percentage": 0,
         "rank": 130,
         "full_term": "Airflow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "orchestration",
+          "pipeline",
+          "workflow",
+          "data",
+          "apache",
+          "python"
+        ]
       },
       "Akka": {
         "count": 0,
         "percentage": 0,
         "rank": 131,
         "full_term": "Akka",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "distributed",
+          "jvm",
+          "actor-model",
+          "scala",
+          "java"
+        ]
       },
       "Android": {
         "count": 20,
@@ -256,7 +380,10 @@ data = [
           "mobile",
           "android",
           "kotlin",
-          "java"
+          "java",
+          "os",
+          "google",
+          "smartphone"
         ]
       },
       "Angular": {
@@ -270,7 +397,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "typescript",
+          "google"
         ]
       },
       "Angular 2": {
@@ -278,8 +407,18 @@ data = [
         "percentage": 0,
         "rank": 133,
         "full_term": "Angular 2/alias[Angular2|Angular 2]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework",
+          "typescript",
+          "google"
+        ]
       },
       "AngularJS": {
         "count": 0,
@@ -292,7 +431,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "legacy"
         ]
       },
       "Ansible": {
@@ -306,7 +446,8 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "redhat"
         ]
       },
       "Apache": {
@@ -319,7 +460,8 @@ data = [
         "tags": [
           "infrastructure",
           "web-server",
-          "backend"
+          "backend",
+          "apache"
         ]
       },
       "Apache Flink": {
@@ -335,7 +477,11 @@ data = [
           "backend",
           "data-engineering",
           "realtime",
-          "ml"
+          "ml",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Hudi": {
@@ -349,7 +495,11 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Iceberg": {
@@ -363,7 +513,12 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data",
+          "table-format"
         ]
       },
       "Apache Superset": {
@@ -376,7 +531,10 @@ data = [
         "tags": [
           "analytics",
           "bi",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "visualization",
+          "apache"
         ]
       },
       "Apollo": {
@@ -384,40 +542,76 @@ data = [
         "percentage": 0,
         "rank": 140,
         "full_term": "Apollo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "graphql",
+          "javascript",
+          "frontend"
+        ]
       },
       "App Engine": {
         "count": 3,
         "percentage": 1.1811,
         "rank": 52,
         "full_term": "App Engine/alias[App Engine|AppEngine|GAE]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "paas",
+          "google",
+          "backend",
+          "gcp",
+          "serverless"
+        ]
       },
       "AppleScript": {
         "count": 0,
         "percentage": 0,
         "rank": 141,
         "full_term": "AppleScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "apple",
+          "macos"
+        ]
       },
       "Arc": {
         "count": 0,
         "percentage": 0,
         "rank": 143,
         "full_term": "Arc",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "browser",
+          "tooling",
+          "productivity"
+        ]
       },
       "Arduino": {
         "count": 0,
         "percentage": 0,
         "rank": 144,
         "full_term": "Arduino",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "hardware",
+          "iot",
+          "microcontroller",
+          "c++"
+        ]
       },
       "Argo": {
         "count": 0,
@@ -430,7 +624,8 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd"
         ]
       },
       "Argo Workflows": {
@@ -444,7 +639,9 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "orchestration",
+          "workflows"
         ]
       },
       "ArgoCD": {
@@ -458,7 +655,8 @@ data = [
           "kubernetes",
           "gitops",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd"
         ]
       },
       "Arrow": {
@@ -466,48 +664,92 @@ data = [
         "percentage": 0,
         "rank": 148,
         "full_term": "Arrow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "columnar",
+          "analytics",
+          "data",
+          "apache",
+          "in-memory"
+        ]
       },
       "Assembly": {
         "count": 0,
         "percentage": 0,
         "rank": 150,
         "full_term": "Assembly",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "low-level"
+        ]
       },
       "Aurora": {
         "count": 0,
         "percentage": 0,
         "rank": 151,
         "full_term": "Aurora",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "sql",
+          "cloud",
+          "aws",
+          "storage",
+          "relational"
+        ]
       },
       "AutoGen": {
         "count": 0,
         "percentage": 0,
         "rank": 152,
         "full_term": "AutoGen",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "microsoft"
+        ]
       },
       "Avro": {
         "count": 0,
         "percentage": 0,
         "rank": 153,
         "full_term": "Avro",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "serialization",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Awk": {
         "count": 0,
         "percentage": 0,
         "rank": 154,
         "full_term": "Awk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "unix",
+          "linux",
+          "text-processing"
+        ]
       },
       "Azure": {
         "count": 0,
@@ -519,7 +761,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "microsoft"
+          "microsoft",
+          "infrastructure"
         ]
       },
       "Azure Functions": {
@@ -533,7 +776,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "azure"
+          "azure",
+          "microsoft"
         ]
       },
       "BLE": {
@@ -541,8 +785,17 @@ data = [
         "percentage": 0,
         "rank": 168,
         "full_term": "BLE",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "iot",
+          "mobile",
+          "networking",
+          "bluetooth",
+          "hardware"
+        ]
       },
       "Back End": {
         "count": 30,
@@ -553,7 +806,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "backend",
-          "work-area"
+          "work-area",
+          "server-side",
+          "architecture"
         ]
       },
       "Backblaze": {
@@ -561,48 +816,93 @@ data = [
         "percentage": 0,
         "rank": 160,
         "full_term": "Backblaze",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "storage",
+          "object-storage",
+          "backup"
+        ]
       },
       "Backbone": {
         "count": 3,
         "percentage": 1.1811,
         "rank": 54,
         "full_term": "Backbone/js[Backbone]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "BackboneJS": {
         "count": 0,
         "percentage": 0,
         "rank": 161,
         "full_term": "BackboneJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Backstage": {
         "count": 0,
         "percentage": 0,
         "rank": 162,
         "full_term": "Backstage",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-portal",
+          "software-catalog",
+          "tooling",
+          "devops",
+          "spotify",
+          "cncf"
+        ]
       },
       "Bash": {
         "count": 0,
         "percentage": 0,
         "rank": 163,
         "full_term": "Bash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "shell",
+          "systems",
+          "linux"
+        ]
       },
       "Benthos": {
         "count": 0,
         "percentage": 0,
         "rank": 164,
         "full_term": "Benthos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "streaming",
+          "pipeline",
+          "integration",
+          "data",
+          "etl",
+          "go"
+        ]
       },
       "Big Data": {
         "count": 4,
@@ -614,7 +914,10 @@ data = [
         "tags": [
           "data-engineering",
           "distributed",
-          "processing"
+          "processing",
+          "data",
+          "analytics",
+          "scale"
         ]
       },
       "BigQuery": {
@@ -628,7 +931,10 @@ data = [
           "database",
           "analytics",
           "cloud",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse",
+          "gcp"
         ]
       },
       "Bitcoin": {
@@ -636,8 +942,15 @@ data = [
         "percentage": 0,
         "rank": 166,
         "full_term": "Bitcoin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "crypto",
+          "web3",
+          "blockchain",
+          "cryptocurrency"
+        ]
       },
       "Blazor": {
         "count": 0,
@@ -649,7 +962,10 @@ data = [
         "tags": [
           "frontend",
           "web",
-          "dotnet"
+          "dotnet",
+          "webassembly",
+          "microsoft",
+          "c#"
         ]
       },
       "Blockchain": {
@@ -662,7 +978,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "distributed-ledger"
         ]
       },
       "Boo": {
@@ -670,8 +988,13 @@ data = [
         "percentage": 0,
         "rank": 170,
         "full_term": "Boo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "dotnet",
+          "legacy"
+        ]
       },
       "Bootstrap": {
         "count": 0,
@@ -683,7 +1006,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "design"
         ]
       },
       "Bun": {
@@ -691,8 +1016,15 @@ data = [
         "percentage": 0,
         "rank": 172,
         "full_term": "Bun",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "javascript",
+          "runtime",
+          "tooling",
+          "performance"
+        ]
       },
       "C": {
         "count": 12,
@@ -704,7 +1036,8 @@ data = [
         "tags": [
           "language",
           "systems",
-          "backend"
+          "backend",
+          "low-level"
         ]
       },
       "C#": {
@@ -740,24 +1073,45 @@ data = [
         "percentage": 0,
         "rank": 187,
         "full_term": "COBOL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "mainframe",
+          "backend",
+          "legacy",
+          "business"
+        ]
       },
       "CQRS": {
         "count": 0,
         "percentage": 0,
         "rank": 199,
         "full_term": "CQRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "architecture",
+          "event-sourcing",
+          "design-pattern"
+        ]
       },
       "CRDT": {
         "count": 0,
         "percentage": 0,
         "rank": 200,
         "full_term": "CRDT/alias[CRDT|CRDTs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "data-structures",
+          "collaboration",
+          "data",
+          "distributed-systems",
+          "sync"
+        ]
       },
       "CSS": {
         "count": 15,
@@ -769,7 +1123,8 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "styling"
         ]
       },
       "CakePHP": {
@@ -777,8 +1132,17 @@ data = [
         "percentage": 0,
         "rank": 173,
         "full_term": "CakePHP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Cassandra": {
         "count": 2,
@@ -791,7 +1155,9 @@ data = [
           "database",
           "nosql",
           "distributed",
-          "storage"
+          "storage",
+          "wide-column",
+          "apache"
         ]
       },
       "Celery": {
@@ -799,16 +1165,30 @@ data = [
         "percentage": 0,
         "rank": 174,
         "full_term": "Celery",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "python",
+          "task-queue",
+          "distributed",
+          "async"
+        ]
       },
       "Ceph": {
         "count": 0,
         "percentage": 0,
         "rank": 175,
         "full_term": "Ceph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "distributed",
+          "object-storage",
+          "infrastructure",
+          "open-source"
+        ]
       },
       "ChatGPT": {
         "count": 0,
@@ -820,7 +1200,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "openai",
+          "chatbot"
         ]
       },
       "Chef": {
@@ -834,7 +1216,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "Claude": {
@@ -847,7 +1231,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "anthropic",
+          "chatbot"
         ]
       },
       "Claude Code": {
@@ -860,7 +1246,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "anthropic"
         ]
       },
       "ClickHouse": {
@@ -874,7 +1263,8 @@ data = [
           "database",
           "analytics",
           "storage",
-          "olap"
+          "olap",
+          "columnar"
         ]
       },
       "Clojure": {
@@ -888,7 +1278,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "functional"
+          "functional",
+          "lisp"
         ]
       },
       "ClojureScript": {
@@ -896,16 +1287,30 @@ data = [
         "percentage": 0,
         "rank": 180,
         "full_term": "ClojureScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "functional",
+          "javascript",
+          "lisp"
+        ]
       },
       "Closure": {
         "count": 2,
         "percentage": 0.7874,
         "rank": 63,
         "full_term": "Closure",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "tooling",
+          "compiler",
+          "google"
+        ]
       },
       "Cloud": {
         "count": 5,
@@ -916,7 +1321,8 @@ data = [
         "primary_family": "Cloud",
         "tags": [
           "cloud",
-          "infrastructure"
+          "infrastructure",
+          "hosting"
         ]
       },
       "Cloud Run": {
@@ -930,7 +1336,9 @@ data = [
           "cloud",
           "serverless",
           "container",
-          "backend"
+          "backend",
+          "gcp",
+          "containers"
         ]
       },
       "Cloud Security Posture Management": {
@@ -938,8 +1346,14 @@ data = [
         "percentage": 0,
         "rank": 182,
         "full_term": "Cloud Security Posture Management/alias[CSPM|Cloud Security Posture Management]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "cloud",
+          "cspm",
+          "compliance"
+        ]
       },
       "CloudFormation": {
         "count": 0,
@@ -952,7 +1366,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "CloudFront": {
@@ -966,7 +1381,8 @@ data = [
           "network",
           "cdn",
           "cloud",
-          "aws"
+          "aws",
+          "networking"
         ]
       },
       "CloudWatch": {
@@ -980,7 +1396,8 @@ data = [
           "sre",
           "monitoring",
           "observability",
-          "aws"
+          "aws",
+          "cloud"
         ]
       },
       "Cloudflare": {
@@ -994,7 +1411,10 @@ data = [
           "cloud",
           "edge",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "cdn",
+          "security",
+          "networking"
         ]
       },
       "Cloudflare Workers": {
@@ -1008,7 +1428,8 @@ data = [
           "cloud",
           "edge",
           "serverless",
-          "backend"
+          "backend",
+          "cloudflare"
         ]
       },
       "CockroachDB": {
@@ -1022,7 +1443,8 @@ data = [
           "database",
           "sql",
           "distributed",
-          "storage"
+          "storage",
+          "newsql"
         ]
       },
       "CodeIgniter": {
@@ -1030,64 +1452,118 @@ data = [
         "percentage": 0,
         "rank": 189,
         "full_term": "CodeIgniter",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "CodeRabbitAI": {
         "count": 0,
         "percentage": 0,
         "rank": 190,
         "full_term": "CodeRabbitAI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "automation",
+          "tooling"
+        ]
       },
       "CoffeeScript": {
         "count": 2,
         "percentage": 0.7874,
         "rank": 65,
         "full_term": "CoffeeScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "javascript",
+          "legacy"
+        ]
       },
       "ColdFuison": {
         "count": 0,
         "percentage": 0,
         "rank": 191,
         "full_term": "ColdFuison",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml"
+        ]
       },
       "ColdFusion": {
         "count": 0,
         "percentage": 0,
         "rank": 192,
         "full_term": "ColdFusion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml",
+          "legacy"
+        ]
       },
       "Common Lisp": {
         "count": 0,
         "percentage": 0,
         "rank": 193,
         "full_term": "Common Lisp/alias[Common Lisp|CommonLisp]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp"
+        ]
       },
       "Compass": {
         "count": 0,
         "percentage": 0,
         "rank": 194,
         "full_term": "Compass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "sass",
+          "legacy"
+        ]
       },
       "Compose UI": {
         "count": 0,
         "percentage": 0,
         "rank": 195,
         "full_term": "Compose UI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "kotlin",
+          "ui"
+        ]
       },
       "Computer Vision": {
         "count": 1,
@@ -1099,7 +1575,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "vision",
+          "image-processing"
         ]
       },
       "Copilot": {
@@ -1112,7 +1590,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "github"
         ]
       },
       "Coroutines": {
@@ -1120,48 +1601,88 @@ data = [
         "percentage": 0,
         "rank": 197,
         "full_term": "Coroutines",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "concurrency",
+          "async",
+          "programming"
+        ]
       },
       "CouchDB": {
         "count": 2,
         "percentage": 0.7874,
         "rank": 66,
         "full_term": "CouchDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "apache"
+        ]
       },
       "Couchbase": {
         "count": 0,
         "percentage": 0,
         "rank": 198,
         "full_term": "Couchbase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "caching"
+        ]
       },
       "Crossplane": {
         "count": 0,
         "percentage": 0,
         "rank": 201,
         "full_term": "Crossplane",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "kubernetes",
+          "control-plane",
+          "iac",
+          "infrastructure",
+          "devops"
+        ]
       },
       "Crystal": {
         "count": 0,
         "percentage": 0,
         "rank": 202,
         "full_term": "Crystal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "systems",
+          "performance",
+          "ruby-like"
+        ]
       },
       "Cucumber": {
         "count": 0,
         "percentage": 0,
         "rank": 203,
         "full_term": "Cucumber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "bdd",
+          "automation"
+        ]
       },
       "Cursor": {
         "count": 0,
@@ -1173,7 +1694,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "ide",
+          "coding",
+          "editor"
         ]
       },
       "D3.js": {
@@ -1186,7 +1710,8 @@ data = [
         "tags": [
           "frontend",
           "visualization",
-          "javascript"
+          "javascript",
+          "data-visualization"
         ]
       },
       "Dagger2": {
@@ -1194,8 +1719,14 @@ data = [
         "percentage": 0,
         "rank": 206,
         "full_term": "Dagger2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "java",
+          "dependency-injection"
+        ]
       },
       "Dagster": {
         "count": 0,
@@ -1207,7 +1738,10 @@ data = [
         "tags": [
           "data-engineering",
           "orchestration",
-          "processing"
+          "processing",
+          "data",
+          "python",
+          "pipelines"
         ]
       },
       "Dart": {
@@ -1220,7 +1754,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "frontend"
+          "frontend",
+          "google"
         ]
       },
       "Data Mining": {
@@ -1233,7 +1768,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "discovery"
         ]
       },
       "Data Science": {
@@ -1246,7 +1782,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "statistics"
         ]
       },
       "DataDog": {
@@ -1259,7 +1796,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "cloud",
+          "saas"
         ]
       },
       "Databricks": {
@@ -1273,7 +1812,11 @@ data = [
           "data-engineering",
           "processing",
           "ml",
-          "distributed"
+          "distributed",
+          "data",
+          "analytics",
+          "spark",
+          "cloud"
         ]
       },
       "Deep Learning": {
@@ -1286,7 +1829,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "neural-networks"
         ]
       },
       "Delphi": {
@@ -1294,16 +1838,33 @@ data = [
         "percentage": 0,
         "rank": 214,
         "full_term": "Delphi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "desktop",
+          "enterprise",
+          "pascal",
+          "legacy"
+        ]
       },
       "Delta Lake": {
         "count": 0,
         "percentage": 0,
         "rank": 215,
         "full_term": "Delta Lake/alias[Delta Lake|DeltaLake]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "data-lake",
+          "data-engineering",
+          "analytics",
+          "data",
+          "datalake",
+          "databricks",
+          "table-format"
+        ]
       },
       "Deno": {
         "count": 0,
@@ -1315,7 +1876,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "typescript"
         ]
       },
       "DevOps": {
@@ -1328,7 +1890,9 @@ data = [
         "tags": [
           "devops",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "culture",
+          "automation"
         ]
       },
       "DevSecOps": {
@@ -1342,7 +1906,9 @@ data = [
           "devops",
           "security",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "automation",
+          "culture"
         ]
       },
       "Distributed Systems": {
@@ -1355,7 +1921,9 @@ data = [
         "tags": [
           "distributed",
           "backend",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "scalability"
         ]
       },
       "Django": {
@@ -1382,7 +1950,9 @@ data = [
         "tags": [
           "container",
           "infrastructure",
-          "devops"
+          "devops",
+          "containers",
+          "virtualization"
         ]
       },
       "Drupal": {
@@ -1390,8 +1960,15 @@ data = [
         "percentage": 0,
         "rank": 219,
         "full_term": "Drupal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "cms",
+          "php",
+          "web",
+          "content"
+        ]
       },
       "DuckDB": {
         "count": 0,
@@ -1404,7 +1981,9 @@ data = [
           "database",
           "analytics",
           "sql",
-          "storage"
+          "storage",
+          "olap",
+          "in-process"
         ]
       },
       "DynamoDB": {
@@ -1419,7 +1998,8 @@ data = [
           "nosql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "serverless"
         ]
       },
       "EC2": {
@@ -1433,7 +2013,8 @@ data = [
           "cloud",
           "compute",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "vms"
         ]
       },
       "ECS": {
@@ -1447,7 +2028,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "containers",
+          "orchestration"
         ]
       },
       "EDI": {
@@ -1455,8 +2038,16 @@ data = [
         "percentage": 0,
         "rank": 227,
         "full_term": "EDI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "integration",
+          "enterprise",
+          "data",
+          "b2b",
+          "legacy"
+        ]
       },
       "ELK": {
         "count": 0,
@@ -1469,7 +2060,10 @@ data = [
           "sre",
           "observability",
           "logging",
-          "search"
+          "search",
+          "monitoring",
+          "elasticsearch",
+          "kibana"
         ]
       },
       "ES6": {
@@ -1477,16 +2071,31 @@ data = [
         "percentage": 0,
         "rank": 239,
         "full_term": "ES6",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "javascript",
+          "frontend",
+          "web",
+          "ecmascript",
+          "standard"
+        ]
       },
       "ESP-IDF": {
         "count": 0,
         "percentage": 0,
         "rank": 240,
         "full_term": "ESP-IDF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "hardware",
+          "espressif",
+          "c"
+        ]
       },
       "ETL": {
         "count": 0,
@@ -1498,7 +2107,11 @@ data = [
         "tags": [
           "data-engineering",
           "processing",
-          "pipeline"
+          "pipeline",
+          "data",
+          "integration",
+          "pipelines",
+          "analytics"
         ]
       },
       "Eclipse": {
@@ -1506,8 +2119,14 @@ data = [
         "percentage": 0,
         "rank": 223,
         "full_term": "Eclipse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "ide",
+          "java",
+          "tooling"
+        ]
       },
       "Edge Computing": {
         "count": 0,
@@ -1520,7 +2139,8 @@ data = [
           "cloud",
           "edge",
           "network",
-          "distributed"
+          "distributed",
+          "latency"
         ]
       },
       "Edge Functions": {
@@ -1528,16 +2148,29 @@ data = [
         "percentage": 0,
         "rank": 226,
         "full_term": "Edge Functions",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "edge",
+          "serverless",
+          "backend",
+          "compute"
+        ]
       },
       "Eiffel": {
         "count": 0,
         "percentage": 0,
         "rank": 228,
         "full_term": "Eiffel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "object-oriented",
+          "legacy"
+        ]
       },
       "ElastiCache": {
         "count": 0,
@@ -1550,7 +2183,10 @@ data = [
           "database",
           "cache",
           "aws",
-          "storage"
+          "storage",
+          "cloud",
+          "caching",
+          "redis"
         ]
       },
       "Elasticsearch": {
@@ -1564,7 +2200,9 @@ data = [
           "database",
           "search",
           "storage",
-          "observability"
+          "observability",
+          "analytics",
+          "nosql"
         ]
       },
       "Electron": {
@@ -1577,7 +2215,8 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "javascript"
+          "javascript",
+          "cross-platform"
         ]
       },
       "Elixir": {
@@ -1590,7 +2229,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "erlang-vm",
+          "functional"
         ]
       },
       "Elm": {
@@ -1603,7 +2244,8 @@ data = [
         "tags": [
           "language",
           "frontend",
-          "functional"
+          "functional",
+          "javascript"
         ]
       },
       "Emacs": {
@@ -1611,8 +2253,14 @@ data = [
         "percentage": 0,
         "rank": 235,
         "full_term": "Emacs",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux"
+        ]
       },
       "Embedded Systems": {
         "count": 0,
@@ -1624,7 +2272,10 @@ data = [
         "tags": [
           "embedded",
           "systems",
-          "hardware"
+          "hardware",
+          "iot",
+          "low-level",
+          "c"
         ]
       },
       "Embeddings": {
@@ -1638,7 +2289,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "vector-search"
+          "vector-search",
+          "nlp",
+          "vector"
         ]
       },
       "Ember": {
@@ -1660,8 +2313,16 @@ data = [
         "percentage": 0,
         "rank": 238,
         "full_term": "EmberJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Erlang": {
         "count": 5,
@@ -1673,7 +2334,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "concurrent",
+          "telecom"
         ]
       },
       "Ethereum": {
@@ -1686,7 +2349,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "smart-contracts"
         ]
       },
       "EventBridge": {
@@ -1700,7 +2365,9 @@ data = [
           "cloud",
           "eventing",
           "aws",
-          "backend"
+          "backend",
+          "events",
+          "serverless"
         ]
       },
       "Express": {
@@ -1714,7 +2381,8 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs"
         ]
       },
       "ExpressJS": {
@@ -1722,8 +2390,18 @@ data = [
         "percentage": 0,
         "rank": 245,
         "full_term": "ExpressJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs"
+        ]
       },
       "F#": {
         "count": 0,
@@ -1735,7 +2413,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "dotnet"
+          "dotnet",
+          "microsoft"
         ]
       },
       "FAISS": {
@@ -1749,7 +2428,8 @@ data = [
           "ai",
           "ml",
           "vector-search",
-          "storage"
+          "storage",
+          "facebook"
         ]
       },
       "FIDO": {
@@ -1757,24 +2437,44 @@ data = [
         "percentage": 0,
         "rank": 254,
         "full_term": "FIDO",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "hardware",
+          "authentication",
+          "passkeys"
+        ]
       },
       "Factor": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 89,
         "full_term": "Factor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "concatenative",
+          "stack-based"
+        ]
       },
       "Falco": {
         "count": 0,
         "percentage": 0,
         "rank": 248,
         "full_term": "Falco",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "runtime",
+          "kubernetes",
+          "container",
+          "cncf"
+        ]
       },
       "Fargate": {
         "count": 0,
@@ -1787,7 +2487,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "serverless",
+          "containers"
         ]
       },
       "FastAPI": {
@@ -1809,8 +2511,19 @@ data = [
         "percentage": 0,
         "rank": 251,
         "full_term": "Fastify",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs",
+          "performance"
+        ]
       },
       "Feature Flags": {
         "count": 0,
@@ -1822,7 +2535,9 @@ data = [
         "tags": [
           "tooling",
           "release-management",
-          "backend"
+          "backend",
+          "devops",
+          "feature-toggles"
         ]
       },
       "Fiber": {
@@ -1830,8 +2545,17 @@ data = [
         "percentage": 0,
         "rank": 253,
         "full_term": "Fiber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "performance"
+        ]
       },
       "Figma": {
         "count": 0,
@@ -1843,7 +2567,10 @@ data = [
         "tags": [
           "design",
           "tooling",
-          "frontend"
+          "frontend",
+          "ui",
+          "ux",
+          "prototyping"
         ]
       },
       "Fintech": {
@@ -1855,7 +2582,9 @@ data = [
         "primary_family": "Industry",
         "tags": [
           "industry",
-          "finance"
+          "finance",
+          "domain",
+          "technology"
         ]
       },
       "Firebase": {
@@ -1869,7 +2598,8 @@ data = [
           "cloud",
           "backend",
           "mobile",
-          "google"
+          "google",
+          "baas"
         ]
       },
       "Firecracker": {
@@ -1877,8 +2607,15 @@ data = [
         "percentage": 0,
         "rank": 258,
         "full_term": "Firecracker",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "infrastructure",
+          "virtualization",
+          "serverless",
+          "aws",
+          "microvms"
+        ]
       },
       "Flask": {
         "count": 1,
@@ -1891,7 +2628,8 @@ data = [
           "backend",
           "framework",
           "python",
-          "web"
+          "web",
+          "microframework"
         ]
       },
       "Flink SQL": {
@@ -1905,7 +2643,10 @@ data = [
           "stream-processing",
           "sql",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache-flink"
         ]
       },
       "Flutter": {
@@ -1919,7 +2660,8 @@ data = [
           "mobile",
           "frontend",
           "dart",
-          "cross-platform"
+          "cross-platform",
+          "google"
         ]
       },
       "Flux": {
@@ -1927,32 +2669,61 @@ data = [
         "percentage": 0,
         "rank": 261,
         "full_term": "Flux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "kubernetes",
+          "gitops",
+          "devops",
+          "infrastructure",
+          "cd"
+        ]
       },
       "Forth": {
         "count": 0,
         "percentage": 0,
         "rank": 262,
         "full_term": "Forth",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "embedded",
+          "systems",
+          "stack-based",
+          "low-level"
+        ]
       },
       "Fortran": {
         "count": 0,
         "percentage": 0,
         "rank": 263,
         "full_term": "Fortran",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scientific",
+          "hpc",
+          "math",
+          "legacy"
+        ]
       },
       "FreeRTOS": {
         "count": 0,
         "percentage": 0,
         "rank": 264,
         "full_term": "FreeRTOS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "rtos",
+          "hardware",
+          "os",
+          "real-time"
+        ]
       },
       "Front End": {
         "count": 39,
@@ -1963,7 +2734,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "frontend",
-          "work-area"
+          "work-area",
+          "ui",
+          "client-side"
         ]
       },
       "Full Stack": {
@@ -1976,7 +2749,9 @@ data = [
         "tags": [
           "frontend",
           "backend",
-          "work-area"
+          "work-area",
+          "fullstack",
+          "generalist"
         ]
       },
       "GCP": {
@@ -1989,7 +2764,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "GIS": {
@@ -1997,8 +2773,16 @@ data = [
         "percentage": 0,
         "rank": 271,
         "full_term": "GIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "geospatial",
+          "data",
+          "analytics",
+          "domain",
+          "mapping",
+          "location"
+        ]
       },
       "GPT": {
         "count": 0,
@@ -2009,7 +2793,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "openai",
+          "generative-ai"
         ]
       },
       "GPT-3": {
@@ -2017,48 +2803,92 @@ data = [
         "percentage": 0,
         "rank": 278,
         "full_term": "GPT-3",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPT-4": {
         "count": 0,
         "percentage": 0,
         "rank": 279,
         "full_term": "GPT-4",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPU": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 92,
         "full_term": "GPU/alias[GPU|GPUs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "processing",
+          "hardware",
+          "ml",
+          "hpc",
+          "compute",
+          "ai",
+          "graphics"
+        ]
       },
       "Gatsby": {
         "count": 0,
         "percentage": 0,
         "rank": 265,
         "full_term": "Gatsby",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "static-site-generator",
+          "graphql"
+        ]
       },
       "Gearman": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 91,
         "full_term": "Gearman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "distributed"
+        ]
       },
       "Gemini": {
         "count": 0,
         "percentage": 0,
         "rank": 267,
         "full_term": "Gemini",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "google",
+          "multimodal"
+        ]
       },
       "Generative AI": {
         "count": 0,
@@ -2070,7 +2900,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "generative-ai"
+          "generative-ai",
+          "generative",
+          "ml"
         ]
       },
       "Gin": {
@@ -2078,16 +2910,33 @@ data = [
         "percentage": 0,
         "rank": 269,
         "full_term": "Gin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "api"
+        ]
       },
       "Giraph": {
         "count": 0,
         "percentage": 0,
         "rank": 270,
         "full_term": "Giraph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "graph-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Git": {
         "count": 5,
@@ -2098,7 +2947,9 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "version-control"
+          "version-control",
+          "vcs",
+          "tooling"
         ]
       },
       "GitHub": {
@@ -2111,7 +2962,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "collaboration",
+          "ci-cd"
         ]
       },
       "GitLab": {
@@ -2124,7 +2979,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "ci-cd",
+          "devops"
         ]
       },
       "GitOps": {
@@ -2138,7 +2997,10 @@ data = [
           "gitops",
           "devops",
           "infrastructure",
-          "kubernetes"
+          "kubernetes",
+          "git",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "Go": {
@@ -2152,7 +3014,8 @@ data = [
           "language",
           "backend",
           "systems",
-          "cloud"
+          "cloud",
+          "google"
         ]
       },
       "Golden Path": {
@@ -2160,8 +3023,14 @@ data = [
         "percentage": 0,
         "rank": 274,
         "full_term": "Golden Path",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-experience",
+          "developer-platform",
+          "standards"
+        ]
       },
       "Google Cloud": {
         "count": 0,
@@ -2173,7 +3042,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "Google Cloud Functions": {
@@ -2187,7 +3057,9 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "google"
+          "google",
+          "gcp",
+          "compute"
         ]
       },
       "Grafana": {
@@ -2200,7 +3072,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "visualization",
+          "dashboards"
         ]
       },
       "GraphQL": {
@@ -2213,7 +3087,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "query-language",
+          "frontend"
         ]
       },
       "Graphite": {
@@ -2221,48 +3097,93 @@ data = [
         "percentage": 0.3937,
         "rank": 93,
         "full_term": "Graphite",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "monitoring",
+          "metrics",
+          "time-series"
+        ]
       },
       "Greptile": {
         "count": 0,
         "percentage": 0,
         "rank": 282,
         "full_term": "Greptile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "coding",
+          "codebase-understanding",
+          "tooling"
+        ]
       },
       "Groovy": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 94,
         "full_term": "Groovy",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "jvm",
+          "scripting",
+          "java"
+        ]
       },
       "Groq": {
         "count": 0,
         "percentage": 0,
         "rank": 283,
         "full_term": "Groq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "inference",
+          "hardware",
+          "lpu"
+        ]
       },
       "Grunt": {
         "count": 0,
         "percentage": 0,
         "rank": 285,
         "full_term": "Grunt/js[Grunt]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "Gulp": {
         "count": 0,
         "percentage": 0,
         "rank": 286,
         "full_term": "Gulp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "HAProxy": {
         "count": 1,
@@ -2274,7 +3195,11 @@ data = [
         "tags": [
           "network",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "networking",
+          "load-balancer",
+          "proxy",
+          "tcp-http"
         ]
       },
       "HDFS": {
@@ -2287,7 +3212,9 @@ data = [
         "tags": [
           "storage",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "hadoop"
         ]
       },
       "HPC": {
@@ -2300,7 +3227,10 @@ data = [
         "tags": [
           "processing",
           "distributed",
-          "performance"
+          "performance",
+          "infrastructure",
+          "compute",
+          "high-performance"
         ]
       },
       "HTML5": {
@@ -2313,7 +3243,9 @@ data = [
         "tags": [
           "frontend",
           "html",
-          "web"
+          "web",
+          "markup",
+          "standard"
         ]
       },
       "HaXe": {
@@ -2321,8 +3253,14 @@ data = [
         "percentage": 0,
         "rank": 287,
         "full_term": "HaXe",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "cross-platform",
+          "compiler"
+        ]
       },
       "Hadoop": {
         "count": 5,
@@ -2335,7 +3273,10 @@ data = [
           "data-engineering",
           "distributed",
           "processing",
-          "storage"
+          "storage",
+          "data",
+          "big-data",
+          "apache"
         ]
       },
       "Haskell": {
@@ -2348,7 +3289,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "pure"
         ]
       },
       "Helm": {
@@ -2362,7 +3304,8 @@ data = [
           "kubernetes",
           "devops",
           "packaging",
-          "infrastructure"
+          "infrastructure",
+          "package-manager"
         ]
       },
       "Heroku": {
@@ -2375,7 +3318,9 @@ data = [
         "tags": [
           "cloud",
           "paas",
-          "backend"
+          "backend",
+          "hosting",
+          "deployment"
         ]
       },
       "Hive": {
@@ -2388,7 +3333,11 @@ data = [
         "tags": [
           "data-engineering",
           "sql",
-          "distributed"
+          "distributed",
+          "data",
+          "data-warehouse",
+          "apache",
+          "hadoop"
         ]
       },
       "Hotwire": {
@@ -2396,24 +3345,49 @@ data = [
         "percentage": 0,
         "rank": 290,
         "full_term": "Hotwire",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "rails",
+          "html-over-the-wire",
+          "ruby-on-rails"
+        ]
       },
       "Hudson": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 97,
         "full_term": "Hudson",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "ci",
+          "developer-tooling",
+          "java",
+          "devops",
+          "legacy",
+          "jenkins-predecessor"
+        ]
       },
       "Hugging Face": {
         "count": 0,
         "percentage": 0,
         "rank": 292,
         "full_term": "Hugging Face/alias[Hugging Face|HuggingFace]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "llm",
+          "model-hub",
+          "tooling",
+          "platform",
+          "models"
+        ]
       },
       "Hybrid": {
         "count": 0,
@@ -2424,7 +3398,11 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "hybrid",
-          "work-mode"
+          "work-mode",
+          "infrastructure",
+          "cloud",
+          "on-premise",
+          "architecture"
         ]
       },
       "IAM": {
@@ -2437,7 +3415,8 @@ data = [
         "tags": [
           "security",
           "identity",
-          "cloud"
+          "cloud",
+          "access-management"
         ]
       },
       "IaC": {
@@ -2450,7 +3429,9 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "InfluxDB": {
@@ -2464,7 +3445,9 @@ data = [
           "database",
           "time-series",
           "storage",
-          "observability"
+          "observability",
+          "monitoring",
+          "iot"
         ]
       },
       "Internal Developer Platform": {
@@ -2477,7 +3460,10 @@ data = [
         "tags": [
           "platform-engineering",
           "developer-platform",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "developer-experience",
+          "idp"
         ]
       },
       "Istio": {
@@ -2491,7 +3477,9 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "networking"
         ]
       },
       "JBoss": {
@@ -2499,8 +3487,14 @@ data = [
         "percentage": 0,
         "rank": 301,
         "full_term": "JBoss",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "application-server",
+          "redhat"
+        ]
       },
       "JSON": {
         "count": 1,
@@ -2512,7 +3506,10 @@ data = [
         "tags": [
           "data-format",
           "api",
-          "backend"
+          "backend",
+          "data",
+          "format",
+          "web"
         ]
       },
       "JSON API": {
@@ -2520,24 +3517,44 @@ data = [
         "percentage": 0,
         "rank": 304,
         "full_term": "JSON API",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "data-format",
+          "rest",
+          "json",
+          "standard"
+        ]
       },
       "JSP": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 99,
         "full_term": "JSP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "web",
+          "legacy"
+        ]
       },
       "JUnit": {
         "count": 0,
         "percentage": 0,
         "rank": 306,
         "full_term": "JUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "java",
+          "jvm",
+          "backend"
+        ]
       },
       "JWT": {
         "count": 0,
@@ -2549,7 +3566,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "api"
+          "api",
+          "authentication",
+          "tokens",
+          "web"
         ]
       },
       "Jaeger": {
@@ -2562,7 +3582,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "cncf"
         ]
       },
       "Java": {
@@ -2575,7 +3597,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "JavaScript": {
@@ -2602,7 +3625,10 @@ data = [
         "tags": [
           "ci",
           "devops",
-          "developer-tooling"
+          "developer-tooling",
+          "ci-cd",
+          "automation",
+          "java"
         ]
       },
       "Jest": {
@@ -2615,7 +3641,8 @@ data = [
         "tags": [
           "testing",
           "frontend",
-          "javascript"
+          "javascript",
+          "react"
         ]
       },
       "Julia": {
@@ -2629,7 +3656,10 @@ data = [
           "language",
           "ml",
           "data",
-          "processing"
+          "processing",
+          "data-science",
+          "math",
+          "performance"
         ]
       },
       "Junior": {
@@ -2641,7 +3671,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "junior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "entry-level"
         ]
       },
       "Jupyter": {
@@ -2654,7 +3687,9 @@ data = [
         "tags": [
           "data-science",
           "ml",
-          "tooling"
+          "tooling",
+          "notebooks",
+          "python"
         ]
       },
       "K8s": {
@@ -2668,7 +3703,10 @@ data = [
           "kubernetes",
           "container",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "orchestration",
+          "containers"
         ]
       },
       "Kafka": {
@@ -2683,7 +3721,9 @@ data = [
           "messaging",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "apache"
         ]
       },
       "Kafka Streams": {
@@ -2697,7 +3737,11 @@ data = [
           "stream-processing",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "kafka",
+          "java"
         ]
       },
       "Keras": {
@@ -2719,16 +3763,31 @@ data = [
         "percentage": 0,
         "rank": 313,
         "full_term": "Kestrel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "dotnet",
+          "web-server",
+          "microsoft"
+        ]
       },
       "Keycloak": {
         "count": 0,
         "percentage": 0,
         "rank": 314,
         "full_term": "Keycloak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "sso",
+          "iam",
+          "authentication",
+          "open-source"
+        ]
       },
       "Kinesis": {
         "count": 0,
@@ -2741,7 +3800,9 @@ data = [
           "stream-processing",
           "cloud",
           "aws",
-          "data-engineering"
+          "data-engineering",
+          "streaming",
+          "data"
         ]
       },
       "Knative": {
@@ -2754,7 +3815,9 @@ data = [
         "tags": [
           "kubernetes",
           "serverless",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "cncf"
         ]
       },
       "Knockout": {
@@ -2762,16 +3825,30 @@ data = [
         "percentage": 0,
         "rank": 317,
         "full_term": "Knockout/js[Knockout]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "KnockoutJS": {
         "count": 0,
         "percentage": 0,
         "rank": 318,
         "full_term": "KnockoutJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Kotlin": {
         "count": 0,
@@ -2784,7 +3861,8 @@ data = [
           "language",
           "mobile",
           "backend",
-          "jvm"
+          "jvm",
+          "android"
         ]
       },
       "Kubeflow": {
@@ -2798,7 +3876,8 @@ data = [
           "ai",
           "ml",
           "kubernetes",
-          "workflow"
+          "workflow",
+          "mlops"
         ]
       },
       "Kubernetes": {
@@ -2814,7 +3893,10 @@ data = [
           "orchestration",
           "distributed",
           "sre",
-          "cloud"
+          "cloud",
+          "devops",
+          "containers",
+          "cncf"
         ]
       },
       "LAMP": {
@@ -2822,16 +3904,32 @@ data = [
         "percentage": 2.3622,
         "rank": 36,
         "full_term": "LAMP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "stack",
+          "php",
+          "linux",
+          "web",
+          "architecture",
+          "apache",
+          "mysql"
+        ]
       },
       "LESS": {
         "count": 2,
         "percentage": 0.7874,
         "rank": 72,
         "full_term": "LESS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "legacy"
+        ]
       },
       "LLMOps": {
         "count": 0,
@@ -2844,7 +3942,8 @@ data = [
           "ai",
           "llm",
           "mlops",
-          "infrastructure"
+          "infrastructure",
+          "operations"
         ]
       },
       "LLaMA": {
@@ -2857,7 +3956,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "model"
+          "model",
+          "meta",
+          "open-weights"
         ]
       },
       "Lambda": {
@@ -2870,7 +3971,9 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "aws",
+          "compute"
         ]
       },
       "LanceDB": {
@@ -2878,8 +3981,20 @@ data = [
         "percentage": 0,
         "rank": 324,
         "full_term": "LanceDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "serverless"
+        ]
       },
       "LangChain": {
         "count": 0,
@@ -2891,7 +4006,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "framework"
+          "framework",
+          "python"
         ]
       },
       "LangGraph": {
@@ -2913,16 +4029,33 @@ data = [
         "percentage": 0,
         "rank": 326,
         "full_term": "Langfuse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "observability",
+          "evals",
+          "prompt-management",
+          "analytics"
+        ]
       },
       "Laravel": {
         "count": 0,
         "percentage": 0,
         "rank": 328,
         "full_term": "Laravel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Large Language Model": {
         "count": 0,
@@ -2933,7 +4066,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "generative-ai",
+          "nlp"
         ]
       },
       "LaunchDarkly": {
@@ -2946,7 +4081,9 @@ data = [
         "tags": [
           "feature-flags",
           "release-management",
-          "tooling"
+          "tooling",
+          "devops",
+          "saas"
         ]
       },
       "Linkerd": {
@@ -2954,8 +4091,16 @@ data = [
         "percentage": 0,
         "rank": 331,
         "full_term": "Linkerd",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "service-mesh",
+          "kubernetes",
+          "network",
+          "infrastructure",
+          "devops",
+          "cncf"
+        ]
       },
       "Linux": {
         "count": 10,
@@ -2967,7 +4112,10 @@ data = [
         "tags": [
           "linux",
           "systems",
-          "infrastructure"
+          "infrastructure",
+          "os",
+          "open-source",
+          "backend"
         ]
       },
       "Lisp": {
@@ -2975,8 +4123,14 @@ data = [
         "percentage": 0,
         "rank": 332,
         "full_term": "Lisp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "macros"
+        ]
       },
       "LlamaIndex": {
         "count": 0,
@@ -2989,7 +4143,8 @@ data = [
           "ai",
           "llm",
           "rag",
-          "framework"
+          "framework",
+          "data-framework"
         ]
       },
       "Logos": {
@@ -2997,32 +4152,60 @@ data = [
         "percentage": 0,
         "rank": 336,
         "full_term": "Logos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "blockchain",
+          "network",
+          "crypto"
+        ]
       },
       "Loki": {
         "count": 0,
         "percentage": 0,
         "rank": 337,
         "full_term": "Loki",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "logging",
+          "grafana",
+          "kubernetes"
+        ]
       },
       "Lua": {
         "count": 0,
         "percentage": 0,
         "rank": 338,
         "full_term": "Lua",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "embedded",
+          "gaming"
+        ]
       },
       "Lucene": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 100,
         "full_term": "Lucene",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "search",
+          "java",
+          "storage",
+          "apache",
+          "indexing"
+        ]
       },
       "MATLAB": {
         "count": 1,
@@ -3034,7 +4217,10 @@ data = [
         "tags": [
           "language",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "engineering",
+          "scientific"
         ]
       },
       "MCP": {
@@ -3048,7 +4234,10 @@ data = [
           "ai",
           "llm",
           "protocol",
-          "tooling"
+          "tooling",
+          "architecture",
+          "microservices",
+          "pattern"
         ]
       },
       "MFA": {
@@ -3056,8 +4245,15 @@ data = [
         "percentage": 0,
         "rank": 348,
         "full_term": "MFA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "authentication",
+          "multi-factor"
+        ]
       },
       "MLflow": {
         "count": 0,
@@ -3070,7 +4266,9 @@ data = [
           "ai",
           "ml",
           "mlops",
-          "tooling"
+          "tooling",
+          "databricks",
+          "lifecycle"
         ]
       },
       "MQTT": {
@@ -3083,7 +4281,9 @@ data = [
         "tags": [
           "network",
           "messaging",
-          "iot"
+          "iot",
+          "networking",
+          "protocol"
         ]
       },
       "MSMQ": {
@@ -3091,8 +4291,15 @@ data = [
         "percentage": 0,
         "rank": 353,
         "full_term": "MSMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "microsoft",
+          "queue",
+          "legacy"
+        ]
       },
       "Machine Learning": {
         "count": 6,
@@ -3103,7 +4310,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "ml"
+          "ml",
+          "data-science",
+          "algorithms"
         ]
       },
       "Mahout": {
@@ -3111,16 +4320,34 @@ data = [
         "percentage": 0,
         "rank": 339,
         "full_term": "Mahout",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "distributed",
+          "data",
+          "apache",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MapReduce": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 101,
         "full_term": "MapReduce",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "batch-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "distributed-computing",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MariaDB": {
         "count": 0,
@@ -3132,7 +4359,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "mysql-fork"
         ]
       },
       "Materialize": {
@@ -3145,7 +4374,10 @@ data = [
         "tags": [
           "stream-processing",
           "sql",
-          "data-engineering"
+          "data-engineering",
+          "database",
+          "streaming",
+          "real-time"
         ]
       },
       "Maven": {
@@ -3153,40 +4385,78 @@ data = [
         "percentage": 0,
         "rank": 342,
         "full_term": "Maven",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "build",
+          "java",
+          "build-tool",
+          "dependency-management"
+        ]
       },
       "Mercurial": {
         "count": 0,
         "percentage": 0,
         "rank": 344,
         "full_term": "Mercurial",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "version-control",
+          "vcs",
+          "legacy"
+        ]
       },
       "Mesos": {
         "count": 0,
         "percentage": 0,
         "rank": 345,
         "full_term": "Mesos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "orchestration",
+          "infrastructure",
+          "distributed",
+          "devops",
+          "cluster-management",
+          "apache",
+          "legacy"
+        ]
       },
       "Metabase": {
         "count": 0,
         "percentage": 0,
         "rank": 346,
         "full_term": "Metabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-engineering",
+          "data",
+          "visualization"
+        ]
       },
       "Meteor": {
         "count": 0,
         "percentage": 0,
         "rank": 347,
         "full_term": "Meteor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "framework",
+          "fullstack",
+          "nodejs"
+        ]
       },
       "Microservices": {
         "count": 0,
@@ -3198,7 +4468,8 @@ data = [
         "tags": [
           "backend",
           "distributed",
-          "architecture"
+          "architecture",
+          "distributed-systems"
         ]
       },
       "Milvus": {
@@ -3211,8 +4482,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "MongoDB": {
@@ -3240,7 +4517,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "oracle"
         ]
       },
       "NFC": {
@@ -3253,7 +4532,9 @@ data = [
         "tags": [
           "network",
           "mobile",
-          "hardware"
+          "hardware",
+          "networking",
+          "contactless"
         ]
       },
       "NLP": {
@@ -3266,7 +4547,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "nlp"
+          "nlp",
+          "natural-language-processing",
+          "text"
         ]
       },
       "NServiceBus": {
@@ -3274,24 +4557,42 @@ data = [
         "percentage": 0,
         "rank": 364,
         "full_term": "NServiceBus",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "dotnet",
+          "service-bus"
+        ]
       },
       "NUnit": {
         "count": 0,
         "percentage": 0,
         "rank": 366,
         "full_term": "NUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "dotnet",
+          "backend"
+        ]
       },
       "Nagios": {
         "count": 0,
         "percentage": 0,
         "rank": 355,
         "full_term": "Nagios",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "legacy"
+        ]
       },
       "Neo4j": {
         "count": 0,
@@ -3303,7 +4604,8 @@ data = [
         "tags": [
           "database",
           "graph",
-          "storage"
+          "storage",
+          "nosql"
         ]
       },
       "NestJS": {
@@ -3317,7 +4619,9 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs",
+          "typescript"
         ]
       },
       "Next.js": {
@@ -3332,7 +4636,9 @@ data = [
           "backend",
           "web",
           "javascript",
-          "react"
+          "react",
+          "framework",
+          "ssr"
         ]
       },
       "NextJS": {
@@ -3340,8 +4646,17 @@ data = [
         "percentage": 0,
         "rank": 359,
         "full_term": "NextJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "ssr"
+        ]
       },
       "Nix": {
         "count": 0,
@@ -3353,7 +4668,10 @@ data = [
         "tags": [
           "infrastructure",
           "build",
-          "devops"
+          "devops",
+          "package-manager",
+          "build-tool",
+          "reproducibility"
         ]
       },
       "Node.js": {
@@ -3366,7 +4684,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "v8"
         ]
       },
       "Nomad": {
@@ -3379,7 +4698,10 @@ data = [
         "tags": [
           "orchestration",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "hashicorp",
+          "containers"
         ]
       },
       "NumPy": {
@@ -3392,7 +4714,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "ml"
+          "ml",
+          "math",
+          "arrays"
         ]
       },
       "Nuxt": {
@@ -3406,7 +4730,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "vue"
+          "vue",
+          "framework",
+          "ssr"
         ]
       },
       "Nuxt.js": {
@@ -3414,16 +4740,34 @@ data = [
         "percentage": 0,
         "rank": 368,
         "full_term": "Nuxt.js",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "NuxtJS": {
         "count": 0,
         "percentage": 0,
         "rank": 369,
         "full_term": "NuxtJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "OAuth": {
         "count": 0,
@@ -3435,7 +4779,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OAuth2": {
@@ -3448,7 +4795,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OCaml": {
@@ -3461,7 +4811,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "strongly-typed"
         ]
       },
       "OIDC": {
@@ -3474,7 +4825,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OPA": {
@@ -3487,7 +4840,9 @@ data = [
         "tags": [
           "security",
           "policy",
-          "kubernetes"
+          "kubernetes",
+          "policy-as-code",
+          "cncf"
         ]
       },
       "OPA Gatekeeper": {
@@ -3495,32 +4850,58 @@ data = [
         "percentage": 0,
         "rank": 378,
         "full_term": "OPA Gatekeeper",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "policy",
+          "kubernetes",
+          "admission-controller"
+        ]
       },
       "OR-Tools": {
         "count": 0,
         "percentage": 0,
         "rank": 385,
         "full_term": "OR-Tools/alias[OR-Tools|OR-tools]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "optimization",
+          "operations-research",
+          "processing",
+          "ai",
+          "google",
+          "math"
+        ]
       },
       "OSINT": {
         "count": 0,
         "percentage": 0,
         "rank": 386,
         "full_term": "OSINT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "intelligence",
+          "investigation",
+          "reconnaissance"
+        ]
       },
       "OTA": {
         "count": 0,
         "percentage": 0,
         "rank": 387,
         "full_term": "OTA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "iot",
+          "updates",
+          "over-the-air"
+        ]
       },
       "Objective-C": {
         "count": 4,
@@ -3532,7 +4913,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Objective-J": {
@@ -3540,8 +4922,15 @@ data = [
         "percentage": 0,
         "rank": 372,
         "full_term": "Objective-J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "web",
+          "javascript-superset",
+          "legacy"
+        ]
       },
       "Observability": {
         "count": 0,
@@ -3553,7 +4942,10 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "devops",
+          "tracing",
+          "metrics"
         ]
       },
       "Octave": {
@@ -3561,8 +4953,15 @@ data = [
         "percentage": 0,
         "rank": 375,
         "full_term": "Octave",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "data",
+          "scientific",
+          "math",
+          "matlab-alternative"
+        ]
       },
       "Onsite": {
         "count": 2,
@@ -3573,7 +4972,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "onsite",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "office"
         ]
       },
       "Open Source": {
@@ -3584,7 +4986,9 @@ data = [
         "kind": "Work Attribute",
         "primary_family": "Work Attribute",
         "tags": [
-          "open-source"
+          "open-source",
+          "community",
+          "licensing"
         ]
       },
       "OpenAI": {
@@ -3597,7 +5001,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "platform"
+          "platform",
+          "company",
+          "generative-ai"
         ]
       },
       "OpenAI API": {
@@ -3610,7 +5016,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "api"
+          "api",
+          "integration"
         ]
       },
       "OpenCV": {
@@ -3623,7 +5030,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "c++",
+          "python"
         ]
       },
       "OpenGL": {
@@ -3635,7 +5044,10 @@ data = [
         "primary_family": "Frontend",
         "tags": [
           "graphics",
-          "frontend"
+          "frontend",
+          "rendering",
+          "api",
+          "c"
         ]
       },
       "OpenID Connect": {
@@ -3648,7 +5060,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OpenStack": {
@@ -3661,7 +5075,9 @@ data = [
         "tags": [
           "cloud",
           "infrastructure",
-          "private-cloud"
+          "private-cloud",
+          "iaas",
+          "open-source"
         ]
       },
       "OpenTelemetry": {
@@ -3675,7 +5091,8 @@ data = [
           "sre",
           "observability",
           "tracing",
-          "metrics"
+          "metrics",
+          "cncf"
         ]
       },
       "OpenTofu": {
@@ -3688,7 +5105,8 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "terraform-fork"
         ]
       },
       "Oracle": {
@@ -3701,7 +5119,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "enterprise"
         ]
       },
       "PHP": {
@@ -3727,7 +5147,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "analytics"
+          "analytics",
+          "data-analysis",
+          "dataframes"
         ]
       },
       "Parquet": {
@@ -3740,7 +5162,10 @@ data = [
         "tags": [
           "storage",
           "data-format",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "columnar",
+          "apache"
         ]
       },
       "Pentaho": {
@@ -3748,8 +5173,15 @@ data = [
         "percentage": 0,
         "rank": 390,
         "full_term": "Pentaho",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "etl",
+          "data-engineering",
+          "data"
+        ]
       },
       "Perl": {
         "count": 8,
@@ -3761,7 +5193,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "scripting"
+          "scripting",
+          "legacy",
+          "text-processing"
         ]
       },
       "PhantomJS": {
@@ -3769,8 +5203,16 @@ data = [
         "percentage": 0,
         "rank": 391,
         "full_term": "PhantomJS/js[phantom]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "frontend",
+          "javascript",
+          "browser",
+          "headless",
+          "legacy"
+        ]
       },
       "Phoenix": {
         "count": 0,
@@ -3782,7 +5224,8 @@ data = [
         "tags": [
           "backend",
           "framework",
-          "elixir"
+          "elixir",
+          "web"
         ]
       },
       "Pig": {
@@ -3790,8 +5233,16 @@ data = [
         "percentage": 0,
         "rank": 393,
         "full_term": "Pig",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "hadoop",
+          "query-language",
+          "data",
+          "scripting",
+          "apache"
+        ]
       },
       "Pinecone": {
         "count": 0,
@@ -3803,8 +5254,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "Pipedream": {
@@ -3812,8 +5269,15 @@ data = [
         "percentage": 0,
         "rank": 395,
         "full_term": "Pipedream",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "api"
+        ]
       },
       "Platform Engineering": {
         "count": 0,
@@ -3825,7 +5289,10 @@ data = [
         "tags": [
           "platform-engineering",
           "infrastructure",
-          "developer-platform"
+          "developer-platform",
+          "devops",
+          "platform",
+          "developer-experience"
         ]
       },
       "PostgreSQL": {
@@ -3839,7 +5306,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "open-source"
         ]
       },
       "PowerBuilder": {
@@ -3847,8 +5316,16 @@ data = [
         "percentage": 0,
         "rank": 397,
         "full_term": "PowerBuilder",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "enterprise",
+          "desktop",
+          "tooling",
+          "ide",
+          "legacy"
+        ]
       },
       "PowerShell": {
         "count": 0,
@@ -3860,7 +5337,9 @@ data = [
         "tags": [
           "scripting",
           "windows",
-          "devops"
+          "devops",
+          "language",
+          "automation"
         ]
       },
       "Presto": {
@@ -3874,7 +5353,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Principal": {
@@ -3886,7 +5367,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "principal",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Processing": {
@@ -3894,16 +5378,29 @@ data = [
         "percentage": 1.5748,
         "rank": 49,
         "full_term": "Processing",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "creative-coding",
+          "graphics",
+          "java",
+          "visual-arts"
+        ]
       },
       "Prolog": {
         "count": 0,
         "percentage": 0,
         "rank": 400,
         "full_term": "Prolog",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "logic",
+          "ai",
+          "legacy"
+        ]
       },
       "Prometheus": {
         "count": 0,
@@ -3916,7 +5413,10 @@ data = [
           "sre",
           "observability",
           "monitoring",
-          "infrastructure"
+          "infrastructure",
+          "metrics",
+          "time-series",
+          "cncf"
         ]
       },
       "Prompt Engineering": {
@@ -3929,7 +5429,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "prompting"
+          "prompting",
+          "practice"
         ]
       },
       "Protocol Buffers": {
@@ -3942,7 +5443,10 @@ data = [
         "tags": [
           "backend",
           "api",
-          "serialization"
+          "serialization",
+          "data",
+          "google",
+          "grpc"
         ]
       },
       "Pulumi": {
@@ -3956,7 +5460,8 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code"
         ]
       },
       "Puppet": {
@@ -3970,7 +5475,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "PyTorch": {
@@ -3984,7 +5491,8 @@ data = [
           "ai",
           "ml",
           "deep-learning",
-          "python"
+          "python",
+          "facebook"
         ]
       },
       "Pydantic AI": {
@@ -3992,8 +5500,15 @@ data = [
         "percentage": 0,
         "rank": 406,
         "full_term": "Pydantic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "python"
+        ]
       },
       "Python": {
         "count": 36,
@@ -4006,7 +5521,9 @@ data = [
           "language",
           "backend",
           "ml",
-          "data"
+          "data",
+          "data-science",
+          "ai"
         ]
       },
       "QLoRA": {
@@ -4014,8 +5531,14 @@ data = [
         "percentage": 0,
         "rank": 409,
         "full_term": "QLoRA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "fine-tuning",
+          "ml"
+        ]
       },
       "Qdrant": {
         "count": 0,
@@ -4027,8 +5550,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "rust"
         ]
       },
       "R": {
@@ -4042,7 +5571,8 @@ data = [
           "language",
           "data",
           "statistics",
-          "ml"
+          "ml",
+          "data-science"
         ]
       },
       "RAG": {
@@ -4056,7 +5586,9 @@ data = [
           "ai",
           "llm",
           "rag",
-          "search"
+          "search",
+          "architecture",
+          "retrieval"
         ]
       },
       "RDF4J": {
@@ -4064,8 +5596,16 @@ data = [
         "percentage": 0,
         "rank": 412,
         "full_term": "RDF4J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "semantic-web",
+          "rdf",
+          "data",
+          "database",
+          "graph",
+          "java"
+        ]
       },
       "RDS": {
         "count": 2,
@@ -4079,7 +5619,8 @@ data = [
           "sql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "REPL": {
@@ -4087,8 +5628,15 @@ data = [
         "percentage": 0,
         "rank": 419,
         "full_term": "REPL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "interactive",
+          "tooling",
+          "cli",
+          "programming"
+        ]
       },
       "REST": {
         "count": 2,
@@ -4100,7 +5648,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "architecture",
+          "http"
         ]
       },
       "RabbitMQ": {
@@ -4113,7 +5663,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "amqp",
+          "erlang"
         ]
       },
       "Rails": {
@@ -4141,7 +5694,9 @@ data = [
           "distributed",
           "processing",
           "ml",
-          "python"
+          "python",
+          "ai",
+          "distributed-computing"
         ]
       },
       "React": {
@@ -4155,7 +5710,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "facebook"
         ]
       },
       "React Native": {
@@ -4169,7 +5725,8 @@ data = [
           "mobile",
           "frontend",
           "javascript",
-          "react"
+          "react",
+          "cross-platform"
         ]
       },
       "Redis": {
@@ -4183,7 +5740,10 @@ data = [
           "database",
           "cache",
           "storage",
-          "backend"
+          "backend",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "Redpanda": {
@@ -4197,7 +5757,10 @@ data = [
           "streaming",
           "messaging",
           "kafka",
-          "distributed"
+          "distributed",
+          "data",
+          "kafka-compatible",
+          "c++"
         ]
       },
       "Redshift": {
@@ -4212,7 +5775,9 @@ data = [
           "warehouse",
           "cloud",
           "aws",
-          "analytics"
+          "analytics",
+          "data",
+          "data-warehouse"
         ]
       },
       "Redux": {
@@ -4225,7 +5790,8 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "state-management"
+          "state-management",
+          "react"
         ]
       },
       "Redux Toolkit": {
@@ -4233,8 +5799,15 @@ data = [
         "percentage": 0,
         "rank": 418,
         "full_term": "Redux Toolkit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "state-management",
+          "redux",
+          "react"
+        ]
       },
       "Remote": {
         "count": 33,
@@ -4245,7 +5818,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "remote",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "work-from-home"
         ]
       },
       "Resque": {
@@ -4253,16 +5829,30 @@ data = [
         "percentage": 0.3937,
         "rank": 107,
         "full_term": "Resque",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Riak": {
         "count": 1,
         "percentage": 0.3937,
         "rank": 108,
         "full_term": "Riak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value"
+        ]
       },
       "Robotics": {
         "count": 0,
@@ -4274,7 +5864,10 @@ data = [
         "tags": [
           "robotics",
           "hardware",
-          "processing"
+          "processing",
+          "ai",
+          "engineering",
+          "automation"
         ]
       },
       "Ruby": {
@@ -4287,7 +5880,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "web"
+          "web",
+          "scripting"
         ]
       },
       "Rust": {
@@ -4301,7 +5895,8 @@ data = [
           "language",
           "systems",
           "backend",
-          "performance"
+          "performance",
+          "memory-safety"
         ]
       },
       "S3": {
@@ -4328,7 +5923,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "sso"
         ]
       },
       "SCSS": {
@@ -4336,16 +5933,30 @@ data = [
         "percentage": 0,
         "rank": 425,
         "full_term": "SCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "SDK": {
         "count": 0,
         "percentage": 0,
         "rank": 427,
         "full_term": "SDK/alias[SDK|SDKs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "api",
+          "integration",
+          "tooling",
+          "libraries",
+          "development"
+        ]
       },
       "SNS": {
         "count": 0,
@@ -4357,7 +5968,8 @@ data = [
         "tags": [
           "cloud",
           "messaging",
-          "aws"
+          "aws",
+          "pub-sub"
         ]
       },
       "SOAP": {
@@ -4365,8 +5977,16 @@ data = [
         "percentage": 0,
         "rank": 437,
         "full_term": "SOAP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "enterprise",
+          "web",
+          "xml",
+          "legacy"
+        ]
       },
       "SOC 2": {
         "count": 0,
@@ -4377,7 +5997,9 @@ data = [
         "primary_family": "Compliance",
         "tags": [
           "security",
-          "compliance"
+          "compliance",
+          "certification",
+          "auditing"
         ]
       },
       "SQL": {
@@ -4390,7 +6012,10 @@ data = [
         "tags": [
           "database",
           "sql",
-          "query-language"
+          "query-language",
+          "language",
+          "relational",
+          "data"
         ]
       },
       "SQL Server": {
@@ -4404,7 +6029,8 @@ data = [
           "database",
           "sql",
           "microsoft",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "SQLite": {
@@ -4417,7 +6043,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "embedded"
         ]
       },
       "SQS": {
@@ -4431,7 +6059,8 @@ data = [
           "cloud",
           "messaging",
           "aws",
-          "backend"
+          "backend",
+          "queue"
         ]
       },
       "SRE": {
@@ -4445,7 +6074,11 @@ data = [
           "sre",
           "observability",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "role",
+          "devops",
+          "reliability",
+          "engineering"
         ]
       },
       "SSIS": {
@@ -4453,8 +6086,15 @@ data = [
         "percentage": 0,
         "rank": 443,
         "full_term": "SSIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "etl",
+          "microsoft",
+          "data",
+          "sql-server"
+        ]
       },
       "SSO": {
         "count": 0,
@@ -4466,7 +6106,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "login"
         ]
       },
       "SSRS": {
@@ -4474,8 +6116,16 @@ data = [
         "percentage": 0,
         "rank": 445,
         "full_term": "SSRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "microsoft",
+          "data",
+          "reporting",
+          "sql-server"
+        ]
       },
       "Samza": {
         "count": 0,
@@ -4487,7 +6137,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "kafka"
         ]
       },
       "Sass": {
@@ -4495,8 +6149,14 @@ data = [
         "percentage": 0.3937,
         "rank": 110,
         "full_term": "Sass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "Scala": {
         "count": 10,
@@ -4509,7 +6169,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "data-engineering"
+          "data-engineering",
+          "functional"
         ]
       },
       "Scheme": {
@@ -4517,8 +6178,14 @@ data = [
         "percentage": 0,
         "rank": 423,
         "full_term": "Scheme",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "academic"
+        ]
       },
       "Scrum": {
         "count": 0,
@@ -4529,7 +6196,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "process",
-          "agile"
+          "agile",
+          "methodology",
+          "management",
+          "framework"
         ]
       },
       "ScyllaDB": {
@@ -4537,16 +6207,33 @@ data = [
         "percentage": 0,
         "rank": 426,
         "full_term": "ScyllaDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "cassandra",
+          "storage",
+          "wide-column",
+          "c++"
+        ]
       },
       "Secrets Management": {
         "count": 0,
         "percentage": 0,
         "rank": 428,
         "full_term": "Secrets Management/alias[Secrets Management|SecretsManagement]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "secrets",
+          "infrastructure",
+          "devops",
+          "credentials",
+          "vault"
+        ]
       },
       "Security": {
         "count": 4,
@@ -4556,7 +6243,9 @@ data = [
         "kind": "Technology",
         "primary_family": "Security",
         "tags": [
-          "security"
+          "security",
+          "infosec",
+          "cybersecurity"
         ]
       },
       "Selenium": {
@@ -4569,7 +6258,9 @@ data = [
         "tags": [
           "testing",
           "automation",
-          "frontend"
+          "frontend",
+          "browser",
+          "e2e"
         ]
       },
       "Senior": {
@@ -4581,7 +6272,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "senior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "advanced"
         ]
       },
       "Server-Sent Events": {
@@ -4589,8 +6283,18 @@ data = [
         "percentage": 0,
         "rank": 429,
         "full_term": "Server-Sent Events/alias[SSE|Server-Sent Events]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "realtime",
+          "backend",
+          "frontend",
+          "web",
+          "api",
+          "streaming",
+          "sse"
+        ]
       },
       "Serverless": {
         "count": 0,
@@ -4602,7 +6306,10 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "architecture",
+          "compute",
+          "managed"
         ]
       },
       "Service Mesh": {
@@ -4616,7 +6323,10 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "networking",
+          "microservices"
         ]
       },
       "SharePoint": {
@@ -4624,8 +6334,15 @@ data = [
         "percentage": 0.3937,
         "rank": 112,
         "full_term": "SharePoint",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "microsoft",
+          "collaboration",
+          "enterprise",
+          "cms",
+          "intranet"
+        ]
       },
       "Shell": {
         "count": 2,
@@ -4637,7 +6354,9 @@ data = [
         "tags": [
           "language",
           "scripting",
-          "systems"
+          "systems",
+          "cli",
+          "linux"
         ]
       },
       "Sidekiq": {
@@ -4645,16 +6364,32 @@ data = [
         "percentage": 0,
         "rank": 432,
         "full_term": "Sidekiq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Sinatra": {
         "count": 0,
         "percentage": 0,
         "rank": 433,
         "full_term": "Sinatra",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "ruby",
+          "web",
+          "web-framework",
+          "web_framework",
+          "microframework"
+        ]
       },
       "Snowflake": {
         "count": 0,
@@ -4668,7 +6403,9 @@ data = [
           "warehouse",
           "cloud",
           "analytics",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse"
         ]
       },
       "Snyk": {
@@ -4676,8 +6413,16 @@ data = [
         "percentage": 0,
         "rank": 436,
         "full_term": "Snyk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "scanning",
+          "supply-chain",
+          "devsecops",
+          "vulnerability-scanning",
+          "saas"
+        ]
       },
       "Solr": {
         "count": 6,
@@ -4689,7 +6434,10 @@ data = [
         "tags": [
           "database",
           "search",
-          "storage"
+          "storage",
+          "apache",
+          "java",
+          "indexing"
         ]
       },
       "Spark": {
@@ -4704,7 +6452,11 @@ data = [
           "stream-processing",
           "distributed",
           "data-engineering",
-          "ml"
+          "ml",
+          "data",
+          "big-data",
+          "apache",
+          "analytics"
         ]
       },
       "Spinnaker": {
@@ -4717,7 +6469,9 @@ data = [
         "tags": [
           "deployment",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd",
+          "netflix"
         ]
       },
       "Spring": {
@@ -4731,7 +6485,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "Spring Boot": {
@@ -4745,7 +6500,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "microservices"
         ]
       },
       "Staff": {
@@ -4757,7 +6513,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "staff",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Storm": {
@@ -4770,7 +6529,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Struts": {
@@ -4778,8 +6541,17 @@ data = [
         "percentage": 0,
         "rank": 448,
         "full_term": "Struts",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "java",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "Supabase": {
         "count": 0,
@@ -4791,7 +6563,10 @@ data = [
         "tags": [
           "backend",
           "database",
-          "cloud"
+          "cloud",
+          "baas",
+          "postgresql",
+          "firebase-alternative"
         ]
       },
       "Svelte": {
@@ -4805,7 +6580,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "compiler"
         ]
       },
       "SvelteKit": {
@@ -4819,7 +6595,10 @@ data = [
           "frontend",
           "backend",
           "web",
-          "javascript"
+          "javascript",
+          "framework",
+          "svelte",
+          "ssr"
         ]
       },
       "Swift": {
@@ -4832,7 +6611,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Symfony": {
@@ -4840,8 +6620,17 @@ data = [
         "percentage": 0,
         "rank": 453,
         "full_term": "Symfony",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "TDD": {
         "count": 0,
@@ -4852,7 +6641,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "testing",
-          "process"
+          "process",
+          "agile",
+          "methodology",
+          "development"
         ]
       },
       "Tableau": {
@@ -4860,8 +6652,15 @@ data = [
         "percentage": 0,
         "rank": 454,
         "full_term": "Tableau",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-visualization",
+          "data",
+          "visualization"
+        ]
       },
       "Tailwind": {
         "count": 0,
@@ -4873,7 +6672,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "utility-first"
         ]
       },
       "TailwindCSS": {
@@ -4881,8 +6682,15 @@ data = [
         "percentage": 0,
         "rank": 456,
         "full_term": "TailwindCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "web",
+          "framework",
+          "utility-first"
+        ]
       },
       "Tauri": {
         "count": 0,
@@ -4894,7 +6702,9 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "rust"
+          "rust",
+          "cross-platform",
+          "web-tech"
         ]
       },
       "Tekton": {
@@ -4908,7 +6718,9 @@ data = [
           "ci",
           "kubernetes",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd",
+          "cncf"
         ]
       },
       "Tempo": {
@@ -4921,7 +6733,8 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "grafana"
         ]
       },
       "Temporal": {
@@ -4934,7 +6747,10 @@ data = [
         "tags": [
           "backend",
           "workflow",
-          "distributed"
+          "distributed",
+          "orchestration",
+          "workflows",
+          "microservices"
         ]
       },
       "TensorFlow": {
@@ -4947,7 +6763,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "google"
         ]
       },
       "Terraform": {
@@ -4961,7 +6778,9 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "hashicorp"
         ]
       },
       "Thrift": {
@@ -4975,7 +6794,9 @@ data = [
           "backend",
           "api",
           "serialization",
-          "rpc"
+          "rpc",
+          "data",
+          "apache"
         ]
       },
       "TimescaleDB": {
@@ -4989,7 +6810,8 @@ data = [
           "database",
           "time-series",
           "postgresql",
-          "storage"
+          "storage",
+          "sql"
         ]
       },
       "Tomcat": {
@@ -5002,7 +6824,8 @@ data = [
         "tags": [
           "backend",
           "java",
-          "web-server"
+          "web-server",
+          "apache"
         ]
       },
       "Transformers": {
@@ -5016,7 +6839,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "deep-learning"
+          "deep-learning",
+          "nlp",
+          "architecture"
         ]
       },
       "Trino": {
@@ -5030,7 +6855,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Trivy": {
@@ -5043,7 +6870,10 @@ data = [
         "tags": [
           "security",
           "scanning",
-          "container"
+          "container",
+          "container-scanning",
+          "vulnerabilities",
+          "aquasec"
         ]
       },
       "Turbo": {
@@ -5051,24 +6881,49 @@ data = [
         "percentage": 0,
         "rank": 470,
         "full_term": "Turbo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "Turborepo": {
         "count": 0,
         "percentage": 0,
         "rank": 471,
         "full_term": "Turborepo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "TypeORM": {
         "count": 0,
         "percentage": 0,
         "rank": 472,
         "full_term": "TypeORM",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "orm",
+          "typescript",
+          "database",
+          "nodejs"
+        ]
       },
       "TypeScript": {
         "count": 0,
@@ -5081,7 +6936,8 @@ data = [
           "language",
           "frontend",
           "backend",
-          "javascript"
+          "javascript",
+          "javascript-superset"
         ]
       },
       "UDF": {
@@ -5089,16 +6945,31 @@ data = [
         "percentage": 0,
         "rank": 474,
         "full_term": "UDF/alias[UDF|UDFs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "sql",
+          "function",
+          "data",
+          "database",
+          "functions"
+        ]
       },
       "Unleash": {
         "count": 0,
         "percentage": 0,
         "rank": 475,
         "full_term": "Unleash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "feature-flags",
+          "release-management",
+          "tooling",
+          "devops",
+          "open-source"
+        ]
       },
       "Unreal Engine": {
         "count": 0,
@@ -5110,7 +6981,8 @@ data = [
         "tags": [
           "graphics",
           "gaming",
-          "engine"
+          "engine",
+          "c++"
         ]
       },
       "VR": {
@@ -5123,7 +6995,10 @@ data = [
         "tags": [
           "ar-vr",
           "graphics",
-          "frontend"
+          "frontend",
+          "vr",
+          "virtual-reality",
+          "xr"
         ]
       },
       "Vagrant": {
@@ -5136,7 +7011,9 @@ data = [
         "tags": [
           "infrastructure",
           "devops",
-          "virtualization"
+          "virtualization",
+          "environments",
+          "hashicorp"
         ]
       },
       "Valkey": {
@@ -5144,8 +7021,17 @@ data = [
         "percentage": 0,
         "rank": 477,
         "full_term": "Valkey",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "cache",
+          "in-memory",
+          "storage",
+          "backend",
+          "caching",
+          "redis-fork"
+        ]
       },
       "Varnish": {
         "count": 1,
@@ -5157,7 +7043,11 @@ data = [
         "tags": [
           "network",
           "cache",
-          "web"
+          "web",
+          "networking",
+          "caching",
+          "proxy",
+          "performance"
         ]
       },
       "Vault": {
@@ -5170,7 +7060,9 @@ data = [
         "tags": [
           "security",
           "secrets",
-          "infrastructure"
+          "infrastructure",
+          "secrets-management",
+          "hashicorp"
         ]
       },
       "Vector Databases": {
@@ -5183,8 +7075,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "VectorDatabase": {
@@ -5192,8 +7090,20 @@ data = [
         "percentage": 0,
         "rank": 480,
         "full_term": "VectorDatabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Vercel": {
         "count": 0,
@@ -5205,7 +7115,9 @@ data = [
         "tags": [
           "cloud",
           "frontend",
-          "deployment"
+          "deployment",
+          "hosting",
+          "serverless"
         ]
       },
       "Vertex AI": {
@@ -5219,7 +7131,9 @@ data = [
           "ai",
           "ml",
           "cloud",
-          "google"
+          "google",
+          "gcp",
+          "platform"
         ]
       },
       "Vi": {
@@ -5227,8 +7141,15 @@ data = [
         "percentage": 0.3937,
         "rank": 117,
         "full_term": "Vi/alias[Vi|Vim]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
+        ]
       },
       "Vim": {
         "count": 1,
@@ -5239,7 +7160,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
         ]
       },
       "Visual Basic": {
@@ -5251,7 +7175,8 @@ data = [
         "primary_family": "Language",
         "tags": [
           "language",
-          "microsoft"
+          "microsoft",
+          "legacy"
         ]
       },
       "Vite": {
@@ -5264,7 +7189,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "performance"
         ]
       },
       "Vue": {
@@ -5291,7 +7218,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WCF": {
@@ -5299,24 +7229,51 @@ data = [
         "percentage": 0,
         "rank": 488,
         "full_term": "WCF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "rpc",
+          "microsoft",
+          "dotnet",
+          "legacy"
+        ]
       },
       "WPF": {
         "count": 0,
         "percentage": 0,
         "rank": 502,
         "full_term": "WPF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "Weaviate": {
         "count": 0,
         "percentage": 0,
         "rank": 489,
         "full_term": "Weaviate",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Web Services": {
         "count": 6,
@@ -5328,7 +7285,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "integration"
         ]
       },
       "WebAssembly": {
@@ -5341,7 +7299,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WebForms": {
@@ -5349,8 +7310,16 @@ data = [
         "percentage": 0.3937,
         "rank": 119,
         "full_term": "WebForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "legacy"
+        ]
       },
       "WebGL": {
         "count": 0,
@@ -5362,7 +7331,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "api"
         ]
       },
       "WebGL2": {
@@ -5370,8 +7341,15 @@ data = [
         "percentage": 0,
         "rank": 493,
         "full_term": "WebGL2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "graphics",
+          "frontend",
+          "web",
+          "rendering",
+          "api"
+        ]
       },
       "WebGPU": {
         "count": 0,
@@ -5383,7 +7361,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "performance"
         ]
       },
       "WebRTC": {
@@ -5397,7 +7377,10 @@ data = [
           "network",
           "realtime",
           "frontend",
-          "web"
+          "web",
+          "networking",
+          "real-time",
+          "video"
         ]
       },
       "WebSockets": {
@@ -5411,7 +7394,11 @@ data = [
           "network",
           "realtime",
           "backend",
-          "frontend"
+          "frontend",
+          "networking",
+          "web",
+          "real-time",
+          "protocol"
         ]
       },
       "Webpack": {
@@ -5424,7 +7411,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "bundler"
         ]
       },
       "Wi-Fi": {
@@ -5432,32 +7421,59 @@ data = [
         "percentage": 0,
         "rank": 498,
         "full_term": "Wi-Fi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "networking",
+          "hardware"
+        ]
       },
       "WinForms": {
         "count": 0,
         "percentage": 0,
         "rank": 500,
         "full_term": "WinForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "WinRT": {
         "count": 0,
         "percentage": 0,
         "rank": 501,
         "full_term": "WinRT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "windows",
+          "api"
+        ]
       },
       "Windows Phone": {
         "count": 0,
         "percentage": 0,
         "rank": 499,
         "full_term": "Windows Phone",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "windows",
+          "microsoft",
+          "os",
+          "legacy"
+        ]
       },
       "WordPress": {
         "count": 1,
@@ -5470,7 +7486,8 @@ data = [
           "backend",
           "cms",
           "php",
-          "web"
+          "web",
+          "blogging"
         ]
       },
       "XGBoost": {
@@ -5483,7 +7500,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "model"
+          "model",
+          "algorithms",
+          "decision-trees"
         ]
       },
       "XML": {
@@ -5491,24 +7510,50 @@ data = [
         "percentage": 0.7874,
         "rank": 83,
         "full_term": "XML",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "api",
+          "backend",
+          "data",
+          "format",
+          "markup",
+          "legacy"
+        ]
       },
       "XML Schema": {
         "count": 0,
         "percentage": 0,
         "rank": 505,
         "full_term": "XML Schema/alias[XML Schema|XMLSchema]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "validation",
+          "api",
+          "data",
+          "xml",
+          "legacy"
+        ]
       },
       "XR": {
         "count": 0,
         "percentage": 0,
         "rank": 506,
         "full_term": "XR",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "xr",
+          "ar",
+          "vr",
+          "mixed-reality"
+        ]
       },
       "Xamarin": {
         "count": 0,
@@ -5520,7 +7565,9 @@ data = [
         "tags": [
           "mobile",
           "cross-platform",
-          "dotnet"
+          "dotnet",
+          "c#",
+          "microsoft"
         ]
       },
       "Yeoman": {
@@ -5528,16 +7575,31 @@ data = [
         "percentage": 0,
         "rank": 507,
         "full_term": "Yeoman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "scaffolding",
+          "frontend",
+          "tooling",
+          "javascript",
+          "legacy"
+        ]
       },
       "Zabbix": {
         "count": 0,
         "percentage": 0,
         "rank": 508,
         "full_term": "Zabbix",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "networking"
+        ]
       },
       "Zed": {
         "count": 0,
@@ -5548,7 +7610,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "ide",
+          "rust",
+          "performance"
         ]
       },
       "Zero Trust": {
@@ -5561,7 +7626,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "network"
+          "network",
+          "architecture",
+          "networking"
         ]
       },
       "ZeroMQ": {
@@ -5574,7 +7641,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "sockets",
+          "performance"
         ]
       },
       "Zig": {
@@ -5587,7 +7657,9 @@ data = [
         "tags": [
           "language",
           "systems",
-          "performance"
+          "performance",
+          "low-level",
+          "c-alternative"
         ]
       },
       "Zipkin": {
@@ -5600,7 +7672,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "java"
         ]
       },
       "Zookeeper": {
@@ -5613,7 +7687,10 @@ data = [
         "tags": [
           "distributed",
           "infrastructure",
-          "coordination"
+          "coordination",
+          "data",
+          "distributed-systems",
+          "apache"
         ]
       },
       "dbt": {
@@ -5627,7 +7704,9 @@ data = [
           "data-engineering",
           "analytics",
           "sql",
-          "transformation"
+          "transformation",
+          "data",
+          "analytics-engineering"
         ]
       },
       "eBPF": {
@@ -5641,7 +7720,8 @@ data = [
           "linux",
           "network",
           "observability",
-          "security"
+          "security",
+          "networking"
         ]
       },
       "gRPC": {
@@ -5655,7 +7735,9 @@ data = [
           "backend",
           "api",
           "rpc",
-          "distributed"
+          "distributed",
+          "google",
+          "performance"
         ]
       },
       "i18n": {
@@ -5663,8 +7745,14 @@ data = [
         "percentage": 0,
         "rank": 294,
         "full_term": "i18n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "localization",
+          "web",
+          "internationalization"
+        ]
       },
       "iOS": {
         "count": 19,
@@ -5676,7 +7764,10 @@ data = [
         "tags": [
           "mobile",
           "ios",
-          "swift"
+          "swift",
+          "os",
+          "apple",
+          "smartphone"
         ]
       },
       "jQuery": {
@@ -5689,7 +7780,9 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "web"
+          "web",
+          "library",
+          "legacy"
         ]
       },
       "ksqlDB": {
@@ -5703,7 +7796,9 @@ data = [
           "stream-processing",
           "sql",
           "kafka",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming"
         ]
       },
       "memcached": {
@@ -5717,7 +7812,10 @@ data = [
           "cache",
           "database",
           "backend",
-          "storage"
+          "storage",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "n8n": {
@@ -5725,8 +7823,15 @@ data = [
         "percentage": 0,
         "rank": 354,
         "full_term": "n8n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "low-code"
+        ]
       },
       "nginx": {
         "count": 5,
@@ -5739,7 +7844,9 @@ data = [
           "network",
           "web-server",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "reverse-proxy",
+          "networking"
         ]
       },
       "passion": {
@@ -5747,8 +7854,14 @@ data = [
         "percentage": 2.7559,
         "rank": 32,
         "full_term": "passion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Work Attribute",
+        "primary_family": "Soft Skill",
+        "tags": [
+          "soft-skill",
+          "work-attribute",
+          "attribute",
+          "culture"
+        ]
       },
       "statistics": {
         "count": 2,
@@ -5760,7 +7873,10 @@ data = [
         "tags": [
           "statistics",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "analytics",
+          "data-science"
         ]
       },
       "tmux": {
@@ -5768,8 +7884,15 @@ data = [
         "percentage": 0,
         "rank": 466,
         "full_term": "tmux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "terminal",
+          "tooling",
+          "multiplexer",
+          "linux"
+        ]
       },
       "web3": {
         "count": 0,
@@ -5781,7 +7904,10 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "decentralized",
+          "internet"
         ]
       }
     }
@@ -5854,7 +7980,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "integration"
+          "integration",
+          "web"
         ]
       },
       "AR": {
@@ -5862,40 +7989,82 @@ data = [
         "percentage": 0.463,
         "rank": 85,
         "full_term": "AR/alias[AR|Augmented Reality]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "ar",
+          "augmented-reality",
+          "xr"
+        ]
       },
       "ASM": {
         "count": 0,
         "percentage": 0,
         "rank": 143,
         "full_term": "ASM/alias[ASM|Attack Surface Monitoring]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "attack-surface",
+          "osint",
+          "monitoring"
+        ]
       },
       "ASP": {
         "count": 1,
         "percentage": 0.463,
         "rank": 86,
         "full_term": "ASP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "ASP.NET": {
         "count": 1,
         "percentage": 0.463,
         "rank": 87,
         "full_term": "ASP.NET",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "ASP.NET MVC": {
         "count": 0,
         "percentage": 0,
         "rank": 144,
         "full_term": "ASP.NET MVC",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework",
+          "mvc"
+        ]
       },
       "AWS": {
         "count": 7,
@@ -5907,7 +8076,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "infrastructure"
+          "infrastructure",
+          "amazon"
         ]
       },
       "AWS Bedrock": {
@@ -5921,7 +8091,8 @@ data = [
           "ai",
           "llm",
           "cloud",
-          "aws"
+          "aws",
+          "generative-ai"
         ]
       },
       "AWS CDK": {
@@ -5935,7 +8106,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "AWS Lambda": {
@@ -5949,7 +8121,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "aws"
+          "aws",
+          "compute"
         ]
       },
       "ActionScript": {
@@ -5957,80 +8130,157 @@ data = [
         "percentage": 0,
         "rank": 118,
         "full_term": "ActionScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "flash",
+          "web",
+          "adobe",
+          "legacy"
+        ]
       },
       "ActiveMQ": {
         "count": 0,
         "percentage": 0,
         "rank": 119,
         "full_term": "ActiveMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "distributed",
+          "queue",
+          "apache"
+        ]
       },
       "Ada": {
         "count": 0,
         "percentage": 0,
         "rank": 120,
         "full_term": "Ada",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "embedded",
+          "legacy"
+        ]
       },
       "Aerospike": {
         "count": 0,
         "percentage": 0,
         "rank": 121,
         "full_term": "Aerospike",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value",
+          "real-time"
+        ]
       },
       "Agentic AI": {
         "count": 0,
         "percentage": 0,
         "rank": 122,
         "full_term": "Agentic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "agents",
+          "llm",
+          "automation",
+          "concept"
+        ]
       },
       "Agentic Coding": {
         "count": 0,
         "percentage": 0,
         "rank": 123,
         "full_term": "Agentic Coding",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "developer-tooling",
+          "coding",
+          "automation",
+          "practice"
+        ]
       },
       "Agile": {
         "count": 8,
         "percentage": 3.7037,
         "rank": 27,
         "full_term": "Agile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Process",
+        "primary_family": "Methodology",
+        "tags": [
+          "process",
+          "agile",
+          "methodology",
+          "management"
+        ]
       },
       "Aider": {
         "count": 0,
         "percentage": 0,
         "rank": 125,
         "full_term": "Aider",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "coding-assistant",
+          "coding",
+          "assistant",
+          "cli"
+        ]
       },
       "Airflow": {
         "count": 0,
         "percentage": 0,
         "rank": 126,
         "full_term": "Airflow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "orchestration",
+          "pipeline",
+          "workflow",
+          "data",
+          "apache",
+          "python"
+        ]
       },
       "Akka": {
         "count": 1,
         "percentage": 0.463,
         "rank": 83,
         "full_term": "Akka",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "distributed",
+          "jvm",
+          "actor-model",
+          "scala",
+          "java"
+        ]
       },
       "Android": {
         "count": 16,
@@ -6043,7 +8293,10 @@ data = [
           "mobile",
           "android",
           "kotlin",
-          "java"
+          "java",
+          "os",
+          "google",
+          "smartphone"
         ]
       },
       "Angular": {
@@ -6057,7 +8310,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "typescript",
+          "google"
         ]
       },
       "Angular 2": {
@@ -6065,8 +8320,18 @@ data = [
         "percentage": 0,
         "rank": 128,
         "full_term": "Angular 2/alias[Angular2|Angular 2]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework",
+          "typescript",
+          "google"
+        ]
       },
       "AngularJS": {
         "count": 0,
@@ -6079,7 +8344,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "legacy"
         ]
       },
       "Ansible": {
@@ -6093,7 +8359,8 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "redhat"
         ]
       },
       "Apache": {
@@ -6106,7 +8373,8 @@ data = [
         "tags": [
           "infrastructure",
           "web-server",
-          "backend"
+          "backend",
+          "apache"
         ]
       },
       "Apache Flink": {
@@ -6122,7 +8390,11 @@ data = [
           "backend",
           "data-engineering",
           "realtime",
-          "ml"
+          "ml",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Hudi": {
@@ -6136,7 +8408,11 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Iceberg": {
@@ -6150,7 +8426,12 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data",
+          "table-format"
         ]
       },
       "Apache Superset": {
@@ -6163,7 +8444,10 @@ data = [
         "tags": [
           "analytics",
           "bi",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "visualization",
+          "apache"
         ]
       },
       "Apollo": {
@@ -6171,40 +8455,76 @@ data = [
         "percentage": 0,
         "rank": 135,
         "full_term": "Apollo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "graphql",
+          "javascript",
+          "frontend"
+        ]
       },
       "App Engine": {
         "count": 1,
         "percentage": 0.463,
         "rank": 84,
         "full_term": "App Engine/alias[App Engine|AppEngine|GAE]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "paas",
+          "google",
+          "backend",
+          "gcp",
+          "serverless"
+        ]
       },
       "AppleScript": {
         "count": 0,
         "percentage": 0,
         "rank": 136,
         "full_term": "AppleScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "apple",
+          "macos"
+        ]
       },
       "Arc": {
         "count": 0,
         "percentage": 0,
         "rank": 137,
         "full_term": "Arc",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "browser",
+          "tooling",
+          "productivity"
+        ]
       },
       "Arduino": {
         "count": 0,
         "percentage": 0,
         "rank": 138,
         "full_term": "Arduino",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "hardware",
+          "iot",
+          "microcontroller",
+          "c++"
+        ]
       },
       "Argo": {
         "count": 0,
@@ -6217,7 +8537,8 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd"
         ]
       },
       "Argo Workflows": {
@@ -6231,7 +8552,9 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "orchestration",
+          "workflows"
         ]
       },
       "ArgoCD": {
@@ -6245,7 +8568,8 @@ data = [
           "kubernetes",
           "gitops",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd"
         ]
       },
       "Arrow": {
@@ -6253,48 +8577,92 @@ data = [
         "percentage": 0,
         "rank": 142,
         "full_term": "Arrow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "columnar",
+          "analytics",
+          "data",
+          "apache",
+          "in-memory"
+        ]
       },
       "Assembly": {
         "count": 1,
         "percentage": 0.463,
         "rank": 88,
         "full_term": "Assembly",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "low-level"
+        ]
       },
       "Aurora": {
         "count": 0,
         "percentage": 0,
         "rank": 145,
         "full_term": "Aurora",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "sql",
+          "cloud",
+          "aws",
+          "storage",
+          "relational"
+        ]
       },
       "AutoGen": {
         "count": 0,
         "percentage": 0,
         "rank": 146,
         "full_term": "AutoGen",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "microsoft"
+        ]
       },
       "Avro": {
         "count": 0,
         "percentage": 0,
         "rank": 147,
         "full_term": "Avro",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "serialization",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Awk": {
         "count": 0,
         "percentage": 0,
         "rank": 148,
         "full_term": "Awk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "unix",
+          "linux",
+          "text-processing"
+        ]
       },
       "Azure": {
         "count": 0,
@@ -6306,7 +8674,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "microsoft"
+          "microsoft",
+          "infrastructure"
         ]
       },
       "Azure Functions": {
@@ -6320,7 +8689,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "azure"
+          "azure",
+          "microsoft"
         ]
       },
       "BLE": {
@@ -6328,8 +8698,17 @@ data = [
         "percentage": 0,
         "rank": 162,
         "full_term": "BLE",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "iot",
+          "mobile",
+          "networking",
+          "bluetooth",
+          "hardware"
+        ]
       },
       "Back End": {
         "count": 34,
@@ -6340,7 +8719,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "backend",
-          "work-area"
+          "work-area",
+          "server-side",
+          "architecture"
         ]
       },
       "Backblaze": {
@@ -6348,48 +8729,93 @@ data = [
         "percentage": 0,
         "rank": 154,
         "full_term": "Backblaze",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "storage",
+          "object-storage",
+          "backup"
+        ]
       },
       "Backbone": {
         "count": 5,
         "percentage": 2.3148,
         "rank": 39,
         "full_term": "Backbone/js[Backbone]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "BackboneJS": {
         "count": 0,
         "percentage": 0,
         "rank": 155,
         "full_term": "BackboneJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Backstage": {
         "count": 0,
         "percentage": 0,
         "rank": 156,
         "full_term": "Backstage",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-portal",
+          "software-catalog",
+          "tooling",
+          "devops",
+          "spotify",
+          "cncf"
+        ]
       },
       "Bash": {
         "count": 0,
         "percentage": 0,
         "rank": 157,
         "full_term": "Bash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "shell",
+          "systems",
+          "linux"
+        ]
       },
       "Benthos": {
         "count": 0,
         "percentage": 0,
         "rank": 158,
         "full_term": "Benthos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "streaming",
+          "pipeline",
+          "integration",
+          "data",
+          "etl",
+          "go"
+        ]
       },
       "Big Data": {
         "count": 6,
@@ -6401,7 +8827,10 @@ data = [
         "tags": [
           "data-engineering",
           "distributed",
-          "processing"
+          "processing",
+          "data",
+          "analytics",
+          "scale"
         ]
       },
       "BigQuery": {
@@ -6415,7 +8844,10 @@ data = [
           "database",
           "analytics",
           "cloud",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse",
+          "gcp"
         ]
       },
       "Bitcoin": {
@@ -6423,8 +8855,15 @@ data = [
         "percentage": 0,
         "rank": 160,
         "full_term": "Bitcoin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "crypto",
+          "web3",
+          "blockchain",
+          "cryptocurrency"
+        ]
       },
       "Blazor": {
         "count": 0,
@@ -6436,7 +8875,10 @@ data = [
         "tags": [
           "frontend",
           "web",
-          "dotnet"
+          "dotnet",
+          "webassembly",
+          "microsoft",
+          "c#"
         ]
       },
       "Blockchain": {
@@ -6449,7 +8891,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "distributed-ledger"
         ]
       },
       "Boo": {
@@ -6457,8 +8901,13 @@ data = [
         "percentage": 0,
         "rank": 164,
         "full_term": "Boo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "dotnet",
+          "legacy"
+        ]
       },
       "Bootstrap": {
         "count": 0,
@@ -6470,7 +8919,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "design"
         ]
       },
       "Bun": {
@@ -6478,8 +8929,15 @@ data = [
         "percentage": 0,
         "rank": 166,
         "full_term": "Bun",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "javascript",
+          "runtime",
+          "tooling",
+          "performance"
+        ]
       },
       "C": {
         "count": 6,
@@ -6491,7 +8949,8 @@ data = [
         "tags": [
           "language",
           "systems",
-          "backend"
+          "backend",
+          "low-level"
         ]
       },
       "C#": {
@@ -6527,24 +8986,45 @@ data = [
         "percentage": 0,
         "rank": 181,
         "full_term": "COBOL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "mainframe",
+          "backend",
+          "legacy",
+          "business"
+        ]
       },
       "CQRS": {
         "count": 0,
         "percentage": 0,
         "rank": 193,
         "full_term": "CQRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "architecture",
+          "event-sourcing",
+          "design-pattern"
+        ]
       },
       "CRDT": {
         "count": 0,
         "percentage": 0,
         "rank": 194,
         "full_term": "CRDT/alias[CRDT|CRDTs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "data-structures",
+          "collaboration",
+          "data",
+          "distributed-systems",
+          "sync"
+        ]
       },
       "CSS": {
         "count": 10,
@@ -6556,7 +9036,8 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "styling"
         ]
       },
       "CakePHP": {
@@ -6564,8 +9045,17 @@ data = [
         "percentage": 0,
         "rank": 167,
         "full_term": "CakePHP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Cassandra": {
         "count": 2,
@@ -6578,7 +9068,9 @@ data = [
           "database",
           "nosql",
           "distributed",
-          "storage"
+          "storage",
+          "wide-column",
+          "apache"
         ]
       },
       "Celery": {
@@ -6586,16 +9078,30 @@ data = [
         "percentage": 0.463,
         "rank": 89,
         "full_term": "Celery",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "python",
+          "task-queue",
+          "distributed",
+          "async"
+        ]
       },
       "Ceph": {
         "count": 0,
         "percentage": 0,
         "rank": 168,
         "full_term": "Ceph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "distributed",
+          "object-storage",
+          "infrastructure",
+          "open-source"
+        ]
       },
       "ChatGPT": {
         "count": 0,
@@ -6607,7 +9113,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "openai",
+          "chatbot"
         ]
       },
       "Chef": {
@@ -6621,7 +9129,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "Claude": {
@@ -6634,7 +9144,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "anthropic",
+          "chatbot"
         ]
       },
       "Claude Code": {
@@ -6647,7 +9159,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "anthropic"
         ]
       },
       "ClickHouse": {
@@ -6661,7 +9176,8 @@ data = [
           "database",
           "analytics",
           "storage",
-          "olap"
+          "olap",
+          "columnar"
         ]
       },
       "Clojure": {
@@ -6675,7 +9191,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "functional"
+          "functional",
+          "lisp"
         ]
       },
       "ClojureScript": {
@@ -6683,16 +9200,30 @@ data = [
         "percentage": 0,
         "rank": 173,
         "full_term": "ClojureScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "functional",
+          "javascript",
+          "lisp"
+        ]
       },
       "Closure": {
         "count": 4,
         "percentage": 1.8519,
         "rank": 45,
         "full_term": "Closure",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "tooling",
+          "compiler",
+          "google"
+        ]
       },
       "Cloud": {
         "count": 12,
@@ -6703,7 +9234,8 @@ data = [
         "primary_family": "Cloud",
         "tags": [
           "cloud",
-          "infrastructure"
+          "infrastructure",
+          "hosting"
         ]
       },
       "Cloud Run": {
@@ -6717,7 +9249,9 @@ data = [
           "cloud",
           "serverless",
           "container",
-          "backend"
+          "backend",
+          "gcp",
+          "containers"
         ]
       },
       "Cloud Security Posture Management": {
@@ -6725,8 +9259,14 @@ data = [
         "percentage": 0,
         "rank": 175,
         "full_term": "Cloud Security Posture Management/alias[CSPM|Cloud Security Posture Management]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "cloud",
+          "cspm",
+          "compliance"
+        ]
       },
       "CloudFormation": {
         "count": 0,
@@ -6739,7 +9279,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "CloudFront": {
@@ -6753,7 +9294,8 @@ data = [
           "network",
           "cdn",
           "cloud",
-          "aws"
+          "aws",
+          "networking"
         ]
       },
       "CloudWatch": {
@@ -6767,7 +9309,8 @@ data = [
           "sre",
           "monitoring",
           "observability",
-          "aws"
+          "aws",
+          "cloud"
         ]
       },
       "Cloudflare": {
@@ -6781,7 +9324,10 @@ data = [
           "cloud",
           "edge",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "cdn",
+          "security",
+          "networking"
         ]
       },
       "Cloudflare Workers": {
@@ -6795,7 +9341,8 @@ data = [
           "cloud",
           "edge",
           "serverless",
-          "backend"
+          "backend",
+          "cloudflare"
         ]
       },
       "CockroachDB": {
@@ -6809,7 +9356,8 @@ data = [
           "database",
           "sql",
           "distributed",
-          "storage"
+          "storage",
+          "newsql"
         ]
       },
       "CodeIgniter": {
@@ -6817,64 +9365,118 @@ data = [
         "percentage": 0.9259,
         "rank": 66,
         "full_term": "CodeIgniter",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "CodeRabbitAI": {
         "count": 0,
         "percentage": 0,
         "rank": 183,
         "full_term": "CodeRabbitAI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "automation",
+          "tooling"
+        ]
       },
       "CoffeeScript": {
         "count": 3,
         "percentage": 1.3889,
         "rank": 54,
         "full_term": "CoffeeScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "javascript",
+          "legacy"
+        ]
       },
       "ColdFuison": {
         "count": 0,
         "percentage": 0,
         "rank": 184,
         "full_term": "ColdFuison",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml"
+        ]
       },
       "ColdFusion": {
         "count": 0,
         "percentage": 0,
         "rank": 185,
         "full_term": "ColdFusion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml",
+          "legacy"
+        ]
       },
       "Common Lisp": {
         "count": 0,
         "percentage": 0,
         "rank": 186,
         "full_term": "Common Lisp/alias[Common Lisp|CommonLisp]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp"
+        ]
       },
       "Compass": {
         "count": 0,
         "percentage": 0,
         "rank": 187,
         "full_term": "Compass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "sass",
+          "legacy"
+        ]
       },
       "Compose UI": {
         "count": 0,
         "percentage": 0,
         "rank": 188,
         "full_term": "Compose UI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "kotlin",
+          "ui"
+        ]
       },
       "Computer Vision": {
         "count": 2,
@@ -6886,7 +9488,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "vision",
+          "image-processing"
         ]
       },
       "Copilot": {
@@ -6899,7 +9503,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "github"
         ]
       },
       "Coroutines": {
@@ -6907,48 +9514,88 @@ data = [
         "percentage": 0,
         "rank": 190,
         "full_term": "Coroutines",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "concurrency",
+          "async",
+          "programming"
+        ]
       },
       "CouchDB": {
         "count": 0,
         "percentage": 0,
         "rank": 192,
         "full_term": "CouchDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "apache"
+        ]
       },
       "Couchbase": {
         "count": 0,
         "percentage": 0,
         "rank": 191,
         "full_term": "Couchbase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "caching"
+        ]
       },
       "Crossplane": {
         "count": 0,
         "percentage": 0,
         "rank": 195,
         "full_term": "Crossplane",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "kubernetes",
+          "control-plane",
+          "iac",
+          "infrastructure",
+          "devops"
+        ]
       },
       "Crystal": {
         "count": 0,
         "percentage": 0,
         "rank": 196,
         "full_term": "Crystal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "systems",
+          "performance",
+          "ruby-like"
+        ]
       },
       "Cucumber": {
         "count": 0,
         "percentage": 0,
         "rank": 197,
         "full_term": "Cucumber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "bdd",
+          "automation"
+        ]
       },
       "Cursor": {
         "count": 0,
@@ -6960,7 +9607,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "ide",
+          "coding",
+          "editor"
         ]
       },
       "D3.js": {
@@ -6973,7 +9623,8 @@ data = [
         "tags": [
           "frontend",
           "visualization",
-          "javascript"
+          "javascript",
+          "data-visualization"
         ]
       },
       "Dagger2": {
@@ -6981,8 +9632,14 @@ data = [
         "percentage": 0,
         "rank": 200,
         "full_term": "Dagger2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "java",
+          "dependency-injection"
+        ]
       },
       "Dagster": {
         "count": 0,
@@ -6994,7 +9651,10 @@ data = [
         "tags": [
           "data-engineering",
           "orchestration",
-          "processing"
+          "processing",
+          "data",
+          "python",
+          "pipelines"
         ]
       },
       "Dart": {
@@ -7007,7 +9667,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "frontend"
+          "frontend",
+          "google"
         ]
       },
       "Data Mining": {
@@ -7020,7 +9681,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "discovery"
         ]
       },
       "Data Science": {
@@ -7033,7 +9695,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "statistics"
         ]
       },
       "DataDog": {
@@ -7046,7 +9709,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "cloud",
+          "saas"
         ]
       },
       "Databricks": {
@@ -7060,7 +9725,11 @@ data = [
           "data-engineering",
           "processing",
           "ml",
-          "distributed"
+          "distributed",
+          "data",
+          "analytics",
+          "spark",
+          "cloud"
         ]
       },
       "Deep Learning": {
@@ -7073,7 +9742,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "neural-networks"
         ]
       },
       "Delphi": {
@@ -7081,16 +9751,33 @@ data = [
         "percentage": 0.9259,
         "rank": 69,
         "full_term": "Delphi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "desktop",
+          "enterprise",
+          "pascal",
+          "legacy"
+        ]
       },
       "Delta Lake": {
         "count": 0,
         "percentage": 0,
         "rank": 208,
         "full_term": "Delta Lake/alias[Delta Lake|DeltaLake]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "data-lake",
+          "data-engineering",
+          "analytics",
+          "data",
+          "datalake",
+          "databricks",
+          "table-format"
+        ]
       },
       "Deno": {
         "count": 0,
@@ -7102,7 +9789,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "typescript"
         ]
       },
       "DevOps": {
@@ -7115,7 +9803,9 @@ data = [
         "tags": [
           "devops",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "culture",
+          "automation"
         ]
       },
       "DevSecOps": {
@@ -7129,7 +9819,9 @@ data = [
           "devops",
           "security",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "automation",
+          "culture"
         ]
       },
       "Distributed Systems": {
@@ -7142,7 +9834,9 @@ data = [
         "tags": [
           "distributed",
           "backend",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "scalability"
         ]
       },
       "Django": {
@@ -7169,7 +9863,9 @@ data = [
         "tags": [
           "container",
           "infrastructure",
-          "devops"
+          "devops",
+          "containers",
+          "virtualization"
         ]
       },
       "Drupal": {
@@ -7177,8 +9873,15 @@ data = [
         "percentage": 0.9259,
         "rank": 70,
         "full_term": "Drupal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "cms",
+          "php",
+          "web",
+          "content"
+        ]
       },
       "DuckDB": {
         "count": 0,
@@ -7191,7 +9894,9 @@ data = [
           "database",
           "analytics",
           "sql",
-          "storage"
+          "storage",
+          "olap",
+          "in-process"
         ]
       },
       "DynamoDB": {
@@ -7206,7 +9911,8 @@ data = [
           "nosql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "serverless"
         ]
       },
       "EC2": {
@@ -7220,7 +9926,8 @@ data = [
           "cloud",
           "compute",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "vms"
         ]
       },
       "ECS": {
@@ -7234,7 +9941,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "containers",
+          "orchestration"
         ]
       },
       "EDI": {
@@ -7242,8 +9951,16 @@ data = [
         "percentage": 0,
         "rank": 219,
         "full_term": "EDI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "integration",
+          "enterprise",
+          "data",
+          "b2b",
+          "legacy"
+        ]
       },
       "ELK": {
         "count": 0,
@@ -7256,7 +9973,10 @@ data = [
           "sre",
           "observability",
           "logging",
-          "search"
+          "search",
+          "monitoring",
+          "elasticsearch",
+          "kibana"
         ]
       },
       "ES6": {
@@ -7264,16 +9984,31 @@ data = [
         "percentage": 0,
         "rank": 231,
         "full_term": "ES6",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "javascript",
+          "frontend",
+          "web",
+          "ecmascript",
+          "standard"
+        ]
       },
       "ESP-IDF": {
         "count": 0,
         "percentage": 0,
         "rank": 232,
         "full_term": "ESP-IDF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "hardware",
+          "espressif",
+          "c"
+        ]
       },
       "ETL": {
         "count": 0,
@@ -7285,7 +10020,11 @@ data = [
         "tags": [
           "data-engineering",
           "processing",
-          "pipeline"
+          "pipeline",
+          "data",
+          "integration",
+          "pipelines",
+          "analytics"
         ]
       },
       "Eclipse": {
@@ -7293,8 +10032,14 @@ data = [
         "percentage": 0,
         "rank": 215,
         "full_term": "Eclipse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "ide",
+          "java",
+          "tooling"
+        ]
       },
       "Edge Computing": {
         "count": 0,
@@ -7307,7 +10052,8 @@ data = [
           "cloud",
           "edge",
           "network",
-          "distributed"
+          "distributed",
+          "latency"
         ]
       },
       "Edge Functions": {
@@ -7315,16 +10061,29 @@ data = [
         "percentage": 0,
         "rank": 218,
         "full_term": "Edge Functions",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "edge",
+          "serverless",
+          "backend",
+          "compute"
+        ]
       },
       "Eiffel": {
         "count": 0,
         "percentage": 0,
         "rank": 220,
         "full_term": "Eiffel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "object-oriented",
+          "legacy"
+        ]
       },
       "ElastiCache": {
         "count": 0,
@@ -7337,7 +10096,10 @@ data = [
           "database",
           "cache",
           "aws",
-          "storage"
+          "storage",
+          "cloud",
+          "caching",
+          "redis"
         ]
       },
       "Elasticsearch": {
@@ -7351,7 +10113,9 @@ data = [
           "database",
           "search",
           "storage",
-          "observability"
+          "observability",
+          "analytics",
+          "nosql"
         ]
       },
       "Electron": {
@@ -7364,7 +10128,8 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "javascript"
+          "javascript",
+          "cross-platform"
         ]
       },
       "Elixir": {
@@ -7377,7 +10142,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "erlang-vm",
+          "functional"
         ]
       },
       "Elm": {
@@ -7390,7 +10157,8 @@ data = [
         "tags": [
           "language",
           "frontend",
-          "functional"
+          "functional",
+          "javascript"
         ]
       },
       "Emacs": {
@@ -7398,8 +10166,14 @@ data = [
         "percentage": 0,
         "rank": 226,
         "full_term": "Emacs",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux"
+        ]
       },
       "Embedded Systems": {
         "count": 0,
@@ -7411,7 +10185,10 @@ data = [
         "tags": [
           "embedded",
           "systems",
-          "hardware"
+          "hardware",
+          "iot",
+          "low-level",
+          "c"
         ]
       },
       "Embeddings": {
@@ -7425,7 +10202,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "vector-search"
+          "vector-search",
+          "nlp",
+          "vector"
         ]
       },
       "Ember": {
@@ -7447,8 +10226,16 @@ data = [
         "percentage": 0,
         "rank": 230,
         "full_term": "EmberJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Erlang": {
         "count": 3,
@@ -7460,7 +10247,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "concurrent",
+          "telecom"
         ]
       },
       "Ethereum": {
@@ -7473,7 +10262,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "smart-contracts"
         ]
       },
       "EventBridge": {
@@ -7487,7 +10278,9 @@ data = [
           "cloud",
           "eventing",
           "aws",
-          "backend"
+          "backend",
+          "events",
+          "serverless"
         ]
       },
       "Express": {
@@ -7501,7 +10294,8 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs"
         ]
       },
       "ExpressJS": {
@@ -7509,8 +10303,18 @@ data = [
         "percentage": 0,
         "rank": 237,
         "full_term": "ExpressJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs"
+        ]
       },
       "F#": {
         "count": 0,
@@ -7522,7 +10326,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "dotnet"
+          "dotnet",
+          "microsoft"
         ]
       },
       "FAISS": {
@@ -7536,7 +10341,8 @@ data = [
           "ai",
           "ml",
           "vector-search",
-          "storage"
+          "storage",
+          "facebook"
         ]
       },
       "FIDO": {
@@ -7544,24 +10350,44 @@ data = [
         "percentage": 0,
         "rank": 247,
         "full_term": "FIDO",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "hardware",
+          "authentication",
+          "passkeys"
+        ]
       },
       "Factor": {
         "count": 0,
         "percentage": 0,
         "rank": 239,
         "full_term": "Factor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "concatenative",
+          "stack-based"
+        ]
       },
       "Falco": {
         "count": 0,
         "percentage": 0,
         "rank": 241,
         "full_term": "Falco",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "runtime",
+          "kubernetes",
+          "container",
+          "cncf"
+        ]
       },
       "Fargate": {
         "count": 0,
@@ -7574,7 +10400,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "serverless",
+          "containers"
         ]
       },
       "FastAPI": {
@@ -7596,8 +10424,19 @@ data = [
         "percentage": 0,
         "rank": 244,
         "full_term": "Fastify",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs",
+          "performance"
+        ]
       },
       "Feature Flags": {
         "count": 0,
@@ -7609,7 +10448,9 @@ data = [
         "tags": [
           "tooling",
           "release-management",
-          "backend"
+          "backend",
+          "devops",
+          "feature-toggles"
         ]
       },
       "Fiber": {
@@ -7617,8 +10458,17 @@ data = [
         "percentage": 0,
         "rank": 246,
         "full_term": "Fiber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "performance"
+        ]
       },
       "Figma": {
         "count": 0,
@@ -7630,7 +10480,10 @@ data = [
         "tags": [
           "design",
           "tooling",
-          "frontend"
+          "frontend",
+          "ui",
+          "ux",
+          "prototyping"
         ]
       },
       "Fintech": {
@@ -7642,7 +10495,9 @@ data = [
         "primary_family": "Industry",
         "tags": [
           "industry",
-          "finance"
+          "finance",
+          "domain",
+          "technology"
         ]
       },
       "Firebase": {
@@ -7656,7 +10511,8 @@ data = [
           "cloud",
           "backend",
           "mobile",
-          "google"
+          "google",
+          "baas"
         ]
       },
       "Firecracker": {
@@ -7664,8 +10520,15 @@ data = [
         "percentage": 0,
         "rank": 251,
         "full_term": "Firecracker",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "infrastructure",
+          "virtualization",
+          "serverless",
+          "aws",
+          "microvms"
+        ]
       },
       "Flask": {
         "count": 0,
@@ -7678,7 +10541,8 @@ data = [
           "backend",
           "framework",
           "python",
-          "web"
+          "web",
+          "microframework"
         ]
       },
       "Flink SQL": {
@@ -7692,7 +10556,10 @@ data = [
           "stream-processing",
           "sql",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache-flink"
         ]
       },
       "Flutter": {
@@ -7706,7 +10573,8 @@ data = [
           "mobile",
           "frontend",
           "dart",
-          "cross-platform"
+          "cross-platform",
+          "google"
         ]
       },
       "Flux": {
@@ -7714,32 +10582,61 @@ data = [
         "percentage": 0,
         "rank": 255,
         "full_term": "Flux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "kubernetes",
+          "gitops",
+          "devops",
+          "infrastructure",
+          "cd"
+        ]
       },
       "Forth": {
         "count": 0,
         "percentage": 0,
         "rank": 256,
         "full_term": "Forth",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "embedded",
+          "systems",
+          "stack-based",
+          "low-level"
+        ]
       },
       "Fortran": {
         "count": 0,
         "percentage": 0,
         "rank": 257,
         "full_term": "Fortran",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scientific",
+          "hpc",
+          "math",
+          "legacy"
+        ]
       },
       "FreeRTOS": {
         "count": 0,
         "percentage": 0,
         "rank": 258,
         "full_term": "FreeRTOS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "rtos",
+          "hardware",
+          "os",
+          "real-time"
+        ]
       },
       "Front End": {
         "count": 43,
@@ -7750,7 +10647,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "frontend",
-          "work-area"
+          "work-area",
+          "ui",
+          "client-side"
         ]
       },
       "Full Stack": {
@@ -7763,7 +10662,9 @@ data = [
         "tags": [
           "frontend",
           "backend",
-          "work-area"
+          "work-area",
+          "fullstack",
+          "generalist"
         ]
       },
       "GCP": {
@@ -7776,7 +10677,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "GIS": {
@@ -7784,8 +10686,16 @@ data = [
         "percentage": 0,
         "rank": 266,
         "full_term": "GIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "geospatial",
+          "data",
+          "analytics",
+          "domain",
+          "mapping",
+          "location"
+        ]
       },
       "GPT": {
         "count": 0,
@@ -7796,7 +10706,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "openai",
+          "generative-ai"
         ]
       },
       "GPT-3": {
@@ -7804,48 +10716,92 @@ data = [
         "percentage": 0,
         "rank": 274,
         "full_term": "GPT-3",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPT-4": {
         "count": 0,
         "percentage": 0,
         "rank": 275,
         "full_term": "GPT-4",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPU": {
         "count": 1,
         "percentage": 0.463,
         "rank": 91,
         "full_term": "GPU/alias[GPU|GPUs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "processing",
+          "hardware",
+          "ml",
+          "hpc",
+          "compute",
+          "ai",
+          "graphics"
+        ]
       },
       "Gatsby": {
         "count": 0,
         "percentage": 0,
         "rank": 259,
         "full_term": "Gatsby",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "static-site-generator",
+          "graphql"
+        ]
       },
       "Gearman": {
         "count": 0,
         "percentage": 0,
         "rank": 261,
         "full_term": "Gearman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "distributed"
+        ]
       },
       "Gemini": {
         "count": 0,
         "percentage": 0,
         "rank": 262,
         "full_term": "Gemini",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "google",
+          "multimodal"
+        ]
       },
       "Generative AI": {
         "count": 0,
@@ -7857,7 +10813,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "generative-ai"
+          "generative-ai",
+          "generative",
+          "ml"
         ]
       },
       "Gin": {
@@ -7865,16 +10823,33 @@ data = [
         "percentage": 0,
         "rank": 264,
         "full_term": "Gin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "api"
+        ]
       },
       "Giraph": {
         "count": 0,
         "percentage": 0,
         "rank": 265,
         "full_term": "Giraph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "graph-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Git": {
         "count": 3,
@@ -7885,7 +10860,9 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "version-control"
+          "version-control",
+          "vcs",
+          "tooling"
         ]
       },
       "GitHub": {
@@ -7898,7 +10875,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "collaboration",
+          "ci-cd"
         ]
       },
       "GitLab": {
@@ -7911,7 +10892,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "ci-cd",
+          "devops"
         ]
       },
       "GitOps": {
@@ -7925,7 +10910,10 @@ data = [
           "gitops",
           "devops",
           "infrastructure",
-          "kubernetes"
+          "kubernetes",
+          "git",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "Go": {
@@ -7939,7 +10927,8 @@ data = [
           "language",
           "backend",
           "systems",
-          "cloud"
+          "cloud",
+          "google"
         ]
       },
       "Golden Path": {
@@ -7947,8 +10936,14 @@ data = [
         "percentage": 0,
         "rank": 270,
         "full_term": "Golden Path",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-experience",
+          "developer-platform",
+          "standards"
+        ]
       },
       "Google Cloud": {
         "count": 0,
@@ -7960,7 +10955,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "Google Cloud Functions": {
@@ -7974,7 +10970,9 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "google"
+          "google",
+          "gcp",
+          "compute"
         ]
       },
       "Grafana": {
@@ -7987,7 +10985,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "visualization",
+          "dashboards"
         ]
       },
       "GraphQL": {
@@ -8000,7 +11000,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "query-language",
+          "frontend"
         ]
       },
       "Graphite": {
@@ -8008,48 +11010,93 @@ data = [
         "percentage": 0.463,
         "rank": 92,
         "full_term": "Graphite",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "monitoring",
+          "metrics",
+          "time-series"
+        ]
       },
       "Greptile": {
         "count": 0,
         "percentage": 0,
         "rank": 278,
         "full_term": "Greptile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "coding",
+          "codebase-understanding",
+          "tooling"
+        ]
       },
       "Groovy": {
         "count": 1,
         "percentage": 0.463,
         "rank": 93,
         "full_term": "Groovy",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "jvm",
+          "scripting",
+          "java"
+        ]
       },
       "Groq": {
         "count": 0,
         "percentage": 0,
         "rank": 279,
         "full_term": "Groq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "inference",
+          "hardware",
+          "lpu"
+        ]
       },
       "Grunt": {
         "count": 0,
         "percentage": 0,
         "rank": 281,
         "full_term": "Grunt/js[Grunt]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "Gulp": {
         "count": 0,
         "percentage": 0,
         "rank": 282,
         "full_term": "Gulp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "HAProxy": {
         "count": 0,
@@ -8061,7 +11108,11 @@ data = [
         "tags": [
           "network",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "networking",
+          "load-balancer",
+          "proxy",
+          "tcp-http"
         ]
       },
       "HDFS": {
@@ -8074,7 +11125,9 @@ data = [
         "tags": [
           "storage",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "hadoop"
         ]
       },
       "HPC": {
@@ -8087,7 +11140,10 @@ data = [
         "tags": [
           "processing",
           "distributed",
-          "performance"
+          "performance",
+          "infrastructure",
+          "compute",
+          "high-performance"
         ]
       },
       "HTML5": {
@@ -8100,7 +11156,9 @@ data = [
         "tags": [
           "frontend",
           "html",
-          "web"
+          "web",
+          "markup",
+          "standard"
         ]
       },
       "HaXe": {
@@ -8108,8 +11166,14 @@ data = [
         "percentage": 0,
         "rank": 285,
         "full_term": "HaXe",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "cross-platform",
+          "compiler"
+        ]
       },
       "Hadoop": {
         "count": 5,
@@ -8122,7 +11186,10 @@ data = [
           "data-engineering",
           "distributed",
           "processing",
-          "storage"
+          "storage",
+          "data",
+          "big-data",
+          "apache"
         ]
       },
       "Haskell": {
@@ -8135,7 +11202,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "pure"
         ]
       },
       "Helm": {
@@ -8149,7 +11217,8 @@ data = [
           "kubernetes",
           "devops",
           "packaging",
-          "infrastructure"
+          "infrastructure",
+          "package-manager"
         ]
       },
       "Heroku": {
@@ -8162,7 +11231,9 @@ data = [
         "tags": [
           "cloud",
           "paas",
-          "backend"
+          "backend",
+          "hosting",
+          "deployment"
         ]
       },
       "Hive": {
@@ -8175,7 +11246,11 @@ data = [
         "tags": [
           "data-engineering",
           "sql",
-          "distributed"
+          "distributed",
+          "data",
+          "data-warehouse",
+          "apache",
+          "hadoop"
         ]
       },
       "Hotwire": {
@@ -8183,24 +11258,49 @@ data = [
         "percentage": 0,
         "rank": 287,
         "full_term": "Hotwire",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "rails",
+          "html-over-the-wire",
+          "ruby-on-rails"
+        ]
       },
       "Hudson": {
         "count": 0,
         "percentage": 0,
         "rank": 289,
         "full_term": "Hudson",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "ci",
+          "developer-tooling",
+          "java",
+          "devops",
+          "legacy",
+          "jenkins-predecessor"
+        ]
       },
       "Hugging Face": {
         "count": 0,
         "percentage": 0,
         "rank": 290,
         "full_term": "Hugging Face/alias[Hugging Face|HuggingFace]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "llm",
+          "model-hub",
+          "tooling",
+          "platform",
+          "models"
+        ]
       },
       "Hybrid": {
         "count": 1,
@@ -8211,7 +11311,11 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "hybrid",
-          "work-mode"
+          "work-mode",
+          "infrastructure",
+          "cloud",
+          "on-premise",
+          "architecture"
         ]
       },
       "IAM": {
@@ -8224,7 +11328,8 @@ data = [
         "tags": [
           "security",
           "identity",
-          "cloud"
+          "cloud",
+          "access-management"
         ]
       },
       "IaC": {
@@ -8237,7 +11342,9 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "InfluxDB": {
@@ -8251,7 +11358,9 @@ data = [
           "database",
           "time-series",
           "storage",
-          "observability"
+          "observability",
+          "monitoring",
+          "iot"
         ]
       },
       "Internal Developer Platform": {
@@ -8264,7 +11373,10 @@ data = [
         "tags": [
           "platform-engineering",
           "developer-platform",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "developer-experience",
+          "idp"
         ]
       },
       "Istio": {
@@ -8278,7 +11390,9 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "networking"
         ]
       },
       "JBoss": {
@@ -8286,8 +11400,14 @@ data = [
         "percentage": 0,
         "rank": 298,
         "full_term": "JBoss",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "application-server",
+          "redhat"
+        ]
       },
       "JSON": {
         "count": 2,
@@ -8299,7 +11419,10 @@ data = [
         "tags": [
           "data-format",
           "api",
-          "backend"
+          "backend",
+          "data",
+          "format",
+          "web"
         ]
       },
       "JSON API": {
@@ -8307,24 +11430,44 @@ data = [
         "percentage": 0,
         "rank": 301,
         "full_term": "JSON API",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "data-format",
+          "rest",
+          "json",
+          "standard"
+        ]
       },
       "JSP": {
         "count": 1,
         "percentage": 0.463,
         "rank": 97,
         "full_term": "JSP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "web",
+          "legacy"
+        ]
       },
       "JUnit": {
         "count": 0,
         "percentage": 0,
         "rank": 303,
         "full_term": "JUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "java",
+          "jvm",
+          "backend"
+        ]
       },
       "JWT": {
         "count": 0,
@@ -8336,7 +11479,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "api"
+          "api",
+          "authentication",
+          "tokens",
+          "web"
         ]
       },
       "Jaeger": {
@@ -8349,7 +11495,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "cncf"
         ]
       },
       "Java": {
@@ -8362,7 +11510,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "JavaScript": {
@@ -8389,7 +11538,10 @@ data = [
         "tags": [
           "ci",
           "devops",
-          "developer-tooling"
+          "developer-tooling",
+          "ci-cd",
+          "automation",
+          "java"
         ]
       },
       "Jest": {
@@ -8402,7 +11554,8 @@ data = [
         "tags": [
           "testing",
           "frontend",
-          "javascript"
+          "javascript",
+          "react"
         ]
       },
       "Julia": {
@@ -8416,7 +11569,10 @@ data = [
           "language",
           "ml",
           "data",
-          "processing"
+          "processing",
+          "data-science",
+          "math",
+          "performance"
         ]
       },
       "Junior": {
@@ -8428,7 +11584,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "junior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "entry-level"
         ]
       },
       "Jupyter": {
@@ -8441,7 +11600,9 @@ data = [
         "tags": [
           "data-science",
           "ml",
-          "tooling"
+          "tooling",
+          "notebooks",
+          "python"
         ]
       },
       "K8s": {
@@ -8455,7 +11616,10 @@ data = [
           "kubernetes",
           "container",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "orchestration",
+          "containers"
         ]
       },
       "Kafka": {
@@ -8470,7 +11634,9 @@ data = [
           "messaging",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "apache"
         ]
       },
       "Kafka Streams": {
@@ -8484,7 +11650,11 @@ data = [
           "stream-processing",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "kafka",
+          "java"
         ]
       },
       "Keras": {
@@ -8506,16 +11676,31 @@ data = [
         "percentage": 0,
         "rank": 310,
         "full_term": "Kestrel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "dotnet",
+          "web-server",
+          "microsoft"
+        ]
       },
       "Keycloak": {
         "count": 0,
         "percentage": 0,
         "rank": 311,
         "full_term": "Keycloak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "sso",
+          "iam",
+          "authentication",
+          "open-source"
+        ]
       },
       "Kinesis": {
         "count": 0,
@@ -8528,7 +11713,9 @@ data = [
           "stream-processing",
           "cloud",
           "aws",
-          "data-engineering"
+          "data-engineering",
+          "streaming",
+          "data"
         ]
       },
       "Knative": {
@@ -8541,7 +11728,9 @@ data = [
         "tags": [
           "kubernetes",
           "serverless",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "cncf"
         ]
       },
       "Knockout": {
@@ -8549,16 +11738,30 @@ data = [
         "percentage": 0,
         "rank": 314,
         "full_term": "Knockout/js[Knockout]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "KnockoutJS": {
         "count": 0,
         "percentage": 0,
         "rank": 315,
         "full_term": "KnockoutJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Kotlin": {
         "count": 0,
@@ -8571,7 +11774,8 @@ data = [
           "language",
           "mobile",
           "backend",
-          "jvm"
+          "jvm",
+          "android"
         ]
       },
       "Kubeflow": {
@@ -8585,7 +11789,8 @@ data = [
           "ai",
           "ml",
           "kubernetes",
-          "workflow"
+          "workflow",
+          "mlops"
         ]
       },
       "Kubernetes": {
@@ -8601,7 +11806,10 @@ data = [
           "orchestration",
           "distributed",
           "sre",
-          "cloud"
+          "cloud",
+          "devops",
+          "containers",
+          "cncf"
         ]
       },
       "LAMP": {
@@ -8609,16 +11817,32 @@ data = [
         "percentage": 2.7778,
         "rank": 37,
         "full_term": "LAMP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "stack",
+          "php",
+          "linux",
+          "web",
+          "architecture",
+          "apache",
+          "mysql"
+        ]
       },
       "LESS": {
         "count": 1,
         "percentage": 0.463,
         "rank": 98,
         "full_term": "LESS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "legacy"
+        ]
       },
       "LLMOps": {
         "count": 0,
@@ -8631,7 +11855,8 @@ data = [
           "ai",
           "llm",
           "mlops",
-          "infrastructure"
+          "infrastructure",
+          "operations"
         ]
       },
       "LLaMA": {
@@ -8644,7 +11869,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "model"
+          "model",
+          "meta",
+          "open-weights"
         ]
       },
       "Lambda": {
@@ -8657,7 +11884,9 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "aws",
+          "compute"
         ]
       },
       "LanceDB": {
@@ -8665,8 +11894,20 @@ data = [
         "percentage": 0,
         "rank": 321,
         "full_term": "LanceDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "serverless"
+        ]
       },
       "LangChain": {
         "count": 0,
@@ -8678,7 +11919,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "framework"
+          "framework",
+          "python"
         ]
       },
       "LangGraph": {
@@ -8700,16 +11942,33 @@ data = [
         "percentage": 0,
         "rank": 323,
         "full_term": "Langfuse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "observability",
+          "evals",
+          "prompt-management",
+          "analytics"
+        ]
       },
       "Laravel": {
         "count": 0,
         "percentage": 0,
         "rank": 325,
         "full_term": "Laravel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Large Language Model": {
         "count": 0,
@@ -8720,7 +11979,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "generative-ai",
+          "nlp"
         ]
       },
       "LaunchDarkly": {
@@ -8733,7 +11994,9 @@ data = [
         "tags": [
           "feature-flags",
           "release-management",
-          "tooling"
+          "tooling",
+          "devops",
+          "saas"
         ]
       },
       "Linkerd": {
@@ -8741,8 +12004,16 @@ data = [
         "percentage": 0,
         "rank": 328,
         "full_term": "Linkerd",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "service-mesh",
+          "kubernetes",
+          "network",
+          "infrastructure",
+          "devops",
+          "cncf"
+        ]
       },
       "Linux": {
         "count": 12,
@@ -8754,7 +12025,10 @@ data = [
         "tags": [
           "linux",
           "systems",
-          "infrastructure"
+          "infrastructure",
+          "os",
+          "open-source",
+          "backend"
         ]
       },
       "Lisp": {
@@ -8762,8 +12036,14 @@ data = [
         "percentage": 0,
         "rank": 329,
         "full_term": "Lisp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "macros"
+        ]
       },
       "LlamaIndex": {
         "count": 0,
@@ -8776,7 +12056,8 @@ data = [
           "ai",
           "llm",
           "rag",
-          "framework"
+          "framework",
+          "data-framework"
         ]
       },
       "Logos": {
@@ -8784,32 +12065,60 @@ data = [
         "percentage": 0,
         "rank": 333,
         "full_term": "Logos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "blockchain",
+          "network",
+          "crypto"
+        ]
       },
       "Loki": {
         "count": 0,
         "percentage": 0,
         "rank": 334,
         "full_term": "Loki",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "logging",
+          "grafana",
+          "kubernetes"
+        ]
       },
       "Lua": {
         "count": 0,
         "percentage": 0,
         "rank": 335,
         "full_term": "Lua",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "embedded",
+          "gaming"
+        ]
       },
       "Lucene": {
         "count": 2,
         "percentage": 0.9259,
         "rank": 72,
         "full_term": "Lucene",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "search",
+          "java",
+          "storage",
+          "apache",
+          "indexing"
+        ]
       },
       "MATLAB": {
         "count": 0,
@@ -8821,7 +12130,10 @@ data = [
         "tags": [
           "language",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "engineering",
+          "scientific"
         ]
       },
       "MCP": {
@@ -8835,7 +12147,10 @@ data = [
           "ai",
           "llm",
           "protocol",
-          "tooling"
+          "tooling",
+          "architecture",
+          "microservices",
+          "pattern"
         ]
       },
       "MFA": {
@@ -8843,8 +12158,15 @@ data = [
         "percentage": 0,
         "rank": 346,
         "full_term": "MFA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "authentication",
+          "multi-factor"
+        ]
       },
       "MLflow": {
         "count": 0,
@@ -8857,7 +12179,9 @@ data = [
           "ai",
           "ml",
           "mlops",
-          "tooling"
+          "tooling",
+          "databricks",
+          "lifecycle"
         ]
       },
       "MQTT": {
@@ -8870,7 +12194,9 @@ data = [
         "tags": [
           "network",
           "messaging",
-          "iot"
+          "iot",
+          "networking",
+          "protocol"
         ]
       },
       "MSMQ": {
@@ -8878,8 +12204,15 @@ data = [
         "percentage": 0,
         "rank": 351,
         "full_term": "MSMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "microsoft",
+          "queue",
+          "legacy"
+        ]
       },
       "Machine Learning": {
         "count": 3,
@@ -8890,7 +12223,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "ml"
+          "ml",
+          "data-science",
+          "algorithms"
         ]
       },
       "Mahout": {
@@ -8898,16 +12233,34 @@ data = [
         "percentage": 0,
         "rank": 336,
         "full_term": "Mahout",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "distributed",
+          "data",
+          "apache",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MapReduce": {
         "count": 1,
         "percentage": 0.463,
         "rank": 99,
         "full_term": "MapReduce",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "batch-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "distributed-computing",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MariaDB": {
         "count": 0,
@@ -8919,7 +12272,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "mysql-fork"
         ]
       },
       "Materialize": {
@@ -8932,7 +12287,10 @@ data = [
         "tags": [
           "stream-processing",
           "sql",
-          "data-engineering"
+          "data-engineering",
+          "database",
+          "streaming",
+          "real-time"
         ]
       },
       "Maven": {
@@ -8940,40 +12298,78 @@ data = [
         "percentage": 0,
         "rank": 340,
         "full_term": "Maven",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "build",
+          "java",
+          "build-tool",
+          "dependency-management"
+        ]
       },
       "Mercurial": {
         "count": 0,
         "percentage": 0,
         "rank": 342,
         "full_term": "Mercurial",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "version-control",
+          "vcs",
+          "legacy"
+        ]
       },
       "Mesos": {
         "count": 0,
         "percentage": 0,
         "rank": 343,
         "full_term": "Mesos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "orchestration",
+          "infrastructure",
+          "distributed",
+          "devops",
+          "cluster-management",
+          "apache",
+          "legacy"
+        ]
       },
       "Metabase": {
         "count": 0,
         "percentage": 0,
         "rank": 344,
         "full_term": "Metabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-engineering",
+          "data",
+          "visualization"
+        ]
       },
       "Meteor": {
         "count": 0,
         "percentage": 0,
         "rank": 345,
         "full_term": "Meteor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "framework",
+          "fullstack",
+          "nodejs"
+        ]
       },
       "Microservices": {
         "count": 0,
@@ -8985,7 +12381,8 @@ data = [
         "tags": [
           "backend",
           "distributed",
-          "architecture"
+          "architecture",
+          "distributed-systems"
         ]
       },
       "Milvus": {
@@ -8998,8 +12395,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "MongoDB": {
@@ -9027,7 +12430,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "oracle"
         ]
       },
       "NFC": {
@@ -9040,7 +12445,9 @@ data = [
         "tags": [
           "network",
           "mobile",
-          "hardware"
+          "hardware",
+          "networking",
+          "contactless"
         ]
       },
       "NLP": {
@@ -9053,7 +12460,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "nlp"
+          "nlp",
+          "natural-language-processing",
+          "text"
         ]
       },
       "NServiceBus": {
@@ -9061,24 +12470,42 @@ data = [
         "percentage": 0,
         "rank": 361,
         "full_term": "NServiceBus",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "dotnet",
+          "service-bus"
+        ]
       },
       "NUnit": {
         "count": 0,
         "percentage": 0,
         "rank": 363,
         "full_term": "NUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "dotnet",
+          "backend"
+        ]
       },
       "Nagios": {
         "count": 0,
         "percentage": 0,
         "rank": 353,
         "full_term": "Nagios",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "legacy"
+        ]
       },
       "Neo4j": {
         "count": 0,
@@ -9090,7 +12517,8 @@ data = [
         "tags": [
           "database",
           "graph",
-          "storage"
+          "storage",
+          "nosql"
         ]
       },
       "NestJS": {
@@ -9104,7 +12532,9 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs",
+          "typescript"
         ]
       },
       "Next.js": {
@@ -9119,7 +12549,9 @@ data = [
           "backend",
           "web",
           "javascript",
-          "react"
+          "react",
+          "framework",
+          "ssr"
         ]
       },
       "NextJS": {
@@ -9127,8 +12559,17 @@ data = [
         "percentage": 0,
         "rank": 357,
         "full_term": "NextJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "ssr"
+        ]
       },
       "Nix": {
         "count": 0,
@@ -9140,7 +12581,10 @@ data = [
         "tags": [
           "infrastructure",
           "build",
-          "devops"
+          "devops",
+          "package-manager",
+          "build-tool",
+          "reproducibility"
         ]
       },
       "Node.js": {
@@ -9153,7 +12597,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "v8"
         ]
       },
       "Nomad": {
@@ -9166,7 +12611,10 @@ data = [
         "tags": [
           "orchestration",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "hashicorp",
+          "containers"
         ]
       },
       "NumPy": {
@@ -9179,7 +12627,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "ml"
+          "ml",
+          "math",
+          "arrays"
         ]
       },
       "Nuxt": {
@@ -9193,7 +12643,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "vue"
+          "vue",
+          "framework",
+          "ssr"
         ]
       },
       "Nuxt.js": {
@@ -9201,16 +12653,34 @@ data = [
         "percentage": 0,
         "rank": 365,
         "full_term": "Nuxt.js",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "NuxtJS": {
         "count": 0,
         "percentage": 0,
         "rank": 366,
         "full_term": "NuxtJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "OAuth": {
         "count": 0,
@@ -9222,7 +12692,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OAuth2": {
@@ -9235,7 +12708,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OCaml": {
@@ -9248,7 +12724,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "strongly-typed"
         ]
       },
       "OIDC": {
@@ -9261,7 +12738,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OPA": {
@@ -9274,7 +12753,9 @@ data = [
         "tags": [
           "security",
           "policy",
-          "kubernetes"
+          "kubernetes",
+          "policy-as-code",
+          "cncf"
         ]
       },
       "OPA Gatekeeper": {
@@ -9282,32 +12763,58 @@ data = [
         "percentage": 0,
         "rank": 375,
         "full_term": "OPA Gatekeeper",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "policy",
+          "kubernetes",
+          "admission-controller"
+        ]
       },
       "OR-Tools": {
         "count": 0,
         "percentage": 0,
         "rank": 383,
         "full_term": "OR-Tools/alias[OR-Tools|OR-tools]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "optimization",
+          "operations-research",
+          "processing",
+          "ai",
+          "google",
+          "math"
+        ]
       },
       "OSINT": {
         "count": 0,
         "percentage": 0,
         "rank": 384,
         "full_term": "OSINT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "intelligence",
+          "investigation",
+          "reconnaissance"
+        ]
       },
       "OTA": {
         "count": 0,
         "percentage": 0,
         "rank": 385,
         "full_term": "OTA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "iot",
+          "updates",
+          "over-the-air"
+        ]
       },
       "Objective-C": {
         "count": 5,
@@ -9319,7 +12826,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Objective-J": {
@@ -9327,8 +12835,15 @@ data = [
         "percentage": 0,
         "rank": 369,
         "full_term": "Objective-J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "web",
+          "javascript-superset",
+          "legacy"
+        ]
       },
       "Observability": {
         "count": 0,
@@ -9340,7 +12855,10 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "devops",
+          "tracing",
+          "metrics"
         ]
       },
       "Octave": {
@@ -9348,8 +12866,15 @@ data = [
         "percentage": 0,
         "rank": 372,
         "full_term": "Octave",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "data",
+          "scientific",
+          "math",
+          "matlab-alternative"
+        ]
       },
       "Onsite": {
         "count": 7,
@@ -9360,7 +12885,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "onsite",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "office"
         ]
       },
       "Open Source": {
@@ -9371,7 +12899,9 @@ data = [
         "kind": "Work Attribute",
         "primary_family": "Work Attribute",
         "tags": [
-          "open-source"
+          "open-source",
+          "community",
+          "licensing"
         ]
       },
       "OpenAI": {
@@ -9384,7 +12914,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "platform"
+          "platform",
+          "company",
+          "generative-ai"
         ]
       },
       "OpenAI API": {
@@ -9397,7 +12929,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "api"
+          "api",
+          "integration"
         ]
       },
       "OpenCV": {
@@ -9410,7 +12943,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "c++",
+          "python"
         ]
       },
       "OpenGL": {
@@ -9422,7 +12957,10 @@ data = [
         "primary_family": "Frontend",
         "tags": [
           "graphics",
-          "frontend"
+          "frontend",
+          "rendering",
+          "api",
+          "c"
         ]
       },
       "OpenID Connect": {
@@ -9435,7 +12973,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OpenStack": {
@@ -9448,7 +12988,9 @@ data = [
         "tags": [
           "cloud",
           "infrastructure",
-          "private-cloud"
+          "private-cloud",
+          "iaas",
+          "open-source"
         ]
       },
       "OpenTelemetry": {
@@ -9462,7 +13004,8 @@ data = [
           "sre",
           "observability",
           "tracing",
-          "metrics"
+          "metrics",
+          "cncf"
         ]
       },
       "OpenTofu": {
@@ -9475,7 +13018,8 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "terraform-fork"
         ]
       },
       "Oracle": {
@@ -9488,7 +13032,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "enterprise"
         ]
       },
       "PHP": {
@@ -9514,7 +13060,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "analytics"
+          "analytics",
+          "data-analysis",
+          "dataframes"
         ]
       },
       "Parquet": {
@@ -9527,7 +13075,10 @@ data = [
         "tags": [
           "storage",
           "data-format",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "columnar",
+          "apache"
         ]
       },
       "Pentaho": {
@@ -9535,8 +13086,15 @@ data = [
         "percentage": 0,
         "rank": 388,
         "full_term": "Pentaho",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "etl",
+          "data-engineering",
+          "data"
+        ]
       },
       "Perl": {
         "count": 3,
@@ -9548,7 +13106,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "scripting"
+          "scripting",
+          "legacy",
+          "text-processing"
         ]
       },
       "PhantomJS": {
@@ -9556,8 +13116,16 @@ data = [
         "percentage": 0,
         "rank": 389,
         "full_term": "PhantomJS/js[phantom]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "frontend",
+          "javascript",
+          "browser",
+          "headless",
+          "legacy"
+        ]
       },
       "Phoenix": {
         "count": 1,
@@ -9569,7 +13137,8 @@ data = [
         "tags": [
           "backend",
           "framework",
-          "elixir"
+          "elixir",
+          "web"
         ]
       },
       "Pig": {
@@ -9577,8 +13146,16 @@ data = [
         "percentage": 0,
         "rank": 390,
         "full_term": "Pig",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "hadoop",
+          "query-language",
+          "data",
+          "scripting",
+          "apache"
+        ]
       },
       "Pinecone": {
         "count": 0,
@@ -9590,8 +13167,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "Pipedream": {
@@ -9599,8 +13182,15 @@ data = [
         "percentage": 0,
         "rank": 392,
         "full_term": "Pipedream",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "api"
+        ]
       },
       "Platform Engineering": {
         "count": 0,
@@ -9612,7 +13202,10 @@ data = [
         "tags": [
           "platform-engineering",
           "infrastructure",
-          "developer-platform"
+          "developer-platform",
+          "devops",
+          "platform",
+          "developer-experience"
         ]
       },
       "PostgreSQL": {
@@ -9626,7 +13219,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "open-source"
         ]
       },
       "PowerBuilder": {
@@ -9634,8 +13229,16 @@ data = [
         "percentage": 0,
         "rank": 394,
         "full_term": "PowerBuilder",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "enterprise",
+          "desktop",
+          "tooling",
+          "ide",
+          "legacy"
+        ]
       },
       "PowerShell": {
         "count": 0,
@@ -9647,7 +13250,9 @@ data = [
         "tags": [
           "scripting",
           "windows",
-          "devops"
+          "devops",
+          "language",
+          "automation"
         ]
       },
       "Presto": {
@@ -9661,7 +13266,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Principal": {
@@ -9673,7 +13280,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "principal",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Processing": {
@@ -9681,16 +13291,29 @@ data = [
         "percentage": 2.7778,
         "rank": 38,
         "full_term": "Processing",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "creative-coding",
+          "graphics",
+          "java",
+          "visual-arts"
+        ]
       },
       "Prolog": {
         "count": 0,
         "percentage": 0,
         "rank": 398,
         "full_term": "Prolog",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "logic",
+          "ai",
+          "legacy"
+        ]
       },
       "Prometheus": {
         "count": 0,
@@ -9703,7 +13326,10 @@ data = [
           "sre",
           "observability",
           "monitoring",
-          "infrastructure"
+          "infrastructure",
+          "metrics",
+          "time-series",
+          "cncf"
         ]
       },
       "Prompt Engineering": {
@@ -9716,7 +13342,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "prompting"
+          "prompting",
+          "practice"
         ]
       },
       "Protocol Buffers": {
@@ -9729,7 +13356,10 @@ data = [
         "tags": [
           "backend",
           "api",
-          "serialization"
+          "serialization",
+          "data",
+          "google",
+          "grpc"
         ]
       },
       "Pulumi": {
@@ -9743,7 +13373,8 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code"
         ]
       },
       "Puppet": {
@@ -9757,7 +13388,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "PyTorch": {
@@ -9771,7 +13404,8 @@ data = [
           "ai",
           "ml",
           "deep-learning",
-          "python"
+          "python",
+          "facebook"
         ]
       },
       "Pydantic AI": {
@@ -9779,8 +13413,15 @@ data = [
         "percentage": 0,
         "rank": 404,
         "full_term": "Pydantic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "python"
+        ]
       },
       "Python": {
         "count": 38,
@@ -9793,7 +13434,9 @@ data = [
           "language",
           "backend",
           "ml",
-          "data"
+          "data",
+          "data-science",
+          "ai"
         ]
       },
       "QLoRA": {
@@ -9801,8 +13444,14 @@ data = [
         "percentage": 0,
         "rank": 407,
         "full_term": "QLoRA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "fine-tuning",
+          "ml"
+        ]
       },
       "Qdrant": {
         "count": 0,
@@ -9814,8 +13463,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "rust"
         ]
       },
       "R": {
@@ -9829,7 +13484,8 @@ data = [
           "language",
           "data",
           "statistics",
-          "ml"
+          "ml",
+          "data-science"
         ]
       },
       "RAG": {
@@ -9843,7 +13499,9 @@ data = [
           "ai",
           "llm",
           "rag",
-          "search"
+          "search",
+          "architecture",
+          "retrieval"
         ]
       },
       "RDF4J": {
@@ -9851,8 +13509,16 @@ data = [
         "percentage": 0,
         "rank": 411,
         "full_term": "RDF4J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "semantic-web",
+          "rdf",
+          "data",
+          "database",
+          "graph",
+          "java"
+        ]
       },
       "RDS": {
         "count": 0,
@@ -9866,7 +13532,8 @@ data = [
           "sql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "REPL": {
@@ -9874,8 +13541,15 @@ data = [
         "percentage": 0,
         "rank": 419,
         "full_term": "REPL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "interactive",
+          "tooling",
+          "cli",
+          "programming"
+        ]
       },
       "REST": {
         "count": 4,
@@ -9887,7 +13561,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "architecture",
+          "http"
         ]
       },
       "RabbitMQ": {
@@ -9900,7 +13576,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "amqp",
+          "erlang"
         ]
       },
       "Rails": {
@@ -9928,7 +13607,9 @@ data = [
           "distributed",
           "processing",
           "ml",
-          "python"
+          "python",
+          "ai",
+          "distributed-computing"
         ]
       },
       "React": {
@@ -9942,7 +13623,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "facebook"
         ]
       },
       "React Native": {
@@ -9956,7 +13638,8 @@ data = [
           "mobile",
           "frontend",
           "javascript",
-          "react"
+          "react",
+          "cross-platform"
         ]
       },
       "Redis": {
@@ -9970,7 +13653,10 @@ data = [
           "database",
           "cache",
           "storage",
-          "backend"
+          "backend",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "Redpanda": {
@@ -9984,7 +13670,10 @@ data = [
           "streaming",
           "messaging",
           "kafka",
-          "distributed"
+          "distributed",
+          "data",
+          "kafka-compatible",
+          "c++"
         ]
       },
       "Redshift": {
@@ -9999,7 +13688,9 @@ data = [
           "warehouse",
           "cloud",
           "aws",
-          "analytics"
+          "analytics",
+          "data",
+          "data-warehouse"
         ]
       },
       "Redux": {
@@ -10012,7 +13703,8 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "state-management"
+          "state-management",
+          "react"
         ]
       },
       "Redux Toolkit": {
@@ -10020,8 +13712,15 @@ data = [
         "percentage": 0,
         "rank": 418,
         "full_term": "Redux Toolkit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "state-management",
+          "redux",
+          "react"
+        ]
       },
       "Remote": {
         "count": 40,
@@ -10032,7 +13731,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "remote",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "work-from-home"
         ]
       },
       "Resque": {
@@ -10040,16 +13742,30 @@ data = [
         "percentage": 0,
         "rank": 420,
         "full_term": "Resque",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Riak": {
         "count": 0,
         "percentage": 0,
         "rank": 421,
         "full_term": "Riak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value"
+        ]
       },
       "Robotics": {
         "count": 0,
@@ -10061,7 +13777,10 @@ data = [
         "tags": [
           "robotics",
           "hardware",
-          "processing"
+          "processing",
+          "ai",
+          "engineering",
+          "automation"
         ]
       },
       "Ruby": {
@@ -10074,7 +13793,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "web"
+          "web",
+          "scripting"
         ]
       },
       "Rust": {
@@ -10088,7 +13808,8 @@ data = [
           "language",
           "systems",
           "backend",
-          "performance"
+          "performance",
+          "memory-safety"
         ]
       },
       "S3": {
@@ -10115,7 +13836,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "sso"
         ]
       },
       "SCSS": {
@@ -10123,16 +13846,30 @@ data = [
         "percentage": 0,
         "rank": 427,
         "full_term": "SCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "SDK": {
         "count": 2,
         "percentage": 0.9259,
         "rank": 77,
         "full_term": "SDK/alias[SDK|SDKs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "api",
+          "integration",
+          "tooling",
+          "libraries",
+          "development"
+        ]
       },
       "SNS": {
         "count": 0,
@@ -10144,7 +13881,8 @@ data = [
         "tags": [
           "cloud",
           "messaging",
-          "aws"
+          "aws",
+          "pub-sub"
         ]
       },
       "SOAP": {
@@ -10152,8 +13890,16 @@ data = [
         "percentage": 0,
         "rank": 437,
         "full_term": "SOAP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "enterprise",
+          "web",
+          "xml",
+          "legacy"
+        ]
       },
       "SOC 2": {
         "count": 0,
@@ -10164,7 +13910,9 @@ data = [
         "primary_family": "Compliance",
         "tags": [
           "security",
-          "compliance"
+          "compliance",
+          "certification",
+          "auditing"
         ]
       },
       "SQL": {
@@ -10177,7 +13925,10 @@ data = [
         "tags": [
           "database",
           "sql",
-          "query-language"
+          "query-language",
+          "language",
+          "relational",
+          "data"
         ]
       },
       "SQL Server": {
@@ -10191,7 +13942,8 @@ data = [
           "database",
           "sql",
           "microsoft",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "SQLite": {
@@ -10204,7 +13956,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "embedded"
         ]
       },
       "SQS": {
@@ -10218,7 +13972,8 @@ data = [
           "cloud",
           "messaging",
           "aws",
-          "backend"
+          "backend",
+          "queue"
         ]
       },
       "SRE": {
@@ -10232,7 +13987,11 @@ data = [
           "sre",
           "observability",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "role",
+          "devops",
+          "reliability",
+          "engineering"
         ]
       },
       "SSIS": {
@@ -10240,8 +13999,15 @@ data = [
         "percentage": 0,
         "rank": 444,
         "full_term": "SSIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "etl",
+          "microsoft",
+          "data",
+          "sql-server"
+        ]
       },
       "SSO": {
         "count": 0,
@@ -10253,7 +14019,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "login"
         ]
       },
       "SSRS": {
@@ -10261,8 +14029,16 @@ data = [
         "percentage": 0,
         "rank": 446,
         "full_term": "SSRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "microsoft",
+          "data",
+          "reporting",
+          "sql-server"
+        ]
       },
       "Samza": {
         "count": 0,
@@ -10274,7 +14050,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "kafka"
         ]
       },
       "Sass": {
@@ -10282,8 +14062,14 @@ data = [
         "percentage": 0.9259,
         "rank": 76,
         "full_term": "Sass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "Scala": {
         "count": 11,
@@ -10296,7 +14082,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "data-engineering"
+          "data-engineering",
+          "functional"
         ]
       },
       "Scheme": {
@@ -10304,8 +14091,14 @@ data = [
         "percentage": 0,
         "rank": 426,
         "full_term": "Scheme",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "academic"
+        ]
       },
       "Scrum": {
         "count": 1,
@@ -10316,7 +14109,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "process",
-          "agile"
+          "agile",
+          "methodology",
+          "management",
+          "framework"
         ]
       },
       "ScyllaDB": {
@@ -10324,16 +14120,33 @@ data = [
         "percentage": 0,
         "rank": 428,
         "full_term": "ScyllaDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "cassandra",
+          "storage",
+          "wide-column",
+          "c++"
+        ]
       },
       "Secrets Management": {
         "count": 0,
         "percentage": 0,
         "rank": 429,
         "full_term": "Secrets Management/alias[Secrets Management|SecretsManagement]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "secrets",
+          "infrastructure",
+          "devops",
+          "credentials",
+          "vault"
+        ]
       },
       "Security": {
         "count": 4,
@@ -10343,7 +14156,9 @@ data = [
         "kind": "Technology",
         "primary_family": "Security",
         "tags": [
-          "security"
+          "security",
+          "infosec",
+          "cybersecurity"
         ]
       },
       "Selenium": {
@@ -10356,7 +14171,9 @@ data = [
         "tags": [
           "testing",
           "automation",
-          "frontend"
+          "frontend",
+          "browser",
+          "e2e"
         ]
       },
       "Senior": {
@@ -10368,7 +14185,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "senior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "advanced"
         ]
       },
       "Server-Sent Events": {
@@ -10376,8 +14196,18 @@ data = [
         "percentage": 0,
         "rank": 430,
         "full_term": "Server-Sent Events/alias[SSE|Server-Sent Events]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "realtime",
+          "backend",
+          "frontend",
+          "web",
+          "api",
+          "streaming",
+          "sse"
+        ]
       },
       "Serverless": {
         "count": 0,
@@ -10389,7 +14219,10 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "architecture",
+          "compute",
+          "managed"
         ]
       },
       "Service Mesh": {
@@ -10403,7 +14236,10 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "networking",
+          "microservices"
         ]
       },
       "SharePoint": {
@@ -10411,8 +14247,15 @@ data = [
         "percentage": 0.9259,
         "rank": 78,
         "full_term": "SharePoint",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "microsoft",
+          "collaboration",
+          "enterprise",
+          "cms",
+          "intranet"
+        ]
       },
       "Shell": {
         "count": 1,
@@ -10424,7 +14267,9 @@ data = [
         "tags": [
           "language",
           "scripting",
-          "systems"
+          "systems",
+          "cli",
+          "linux"
         ]
       },
       "Sidekiq": {
@@ -10432,16 +14277,32 @@ data = [
         "percentage": 0,
         "rank": 433,
         "full_term": "Sidekiq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Sinatra": {
         "count": 2,
         "percentage": 0.9259,
         "rank": 79,
         "full_term": "Sinatra",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "ruby",
+          "web",
+          "web-framework",
+          "web_framework",
+          "microframework"
+        ]
       },
       "Snowflake": {
         "count": 0,
@@ -10455,7 +14316,9 @@ data = [
           "warehouse",
           "cloud",
           "analytics",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse"
         ]
       },
       "Snyk": {
@@ -10463,8 +14326,16 @@ data = [
         "percentage": 0,
         "rank": 436,
         "full_term": "Snyk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "scanning",
+          "supply-chain",
+          "devsecops",
+          "vulnerability-scanning",
+          "saas"
+        ]
       },
       "Solr": {
         "count": 3,
@@ -10476,7 +14347,10 @@ data = [
         "tags": [
           "database",
           "search",
-          "storage"
+          "storage",
+          "apache",
+          "java",
+          "indexing"
         ]
       },
       "Spark": {
@@ -10491,7 +14365,11 @@ data = [
           "stream-processing",
           "distributed",
           "data-engineering",
-          "ml"
+          "ml",
+          "data",
+          "big-data",
+          "apache",
+          "analytics"
         ]
       },
       "Spinnaker": {
@@ -10504,7 +14382,9 @@ data = [
         "tags": [
           "deployment",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd",
+          "netflix"
         ]
       },
       "Spring": {
@@ -10518,7 +14398,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "Spring Boot": {
@@ -10532,7 +14413,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "microservices"
         ]
       },
       "Staff": {
@@ -10544,7 +14426,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "staff",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Storm": {
@@ -10557,7 +14442,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Struts": {
@@ -10565,8 +14454,17 @@ data = [
         "percentage": 0,
         "rank": 449,
         "full_term": "Struts",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "java",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "Supabase": {
         "count": 0,
@@ -10578,7 +14476,10 @@ data = [
         "tags": [
           "backend",
           "database",
-          "cloud"
+          "cloud",
+          "baas",
+          "postgresql",
+          "firebase-alternative"
         ]
       },
       "Svelte": {
@@ -10592,7 +14493,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "compiler"
         ]
       },
       "SvelteKit": {
@@ -10606,7 +14508,10 @@ data = [
           "frontend",
           "backend",
           "web",
-          "javascript"
+          "javascript",
+          "framework",
+          "svelte",
+          "ssr"
         ]
       },
       "Swift": {
@@ -10619,7 +14524,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Symfony": {
@@ -10627,8 +14533,17 @@ data = [
         "percentage": 0.463,
         "rank": 108,
         "full_term": "Symfony",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "TDD": {
         "count": 1,
@@ -10639,7 +14554,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "testing",
-          "process"
+          "process",
+          "agile",
+          "methodology",
+          "development"
         ]
       },
       "Tableau": {
@@ -10647,8 +14565,15 @@ data = [
         "percentage": 0,
         "rank": 454,
         "full_term": "Tableau",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-visualization",
+          "data",
+          "visualization"
+        ]
       },
       "Tailwind": {
         "count": 0,
@@ -10660,7 +14585,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "utility-first"
         ]
       },
       "TailwindCSS": {
@@ -10668,8 +14595,15 @@ data = [
         "percentage": 0,
         "rank": 456,
         "full_term": "TailwindCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "web",
+          "framework",
+          "utility-first"
+        ]
       },
       "Tauri": {
         "count": 0,
@@ -10681,7 +14615,9 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "rust"
+          "rust",
+          "cross-platform",
+          "web-tech"
         ]
       },
       "Tekton": {
@@ -10695,7 +14631,9 @@ data = [
           "ci",
           "kubernetes",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd",
+          "cncf"
         ]
       },
       "Tempo": {
@@ -10708,7 +14646,8 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "grafana"
         ]
       },
       "Temporal": {
@@ -10721,7 +14660,10 @@ data = [
         "tags": [
           "backend",
           "workflow",
-          "distributed"
+          "distributed",
+          "orchestration",
+          "workflows",
+          "microservices"
         ]
       },
       "TensorFlow": {
@@ -10734,7 +14676,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "google"
         ]
       },
       "Terraform": {
@@ -10748,7 +14691,9 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "hashicorp"
         ]
       },
       "Thrift": {
@@ -10762,7 +14707,9 @@ data = [
           "backend",
           "api",
           "serialization",
-          "rpc"
+          "rpc",
+          "data",
+          "apache"
         ]
       },
       "TimescaleDB": {
@@ -10776,7 +14723,8 @@ data = [
           "database",
           "time-series",
           "postgresql",
-          "storage"
+          "storage",
+          "sql"
         ]
       },
       "Tomcat": {
@@ -10789,7 +14737,8 @@ data = [
         "tags": [
           "backend",
           "java",
-          "web-server"
+          "web-server",
+          "apache"
         ]
       },
       "Transformers": {
@@ -10803,7 +14752,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "deep-learning"
+          "deep-learning",
+          "nlp",
+          "architecture"
         ]
       },
       "Trino": {
@@ -10817,7 +14768,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Trivy": {
@@ -10830,7 +14783,10 @@ data = [
         "tags": [
           "security",
           "scanning",
-          "container"
+          "container",
+          "container-scanning",
+          "vulnerabilities",
+          "aquasec"
         ]
       },
       "Turbo": {
@@ -10838,24 +14794,49 @@ data = [
         "percentage": 0,
         "rank": 468,
         "full_term": "Turbo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "Turborepo": {
         "count": 0,
         "percentage": 0,
         "rank": 469,
         "full_term": "Turborepo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "TypeORM": {
         "count": 0,
         "percentage": 0,
         "rank": 470,
         "full_term": "TypeORM",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "orm",
+          "typescript",
+          "database",
+          "nodejs"
+        ]
       },
       "TypeScript": {
         "count": 0,
@@ -10868,7 +14849,8 @@ data = [
           "language",
           "frontend",
           "backend",
-          "javascript"
+          "javascript",
+          "javascript-superset"
         ]
       },
       "UDF": {
@@ -10876,16 +14858,31 @@ data = [
         "percentage": 0,
         "rank": 472,
         "full_term": "UDF/alias[UDF|UDFs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "sql",
+          "function",
+          "data",
+          "database",
+          "functions"
+        ]
       },
       "Unleash": {
         "count": 0,
         "percentage": 0,
         "rank": 473,
         "full_term": "Unleash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "feature-flags",
+          "release-management",
+          "tooling",
+          "devops",
+          "open-source"
+        ]
       },
       "Unreal Engine": {
         "count": 0,
@@ -10897,7 +14894,8 @@ data = [
         "tags": [
           "graphics",
           "gaming",
-          "engine"
+          "engine",
+          "c++"
         ]
       },
       "VR": {
@@ -10910,7 +14908,10 @@ data = [
         "tags": [
           "ar-vr",
           "graphics",
-          "frontend"
+          "frontend",
+          "vr",
+          "virtual-reality",
+          "xr"
         ]
       },
       "Vagrant": {
@@ -10923,7 +14924,9 @@ data = [
         "tags": [
           "infrastructure",
           "devops",
-          "virtualization"
+          "virtualization",
+          "environments",
+          "hashicorp"
         ]
       },
       "Valkey": {
@@ -10931,8 +14934,17 @@ data = [
         "percentage": 0,
         "rank": 475,
         "full_term": "Valkey",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "cache",
+          "in-memory",
+          "storage",
+          "backend",
+          "caching",
+          "redis-fork"
+        ]
       },
       "Varnish": {
         "count": 0,
@@ -10944,7 +14956,11 @@ data = [
         "tags": [
           "network",
           "cache",
-          "web"
+          "web",
+          "networking",
+          "caching",
+          "proxy",
+          "performance"
         ]
       },
       "Vault": {
@@ -10957,7 +14973,9 @@ data = [
         "tags": [
           "security",
           "secrets",
-          "infrastructure"
+          "infrastructure",
+          "secrets-management",
+          "hashicorp"
         ]
       },
       "Vector Databases": {
@@ -10970,8 +14988,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "VectorDatabase": {
@@ -10979,8 +15003,20 @@ data = [
         "percentage": 0,
         "rank": 479,
         "full_term": "VectorDatabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Vercel": {
         "count": 0,
@@ -10992,7 +15028,9 @@ data = [
         "tags": [
           "cloud",
           "frontend",
-          "deployment"
+          "deployment",
+          "hosting",
+          "serverless"
         ]
       },
       "Vertex AI": {
@@ -11006,7 +15044,9 @@ data = [
           "ai",
           "ml",
           "cloud",
-          "google"
+          "google",
+          "gcp",
+          "platform"
         ]
       },
       "Vi": {
@@ -11014,8 +15054,15 @@ data = [
         "percentage": 0,
         "rank": 482,
         "full_term": "Vi/alias[Vi|Vim]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
+        ]
       },
       "Vim": {
         "count": 0,
@@ -11026,7 +15073,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
         ]
       },
       "Visual Basic": {
@@ -11038,7 +15088,8 @@ data = [
         "primary_family": "Language",
         "tags": [
           "language",
-          "microsoft"
+          "microsoft",
+          "legacy"
         ]
       },
       "Vite": {
@@ -11051,7 +15102,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "performance"
         ]
       },
       "Vue": {
@@ -11078,7 +15131,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WCF": {
@@ -11086,24 +15142,51 @@ data = [
         "percentage": 0,
         "rank": 489,
         "full_term": "WCF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "rpc",
+          "microsoft",
+          "dotnet",
+          "legacy"
+        ]
       },
       "WPF": {
         "count": 0,
         "percentage": 0,
         "rank": 502,
         "full_term": "WPF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "Weaviate": {
         "count": 0,
         "percentage": 0,
         "rank": 490,
         "full_term": "Weaviate",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Web Services": {
         "count": 2,
@@ -11115,7 +15198,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "integration"
         ]
       },
       "WebAssembly": {
@@ -11128,7 +15212,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WebForms": {
@@ -11136,8 +15223,16 @@ data = [
         "percentage": 0,
         "rank": 493,
         "full_term": "WebForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "legacy"
+        ]
       },
       "WebGL": {
         "count": 2,
@@ -11149,7 +15244,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "api"
         ]
       },
       "WebGL2": {
@@ -11157,8 +15254,15 @@ data = [
         "percentage": 0,
         "rank": 494,
         "full_term": "WebGL2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "graphics",
+          "frontend",
+          "web",
+          "rendering",
+          "api"
+        ]
       },
       "WebGPU": {
         "count": 0,
@@ -11170,7 +15274,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "performance"
         ]
       },
       "WebRTC": {
@@ -11184,7 +15290,10 @@ data = [
           "network",
           "realtime",
           "frontend",
-          "web"
+          "web",
+          "networking",
+          "real-time",
+          "video"
         ]
       },
       "WebSockets": {
@@ -11198,7 +15307,11 @@ data = [
           "network",
           "realtime",
           "backend",
-          "frontend"
+          "frontend",
+          "networking",
+          "web",
+          "real-time",
+          "protocol"
         ]
       },
       "Webpack": {
@@ -11211,7 +15324,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "bundler"
         ]
       },
       "Wi-Fi": {
@@ -11219,32 +15334,59 @@ data = [
         "percentage": 0,
         "rank": 499,
         "full_term": "Wi-Fi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "networking",
+          "hardware"
+        ]
       },
       "WinForms": {
         "count": 0,
         "percentage": 0,
         "rank": 500,
         "full_term": "WinForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "WinRT": {
         "count": 0,
         "percentage": 0,
         "rank": 501,
         "full_term": "WinRT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "windows",
+          "api"
+        ]
       },
       "Windows Phone": {
         "count": 1,
         "percentage": 0.463,
         "rank": 113,
         "full_term": "Windows Phone",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "windows",
+          "microsoft",
+          "os",
+          "legacy"
+        ]
       },
       "WordPress": {
         "count": 1,
@@ -11257,7 +15399,8 @@ data = [
           "backend",
           "cms",
           "php",
-          "web"
+          "web",
+          "blogging"
         ]
       },
       "XGBoost": {
@@ -11270,7 +15413,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "model"
+          "model",
+          "algorithms",
+          "decision-trees"
         ]
       },
       "XML": {
@@ -11278,24 +15423,50 @@ data = [
         "percentage": 0.463,
         "rank": 115,
         "full_term": "XML",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "api",
+          "backend",
+          "data",
+          "format",
+          "markup",
+          "legacy"
+        ]
       },
       "XML Schema": {
         "count": 0,
         "percentage": 0,
         "rank": 505,
         "full_term": "XML Schema/alias[XML Schema|XMLSchema]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "validation",
+          "api",
+          "data",
+          "xml",
+          "legacy"
+        ]
       },
       "XR": {
         "count": 0,
         "percentage": 0,
         "rank": 506,
         "full_term": "XR",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "xr",
+          "ar",
+          "vr",
+          "mixed-reality"
+        ]
       },
       "Xamarin": {
         "count": 0,
@@ -11307,7 +15478,9 @@ data = [
         "tags": [
           "mobile",
           "cross-platform",
-          "dotnet"
+          "dotnet",
+          "c#",
+          "microsoft"
         ]
       },
       "Yeoman": {
@@ -11315,16 +15488,31 @@ data = [
         "percentage": 0,
         "rank": 507,
         "full_term": "Yeoman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "scaffolding",
+          "frontend",
+          "tooling",
+          "javascript",
+          "legacy"
+        ]
       },
       "Zabbix": {
         "count": 0,
         "percentage": 0,
         "rank": 508,
         "full_term": "Zabbix",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "networking"
+        ]
       },
       "Zed": {
         "count": 0,
@@ -11335,7 +15523,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "ide",
+          "rust",
+          "performance"
         ]
       },
       "Zero Trust": {
@@ -11348,7 +15539,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "network"
+          "network",
+          "architecture",
+          "networking"
         ]
       },
       "ZeroMQ": {
@@ -11361,7 +15554,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "sockets",
+          "performance"
         ]
       },
       "Zig": {
@@ -11374,7 +15570,9 @@ data = [
         "tags": [
           "language",
           "systems",
-          "performance"
+          "performance",
+          "low-level",
+          "c-alternative"
         ]
       },
       "Zipkin": {
@@ -11387,7 +15585,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "java"
         ]
       },
       "Zookeeper": {
@@ -11400,7 +15600,10 @@ data = [
         "tags": [
           "distributed",
           "infrastructure",
-          "coordination"
+          "coordination",
+          "data",
+          "distributed-systems",
+          "apache"
         ]
       },
       "dbt": {
@@ -11414,7 +15617,9 @@ data = [
           "data-engineering",
           "analytics",
           "sql",
-          "transformation"
+          "transformation",
+          "data",
+          "analytics-engineering"
         ]
       },
       "eBPF": {
@@ -11428,7 +15633,8 @@ data = [
           "linux",
           "network",
           "observability",
-          "security"
+          "security",
+          "networking"
         ]
       },
       "gRPC": {
@@ -11442,7 +15648,9 @@ data = [
           "backend",
           "api",
           "rpc",
-          "distributed"
+          "distributed",
+          "google",
+          "performance"
         ]
       },
       "i18n": {
@@ -11450,8 +15658,14 @@ data = [
         "percentage": 0,
         "rank": 291,
         "full_term": "i18n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "localization",
+          "web",
+          "internationalization"
+        ]
       },
       "iOS": {
         "count": 14,
@@ -11463,7 +15677,10 @@ data = [
         "tags": [
           "mobile",
           "ios",
-          "swift"
+          "swift",
+          "os",
+          "apple",
+          "smartphone"
         ]
       },
       "jQuery": {
@@ -11476,7 +15693,9 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "web"
+          "web",
+          "library",
+          "legacy"
         ]
       },
       "ksqlDB": {
@@ -11490,7 +15709,9 @@ data = [
           "stream-processing",
           "sql",
           "kafka",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming"
         ]
       },
       "memcached": {
@@ -11504,7 +15725,10 @@ data = [
           "cache",
           "database",
           "backend",
-          "storage"
+          "storage",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "n8n": {
@@ -11512,8 +15736,15 @@ data = [
         "percentage": 0,
         "rank": 352,
         "full_term": "n8n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "low-code"
+        ]
       },
       "nginx": {
         "count": 3,
@@ -11526,7 +15757,9 @@ data = [
           "network",
           "web-server",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "reverse-proxy",
+          "networking"
         ]
       },
       "passion": {
@@ -11534,8 +15767,14 @@ data = [
         "percentage": 0.9259,
         "rank": 75,
         "full_term": "passion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Work Attribute",
+        "primary_family": "Soft Skill",
+        "tags": [
+          "soft-skill",
+          "work-attribute",
+          "attribute",
+          "culture"
+        ]
       },
       "statistics": {
         "count": 1,
@@ -11547,7 +15786,10 @@ data = [
         "tags": [
           "statistics",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "analytics",
+          "data-science"
         ]
       },
       "tmux": {
@@ -11555,8 +15797,15 @@ data = [
         "percentage": 0.463,
         "rank": 110,
         "full_term": "tmux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "terminal",
+          "tooling",
+          "multiplexer",
+          "linux"
+        ]
       },
       "web3": {
         "count": 0,
@@ -11568,7 +15817,10 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "decentralized",
+          "internet"
         ]
       }
     }
@@ -11641,7 +15893,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "integration"
+          "integration",
+          "web"
         ]
       },
       "AR": {
@@ -11649,40 +15902,82 @@ data = [
         "percentage": 0,
         "rank": 158,
         "full_term": "AR/alias[AR|Augmented Reality]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "ar",
+          "augmented-reality",
+          "xr"
+        ]
       },
       "ASM": {
         "count": 0,
         "percentage": 0,
         "rank": 165,
         "full_term": "ASM/alias[ASM|Attack Surface Monitoring]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "attack-surface",
+          "osint",
+          "monitoring"
+        ]
       },
       "ASP": {
         "count": 3,
         "percentage": 1.3761,
         "rank": 55,
         "full_term": "ASP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "ASP.NET": {
         "count": 2,
         "percentage": 0.9174,
         "rank": 67,
         "full_term": "ASP.NET",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "ASP.NET MVC": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 89,
         "full_term": "ASP.NET MVC",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "web-framework",
+          "web_framework",
+          "mvc"
+        ]
       },
       "AWS": {
         "count": 5,
@@ -11694,7 +15989,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "infrastructure"
+          "infrastructure",
+          "amazon"
         ]
       },
       "AWS Bedrock": {
@@ -11708,7 +16004,8 @@ data = [
           "ai",
           "llm",
           "cloud",
-          "aws"
+          "aws",
+          "generative-ai"
         ]
       },
       "AWS CDK": {
@@ -11722,7 +16019,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "AWS Lambda": {
@@ -11736,7 +16034,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "aws"
+          "aws",
+          "compute"
         ]
       },
       "ActionScript": {
@@ -11744,80 +16043,157 @@ data = [
         "percentage": 0,
         "rank": 138,
         "full_term": "ActionScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "flash",
+          "web",
+          "adobe",
+          "legacy"
+        ]
       },
       "ActiveMQ": {
         "count": 0,
         "percentage": 0,
         "rank": 139,
         "full_term": "ActiveMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "distributed",
+          "queue",
+          "apache"
+        ]
       },
       "Ada": {
         "count": 0,
         "percentage": 0,
         "rank": 140,
         "full_term": "Ada",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "embedded",
+          "legacy"
+        ]
       },
       "Aerospike": {
         "count": 0,
         "percentage": 0,
         "rank": 141,
         "full_term": "Aerospike",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value",
+          "real-time"
+        ]
       },
       "Agentic AI": {
         "count": 0,
         "percentage": 0,
         "rank": 142,
         "full_term": "Agentic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "agents",
+          "llm",
+          "automation",
+          "concept"
+        ]
       },
       "Agentic Coding": {
         "count": 0,
         "percentage": 0,
         "rank": 143,
         "full_term": "Agentic Coding",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "developer-tooling",
+          "coding",
+          "automation",
+          "practice"
+        ]
       },
       "Agile": {
         "count": 7,
         "percentage": 3.211,
         "rank": 30,
         "full_term": "Agile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Process",
+        "primary_family": "Methodology",
+        "tags": [
+          "process",
+          "agile",
+          "methodology",
+          "management"
+        ]
       },
       "Aider": {
         "count": 0,
         "percentage": 0,
         "rank": 145,
         "full_term": "Aider",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "coding-assistant",
+          "coding",
+          "assistant",
+          "cli"
+        ]
       },
       "Airflow": {
         "count": 0,
         "percentage": 0,
         "rank": 146,
         "full_term": "Airflow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "orchestration",
+          "pipeline",
+          "workflow",
+          "data",
+          "apache",
+          "python"
+        ]
       },
       "Akka": {
         "count": 0,
         "percentage": 0,
         "rank": 147,
         "full_term": "Akka",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "distributed",
+          "jvm",
+          "actor-model",
+          "scala",
+          "java"
+        ]
       },
       "Android": {
         "count": 19,
@@ -11830,7 +16206,10 @@ data = [
           "mobile",
           "android",
           "kotlin",
-          "java"
+          "java",
+          "os",
+          "google",
+          "smartphone"
         ]
       },
       "Angular": {
@@ -11844,7 +16223,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "typescript",
+          "google"
         ]
       },
       "Angular 2": {
@@ -11852,8 +16233,18 @@ data = [
         "percentage": 0,
         "rank": 149,
         "full_term": "Angular 2/alias[Angular2|Angular 2]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework",
+          "typescript",
+          "google"
+        ]
       },
       "AngularJS": {
         "count": 0,
@@ -11866,7 +16257,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "legacy"
         ]
       },
       "Ansible": {
@@ -11880,7 +16272,8 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "redhat"
         ]
       },
       "Apache": {
@@ -11893,7 +16286,8 @@ data = [
         "tags": [
           "infrastructure",
           "web-server",
-          "backend"
+          "backend",
+          "apache"
         ]
       },
       "Apache Flink": {
@@ -11909,7 +16303,11 @@ data = [
           "backend",
           "data-engineering",
           "realtime",
-          "ml"
+          "ml",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Hudi": {
@@ -11923,7 +16321,11 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data"
         ]
       },
       "Apache Iceberg": {
@@ -11937,7 +16339,12 @@ data = [
           "storage",
           "data-lake",
           "data-engineering",
-          "distributed"
+          "distributed",
+          "data",
+          "datalake",
+          "apache",
+          "big-data",
+          "table-format"
         ]
       },
       "Apache Superset": {
@@ -11950,7 +16357,10 @@ data = [
         "tags": [
           "analytics",
           "bi",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "visualization",
+          "apache"
         ]
       },
       "Apollo": {
@@ -11958,40 +16368,76 @@ data = [
         "percentage": 0,
         "rank": 156,
         "full_term": "Apollo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "graphql",
+          "javascript",
+          "frontend"
+        ]
       },
       "App Engine": {
         "count": 2,
         "percentage": 0.9174,
         "rank": 66,
         "full_term": "App Engine/alias[App Engine|AppEngine|GAE]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "paas",
+          "google",
+          "backend",
+          "gcp",
+          "serverless"
+        ]
       },
       "AppleScript": {
         "count": 0,
         "percentage": 0,
         "rank": 157,
         "full_term": "AppleScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "apple",
+          "macos"
+        ]
       },
       "Arc": {
         "count": 0,
         "percentage": 0,
         "rank": 159,
         "full_term": "Arc",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "browser",
+          "tooling",
+          "productivity"
+        ]
       },
       "Arduino": {
         "count": 0,
         "percentage": 0,
         "rank": 160,
         "full_term": "Arduino",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "hardware",
+          "iot",
+          "microcontroller",
+          "c++"
+        ]
       },
       "Argo": {
         "count": 0,
@@ -12004,7 +16450,8 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd"
         ]
       },
       "Argo Workflows": {
@@ -12018,7 +16465,9 @@ data = [
           "kubernetes",
           "workflow",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "orchestration",
+          "workflows"
         ]
       },
       "ArgoCD": {
@@ -12032,7 +16481,8 @@ data = [
           "kubernetes",
           "gitops",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd"
         ]
       },
       "Arrow": {
@@ -12040,48 +16490,92 @@ data = [
         "percentage": 0,
         "rank": 164,
         "full_term": "Arrow",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "columnar",
+          "analytics",
+          "data",
+          "apache",
+          "in-memory"
+        ]
       },
       "Assembly": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 90,
         "full_term": "Assembly",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "low-level"
+        ]
       },
       "Aurora": {
         "count": 0,
         "percentage": 0,
         "rank": 166,
         "full_term": "Aurora",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "sql",
+          "cloud",
+          "aws",
+          "storage",
+          "relational"
+        ]
       },
       "AutoGen": {
         "count": 0,
         "percentage": 0,
         "rank": 167,
         "full_term": "AutoGen",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "microsoft"
+        ]
       },
       "Avro": {
         "count": 0,
         "percentage": 0,
         "rank": 168,
         "full_term": "Avro",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "data-format",
+          "serialization",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Awk": {
         "count": 0,
         "percentage": 0,
         "rank": 169,
         "full_term": "Awk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "unix",
+          "linux",
+          "text-processing"
+        ]
       },
       "Azure": {
         "count": 0,
@@ -12093,7 +16587,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "microsoft"
+          "microsoft",
+          "infrastructure"
         ]
       },
       "Azure Functions": {
@@ -12107,7 +16602,8 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "azure"
+          "azure",
+          "microsoft"
         ]
       },
       "BLE": {
@@ -12115,8 +16611,17 @@ data = [
         "percentage": 0,
         "rank": 183,
         "full_term": "BLE",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "iot",
+          "mobile",
+          "networking",
+          "bluetooth",
+          "hardware"
+        ]
       },
       "Back End": {
         "count": 28,
@@ -12127,7 +16632,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "backend",
-          "work-area"
+          "work-area",
+          "server-side",
+          "architecture"
         ]
       },
       "Backblaze": {
@@ -12135,48 +16642,93 @@ data = [
         "percentage": 0,
         "rank": 175,
         "full_term": "Backblaze",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "storage",
+          "object-storage",
+          "backup"
+        ]
       },
       "Backbone": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 91,
         "full_term": "Backbone/js[Backbone]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "BackboneJS": {
         "count": 0,
         "percentage": 0,
         "rank": 176,
         "full_term": "BackboneJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Backstage": {
         "count": 0,
         "percentage": 0,
         "rank": 177,
         "full_term": "Backstage",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-portal",
+          "software-catalog",
+          "tooling",
+          "devops",
+          "spotify",
+          "cncf"
+        ]
       },
       "Bash": {
         "count": 0,
         "percentage": 0,
         "rank": 178,
         "full_term": "Bash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "shell",
+          "systems",
+          "linux"
+        ]
       },
       "Benthos": {
         "count": 0,
         "percentage": 0,
         "rank": 179,
         "full_term": "Benthos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "streaming",
+          "pipeline",
+          "integration",
+          "data",
+          "etl",
+          "go"
+        ]
       },
       "Big Data": {
         "count": 6,
@@ -12188,7 +16740,10 @@ data = [
         "tags": [
           "data-engineering",
           "distributed",
-          "processing"
+          "processing",
+          "data",
+          "analytics",
+          "scale"
         ]
       },
       "BigQuery": {
@@ -12202,7 +16757,10 @@ data = [
           "database",
           "analytics",
           "cloud",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse",
+          "gcp"
         ]
       },
       "Bitcoin": {
@@ -12210,8 +16768,15 @@ data = [
         "percentage": 0,
         "rank": 181,
         "full_term": "Bitcoin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "crypto",
+          "web3",
+          "blockchain",
+          "cryptocurrency"
+        ]
       },
       "Blazor": {
         "count": 0,
@@ -12223,7 +16788,10 @@ data = [
         "tags": [
           "frontend",
           "web",
-          "dotnet"
+          "dotnet",
+          "webassembly",
+          "microsoft",
+          "c#"
         ]
       },
       "Blockchain": {
@@ -12236,7 +16804,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "distributed-ledger"
         ]
       },
       "Boo": {
@@ -12244,8 +16814,13 @@ data = [
         "percentage": 0,
         "rank": 185,
         "full_term": "Boo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "dotnet",
+          "legacy"
+        ]
       },
       "Bootstrap": {
         "count": 0,
@@ -12257,7 +16832,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "design"
         ]
       },
       "Bun": {
@@ -12265,8 +16842,15 @@ data = [
         "percentage": 0,
         "rank": 187,
         "full_term": "Bun",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "javascript",
+          "runtime",
+          "tooling",
+          "performance"
+        ]
       },
       "C": {
         "count": 6,
@@ -12278,7 +16862,8 @@ data = [
         "tags": [
           "language",
           "systems",
-          "backend"
+          "backend",
+          "low-level"
         ]
       },
       "C#": {
@@ -12314,24 +16899,45 @@ data = [
         "percentage": 0,
         "rank": 202,
         "full_term": "COBOL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "mainframe",
+          "backend",
+          "legacy",
+          "business"
+        ]
       },
       "CQRS": {
         "count": 0,
         "percentage": 0,
         "rank": 213,
         "full_term": "CQRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "architecture",
+          "event-sourcing",
+          "design-pattern"
+        ]
       },
       "CRDT": {
         "count": 0,
         "percentage": 0,
         "rank": 214,
         "full_term": "CRDT/alias[CRDT|CRDTs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Distributed Systems",
+        "tags": [
+          "distributed",
+          "data-structures",
+          "collaboration",
+          "data",
+          "distributed-systems",
+          "sync"
+        ]
       },
       "CSS": {
         "count": 15,
@@ -12343,7 +16949,8 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "styling"
         ]
       },
       "CakePHP": {
@@ -12351,8 +16958,17 @@ data = [
         "percentage": 0,
         "rank": 188,
         "full_term": "CakePHP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Cassandra": {
         "count": 4,
@@ -12365,7 +16981,9 @@ data = [
           "database",
           "nosql",
           "distributed",
-          "storage"
+          "storage",
+          "wide-column",
+          "apache"
         ]
       },
       "Celery": {
@@ -12373,16 +16991,30 @@ data = [
         "percentage": 0.4587,
         "rank": 92,
         "full_term": "Celery",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "python",
+          "task-queue",
+          "distributed",
+          "async"
+        ]
       },
       "Ceph": {
         "count": 0,
         "percentage": 0,
         "rank": 189,
         "full_term": "Ceph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "distributed",
+          "object-storage",
+          "infrastructure",
+          "open-source"
+        ]
       },
       "ChatGPT": {
         "count": 0,
@@ -12394,7 +17026,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "openai",
+          "chatbot"
         ]
       },
       "Chef": {
@@ -12408,7 +17042,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "Claude": {
@@ -12421,7 +17057,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "tooling"
+          "tooling",
+          "anthropic",
+          "chatbot"
         ]
       },
       "Claude Code": {
@@ -12434,7 +17072,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "anthropic"
         ]
       },
       "ClickHouse": {
@@ -12448,7 +17089,8 @@ data = [
           "database",
           "analytics",
           "storage",
-          "olap"
+          "olap",
+          "columnar"
         ]
       },
       "Clojure": {
@@ -12462,7 +17104,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "functional"
+          "functional",
+          "lisp"
         ]
       },
       "ClojureScript": {
@@ -12470,16 +17113,30 @@ data = [
         "percentage": 0,
         "rank": 194,
         "full_term": "ClojureScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "functional",
+          "javascript",
+          "lisp"
+        ]
       },
       "Closure": {
         "count": 2,
         "percentage": 0.9174,
         "rank": 68,
         "full_term": "Closure",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "tooling",
+          "compiler",
+          "google"
+        ]
       },
       "Cloud": {
         "count": 4,
@@ -12490,7 +17147,8 @@ data = [
         "primary_family": "Cloud",
         "tags": [
           "cloud",
-          "infrastructure"
+          "infrastructure",
+          "hosting"
         ]
       },
       "Cloud Run": {
@@ -12504,7 +17162,9 @@ data = [
           "cloud",
           "serverless",
           "container",
-          "backend"
+          "backend",
+          "gcp",
+          "containers"
         ]
       },
       "Cloud Security Posture Management": {
@@ -12512,8 +17172,14 @@ data = [
         "percentage": 0,
         "rank": 196,
         "full_term": "Cloud Security Posture Management/alias[CSPM|Cloud Security Posture Management]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "cloud",
+          "cspm",
+          "compliance"
+        ]
       },
       "CloudFormation": {
         "count": 0,
@@ -12526,7 +17192,8 @@ data = [
           "cloud",
           "iac",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "infrastructure-as-code"
         ]
       },
       "CloudFront": {
@@ -12540,7 +17207,8 @@ data = [
           "network",
           "cdn",
           "cloud",
-          "aws"
+          "aws",
+          "networking"
         ]
       },
       "CloudWatch": {
@@ -12554,7 +17222,8 @@ data = [
           "sre",
           "monitoring",
           "observability",
-          "aws"
+          "aws",
+          "cloud"
         ]
       },
       "Cloudflare": {
@@ -12568,7 +17237,10 @@ data = [
           "cloud",
           "edge",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "cdn",
+          "security",
+          "networking"
         ]
       },
       "Cloudflare Workers": {
@@ -12582,7 +17254,8 @@ data = [
           "cloud",
           "edge",
           "serverless",
-          "backend"
+          "backend",
+          "cloudflare"
         ]
       },
       "CockroachDB": {
@@ -12596,7 +17269,8 @@ data = [
           "database",
           "sql",
           "distributed",
-          "storage"
+          "storage",
+          "newsql"
         ]
       },
       "CodeIgniter": {
@@ -12604,64 +17278,118 @@ data = [
         "percentage": 0,
         "rank": 204,
         "full_term": "CodeIgniter",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "CodeRabbitAI": {
         "count": 0,
         "percentage": 0,
         "rank": 205,
         "full_term": "CodeRabbitAI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "automation",
+          "tooling"
+        ]
       },
       "CoffeeScript": {
         "count": 3,
         "percentage": 1.3761,
         "rank": 56,
         "full_term": "CoffeeScript",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "javascript",
+          "legacy"
+        ]
       },
       "ColdFuison": {
         "count": 0,
         "percentage": 0,
         "rank": 206,
         "full_term": "ColdFuison",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml"
+        ]
       },
       "ColdFusion": {
         "count": 0,
         "percentage": 0,
         "rank": 207,
         "full_term": "ColdFusion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "web",
+          "adobe",
+          "cfml",
+          "legacy"
+        ]
       },
       "Common Lisp": {
         "count": 0,
         "percentage": 0,
         "rank": 208,
         "full_term": "Common Lisp/alias[Common Lisp|CommonLisp]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp"
+        ]
       },
       "Compass": {
         "count": 0,
         "percentage": 0,
         "rank": 209,
         "full_term": "Compass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "sass",
+          "legacy"
+        ]
       },
       "Compose UI": {
         "count": 0,
         "percentage": 0,
         "rank": 210,
         "full_term": "Compose UI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "kotlin",
+          "ui"
+        ]
       },
       "Computer Vision": {
         "count": 2,
@@ -12673,7 +17401,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "vision",
+          "image-processing"
         ]
       },
       "Copilot": {
@@ -12686,7 +17416,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "coding",
+          "assistant",
+          "github"
         ]
       },
       "Coroutines": {
@@ -12694,48 +17427,88 @@ data = [
         "percentage": 0,
         "rank": 211,
         "full_term": "Coroutines",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "concurrency",
+          "async",
+          "programming"
+        ]
       },
       "CouchDB": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 95,
         "full_term": "CouchDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "apache"
+        ]
       },
       "Couchbase": {
         "count": 0,
         "percentage": 0,
         "rank": 212,
         "full_term": "Couchbase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "document",
+          "storage",
+          "caching"
+        ]
       },
       "Crossplane": {
         "count": 0,
         "percentage": 0,
         "rank": 215,
         "full_term": "Crossplane",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "kubernetes",
+          "control-plane",
+          "iac",
+          "infrastructure",
+          "devops"
+        ]
       },
       "Crystal": {
         "count": 0,
         "percentage": 0,
         "rank": 216,
         "full_term": "Crystal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "systems",
+          "performance",
+          "ruby-like"
+        ]
       },
       "Cucumber": {
         "count": 3,
         "percentage": 1.3761,
         "rank": 57,
         "full_term": "Cucumber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "bdd",
+          "automation"
+        ]
       },
       "Cursor": {
         "count": 0,
@@ -12747,7 +17520,10 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "developer-tooling"
+          "developer-tooling",
+          "ide",
+          "coding",
+          "editor"
         ]
       },
       "D3.js": {
@@ -12760,7 +17536,8 @@ data = [
         "tags": [
           "frontend",
           "visualization",
-          "javascript"
+          "javascript",
+          "data-visualization"
         ]
       },
       "Dagger2": {
@@ -12768,8 +17545,14 @@ data = [
         "percentage": 0,
         "rank": 219,
         "full_term": "Dagger2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "android",
+          "java",
+          "dependency-injection"
+        ]
       },
       "Dagster": {
         "count": 0,
@@ -12781,7 +17564,10 @@ data = [
         "tags": [
           "data-engineering",
           "orchestration",
-          "processing"
+          "processing",
+          "data",
+          "python",
+          "pipelines"
         ]
       },
       "Dart": {
@@ -12794,7 +17580,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "frontend"
+          "frontend",
+          "google"
         ]
       },
       "Data Mining": {
@@ -12807,7 +17594,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "discovery"
         ]
       },
       "Data Science": {
@@ -12820,7 +17608,8 @@ data = [
         "tags": [
           "data",
           "ml",
-          "analytics"
+          "analytics",
+          "statistics"
         ]
       },
       "DataDog": {
@@ -12833,7 +17622,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "cloud",
+          "saas"
         ]
       },
       "Databricks": {
@@ -12847,7 +17638,11 @@ data = [
           "data-engineering",
           "processing",
           "ml",
-          "distributed"
+          "distributed",
+          "data",
+          "analytics",
+          "spark",
+          "cloud"
         ]
       },
       "Deep Learning": {
@@ -12860,7 +17655,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "neural-networks"
         ]
       },
       "Delphi": {
@@ -12868,16 +17664,33 @@ data = [
         "percentage": 0,
         "rank": 226,
         "full_term": "Delphi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "desktop",
+          "enterprise",
+          "pascal",
+          "legacy"
+        ]
       },
       "Delta Lake": {
         "count": 0,
         "percentage": 0,
         "rank": 227,
         "full_term": "Delta Lake/alias[Delta Lake|DeltaLake]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Storage",
+        "tags": [
+          "storage",
+          "data-lake",
+          "data-engineering",
+          "analytics",
+          "data",
+          "datalake",
+          "databricks",
+          "table-format"
+        ]
       },
       "Deno": {
         "count": 0,
@@ -12889,7 +17702,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "typescript"
         ]
       },
       "DevOps": {
@@ -12902,7 +17716,9 @@ data = [
         "tags": [
           "devops",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "culture",
+          "automation"
         ]
       },
       "DevSecOps": {
@@ -12916,7 +17732,9 @@ data = [
           "devops",
           "security",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "automation",
+          "culture"
         ]
       },
       "Distributed Systems": {
@@ -12929,7 +17747,9 @@ data = [
         "tags": [
           "distributed",
           "backend",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "scalability"
         ]
       },
       "Django": {
@@ -12956,7 +17776,9 @@ data = [
         "tags": [
           "container",
           "infrastructure",
-          "devops"
+          "devops",
+          "containers",
+          "virtualization"
         ]
       },
       "Drupal": {
@@ -12964,8 +17786,15 @@ data = [
         "percentage": 0.4587,
         "rank": 98,
         "full_term": "Drupal",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "cms",
+          "php",
+          "web",
+          "content"
+        ]
       },
       "DuckDB": {
         "count": 0,
@@ -12978,7 +17807,9 @@ data = [
           "database",
           "analytics",
           "sql",
-          "storage"
+          "storage",
+          "olap",
+          "in-process"
         ]
       },
       "DynamoDB": {
@@ -12993,7 +17824,8 @@ data = [
           "nosql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "serverless"
         ]
       },
       "EC2": {
@@ -13007,7 +17839,8 @@ data = [
           "cloud",
           "compute",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "vms"
         ]
       },
       "ECS": {
@@ -13021,7 +17854,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "containers",
+          "orchestration"
         ]
       },
       "EDI": {
@@ -13029,8 +17864,16 @@ data = [
         "percentage": 0,
         "rank": 237,
         "full_term": "EDI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "integration",
+          "enterprise",
+          "data",
+          "b2b",
+          "legacy"
+        ]
       },
       "ELK": {
         "count": 0,
@@ -13043,7 +17886,10 @@ data = [
           "sre",
           "observability",
           "logging",
-          "search"
+          "search",
+          "monitoring",
+          "elasticsearch",
+          "kibana"
         ]
       },
       "ES6": {
@@ -13051,16 +17897,31 @@ data = [
         "percentage": 0,
         "rank": 248,
         "full_term": "ES6",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "javascript",
+          "frontend",
+          "web",
+          "ecmascript",
+          "standard"
+        ]
       },
       "ESP-IDF": {
         "count": 0,
         "percentage": 0,
         "rank": 249,
         "full_term": "ESP-IDF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "hardware",
+          "espressif",
+          "c"
+        ]
       },
       "ETL": {
         "count": 0,
@@ -13072,7 +17933,11 @@ data = [
         "tags": [
           "data-engineering",
           "processing",
-          "pipeline"
+          "pipeline",
+          "data",
+          "integration",
+          "pipelines",
+          "analytics"
         ]
       },
       "Eclipse": {
@@ -13080,8 +17945,14 @@ data = [
         "percentage": 0.9174,
         "rank": 70,
         "full_term": "Eclipse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "ide",
+          "java",
+          "tooling"
+        ]
       },
       "Edge Computing": {
         "count": 0,
@@ -13094,7 +17965,8 @@ data = [
           "cloud",
           "edge",
           "network",
-          "distributed"
+          "distributed",
+          "latency"
         ]
       },
       "Edge Functions": {
@@ -13102,16 +17974,29 @@ data = [
         "percentage": 0,
         "rank": 236,
         "full_term": "Edge Functions",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Cloud",
+        "tags": [
+          "cloud",
+          "edge",
+          "serverless",
+          "backend",
+          "compute"
+        ]
       },
       "Eiffel": {
         "count": 0,
         "percentage": 0,
         "rank": 238,
         "full_term": "Eiffel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "backend",
+          "object-oriented",
+          "legacy"
+        ]
       },
       "ElastiCache": {
         "count": 0,
@@ -13124,7 +18009,10 @@ data = [
           "database",
           "cache",
           "aws",
-          "storage"
+          "storage",
+          "cloud",
+          "caching",
+          "redis"
         ]
       },
       "Elasticsearch": {
@@ -13138,7 +18026,9 @@ data = [
           "database",
           "search",
           "storage",
-          "observability"
+          "observability",
+          "analytics",
+          "nosql"
         ]
       },
       "Electron": {
@@ -13151,7 +18041,8 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "javascript"
+          "javascript",
+          "cross-platform"
         ]
       },
       "Elixir": {
@@ -13164,7 +18055,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "erlang-vm",
+          "functional"
         ]
       },
       "Elm": {
@@ -13177,7 +18070,8 @@ data = [
         "tags": [
           "language",
           "frontend",
-          "functional"
+          "functional",
+          "javascript"
         ]
       },
       "Emacs": {
@@ -13185,8 +18079,14 @@ data = [
         "percentage": 0.4587,
         "rank": 100,
         "full_term": "Emacs",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux"
+        ]
       },
       "Embedded Systems": {
         "count": 0,
@@ -13198,7 +18098,10 @@ data = [
         "tags": [
           "embedded",
           "systems",
-          "hardware"
+          "hardware",
+          "iot",
+          "low-level",
+          "c"
         ]
       },
       "Embeddings": {
@@ -13212,7 +18115,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "vector-search"
+          "vector-search",
+          "nlp",
+          "vector"
         ]
       },
       "Ember": {
@@ -13234,8 +18139,16 @@ data = [
         "percentage": 0,
         "rank": 247,
         "full_term": "EmberJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Erlang": {
         "count": 2,
@@ -13247,7 +18160,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "distributed"
+          "distributed",
+          "concurrent",
+          "telecom"
         ]
       },
       "Ethereum": {
@@ -13260,7 +18175,9 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "smart-contracts"
         ]
       },
       "EventBridge": {
@@ -13274,7 +18191,9 @@ data = [
           "cloud",
           "eventing",
           "aws",
-          "backend"
+          "backend",
+          "events",
+          "serverless"
         ]
       },
       "Express": {
@@ -13288,7 +18207,8 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs"
         ]
       },
       "ExpressJS": {
@@ -13296,8 +18216,18 @@ data = [
         "percentage": 0,
         "rank": 254,
         "full_term": "ExpressJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs"
+        ]
       },
       "F#": {
         "count": 0,
@@ -13309,7 +18239,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "dotnet"
+          "dotnet",
+          "microsoft"
         ]
       },
       "FAISS": {
@@ -13323,7 +18254,8 @@ data = [
           "ai",
           "ml",
           "vector-search",
-          "storage"
+          "storage",
+          "facebook"
         ]
       },
       "FIDO": {
@@ -13331,24 +18263,44 @@ data = [
         "percentage": 0,
         "rank": 264,
         "full_term": "FIDO",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "hardware",
+          "authentication",
+          "passkeys"
+        ]
       },
       "Factor": {
         "count": 0,
         "percentage": 0,
         "rank": 256,
         "full_term": "Factor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "concatenative",
+          "stack-based"
+        ]
       },
       "Falco": {
         "count": 0,
         "percentage": 0,
         "rank": 258,
         "full_term": "Falco",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "runtime",
+          "kubernetes",
+          "container",
+          "cncf"
+        ]
       },
       "Fargate": {
         "count": 0,
@@ -13361,7 +18313,9 @@ data = [
           "cloud",
           "container",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "serverless",
+          "containers"
         ]
       },
       "FastAPI": {
@@ -13383,8 +18337,19 @@ data = [
         "percentage": 0,
         "rank": 261,
         "full_term": "Fastify",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "javascript",
+          "node",
+          "api",
+          "web-framework",
+          "web_framework",
+          "nodejs",
+          "performance"
+        ]
       },
       "Feature Flags": {
         "count": 0,
@@ -13396,7 +18361,9 @@ data = [
         "tags": [
           "tooling",
           "release-management",
-          "backend"
+          "backend",
+          "devops",
+          "feature-toggles"
         ]
       },
       "Fiber": {
@@ -13404,8 +18371,17 @@ data = [
         "percentage": 0,
         "rank": 263,
         "full_term": "Fiber",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "performance"
+        ]
       },
       "Figma": {
         "count": 0,
@@ -13417,7 +18393,10 @@ data = [
         "tags": [
           "design",
           "tooling",
-          "frontend"
+          "frontend",
+          "ui",
+          "ux",
+          "prototyping"
         ]
       },
       "Fintech": {
@@ -13429,7 +18408,9 @@ data = [
         "primary_family": "Industry",
         "tags": [
           "industry",
-          "finance"
+          "finance",
+          "domain",
+          "technology"
         ]
       },
       "Firebase": {
@@ -13443,7 +18424,8 @@ data = [
           "cloud",
           "backend",
           "mobile",
-          "google"
+          "google",
+          "baas"
         ]
       },
       "Firecracker": {
@@ -13451,8 +18433,15 @@ data = [
         "percentage": 0,
         "rank": 268,
         "full_term": "Firecracker",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "infrastructure",
+          "virtualization",
+          "serverless",
+          "aws",
+          "microvms"
+        ]
       },
       "Flask": {
         "count": 0,
@@ -13465,7 +18454,8 @@ data = [
           "backend",
           "framework",
           "python",
-          "web"
+          "web",
+          "microframework"
         ]
       },
       "Flink SQL": {
@@ -13479,7 +18469,10 @@ data = [
           "stream-processing",
           "sql",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache-flink"
         ]
       },
       "Flutter": {
@@ -13493,7 +18486,8 @@ data = [
           "mobile",
           "frontend",
           "dart",
-          "cross-platform"
+          "cross-platform",
+          "google"
         ]
       },
       "Flux": {
@@ -13501,32 +18495,61 @@ data = [
         "percentage": 0,
         "rank": 272,
         "full_term": "Flux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "kubernetes",
+          "gitops",
+          "devops",
+          "infrastructure",
+          "cd"
+        ]
       },
       "Forth": {
         "count": 0,
         "percentage": 0,
         "rank": 273,
         "full_term": "Forth",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "embedded",
+          "systems",
+          "stack-based",
+          "low-level"
+        ]
       },
       "Fortran": {
         "count": 0,
         "percentage": 0,
         "rank": 274,
         "full_term": "Fortran",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scientific",
+          "hpc",
+          "math",
+          "legacy"
+        ]
       },
       "FreeRTOS": {
         "count": 0,
         "percentage": 0,
         "rank": 275,
         "full_term": "FreeRTOS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "embedded",
+          "iot",
+          "rtos",
+          "hardware",
+          "os",
+          "real-time"
+        ]
       },
       "Front End": {
         "count": 38,
@@ -13537,7 +18560,9 @@ data = [
         "primary_family": "Work Area",
         "tags": [
           "frontend",
-          "work-area"
+          "work-area",
+          "ui",
+          "client-side"
         ]
       },
       "Full Stack": {
@@ -13550,7 +18575,9 @@ data = [
         "tags": [
           "frontend",
           "backend",
-          "work-area"
+          "work-area",
+          "fullstack",
+          "generalist"
         ]
       },
       "GCP": {
@@ -13563,7 +18590,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "GIS": {
@@ -13571,8 +18599,16 @@ data = [
         "percentage": 0,
         "rank": 283,
         "full_term": "GIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "geospatial",
+          "data",
+          "analytics",
+          "domain",
+          "mapping",
+          "location"
+        ]
       },
       "GPT": {
         "count": 0,
@@ -13583,7 +18619,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "openai",
+          "generative-ai"
         ]
       },
       "GPT-3": {
@@ -13591,48 +18629,92 @@ data = [
         "percentage": 0,
         "rank": 290,
         "full_term": "GPT-3",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPT-4": {
         "count": 0,
         "percentage": 0,
         "rank": 291,
         "full_term": "GPT-4",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "openai",
+          "generative-ai"
+        ]
       },
       "GPU": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 102,
         "full_term": "GPU/alias[GPU|GPUs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "processing",
+          "hardware",
+          "ml",
+          "hpc",
+          "compute",
+          "ai",
+          "graphics"
+        ]
       },
       "Gatsby": {
         "count": 0,
         "percentage": 0,
         "rank": 276,
         "full_term": "Gatsby",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "static-site-generator",
+          "graphql"
+        ]
       },
       "Gearman": {
         "count": 0,
         "percentage": 0,
         "rank": 278,
         "full_term": "Gearman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "distributed"
+        ]
       },
       "Gemini": {
         "count": 0,
         "percentage": 0,
         "rank": 279,
         "full_term": "Gemini",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "model",
+          "google",
+          "multimodal"
+        ]
       },
       "Generative AI": {
         "count": 0,
@@ -13644,7 +18726,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "generative-ai"
+          "generative-ai",
+          "generative",
+          "ml"
         ]
       },
       "Gin": {
@@ -13652,16 +18736,33 @@ data = [
         "percentage": 0,
         "rank": 281,
         "full_term": "Gin",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "go",
+          "web",
+          "web-framework",
+          "web_framework",
+          "api"
+        ]
       },
       "Giraph": {
         "count": 0,
         "percentage": 0,
         "rank": 282,
         "full_term": "Giraph",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "graph-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "apache",
+          "hadoop"
+        ]
       },
       "Git": {
         "count": 9,
@@ -13672,7 +18773,9 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "version-control"
+          "version-control",
+          "vcs",
+          "tooling"
         ]
       },
       "GitHub": {
@@ -13685,7 +18788,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "collaboration",
+          "ci-cd"
         ]
       },
       "GitLab": {
@@ -13698,7 +18805,11 @@ data = [
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "ci-cd",
+          "devops"
         ]
       },
       "GitOps": {
@@ -13712,7 +18823,10 @@ data = [
           "gitops",
           "devops",
           "infrastructure",
-          "kubernetes"
+          "kubernetes",
+          "git",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "Go": {
@@ -13726,7 +18840,8 @@ data = [
           "language",
           "backend",
           "systems",
-          "cloud"
+          "cloud",
+          "google"
         ]
       },
       "Golden Path": {
@@ -13734,8 +18849,14 @@ data = [
         "percentage": 0,
         "rank": 286,
         "full_term": "Golden Path",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Platform Engineering",
+        "tags": [
+          "platform-engineering",
+          "developer-experience",
+          "developer-platform",
+          "standards"
+        ]
       },
       "Google Cloud": {
         "count": 0,
@@ -13747,7 +18868,8 @@ data = [
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ]
       },
       "Google Cloud Functions": {
@@ -13761,7 +18883,9 @@ data = [
           "cloud",
           "serverless",
           "backend",
-          "google"
+          "google",
+          "gcp",
+          "compute"
         ]
       },
       "Grafana": {
@@ -13774,7 +18898,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "visualization",
+          "dashboards"
         ]
       },
       "GraphQL": {
@@ -13787,7 +18913,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "query-language",
+          "frontend"
         ]
       },
       "Graphite": {
@@ -13795,48 +18923,93 @@ data = [
         "percentage": 0.9174,
         "rank": 72,
         "full_term": "Graphite",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "monitoring",
+          "metrics",
+          "time-series"
+        ]
       },
       "Greptile": {
         "count": 0,
         "percentage": 0,
         "rank": 294,
         "full_term": "Greptile",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "developer-tooling",
+          "code-review",
+          "coding",
+          "codebase-understanding",
+          "tooling"
+        ]
       },
       "Groovy": {
         "count": 3,
         "percentage": 1.3761,
         "rank": 59,
         "full_term": "Groovy",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "jvm",
+          "scripting",
+          "java"
+        ]
       },
       "Groq": {
         "count": 0,
         "percentage": 0,
         "rank": 295,
         "full_term": "Groq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "inference",
+          "hardware",
+          "lpu"
+        ]
       },
       "Grunt": {
         "count": 0,
         "percentage": 0,
         "rank": 297,
         "full_term": "Grunt/js[Grunt]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "Gulp": {
         "count": 0,
         "percentage": 0,
         "rank": 298,
         "full_term": "Gulp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "javascript",
+          "tooling",
+          "build-tool",
+          "legacy"
+        ]
       },
       "HAProxy": {
         "count": 0,
@@ -13848,7 +19021,11 @@ data = [
         "tags": [
           "network",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "networking",
+          "load-balancer",
+          "proxy",
+          "tcp-http"
         ]
       },
       "HDFS": {
@@ -13861,7 +19038,9 @@ data = [
         "tags": [
           "storage",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "hadoop"
         ]
       },
       "HPC": {
@@ -13874,7 +19053,10 @@ data = [
         "tags": [
           "processing",
           "distributed",
-          "performance"
+          "performance",
+          "infrastructure",
+          "compute",
+          "high-performance"
         ]
       },
       "HTML5": {
@@ -13887,7 +19069,9 @@ data = [
         "tags": [
           "frontend",
           "html",
-          "web"
+          "web",
+          "markup",
+          "standard"
         ]
       },
       "HaXe": {
@@ -13895,8 +19079,14 @@ data = [
         "percentage": 0.4587,
         "rank": 103,
         "full_term": "HaXe",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "cross-platform",
+          "compiler"
+        ]
       },
       "Hadoop": {
         "count": 7,
@@ -13909,7 +19099,10 @@ data = [
           "data-engineering",
           "distributed",
           "processing",
-          "storage"
+          "storage",
+          "data",
+          "big-data",
+          "apache"
         ]
       },
       "Haskell": {
@@ -13922,7 +19115,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "pure"
         ]
       },
       "Helm": {
@@ -13936,7 +19130,8 @@ data = [
           "kubernetes",
           "devops",
           "packaging",
-          "infrastructure"
+          "infrastructure",
+          "package-manager"
         ]
       },
       "Heroku": {
@@ -13949,7 +19144,9 @@ data = [
         "tags": [
           "cloud",
           "paas",
-          "backend"
+          "backend",
+          "hosting",
+          "deployment"
         ]
       },
       "Hive": {
@@ -13962,7 +19159,11 @@ data = [
         "tags": [
           "data-engineering",
           "sql",
-          "distributed"
+          "distributed",
+          "data",
+          "data-warehouse",
+          "apache",
+          "hadoop"
         ]
       },
       "Hotwire": {
@@ -13970,24 +19171,49 @@ data = [
         "percentage": 0,
         "rank": 302,
         "full_term": "Hotwire",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "rails",
+          "html-over-the-wire",
+          "ruby-on-rails"
+        ]
       },
       "Hudson": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 104,
         "full_term": "Hudson",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "ci",
+          "developer-tooling",
+          "java",
+          "devops",
+          "legacy",
+          "jenkins-predecessor"
+        ]
       },
       "Hugging Face": {
         "count": 0,
         "percentage": 0,
         "rank": 304,
         "full_term": "Hugging Face/alias[Hugging Face|HuggingFace]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "llm",
+          "model-hub",
+          "tooling",
+          "platform",
+          "models"
+        ]
       },
       "Hybrid": {
         "count": 0,
@@ -13998,7 +19224,11 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "hybrid",
-          "work-mode"
+          "work-mode",
+          "infrastructure",
+          "cloud",
+          "on-premise",
+          "architecture"
         ]
       },
       "IAM": {
@@ -14011,7 +19241,8 @@ data = [
         "tags": [
           "security",
           "identity",
-          "cloud"
+          "cloud",
+          "access-management"
         ]
       },
       "IaC": {
@@ -14024,7 +19255,9 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "automation"
         ]
       },
       "InfluxDB": {
@@ -14038,7 +19271,9 @@ data = [
           "database",
           "time-series",
           "storage",
-          "observability"
+          "observability",
+          "monitoring",
+          "iot"
         ]
       },
       "Internal Developer Platform": {
@@ -14051,7 +19286,10 @@ data = [
         "tags": [
           "platform-engineering",
           "developer-platform",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "developer-experience",
+          "idp"
         ]
       },
       "Istio": {
@@ -14065,7 +19303,9 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "networking"
         ]
       },
       "JBoss": {
@@ -14073,8 +19313,14 @@ data = [
         "percentage": 0,
         "rank": 312,
         "full_term": "JBoss",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "application-server",
+          "redhat"
+        ]
       },
       "JSON": {
         "count": 0,
@@ -14086,7 +19332,10 @@ data = [
         "tags": [
           "data-format",
           "api",
-          "backend"
+          "backend",
+          "data",
+          "format",
+          "web"
         ]
       },
       "JSON API": {
@@ -14094,24 +19343,44 @@ data = [
         "percentage": 0,
         "rank": 315,
         "full_term": "JSON API",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "data-format",
+          "rest",
+          "json",
+          "standard"
+        ]
       },
       "JSP": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 106,
         "full_term": "JSP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "java",
+          "web",
+          "legacy"
+        ]
       },
       "JUnit": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 107,
         "full_term": "JUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "java",
+          "jvm",
+          "backend"
+        ]
       },
       "JWT": {
         "count": 0,
@@ -14123,7 +19392,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "api"
+          "api",
+          "authentication",
+          "tokens",
+          "web"
         ]
       },
       "Jaeger": {
@@ -14136,7 +19408,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "cncf"
         ]
       },
       "Java": {
@@ -14149,7 +19423,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "JavaScript": {
@@ -14176,7 +19451,10 @@ data = [
         "tags": [
           "ci",
           "devops",
-          "developer-tooling"
+          "developer-tooling",
+          "ci-cd",
+          "automation",
+          "java"
         ]
       },
       "Jest": {
@@ -14189,7 +19467,8 @@ data = [
         "tags": [
           "testing",
           "frontend",
-          "javascript"
+          "javascript",
+          "react"
         ]
       },
       "Julia": {
@@ -14203,7 +19482,10 @@ data = [
           "language",
           "ml",
           "data",
-          "processing"
+          "processing",
+          "data-science",
+          "math",
+          "performance"
         ]
       },
       "Junior": {
@@ -14215,7 +19497,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "junior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "entry-level"
         ]
       },
       "Jupyter": {
@@ -14228,7 +19513,9 @@ data = [
         "tags": [
           "data-science",
           "ml",
-          "tooling"
+          "tooling",
+          "notebooks",
+          "python"
         ]
       },
       "K8s": {
@@ -14242,7 +19529,10 @@ data = [
           "kubernetes",
           "container",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "orchestration",
+          "containers"
         ]
       },
       "Kafka": {
@@ -14257,7 +19547,9 @@ data = [
           "messaging",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "apache"
         ]
       },
       "Kafka Streams": {
@@ -14271,7 +19563,11 @@ data = [
           "stream-processing",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "kafka",
+          "java"
         ]
       },
       "Keras": {
@@ -14293,16 +19589,31 @@ data = [
         "percentage": 0,
         "rank": 323,
         "full_term": "Kestrel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "dotnet",
+          "web-server",
+          "microsoft"
+        ]
       },
       "Keycloak": {
         "count": 0,
         "percentage": 0,
         "rank": 324,
         "full_term": "Keycloak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "sso",
+          "iam",
+          "authentication",
+          "open-source"
+        ]
       },
       "Kinesis": {
         "count": 0,
@@ -14315,7 +19626,9 @@ data = [
           "stream-processing",
           "cloud",
           "aws",
-          "data-engineering"
+          "data-engineering",
+          "streaming",
+          "data"
         ]
       },
       "Knative": {
@@ -14328,7 +19641,9 @@ data = [
         "tags": [
           "kubernetes",
           "serverless",
-          "infrastructure"
+          "infrastructure",
+          "devops",
+          "cncf"
         ]
       },
       "Knockout": {
@@ -14336,16 +19651,30 @@ data = [
         "percentage": 0.4587,
         "rank": 108,
         "full_term": "Knockout/js[Knockout]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "KnockoutJS": {
         "count": 0,
         "percentage": 0,
         "rank": 327,
         "full_term": "KnockoutJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ]
       },
       "Kotlin": {
         "count": 0,
@@ -14358,7 +19687,8 @@ data = [
           "language",
           "mobile",
           "backend",
-          "jvm"
+          "jvm",
+          "android"
         ]
       },
       "Kubeflow": {
@@ -14372,7 +19702,8 @@ data = [
           "ai",
           "ml",
           "kubernetes",
-          "workflow"
+          "workflow",
+          "mlops"
         ]
       },
       "Kubernetes": {
@@ -14388,7 +19719,10 @@ data = [
           "orchestration",
           "distributed",
           "sre",
-          "cloud"
+          "cloud",
+          "devops",
+          "containers",
+          "cncf"
         ]
       },
       "LAMP": {
@@ -14396,16 +19730,32 @@ data = [
         "percentage": 1.3761,
         "rank": 61,
         "full_term": "LAMP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "stack",
+          "php",
+          "linux",
+          "web",
+          "architecture",
+          "apache",
+          "mysql"
+        ]
       },
       "LESS": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 109,
         "full_term": "LESS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "legacy"
+        ]
       },
       "LLMOps": {
         "count": 0,
@@ -14418,7 +19768,8 @@ data = [
           "ai",
           "llm",
           "mlops",
-          "infrastructure"
+          "infrastructure",
+          "operations"
         ]
       },
       "LLaMA": {
@@ -14431,7 +19782,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "model"
+          "model",
+          "meta",
+          "open-weights"
         ]
       },
       "Lambda": {
@@ -14444,7 +19797,9 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "aws",
+          "compute"
         ]
       },
       "LanceDB": {
@@ -14452,8 +19807,20 @@ data = [
         "percentage": 0,
         "rank": 333,
         "full_term": "LanceDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "serverless"
+        ]
       },
       "LangChain": {
         "count": 0,
@@ -14465,7 +19832,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "framework"
+          "framework",
+          "python"
         ]
       },
       "LangGraph": {
@@ -14487,16 +19855,33 @@ data = [
         "percentage": 0,
         "rank": 335,
         "full_term": "Langfuse",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "observability",
+          "evals",
+          "prompt-management",
+          "analytics"
+        ]
       },
       "Laravel": {
         "count": 0,
         "percentage": 0,
         "rank": 337,
         "full_term": "Laravel",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "Large Language Model": {
         "count": 0,
@@ -14507,7 +19892,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "llm"
+          "llm",
+          "generative-ai",
+          "nlp"
         ]
       },
       "LaunchDarkly": {
@@ -14520,7 +19907,9 @@ data = [
         "tags": [
           "feature-flags",
           "release-management",
-          "tooling"
+          "tooling",
+          "devops",
+          "saas"
         ]
       },
       "Linkerd": {
@@ -14528,8 +19917,16 @@ data = [
         "percentage": 0,
         "rank": 340,
         "full_term": "Linkerd",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "service-mesh",
+          "kubernetes",
+          "network",
+          "infrastructure",
+          "devops",
+          "cncf"
+        ]
       },
       "Linux": {
         "count": 7,
@@ -14541,7 +19938,10 @@ data = [
         "tags": [
           "linux",
           "systems",
-          "infrastructure"
+          "infrastructure",
+          "os",
+          "open-source",
+          "backend"
         ]
       },
       "Lisp": {
@@ -14549,8 +19949,14 @@ data = [
         "percentage": 0.4587,
         "rank": 110,
         "full_term": "Lisp",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "macros"
+        ]
       },
       "LlamaIndex": {
         "count": 0,
@@ -14563,7 +19969,8 @@ data = [
           "ai",
           "llm",
           "rag",
-          "framework"
+          "framework",
+          "data-framework"
         ]
       },
       "Logos": {
@@ -14571,32 +19978,60 @@ data = [
         "percentage": 0,
         "rank": 344,
         "full_term": "Logos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "blockchain",
+          "network",
+          "crypto"
+        ]
       },
       "Loki": {
         "count": 0,
         "percentage": 0,
         "rank": 345,
         "full_term": "Loki",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "observability",
+          "logging",
+          "grafana",
+          "kubernetes"
+        ]
       },
       "Lua": {
         "count": 0,
         "percentage": 0,
         "rank": 346,
         "full_term": "Lua",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "scripting",
+          "embedded",
+          "gaming"
+        ]
       },
       "Lucene": {
         "count": 5,
         "percentage": 2.2936,
         "rank": 42,
         "full_term": "Lucene",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "search",
+          "java",
+          "storage",
+          "apache",
+          "indexing"
+        ]
       },
       "MATLAB": {
         "count": 0,
@@ -14608,7 +20043,10 @@ data = [
         "tags": [
           "language",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "engineering",
+          "scientific"
         ]
       },
       "MCP": {
@@ -14622,7 +20060,10 @@ data = [
           "ai",
           "llm",
           "protocol",
-          "tooling"
+          "tooling",
+          "architecture",
+          "microservices",
+          "pattern"
         ]
       },
       "MFA": {
@@ -14630,8 +20071,15 @@ data = [
         "percentage": 0,
         "rank": 356,
         "full_term": "MFA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "identity",
+          "auth",
+          "authentication",
+          "multi-factor"
+        ]
       },
       "MLflow": {
         "count": 0,
@@ -14644,7 +20092,9 @@ data = [
           "ai",
           "ml",
           "mlops",
-          "tooling"
+          "tooling",
+          "databricks",
+          "lifecycle"
         ]
       },
       "MQTT": {
@@ -14657,7 +20107,9 @@ data = [
         "tags": [
           "network",
           "messaging",
-          "iot"
+          "iot",
+          "networking",
+          "protocol"
         ]
       },
       "MSMQ": {
@@ -14665,8 +20117,15 @@ data = [
         "percentage": 0,
         "rank": 361,
         "full_term": "MSMQ",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "microsoft",
+          "queue",
+          "legacy"
+        ]
       },
       "Machine Learning": {
         "count": 7,
@@ -14677,7 +20136,9 @@ data = [
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "ml"
+          "ml",
+          "data-science",
+          "algorithms"
         ]
       },
       "Mahout": {
@@ -14685,16 +20146,34 @@ data = [
         "percentage": 0,
         "rank": 347,
         "full_term": "Mahout",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "ml",
+          "distributed",
+          "data",
+          "apache",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MapReduce": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 111,
         "full_term": "MapReduce",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "batch-processing",
+          "distributed",
+          "data-engineering",
+          "data",
+          "distributed-computing",
+          "hadoop",
+          "legacy"
+        ]
       },
       "MariaDB": {
         "count": 0,
@@ -14706,7 +20185,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "mysql-fork"
         ]
       },
       "Materialize": {
@@ -14719,7 +20200,10 @@ data = [
         "tags": [
           "stream-processing",
           "sql",
-          "data-engineering"
+          "data-engineering",
+          "database",
+          "streaming",
+          "real-time"
         ]
       },
       "Maven": {
@@ -14727,40 +20211,78 @@ data = [
         "percentage": 0.4587,
         "rank": 112,
         "full_term": "Maven",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "build",
+          "java",
+          "build-tool",
+          "dependency-management"
+        ]
       },
       "Mercurial": {
         "count": 0,
         "percentage": 0,
         "rank": 352,
         "full_term": "Mercurial",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "version-control",
+          "vcs",
+          "legacy"
+        ]
       },
       "Mesos": {
         "count": 0,
         "percentage": 0,
         "rank": 353,
         "full_term": "Mesos",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "orchestration",
+          "infrastructure",
+          "distributed",
+          "devops",
+          "cluster-management",
+          "apache",
+          "legacy"
+        ]
       },
       "Metabase": {
         "count": 0,
         "percentage": 0,
         "rank": 354,
         "full_term": "Metabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-engineering",
+          "data",
+          "visualization"
+        ]
       },
       "Meteor": {
         "count": 0,
         "percentage": 0,
         "rank": 355,
         "full_term": "Meteor",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "framework",
+          "fullstack",
+          "nodejs"
+        ]
       },
       "Microservices": {
         "count": 0,
@@ -14772,7 +20294,8 @@ data = [
         "tags": [
           "backend",
           "distributed",
-          "architecture"
+          "architecture",
+          "distributed-systems"
         ]
       },
       "Milvus": {
@@ -14785,8 +20308,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "MongoDB": {
@@ -14814,7 +20343,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "oracle"
         ]
       },
       "NFC": {
@@ -14827,7 +20358,9 @@ data = [
         "tags": [
           "network",
           "mobile",
-          "hardware"
+          "hardware",
+          "networking",
+          "contactless"
         ]
       },
       "NLP": {
@@ -14840,7 +20373,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "nlp"
+          "nlp",
+          "natural-language-processing",
+          "text"
         ]
       },
       "NServiceBus": {
@@ -14848,24 +20383,42 @@ data = [
         "percentage": 0,
         "rank": 369,
         "full_term": "NServiceBus",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "messaging",
+          "backend",
+          "dotnet",
+          "service-bus"
+        ]
       },
       "NUnit": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 115,
         "full_term": "NUnit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "dotnet",
+          "backend"
+        ]
       },
       "Nagios": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 113,
         "full_term": "Nagios",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "legacy"
+        ]
       },
       "Neo4j": {
         "count": 0,
@@ -14877,7 +20430,8 @@ data = [
         "tags": [
           "database",
           "graph",
-          "storage"
+          "storage",
+          "nosql"
         ]
       },
       "NestJS": {
@@ -14891,7 +20445,9 @@ data = [
           "backend",
           "framework",
           "javascript",
-          "node"
+          "node",
+          "nodejs",
+          "typescript"
         ]
       },
       "Next.js": {
@@ -14906,7 +20462,9 @@ data = [
           "backend",
           "web",
           "javascript",
-          "react"
+          "react",
+          "framework",
+          "ssr"
         ]
       },
       "NextJS": {
@@ -14914,8 +20472,17 @@ data = [
         "percentage": 0,
         "rank": 366,
         "full_term": "NextJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "react",
+          "framework",
+          "ssr"
+        ]
       },
       "Nix": {
         "count": 0,
@@ -14927,7 +20494,10 @@ data = [
         "tags": [
           "infrastructure",
           "build",
-          "devops"
+          "devops",
+          "package-manager",
+          "build-tool",
+          "reproducibility"
         ]
       },
       "Node.js": {
@@ -14940,7 +20510,8 @@ data = [
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "v8"
         ]
       },
       "Nomad": {
@@ -14953,7 +20524,10 @@ data = [
         "tags": [
           "orchestration",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "hashicorp",
+          "containers"
         ]
       },
       "NumPy": {
@@ -14966,7 +20540,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "ml"
+          "ml",
+          "math",
+          "arrays"
         ]
       },
       "Nuxt": {
@@ -14980,7 +20556,9 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "vue"
+          "vue",
+          "framework",
+          "ssr"
         ]
       },
       "Nuxt.js": {
@@ -14988,16 +20566,34 @@ data = [
         "percentage": 0,
         "rank": 372,
         "full_term": "Nuxt.js",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "NuxtJS": {
         "count": 0,
         "percentage": 0,
         "rank": 373,
         "full_term": "NuxtJS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "backend",
+          "web",
+          "javascript",
+          "vue",
+          "framework",
+          "ssr"
+        ]
       },
       "OAuth": {
         "count": 0,
@@ -15009,7 +20605,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OAuth2": {
@@ -15022,7 +20621,10 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "authorization",
+          "api"
         ]
       },
       "OCaml": {
@@ -15035,7 +20637,8 @@ data = [
         "tags": [
           "language",
           "functional",
-          "backend"
+          "backend",
+          "strongly-typed"
         ]
       },
       "OIDC": {
@@ -15048,7 +20651,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OPA": {
@@ -15061,7 +20666,9 @@ data = [
         "tags": [
           "security",
           "policy",
-          "kubernetes"
+          "kubernetes",
+          "policy-as-code",
+          "cncf"
         ]
       },
       "OPA Gatekeeper": {
@@ -15069,32 +20676,58 @@ data = [
         "percentage": 0,
         "rank": 382,
         "full_term": "OPA Gatekeeper",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "policy",
+          "kubernetes",
+          "admission-controller"
+        ]
       },
       "OR-Tools": {
         "count": 0,
         "percentage": 0,
         "rank": 390,
         "full_term": "OR-Tools/alias[OR-Tools|OR-tools]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "optimization",
+          "operations-research",
+          "processing",
+          "ai",
+          "google",
+          "math"
+        ]
       },
       "OSINT": {
         "count": 0,
         "percentage": 0,
         "rank": 391,
         "full_term": "OSINT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "intelligence",
+          "investigation",
+          "reconnaissance"
+        ]
       },
       "OTA": {
         "count": 0,
         "percentage": 0,
         "rank": 392,
         "full_term": "OTA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "iot",
+          "updates",
+          "over-the-air"
+        ]
       },
       "Objective-C": {
         "count": 1,
@@ -15106,7 +20739,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Objective-J": {
@@ -15114,8 +20748,15 @@ data = [
         "percentage": 0,
         "rank": 376,
         "full_term": "Objective-J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "frontend",
+          "web",
+          "javascript-superset",
+          "legacy"
+        ]
       },
       "Observability": {
         "count": 0,
@@ -15127,7 +20768,10 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "devops",
+          "tracing",
+          "metrics"
         ]
       },
       "Octave": {
@@ -15135,8 +20779,15 @@ data = [
         "percentage": 0,
         "rank": 379,
         "full_term": "Octave",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "data",
+          "scientific",
+          "math",
+          "matlab-alternative"
+        ]
       },
       "Onsite": {
         "count": 4,
@@ -15147,7 +20798,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "onsite",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "office"
         ]
       },
       "Open Source": {
@@ -15158,7 +20812,9 @@ data = [
         "kind": "Work Attribute",
         "primary_family": "Work Attribute",
         "tags": [
-          "open-source"
+          "open-source",
+          "community",
+          "licensing"
         ]
       },
       "OpenAI": {
@@ -15171,7 +20827,9 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "platform"
+          "platform",
+          "company",
+          "generative-ai"
         ]
       },
       "OpenAI API": {
@@ -15184,7 +20842,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "api"
+          "api",
+          "integration"
         ]
       },
       "OpenCV": {
@@ -15197,7 +20856,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "computer-vision"
+          "computer-vision",
+          "c++",
+          "python"
         ]
       },
       "OpenGL": {
@@ -15209,7 +20870,10 @@ data = [
         "primary_family": "Frontend",
         "tags": [
           "graphics",
-          "frontend"
+          "frontend",
+          "rendering",
+          "api",
+          "c"
         ]
       },
       "OpenID Connect": {
@@ -15222,7 +20886,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "oauth2"
         ]
       },
       "OpenStack": {
@@ -15235,7 +20901,9 @@ data = [
         "tags": [
           "cloud",
           "infrastructure",
-          "private-cloud"
+          "private-cloud",
+          "iaas",
+          "open-source"
         ]
       },
       "OpenTelemetry": {
@@ -15249,7 +20917,8 @@ data = [
           "sre",
           "observability",
           "tracing",
-          "metrics"
+          "metrics",
+          "cncf"
         ]
       },
       "OpenTofu": {
@@ -15262,7 +20931,8 @@ data = [
         "tags": [
           "iac",
           "infrastructure",
-          "devops"
+          "devops",
+          "terraform-fork"
         ]
       },
       "Oracle": {
@@ -15275,7 +20945,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "enterprise"
         ]
       },
       "PHP": {
@@ -15301,7 +20973,9 @@ data = [
         "tags": [
           "data-science",
           "python",
-          "analytics"
+          "analytics",
+          "data-analysis",
+          "dataframes"
         ]
       },
       "Parquet": {
@@ -15314,7 +20988,10 @@ data = [
         "tags": [
           "storage",
           "data-format",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "columnar",
+          "apache"
         ]
       },
       "Pentaho": {
@@ -15322,8 +20999,15 @@ data = [
         "percentage": 0,
         "rank": 395,
         "full_term": "Pentaho",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "etl",
+          "data-engineering",
+          "data"
+        ]
       },
       "Perl": {
         "count": 9,
@@ -15335,7 +21019,9 @@ data = [
         "tags": [
           "language",
           "backend",
-          "scripting"
+          "scripting",
+          "legacy",
+          "text-processing"
         ]
       },
       "PhantomJS": {
@@ -15343,8 +21029,16 @@ data = [
         "percentage": 0,
         "rank": 396,
         "full_term": "PhantomJS/js[phantom]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Testing",
+        "tags": [
+          "testing",
+          "frontend",
+          "javascript",
+          "browser",
+          "headless",
+          "legacy"
+        ]
       },
       "Phoenix": {
         "count": 0,
@@ -15356,7 +21050,8 @@ data = [
         "tags": [
           "backend",
           "framework",
-          "elixir"
+          "elixir",
+          "web"
         ]
       },
       "Pig": {
@@ -15364,8 +21059,16 @@ data = [
         "percentage": 0,
         "rank": 398,
         "full_term": "Pig",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "hadoop",
+          "query-language",
+          "data",
+          "scripting",
+          "apache"
+        ]
       },
       "Pinecone": {
         "count": 0,
@@ -15377,8 +21080,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "Pipedream": {
@@ -15386,8 +21095,15 @@ data = [
         "percentage": 0,
         "rank": 400,
         "full_term": "Pipedream",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "api"
+        ]
       },
       "Platform Engineering": {
         "count": 0,
@@ -15399,7 +21115,10 @@ data = [
         "tags": [
           "platform-engineering",
           "infrastructure",
-          "developer-platform"
+          "developer-platform",
+          "devops",
+          "platform",
+          "developer-experience"
         ]
       },
       "PostgreSQL": {
@@ -15413,7 +21132,9 @@ data = [
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "open-source"
         ]
       },
       "PowerBuilder": {
@@ -15421,8 +21142,16 @@ data = [
         "percentage": 0,
         "rank": 402,
         "full_term": "PowerBuilder",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "enterprise",
+          "desktop",
+          "tooling",
+          "ide",
+          "legacy"
+        ]
       },
       "PowerShell": {
         "count": 0,
@@ -15434,7 +21163,9 @@ data = [
         "tags": [
           "scripting",
           "windows",
-          "devops"
+          "devops",
+          "language",
+          "automation"
         ]
       },
       "Presto": {
@@ -15448,7 +21179,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Principal": {
@@ -15460,7 +21193,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "principal",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Processing": {
@@ -15468,16 +21204,29 @@ data = [
         "percentage": 3.211,
         "rank": 34,
         "full_term": "Processing",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "creative-coding",
+          "graphics",
+          "java",
+          "visual-arts"
+        ]
       },
       "Prolog": {
         "count": 0,
         "percentage": 0,
         "rank": 405,
         "full_term": "Prolog",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "logic",
+          "ai",
+          "legacy"
+        ]
       },
       "Prometheus": {
         "count": 0,
@@ -15490,7 +21239,10 @@ data = [
           "sre",
           "observability",
           "monitoring",
-          "infrastructure"
+          "infrastructure",
+          "metrics",
+          "time-series",
+          "cncf"
         ]
       },
       "Prompt Engineering": {
@@ -15503,7 +21255,8 @@ data = [
         "tags": [
           "ai",
           "llm",
-          "prompting"
+          "prompting",
+          "practice"
         ]
       },
       "Protocol Buffers": {
@@ -15516,7 +21269,10 @@ data = [
         "tags": [
           "backend",
           "api",
-          "serialization"
+          "serialization",
+          "data",
+          "google",
+          "grpc"
         ]
       },
       "Pulumi": {
@@ -15530,7 +21286,8 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code"
         ]
       },
       "Puppet": {
@@ -15544,7 +21301,9 @@ data = [
           "infrastructure",
           "automation",
           "devops",
-          "configuration"
+          "configuration",
+          "configuration-management",
+          "ruby"
         ]
       },
       "PyTorch": {
@@ -15558,7 +21317,8 @@ data = [
           "ai",
           "ml",
           "deep-learning",
-          "python"
+          "python",
+          "facebook"
         ]
       },
       "Pydantic AI": {
@@ -15566,8 +21326,15 @@ data = [
         "percentage": 0,
         "rank": 411,
         "full_term": "Pydantic AI",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "agents",
+          "framework",
+          "python"
+        ]
       },
       "Python": {
         "count": 37,
@@ -15580,7 +21347,9 @@ data = [
           "language",
           "backend",
           "ml",
-          "data"
+          "data",
+          "data-science",
+          "ai"
         ]
       },
       "QLoRA": {
@@ -15588,8 +21357,14 @@ data = [
         "percentage": 0,
         "rank": 414,
         "full_term": "QLoRA",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "AI / Machine Learning",
+        "tags": [
+          "ai",
+          "llm",
+          "fine-tuning",
+          "ml"
+        ]
       },
       "Qdrant": {
         "count": 0,
@@ -15601,8 +21376,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "rust"
         ]
       },
       "R": {
@@ -15616,7 +21397,8 @@ data = [
           "language",
           "data",
           "statistics",
-          "ml"
+          "ml",
+          "data-science"
         ]
       },
       "RAG": {
@@ -15630,7 +21412,9 @@ data = [
           "ai",
           "llm",
           "rag",
-          "search"
+          "search",
+          "architecture",
+          "retrieval"
         ]
       },
       "RDF4J": {
@@ -15638,8 +21422,16 @@ data = [
         "percentage": 0,
         "rank": 418,
         "full_term": "RDF4J",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "semantic-web",
+          "rdf",
+          "data",
+          "database",
+          "graph",
+          "java"
+        ]
       },
       "RDS": {
         "count": 1,
@@ -15653,7 +21445,8 @@ data = [
           "sql",
           "cloud",
           "aws",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "REPL": {
@@ -15661,8 +21454,15 @@ data = [
         "percentage": 0,
         "rank": 425,
         "full_term": "REPL",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "interactive",
+          "tooling",
+          "cli",
+          "programming"
+        ]
       },
       "REST": {
         "count": 2,
@@ -15674,7 +21474,9 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "architecture",
+          "http"
         ]
       },
       "RabbitMQ": {
@@ -15687,7 +21489,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "amqp",
+          "erlang"
         ]
       },
       "Rails": {
@@ -15715,7 +21520,9 @@ data = [
           "distributed",
           "processing",
           "ml",
-          "python"
+          "python",
+          "ai",
+          "distributed-computing"
         ]
       },
       "React": {
@@ -15729,7 +21536,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "facebook"
         ]
       },
       "React Native": {
@@ -15743,7 +21551,8 @@ data = [
           "mobile",
           "frontend",
           "javascript",
-          "react"
+          "react",
+          "cross-platform"
         ]
       },
       "Redis": {
@@ -15757,7 +21566,10 @@ data = [
           "database",
           "cache",
           "storage",
-          "backend"
+          "backend",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "Redpanda": {
@@ -15771,7 +21583,10 @@ data = [
           "streaming",
           "messaging",
           "kafka",
-          "distributed"
+          "distributed",
+          "data",
+          "kafka-compatible",
+          "c++"
         ]
       },
       "Redshift": {
@@ -15786,7 +21601,9 @@ data = [
           "warehouse",
           "cloud",
           "aws",
-          "analytics"
+          "analytics",
+          "data",
+          "data-warehouse"
         ]
       },
       "Redux": {
@@ -15799,7 +21616,8 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "state-management"
+          "state-management",
+          "react"
         ]
       },
       "Redux Toolkit": {
@@ -15807,8 +21625,15 @@ data = [
         "percentage": 0,
         "rank": 424,
         "full_term": "Redux Toolkit",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "javascript",
+          "state-management",
+          "redux",
+          "react"
+        ]
       },
       "Remote": {
         "count": 27,
@@ -15819,7 +21644,10 @@ data = [
         "primary_family": "Work Mode",
         "tags": [
           "remote",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "work-from-home"
         ]
       },
       "Resque": {
@@ -15827,16 +21655,30 @@ data = [
         "percentage": 0,
         "rank": 426,
         "full_term": "Resque",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Riak": {
         "count": 0,
         "percentage": 0,
         "rank": 427,
         "full_term": "Riak",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "storage",
+          "key-value"
+        ]
       },
       "Robotics": {
         "count": 0,
@@ -15848,7 +21690,10 @@ data = [
         "tags": [
           "robotics",
           "hardware",
-          "processing"
+          "processing",
+          "ai",
+          "engineering",
+          "automation"
         ]
       },
       "Ruby": {
@@ -15861,7 +21706,8 @@ data = [
         "tags": [
           "language",
           "backend",
-          "web"
+          "web",
+          "scripting"
         ]
       },
       "Rust": {
@@ -15875,7 +21721,8 @@ data = [
           "language",
           "systems",
           "backend",
-          "performance"
+          "performance",
+          "memory-safety"
         ]
       },
       "S3": {
@@ -15902,7 +21749,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "sso"
         ]
       },
       "SCSS": {
@@ -15910,16 +21759,30 @@ data = [
         "percentage": 0,
         "rank": 433,
         "full_term": "SCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "SDK": {
         "count": 2,
         "percentage": 0.9174,
         "rank": 82,
         "full_term": "SDK/alias[SDK|SDKs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "api",
+          "integration",
+          "tooling",
+          "libraries",
+          "development"
+        ]
       },
       "SNS": {
         "count": 0,
@@ -15931,7 +21794,8 @@ data = [
         "tags": [
           "cloud",
           "messaging",
-          "aws"
+          "aws",
+          "pub-sub"
         ]
       },
       "SOAP": {
@@ -15939,8 +21803,16 @@ data = [
         "percentage": 0,
         "rank": 444,
         "full_term": "SOAP",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "enterprise",
+          "web",
+          "xml",
+          "legacy"
+        ]
       },
       "SOC 2": {
         "count": 0,
@@ -15951,7 +21823,9 @@ data = [
         "primary_family": "Compliance",
         "tags": [
           "security",
-          "compliance"
+          "compliance",
+          "certification",
+          "auditing"
         ]
       },
       "SQL": {
@@ -15964,7 +21838,10 @@ data = [
         "tags": [
           "database",
           "sql",
-          "query-language"
+          "query-language",
+          "language",
+          "relational",
+          "data"
         ]
       },
       "SQL Server": {
@@ -15978,7 +21855,8 @@ data = [
           "database",
           "sql",
           "microsoft",
-          "storage"
+          "storage",
+          "relational"
         ]
       },
       "SQLite": {
@@ -15991,7 +21869,9 @@ data = [
         "tags": [
           "database",
           "sql",
-          "storage"
+          "storage",
+          "relational",
+          "embedded"
         ]
       },
       "SQS": {
@@ -16005,7 +21885,8 @@ data = [
           "cloud",
           "messaging",
           "aws",
-          "backend"
+          "backend",
+          "queue"
         ]
       },
       "SRE": {
@@ -16019,7 +21900,11 @@ data = [
           "sre",
           "observability",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "role",
+          "devops",
+          "reliability",
+          "engineering"
         ]
       },
       "SSIS": {
@@ -16027,8 +21912,15 @@ data = [
         "percentage": 0,
         "rank": 449,
         "full_term": "SSIS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "etl",
+          "microsoft",
+          "data",
+          "sql-server"
+        ]
       },
       "SSO": {
         "count": 0,
@@ -16040,7 +21932,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "auth"
+          "auth",
+          "authentication",
+          "login"
         ]
       },
       "SSRS": {
@@ -16048,8 +21942,16 @@ data = [
         "percentage": 0,
         "rank": 451,
         "full_term": "SSRS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "microsoft",
+          "data",
+          "reporting",
+          "sql-server"
+        ]
       },
       "Samza": {
         "count": 0,
@@ -16061,7 +21963,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "kafka"
         ]
       },
       "Sass": {
@@ -16069,8 +21975,14 @@ data = [
         "percentage": 0.9174,
         "rank": 81,
         "full_term": "Sass",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "preprocessor",
+          "styling"
+        ]
       },
       "Scala": {
         "count": 9,
@@ -16083,7 +21995,8 @@ data = [
           "language",
           "backend",
           "jvm",
-          "data-engineering"
+          "data-engineering",
+          "functional"
         ]
       },
       "Scheme": {
@@ -16091,8 +22004,14 @@ data = [
         "percentage": 0,
         "rank": 432,
         "full_term": "Scheme",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "functional",
+          "lisp",
+          "academic"
+        ]
       },
       "Scrum": {
         "count": 1,
@@ -16103,7 +22022,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "process",
-          "agile"
+          "agile",
+          "methodology",
+          "management",
+          "framework"
         ]
       },
       "ScyllaDB": {
@@ -16111,16 +22033,33 @@ data = [
         "percentage": 0,
         "rank": 434,
         "full_term": "ScyllaDB",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "nosql",
+          "distributed",
+          "cassandra",
+          "storage",
+          "wide-column",
+          "c++"
+        ]
       },
       "Secrets Management": {
         "count": 0,
         "percentage": 0,
         "rank": 435,
         "full_term": "Secrets Management/alias[Secrets Management|SecretsManagement]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "secrets",
+          "infrastructure",
+          "devops",
+          "credentials",
+          "vault"
+        ]
       },
       "Security": {
         "count": 3,
@@ -16130,7 +22069,9 @@ data = [
         "kind": "Technology",
         "primary_family": "Security",
         "tags": [
-          "security"
+          "security",
+          "infosec",
+          "cybersecurity"
         ]
       },
       "Selenium": {
@@ -16143,7 +22084,9 @@ data = [
         "tags": [
           "testing",
           "automation",
-          "frontend"
+          "frontend",
+          "browser",
+          "e2e"
         ]
       },
       "Senior": {
@@ -16155,7 +22098,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "senior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "advanced"
         ]
       },
       "Server-Sent Events": {
@@ -16163,8 +22109,18 @@ data = [
         "percentage": 0,
         "rank": 436,
         "full_term": "Server-Sent Events/alias[SSE|Server-Sent Events]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "realtime",
+          "backend",
+          "frontend",
+          "web",
+          "api",
+          "streaming",
+          "sse"
+        ]
       },
       "Serverless": {
         "count": 0,
@@ -16176,7 +22132,10 @@ data = [
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "architecture",
+          "compute",
+          "managed"
         ]
       },
       "Service Mesh": {
@@ -16190,7 +22149,10 @@ data = [
           "service-mesh",
           "kubernetes",
           "network",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "networking",
+          "microservices"
         ]
       },
       "SharePoint": {
@@ -16198,8 +22160,15 @@ data = [
         "percentage": 0,
         "rank": 439,
         "full_term": "SharePoint",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "microsoft",
+          "collaboration",
+          "enterprise",
+          "cms",
+          "intranet"
+        ]
       },
       "Shell": {
         "count": 1,
@@ -16211,7 +22180,9 @@ data = [
         "tags": [
           "language",
           "scripting",
-          "systems"
+          "systems",
+          "cli",
+          "linux"
         ]
       },
       "Sidekiq": {
@@ -16219,16 +22190,32 @@ data = [
         "percentage": 0,
         "rank": 440,
         "full_term": "Sidekiq",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ]
       },
       "Sinatra": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 122,
         "full_term": "Sinatra",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "ruby",
+          "web",
+          "web-framework",
+          "web_framework",
+          "microframework"
+        ]
       },
       "Snowflake": {
         "count": 0,
@@ -16242,7 +22229,9 @@ data = [
           "warehouse",
           "cloud",
           "analytics",
-          "storage"
+          "storage",
+          "data",
+          "data-warehouse"
         ]
       },
       "Snyk": {
@@ -16250,8 +22239,16 @@ data = [
         "percentage": 0,
         "rank": 443,
         "full_term": "Snyk",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Security",
+        "tags": [
+          "security",
+          "scanning",
+          "supply-chain",
+          "devsecops",
+          "vulnerability-scanning",
+          "saas"
+        ]
       },
       "Solr": {
         "count": 4,
@@ -16263,7 +22260,10 @@ data = [
         "tags": [
           "database",
           "search",
-          "storage"
+          "storage",
+          "apache",
+          "java",
+          "indexing"
         ]
       },
       "Spark": {
@@ -16278,7 +22278,11 @@ data = [
           "stream-processing",
           "distributed",
           "data-engineering",
-          "ml"
+          "ml",
+          "data",
+          "big-data",
+          "apache",
+          "analytics"
         ]
       },
       "Spinnaker": {
@@ -16291,7 +22295,9 @@ data = [
         "tags": [
           "deployment",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "cd",
+          "netflix"
         ]
       },
       "Spring": {
@@ -16305,7 +22311,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "enterprise"
         ]
       },
       "Spring Boot": {
@@ -16319,7 +22326,8 @@ data = [
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "microservices"
         ]
       },
       "Staff": {
@@ -16331,7 +22339,10 @@ data = [
         "primary_family": "Seniority",
         "tags": [
           "staff",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "leadership"
         ]
       },
       "Storm": {
@@ -16344,7 +22355,11 @@ data = [
         "tags": [
           "stream-processing",
           "distributed",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming",
+          "apache",
+          "big-data"
         ]
       },
       "Struts": {
@@ -16352,8 +22367,17 @@ data = [
         "percentage": 0,
         "rank": 453,
         "full_term": "Struts",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "java",
+          "web",
+          "web-framework",
+          "web_framework",
+          "legacy"
+        ]
       },
       "Supabase": {
         "count": 0,
@@ -16365,7 +22389,10 @@ data = [
         "tags": [
           "backend",
           "database",
-          "cloud"
+          "cloud",
+          "baas",
+          "postgresql",
+          "firebase-alternative"
         ]
       },
       "Svelte": {
@@ -16379,7 +22406,8 @@ data = [
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "compiler"
         ]
       },
       "SvelteKit": {
@@ -16393,7 +22421,10 @@ data = [
           "frontend",
           "backend",
           "web",
-          "javascript"
+          "javascript",
+          "framework",
+          "svelte",
+          "ssr"
         ]
       },
       "Swift": {
@@ -16406,7 +22437,8 @@ data = [
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ]
       },
       "Symfony": {
@@ -16414,8 +22446,17 @@ data = [
         "percentage": 0.9174,
         "rank": 85,
         "full_term": "Symfony",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "php",
+          "php-framework",
+          "web",
+          "web-framework",
+          "web_framework"
+        ]
       },
       "TDD": {
         "count": 4,
@@ -16426,7 +22467,10 @@ data = [
         "primary_family": "Methodology",
         "tags": [
           "testing",
-          "process"
+          "process",
+          "agile",
+          "methodology",
+          "development"
         ]
       },
       "Tableau": {
@@ -16434,8 +22478,15 @@ data = [
         "percentage": 0,
         "rank": 458,
         "full_term": "Tableau",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "analytics",
+          "bi",
+          "data-visualization",
+          "data",
+          "visualization"
+        ]
       },
       "Tailwind": {
         "count": 0,
@@ -16447,7 +22498,9 @@ data = [
         "tags": [
           "frontend",
           "css",
-          "web"
+          "web",
+          "framework",
+          "utility-first"
         ]
       },
       "TailwindCSS": {
@@ -16455,8 +22508,15 @@ data = [
         "percentage": 0,
         "rank": 460,
         "full_term": "TailwindCSS",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "css",
+          "web",
+          "framework",
+          "utility-first"
+        ]
       },
       "Tauri": {
         "count": 0,
@@ -16468,7 +22528,9 @@ data = [
         "tags": [
           "frontend",
           "desktop",
-          "rust"
+          "rust",
+          "cross-platform",
+          "web-tech"
         ]
       },
       "Tekton": {
@@ -16482,7 +22544,9 @@ data = [
           "ci",
           "kubernetes",
           "devops",
-          "infrastructure"
+          "infrastructure",
+          "ci-cd",
+          "cncf"
         ]
       },
       "Tempo": {
@@ -16495,7 +22559,8 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "grafana"
         ]
       },
       "Temporal": {
@@ -16508,7 +22573,10 @@ data = [
         "tags": [
           "backend",
           "workflow",
-          "distributed"
+          "distributed",
+          "orchestration",
+          "workflows",
+          "microservices"
         ]
       },
       "TensorFlow": {
@@ -16521,7 +22589,8 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "deep-learning"
+          "deep-learning",
+          "google"
         ]
       },
       "Terraform": {
@@ -16535,7 +22604,9 @@ data = [
           "iac",
           "infrastructure",
           "cloud",
-          "devops"
+          "devops",
+          "infrastructure-as-code",
+          "hashicorp"
         ]
       },
       "Thrift": {
@@ -16549,7 +22620,9 @@ data = [
           "backend",
           "api",
           "serialization",
-          "rpc"
+          "rpc",
+          "data",
+          "apache"
         ]
       },
       "TimescaleDB": {
@@ -16563,7 +22636,8 @@ data = [
           "database",
           "time-series",
           "postgresql",
-          "storage"
+          "storage",
+          "sql"
         ]
       },
       "Tomcat": {
@@ -16576,7 +22650,8 @@ data = [
         "tags": [
           "backend",
           "java",
-          "web-server"
+          "web-server",
+          "apache"
         ]
       },
       "Transformers": {
@@ -16590,7 +22665,9 @@ data = [
           "ai",
           "ml",
           "llm",
-          "deep-learning"
+          "deep-learning",
+          "nlp",
+          "architecture"
         ]
       },
       "Trino": {
@@ -16604,7 +22681,9 @@ data = [
           "query-engine",
           "distributed",
           "data-engineering",
-          "sql"
+          "sql",
+          "data",
+          "analytics"
         ]
       },
       "Trivy": {
@@ -16617,7 +22696,10 @@ data = [
         "tags": [
           "security",
           "scanning",
-          "container"
+          "container",
+          "container-scanning",
+          "vulnerabilities",
+          "aquasec"
         ]
       },
       "Turbo": {
@@ -16625,24 +22707,49 @@ data = [
         "percentage": 0,
         "rank": 473,
         "full_term": "Turbo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "Turborepo": {
         "count": 0,
         "percentage": 0,
         "rank": 474,
         "full_term": "Turborepo",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "build",
+          "monorepo",
+          "javascript",
+          "tooling",
+          "build-system",
+          "vercel"
+        ]
       },
       "TypeORM": {
         "count": 0,
         "percentage": 0,
         "rank": 475,
         "full_term": "TypeORM",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "orm",
+          "typescript",
+          "database",
+          "nodejs"
+        ]
       },
       "TypeScript": {
         "count": 0,
@@ -16655,7 +22762,8 @@ data = [
           "language",
           "frontend",
           "backend",
-          "javascript"
+          "javascript",
+          "javascript-superset"
         ]
       },
       "UDF": {
@@ -16663,16 +22771,31 @@ data = [
         "percentage": 0,
         "rank": 477,
         "full_term": "UDF/alias[UDF|UDFs]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Data Engineering",
+        "tags": [
+          "data-engineering",
+          "sql",
+          "function",
+          "data",
+          "database",
+          "functions"
+        ]
       },
       "Unleash": {
         "count": 0,
         "percentage": 0,
         "rank": 478,
         "full_term": "Unleash",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "feature-flags",
+          "release-management",
+          "tooling",
+          "devops",
+          "open-source"
+        ]
       },
       "Unreal Engine": {
         "count": 0,
@@ -16684,7 +22807,8 @@ data = [
         "tags": [
           "graphics",
           "gaming",
-          "engine"
+          "engine",
+          "c++"
         ]
       },
       "VR": {
@@ -16697,7 +22821,10 @@ data = [
         "tags": [
           "ar-vr",
           "graphics",
-          "frontend"
+          "frontend",
+          "vr",
+          "virtual-reality",
+          "xr"
         ]
       },
       "Vagrant": {
@@ -16710,7 +22837,9 @@ data = [
         "tags": [
           "infrastructure",
           "devops",
-          "virtualization"
+          "virtualization",
+          "environments",
+          "hashicorp"
         ]
       },
       "Valkey": {
@@ -16718,8 +22847,17 @@ data = [
         "percentage": 0,
         "rank": 480,
         "full_term": "Valkey",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "cache",
+          "in-memory",
+          "storage",
+          "backend",
+          "caching",
+          "redis-fork"
+        ]
       },
       "Varnish": {
         "count": 1,
@@ -16731,7 +22869,11 @@ data = [
         "tags": [
           "network",
           "cache",
-          "web"
+          "web",
+          "networking",
+          "caching",
+          "proxy",
+          "performance"
         ]
       },
       "Vault": {
@@ -16744,7 +22886,9 @@ data = [
         "tags": [
           "security",
           "secrets",
-          "infrastructure"
+          "infrastructure",
+          "secrets-management",
+          "hashicorp"
         ]
       },
       "Vector Databases": {
@@ -16757,8 +22901,14 @@ data = [
         "tags": [
           "database",
           "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
           "ai",
-          "storage"
+          "rag",
+          "storage",
+          "vector",
+          "search"
         ]
       },
       "VectorDatabase": {
@@ -16766,8 +22916,20 @@ data = [
         "percentage": 0,
         "rank": 483,
         "full_term": "VectorDatabase",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Vercel": {
         "count": 0,
@@ -16779,7 +22941,9 @@ data = [
         "tags": [
           "cloud",
           "frontend",
-          "deployment"
+          "deployment",
+          "hosting",
+          "serverless"
         ]
       },
       "Vertex AI": {
@@ -16793,7 +22957,9 @@ data = [
           "ai",
           "ml",
           "cloud",
-          "google"
+          "google",
+          "gcp",
+          "platform"
         ]
       },
       "Vi": {
@@ -16801,8 +22967,15 @@ data = [
         "percentage": 0.4587,
         "rank": 129,
         "full_term": "Vi/alias[Vi|Vim]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
+        ]
       },
       "Vim": {
         "count": 1,
@@ -16813,7 +22986,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "tooling",
+          "linux",
+          "terminal"
         ]
       },
       "Visual Basic": {
@@ -16825,7 +23001,8 @@ data = [
         "primary_family": "Language",
         "tags": [
           "language",
-          "microsoft"
+          "microsoft",
+          "legacy"
         ]
       },
       "Vite": {
@@ -16838,7 +23015,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "performance"
         ]
       },
       "Vue": {
@@ -16865,7 +23044,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WCF": {
@@ -16873,24 +23055,51 @@ data = [
         "percentage": 0.9174,
         "rank": 87,
         "full_term": "WCF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "api",
+          "rpc",
+          "microsoft",
+          "dotnet",
+          "legacy"
+        ]
       },
       "WPF": {
         "count": 1,
         "percentage": 0.4587,
         "rank": 134,
         "full_term": "WPF",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "Weaviate": {
         "count": 0,
         "percentage": 0,
         "rank": 491,
         "full_term": "Weaviate",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Database",
+        "tags": [
+          "database",
+          "vector-search",
+          "vector-database",
+          "vectordb",
+          "modern-vector-db",
+          "ai",
+          "rag",
+          "storage",
+          "vector",
+          "search"
+        ]
       },
       "Web Services": {
         "count": 5,
@@ -16902,7 +23111,8 @@ data = [
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "integration"
         ]
       },
       "WebAssembly": {
@@ -16915,7 +23125,10 @@ data = [
         "tags": [
           "webassembly",
           "frontend",
-          "systems"
+          "systems",
+          "web",
+          "performance",
+          "browser"
         ]
       },
       "WebForms": {
@@ -16923,8 +23136,16 @@ data = [
         "percentage": 0,
         "rank": 494,
         "full_term": "WebForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "framework",
+          "microsoft",
+          "dotnet",
+          "web",
+          "legacy"
+        ]
       },
       "WebGL": {
         "count": 1,
@@ -16936,7 +23157,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "api"
         ]
       },
       "WebGL2": {
@@ -16944,8 +23167,15 @@ data = [
         "percentage": 0,
         "rank": 495,
         "full_term": "WebGL2",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "graphics",
+          "frontend",
+          "web",
+          "rendering",
+          "api"
+        ]
       },
       "WebGPU": {
         "count": 0,
@@ -16957,7 +23187,9 @@ data = [
         "tags": [
           "graphics",
           "frontend",
-          "web"
+          "web",
+          "rendering",
+          "performance"
         ]
       },
       "WebRTC": {
@@ -16971,7 +23203,10 @@ data = [
           "network",
           "realtime",
           "frontend",
-          "web"
+          "web",
+          "networking",
+          "real-time",
+          "video"
         ]
       },
       "WebSockets": {
@@ -16985,7 +23220,11 @@ data = [
           "network",
           "realtime",
           "backend",
-          "frontend"
+          "frontend",
+          "networking",
+          "web",
+          "real-time",
+          "protocol"
         ]
       },
       "Webpack": {
@@ -16998,7 +23237,9 @@ data = [
         "tags": [
           "frontend",
           "build",
-          "javascript"
+          "javascript",
+          "build-tool",
+          "bundler"
         ]
       },
       "Wi-Fi": {
@@ -17006,32 +23247,59 @@ data = [
         "percentage": 0.4587,
         "rank": 132,
         "full_term": "Wi-Fi",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Network",
+        "tags": [
+          "network",
+          "wireless",
+          "networking",
+          "hardware"
+        ]
       },
       "WinForms": {
         "count": 0,
         "percentage": 0,
         "rank": 501,
         "full_term": "WinForms",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "dotnet",
+          "windows"
+        ]
       },
       "WinRT": {
         "count": 0,
         "percentage": 0,
         "rank": 502,
         "full_term": "WinRT",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "desktop",
+          "microsoft",
+          "windows",
+          "api"
+        ]
       },
       "Windows Phone": {
         "count": 0,
         "percentage": 0,
         "rank": 500,
         "full_term": "Windows Phone",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Mobile",
+        "tags": [
+          "mobile",
+          "windows",
+          "microsoft",
+          "os",
+          "legacy"
+        ]
       },
       "WordPress": {
         "count": 1,
@@ -17044,7 +23312,8 @@ data = [
           "backend",
           "cms",
           "php",
-          "web"
+          "web",
+          "blogging"
         ]
       },
       "XGBoost": {
@@ -17057,7 +23326,9 @@ data = [
         "tags": [
           "ai",
           "ml",
-          "model"
+          "model",
+          "algorithms",
+          "decision-trees"
         ]
       },
       "XML": {
@@ -17065,24 +23336,50 @@ data = [
         "percentage": 0.4587,
         "rank": 135,
         "full_term": "XML",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "api",
+          "backend",
+          "data",
+          "format",
+          "markup",
+          "legacy"
+        ]
       },
       "XML Schema": {
         "count": 0,
         "percentage": 0,
         "rank": 505,
         "full_term": "XML Schema/alias[XML Schema|XMLSchema]",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "data-format",
+          "validation",
+          "api",
+          "data",
+          "xml",
+          "legacy"
+        ]
       },
       "XR": {
         "count": 0,
         "percentage": 0,
         "rank": 506,
         "full_term": "XR",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "ar-vr",
+          "graphics",
+          "frontend",
+          "xr",
+          "ar",
+          "vr",
+          "mixed-reality"
+        ]
       },
       "Xamarin": {
         "count": 0,
@@ -17094,7 +23391,9 @@ data = [
         "tags": [
           "mobile",
           "cross-platform",
-          "dotnet"
+          "dotnet",
+          "c#",
+          "microsoft"
         ]
       },
       "Yeoman": {
@@ -17102,16 +23401,31 @@ data = [
         "percentage": 0,
         "rank": 507,
         "full_term": "Yeoman",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "scaffolding",
+          "frontend",
+          "tooling",
+          "javascript",
+          "legacy"
+        ]
       },
       "Zabbix": {
         "count": 0,
         "percentage": 0,
         "rank": 508,
         "full_term": "Zabbix",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "SRE",
+        "tags": [
+          "sre",
+          "monitoring",
+          "observability",
+          "infrastructure",
+          "networking"
+        ]
       },
       "Zed": {
         "count": 0,
@@ -17122,7 +23436,10 @@ data = [
         "primary_family": "Tooling",
         "tags": [
           "developer-tooling",
-          "editor"
+          "editor",
+          "ide",
+          "rust",
+          "performance"
         ]
       },
       "Zero Trust": {
@@ -17135,7 +23452,9 @@ data = [
         "tags": [
           "security",
           "identity",
-          "network"
+          "network",
+          "architecture",
+          "networking"
         ]
       },
       "ZeroMQ": {
@@ -17148,7 +23467,10 @@ data = [
         "tags": [
           "messaging",
           "backend",
-          "distributed"
+          "distributed",
+          "queue",
+          "sockets",
+          "performance"
         ]
       },
       "Zig": {
@@ -17161,7 +23483,9 @@ data = [
         "tags": [
           "language",
           "systems",
-          "performance"
+          "performance",
+          "low-level",
+          "c-alternative"
         ]
       },
       "Zipkin": {
@@ -17174,7 +23498,9 @@ data = [
         "tags": [
           "sre",
           "observability",
-          "tracing"
+          "tracing",
+          "distributed-tracing",
+          "java"
         ]
       },
       "Zookeeper": {
@@ -17187,7 +23513,10 @@ data = [
         "tags": [
           "distributed",
           "infrastructure",
-          "coordination"
+          "coordination",
+          "data",
+          "distributed-systems",
+          "apache"
         ]
       },
       "dbt": {
@@ -17201,7 +23530,9 @@ data = [
           "data-engineering",
           "analytics",
           "sql",
-          "transformation"
+          "transformation",
+          "data",
+          "analytics-engineering"
         ]
       },
       "eBPF": {
@@ -17215,7 +23546,8 @@ data = [
           "linux",
           "network",
           "observability",
-          "security"
+          "security",
+          "networking"
         ]
       },
       "gRPC": {
@@ -17229,7 +23561,9 @@ data = [
           "backend",
           "api",
           "rpc",
-          "distributed"
+          "distributed",
+          "google",
+          "performance"
         ]
       },
       "i18n": {
@@ -17237,8 +23571,14 @@ data = [
         "percentage": 0,
         "rank": 306,
         "full_term": "i18n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "localization",
+          "web",
+          "internationalization"
+        ]
       },
       "iOS": {
         "count": 19,
@@ -17250,7 +23590,10 @@ data = [
         "tags": [
           "mobile",
           "ios",
-          "swift"
+          "swift",
+          "os",
+          "apple",
+          "smartphone"
         ]
       },
       "jQuery": {
@@ -17263,7 +23606,9 @@ data = [
         "tags": [
           "frontend",
           "javascript",
-          "web"
+          "web",
+          "library",
+          "legacy"
         ]
       },
       "ksqlDB": {
@@ -17277,7 +23622,9 @@ data = [
           "stream-processing",
           "sql",
           "kafka",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "streaming"
         ]
       },
       "memcached": {
@@ -17291,7 +23638,10 @@ data = [
           "cache",
           "database",
           "backend",
-          "storage"
+          "storage",
+          "caching",
+          "in-memory",
+          "key-value"
         ]
       },
       "n8n": {
@@ -17299,8 +23649,15 @@ data = [
         "percentage": 0,
         "rank": 362,
         "full_term": "n8n",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "automation",
+          "integration",
+          "workflow",
+          "tooling",
+          "low-code"
+        ]
       },
       "nginx": {
         "count": 3,
@@ -17313,7 +23670,9 @@ data = [
           "network",
           "web-server",
           "load-balancing",
-          "infrastructure"
+          "infrastructure",
+          "reverse-proxy",
+          "networking"
         ]
       },
       "passion": {
@@ -17321,8 +23680,14 @@ data = [
         "percentage": 2.7523,
         "rank": 38,
         "full_term": "passion",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Work Attribute",
+        "primary_family": "Soft Skill",
+        "tags": [
+          "soft-skill",
+          "work-attribute",
+          "attribute",
+          "culture"
+        ]
       },
       "statistics": {
         "count": 1,
@@ -17334,7 +23699,10 @@ data = [
         "tags": [
           "statistics",
           "data",
-          "ml"
+          "ml",
+          "math",
+          "analytics",
+          "data-science"
         ]
       },
       "tmux": {
@@ -17342,8 +23710,15 @@ data = [
         "percentage": 0,
         "rank": 469,
         "full_term": "tmux",
-        "kind": "Other",
-        "primary_family": "Other"
+        "kind": "Technology",
+        "primary_family": "Tooling",
+        "tags": [
+          "developer-tooling",
+          "terminal",
+          "tooling",
+          "multiplexer",
+          "linux"
+        ]
       },
       "web3": {
         "count": 0,
@@ -17355,7 +23730,10 @@ data = [
         "tags": [
           "distributed",
           "crypto",
-          "web3"
+          "web3",
+          "blockchain",
+          "decentralized",
+          "internet"
         ]
       }
     }

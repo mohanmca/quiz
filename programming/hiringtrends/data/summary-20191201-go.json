@@ -22,7 +22,10 @@
         "primary_family": "Work Mode",
         "tags": [
           "onsite",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "office"
         ],
         "count_last_month": 344,
         "count_last_year": 426,
@@ -41,7 +44,10 @@
         "primary_family": "Work Mode",
         "tags": [
           "remote",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "work-from-home"
         ],
         "count_last_month": 183,
         "count_last_year": 166,
@@ -61,7 +67,9 @@
         "primary_family": "Work Area",
         "tags": [
           "backend",
-          "work-area"
+          "work-area",
+          "server-side",
+          "architecture"
         ],
         "count_last_month": 162,
         "count_last_year": 193,
@@ -82,7 +90,10 @@
         "primary_family": "Seniority",
         "tags": [
           "senior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "advanced"
         ],
         "count_last_month": 167,
         "count_last_year": 208,
@@ -104,7 +115,8 @@
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "facebook"
         ],
         "count_last_month": 175,
         "count_last_year": 192,
@@ -126,7 +138,9 @@
         "tags": [
           "frontend",
           "backend",
-          "work-area"
+          "work-area",
+          "fullstack",
+          "generalist"
         ],
         "count_last_month": 154,
         "count_last_year": 196,
@@ -147,7 +161,9 @@
         "primary_family": "Work Area",
         "tags": [
           "frontend",
-          "work-area"
+          "work-area",
+          "ui",
+          "client-side"
         ],
         "count_last_month": 159,
         "count_last_year": 192,
@@ -170,7 +186,9 @@
           "language",
           "backend",
           "ml",
-          "data"
+          "data",
+          "data-science",
+          "ai"
         ],
         "count_last_month": 126,
         "count_last_year": 174,
@@ -191,7 +209,8 @@
         "tags": [
           "cloud",
           "cloud-provider",
-          "infrastructure"
+          "infrastructure",
+          "amazon"
         ],
         "count_last_month": 102,
         "count_last_year": 131,
@@ -210,7 +229,8 @@
         "primary_family": "Cloud",
         "tags": [
           "cloud",
-          "infrastructure"
+          "infrastructure",
+          "hosting"
         ],
         "count_last_month": 87,
         "count_last_year": 74,
@@ -231,7 +251,9 @@
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "ml"
+          "ml",
+          "data-science",
+          "algorithms"
         ],
         "count_last_month": 76,
         "count_last_year": 96,
@@ -251,7 +273,9 @@
         "kind": "Technology",
         "primary_family": "Security",
         "tags": [
-          "security"
+          "security",
+          "infosec",
+          "cybersecurity"
         ],
         "count_last_month": 67,
         "count_last_year": 70,
@@ -274,7 +298,9 @@
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "open-source"
         ],
         "count_last_month": 79,
         "count_last_year": 88,
@@ -296,7 +322,8 @@
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "v8"
         ],
         "count_last_month": 70,
         "count_last_year": 93,
@@ -319,7 +346,8 @@
           "language",
           "backend",
           "systems",
-          "cloud"
+          "cloud",
+          "google"
         ],
         "count_last_month": 58,
         "count_last_year": 78,
@@ -364,7 +392,9 @@
         "tags": [
           "devops",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "culture",
+          "automation"
         ],
         "count_last_month": 72,
         "count_last_year": 99,
@@ -387,7 +417,8 @@
           "language",
           "frontend",
           "backend",
-          "javascript"
+          "javascript",
+          "javascript-superset"
         ],
         "count_last_month": 61,
         "count_last_year": 51,
@@ -410,7 +441,10 @@
           "mobile",
           "android",
           "kotlin",
-          "java"
+          "java",
+          "os",
+          "google",
+          "smartphone"
         ],
         "count_last_month": 52,
         "count_last_year": 55,
@@ -432,7 +466,10 @@
         "tags": [
           "mobile",
           "ios",
-          "swift"
+          "swift",
+          "os",
+          "apple",
+          "smartphone"
         ],
         "count_last_month": 56,
         "count_last_year": 56,
@@ -457,7 +494,10 @@
           "sre",
           "observability",
           "monitoring",
-          "infrastructure"
+          "infrastructure",
+          "metrics",
+          "time-series",
+          "cncf"
         ],
         "count_last_month": 4,
         "count_last_year": 1,
@@ -479,7 +519,9 @@
         "tags": [
           "sre",
           "observability",
-          "monitoring"
+          "monitoring",
+          "cloud",
+          "saas"
         ],
         "count_last_month": 4,
         "count_last_year": 1,
@@ -525,7 +567,10 @@
           "kubernetes",
           "container",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "orchestration",
+          "containers"
         ],
         "count_last_month": 11,
         "count_last_year": 4,
@@ -548,7 +593,8 @@
           "cloud",
           "messaging",
           "aws",
-          "backend"
+          "backend",
+          "queue"
         ],
         "count_last_month": 2,
         "count_last_year": 4,
@@ -570,7 +616,8 @@
         "tags": [
           "backend",
           "framework",
-          "elixir"
+          "elixir",
+          "web"
         ],
         "count_last_month": 10,
         "count_last_year": 4,
@@ -591,7 +638,11 @@
         "primary_family": "Work Mode",
         "tags": [
           "hybrid",
-          "work-mode"
+          "work-mode",
+          "infrastructure",
+          "cloud",
+          "on-premise",
+          "architecture"
         ],
         "count_last_month": 4,
         "count_last_year": 4,
@@ -614,7 +665,8 @@
           "cloud",
           "compute",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "vms"
         ],
         "count_last_month": 6,
         "count_last_year": 4,
@@ -636,7 +688,11 @@
         "tags": [
           "developer-tooling",
           "version-control",
-          "ci"
+          "ci",
+          "vcs",
+          "hosting",
+          "ci-cd",
+          "devops"
         ],
         "count_last_month": 7,
         "count_last_year": 5,
@@ -658,7 +714,8 @@
         "tags": [
           "backend",
           "api",
-          "web"
+          "web",
+          "integration"
         ],
         "count_last_month": 8,
         "count_last_year": 4,
@@ -683,7 +740,8 @@
           "language",
           "backend",
           "jvm",
-          "data-engineering"
+          "data-engineering",
+          "functional"
         ],
         "count_last_month": 18,
         "count_last_year": 40,
@@ -706,7 +764,8 @@
           "backend",
           "framework",
           "python",
-          "web"
+          "web",
+          "microframework"
         ],
         "count_last_month": 12,
         "count_last_year": 15,
@@ -730,7 +789,9 @@
           "messaging",
           "distributed",
           "backend",
-          "data-engineering"
+          "data-engineering",
+          "data",
+          "apache"
         ],
         "count_last_month": 17,
         "count_last_year": 32,
@@ -753,7 +814,9 @@
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "oracle"
         ],
         "count_last_month": 22,
         "count_last_year": 36,
@@ -775,7 +838,10 @@
         "tags": [
           "data-engineering",
           "distributed",
-          "processing"
+          "processing",
+          "data",
+          "analytics",
+          "scale"
         ],
         "count_last_month": 15,
         "count_last_year": 24,
@@ -792,8 +858,15 @@
         "percentage": 2.0513,
         "rank": 70,
         "full_term": "Processing",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "creative-coding",
+          "graphics",
+          "java",
+          "visual-arts"
+        ],
         "count_last_month": 22,
         "count_last_year": 32,
         "rank_last_month": 47,
@@ -814,7 +887,9 @@
         "tags": [
           "ai",
           "ml",
-          "nlp"
+          "nlp",
+          "natural-language-processing",
+          "text"
         ],
         "count_last_month": 5,
         "count_last_year": 17,
@@ -837,7 +912,10 @@
           "data-engineering",
           "distributed",
           "processing",
-          "storage"
+          "storage",
+          "data",
+          "big-data",
+          "apache"
         ],
         "count_last_month": 7,
         "count_last_year": 9,
@@ -854,8 +932,13 @@
         "percentage": 0.8547,
         "rank": 103,
         "full_term": "Assembly",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "systems",
+          "low-level"
+        ],
         "count_last_month": 4,
         "count_last_year": 10,
         "rank_last_month": 129,
@@ -877,7 +960,8 @@
           "cloud",
           "serverless",
           "backend",
-          "aws"
+          "aws",
+          "compute"
         ],
         "count_last_month": 5,
         "count_last_year": 9,

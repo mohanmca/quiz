@@ -22,7 +22,10 @@
         "primary_family": "Work Mode",
         "tags": [
           "onsite",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "office"
         ],
         "count_last_month": 476,
         "count_last_year": 319,
@@ -43,7 +46,8 @@
           "frontend",
           "web",
           "javascript",
-          "framework"
+          "framework",
+          "facebook"
         ],
         "count_last_month": 213,
         "count_last_year": 123,
@@ -64,7 +68,9 @@
         "primary_family": "Work Area",
         "tags": [
           "backend",
-          "work-area"
+          "work-area",
+          "server-side",
+          "architecture"
         ],
         "count_last_month": 235,
         "count_last_year": 155,
@@ -83,7 +89,9 @@
         "primary_family": "Work Area",
         "tags": [
           "frontend",
-          "work-area"
+          "work-area",
+          "ui",
+          "client-side"
         ],
         "count_last_month": 247,
         "count_last_year": 156,
@@ -105,7 +113,9 @@
         "tags": [
           "frontend",
           "backend",
-          "work-area"
+          "work-area",
+          "fullstack",
+          "generalist"
         ],
         "count_last_month": 212,
         "count_last_year": 133,
@@ -126,7 +136,10 @@
         "primary_family": "Seniority",
         "tags": [
           "senior",
-          "seniority"
+          "seniority",
+          "role",
+          "experience-level",
+          "advanced"
         ],
         "count_last_month": 214,
         "count_last_year": 129,
@@ -146,7 +159,10 @@
         "primary_family": "Work Mode",
         "tags": [
           "remote",
-          "work-mode"
+          "work-mode",
+          "role",
+          "location",
+          "work-from-home"
         ],
         "count_last_month": 180,
         "count_last_year": 109,
@@ -169,7 +185,9 @@
           "language",
           "backend",
           "ml",
-          "data"
+          "data",
+          "data-science",
+          "ai"
         ],
         "count_last_month": 212,
         "count_last_year": 131,
@@ -212,7 +230,8 @@
         "tags": [
           "cloud",
           "cloud-provider",
-          "infrastructure"
+          "infrastructure",
+          "amazon"
         ],
         "count_last_month": 140,
         "count_last_year": 92,
@@ -231,7 +250,9 @@
         "primary_family": "AI / Machine Learning",
         "tags": [
           "ai",
-          "ml"
+          "ml",
+          "data-science",
+          "algorithms"
         ],
         "count_last_month": 113,
         "count_last_year": 60,
@@ -253,7 +274,8 @@
         "tags": [
           "backend",
           "javascript",
-          "runtime"
+          "runtime",
+          "v8"
         ],
         "count_last_month": 117,
         "count_last_year": 76,
@@ -275,7 +297,9 @@
           "database",
           "sql",
           "storage",
-          "backend"
+          "backend",
+          "relational",
+          "open-source"
         ],
         "count_last_month": 93,
         "count_last_year": 72,
@@ -296,7 +320,9 @@
         "tags": [
           "devops",
           "infrastructure",
-          "work-area"
+          "work-area",
+          "culture",
+          "automation"
         ],
         "count_last_month": 91,
         "count_last_year": 62,
@@ -318,7 +344,8 @@
         "tags": [
           "language",
           "backend",
-          "jvm"
+          "jvm",
+          "enterprise"
         ],
         "count_last_month": 104,
         "count_last_year": 76,
@@ -363,7 +390,8 @@
         "tags": [
           "language",
           "backend",
-          "web"
+          "web",
+          "scripting"
         ],
         "count_last_month": 93,
         "count_last_year": 68,
@@ -385,7 +413,9 @@
         "tags": [
           "container",
           "infrastructure",
-          "devops"
+          "devops",
+          "containers",
+          "virtualization"
         ],
         "count_last_month": 83,
         "count_last_year": 50,
@@ -404,7 +434,9 @@
         "kind": "Work Attribute",
         "primary_family": "Work Attribute",
         "tags": [
-          "open-source"
+          "open-source",
+          "community",
+          "licensing"
         ],
         "count_last_month": 70,
         "count_last_year": 54,
@@ -427,7 +459,8 @@
           "language",
           "backend",
           "systems",
-          "cloud"
+          "cloud",
+          "google"
         ],
         "count_last_month": 81,
         "count_last_year": 64,
@@ -451,7 +484,10 @@
         "tags": [
           "distributed",
           "infrastructure",
-          "coordination"
+          "coordination",
+          "data",
+          "distributed-systems",
+          "apache"
         ],
         "count_last_month": 4,
         "rank_last_month": 160,
@@ -473,7 +509,10 @@
           "kubernetes",
           "container",
           "infrastructure",
-          "distributed"
+          "distributed",
+          "devops",
+          "orchestration",
+          "containers"
         ],
         "count_last_month": 1,
         "rank_last_month": 239,
@@ -494,7 +533,8 @@
         "tags": [
           "cloud",
           "cloud-provider",
-          "google"
+          "google",
+          "infrastructure"
         ],
         "count_last_month": 10,
         "rank_last_month": 107,
@@ -516,7 +556,8 @@
           "language",
           "systems",
           "backend",
-          "performance"
+          "performance",
+          "memory-safety"
         ],
         "count_last_month": 16,
         "count_last_year": 1,
@@ -539,7 +580,10 @@
           "sre",
           "observability",
           "monitoring",
-          "infrastructure"
+          "infrastructure",
+          "metrics",
+          "time-series",
+          "cncf"
         ],
         "count_last_month": 4,
         "count_last_year": 1,
@@ -556,8 +600,15 @@
         "percentage": 0.6443,
         "rank": 132,
         "full_term": "Sidekiq",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "job-queue",
+          "ruby",
+          "task-queue",
+          "redis"
+        ],
         "count_last_month": 7,
         "count_last_year": 1,
         "rank_last_month": 125,
@@ -579,7 +630,8 @@
           "cloud",
           "compute",
           "aws",
-          "infrastructure"
+          "infrastructure",
+          "vms"
         ],
         "count_last_month": 7,
         "count_last_year": 1,
@@ -596,8 +648,17 @@
         "percentage": 0.6443,
         "rank": 130,
         "full_term": "GPU/alias[GPU|GPUs]",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Processing",
+        "tags": [
+          "processing",
+          "hardware",
+          "ml",
+          "hpc",
+          "compute",
+          "ai",
+          "graphics"
+        ],
         "count_last_month": 4,
         "count_last_year": 1,
         "rank_last_month": 155,
@@ -619,7 +680,8 @@
           "language",
           "mobile",
           "backend",
-          "jvm"
+          "jvm",
+          "android"
         ],
         "count_last_month": 12,
         "count_last_year": 2,
@@ -641,7 +703,11 @@
         "tags": [
           "data-engineering",
           "processing",
-          "pipeline"
+          "pipeline",
+          "data",
+          "integration",
+          "pipelines",
+          "analytics"
         ],
         "count_last_month": 9,
         "count_last_year": 2,
@@ -665,7 +731,9 @@
         "tags": [
           "distributed",
           "backend",
-          "infrastructure"
+          "infrastructure",
+          "architecture",
+          "scalability"
         ],
         "count_last_month": 24,
         "count_last_year": 25,
@@ -688,7 +756,8 @@
           "backend",
           "framework",
           "python",
-          "web"
+          "web",
+          "microframework"
         ],
         "count_last_month": 18,
         "count_last_year": 15,
@@ -705,8 +774,15 @@
         "percentage": 1.0309,
         "rank": 101,
         "full_term": "Backbone/js[Backbone]",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Frontend",
+        "tags": [
+          "frontend",
+          "web",
+          "javascript",
+          "framework",
+          "legacy"
+        ],
         "count_last_month": 11,
         "count_last_year": 13,
         "rank_last_month": 96,
@@ -722,8 +798,16 @@
         "percentage": 0.6443,
         "rank": 127,
         "full_term": "Akka",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Backend",
+        "tags": [
+          "backend",
+          "distributed",
+          "jvm",
+          "actor-model",
+          "scala",
+          "java"
+        ],
         "count_last_month": 4,
         "count_last_year": 7,
         "rank_last_month": 147,
@@ -744,7 +828,8 @@
         "tags": [
           "language",
           "mobile",
-          "ios"
+          "ios",
+          "apple"
         ],
         "count_last_month": 20,
         "count_last_year": 23,
@@ -766,7 +851,8 @@
         "tags": [
           "cloud",
           "cloud-provider",
-          "microsoft"
+          "microsoft",
+          "infrastructure"
         ],
         "count_last_month": 12,
         "count_last_year": 13,
@@ -788,7 +874,9 @@
         "tags": [
           "cloud",
           "serverless",
-          "backend"
+          "backend",
+          "aws",
+          "compute"
         ],
         "count_last_month": 11,
         "count_last_year": 9,
@@ -805,8 +893,17 @@
         "percentage": 0.9021,
         "rank": 112,
         "full_term": "Mesos",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Infrastructure",
+        "tags": [
+          "orchestration",
+          "infrastructure",
+          "distributed",
+          "devops",
+          "cluster-management",
+          "apache",
+          "legacy"
+        ],
         "count_last_month": 9,
         "count_last_year": 9,
         "rank_last_month": 111,
@@ -822,8 +919,16 @@
         "percentage": 1.6753,
         "rank": 78,
         "full_term": "ES6",
-        "kind": "Other",
-        "primary_family": "Other",
+        "kind": "Technology",
+        "primary_family": "Language",
+        "tags": [
+          "language",
+          "javascript",
+          "frontend",
+          "web",
+          "ecmascript",
+          "standard"
+        ],
         "count_last_month": 15,
         "count_last_year": 19,
         "rank_last_month": 79,
@@ -845,7 +950,8 @@
           "backend",
           "framework",
           "java",
-          "jvm"
+          "jvm",
+          "enterprise"
         ],
         "count_last_month": 9,
         "count_last_year": 8,
