@@ -13,6 +13,9 @@
     .title { margin: 6px 0 2px; font-size: 22px; font-weight: 700; }
     .subtitle { margin: 0 0 12px; color: var(--muted); }
     .toolbar { display:flex; gap:8px; align-items:center; flex-wrap: wrap; margin-top: 8px; }
+    .header-links { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+    .header-links a { color:var(--primary); font-weight:600; text-decoration:none; }
+    .header-links a:hover { text-decoration:underline; }
     input[type="search"]{ padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; min-width: 220px; }
     select{ padding:8px 10px; border-radius:8px; border:1px solid #e5e7eb; }
     .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
@@ -106,7 +109,8 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container header-links">
+      <a href="hiringtrends/">Hiring Trends</a>
       <a href="as_a_man_thinketh_tamil.html">As a man thinketh (Tamil)</a>
       <a href="as_a_man_thinketh_tamil.pdf">As a man thinketh (Tamil)</a>
     </div>

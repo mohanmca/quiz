@@ -1,0 +1,314 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hacker News Hiring Trends Dashboard</title>
+  <meta name="description" content="Explore hiring-term momentum across the generated Hacker News whoishiring history with range filters, rank windows, and start-to-end movers." />
+  <link href="vendor/bootstrap/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles-v4.css" />
+</head>
+<body class="index">
+  <div class="masthead dashboard-masthead">
+    <div class="container">
+      <div class="row align-items-center g-3">
+        <div class="col-lg-8">
+          <p class="eyebrow mb-2">Go-generated global dashboard</p>
+          <h1 class="display-6 mb-3">Hacker News Hiring Trends Dashboard</h1>
+          <p class="fs-5 mb-3">Explore hiring-term momentum across the generated Hacker News whoishiring history with range filters, rank windows, and start-to-end movers.</p>
+          <div class="d-flex flex-wrap gap-2">
+            <span class="badge rounded-pill text-bg-light">Available range: May 2024 to April 2026</span>
+            <span class="badge rounded-pill text-bg-light">24 generated months</span>
+            <span class="badge rounded-pill text-bg-light">Generated on Sunday, April 26, 2026</span>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="dashboard-highlight-card">
+            <h2 class="h5 mb-3">What this page does</h2>
+            <p class="mb-2">Pick any generated start and end month, then inspect the rank window that matters right now.</p>
+            <p class="mb-0">Risers and fallers are calculated from the selected start month to the selected end month.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container py-4">
+    <section class="dashboard-panel mb-4" aria-labelledby="dashboard-controls-title">
+      <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+        <div>
+          <p class="section-kicker mb-1">Controls</p>
+          <h2 id="dashboard-controls-title" class="h4 mb-0">Range and ranking window</h2>
+        </div>
+        <p id="dashboard-status" class="text-muted mb-0">Loading dashboard data...</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="range-header d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="small text-uppercase text-muted">Selected range</div>
+              <div id="selected-range-summary" class="fw-semibold">May 2024 to April 2026</div>
+            </div>
+            <div class="text-end">
+              <div class="small text-uppercase text-muted">Months</div>
+              <div id="selected-month-count" class="fw-semibold">24</div>
+            </div>
+          </div>
+
+          <div class="range-slider" aria-label="Month range selector">
+            <div class="range-slider__track"></div>
+            <div class="range-slider__fill" id="range-fill"></div>
+            <input id="range-start" class="range-slider__input" type="range" min="0" max="0" value="0" aria-label="Start month" />
+            <input id="range-end" class="range-slider__input" type="range" min="0" max="0" value="0" aria-label="End month" />
+          </div>
+
+          <div class="d-flex justify-content-between gap-3 mt-2">
+            <div>
+              <div class="small text-uppercase text-muted">Start month</div>
+              <div id="selected-start" class="fw-semibold">May 2024</div>
+            </div>
+            <div class="text-end">
+              <div class="small text-uppercase text-muted">End month</div>
+              <div id="selected-end" class="fw-semibold">April 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="small text-uppercase text-muted mb-2">Top-N view</div>
+          <div id="top-size-controls" class="btn-group mb-3" role="group" aria-label="Top rank size">
+            <button type="button" class="btn btn-outline-dark active" data-size="5">Top 5</button>
+            <button type="button" class="btn btn-outline-dark" data-size="10">Top 10</button>
+            <button type="button" class="btn btn-outline-dark" data-size="20">Top 20</button>
+            <button type="button" class="btn btn-outline-dark" data-size="50">Top 50</button>
+          </div>
+
+          <label class="form-label" for="window-start">Rank window</label>
+          <select id="window-start" class="form-select mb-2"></select>
+          <div id="selected-window-summary" class="small text-muted">Ranks 1-5 in the selected end month</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-4 mb-4">
+      <div class="col-xl-8">
+        <div class="dashboard-panel h-100">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <div>
+              <p class="section-kicker mb-1">Trend lines</p>
+              <h2 class="h4 mb-0">Term momentum across the selected range</h2>
+            </div>
+            <p class="text-muted mb-0">Percent of postings mentioning each term</p>
+          </div>
+          <div id="global-trends-chart" style="width:100%; height:420px;"></div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="dashboard-panel h-100">
+          <p class="section-kicker mb-1">Snapshot</p>
+          <h2 class="h4 mb-3">Selected range facts</h2>
+          <dl class="dashboard-stats mb-0">
+            <div>
+              <dt>Range</dt>
+              <dd id="dashboard-range">May 2024 to April 2026</dd>
+            </div>
+            <div>
+              <dt>Start month</dt>
+              <dd id="dashboard-start">May 2024</dd>
+            </div>
+            <div>
+              <dt>End month</dt>
+              <dd id="dashboard-end">April 2026</dd>
+            </div>
+            <div>
+              <dt>Visible ranks</dt>
+              <dd id="dashboard-window">Ranks 1-5</dd>
+            </div>
+            <div>
+              <dt>Archive months</dt>
+              <dd>24</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel mb-4">
+      <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+        <div>
+          <p class="section-kicker mb-1">Posting volume</p>
+          <h2 class="h4 mb-0">Total top-level job postings</h2>
+        </div>
+        <p class="text-muted mb-0">Monthly comment counts in the selected range</p>
+      </div>
+      <div id="global-postings-chart" style="width:100%; height:320px;"></div>
+    </section>
+
+    <section class="row g-4 mb-5">
+      <div class="col-xl-5">
+        <div class="dashboard-panel h-100">
+          <p class="section-kicker mb-1">Current slice</p>
+          <h2 class="h4 mb-3">End-month ranking window</h2>
+          <p id="current-window-caption" class="text-muted small mb-3">Ranks 1-5 in the selected end month.</p>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Term</th>
+                  <th>Count</th>
+                  <th>%</th>
+                  <th>Start rank</th>
+                  <th>Delta</th>
+                </tr>
+              </thead>
+              <tbody id="current-window-table-body"></tbody>
+            </table>
+          </div>
+          <p id="current-window-empty" class="text-muted small d-none mb-0">No terms are available for this rank window.</p>
+        </div>
+      </div>
+
+      <div class="col-xl-3">
+        <div class="dashboard-panel h-100">
+          <p class="section-kicker mb-1">Rising</p>
+          <h2 class="h4 mb-3">Top movers up</h2>
+          <p id="rising-table-caption" class="text-muted small mb-3">Rank change from the selected start month to the selected end month.</p>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>End rank</th>
+                  <th>Start rank</th>
+                  <th>Delta</th>
+                </tr>
+              </thead>
+              <tbody id="rising-table-body"></tbody>
+            </table>
+          </div>
+          <p id="rising-empty" class="text-muted small d-none mb-0">No rising terms for this range.</p>
+        </div>
+      </div>
+
+      <div class="col-xl-4">
+        <div class="dashboard-panel h-100">
+          <p class="section-kicker mb-1">Falling</p>
+          <h2 class="h4 mb-3">Top movers down</h2>
+          <p id="falling-table-caption" class="text-muted small mb-3">Terms with the sharpest negative rank change in the selected range.</p>
+          <div class="table-responsive">
+            <table class="table table-striped table-sm align-middle">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>End rank</th>
+                  <th>Start rank</th>
+                  <th>Delta</th>
+                </tr>
+              </thead>
+              <tbody id="falling-table-body"></tbody>
+            </table>
+          </div>
+          <p id="falling-empty" class="text-muted small d-none mb-0">No falling terms for this range.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="dashboard-panel" aria-labelledby="archives-title">
+      <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+        <div>
+          <p class="section-kicker mb-1">Archives</p>
+          <h2 id="archives-title" class="h4 mb-0">Generated monthly pages</h2>
+        </div>
+        <p class="text-muted mb-0">Direct links to the month pages generated by the Go pipeline.</p>
+      </div>
+
+      <div class="row g-4">
+        
+        <div class="col-md-6 col-xl-4">
+          <div class="archive-card">
+            <h3 class="h5 mb-3">2026</h3>
+            <ul class="list-unstyled mb-0 archive-list">
+              
+              <li><a href="2026/april-go.html">April 2026</a></li>
+              
+              <li><a href="2026/march-go.html">March 2026</a></li>
+              
+              <li><a href="2026/february-go.html">February 2026</a></li>
+              
+              <li><a href="2026/january-go.html">January 2026</a></li>
+              
+            </ul>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-4">
+          <div class="archive-card">
+            <h3 class="h5 mb-3">2025</h3>
+            <ul class="list-unstyled mb-0 archive-list">
+              
+              <li><a href="2025/december-go.html">December 2025</a></li>
+              
+              <li><a href="2025/november-go.html">November 2025</a></li>
+              
+              <li><a href="2025/october-go.html">October 2025</a></li>
+              
+              <li><a href="2025/september-go.html">September 2025</a></li>
+              
+              <li><a href="2025/august-go.html">August 2025</a></li>
+              
+              <li><a href="2025/july-go.html">July 2025</a></li>
+              
+              <li><a href="2025/june-go.html">June 2025</a></li>
+              
+              <li><a href="2025/may-go.html">May 2025</a></li>
+              
+              <li><a href="2025/april-go.html">April 2025</a></li>
+              
+              <li><a href="2025/march-go.html">March 2025</a></li>
+              
+              <li><a href="2025/february-go.html">February 2025</a></li>
+              
+              <li><a href="2025/january-go.html">January 2025</a></li>
+              
+            </ul>
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-xl-4">
+          <div class="archive-card">
+            <h3 class="h5 mb-3">2024</h3>
+            <ul class="list-unstyled mb-0 archive-list">
+              
+              <li><a href="2024/december-go.html">December 2024</a></li>
+              
+              <li><a href="2024/november-go.html">November 2024</a></li>
+              
+              <li><a href="2024/october-go.html">October 2024</a></li>
+              
+              <li><a href="2024/september-go.html">September 2024</a></li>
+              
+              <li><a href="2024/august-go.html">August 2024</a></li>
+              
+              <li><a href="2024/july-go.html">July 2024</a></li>
+              
+              <li><a href="2024/june-go.html">June 2024</a></li>
+              
+              <li><a href="2024/may-go.html">May 2024</a></li>
+              
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </section>
+  </div>
+
+  <script src="vendor/highcharts/highcharts.js"></script>
+  <script src="data/global-go.js"></script>
+  <script src="js/global-dashboard.js"></script>
+  <script src="vendor/bootstrap/bootstrap.bundle.min.js"></script>
+</body>
+</html>
